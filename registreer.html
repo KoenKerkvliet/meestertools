@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meestertools - Inloggen</title>
+    <title>Meestertools - Registreren</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,12 +12,18 @@
             <div class="login-logo">
                 <span class="logo-icon">&#127891;</span>
                 <h1>Meestertools</h1>
-                <p>Het digitale platform voor de basisschool</p>
+                <p>Maak een account aan</p>
             </div>
 
-            <div id="loginError" class="form-error" style="display:none;"></div>
+            <div id="registerError" class="form-error" style="display:none;"></div>
+            <div id="registerSuccess" class="form-success" style="display:none;"></div>
 
-            <form id="loginForm">
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="fullName">Volledige naam</label>
+                    <input type="text" id="fullName" placeholder="Bijv. Juf Bianca" required>
+                </div>
+
                 <div class="form-group">
                     <label for="email">E-mailadres</label>
                     <input type="email" id="email" placeholder="juf@basisschool.nl" required>
@@ -25,21 +31,14 @@
 
                 <div class="form-group">
                     <label for="password">Wachtwoord</label>
-                    <input type="password" id="password" placeholder="Voer je wachtwoord in" required>
+                    <input type="password" id="password" placeholder="Minimaal 6 tekens" minlength="6" required>
                 </div>
 
-                <div class="form-options">
-                    <label>
-                        <input type="checkbox"> Onthoud mij
-                    </label>
-                    <a href="#">Wachtwoord vergeten?</a>
-                </div>
-
-                <button type="submit" class="btn-login" id="loginBtn">Inloggen</button>
+                <button type="submit" class="btn-login" id="registerBtn">Account aanmaken</button>
             </form>
 
             <div class="login-footer">
-                Nog geen account? <a href="registreer.html">Registreer hier</a>
+                Heb je al een account? <a href="index.html">Log hier in</a>
             </div>
         </div>
     </div>
