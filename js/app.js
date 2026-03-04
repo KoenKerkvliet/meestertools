@@ -1,6 +1,6 @@
 /* ============================================
    MEESTERTOOLS - JavaScript
-   Versie: v0.0.1
+   Versie: v0.0.2
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -32,16 +32,24 @@ document.addEventListener('DOMContentLoaded', () => {
             loginBtn.textContent = 'Bezig met inloggen...';
             errorEl.style.display = 'none';
 
-            const { error } = await supabase.auth.signInWithPassword({ email, password });
+            try {
+                const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-            if (error) {
-                errorEl.textContent = 'Inloggen mislukt. Controleer je e-mail en wachtwoord.';
+                if (error) {
+                    errorEl.textContent = 'Inloggen mislukt. Controleer je e-mail en wachtwoord.';
+                    errorEl.style.display = 'block';
+                } else {
+                    window.location.href = 'dashboard.html';
+                    return;
+                }
+            } catch (err) {
+                console.error('Login fout:', err);
+                errorEl.textContent = 'Er ging iets mis. Probeer het opnieuw.';
                 errorEl.style.display = 'block';
-                loginBtn.disabled = false;
-                loginBtn.textContent = 'Inloggen';
-            } else {
-                window.location.href = 'dashboard.html';
             }
+
+            loginBtn.disabled = false;
+            loginBtn.textContent = 'Inloggen';
         });
     }
 
@@ -62,60 +70,118 @@ document.addEventListener('DOMContentLoaded', () => {
             errorEl.style.display = 'none';
             successEl.style.display = 'none';
 
-            const { error } = await supabase.auth.signUp({
-                email,
-                password,
-                options: {
-                    data: { full_name: fullName }
-                }
-            });
+            try {
+                const { data, error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: { full_name: fullName }
+                    }
+                });
 
-            if (error) {
-                errorEl.textContent = 'Registratie mislukt: ' + error.message;
+                if (error) {
+                    errorEl.textContent = 'Registratie mislukt: ' + error.message;
+                    errorEl.style.display = 'block';
+                } else if (data?.user?.identities?.length === 0) {
+                    errorEl.textContent = 'Er bestaat al een account met dit e-mailadres.';
+                    errorEl.style.display = 'block';
+                } else {
+                    successEl.textContent = 'Account aangemaakt! Controleer je e-mail om je account te bevestigen.';
+                    successEl.style.display = 'block';
+                    registerForm.reset();
+                }
+            } catch (err) {
+                console.error('Registratie fout:', err);
+                errorEl.textContent = 'Er ging iets mis. Probeer het opnieuw.';
                 errorEl.style.display = 'block';
-                registerBtn.disabled = false;
-                registerBtn.textContent = 'Account aanmaken';
-            } else {
-                successEl.textContent = 'Account aangemaakt! Controleer je e-mail om je account te bevestigen.';
-                successEl.style.display = 'block';
-                registerForm.reset();
-                registerBtn.disabled = false;
-                registerBtn.textContent = 'Account aanmaken';
             }
+
+            registerBtn.disabled = false;
+            registerBtn.textContent = 'Account aanmaken';
         });
     }
 
-    // ---------- Auth Guard (dashboard & tool pages) ----------
+    // ---------- Auth Guard (dashboard, tool pages & admin) ----------
     const isDashboard = document.querySelector('.dashboard-content');
     const isToolPage = document.querySelector('.tool-page-content');
+    const isAdminPage = document.querySelector('.admin-content');
 
-    if (isDashboard || isToolPage) {
+    if (isDashboard || isToolPage || isAdminPage) {
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (!session) {
-                // Determine correct path to index
                 const isInSubfolder = window.location.pathname.includes('/pages/');
                 window.location.href = isInSubfolder ? '../index.html' : 'index.html';
                 return;
             }
-            // Set profile info
+            // Set profile info and fetch role from database
             setProfileInfo(session.user);
         });
     }
 
-    // ---------- Set Profile Info ----------
-    function setProfileInfo(user) {
+    // ---------- Set Profile Info (with role from profiles table) ----------
+    async function setProfileInfo(user) {
         const profileBtn = document.getElementById('profileBtn');
         const nameEl = document.querySelector('.dropdown-header .name');
         const emailEl = document.querySelector('.dropdown-header .email');
 
-        if (user) {
-            const fullName = user.user_metadata?.full_name || user.email;
-            const initials = fullName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+        if (!user) return;
 
-            if (profileBtn) profileBtn.textContent = initials;
-            if (nameEl) nameEl.textContent = fullName;
-            if (emailEl) emailEl.textContent = user.email;
+        const fullName = user.user_metadata?.full_name || user.email;
+        const initials = fullName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+
+        if (profileBtn) profileBtn.textContent = initials;
+        if (nameEl) nameEl.textContent = fullName;
+        if (emailEl) emailEl.textContent = user.email;
+
+        // Fetch role from profiles table
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single();
+
+        if (profile) {
+            // Store role globally for other scripts
+            window.userRole = profile.role;
+
+            // Add admin link if super_admin
+            if (profile.role === 'super_admin') {
+                addAdminLink();
+            }
+
+            // If admin page, verify super_admin access
+            if (isAdminPage && profile.role !== 'super_admin') {
+                const isInSubfolder = window.location.pathname.includes('/pages/');
+                window.location.href = isInSubfolder ? '../dashboard.html' : 'dashboard.html';
+            }
         }
+    }
+
+    // ---------- Add Admin Link to Dropdown ----------
+    function addAdminLink() {
+        const dropdown = document.getElementById('profileDropdown');
+        if (!dropdown) return;
+
+        // Don't add if already exists
+        if (dropdown.querySelector('.admin-link')) return;
+
+        const logoutItem = dropdown.querySelector('.dropdown-item.logout');
+        if (!logoutItem) return;
+
+        const adminItem = document.createElement('div');
+        adminItem.className = 'dropdown-item admin-link';
+
+        // Determine correct path based on current location
+        const isInSubfolder = window.location.pathname.includes('/pages/');
+        const beheerPath = isInSubfolder ? '../beheer.html' : 'beheer.html';
+
+        adminItem.innerHTML = '&#128736;&#65039; Beheer';
+        adminItem.addEventListener('click', () => {
+            window.location.href = beheerPath;
+        });
+
+        // Insert before logout
+        logoutItem.parentNode.insertBefore(adminItem, logoutItem);
     }
 
     // ---------- Profile Dropdown ----------
