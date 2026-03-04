@@ -5,6 +5,14 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    // ---------- Timeout Helper ----------
+    function withTimeout(promise, ms) {
+        const timeout = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Verzoek duurde te lang. Controleer je internetverbinding.')), ms)
+        );
+        return Promise.race([promise, timeout]);
+    }
+
     // ---------- Dynamic Footer Year ----------
     const footerYear = document.getElementById('footerYear');
     if (footerYear) {
@@ -33,7 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
             errorEl.style.display = 'none';
 
             try {
-                const { error } = await supabase.auth.signInWithPassword({ email, password });
+                console.log('Login gestart voor:', email);
+                const { error } = await withTimeout(
+                    supabase.auth.signInWithPassword({ email, password }),
+                    15000
+                );
 
                 if (error) {
                     errorEl.textContent = 'Inloggen mislukt. Controleer je e-mail en wachtwoord.';
@@ -44,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (err) {
                 console.error('Login fout:', err);
-                errorEl.textContent = 'Er ging iets mis. Probeer het opnieuw.';
+                errorEl.textContent = err.message || 'Er ging iets mis. Probeer het opnieuw.';
                 errorEl.style.display = 'block';
             }
 
@@ -71,13 +83,18 @@ document.addEventListener('DOMContentLoaded', () => {
             successEl.style.display = 'none';
 
             try {
-                const { data, error } = await supabase.auth.signUp({
-                    email,
-                    password,
-                    options: {
-                        data: { full_name: fullName }
-                    }
-                });
+                console.log('Registratie gestart voor:', email);
+                const { data, error } = await withTimeout(
+                    supabase.auth.signUp({
+                        email,
+                        password,
+                        options: {
+                            data: { full_name: fullName }
+                        }
+                    }),
+                    15000
+                );
+                console.log('Registratie response:', { data, error });
 
                 if (error) {
                     errorEl.textContent = 'Registratie mislukt: ' + error.message;
@@ -92,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (err) {
                 console.error('Registratie fout:', err);
-                errorEl.textContent = 'Er ging iets mis. Probeer het opnieuw.';
+                errorEl.textContent = err.message || 'Er ging iets mis. Probeer het opnieuw.';
                 errorEl.style.display = 'block';
             }
 
