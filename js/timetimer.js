@@ -7,10 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const CX = 160;
     const CY = 160;
     const RADIUS = 140;
+    const TOTAL_MINUTES = 60;
 
     // Elements
+    const timerSvg = document.getElementById('timerSvg');
     const wedge = document.getElementById('timerWedge');
     const hand = document.getElementById('timerHand');
+    const dragHandle = document.getElementById('timerDragHandle');
     const markersGroup = document.getElementById('timerMarkers');
     const numbersGroup = document.getElementById('timerNumbers');
     const digitalDisplay = document.getElementById('timerDigital');
@@ -27,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let remainingSeconds = 0;
     let timerInterval = null;
     let isRunning = false;
+    let isDragging = false;
     let audioCtx = null;
 
     // ---------- Draw Clock Face ----------
@@ -62,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ---------- Draw Wedge (remaining time) ----------
+    // ---------- Wedge Drawing (based on 60-minute clock) ----------
     function polarToCartesian(angle) {
         return {
             x: CX + RADIUS * Math.cos(angle),
@@ -70,21 +74,34 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    function updateWedge(fraction) {
+    function minutesToAngle(minutes) {
+        return (minutes / TOTAL_MINUTES) * 2 * Math.PI - Math.PI / 2;
+    }
+
+    function updateDisplay(seconds) {
+        const minutes = seconds / 60;
+        const fraction = minutes / TOTAL_MINUTES;
+
         if (fraction <= 0) {
             wedge.setAttribute('d', '');
             hand.setAttribute('opacity', '0');
-            return;
-        }
-
-        if (fraction >= 1) {
-            // Full circle
+            dragHandle.setAttribute('cx', CX);
+            dragHandle.setAttribute('cy', CY - RADIUS);
+        } else if (fraction >= 1) {
+            // Full circle (60 minutes)
             wedge.setAttribute('d',
                 `M ${CX} ${CY} ` +
                 `m 0 -${RADIUS} ` +
                 `a ${RADIUS} ${RADIUS} 0 1 1 0 ${RADIUS * 2} ` +
                 `a ${RADIUS} ${RADIUS} 0 1 1 0 -${RADIUS * 2} Z`
             );
+            const endAngle = minutesToAngle(TOTAL_MINUTES - 0.001);
+            const tip = polarToCartesian(endAngle);
+            hand.setAttribute('x2', tip.x);
+            hand.setAttribute('y2', tip.y);
+            hand.setAttribute('opacity', '1');
+            dragHandle.setAttribute('cx', tip.x);
+            dragHandle.setAttribute('cy', tip.y);
         } else {
             const startAngle = -Math.PI / 2;
             const endAngle = startAngle + fraction * 2 * Math.PI;
@@ -96,45 +113,99 @@ document.addEventListener('DOMContentLoaded', () => {
                 `M ${CX} ${CY} L ${start.x} ${start.y} ` +
                 `A ${RADIUS} ${RADIUS} 0 ${largeArc} 1 ${end.x} ${end.y} Z`
             );
+
+            hand.setAttribute('x2', end.x);
+            hand.setAttribute('y2', end.y);
+            hand.setAttribute('opacity', '1');
+            dragHandle.setAttribute('cx', end.x);
+            dragHandle.setAttribute('cy', end.y);
         }
 
-        // Update hand position
-        const handAngle = -Math.PI / 2 + fraction * 2 * Math.PI;
-        const handTip = polarToCartesian(handAngle);
-        hand.setAttribute('x2', handTip.x);
-        hand.setAttribute('y2', handTip.y);
-        hand.setAttribute('opacity', '1');
-    }
-
-    // ---------- Update Digital Display ----------
-    function updateDigital(seconds) {
+        // Update digital display
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
         digitalDisplay.textContent =
             String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
     }
 
+    // ---------- Drag / Touch to Set Time ----------
+    function getMinutesFromEvent(event) {
+        const svgRect = timerSvg.getBoundingClientRect();
+        const svgCenterX = svgRect.left + svgRect.width / 2;
+        const svgCenterY = svgRect.top + svgRect.height / 2;
+
+        const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+        const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+
+        const dx = clientX - svgCenterX;
+        const dy = clientY - svgCenterY;
+
+        // Angle from top (12 o'clock), clockwise
+        let angle = Math.atan2(dx, -dy);
+        if (angle < 0) angle += 2 * Math.PI;
+
+        let minutes = Math.round((angle / (2 * Math.PI)) * TOTAL_MINUTES);
+        if (minutes === 0) minutes = TOTAL_MINUTES;
+        return minutes;
+    }
+
+    function setTimeFromMinutes(minutes) {
+        totalSeconds = minutes * 60;
+        remainingSeconds = totalSeconds;
+        updateDisplay(remainingSeconds);
+        btnStart.disabled = false;
+        btnReset.disabled = false;
+
+        // Update active preset button
+        presetBtns.forEach(b => {
+            b.classList.toggle('active', parseInt(b.dataset.minutes) === minutes);
+        });
+    }
+
+    // Mouse drag events
+    function onDragStart(e) {
+        if (isRunning) return;
+        // Only start drag if near the hand/edge or on the drag handle
+        isDragging = true;
+        timerSvg.style.cursor = 'grabbing';
+        dragHandle.style.cursor = 'grabbing';
+        e.preventDefault();
+        const minutes = getMinutesFromEvent(e);
+        setTimeFromMinutes(minutes);
+    }
+
+    function onDragMove(e) {
+        if (!isDragging || isRunning) return;
+        e.preventDefault();
+        const minutes = getMinutesFromEvent(e);
+        setTimeFromMinutes(minutes);
+    }
+
+    function onDragEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        timerSvg.style.cursor = '';
+        dragHandle.style.cursor = 'grab';
+    }
+
+    // Mouse events on SVG
+    timerSvg.addEventListener('mousedown', onDragStart);
+    document.addEventListener('mousemove', onDragMove);
+    document.addEventListener('mouseup', onDragEnd);
+
+    // Touch events on SVG
+    timerSvg.addEventListener('touchstart', onDragStart, { passive: false });
+    document.addEventListener('touchmove', onDragMove, { passive: false });
+    document.addEventListener('touchend', onDragEnd);
+
     // ---------- Preset Buttons ----------
     presetBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             if (isRunning) return;
-
             const minutes = parseInt(btn.dataset.minutes);
-            setTime(minutes * 60);
-
-            presetBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            setTimeFromMinutes(minutes);
         });
     });
-
-    function setTime(seconds) {
-        totalSeconds = seconds;
-        remainingSeconds = seconds;
-        updateWedge(1);
-        updateDigital(seconds);
-        btnStart.disabled = false;
-        btnReset.disabled = false;
-    }
 
     // ---------- Start / Pause / Reset ----------
     btnStart.addEventListener('click', () => {
@@ -174,9 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 timerFinished();
             }
 
-            const fraction = totalSeconds > 0 ? remainingSeconds / totalSeconds : 0;
-            updateWedge(fraction);
-            updateDigital(remainingSeconds);
+            updateDisplay(remainingSeconds);
         }, 1000);
     }
 
@@ -197,8 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
         timerInterval = null;
         totalSeconds = 0;
         remainingSeconds = 0;
-        updateWedge(0);
-        updateDigital(0);
+        updateDisplay(0);
         btnStart.style.display = '';
         btnPause.style.display = 'none';
         btnStart.disabled = true;
@@ -224,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             playBeepSequence(0);
         } catch (e) {
-            // Audio not supported, silent fallback
+            // Audio not supported
         }
     }
 
@@ -257,6 +325,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- Init ----------
     drawMarkers();
     drawNumbers();
-    updateWedge(0);
-    updateDigital(0);
+    updateDisplay(0);
 });

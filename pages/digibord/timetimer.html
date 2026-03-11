@@ -29,17 +29,18 @@
     </header>
 
     <main class="tool-page-content">
-        <a href="../digibordtools.html" class="back-link">&larr; Terug naar Digibordtools</a>
-        <div class="tool-page-header">
-            <span class="page-icon">&#9202;</span>
-            <h1>Time Timer</h1>
-            <p>Stel een tijd in en maak de resterende tijd visueel zichtbaar voor je klas.</p>
+        <div class="tool-inline-header">
+            <a href="../digibordtools.html" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Time Timer</h1>
+                <p>Stel een tijd in en maak de resterende tijd visueel zichtbaar voor je klas.</p>
+            </div>
         </div>
         <div class="tool-page-body">
             <div class="timer-container">
                 <!-- Timer Display -->
                 <div class="timer-display">
-                    <svg class="timer-svg" viewBox="0 0 320 320">
+                    <svg class="timer-svg" id="timerSvg" viewBox="0 0 320 320">
                         <!-- Outer ring -->
                         <circle cx="160" cy="160" r="150" fill="none" stroke="#E8E8F0" stroke-width="3"/>
                         <!-- Colored remaining-time wedge -->
@@ -52,6 +53,8 @@
                         <g id="timerNumbers" fill="#636E72" font-size="16" font-weight="700" text-anchor="middle" dominant-baseline="central"></g>
                         <!-- Minute hand -->
                         <line id="timerHand" x1="160" y1="160" x2="160" y2="25" stroke="#2D3436" stroke-width="4" stroke-linecap="round" opacity="0"/>
+                        <!-- Drag handle (large invisible touch target) -->
+                        <circle id="timerDragHandle" cx="160" cy="25" r="22" fill="transparent" stroke="none" style="cursor:grab;"/>
                         <!-- Center dot -->
                         <circle cx="160" cy="160" r="6" fill="#2D3436"/>
                     </svg>

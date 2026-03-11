@@ -20,6 +20,10 @@
     width: 100%;
     height: 100%;
     filter: drop-shadow(0 4px 12px rgba(108, 99, 255, 0.1));
+    cursor: pointer;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .timer-digital {
@@ -202,6 +206,10 @@
 .timer-container.running .preset-btn {
     opacity: 0.4;
     pointer-events: none;
+}
+
+.timer-container.running .timer-svg {
+    cursor: default;
 }
 
 /* ---------- Responsive ---------- */
