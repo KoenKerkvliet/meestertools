@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const CY = 160;
     const RADIUS = 140;
     const TOTAL_MINUTES = 60;
-    const STORAGE_KEY = 'meestertools_timetimer';
+    const TOOL_NAME = 'timetimer';
 
     // Elements
     const timerSvg = document.getElementById('timerSvg');
@@ -45,25 +45,41 @@ document.addEventListener('DOMContentLoaded', () => {
     let presets = [];
     let editPresets = [];
 
-    // ---------- Presets from localStorage ----------
-    function loadPresets() {
-        try {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                if (Array.isArray(parsed.presets)) presets = parsed.presets;
-            }
-        } catch (e) {
-            // Use defaults (empty)
+    // ---------- Supabase Settings ----------
+    async function getSessionUser() {
+        const { data: { session } } = await supabase.auth.getSession();
+        return session?.user || null;
+    }
+
+    async function loadSettings() {
+        const user = await getSessionUser();
+        if (!user) return;
+
+        const { data } = await supabase
+            .from('tool_settings')
+            .select('settings')
+            .eq('user_id', user.id)
+            .eq('tool_name', TOOL_NAME)
+            .single();
+
+        if (data && data.settings) {
+            presets = data.settings.presets || [];
+            renderPresetButtons();
         }
     }
 
-    function savePresets() {
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({ presets }));
-        } catch (e) {
-            // Storage not available
-        }
+    async function saveSettings() {
+        const user = await getSessionUser();
+        if (!user) return;
+
+        await supabase
+            .from('tool_settings')
+            .upsert({
+                user_id: user.id,
+                tool_name: TOOL_NAME,
+                settings: { presets },
+                updated_at: new Date().toISOString()
+            }, { onConflict: 'user_id,tool_name' });
     }
 
     function renderPresetButtons() {
@@ -413,17 +429,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    btnSavePresets.addEventListener('click', () => {
+    btnSavePresets.addEventListener('click', async () => {
         presets = [...editPresets];
-        savePresets();
+        await saveSettings();
         renderPresetButtons();
         closeSettingsModal();
     });
 
     // ---------- Init ----------
-    loadPresets();
     drawMarkers();
     drawNumbers();
     renderPresetButtons();
     updateDisplay(0);
+    loadSettings();
 });

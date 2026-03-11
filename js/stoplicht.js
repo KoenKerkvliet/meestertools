@@ -3,7 +3,7 @@
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
-    const STORAGE_KEY = 'meestertools_stoplicht';
+    const TOOL_NAME = 'stoplicht';
 
     // Elements
     const lampRood = document.getElementById('lampRood');
@@ -28,25 +28,42 @@ document.addEventListener('DOMContentLoaded', () => {
         groen: 'Praten mag'
     };
 
-    // ---------- Load Settings from localStorage ----------
-    function loadSettings() {
-        try {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                if (parsed.labels) labels = parsed.labels;
-            }
-        } catch (e) {
-            // Use defaults
+    // ---------- Supabase Settings ----------
+    async function getSessionUser() {
+        const { data: { session } } = await supabase.auth.getSession();
+        return session?.user || null;
+    }
+
+    async function loadSettings() {
+        const user = await getSessionUser();
+        if (!user) return;
+
+        const { data } = await supabase
+            .from('tool_settings')
+            .select('settings')
+            .eq('user_id', user.id)
+            .eq('tool_name', TOOL_NAME)
+            .single();
+
+        if (data && data.settings) {
+            if (data.settings.labels) labels = data.settings.labels;
+            // Update visible label if a color is already active
+            if (activeColor) updateLabel(activeColor);
         }
     }
 
-    function saveSettings() {
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({ labels }));
-        } catch (e) {
-            // Storage not available
-        }
+    async function saveSettingsToDb() {
+        const user = await getSessionUser();
+        if (!user) return;
+
+        await supabase
+            .from('tool_settings')
+            .upsert({
+                user_id: user.id,
+                tool_name: TOOL_NAME,
+                settings: { labels },
+                updated_at: new Date().toISOString()
+            }, { onConflict: 'user_id,tool_name' });
     }
 
     // ---------- Lamp Click ----------
@@ -103,13 +120,12 @@ document.addEventListener('DOMContentLoaded', () => {
         settingsModal.classList.remove('active');
     }
 
-    btnSaveSettings.addEventListener('click', () => {
+    btnSaveSettings.addEventListener('click', async () => {
         labels.rood = inputRood.value.trim() || 'Niet praten';
         labels.oranje = inputOranje.value.trim() || 'Fluisteren';
         labels.groen = inputGroen.value.trim() || 'Praten mag';
-        saveSettings();
+        await saveSettingsToDb();
 
-        // Update visible label if a color is active
         if (activeColor) {
             updateLabel(activeColor);
         }
