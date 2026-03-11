@@ -35,6 +35,7 @@
                 <h1>Time Timer</h1>
                 <p>Stel een tijd in en maak de resterende tijd visueel zichtbaar voor je klas.</p>
             </div>
+            <button class="tool-settings-btn" id="btnSettings" title="Instellingen">&#9881;&#65039;</button>
         </div>
         <div class="tool-page-body">
             <div class="timer-container">
@@ -62,20 +63,8 @@
                     <div class="timer-digital" id="timerDigital">00:00</div>
                 </div>
 
-                <!-- Time Presets -->
-                <div class="timer-presets">
-                    <button class="preset-btn" data-minutes="1">1 min</button>
-                    <button class="preset-btn" data-minutes="2">2 min</button>
-                    <button class="preset-btn" data-minutes="3">3 min</button>
-                    <button class="preset-btn" data-minutes="5">5 min</button>
-                    <button class="preset-btn" data-minutes="10">10 min</button>
-                    <button class="preset-btn" data-minutes="15">15 min</button>
-                    <button class="preset-btn" data-minutes="20">20 min</button>
-                    <button class="preset-btn" data-minutes="25">25 min</button>
-                    <button class="preset-btn" data-minutes="30">30 min</button>
-                    <button class="preset-btn" data-minutes="45">45 min</button>
-                    <button class="preset-btn" data-minutes="60">60 min</button>
-                </div>
+                <!-- Time Presets (dynamically rendered from settings) -->
+                <div class="timer-presets" id="timerPresets"></div>
 
                 <!-- Controls -->
                 <div class="timer-controls">
@@ -100,6 +89,29 @@
             <h2>De tijd is om!</h2>
             <p>De timer is afgelopen.</p>
             <button class="timer-btn timer-btn-start" id="btnDismiss">OK</button>
+        </div>
+    </div>
+
+    <!-- Settings modal -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Snelkeuzetijden</h2>
+                <button class="modal-close" id="btnCloseSettings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="settings-description">Voeg tijden toe die als snelkeuzeknop onder de timer verschijnen.</p>
+                <div class="preset-editor" id="presetEditor">
+                    <div class="preset-input-row">
+                        <input type="number" id="newPresetInput" min="1" max="60" placeholder="Minuten (1-60)">
+                        <button class="btn-primary" id="btnAddPreset">Toevoegen</button>
+                    </div>
+                    <div class="preset-list" id="presetList"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="btnSavePresets">Opslaan</button>
+            </div>
         </div>
     </div>
 

@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const CY = 160;
     const RADIUS = 140;
     const TOTAL_MINUTES = 60;
+    const STORAGE_KEY = 'meestertools_timetimer';
 
     // Elements
     const timerSvg = document.getElementById('timerSvg');
@@ -17,13 +18,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const markersGroup = document.getElementById('timerMarkers');
     const numbersGroup = document.getElementById('timerNumbers');
     const digitalDisplay = document.getElementById('timerDigital');
+    const presetsContainer = document.getElementById('timerPresets');
     const btnStart = document.getElementById('btnStart');
     const btnPause = document.getElementById('btnPause');
     const btnReset = document.getElementById('btnReset');
     const btnDismiss = document.getElementById('btnDismiss');
     const alertOverlay = document.getElementById('timerAlert');
-    const presetBtns = document.querySelectorAll('.preset-btn');
     const timerContainer = document.querySelector('.timer-container');
+
+    // Settings elements
+    const btnSettings = document.getElementById('btnSettings');
+    const settingsModal = document.getElementById('settingsModal');
+    const btnCloseSettings = document.getElementById('btnCloseSettings');
+    const btnSavePresets = document.getElementById('btnSavePresets');
+    const btnAddPreset = document.getElementById('btnAddPreset');
+    const newPresetInput = document.getElementById('newPresetInput');
+    const presetList = document.getElementById('presetList');
 
     // State
     let totalSeconds = 0;
@@ -32,6 +42,48 @@ document.addEventListener('DOMContentLoaded', () => {
     let isRunning = false;
     let isDragging = false;
     let audioCtx = null;
+    let presets = [];
+    let editPresets = [];
+
+    // ---------- Presets from localStorage ----------
+    function loadPresets() {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed.presets)) presets = parsed.presets;
+            }
+        } catch (e) {
+            // Use defaults (empty)
+        }
+    }
+
+    function savePresets() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ presets }));
+        } catch (e) {
+            // Storage not available
+        }
+    }
+
+    function renderPresetButtons() {
+        presetsContainer.innerHTML = '';
+        const sorted = [...presets].sort((a, b) => a - b);
+        sorted.forEach(minutes => {
+            const btn = document.createElement('button');
+            btn.className = 'preset-btn';
+            btn.dataset.minutes = minutes;
+            btn.textContent = minutes + ' min';
+            btn.addEventListener('click', () => {
+                if (isRunning) return;
+                setTimeFromMinutes(minutes);
+                presetsContainer.querySelectorAll('.preset-btn').forEach(b => {
+                    b.classList.toggle('active', parseInt(b.dataset.minutes) === minutes);
+                });
+            });
+            presetsContainer.appendChild(btn);
+        });
+    }
 
     // ---------- Draw Clock Face ----------
     function drawMarkers() {
@@ -88,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
             dragHandle.setAttribute('cx', CX);
             dragHandle.setAttribute('cy', CY - RADIUS);
         } else if (fraction >= 1) {
-            // Full circle (60 minutes)
             wedge.setAttribute('d',
                 `M ${CX} ${CY} ` +
                 `m 0 -${RADIUS} ` +
@@ -121,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
             dragHandle.setAttribute('cy', end.y);
         }
 
-        // Update digital display
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
         digitalDisplay.textContent =
@@ -140,7 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const dx = clientX - svgCenterX;
         const dy = clientY - svgCenterY;
 
-        // Angle from top (12 o'clock), clockwise
         let angle = Math.atan2(dx, -dy);
         if (angle < 0) angle += 2 * Math.PI;
 
@@ -156,16 +205,13 @@ document.addEventListener('DOMContentLoaded', () => {
         btnStart.disabled = false;
         btnReset.disabled = false;
 
-        // Update active preset button
-        presetBtns.forEach(b => {
+        presetsContainer.querySelectorAll('.preset-btn').forEach(b => {
             b.classList.toggle('active', parseInt(b.dataset.minutes) === minutes);
         });
     }
 
-    // Mouse drag events
     function onDragStart(e) {
         if (isRunning) return;
-        // Only start drag if near the hand/edge or on the drag handle
         isDragging = true;
         timerSvg.style.cursor = 'grabbing';
         dragHandle.style.cursor = 'grabbing';
@@ -188,24 +234,12 @@ document.addEventListener('DOMContentLoaded', () => {
         dragHandle.style.cursor = 'grab';
     }
 
-    // Mouse events on SVG
     timerSvg.addEventListener('mousedown', onDragStart);
     document.addEventListener('mousemove', onDragMove);
     document.addEventListener('mouseup', onDragEnd);
-
-    // Touch events on SVG
     timerSvg.addEventListener('touchstart', onDragStart, { passive: false });
     document.addEventListener('touchmove', onDragMove, { passive: false });
     document.addEventListener('touchend', onDragEnd);
-
-    // ---------- Preset Buttons ----------
-    presetBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (isRunning) return;
-            const minutes = parseInt(btn.dataset.minutes);
-            setTimeFromMinutes(minutes);
-        });
-    });
 
     // ---------- Start / Pause / Reset ----------
     btnStart.addEventListener('click', () => {
@@ -213,13 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
         startTimer();
     });
 
-    btnPause.addEventListener('click', () => {
-        pauseTimer();
-    });
-
-    btnReset.addEventListener('click', () => {
-        resetTimer();
-    });
+    btnPause.addEventListener('click', () => pauseTimer());
+    btnReset.addEventListener('click', () => resetTimer());
 
     btnDismiss.addEventListener('click', () => {
         alertOverlay.classList.remove('active');
@@ -271,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnPause.style.display = 'none';
         btnStart.disabled = true;
         btnReset.disabled = true;
-        presetBtns.forEach(b => b.classList.remove('active'));
+        presetsContainer.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
     }
 
     // ---------- Timer Finished ----------
@@ -322,8 +351,79 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // ---------- Settings Modal ----------
+    btnSettings.addEventListener('click', () => {
+        editPresets = [...presets];
+        renderEditPresets();
+        settingsModal.classList.add('active');
+        newPresetInput.value = '';
+    });
+
+    btnCloseSettings.addEventListener('click', closeSettingsModal);
+
+    settingsModal.addEventListener('click', (e) => {
+        if (e.target === settingsModal) closeSettingsModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && settingsModal.classList.contains('active')) {
+            closeSettingsModal();
+        }
+    });
+
+    function closeSettingsModal() {
+        settingsModal.classList.remove('active');
+    }
+
+    btnAddPreset.addEventListener('click', addPreset);
+
+    newPresetInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') addPreset();
+    });
+
+    function addPreset() {
+        const val = parseInt(newPresetInput.value);
+        if (!val || val < 1 || val > 60) return;
+        if (editPresets.includes(val)) {
+            newPresetInput.value = '';
+            return;
+        }
+        editPresets.push(val);
+        renderEditPresets();
+        newPresetInput.value = '';
+        newPresetInput.focus();
+    }
+
+    function renderEditPresets() {
+        presetList.innerHTML = '';
+        const sorted = [...editPresets].sort((a, b) => a - b);
+        if (sorted.length === 0) {
+            presetList.innerHTML = '<span class="preset-list-empty">Nog geen snelkeuzetijden ingesteld.</span>';
+            return;
+        }
+        sorted.forEach(minutes => {
+            const tag = document.createElement('span');
+            tag.className = 'preset-tag';
+            tag.innerHTML = `${minutes} min <button class="preset-tag-remove" data-minutes="${minutes}">&times;</button>`;
+            tag.querySelector('.preset-tag-remove').addEventListener('click', () => {
+                editPresets = editPresets.filter(m => m !== minutes);
+                renderEditPresets();
+            });
+            presetList.appendChild(tag);
+        });
+    }
+
+    btnSavePresets.addEventListener('click', () => {
+        presets = [...editPresets];
+        savePresets();
+        renderPresetButtons();
+        closeSettingsModal();
+    });
+
     // ---------- Init ----------
+    loadPresets();
     drawMarkers();
     drawNumbers();
+    renderPresetButtons();
     updateDisplay(0);
 });
