@@ -1,0 +1,205 @@
+/* ============================================
+   STOPLICHT - Stylesheet
+   ============================================ */
+
+.stoplicht-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+}
+
+/* ---------- Traffic Light Housing ---------- */
+.stoplicht-housing {
+    background: #2D3436;
+    border-radius: 28px;
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.05);
+    position: relative;
+}
+
+/* Small pole under the housing */
+.stoplicht-housing::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 20px;
+    background: #636E72;
+    border-radius: 0 0 4px 4px;
+}
+
+/* ---------- Individual Lamps ---------- */
+.stoplicht-lamp {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    background: #1a1a1a;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.stoplicht-lamp .lamp-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+/* Dimmed state (default) */
+.stoplicht-lamp[data-color="rood"] {
+    background: radial-gradient(circle at 40% 35%, #4a1515 0%, #2a0a0a 100%);
+}
+
+.stoplicht-lamp[data-color="oranje"] {
+    background: radial-gradient(circle at 40% 35%, #4a3215 0%, #2a1a0a 100%);
+}
+
+.stoplicht-lamp[data-color="groen"] {
+    background: radial-gradient(circle at 40% 35%, #153a15 0%, #0a2a0a 100%);
+}
+
+/* Active / Lit state */
+.stoplicht-lamp[data-color="rood"].active {
+    background: radial-gradient(circle at 40% 35%, #ff4444 0%, #cc0000 70%);
+    border-color: rgba(255, 68, 68, 0.4);
+}
+
+.stoplicht-lamp[data-color="rood"].active .lamp-glow {
+    box-shadow: 0 0 40px 15px rgba(255, 68, 68, 0.5), 0 0 80px 30px rgba(255, 68, 68, 0.2);
+}
+
+.stoplicht-lamp[data-color="oranje"].active {
+    background: radial-gradient(circle at 40% 35%, #ffaa00 0%, #e68a00 70%);
+    border-color: rgba(255, 170, 0, 0.4);
+}
+
+.stoplicht-lamp[data-color="oranje"].active .lamp-glow {
+    box-shadow: 0 0 40px 15px rgba(255, 170, 0, 0.5), 0 0 80px 30px rgba(255, 170, 0, 0.2);
+}
+
+.stoplicht-lamp[data-color="groen"].active {
+    background: radial-gradient(circle at 40% 35%, #44dd44 0%, #00bb00 70%);
+    border-color: rgba(68, 221, 68, 0.4);
+}
+
+.stoplicht-lamp[data-color="groen"].active .lamp-glow {
+    box-shadow: 0 0 40px 15px rgba(68, 221, 68, 0.5), 0 0 80px 30px rgba(68, 221, 68, 0.2);
+}
+
+/* Hover effect on dimmed lamps */
+.stoplicht-lamp:not(.active):hover {
+    transform: scale(1.05);
+}
+
+.stoplicht-lamp[data-color="rood"]:not(.active):hover {
+    background: radial-gradient(circle at 40% 35%, #6a2020 0%, #3a1010 100%);
+}
+
+.stoplicht-lamp[data-color="oranje"]:not(.active):hover {
+    background: radial-gradient(circle at 40% 35%, #6a4820 0%, #3a2810 100%);
+}
+
+.stoplicht-lamp[data-color="groen"]:not(.active):hover {
+    background: radial-gradient(circle at 40% 35%, #205a20 0%, #103a10 100%);
+}
+
+/* ---------- Label ---------- */
+.stoplicht-label {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-align: center;
+    min-height: 36px;
+    transition: all 0.3s ease;
+    padding: 8px 24px;
+}
+
+.stoplicht-label.color-rood {
+    color: #cc0000;
+}
+
+.stoplicht-label.color-oranje {
+    color: #e68a00;
+}
+
+.stoplicht-label.color-groen {
+    color: #00aa00;
+}
+
+/* ---------- Settings Button in Header ---------- */
+.tool-settings-btn {
+    margin-left: auto;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid #E8E8F0;
+    background: var(--bg-white);
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    flex-shrink: 0;
+}
+
+.tool-settings-btn:hover {
+    border-color: var(--primary);
+    background: var(--bg-light);
+    transform: rotate(45deg);
+}
+
+/* ---------- Settings Modal Color Dots ---------- */
+.settings-color-dot {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+.settings-dot-rood {
+    background: #ff4444;
+}
+
+.settings-dot-oranje {
+    background: #ffaa00;
+}
+
+.settings-dot-groen {
+    background: #44dd44;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+    .stoplicht-lamp {
+        width: 80px;
+        height: 80px;
+    }
+
+    .stoplicht-housing {
+        padding: 20px 24px;
+        gap: 16px;
+        border-radius: 24px;
+    }
+
+    .stoplicht-label {
+        font-size: 20px;
+    }
+}

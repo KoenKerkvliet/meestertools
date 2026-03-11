@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meestertools - Stoplicht</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/stoplicht.css">
+</head>
+<body>
+    <header class="app-header">
+        <a href="../../dashboard.html" class="header-logo">
+            <span class="logo-icon">&#127891;</span>
+            Meestertools
+        </a>
+        <div class="header-profile">
+            <button class="profile-btn" id="profileBtn" title="Profiel">?</button>
+            <div class="profile-dropdown" id="profileDropdown">
+                <div class="dropdown-header">
+                    <div class="name">Laden...</div>
+                    <div class="email"></div>
+                </div>
+                <div class="dropdown-item" onclick="window.location.href='#'">&#9881;&#65039; Instellingen</div>
+                <div class="dropdown-item" onclick="window.location.href='#'">&#128100; Mijn profiel</div>
+                <div class="dropdown-item" onclick="window.location.href='#'">&#10067; Help</div>
+                <div class="dropdown-item logout">&#128682; Uitloggen</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../digibordtools.html" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Stoplicht</h1>
+                <p>Geef duidelijk aan wat de verwachting is met het klasstoplicht.</p>
+            </div>
+            <button class="tool-settings-btn" id="btnSettings" title="Instellingen">&#9881;&#65039;</button>
+        </div>
+        <div class="tool-page-body">
+            <div class="stoplicht-container">
+                <div class="stoplicht-housing">
+                    <button class="stoplicht-lamp" id="lampRood" data-color="rood">
+                        <span class="lamp-glow"></span>
+                    </button>
+                    <button class="stoplicht-lamp" id="lampOranje" data-color="oranje">
+                        <span class="lamp-glow"></span>
+                    </button>
+                    <button class="stoplicht-lamp" id="lampGroen" data-color="groen">
+                        <span class="lamp-glow"></span>
+                    </button>
+                </div>
+                <div class="stoplicht-label" id="stoplichtLabel"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Settings modal -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Instellingen</h2>
+                <button class="modal-close" id="btnCloseSettings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>
+                        <span class="settings-color-dot settings-dot-rood"></span>
+                        Betekenis rood
+                    </label>
+                    <input type="text" id="labelRood" placeholder="Bijv. Niet praten">
+                </div>
+                <div class="form-group">
+                    <label>
+                        <span class="settings-color-dot settings-dot-oranje"></span>
+                        Betekenis oranje
+                    </label>
+                    <input type="text" id="labelOranje" placeholder="Bijv. Fluisteren">
+                </div>
+                <div class="form-group">
+                    <label>
+                        <span class="settings-color-dot settings-dot-groen"></span>
+                        Betekenis groen
+                    </label>
+                    <input type="text" id="labelGroen" placeholder="Bijv. Praten mag">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="btnSaveSettings">Opslaan</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="app-footer">
+        <p>
+            &copy; <span id="footerYear"></span> Meestertools &middot;
+            Design by <a href="https://designpixels.nl" target="_blank" rel="noopener">Design Pixels</a>
+            <span class="version">v0.0.2</span>
+        </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../../js/supabase-config.js"></script>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/stoplicht.js"></script>
+</body>
+</html>
