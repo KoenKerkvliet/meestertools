@@ -1,0 +1,235 @@
+/* ============================================
+   TIME TIMER - Stylesheet
+   ============================================ */
+
+.timer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+
+/* ---------- Timer Display ---------- */
+.timer-display {
+    position: relative;
+    width: 320px;
+    height: 320px;
+}
+
+.timer-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 4px 12px rgba(108, 99, 255, 0.1));
+}
+
+.timer-digital {
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-dark);
+    background: var(--bg-white);
+    padding: 4px 20px;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 2px;
+}
+
+/* ---------- Time Presets ---------- */
+.timer-presets {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: 480px;
+}
+
+.preset-btn {
+    padding: 10px 18px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    background: var(--bg-white);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.preset-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.preset-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+/* ---------- Controls ---------- */
+.timer-controls {
+    display: flex;
+    gap: 16px;
+}
+
+.timer-btn {
+    padding: 14px 36px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+    letter-spacing: 0.5px;
+}
+
+.timer-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.timer-btn-start {
+    background: linear-gradient(135deg, var(--accent-green), #4CAF50);
+    color: white;
+}
+
+.timer-btn-start:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(107, 203, 119, 0.4);
+}
+
+.timer-btn-pause {
+    background: linear-gradient(135deg, var(--accent-orange), #E67E22);
+    color: white;
+}
+
+.timer-btn-pause:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(255, 140, 66, 0.4);
+}
+
+.timer-btn-reset {
+    background: var(--bg-light);
+    color: var(--text-medium);
+}
+
+.timer-btn-reset:not(:disabled):hover {
+    background: #E8E8F0;
+    transform: translateY(-2px);
+}
+
+/* ---------- Timer Alert Overlay ---------- */
+.timer-alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    padding: 20px;
+}
+
+.timer-alert-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.timer-alert {
+    background: var(--bg-white);
+    border-radius: var(--radius-xl);
+    padding: 48px 40px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    transform: scale(0.9);
+    transition: var(--transition);
+    max-width: 400px;
+    width: 100%;
+    animation: alertPulse 0.5s ease-out;
+}
+
+.timer-alert-overlay.active .timer-alert {
+    transform: scale(1);
+}
+
+@keyframes alertPulse {
+    0% { transform: scale(0.8); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.timer-alert-icon {
+    font-size: 64px;
+    display: block;
+    margin-bottom: 16px;
+    animation: alertBounce 1s ease infinite;
+}
+
+@keyframes alertBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.timer-alert h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.timer-alert p {
+    font-size: 16px;
+    color: var(--text-medium);
+    margin-bottom: 28px;
+}
+
+/* ---------- Timer Running State ---------- */
+.timer-container.running .preset-btn {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+    .timer-display {
+        width: 260px;
+        height: 260px;
+    }
+
+    .timer-digital {
+        font-size: 22px;
+    }
+
+    .timer-presets {
+        gap: 8px;
+    }
+
+    .preset-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .timer-controls {
+        gap: 10px;
+    }
+
+    .timer-btn {
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+}

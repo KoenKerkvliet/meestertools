@@ -515,6 +515,10 @@ a {
     padding: 40px 32px;
 }
 
+.tool-page-content.has-grid {
+    max-width: 1100px;
+}
+
 .tool-page-header {
     text-align: center;
     margin-bottom: 40px;

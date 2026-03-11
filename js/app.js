@@ -13,6 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return Promise.race([promise, timeout]);
     }
 
+    // ---------- Base Path Helper (handles nested subfolders) ----------
+    function getBasePath() {
+        const path = window.location.pathname;
+        if (!path.includes('/pages/')) return '';
+        const afterPages = path.split('/pages/')[1];
+        const depth = (afterPages.match(/\//g) || []).length;
+        return '../' + '../'.repeat(depth);
+    }
+
     // ---------- Dynamic Footer Year ----------
     const footerYear = document.getElementById('footerYear');
     if (footerYear) {
@@ -126,8 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isDashboard || isToolPage || isAdminPage) {
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (!session) {
-                const isInSubfolder = window.location.pathname.includes('/pages/');
-                window.location.href = isInSubfolder ? '../index.html' : 'index.html';
+                window.location.href = getBasePath() + 'index.html';
                 return;
             }
             // Set profile info and fetch role from database
@@ -168,8 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // If admin page, verify super_admin access
             if (isAdminPage && profile.role !== 'super_admin') {
-                const isInSubfolder = window.location.pathname.includes('/pages/');
-                window.location.href = isInSubfolder ? '../dashboard.html' : 'dashboard.html';
+                window.location.href = getBasePath() + 'dashboard.html';
             }
         }
     }
@@ -188,9 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const adminItem = document.createElement('div');
         adminItem.className = 'dropdown-item admin-link';
 
-        // Determine correct path based on current location
-        const isInSubfolder = window.location.pathname.includes('/pages/');
-        const beheerPath = isInSubfolder ? '../beheer.html' : 'beheer.html';
+        const beheerPath = getBasePath() + 'beheer.html';
 
         adminItem.innerHTML = '&#128736;&#65039; Beheer';
         adminItem.addEventListener('click', () => {
@@ -231,8 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.addEventListener('click', async (e) => {
             e.preventDefault();
             await supabase.auth.signOut();
-            const isInSubfolder = window.location.pathname.includes('/pages/');
-            window.location.href = isInSubfolder ? '../index.html' : 'index.html';
+            window.location.href = getBasePath() + 'index.html';
         });
     }
 

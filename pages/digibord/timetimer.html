@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meestertools - Time Timer</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/timetimer.css">
+</head>
+<body>
+    <header class="app-header">
+        <a href="../../dashboard.html" class="header-logo">
+            <span class="logo-icon">&#127891;</span>
+            Meestertools
+        </a>
+        <div class="header-profile">
+            <button class="profile-btn" id="profileBtn" title="Profiel">?</button>
+            <div class="profile-dropdown" id="profileDropdown">
+                <div class="dropdown-header">
+                    <div class="name">Laden...</div>
+                    <div class="email"></div>
+                </div>
+                <div class="dropdown-item" onclick="window.location.href='#'">&#9881;&#65039; Instellingen</div>
+                <div class="dropdown-item" onclick="window.location.href='#'">&#128100; Mijn profiel</div>
+                <div class="dropdown-item" onclick="window.location.href='#'">&#10067; Help</div>
+                <div class="dropdown-item logout">&#128682; Uitloggen</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="tool-page-content">
+        <a href="../digibordtools.html" class="back-link">&larr; Terug naar Digibordtools</a>
+        <div class="tool-page-header">
+            <span class="page-icon">&#9202;</span>
+            <h1>Time Timer</h1>
+            <p>Stel een tijd in en maak de resterende tijd visueel zichtbaar voor je klas.</p>
+        </div>
+        <div class="tool-page-body">
+            <div class="timer-container">
+                <!-- Timer Display -->
+                <div class="timer-display">
+                    <svg class="timer-svg" viewBox="0 0 320 320">
+                        <!-- Outer ring -->
+                        <circle cx="160" cy="160" r="150" fill="none" stroke="#E8E8F0" stroke-width="3"/>
+                        <!-- Colored remaining-time wedge -->
+                        <path id="timerWedge" d="" fill="rgba(255, 107, 107, 0.85)"/>
+                        <!-- Inner circle (white center) -->
+                        <circle cx="160" cy="160" r="40" fill="white" stroke="#E8E8F0" stroke-width="2"/>
+                        <!-- Minute markers -->
+                        <g id="timerMarkers" stroke="#CBD5E0" stroke-width="2"></g>
+                        <!-- 5-minute number labels -->
+                        <g id="timerNumbers" fill="#636E72" font-size="16" font-weight="700" text-anchor="middle" dominant-baseline="central"></g>
+                        <!-- Minute hand -->
+                        <line id="timerHand" x1="160" y1="160" x2="160" y2="25" stroke="#2D3436" stroke-width="4" stroke-linecap="round" opacity="0"/>
+                        <!-- Center dot -->
+                        <circle cx="160" cy="160" r="6" fill="#2D3436"/>
+                    </svg>
+                    <!-- Digital time display -->
+                    <div class="timer-digital" id="timerDigital">00:00</div>
+                </div>
+
+                <!-- Time Presets -->
+                <div class="timer-presets">
+                    <button class="preset-btn" data-minutes="1">1 min</button>
+                    <button class="preset-btn" data-minutes="2">2 min</button>
+                    <button class="preset-btn" data-minutes="3">3 min</button>
+                    <button class="preset-btn" data-minutes="5">5 min</button>
+                    <button class="preset-btn" data-minutes="10">10 min</button>
+                    <button class="preset-btn" data-minutes="15">15 min</button>
+                    <button class="preset-btn" data-minutes="20">20 min</button>
+                    <button class="preset-btn" data-minutes="25">25 min</button>
+                    <button class="preset-btn" data-minutes="30">30 min</button>
+                    <button class="preset-btn" data-minutes="45">45 min</button>
+                    <button class="preset-btn" data-minutes="60">60 min</button>
+                </div>
+
+                <!-- Controls -->
+                <div class="timer-controls">
+                    <button class="timer-btn timer-btn-start" id="btnStart" disabled>
+                        &#9654; Start
+                    </button>
+                    <button class="timer-btn timer-btn-pause" id="btnPause" style="display:none;">
+                        &#9646;&#9646; Pauze
+                    </button>
+                    <button class="timer-btn timer-btn-reset" id="btnReset" disabled>
+                        &#8635; Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Timer finished overlay -->
+    <div class="timer-alert-overlay" id="timerAlert">
+        <div class="timer-alert">
+            <span class="timer-alert-icon">&#9202;</span>
+            <h2>De tijd is om!</h2>
+            <p>De timer is afgelopen.</p>
+            <button class="timer-btn timer-btn-start" id="btnDismiss">OK</button>
+        </div>
+    </div>
+
+    <footer class="app-footer">
+        <p>
+            &copy; <span id="footerYear"></span> Meestertools &middot;
+            Design by <a href="https://designpixels.nl" target="_blank" rel="noopener">Design Pixels</a>
+            <span class="version">v0.0.2</span>
+        </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../../js/supabase-config.js"></script>
+    <script src="../../js/app.js"></script>
+    <script src="../../js/timetimer.js"></script>
+</body>
+</html>
