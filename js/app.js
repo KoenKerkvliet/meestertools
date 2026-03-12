@@ -229,6 +229,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ---------- Dropdown Items: Instellingen & Profiel ----------
+    const dropdownItems = document.querySelectorAll('.profile-dropdown .dropdown-item');
+    dropdownItems.forEach(item => {
+        const text = item.textContent.trim();
+        if (text.includes('Instellingen')) {
+            item.setAttribute('onclick', '');
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                profileDropdown.classList.remove('active');
+                if (typeof openInstellingen === 'function') openInstellingen('mijnklas');
+            });
+        }
+        if (text.includes('Mijn profiel')) {
+            item.setAttribute('onclick', '');
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                profileDropdown.classList.remove('active');
+                if (typeof openInstellingen === 'function') openInstellingen('profiel');
+            });
+        }
+    });
+
     // ---------- Logout ----------
     const logoutBtn = document.querySelector('.dropdown-item.logout');
     if (logoutBtn) {

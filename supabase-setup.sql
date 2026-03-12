@@ -138,7 +138,104 @@ CREATE POLICY "Super admin can delete schools"
         )
     );
 
--- ---------- 8. Super admin instellen voor bestaande user ----------
+-- ---------- 8. Groups tabel (klassen/groepen per leerkracht) ----------
+CREATE TABLE IF NOT EXISTS public.groups (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name TEXT NOT NULL,
+    user_id UUID NOT NULL REFERENCES auth.users ON DELETE CASCADE,
+    archived BOOLEAN DEFAULT false,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TRIGGER on_groups_updated
+    BEFORE UPDATE ON public.groups
+    FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
+
+-- ---------- 9. Students tabel (leerlingen per groep) ----------
+CREATE TABLE IF NOT EXISTS public.students (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    first_name TEXT NOT NULL,
+    last_name TEXT DEFAULT '',
+    student_number INTEGER NOT NULL,
+    group_id UUID NOT NULL REFERENCES public.groups(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES auth.users ON DELETE CASCADE,
+    archived BOOLEAN DEFAULT false,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TRIGGER on_students_updated
+    BEFORE UPDATE ON public.students
+    FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
+
+-- ---------- 10. RLS voor groups ----------
+ALTER TABLE public.groups ENABLE ROW LEVEL SECURITY;
+
+-- Users kunnen eigen groepen lezen
+CREATE POLICY "Users can read own groups"
+    ON public.groups FOR SELECT
+    USING (auth.uid() = user_id);
+
+-- Super admin kan alle groepen lezen
+CREATE POLICY "Super admin can read all groups"
+    ON public.groups FOR SELECT
+    USING (
+        EXISTS (
+            SELECT 1 FROM public.profiles
+            WHERE id = auth.uid() AND role = 'super_admin'
+        )
+    );
+
+-- Users kunnen eigen groepen aanmaken
+CREATE POLICY "Users can insert own groups"
+    ON public.groups FOR INSERT
+    WITH CHECK (auth.uid() = user_id);
+
+-- Users kunnen eigen groepen updaten
+CREATE POLICY "Users can update own groups"
+    ON public.groups FOR UPDATE
+    USING (auth.uid() = user_id);
+
+-- Users kunnen eigen groepen verwijderen
+CREATE POLICY "Users can delete own groups"
+    ON public.groups FOR DELETE
+    USING (auth.uid() = user_id);
+
+-- ---------- 11. RLS voor students ----------
+ALTER TABLE public.students ENABLE ROW LEVEL SECURITY;
+
+-- Users kunnen eigen leerlingen lezen
+CREATE POLICY "Users can read own students"
+    ON public.students FOR SELECT
+    USING (auth.uid() = user_id);
+
+-- Super admin kan alle leerlingen lezen
+CREATE POLICY "Super admin can read all students"
+    ON public.students FOR SELECT
+    USING (
+        EXISTS (
+            SELECT 1 FROM public.profiles
+            WHERE id = auth.uid() AND role = 'super_admin'
+        )
+    );
+
+-- Users kunnen eigen leerlingen aanmaken
+CREATE POLICY "Users can insert own students"
+    ON public.students FOR INSERT
+    WITH CHECK (auth.uid() = user_id);
+
+-- Users kunnen eigen leerlingen updaten
+CREATE POLICY "Users can update own students"
+    ON public.students FOR UPDATE
+    USING (auth.uid() = user_id);
+
+-- Users kunnen eigen leerlingen verwijderen
+CREATE POLICY "Users can delete own students"
+    ON public.students FOR DELETE
+    USING (auth.uid() = user_id);
+
+-- ---------- 12. Super admin instellen voor bestaande user ----------
 -- Als koen.kerkvliet@movare.nl al geregistreerd is:
 UPDATE public.profiles
 SET role = 'super_admin'
