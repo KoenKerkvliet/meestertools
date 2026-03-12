@@ -71,9 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---------- Render Dice ----------
-    function createDie(value, extraClass) {
+    function createDie(value) {
         const die = document.createElement('div');
-        die.className = 'dobbelsteen' + (extraClass ? ' ' + extraClass : '');
+        die.className = 'dobbelsteen';
 
         const pips = pipLayouts[value] || [];
         pips.forEach(pos => {
@@ -97,9 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (values.length > 1) {
             const sum = values.reduce((a, b) => a + b, 0);
             diceTotal.textContent = 'Totaal: ' + sum;
-            diceTotal.style.display = 'block';
+            diceTotal.className = 'dice-total show';
         } else {
-            diceTotal.style.display = 'none';
+            diceTotal.className = 'dice-total';
         }
     }
 
@@ -108,59 +108,102 @@ document.addEventListener('DOMContentLoaded', () => {
         return Math.floor(Math.random() * 6) + 1;
     }
 
+    function updateDiePips(die, value) {
+        die.innerHTML = '';
+        const pips = pipLayouts[value] || [];
+        pips.forEach(pos => {
+            const pip = document.createElement('span');
+            pip.className = 'pip pip-' + pos;
+            die.appendChild(pip);
+        });
+    }
+
     async function rollDice() {
         if (isRolling) return;
         isRolling = true;
         btnRoll.disabled = true;
-        btnRoll.classList.add('rolling');
+
+        // Hide total during roll
+        diceTotal.className = 'dice-total';
 
         // Generate final values
         const finalValues = Array.from({ length: numDice }, () => randomValue());
 
-        // Animate: rapid random changes then slow down
-        const totalDuration = 800;
-        const intervalStart = 50;
-        const intervalEnd = 150;
-        const startTime = Date.now();
+        // Create dice and start toss animation with staggered delays
+        diceGrid.innerHTML = '';
+        const diceElements = [];
 
-        function animateStep() {
-            const elapsed = Date.now() - startTime;
-            const progress = Math.min(elapsed / totalDuration, 1);
-
-            if (progress < 1) {
-                // Show random values during animation
-                const tempValues = Array.from({ length: numDice }, () => randomValue());
-                diceGrid.innerHTML = '';
-                tempValues.forEach(val => {
-                    diceGrid.appendChild(createDie(val, 'rolling'));
-                });
-
-                // Slow down interval as we approach the end
-                const currentInterval = intervalStart + (intervalEnd - intervalStart) * progress;
-                setTimeout(animateStep, currentInterval);
-            } else {
-                // Show final values with bounce
-                diceGrid.innerHTML = '';
-                finalValues.forEach(val => {
-                    diceGrid.appendChild(createDie(val, 'bounce-in'));
-                });
-                currentValues = finalValues;
-                updateTotal(finalValues);
-
-                isRolling = false;
-                btnRoll.disabled = false;
-                btnRoll.classList.remove('rolling');
-
-                // Remove bounce class after animation
-                setTimeout(() => {
-                    diceGrid.querySelectorAll('.dobbelsteen').forEach(d => {
-                        d.classList.remove('bounce-in');
-                    });
-                }, 500);
-            }
+        for (let i = 0; i < numDice; i++) {
+            const die = createDie(currentValues[i] || 1);
+            // Stagger each die by 50-90ms for natural feel
+            const delay = i * 55 + Math.random() * 35;
+            die.style.animationDelay = delay + 'ms';
+            die.classList.add('rolling');
+            diceGrid.appendChild(die);
+            diceElements.push({ element: die, delay: delay });
         }
 
-        animateStep();
+        // During the "in air" phase, rapidly swap pip values for tumble effect
+        const swapInterval = 90;
+        const swapDuration = 550;
+        let swapCount = 0;
+
+        const swapTimer = setInterval(() => {
+            swapCount++;
+            diceElements.forEach(({ element }) => {
+                updateDiePips(element, randomValue());
+                // Pips stay dim during rolling (CSS handles opacity)
+            });
+        }, swapInterval);
+
+        // Stop swapping pip values before the landing phase
+        setTimeout(() => {
+            clearInterval(swapTimer);
+            // Set final values while still in air (pips are dimmed by CSS)
+            diceElements.forEach(({ element }, i) => {
+                updateDiePips(element, finalValues[i]);
+            });
+        }, swapDuration);
+
+        // After toss animation completes, show the landing effect
+        const maxDelay = diceElements.length > 0
+            ? Math.max(...diceElements.map(d => d.delay))
+            : 0;
+        const tossAnimationDuration = 1000; // matches CSS animation duration
+        const totalWait = tossAnimationDuration + maxDelay + 50;
+
+        setTimeout(() => {
+            // Replace dice with landed versions
+            diceGrid.innerHTML = '';
+
+            finalValues.forEach((val, i) => {
+                const die = createDie(val);
+                // Stagger the landing pop
+                const landDelay = i * 50;
+                die.style.animationDelay = landDelay + 'ms';
+                die.classList.add('landed');
+                diceGrid.appendChild(die);
+            });
+
+            currentValues = finalValues;
+
+            // Show total with a slight delay for dramatic effect
+            setTimeout(() => {
+                updateTotal(finalValues);
+            }, 180);
+
+            // Clean up after all effects finish
+            const cleanupDelay = 500 + (numDice - 1) * 50;
+            setTimeout(() => {
+                diceGrid.querySelectorAll('.dobbelsteen').forEach(d => {
+                    d.classList.remove('landed');
+                    d.style.animationDelay = '';
+                });
+                isRolling = false;
+                btnRoll.disabled = false;
+            }, cleanupDelay);
+
+        }, totalWait);
     }
 
     btnRoll.addEventListener('click', rollDice);
