@@ -99,7 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
             diceTotal.textContent = 'Totaal: ' + sum;
             diceTotal.className = 'dice-total show';
         } else {
-            diceTotal.className = 'dice-total';
+            diceTotal.textContent = '';
+            diceTotal.className = 'dice-total hide';
         }
     }
 
@@ -123,8 +124,12 @@ document.addEventListener('DOMContentLoaded', () => {
         isRolling = true;
         btnRoll.disabled = true;
 
-        // Hide total during roll
-        diceTotal.className = 'dice-total';
+        // Hide total during roll (reserve space if multiple dice)
+        if (numDice > 1) {
+            diceTotal.className = 'dice-total';
+        } else {
+            diceTotal.className = 'dice-total hide';
+        }
 
         // Generate final values
         const finalValues = Array.from({ length: numDice }, () => randomValue());

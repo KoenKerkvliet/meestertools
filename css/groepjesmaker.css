@@ -1,0 +1,194 @@
+/* ============================================
+   GROEPJESMAKER - Stylesheet
+   ============================================ */
+
+.groepjesmaker-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 0;
+}
+
+/* ---------- Empty State ---------- */
+.groepjesmaker-empty {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.groepjesmaker-empty .empty-icon {
+    font-size: 56px;
+    display: block;
+    margin-bottom: 12px;
+    opacity: 0.5;
+}
+
+.groepjesmaker-empty p {
+    color: var(--text-medium);
+    font-size: 16px;
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+.btn-open-settings {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: var(--transition);
+}
+
+.btn-open-settings:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ---------- Shuffle Button ---------- */
+.groepjes-shuffle-btn {
+    padding: 16px 48px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    border: none;
+    border-radius: var(--radius-lg);
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: inherit;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);
+}
+
+.groepjes-shuffle-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(108, 99, 255, 0.4);
+}
+
+.groepjes-shuffle-btn:active:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.groepjes-shuffle-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* ---------- Groups Result Grid ---------- */
+.groepjes-result {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    width: 100%;
+}
+
+.groepje-card {
+    background: var(--bg-light);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    animation: cardFadeIn 0.4s ease forwards;
+    opacity: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+@keyframes cardFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(14px) scale(0.97);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.groepje-header {
+    padding: 12px 16px;
+    font-weight: 700;
+    font-size: 15px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.groepje-header .groepje-count {
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.85;
+    margin-left: auto;
+}
+
+.groepje-body {
+    padding: 8px 16px;
+}
+
+.groepje-body .student-name {
+    padding: 8px 0;
+    font-size: 15px;
+    color: var(--text-dark);
+    border-bottom: 1px solid #E8E8F0;
+}
+
+.groepje-body .student-name:last-child {
+    border-bottom: none;
+}
+
+/* Colors for group headers - rotating through accent colors */
+.groepje-card:nth-child(8n+1) .groepje-header { background: var(--primary); }
+.groepje-card:nth-child(8n+2) .groepje-header { background: var(--accent-green); }
+.groepje-card:nth-child(8n+3) .groepje-header { background: var(--accent-orange); }
+.groepje-card:nth-child(8n+4) .groepje-header { background: var(--accent-cyan); }
+.groepje-card:nth-child(8n+5) .groepje-header { background: var(--accent-pink); }
+.groepje-card:nth-child(8n+6) .groepje-header { background: var(--accent-blue); }
+.groepje-card:nth-child(8n+7) .groepje-header { background: var(--primary-dark); }
+.groepje-card:nth-child(8n+8) .groepje-header { background: var(--accent-yellow); color: var(--text-dark); }
+
+/* ---------- Settings Specific ---------- */
+.settings-divider {
+    border: none;
+    border-top: 1px solid #F0F0F5;
+    margin: 16px 0;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-dark);
+    cursor: pointer;
+}
+
+.radio-option input[type="radio"] {
+    accent-color: var(--primary);
+    width: 16px;
+    height: 16px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+    .groepjes-result {
+        grid-template-columns: 1fr;
+    }
+
+    .groepjes-shuffle-btn {
+        padding: 14px 36px;
+        font-size: 18px;
+    }
+
+    .groepjesmaker-container {
+        gap: 20px;
+    }
+}

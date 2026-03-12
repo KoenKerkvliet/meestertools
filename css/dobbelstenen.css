@@ -191,10 +191,16 @@
     font-weight: 800;
     color: var(--primary);
     text-align: center;
-    display: none;
     padding: 8px 24px;
     background: #EEF0FF;
     border-radius: var(--radius-md);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.dice-total.hide {
+    display: none;
 }
 
 @keyframes totalPop {
@@ -204,7 +210,8 @@
 }
 
 .dice-total.show {
-    display: block;
+    visibility: visible;
+    opacity: 1;
     animation: totalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 

@@ -443,7 +443,7 @@ a {
 .tool-card:nth-child(6)::before { background: var(--accent-pink); }
 
 .tool-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-3px);
     box-shadow: var(--shadow-lg);
 }
 
