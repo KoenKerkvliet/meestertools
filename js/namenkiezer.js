@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '<div class="all-done">&#9989; Alle leerlingen zijn gekozen!</div>';
         }
 
-        html += '<button class="name-pick-btn" id="btnPick"' + (allDone ? ' disabled' : '') + '>&#127919; Kies een naam</button>';
+        html += '<button class="tool-action-btn name-pick-btn" id="btnPick"' + (allDone ? ' disabled' : '') + '>&#127919; Kies een naam</button>';
 
         html += '<div class="name-status">';
         html += '<span class="status-count">' + pickedNames.length + ' / ' + studentNames.length + ' gekozen</span>';

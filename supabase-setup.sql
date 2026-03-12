@@ -64,11 +64,23 @@ CREATE TRIGGER on_auth_user_created
     AFTER INSERT ON auth.users
     FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
--- ---------- 5. RLS inschakelen ----------
+-- ---------- 5. Helper: is_super_admin (SECURITY DEFINER) ----------
+-- Voorkomt infinite recursie bij RLS policies die profiles raadplegen
+CREATE OR REPLACE FUNCTION public.is_super_admin()
+RETURNS BOOLEAN AS $$
+BEGIN
+    RETURN EXISTS (
+        SELECT 1 FROM public.profiles
+        WHERE id = auth.uid() AND role = 'super_admin'
+    );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER STABLE;
+
+-- ---------- 6. RLS inschakelen ----------
 ALTER TABLE public.schools ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 
--- ---------- 6. RLS Policies: profiles ----------
+-- ---------- 7. RLS Policies: profiles ----------
 
 -- Users kunnen hun eigen profiel lezen
 CREATE POLICY "Users can read own profile"
@@ -78,22 +90,12 @@ CREATE POLICY "Users can read own profile"
 -- Super admin kan alle profielen lezen
 CREATE POLICY "Super admin can read all profiles"
     ON public.profiles FOR SELECT
-    USING (
-        EXISTS (
-            SELECT 1 FROM public.profiles
-            WHERE id = auth.uid() AND role = 'super_admin'
-        )
-    );
+    USING (public.is_super_admin());
 
 -- Super admin kan profielen updaten
 CREATE POLICY "Super admin can update all profiles"
     ON public.profiles FOR UPDATE
-    USING (
-        EXISTS (
-            SELECT 1 FROM public.profiles
-            WHERE id = auth.uid() AND role = 'super_admin'
-        )
-    );
+    USING (public.is_super_admin());
 
 -- Users kunnen eigen profiel updaten (behalve role)
 CREATE POLICY "Users can update own profile"
@@ -101,7 +103,7 @@ CREATE POLICY "Users can update own profile"
     USING (auth.uid() = id)
     WITH CHECK (auth.uid() = id);
 
--- ---------- 7. RLS Policies: schools ----------
+-- ---------- 8. RLS Policies: schools ----------
 
 -- Alle ingelogde users kunnen scholen lezen
 CREATE POLICY "Authenticated users can read schools"
@@ -111,34 +113,19 @@ CREATE POLICY "Authenticated users can read schools"
 -- Super admin kan scholen aanmaken
 CREATE POLICY "Super admin can insert schools"
     ON public.schools FOR INSERT
-    WITH CHECK (
-        EXISTS (
-            SELECT 1 FROM public.profiles
-            WHERE id = auth.uid() AND role = 'super_admin'
-        )
-    );
+    WITH CHECK (public.is_super_admin());
 
 -- Super admin kan scholen updaten
 CREATE POLICY "Super admin can update schools"
     ON public.schools FOR UPDATE
-    USING (
-        EXISTS (
-            SELECT 1 FROM public.profiles
-            WHERE id = auth.uid() AND role = 'super_admin'
-        )
-    );
+    USING (public.is_super_admin());
 
 -- Super admin kan scholen verwijderen
 CREATE POLICY "Super admin can delete schools"
     ON public.schools FOR DELETE
-    USING (
-        EXISTS (
-            SELECT 1 FROM public.profiles
-            WHERE id = auth.uid() AND role = 'super_admin'
-        )
-    );
+    USING (public.is_super_admin());
 
--- ---------- 8. Groups tabel (klassen/groepen per leerkracht) ----------
+-- ---------- 9. Groups tabel (klassen/groepen per leerkracht) ----------
 CREATE TABLE IF NOT EXISTS public.groups (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
@@ -152,7 +139,7 @@ CREATE TRIGGER on_groups_updated
     BEFORE UPDATE ON public.groups
     FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
 
--- ---------- 9. Students tabel (leerlingen per groep) ----------
+-- ---------- 10. Students tabel (leerlingen per groep) ----------
 CREATE TABLE IF NOT EXISTS public.students (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     first_name TEXT NOT NULL,
@@ -169,7 +156,7 @@ CREATE TRIGGER on_students_updated
     BEFORE UPDATE ON public.students
     FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
 
--- ---------- 10. RLS voor groups ----------
+-- ---------- 11. RLS voor groups ----------
 ALTER TABLE public.groups ENABLE ROW LEVEL SECURITY;
 
 -- Users kunnen eigen groepen lezen
@@ -180,12 +167,7 @@ CREATE POLICY "Users can read own groups"
 -- Super admin kan alle groepen lezen
 CREATE POLICY "Super admin can read all groups"
     ON public.groups FOR SELECT
-    USING (
-        EXISTS (
-            SELECT 1 FROM public.profiles
-            WHERE id = auth.uid() AND role = 'super_admin'
-        )
-    );
+    USING (public.is_super_admin());
 
 -- Users kunnen eigen groepen aanmaken
 CREATE POLICY "Users can insert own groups"
@@ -202,7 +184,7 @@ CREATE POLICY "Users can delete own groups"
     ON public.groups FOR DELETE
     USING (auth.uid() = user_id);
 
--- ---------- 11. RLS voor students ----------
+-- ---------- 12. RLS voor students ----------
 ALTER TABLE public.students ENABLE ROW LEVEL SECURITY;
 
 -- Users kunnen eigen leerlingen lezen
@@ -213,12 +195,7 @@ CREATE POLICY "Users can read own students"
 -- Super admin kan alle leerlingen lezen
 CREATE POLICY "Super admin can read all students"
     ON public.students FOR SELECT
-    USING (
-        EXISTS (
-            SELECT 1 FROM public.profiles
-            WHERE id = auth.uid() AND role = 'super_admin'
-        )
-    );
+    USING (public.is_super_admin());
 
 -- Users kunnen eigen leerlingen aanmaken
 CREATE POLICY "Users can insert own students"
@@ -235,7 +212,7 @@ CREATE POLICY "Users can delete own students"
     ON public.students FOR DELETE
     USING (auth.uid() = user_id);
 
--- ---------- 12. Super admin instellen voor bestaande user ----------
+-- ---------- 13. Super admin instellen voor bestaande user ----------
 -- Als koen.kerkvliet@movare.nl al geregistreerd is:
 UPDATE public.profiles
 SET role = 'super_admin'

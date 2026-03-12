@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         container.innerHTML = [
-            '<button class="groepjes-shuffle-btn" id="btnShuffle">&#128256; Verdeel in groepjes</button>',
+            '<button class="tool-action-btn groepjes-shuffle-btn" id="btnShuffle">&#128256; Verdeel in groepjes</button>',
             '<div class="groepjes-result" id="groepjesResult"></div>'
         ].join('\n');
 

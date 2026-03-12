@@ -30,54 +30,8 @@
     line-height: 1.6;
 }
 
-.btn-open-settings {
-    display: inline-block;
-    padding: 10px 20px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: white;
-    border: none;
-    border-radius: var(--radius-sm);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    transition: var(--transition);
-}
-
-.btn-open-settings:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
 /* ---------- Shuffle Button ---------- */
-.groepjes-shuffle-btn {
-    padding: 16px 48px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: white;
-    border: none;
-    border-radius: var(--radius-lg);
-    font-size: 20px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: inherit;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);
-}
-
-.groepjes-shuffle-btn:hover:not(:disabled) {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 28px rgba(108, 99, 255, 0.4);
-}
-
-.groepjes-shuffle-btn:active:not(:disabled) {
-    transform: translateY(-1px);
-}
-
-.groepjes-shuffle-btn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-}
+/* Base styles inherited from .tool-action-btn in style.css */
 
 /* ---------- Groups Result Grid ---------- */
 .groepjes-result {
@@ -181,11 +135,6 @@
 @media (max-width: 600px) {
     .groepjes-result {
         grid-template-columns: 1fr;
-    }
-
-    .groepjes-shuffle-btn {
-        padding: 14px 36px;
-        font-size: 18px;
     }
 
     .groepjesmaker-container {

@@ -216,34 +216,7 @@
 }
 
 /* ---------- Roll Button ---------- */
-.dice-roll-btn {
-    padding: 16px 48px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: white;
-    border: none;
-    border-radius: var(--radius-lg);
-    font-size: 20px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: inherit;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);
-}
-
-.dice-roll-btn:hover:not(:disabled) {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 28px rgba(108, 99, 255, 0.4);
-}
-
-.dice-roll-btn:active:not(:disabled) {
-    transform: translateY(-1px);
-}
-
-.dice-roll-btn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-}
+/* Base styles inherited from .tool-action-btn in style.css */
 
 /* ---------- Responsive ---------- */
 @media (max-width: 600px) {
@@ -262,11 +235,6 @@
     .dice-grid {
         gap: 14px;
         min-height: 120px;
-    }
-
-    .dice-roll-btn {
-        padding: 14px 36px;
-        font-size: 18px;
     }
 
     .dice-total {

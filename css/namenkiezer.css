@@ -109,34 +109,7 @@
 }
 
 /* ---------- Pick Button ---------- */
-.name-pick-btn {
-    padding: 16px 48px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: white;
-    border: none;
-    border-radius: var(--radius-lg);
-    font-size: 20px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: inherit;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);
-}
-
-.name-pick-btn:hover:not(:disabled) {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 28px rgba(108, 99, 255, 0.4);
-}
-
-.name-pick-btn:active:not(:disabled) {
-    transform: translateY(-1px);
-}
-
-.name-pick-btn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-}
+/* Base styles inherited from .tool-action-btn in style.css */
 
 /* ---------- Status bar ---------- */
 .name-status {
@@ -236,11 +209,6 @@
     }
 
     .name-display-text.placeholder-text {
-        font-size: 18px;
-    }
-
-    .name-pick-btn {
-        padding: 14px 36px;
         font-size: 18px;
     }
 
