@@ -1,6 +1,6 @@
 /* ============================================
    MEESTERTOOLS - Instellingen Overlay
-   Versie: v0.0.1
+   Versie: v0.0.2
    ============================================ */
 
 (function () {
@@ -28,6 +28,17 @@
         if (overlayEl) {
             overlayEl.classList.remove('active');
             document.body.style.overflow = '';
+        }
+    }
+
+    // ---------- Get current user from session (fast, cached) ----------
+    async function getCurrentUser() {
+        try {
+            const { data: { session } } = await supabase.auth.getSession();
+            return session?.user || null;
+        } catch (err) {
+            console.error('Session error:', err);
+            return null;
         }
     }
 
@@ -95,6 +106,7 @@
                                     <input type="text" id="newGroupName" placeholder="Groepsnaam (bijv. Groep 5A)">
                                     <button class="btn-add-small" id="confirmAddGroup">Toevoegen</button>
                                 </div>
+                                <div class="inline-form-error" id="addGroupError"></div>
                             </div>
                             <div class="groepen-list" id="groepenList"></div>
                         </div>
@@ -282,9 +294,28 @@
         setTimeout(() => { el.className = 'profiel-message'; }, 4000);
     }
 
+    // ---------- Inline form error helpers ----------
+    function showInlineError(containerId, msg) {
+        var errEl = overlayEl.querySelector('#' + containerId + 'Error');
+        if (!errEl) {
+            errEl = document.createElement('div');
+            errEl.id = containerId + 'Error';
+            errEl.className = 'inline-form-error';
+            var container = overlayEl.querySelector('#' + containerId);
+            if (container) container.appendChild(errEl);
+        }
+        errEl.textContent = msg;
+        errEl.style.display = 'block';
+    }
+
+    function clearInlineError(containerId) {
+        var errEl = overlayEl.querySelector('#' + containerId + 'Error');
+        if (errEl) errEl.style.display = 'none';
+    }
+
     // ---------- MIJN KLAS LOGIC ----------
     async function loadGroups() {
-        const { data: { user } } = await supabase.auth.getUser();
+        const user = await getCurrentUser();
         if (!user) return;
 
         const { data, error } = await supabase
@@ -386,6 +417,7 @@
                     <input type="text" id="studentLastName-${groupId}" placeholder="Achternaam" style="max-width:140px">
                     <button class="btn-add-small" onclick="window._addStudent('${groupId}')">Toevoegen</button>
                 </div>
+                <div class="inline-form-error" id="addStudentForm-${groupId}Error"></div>
             </div>
         `;
 
@@ -418,7 +450,7 @@
     }
 
     async function loadStudentsForGroup(groupId) {
-        const { data: { user } } = await supabase.auth.getUser();
+        const user = await getCurrentUser();
         if (!user) return;
 
         const { data } = await supabase
@@ -438,21 +470,39 @@
         const name = input.value.trim();
         if (!name) return;
 
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
+        const btn = overlayEl.querySelector('#confirmAddGroup');
+        btn.disabled = true;
+        btn.textContent = 'Toevoegen...';
+        clearInlineError('addGroup');
 
-        const { error } = await supabase
-            .from('groups')
-            .insert({ name, user_id: user.id });
+        try {
+            const user = await getCurrentUser();
+            if (!user) {
+                showInlineError('addGroup', 'Je bent niet ingelogd. Ververs de pagina en probeer opnieuw.');
+                return;
+            }
 
-        if (error) {
-            console.error('Error adding group:', error);
-            return;
+            const { error } = await supabase
+                .from('groups')
+                .insert({ name: name, user_id: user.id });
+
+            if (error) {
+                console.error('Error adding group:', error);
+                showInlineError('addGroup', 'Fout bij aanmaken: ' + error.message);
+                return;
+            }
+
+            input.value = '';
+            clearInlineError('addGroup');
+            overlayEl.querySelector('#addGroupForm').style.display = 'none';
+            loadGroups();
+        } catch (err) {
+            console.error('Unexpected error:', err);
+            showInlineError('addGroup', 'Er ging iets mis: ' + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Toevoegen';
         }
-
-        input.value = '';
-        overlayEl.querySelector('#addGroupForm').style.display = 'none';
-        loadGroups();
     }
 
     window._editGroup = function (id) {
@@ -528,40 +578,62 @@
     };
 
     window._addStudent = async function (groupId) {
-        const firstName = overlayEl.querySelector('#studentFirstName-' + groupId).value.trim();
-        const lastName = overlayEl.querySelector('#studentLastName-' + groupId).value.trim();
+        const firstNameInput = overlayEl.querySelector('#studentFirstName-' + groupId);
+        const lastNameInput = overlayEl.querySelector('#studentLastName-' + groupId);
+        const firstName = firstNameInput.value.trim();
+        const lastName = lastNameInput.value.trim();
         if (!firstName) return;
 
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
-
-        // Auto-generate student number
-        const existingStudents = students[groupId] || [];
-        const allStudents = Object.values(students).flat();
-        const maxNumber = allStudents.length > 0
-            ? Math.max(...allStudents.map(s => s.student_number || 0))
-            : 0;
-        const studentNumber = maxNumber + 1;
-
-        const { error } = await supabase
-            .from('students')
-            .insert({
-                first_name: firstName,
-                last_name: lastName,
-                student_number: studentNumber,
-                group_id: groupId,
-                user_id: user.id
-            });
-
-        if (error) {
-            console.error('Error adding student:', error);
-            return;
+        // Find the add button and show loading
+        var addBtn = firstNameInput.closest('.inline-add-form').querySelector('.btn-add-small');
+        if (addBtn) {
+            addBtn.disabled = true;
+            addBtn.textContent = 'Toevoegen...';
         }
 
-        overlayEl.querySelector('#studentFirstName-' + groupId).value = '';
-        overlayEl.querySelector('#studentLastName-' + groupId).value = '';
-        overlayEl.querySelector('#addStudentForm-' + groupId).style.display = 'none';
-        loadStudentsForGroup(groupId);
+        try {
+            const user = await getCurrentUser();
+            if (!user) {
+                showInlineError('addStudentForm-' + groupId, 'Je bent niet ingelogd. Ververs de pagina.');
+                return;
+            }
+
+            // Auto-generate student number
+            const allStudents = Object.values(students).flat();
+            const maxNumber = allStudents.length > 0
+                ? Math.max.apply(null, allStudents.map(function(s) { return s.student_number || 0; }))
+                : 0;
+            const studentNumber = maxNumber + 1;
+
+            const { error } = await supabase
+                .from('students')
+                .insert({
+                    first_name: firstName,
+                    last_name: lastName,
+                    student_number: studentNumber,
+                    group_id: groupId,
+                    user_id: user.id
+                });
+
+            if (error) {
+                console.error('Error adding student:', error);
+                showInlineError('addStudentForm-' + groupId, 'Fout bij toevoegen: ' + error.message);
+                return;
+            }
+
+            firstNameInput.value = '';
+            lastNameInput.value = '';
+            overlayEl.querySelector('#addStudentForm-' + groupId).style.display = 'none';
+            loadStudentsForGroup(groupId);
+        } catch (err) {
+            console.error('Unexpected error:', err);
+            showInlineError('addStudentForm-' + groupId, 'Er ging iets mis: ' + err.message);
+        } finally {
+            if (addBtn) {
+                addBtn.disabled = false;
+                addBtn.textContent = 'Toevoegen';
+            }
+        }
     };
 
     window._editStudent = function (studentId, groupId) {
