@@ -170,7 +170,14 @@
                         </select>
                         <button class="btn-primary" id="addWordBtn">+ Toevoegen</button>
                     </div>
-                    <div class="words-list" id="wordsList">
+                    <div style="display:flex;align-items:center;gap:10px;margin:12px 0 10px;flex-wrap:wrap;">
+                        <input type="text" class="search-input" id="wordsSearch" placeholder="Zoek woord..." style="max-width:220px;">
+                        <select class="search-input" id="wordsDiffFilter" style="max-width:200px;">
+                            <option value="">Alle moeilijkheden</option>
+                        </select>
+                        <span id="wordsCount" style="font-size:13px;color:var(--text-light);font-weight:600;white-space:nowrap;margin-left:auto;"></span>
+                    </div>
+                    <div id="wordsList">
                         <div class="admin-empty" style="width:100%;">
                             <span class="empty-icon">&#128218;</span>
                             <p>Selecteer een leesniveau om woorden te beheren.</p>

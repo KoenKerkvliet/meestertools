@@ -721,13 +721,67 @@ document.addEventListener('DOMContentLoaded', () => {
         renderWordsList();
     }
 
+    // Words search & filter
+    const wordsSearchInput = document.getElementById('wordsSearch');
+    if (wordsSearchInput) {
+        wordsSearchInput.addEventListener('input', () => renderWordsList());
+    }
+    const wordsDiffFilterEl = document.getElementById('wordsDiffFilter');
+    if (wordsDiffFilterEl) {
+        wordsDiffFilterEl.addEventListener('change', () => renderWordsList());
+    }
+
+    function updateWordsDiffFilter() {
+        const select = document.getElementById('wordsDiffFilter');
+        if (!select) return;
+        const currentVal = select.value;
+        const difficulties = getDifficultiesForLevel(activeLevel);
+        select.innerHTML = '<option value="">Alle moeilijkheden</option>';
+        select.innerHTML += '<option value="__none__">Geen moeilijkheid</option>';
+        difficulties.forEach(d => {
+            const opt = document.createElement('option');
+            opt.value = d.id;
+            opt.textContent = d.name;
+            select.appendChild(opt);
+        });
+        select.value = currentVal;
+    }
+
     function renderWordsList() {
         const container = document.getElementById('wordsList');
         if (!container) return;
 
-        const words = allWords.filter(w => w.level === activeLevel);
+        updateWordsDiffFilter();
 
-        if (words.length === 0) {
+        const searchTerm = (document.getElementById('wordsSearch')?.value || '').toLowerCase().trim();
+        const diffFilter = document.getElementById('wordsDiffFilter')?.value || '';
+
+        // Get words for active level
+        let words = allWords.filter(w => w.level === activeLevel);
+        const totalCount = words.length;
+
+        // Apply difficulty filter
+        if (diffFilter === '__none__') {
+            words = words.filter(w => !w.difficulty_id);
+        } else if (diffFilter) {
+            words = words.filter(w => w.difficulty_id === diffFilter);
+        }
+
+        // Apply search filter
+        if (searchTerm) {
+            words = words.filter(w => w.word.toLowerCase().indexOf(searchTerm) !== -1);
+        }
+
+        // Update counter
+        const countEl = document.getElementById('wordsCount');
+        if (countEl) {
+            const hasFilter = searchTerm || diffFilter;
+            countEl.textContent = hasFilter
+                ? words.length + ' / ' + totalCount + ' woorden'
+                : totalCount + ' woorden';
+        }
+
+        if (totalCount === 0) {
             container.innerHTML = `
                 <div class="admin-empty" style="width:100%;">
                     <span class="empty-icon">&#128218;</span>
@@ -736,45 +790,84 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        container.innerHTML = '';
+        if (words.length === 0) {
+            container.innerHTML = `
+                <div class="admin-empty" style="width:100%;">
+                    <span class="empty-icon">&#128269;</span>
+                    <p>Geen woorden gevonden met dit filter.</p>
+                </div>`;
+            return;
+        }
+
+        // Group words by difficulty
+        const groups = {};
+        const noGroupKey = '__none__';
         words.forEach(w => {
-            const chip = document.createElement('div');
-            chip.className = 'word-chip';
+            const key = w.difficulty_id || noGroupKey;
+            if (!groups[key]) groups[key] = [];
+            groups[key].push(w);
+        });
 
-            const text = document.createElement('span');
-            text.textContent = w.word;
-            chip.appendChild(text);
+        // Sort group keys: named difficulties first (alphabetical), then "geen"
+        const sortedKeys = Object.keys(groups).sort((a, b) => {
+            if (a === noGroupKey) return 1;
+            if (b === noGroupKey) return -1;
+            const nameA = getDifficultyName(a).toLowerCase();
+            const nameB = getDifficultyName(b).toLowerCase();
+            return nameA.localeCompare(nameB);
+        });
 
-            // Show difficulty badge if set
-            if (w.difficulty_id) {
-                const diffName = getDifficultyName(w.difficulty_id);
-                if (diffName) {
-                    const badge = document.createElement('span');
-                    badge.className = 'word-difficulty-badge';
-                    badge.textContent = diffName;
-                    chip.appendChild(badge);
-                }
-            }
+        container.innerHTML = '';
 
-            const actions = document.createElement('div');
-            actions.className = 'word-chip-actions';
+        sortedKeys.forEach(key => {
+            const groupWords = groups[key];
+            const diffName = key === noGroupKey ? 'Geen moeilijkheid' : getDifficultyName(key);
 
-            const editBtn = document.createElement('button');
-            editBtn.className = 'word-chip-btn edit';
-            editBtn.innerHTML = '&#9998;';
-            editBtn.title = 'Bewerken';
-            editBtn.addEventListener('click', () => openEditWordModal(w.id, w.word, w.difficulty_id));
-            actions.appendChild(editBtn);
+            // Section header
+            const section = document.createElement('div');
+            section.className = 'words-group-section';
 
-            const delBtn = document.createElement('button');
-            delBtn.className = 'word-chip-btn delete';
-            delBtn.innerHTML = '&times;';
-            delBtn.title = 'Verwijderen';
-            delBtn.addEventListener('click', () => deleteWord(w.id));
-            actions.appendChild(delBtn);
+            const header = document.createElement('div');
+            header.className = 'words-group-header';
+            header.innerHTML = '<span class="words-group-title">' + escapeHtml(diffName) + '</span>' +
+                '<span class="words-group-count">' + groupWords.length + '</span>';
+            section.appendChild(header);
 
-            chip.appendChild(actions);
-            container.appendChild(chip);
+            // Words list within group
+            const list = document.createElement('div');
+            list.className = 'words-list';
+
+            groupWords.forEach(w => {
+                const chip = document.createElement('div');
+                chip.className = 'word-chip';
+
+                const text = document.createElement('span');
+                text.textContent = w.word;
+                chip.appendChild(text);
+
+                const actions = document.createElement('div');
+                actions.className = 'word-chip-actions';
+
+                const editBtn = document.createElement('button');
+                editBtn.className = 'word-chip-btn edit';
+                editBtn.innerHTML = '&#9998;';
+                editBtn.title = 'Bewerken';
+                editBtn.addEventListener('click', () => openEditWordModal(w.id, w.word, w.difficulty_id));
+                actions.appendChild(editBtn);
+
+                const delBtn = document.createElement('button');
+                delBtn.className = 'word-chip-btn delete';
+                delBtn.innerHTML = '&times;';
+                delBtn.title = 'Verwijderen';
+                delBtn.addEventListener('click', () => deleteWord(w.id));
+                actions.appendChild(delBtn);
+
+                chip.appendChild(actions);
+                list.appendChild(chip);
+            });
+
+            section.appendChild(list);
+            container.appendChild(section);
         });
     }
 
