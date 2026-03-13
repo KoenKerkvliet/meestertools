@@ -52,14 +52,21 @@
                     </div>
                 </div>
 
-                <div class="checkin-legend" id="checkinLegend"></div>
-
                 <div class="checkin-smileys" id="checkinSmileys"></div>
 
                 <button class="checkin-reset-btn" id="btnReset">Opnieuw beginnen</button>
             </div>
         </div>
+
+        <!-- Week overview (hidden by default, toggle in settings) -->
+        <div class="tool-page-body checkin-week-section" id="weekSection" style="display:none;">
+            <h2 class="checkin-week-title">Weekoverzicht</h2>
+            <div class="checkin-week-grid" id="weekGrid"></div>
+        </div>
     </main>
+
+    <!-- Pie tooltip -->
+    <div class="checkin-tooltip" id="pieTooltip"></div>
 
     <!-- Settings modal -->
     <div class="modal-overlay" id="settingsModal">
@@ -80,6 +87,12 @@
                         <option value="4">4 smileys</option>
                         <option value="5" selected>5 smileys</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="settingWeekView">
+                        Weekoverzicht tonen
+                    </label>
                 </div>
             </div>
             <div class="modal-footer">

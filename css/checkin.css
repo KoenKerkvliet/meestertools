@@ -33,6 +33,36 @@
     filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.08));
 }
 
+.checkin-pie .pie-segment {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.checkin-pie .pie-segment:hover {
+    opacity: 0.82;
+}
+
+/* ---------- Pie Tooltip ---------- */
+.checkin-tooltip {
+    position: fixed;
+    background: var(--text-dark);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-weight: 600;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 1000;
+    white-space: nowrap;
+    box-shadow: var(--shadow-md);
+}
+
+.checkin-tooltip.visible {
+    opacity: 1;
+}
+
 /* ---------- Center Total ---------- */
 .checkin-total {
     position: absolute;
@@ -74,36 +104,6 @@
 
 .checkin-total.pop {
     animation: countPop 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ---------- Legend ---------- */
-.checkin-legend {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.checkin-legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 22px;
-}
-
-.checkin-legend-dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.checkin-legend-count {
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--text-dark);
-    min-width: 20px;
-    text-align: center;
 }
 
 /* ---------- Smiley Buttons ---------- */
@@ -189,7 +189,130 @@
     transform: translateY(-2px);
 }
 
+/* ---------- Settings Checkbox ---------- */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+/* ---------- Week Overview Section ---------- */
+.checkin-week-section {
+    margin-top: 8px;
+}
+
+.checkin-week-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0 0 24px 0;
+    text-align: center;
+}
+
+.checkin-week-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+}
+
+/* Individual day column */
+.checkin-week-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 8px;
+    border-radius: var(--radius-md);
+    background: var(--bg-light);
+    transition: var(--transition);
+}
+
+.checkin-week-day.today {
+    background: #EEEDFB;
+    box-shadow: inset 0 0 0 2px var(--primary);
+}
+
+.checkin-week-day.empty {
+    opacity: 0.5;
+}
+
+.week-day-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.checkin-week-day.today .week-day-name {
+    color: var(--primary);
+}
+
+/* Average mood smiley */
+.week-day-mood {
+    font-size: 40px;
+    line-height: 1;
+}
+
+/* Stacked bar */
+.week-day-bar {
+    width: 100%;
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    background: #E8E8F0;
+}
+
+.week-day-bar-segment {
+    height: 100%;
+    transition: width 0.4s ease;
+}
+
+/* Total count */
+.week-day-count {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.week-day-count span {
+    color: var(--text-medium);
+    font-weight: 500;
+}
+
+/* No data state */
+.week-day-empty {
+    font-size: 13px;
+    color: var(--text-light);
+    text-align: center;
+    padding: 8px 0;
+}
+
 /* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .checkin-week-grid {
+        gap: 8px;
+    }
+
+    .checkin-week-day {
+        padding: 12px 4px;
+    }
+
+    .week-day-mood {
+        font-size: 32px;
+    }
+}
+
 @media (max-width: 600px) {
     .checkin-container {
         gap: 20px;
@@ -223,11 +346,29 @@
         gap: 10px;
     }
 
-    .checkin-legend {
-        gap: 12px;
+    .checkin-week-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 4px;
     }
 
-    .checkin-legend-item {
+    .checkin-week-day {
+        padding: 10px 2px;
+        gap: 8px;
+    }
+
+    .week-day-name {
+        font-size: 11px;
+    }
+
+    .week-day-mood {
+        font-size: 26px;
+    }
+
+    .week-day-count {
+        font-size: 12px;
+    }
+
+    .checkin-week-title {
         font-size: 18px;
     }
 }
