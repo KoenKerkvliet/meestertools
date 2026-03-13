@@ -190,6 +190,14 @@
                     <button class="btn-primary" id="addGame24SetBtn">+ Toevoegen</button>
                 </div>
                 <h3 style="font-size:15px;font-weight:700;margin:24px 0 12px;">Sets</h3>
+                <div class="game24-filter-row" style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+                    <span style="font-size:13px;font-weight:600;color:var(--text-medium);">Filter:</span>
+                    <button class="game24-admin-filter active" data-filter="">Alles</button>
+                    <button class="game24-admin-filter" data-filter="makkelijk">★ Makkelijk</button>
+                    <button class="game24-admin-filter" data-filter="gemiddeld">★★ Gemiddeld</button>
+                    <button class="game24-admin-filter" data-filter="moeilijk">★★★ Moeilijk</button>
+                    <span id="game24Count" style="margin-left:auto;font-size:13px;color:var(--text-light);font-weight:600;"></span>
+                </div>
                 <div class="game24-sets-list" id="game24SetsList">
                     <div class="admin-empty" style="width:100%;">
                         <span class="empty-icon">&#127922;</span>

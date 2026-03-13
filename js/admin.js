@@ -838,6 +838,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- 24 GAME SETS ----------
     let allGame24Sets = [];
+    let game24Filter = '';
+
+    // Filter buttons
+    document.querySelectorAll('.game24-admin-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.game24-admin-filter').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            game24Filter = btn.dataset.filter;
+            renderGame24Sets();
+        });
+    });
 
     async function loadGame24Sets() {
         try {
@@ -863,17 +874,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('game24SetsList');
         if (!container) return;
 
-        if (allGame24Sets.length === 0) {
+        const filtered = game24Filter
+            ? allGame24Sets.filter(s => (s.difficulty || 'gemiddeld') === game24Filter)
+            : allGame24Sets;
+
+        // Update counter
+        const countEl = document.getElementById('game24Count');
+        if (countEl) {
+            countEl.textContent = filtered.length + ' / ' + allGame24Sets.length + ' sets';
+        }
+
+        if (filtered.length === 0) {
             container.innerHTML = `
                 <div class="admin-empty" style="width:100%;">
                     <span class="empty-icon">&#127922;</span>
-                    <p>Nog geen sets toegevoegd. Voeg sets van 4 getallen toe.</p>
+                    <p>${allGame24Sets.length === 0 ? 'Nog geen sets toegevoegd. Voeg sets van 4 getallen toe.' : 'Geen sets gevonden voor dit niveau.'}</p>
                 </div>`;
             return;
         }
 
         container.innerHTML = '';
-        allGame24Sets.forEach(set => {
+        filtered.forEach(set => {
             const chip = document.createElement('div');
             chip.className = 'game24-set-chip';
 

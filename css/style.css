@@ -1331,6 +1331,31 @@ a {
     color: var(--secondary);
 }
 
+/* Admin filter buttons */
+.game24-admin-filter {
+    padding: 5px 14px;
+    border: 2px solid #E8E8F0;
+    border-radius: 20px;
+    background: var(--bg-white);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-medium);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.game24-admin-filter:hover {
+    border-color: var(--primary-light);
+    color: var(--primary);
+}
+
+.game24-admin-filter.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
 @media (max-width: 600px) {
     .game24-add-row {
         flex-direction: column;
