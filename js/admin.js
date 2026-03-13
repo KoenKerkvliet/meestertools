@@ -389,16 +389,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- Difficulties ----------
     async function loadAllDifficulties() {
-        const { data, error } = await supabase
-            .from('flash_difficulties')
-            .select('*')
-            .order('name');
+        try {
+            const { data, error } = await supabase
+                .from('flash_difficulties')
+                .select('*')
+                .order('name');
 
-        if (error) {
-            console.error('Error loading difficulties:', error);
-            return;
+            if (error) {
+                console.error('Error loading difficulties:', error);
+                allDifficulties = [];
+                return;
+            }
+            allDifficulties = data || [];
+        } catch (e) {
+            console.error('Exception loading difficulties:', e);
+            allDifficulties = [];
         }
-        allDifficulties = data || [];
     }
 
     function getDifficultiesForLevel(level) {
@@ -629,16 +635,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- Words ----------
     async function loadAllWords() {
-        const { data, error } = await supabase
-            .from('flash_words')
-            .select('*')
-            .order('word');
+        try {
+            const { data, error } = await supabase
+                .from('flash_words')
+                .select('*')
+                .order('word');
 
-        if (error) {
-            console.error('Error loading words:', error);
-            return;
+            if (error) {
+                console.error('Error loading words:', error);
+                allWords = [];
+            } else {
+                allWords = data || [];
+            }
+        } catch (e) {
+            console.error('Exception loading words:', e);
+            allWords = [];
         }
-        allWords = data || [];
 
         levelCounts = {};
         allWords.forEach(w => {
@@ -817,7 +829,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.userRole !== undefined) {
             clearInterval(checkAuth);
             if (window.userRole === 'super_admin') {
-                await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties().then(() => { renderDifficultiesList(); updateDifficultyDropdowns(); return loadAllWords(); })]);
+                try {
+                    await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords()]);
+                } catch (e) {
+                    console.error('Error during initial load:', e);
+                }
+                // Always render after all data is loaded
+                renderDifficultiesList();
+                updateDifficultyDropdowns();
             }
         }
     }, 100);
