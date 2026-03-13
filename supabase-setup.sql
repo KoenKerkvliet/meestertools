@@ -301,7 +301,32 @@ CREATE POLICY "Users can delete own daily_questions"
     ON public.daily_questions FOR DELETE
     USING (auth.uid() = user_id);
 
--- ---------- 17. Super admin instellen voor bestaande user ----------
+-- ---------- 17. Game 24 Sets tabel (sets van 4 getallen) ----------
+CREATE TABLE IF NOT EXISTS public.game24_sets (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    numbers INTEGER[] NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE public.game24_sets ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Authenticated users can read game24_sets"
+    ON public.game24_sets FOR SELECT
+    USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Super admin can insert game24_sets"
+    ON public.game24_sets FOR INSERT
+    WITH CHECK (public.is_super_admin());
+
+CREATE POLICY "Super admin can update game24_sets"
+    ON public.game24_sets FOR UPDATE
+    USING (public.is_super_admin());
+
+CREATE POLICY "Super admin can delete game24_sets"
+    ON public.game24_sets FOR DELETE
+    USING (public.is_super_admin());
+
+-- ---------- 18. Super admin instellen voor bestaande user ----------
 -- Als koen.kerkvliet@movare.nl al geregistreerd is:
 UPDATE public.profiles
 SET role = 'super_admin'

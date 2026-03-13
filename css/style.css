@@ -1225,6 +1225,100 @@ a {
     }
 }
 
+/* ---------- 24 GAME BEHEER ---------- */
+.game24-add-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.game24-number-input {
+    width: 72px;
+    padding: 10px 12px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    outline: none;
+    font-family: inherit;
+    color: var(--text-dark);
+    transition: var(--transition);
+}
+
+.game24-number-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+}
+
+.game24-number-input::-webkit-inner-spin-button,
+.game24-number-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.game24-number-input {
+    -moz-appearance: textfield;
+}
+
+.game24-sets-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.game24-set-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: var(--bg-white);
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+}
+
+.game24-set-chip:hover {
+    border-color: var(--primary);
+    background: #FAFAFF;
+}
+
+.game24-set-numbers {
+    display: flex;
+    gap: 6px;
+}
+
+.game24-set-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #EEF0FF, #F5F4FF);
+    border-radius: var(--radius-sm);
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.game24-set-chip .word-chip-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 15px;
+}
+
+@media (max-width: 600px) {
+    .game24-add-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .game24-add-row .game24-number-input {
+        width: 100%;
+    }
+}
+
 /* ---------- MODAL ---------- */
 .modal-overlay {
     position: fixed;

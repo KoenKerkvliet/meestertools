@@ -836,6 +836,118 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Enter') document.getElementById('saveWordBtn').click();
     });
 
+    // ---------- 24 GAME SETS ----------
+    let allGame24Sets = [];
+
+    async function loadGame24Sets() {
+        try {
+            const { data, error } = await supabase
+                .from('game24_sets')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error loading game24 sets:', error);
+                allGame24Sets = [];
+                return;
+            }
+            allGame24Sets = data || [];
+        } catch (e) {
+            console.error('Exception loading game24 sets:', e);
+            allGame24Sets = [];
+        }
+        renderGame24Sets();
+    }
+
+    function renderGame24Sets() {
+        const container = document.getElementById('game24SetsList');
+        if (!container) return;
+
+        if (allGame24Sets.length === 0) {
+            container.innerHTML = `
+                <div class="admin-empty" style="width:100%;">
+                    <span class="empty-icon">&#127922;</span>
+                    <p>Nog geen sets toegevoegd. Voeg sets van 4 getallen toe.</p>
+                </div>`;
+            return;
+        }
+
+        container.innerHTML = '';
+        allGame24Sets.forEach(set => {
+            const chip = document.createElement('div');
+            chip.className = 'game24-set-chip';
+
+            const nums = document.createElement('div');
+            nums.className = 'game24-set-numbers';
+            (set.numbers || []).forEach(n => {
+                const numEl = document.createElement('span');
+                numEl.className = 'game24-set-num';
+                numEl.textContent = n;
+                nums.appendChild(numEl);
+            });
+            chip.appendChild(nums);
+
+            const delBtn = document.createElement('button');
+            delBtn.className = 'word-chip-btn delete';
+            delBtn.innerHTML = '&times;';
+            delBtn.title = 'Verwijderen';
+            delBtn.addEventListener('click', () => deleteGame24Set(set.id));
+            chip.appendChild(delBtn);
+
+            container.appendChild(chip);
+        });
+    }
+
+    const addGame24SetBtn = document.getElementById('addGame24SetBtn');
+    if (addGame24SetBtn) {
+        addGame24SetBtn.addEventListener('click', addGame24Set);
+    }
+
+    async function addGame24Set() {
+        const inputs = [
+            document.getElementById('game24Num1'),
+            document.getElementById('game24Num2'),
+            document.getElementById('game24Num3'),
+            document.getElementById('game24Num4')
+        ];
+
+        const numbers = inputs.map(inp => parseInt(inp.value));
+
+        if (numbers.some(n => isNaN(n) || n < 1 || n > 99)) {
+            alert('Vul 4 geldige getallen in (1-99).');
+            return;
+        }
+
+        const { error } = await supabase
+            .from('game24_sets')
+            .insert({ numbers: numbers });
+
+        if (error) {
+            alert('Fout bij toevoegen: ' + error.message);
+            return;
+        }
+
+        inputs.forEach(inp => { inp.value = ''; });
+        inputs[0].focus();
+        await loadGame24Sets();
+    }
+
+    async function deleteGame24Set(id) {
+        showConfirm('Set verwijderen', 'Weet je zeker dat je deze set wilt verwijderen?', async () => {
+            const { error } = await supabase
+                .from('game24_sets')
+                .delete()
+                .eq('id', id);
+
+            if (error) {
+                alert('Fout bij verwijderen: ' + error.message);
+                return;
+            }
+
+            await loadGame24Sets();
+        });
+    }
+
     // ---------- Initial Load ----------
     // Wait for auth check to complete, then load data
     const checkAuth = setInterval(async () => {
@@ -843,7 +955,7 @@ document.addEventListener('DOMContentLoaded', () => {
             clearInterval(checkAuth);
             if (window.userRole === 'super_admin') {
                 try {
-                    await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords()]);
+                    await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets()]);
                 } catch (e) {
                     console.error('Error during initial load:', e);
                 }

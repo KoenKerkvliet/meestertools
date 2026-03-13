@@ -53,6 +53,7 @@
             <button class="admin-tab active" data-tab="schools">Scholen</button>
             <button class="admin-tab" data-tab="users">Gebruikers</button>
             <button class="admin-tab" data-tab="words">Woorden Flitsen</button>
+            <button class="admin-tab" data-tab="game24">24 Game</button>
         </div>
 
         <!-- Schools Tab -->
@@ -167,6 +168,27 @@
                             <span class="empty-icon">&#128218;</span>
                             <p>Selecteer een leesniveau om woorden te beheren.</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 24 Game Tab -->
+        <div class="admin-tab-panel" id="tab-game24">
+            <div class="words-section">
+                <h3 style="font-size:15px;font-weight:700;margin-bottom:16px;">Set toevoegen</h3>
+                <div class="game24-add-row">
+                    <input type="number" class="game24-number-input" id="game24Num1" min="1" max="99" placeholder="Nr 1">
+                    <input type="number" class="game24-number-input" id="game24Num2" min="1" max="99" placeholder="Nr 2">
+                    <input type="number" class="game24-number-input" id="game24Num3" min="1" max="99" placeholder="Nr 3">
+                    <input type="number" class="game24-number-input" id="game24Num4" min="1" max="99" placeholder="Nr 4">
+                    <button class="btn-primary" id="addGame24SetBtn">+ Toevoegen</button>
+                </div>
+                <h3 style="font-size:15px;font-weight:700;margin:24px 0 12px;">Sets</h3>
+                <div class="game24-sets-list" id="game24SetsList">
+                    <div class="admin-empty" style="width:100%;">
+                        <span class="empty-icon">&#127922;</span>
+                        <p>Nog geen sets toegevoegd. Voeg sets van 4 getallen toe.</p>
                     </div>
                 </div>
             </div>
