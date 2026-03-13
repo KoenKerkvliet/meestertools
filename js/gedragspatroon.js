@@ -38,6 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const weekGridBody = document.getElementById('weekGridBody');
     const btnDownloadPdf = document.getElementById('btnDownloadPdf');
 
+    // Note popup
+    const notePopup = document.getElementById('notePopup');
+    const noteInput = document.getElementById('noteInput');
+    const btnNoteSave = document.getElementById('btnNoteSave');
+    const btnNoteDelete = document.getElementById('btnNoteDelete');
+    const btnNoteClose = document.getElementById('btnNoteClose');
+
     if (!chartColumns) return;
 
     // ---------- Constants ----------
@@ -63,8 +70,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let dayOffset = 0; // 0 = today
     let weekOffset = 0;
     let data = { class: {}, students: {} };
+    let notes = { class: {}, students: {} };
     let students = [];
     let groups = [];
+
+    // Note popup state
+    let activeNoteSegIndex = null;
+    let activeNoteDateKey = null;
 
     // ---------- Date Helpers ----------
     function formatDate(d) {
@@ -149,6 +161,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (s.data) data = s.data;
             if (!data.class) data.class = {};
             if (!data.students) data.students = {};
+            if (s.notes) notes = s.notes;
+            if (!notes.class) notes.class = {};
+            if (!notes.students) notes.students = {};
         }
     }
 
@@ -160,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .upsert({
                 user_id: user.id,
                 tool_name: TOOL_NAME,
-                settings: { mode, displayType, segments, selectedGroupId, data },
+                settings: { mode, displayType, segments, selectedGroupId, data, notes },
                 updated_at: new Date().toISOString()
             }, { onConflict: 'user_id,tool_name' });
     }
@@ -212,6 +227,35 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!data.students[selectedStudentId][dateKey]) data.students[selectedStudentId][dateKey] = new Array(segments.length).fill(null);
             while (data.students[selectedStudentId][dateKey].length < segments.length) data.students[selectedStudentId][dateKey].push(null);
             data.students[selectedStudentId][dateKey][segmentIndex] = value;
+        }
+        // Clear note if value is cleared
+        if (value === null) {
+            setNoteValue(dateKey, segmentIndex, null);
+        }
+        saveSettingsToDb();
+    }
+
+    // ---------- Notes Access ----------
+    function getNoteValue(dateKey, segmentIndex) {
+        if (mode === 'class') {
+            return notes.class[dateKey]?.[segmentIndex] ?? null;
+        } else {
+            if (!selectedStudentId) return null;
+            return notes.students[selectedStudentId]?.[dateKey]?.[segmentIndex] ?? null;
+        }
+    }
+
+    function setNoteValue(dateKey, segmentIndex, value) {
+        if (mode === 'class') {
+            if (!notes.class[dateKey]) notes.class[dateKey] = new Array(segments.length).fill(null);
+            while (notes.class[dateKey].length < segments.length) notes.class[dateKey].push(null);
+            notes.class[dateKey][segmentIndex] = value || null;
+        } else {
+            if (!selectedStudentId) return;
+            if (!notes.students[selectedStudentId]) notes.students[selectedStudentId] = {};
+            if (!notes.students[selectedStudentId][dateKey]) notes.students[selectedStudentId][dateKey] = new Array(segments.length).fill(null);
+            while (notes.students[selectedStudentId][dateKey].length < segments.length) notes.students[selectedStudentId][dateKey].push(null);
+            notes.students[selectedStudentId][dateKey][segmentIndex] = value || null;
         }
         saveSettingsToDb();
     }
@@ -271,8 +315,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ---------- Day Navigation ----------
-    btnPrevDay.addEventListener('click', () => { dayOffset--; renderDayView(); });
-    btnNextDay.addEventListener('click', () => { dayOffset++; renderDayView(); });
+    btnPrevDay.addEventListener('click', () => { dayOffset--; closeNotePopup(); renderDayView(); });
+    btnNextDay.addEventListener('click', () => { dayOffset++; closeNotePopup(); renderDayView(); });
 
     // ---------- Render Day View ----------
     function renderDayView() {
@@ -304,14 +348,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const currentVal = getCellValue(dateKey, segIndex);
                 if (currentVal === level.value) {
-                    const marker = createMarker(level);
+                    const marker = createMarker(level, dateKey, segIndex);
                     slot.appendChild(marker);
                 }
 
-                slot.addEventListener('click', () => {
+                slot.addEventListener('click', (e) => {
+                    // Don't toggle value if note button was clicked
+                    if (e.target.closest('.gp-note-btn')) return;
                     const val = getCellValue(dateKey, segIndex);
                     const newVal = val === level.value ? null : level.value;
                     setCellValue(dateKey, segIndex, newVal);
+                    closeNotePopup();
                     renderDayView();
                     renderWeekView();
                 });
@@ -336,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(() => drawConnectionLines(dateKey));
     }
 
-    function createMarker(level) {
+    function createMarker(level, dateKey, segIndex) {
         const marker = document.createElement('div');
         marker.className = 'gp-chart-marker';
         if (displayType === 'colors') {
@@ -347,8 +394,105 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         marker.classList.add('popping');
         setTimeout(() => marker.classList.remove('popping'), 350);
+
+        // Note button
+        const noteBtn = document.createElement('button');
+        noteBtn.className = 'gp-note-btn';
+        const existingNote = getNoteValue(dateKey, segIndex);
+        if (existingNote) {
+            noteBtn.classList.add('has-note');
+            noteBtn.innerHTML = '\u{1F4DD}';
+            noteBtn.title = existingNote;
+        } else {
+            noteBtn.innerHTML = '\u{270F}\u{FE0F}';
+            noteBtn.title = 'Notitie toevoegen';
+        }
+        noteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openNotePopup(dateKey, segIndex, noteBtn);
+        });
+        marker.appendChild(noteBtn);
+
         return marker;
     }
+
+    // ---------- Note Popup ----------
+    function openNotePopup(dateKey, segIndex, anchorEl) {
+        activeNoteDateKey = dateKey;
+        activeNoteSegIndex = segIndex;
+
+        const currentNote = getNoteValue(dateKey, segIndex) || '';
+        noteInput.value = currentNote;
+        btnNoteDelete.style.display = currentNote ? '' : 'none';
+
+        // Position popup near the marker
+        const rect = anchorEl.getBoundingClientRect();
+        const mainRect = document.querySelector('.tool-page-content').getBoundingClientRect();
+
+        notePopup.classList.add('active');
+
+        // Calculate position after making visible
+        requestAnimationFrame(() => {
+            const popupRect = notePopup.getBoundingClientRect();
+            let left = rect.left + rect.width / 2 - popupRect.width / 2;
+            let top = rect.bottom + 8;
+
+            // Keep within viewport
+            if (left < 8) left = 8;
+            if (left + popupRect.width > window.innerWidth - 8) left = window.innerWidth - popupRect.width - 8;
+            if (top + popupRect.height > window.innerHeight - 8) {
+                top = rect.top - popupRect.height - 8;
+            }
+
+            notePopup.style.left = left + 'px';
+            notePopup.style.top = top + 'px';
+            noteInput.focus();
+        });
+    }
+
+    function closeNotePopup() {
+        notePopup.classList.remove('active');
+        activeNoteDateKey = null;
+        activeNoteSegIndex = null;
+    }
+
+    btnNoteSave.addEventListener('click', () => {
+        if (activeNoteDateKey !== null && activeNoteSegIndex !== null) {
+            setNoteValue(activeNoteDateKey, activeNoteSegIndex, noteInput.value.trim());
+            closeNotePopup();
+            renderDayView();
+            renderWeekView();
+        }
+    });
+
+    btnNoteDelete.addEventListener('click', () => {
+        if (activeNoteDateKey !== null && activeNoteSegIndex !== null) {
+            setNoteValue(activeNoteDateKey, activeNoteSegIndex, null);
+            closeNotePopup();
+            renderDayView();
+            renderWeekView();
+        }
+    });
+
+    btnNoteClose.addEventListener('click', closeNotePopup);
+
+    // Close popup on outside click
+    document.addEventListener('click', (e) => {
+        if (notePopup.classList.contains('active') && !notePopup.contains(e.target) && !e.target.closest('.gp-note-btn')) {
+            closeNotePopup();
+        }
+    });
+
+    // Save on Enter
+    noteInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            btnNoteSave.click();
+        }
+        if (e.key === 'Escape') {
+            closeNotePopup();
+        }
+    });
 
     function drawConnectionLines(dateKey) {
         connectionLine.innerHTML = '';
@@ -417,15 +561,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (dateKey === todayKey) row.classList.add('today');
 
             const dayTd = document.createElement('td');
-            const dateParts = dateKey.split('-');
             dayTd.innerHTML = `<strong>${WEEKDAY_NAMES[dayIndex]}</strong>`;
             row.appendChild(dayTd);
 
             segments.forEach((_, segIndex) => {
                 const td = document.createElement('td');
                 const val = getCellValue(dateKey, segIndex);
+                const note = getNoteValue(dateKey, segIndex);
 
                 if (val !== null) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'gp-week-cell-wrapper';
+
                     const cell = document.createElement('div');
                     cell.className = 'gp-week-cell';
                     const level = LEVELS.find(l => l.value === val);
@@ -435,7 +582,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         cell.classList.add('wc-smiley');
                         cell.textContent = level.smiley;
                     }
-                    td.appendChild(cell);
+                    wrapper.appendChild(cell);
+
+                    // Show note icon if note exists
+                    if (note) {
+                        const noteIcon = document.createElement('span');
+                        noteIcon.className = 'gp-week-note-icon';
+                        noteIcon.innerHTML = '\u{1F4CB}';
+                        noteIcon.title = note;
+                        wrapper.appendChild(noteIcon);
+
+                        // Tooltip
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'gp-week-tooltip';
+                        tooltip.textContent = note;
+                        wrapper.appendChild(tooltip);
+                    }
+
+                    td.appendChild(wrapper);
                 } else {
                     const cell = document.createElement('div');
                     cell.className = 'gp-week-cell wc-empty';
@@ -493,7 +657,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Table
         const tableTop = subtitleY + 4;
-        const colCount = segments.length + 1;
         const dayColW = 35;
         const segColW = (pageW - margin * 2 - dayColW) / segments.length;
         const rowH = 18;
@@ -543,39 +706,104 @@ document.addEventListener('DOMContentLoaded', () => {
                 const x = margin + dayColW + segIndex * segColW + segColW / 2;
                 const y = rowY + rowH / 2;
                 const level = LEVELS.find(l => l.value === val);
+                const note = getNoteValue(dateKey, segIndex);
 
-                if (displayType === 'colors') {
-                    const [r, g, b] = hexToRgb(level.color);
-                    doc.setFillColor(r, g, b);
-                    doc.circle(x, y, 4, 'F');
-                } else {
-                    doc.setFontSize(12);
-                    doc.text(level.smiley, x, y + 4, { align: 'center' });
+                // Always use colored circles for reliable PDF rendering
+                const [r, g, b] = hexToRgb(level.color);
+                doc.setFillColor(r, g, b);
+                doc.circle(x, y, 4, 'F');
+
+                // If smiley mode, add label text inside/below
+                if (displayType === 'smileys') {
+                    doc.setFontSize(6);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setTextColor(255, 255, 255);
+                    const label = level.value === 3 ? ':)' : level.value === 2 ? ':|' : ':(';
+                    doc.text(label, x, y + 1.8, { align: 'center' });
+                }
+
+                // Note indicator
+                if (note) {
+                    doc.setFontSize(6);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(108, 99, 255);
+                    doc.text('*', x + 5.5, y - 2);
+                }
+            });
+        });
+
+        // Notes section
+        const notesStartY = tableTop + rowH + 5 * rowH + 12;
+        let hasNotes = false;
+        let noteY = notesStartY;
+
+        // Collect all notes for the week
+        const allNotes = [];
+        weekDates.forEach((dateKey, dayIndex) => {
+            segments.forEach((seg, segIndex) => {
+                const note = getNoteValue(dateKey, segIndex);
+                if (note) {
+                    allNotes.push({
+                        day: WEEKDAY_NAMES[dayIndex],
+                        segment: seg,
+                        note: note
+                    });
                 }
             });
         });
 
         // Legend
-        const legendY = tableTop + rowH + 5 * rowH + 12;
         doc.setFontSize(9);
         doc.setFont('helvetica', 'normal');
         let legendX = margin;
         LEVELS.forEach(level => {
-            if (displayType === 'colors') {
-                const [r, g, b] = hexToRgb(level.color);
-                doc.setFillColor(r, g, b);
-                doc.circle(legendX + 3, legendY - 1.5, 3, 'F');
-                legendX += 10;
-            } else {
-                doc.setFontSize(11);
-                doc.text(level.smiley, legendX, legendY);
-                legendX += 8;
+            const [r, g, b] = hexToRgb(level.color);
+            doc.setFillColor(r, g, b);
+            doc.circle(legendX + 3, noteY - 1.5, 3, 'F');
+            legendX += 10;
+
+            if (displayType === 'smileys') {
+                doc.setFontSize(7);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(255, 255, 255);
+                const label = level.value === 3 ? ':)' : level.value === 2 ? ':|' : ':(';
+                doc.text(label, legendX - 7, noteY - 0.2, { align: 'center' });
             }
+
             doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
             doc.setTextColor(100, 100, 110);
-            doc.text(level.label, legendX, legendY);
+            doc.text(level.label, legendX, noteY);
             legendX += doc.getTextWidth(level.label) + 14;
         });
+
+        // Notes list
+        if (allNotes.length > 0) {
+            noteY += 10;
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(50, 50, 70);
+            doc.text('Notities', margin, noteY);
+            noteY += 6;
+
+            doc.setFontSize(8);
+            doc.setFont('helvetica', 'normal');
+            allNotes.forEach(n => {
+                if (noteY > pageH - 15) return; // Don't overflow page
+                doc.setTextColor(108, 99, 255);
+                doc.text(n.day + ' - ' + n.segment + ':', margin, noteY);
+                const labelW = doc.getTextWidth(n.day + ' - ' + n.segment + ': ');
+                doc.setTextColor(80, 80, 90);
+                const maxW = pageW - margin * 2 - labelW;
+                const noteLines = doc.splitTextToSize(n.note, maxW);
+                doc.text(noteLines[0], margin + labelW, noteY);
+                if (noteLines.length > 1) {
+                    noteY += 4;
+                    doc.text(noteLines.slice(1).join(' '), margin + 4, noteY);
+                }
+                noteY += 5;
+            });
+        }
 
         // Footer
         doc.setFontSize(8);
