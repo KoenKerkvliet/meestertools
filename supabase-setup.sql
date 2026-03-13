@@ -243,7 +243,37 @@ CREATE POLICY "Super admin can delete flash_words"
     ON public.flash_words FOR DELETE
     USING (public.is_super_admin());
 
--- ---------- 14. Super admin instellen voor bestaande user ----------
+-- ---------- 14. Flash Difficulties tabel (leesmoeilijkheden per niveau) ----------
+CREATE TABLE IF NOT EXISTS public.flash_difficulties (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    level TEXT NOT NULL,
+    name TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- RLS voor flash_difficulties
+ALTER TABLE public.flash_difficulties ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Authenticated users can read flash_difficulties"
+    ON public.flash_difficulties FOR SELECT
+    USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Super admin can insert flash_difficulties"
+    ON public.flash_difficulties FOR INSERT
+    WITH CHECK (public.is_super_admin());
+
+CREATE POLICY "Super admin can update flash_difficulties"
+    ON public.flash_difficulties FOR UPDATE
+    USING (public.is_super_admin());
+
+CREATE POLICY "Super admin can delete flash_difficulties"
+    ON public.flash_difficulties FOR DELETE
+    USING (public.is_super_admin());
+
+-- ---------- 15. Koppel flash_words aan flash_difficulties ----------
+ALTER TABLE public.flash_words ADD COLUMN IF NOT EXISTS difficulty_id UUID REFERENCES public.flash_difficulties(id) ON DELETE SET NULL;
+
+-- ---------- 16. Super admin instellen voor bestaande user ----------
 -- Als koen.kerkvliet@movare.nl al geregistreerd is:
 UPDATE public.profiles
 SET role = 'super_admin'

@@ -14,18 +14,24 @@ document.addEventListener('DOMContentLoaded', function () {
     var difficultyModal = document.getElementById('difficultyModal');
     var closeDifficultyModal = document.getElementById('closeDifficultyModal');
     var closeDifficultyBtn = document.getElementById('closeDifficultyBtn');
+    var difficultyList = document.getElementById('difficultyList');
+
+    // Constants
+    var MAX_WORDS = 16;
 
     // State
     var selectedLevel = null;
     var speed = 3; // 1-5
-    var words = [];
+    var allWordsForLevel = []; // all words for selected level
+    var difficulties = []; // difficulties for selected level
+    var selectedDifficultyId = null; // null = all words
+    var flashWords = []; // the 16 (or fewer) words to flash
     var isRunning = false;
     var currentIndex = 0;
     var flashTimer = null;
     var blankTimer = null;
 
     // Speed map: milliseconds word is shown (display time)
-    // 1 star = slow (2500ms), 5 stars = fast (600ms)
     var speedMap = {
         1: 2500,
         2: 1800,
@@ -34,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
         5: 500
     };
 
-    // Blank time between words (slightly shorter than display)
+    // Blank time between words
     var blankMap = {
         1: 1000,
         2: 700,
@@ -44,14 +50,48 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     // ---------- Supabase ----------
-    async function loadWords(level) {
+    async function loadWordsForLevel(level) {
         var result = await supabase
             .from('flash_words')
-            .select('word')
+            .select('word, difficulty_id')
             .eq('level', level)
             .order('created_at', { ascending: true });
 
-        words = (result.data || []).map(function (w) { return w.word; });
+        allWordsForLevel = result.data || [];
+    }
+
+    async function loadDifficultiesForLevel(level) {
+        var result = await supabase
+            .from('flash_difficulties')
+            .select('id, name')
+            .eq('level', level)
+            .order('name');
+
+        difficulties = result.data || [];
+    }
+
+    // ---------- Prepare Flash Words ----------
+    function prepareFlashWords() {
+        // Filter by difficulty if selected
+        var filtered;
+        if (selectedDifficultyId) {
+            filtered = allWordsForLevel.filter(function (w) {
+                return w.difficulty_id === selectedDifficultyId;
+            });
+        } else {
+            filtered = allWordsForLevel.slice();
+        }
+
+        // Shuffle
+        for (var i = filtered.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = filtered[i];
+            filtered[i] = filtered[j];
+            filtered[j] = temp;
+        }
+
+        // Take max 16
+        flashWords = filtered.slice(0, MAX_WORDS).map(function (w) { return w.word; });
         currentIndex = 0;
     }
 
@@ -69,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isRunning) stopFlashing();
 
         selectedLevel = level;
+        selectedDifficultyId = null;
 
         // Update active state
         var btns = levelSelector.querySelectorAll('.wf-level-btn');
@@ -76,16 +117,38 @@ document.addEventListener('DOMContentLoaded', function () {
             btns[i].classList.toggle('active', btns[i].getAttribute('data-level') === level);
         }
 
-        // Load words
+        // Reset difficulty button text
+        btnDifficulty.textContent = 'Alle woorden';
+
+        // Load data
         wfWord.textContent = 'Laden...';
         wfWord.className = 'wf-word placeholder';
-        await loadWords(level);
 
-        if (words.length === 0) {
-            wfWord.textContent = 'Geen woorden voor niveau ' + level;
+        await Promise.all([loadWordsForLevel(level), loadDifficultiesForLevel(level)]);
+
+        updateReadyState();
+    }
+
+    function updateReadyState() {
+        // Count available words with current filter
+        var available;
+        if (selectedDifficultyId) {
+            available = allWordsForLevel.filter(function (w) {
+                return w.difficulty_id === selectedDifficultyId;
+            });
+        } else {
+            available = allWordsForLevel;
+        }
+
+        if (available.length === 0) {
+            var msg = selectedDifficultyId ? 'Geen woorden voor deze moeilijkheid' : 'Geen woorden voor niveau ' + selectedLevel;
+            wfWord.textContent = msg;
+            wfWord.className = 'wf-word placeholder';
             btnStartPause.disabled = true;
         } else {
-            wfWord.textContent = words.length + ' woorden geladen — druk op start';
+            var count = Math.min(available.length, MAX_WORDS);
+            wfWord.textContent = count + ' woorden klaar — druk op start';
+            wfWord.className = 'wf-word placeholder';
             btnStartPause.disabled = false;
         }
     }
@@ -125,7 +188,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function startFlashing() {
-        if (!selectedLevel || words.length === 0) return;
+        if (!selectedLevel) return;
+
+        // If starting fresh (not resuming from pause), prepare new set
+        if (currentIndex === 0 || flashWords.length === 0) {
+            prepareFlashWords();
+        }
+
+        if (flashWords.length === 0) return;
 
         isRunning = true;
         wfDisplay.classList.add('active');
@@ -137,14 +207,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showNextWord() {
         if (!isRunning) return;
-        if (words.length === 0) return;
+        if (flashWords.length === 0) return;
 
-        // Wrap around
-        if (currentIndex >= words.length) {
+        if (currentIndex >= flashWords.length) {
+            // Done — all words shown
+            stopFlashing();
+            wfWord.textContent = 'Klaar! Alle ' + flashWords.length + ' woorden zijn geweest.';
+            wfWord.className = 'wf-word placeholder';
             currentIndex = 0;
+            flashWords = [];
+            return;
         }
 
-        var word = words[currentIndex];
+        var word = flashWords[currentIndex];
         wfWord.textContent = word;
         wfWord.className = 'wf-word flash-in';
 
@@ -158,13 +233,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             currentIndex++;
 
-            // Check if we've gone through all words
-            if (currentIndex >= words.length) {
-                // End of list — stop
+            // Check if done
+            if (currentIndex >= flashWords.length) {
                 stopFlashing();
-                wfWord.textContent = 'Klaar! Alle woorden zijn geweest.';
+                wfWord.textContent = 'Klaar! Alle ' + flashWords.length + ' woorden zijn geweest.';
                 wfWord.className = 'wf-word placeholder';
                 currentIndex = 0;
+                flashWords = [];
                 return;
             }
 
@@ -195,10 +270,63 @@ document.addEventListener('DOMContentLoaded', function () {
         wfDisplay.classList.remove('active');
     }
 
-    // ---------- Difficulty Modal (placeholder) ----------
+    // ---------- Difficulty Modal ----------
     btnDifficulty.addEventListener('click', function () {
+        renderDifficultyList();
         difficultyModal.classList.add('active');
     });
+
+    function renderDifficultyList() {
+        if (!difficultyList) return;
+        difficultyList.innerHTML = '';
+
+        // "All words" option
+        var allOption = document.createElement('button');
+        allOption.className = 'wf-diff-option' + (!selectedDifficultyId ? ' active' : '');
+        allOption.textContent = 'Alle woorden';
+        allOption.addEventListener('click', function () {
+            selectedDifficultyId = null;
+            btnDifficulty.textContent = 'Alle woorden';
+            difficultyModal.classList.remove('active');
+            if (isRunning) stopFlashing();
+            currentIndex = 0;
+            flashWords = [];
+            updateReadyState();
+        });
+        difficultyList.appendChild(allOption);
+
+        if (difficulties.length === 0) {
+            var emptyMsg = document.createElement('p');
+            emptyMsg.style.cssText = 'color:var(--text-light);text-align:center;padding:12px 0;font-size:14px;';
+            emptyMsg.textContent = 'Geen moeilijkheden voor dit niveau. Voeg ze toe via Beheer.';
+            difficultyList.appendChild(emptyMsg);
+            return;
+        }
+
+        difficulties.forEach(function (d) {
+            var btn = document.createElement('button');
+            btn.className = 'wf-diff-option' + (selectedDifficultyId === d.id ? ' active' : '');
+            btn.textContent = d.name;
+
+            // Count words for this difficulty
+            var count = allWordsForLevel.filter(function (w) { return w.difficulty_id === d.id; }).length;
+            var countSpan = document.createElement('span');
+            countSpan.className = 'wf-diff-count';
+            countSpan.textContent = count;
+            btn.appendChild(countSpan);
+
+            btn.addEventListener('click', function () {
+                selectedDifficultyId = d.id;
+                btnDifficulty.textContent = d.name;
+                difficultyModal.classList.remove('active');
+                if (isRunning) stopFlashing();
+                currentIndex = 0;
+                flashWords = [];
+                updateReadyState();
+            });
+            difficultyList.appendChild(btn);
+        });
+    }
 
     closeDifficultyModal.addEventListener('click', function () {
         difficultyModal.classList.remove('active');

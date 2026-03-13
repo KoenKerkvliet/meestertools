@@ -78,7 +78,7 @@
                     <!-- Difficulty button -->
                     <div class="wf-control-group">
                         <label class="wf-label">Moeilijkheid</label>
-                        <button class="wf-difficulty-btn" id="btnDifficulty">Selecteer...</button>
+                        <button class="wf-difficulty-btn" id="btnDifficulty">Alle woorden</button>
                     </div>
 
                     <!-- Start/Pause button -->
@@ -90,7 +90,7 @@
         </div>
     </main>
 
-    <!-- Difficulty Modal (placeholder) -->
+    <!-- Difficulty Modal -->
     <div class="modal-overlay" id="difficultyModal">
         <div class="modal" style="max-width:400px;">
             <div class="modal-header">
@@ -98,9 +98,9 @@
                 <button class="modal-close" id="closeDifficultyModal">&times;</button>
             </div>
             <div class="modal-body">
-                <p style="color:var(--text-medium);text-align:center;padding:20px 0;">
-                    Leesmoeilijkheden worden binnenkort toegevoegd via Beheer.
-                </p>
+                <div class="wf-diff-list" id="difficultyList">
+                    <!-- Populated by JS -->
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn-primary" id="closeDifficultyBtn">Sluiten</button>

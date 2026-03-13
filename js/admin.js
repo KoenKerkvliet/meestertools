@@ -363,6 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- WOORDENLIJSTEN ----------
     const READING_LEVELS = ['E3', 'M4', 'E4', 'M5', 'E5', 'M6', 'E6', 'M7', 'E7', 'Plus'];
     let allWords = [];
+    let allDifficulties = [];
     let activeLevel = READING_LEVELS[0];
     let levelCounts = {};
 
@@ -378,12 +379,194 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.addEventListener('click', () => {
                 activeLevel = level;
                 renderLevelTabs();
+                renderDifficultiesList();
                 renderWordsList();
+                updateDifficultyDropdowns();
             });
             container.appendChild(btn);
         });
     }
 
+    // ---------- Difficulties ----------
+    async function loadAllDifficulties() {
+        const { data, error } = await supabase
+            .from('flash_difficulties')
+            .select('*')
+            .order('name');
+
+        if (error) {
+            console.error('Error loading difficulties:', error);
+            return;
+        }
+        allDifficulties = data || [];
+    }
+
+    function getDifficultiesForLevel(level) {
+        return allDifficulties.filter(d => d.level === level);
+    }
+
+    function getDifficultyName(id) {
+        const d = allDifficulties.find(d => d.id === id);
+        return d ? d.name : '';
+    }
+
+    function renderDifficultiesList() {
+        const container = document.getElementById('difficultiesList');
+        if (!container) return;
+
+        const difficulties = getDifficultiesForLevel(activeLevel);
+
+        if (difficulties.length === 0) {
+            container.innerHTML = `
+                <div class="admin-empty" style="width:100%;">
+                    <span class="empty-icon">&#128203;</span>
+                    <p>Nog geen moeilijkheden voor ${escapeHtml(activeLevel)}. Voeg er een toe!</p>
+                </div>`;
+            return;
+        }
+
+        container.innerHTML = '';
+        difficulties.forEach(d => {
+            const chip = document.createElement('div');
+            chip.className = 'word-chip';
+
+            const text = document.createElement('span');
+            text.textContent = d.name;
+            chip.appendChild(text);
+
+            const actions = document.createElement('div');
+            actions.className = 'word-chip-actions';
+
+            const editBtn = document.createElement('button');
+            editBtn.className = 'word-chip-btn edit';
+            editBtn.innerHTML = '&#9998;';
+            editBtn.title = 'Bewerken';
+            editBtn.addEventListener('click', () => openEditDifficultyModal(d.id, d.name));
+            actions.appendChild(editBtn);
+
+            const delBtn = document.createElement('button');
+            delBtn.className = 'word-chip-btn delete';
+            delBtn.innerHTML = '&times;';
+            delBtn.title = 'Verwijderen';
+            delBtn.addEventListener('click', () => deleteDifficulty(d.id));
+            actions.appendChild(delBtn);
+
+            chip.appendChild(actions);
+            container.appendChild(chip);
+        });
+    }
+
+    function updateDifficultyDropdowns() {
+        const difficulties = getDifficultiesForLevel(activeLevel);
+        const selects = [
+            document.getElementById('newWordDifficulty'),
+            document.getElementById('editWordDifficulty')
+        ];
+        selects.forEach(select => {
+            if (!select) return;
+            const currentVal = select.value;
+            select.innerHTML = '<option value="">Geen moeilijkheid</option>';
+            difficulties.forEach(d => {
+                const opt = document.createElement('option');
+                opt.value = d.id;
+                opt.textContent = d.name;
+                select.appendChild(opt);
+            });
+            select.value = currentVal;
+        });
+    }
+
+    // Add difficulty
+    const addDifficultyBtn = document.getElementById('addDifficultyBtn');
+    const newDifficultyInput = document.getElementById('newDifficultyInput');
+
+    if (addDifficultyBtn && newDifficultyInput) {
+        addDifficultyBtn.addEventListener('click', addDifficulty);
+        newDifficultyInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') addDifficulty();
+        });
+    }
+
+    async function addDifficulty() {
+        const name = newDifficultyInput.value.trim();
+        if (!name) return;
+
+        const { error } = await supabase
+            .from('flash_difficulties')
+            .insert({ level: activeLevel, name: name });
+
+        if (error) {
+            alert('Fout bij toevoegen: ' + error.message);
+            return;
+        }
+
+        newDifficultyInput.value = '';
+        newDifficultyInput.focus();
+        await loadAllDifficulties();
+        renderDifficultiesList();
+        updateDifficultyDropdowns();
+    }
+
+    async function deleteDifficulty(id) {
+        showConfirm('Moeilijkheid verwijderen', 'Weet je zeker dat je deze moeilijkheid wilt verwijderen? Woorden die hieraan gekoppeld zijn behouden hun niveau maar verliezen de moeilijkheid.', async () => {
+            const { error } = await supabase
+                .from('flash_difficulties')
+                .delete()
+                .eq('id', id);
+
+            if (error) {
+                alert('Fout bij verwijderen: ' + error.message);
+                return;
+            }
+
+            await loadAllDifficulties();
+            renderDifficultiesList();
+            updateDifficultyDropdowns();
+            await loadAllWords(); // refresh words since difficulty_id may be nulled
+        });
+    }
+
+    function openEditDifficultyModal(id, name) {
+        document.getElementById('editDifficultyId').value = id;
+        document.getElementById('editDifficultyInput').value = name;
+        openModal('difficultyEditModal');
+        setTimeout(() => document.getElementById('editDifficultyInput').focus(), 100);
+    }
+
+    document.getElementById('saveDifficultyBtn')?.addEventListener('click', async () => {
+        const id = document.getElementById('editDifficultyId').value;
+        const name = document.getElementById('editDifficultyInput').value.trim();
+
+        if (!name) {
+            alert('Vul een naam in.');
+            return;
+        }
+
+        const { error } = await supabase
+            .from('flash_difficulties')
+            .update({ name: name })
+            .eq('id', id);
+
+        if (error) {
+            alert('Fout bij opslaan: ' + error.message);
+            return;
+        }
+
+        closeModal('difficultyEditModal');
+        await loadAllDifficulties();
+        renderDifficultiesList();
+        updateDifficultyDropdowns();
+        renderWordsList(); // refresh difficulty badges on words
+    });
+
+    document.getElementById('closeDifficultyEditModal')?.addEventListener('click', () => closeModal('difficultyEditModal'));
+    document.getElementById('cancelDifficultyEditModal')?.addEventListener('click', () => closeModal('difficultyEditModal'));
+
+    document.getElementById('editDifficultyInput')?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') document.getElementById('saveDifficultyBtn').click();
+    });
+
+    // ---------- Words ----------
     async function loadAllWords() {
         const { data, error } = await supabase
             .from('flash_words')
@@ -429,6 +612,17 @@ document.addEventListener('DOMContentLoaded', () => {
             text.textContent = w.word;
             chip.appendChild(text);
 
+            // Show difficulty badge if set
+            if (w.difficulty_id) {
+                const diffName = getDifficultyName(w.difficulty_id);
+                if (diffName) {
+                    const badge = document.createElement('span');
+                    badge.className = 'word-difficulty-badge';
+                    badge.textContent = diffName;
+                    chip.appendChild(badge);
+                }
+            }
+
             const actions = document.createElement('div');
             actions.className = 'word-chip-actions';
 
@@ -436,7 +630,7 @@ document.addEventListener('DOMContentLoaded', () => {
             editBtn.className = 'word-chip-btn edit';
             editBtn.innerHTML = '&#9998;';
             editBtn.title = 'Bewerken';
-            editBtn.addEventListener('click', () => openEditWordModal(w.id, w.word));
+            editBtn.addEventListener('click', () => openEditWordModal(w.id, w.word, w.difficulty_id));
             actions.appendChild(editBtn);
 
             const delBtn = document.createElement('button');
@@ -465,9 +659,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const word = newWordInput.value.trim();
         if (!word) return;
 
+        const difficultyId = document.getElementById('newWordDifficulty')?.value || null;
+
+        const insertData = { level: activeLevel, word: word };
+        if (difficultyId) insertData.difficulty_id = difficultyId;
+
         const { error } = await supabase
             .from('flash_words')
-            .insert({ level: activeLevel, word: word });
+            .insert(insertData);
 
         if (error) {
             alert('Fout bij toevoegen: ' + error.message);
@@ -493,9 +692,22 @@ document.addEventListener('DOMContentLoaded', () => {
         await loadAllWords();
     }
 
-    function openEditWordModal(id, word) {
+    function openEditWordModal(id, word, difficultyId) {
         document.getElementById('editWordId').value = id;
         document.getElementById('editWordInput').value = word;
+
+        // Update edit difficulty dropdown for current level
+        const editSelect = document.getElementById('editWordDifficulty');
+        const difficulties = getDifficultiesForLevel(activeLevel);
+        editSelect.innerHTML = '<option value="">Geen moeilijkheid</option>';
+        difficulties.forEach(d => {
+            const opt = document.createElement('option');
+            opt.value = d.id;
+            opt.textContent = d.name;
+            editSelect.appendChild(opt);
+        });
+        editSelect.value = difficultyId || '';
+
         openModal('wordModal');
         setTimeout(() => document.getElementById('editWordInput').focus(), 100);
     }
@@ -503,6 +715,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('saveWordBtn')?.addEventListener('click', async () => {
         const id = document.getElementById('editWordId').value;
         const word = document.getElementById('editWordInput').value.trim();
+        const difficultyId = document.getElementById('editWordDifficulty')?.value || null;
 
         if (!word) {
             alert('Vul een woord in.');
@@ -511,7 +724,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const { error } = await supabase
             .from('flash_words')
-            .update({ word: word })
+            .update({ word: word, difficulty_id: difficultyId })
             .eq('id', id);
 
         if (error) {
@@ -536,7 +749,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.userRole !== undefined) {
             clearInterval(checkAuth);
             if (window.userRole === 'super_admin') {
-                await Promise.all([loadSchools(), loadUsers(), loadAllWords()]);
+                await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties().then(() => loadAllWords())]);
             }
         }
     }, 100);

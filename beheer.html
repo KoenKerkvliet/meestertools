@@ -131,15 +131,37 @@
             </div>
 
             <div class="words-content">
-                <div class="words-add-row">
-                    <input type="text" class="search-input" id="newWordInput" placeholder="Nieuw woord toevoegen...">
-                    <button class="btn-primary" id="addWordBtn">+ Toevoegen</button>
+                <!-- Moeilijkheden sectie -->
+                <div class="words-section">
+                    <h3 class="words-section-title">Moeilijkheden</h3>
+                    <div class="words-add-row">
+                        <input type="text" class="search-input" id="newDifficultyInput" placeholder="Nieuwe moeilijkheid toevoegen...">
+                        <button class="btn-primary" id="addDifficultyBtn">+ Toevoegen</button>
+                    </div>
+                    <div class="words-list" id="difficultiesList">
+                        <div class="admin-empty" style="width:100%;">
+                            <span class="empty-icon">&#128203;</span>
+                            <p>Selecteer een leesniveau om moeilijkheden te beheren.</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="words-list" id="wordsList">
-                    <div class="admin-empty">
-                        <span class="empty-icon">&#128218;</span>
-                        <p>Selecteer een leesniveau om woorden te beheren.</p>
+                <!-- Woorden sectie -->
+                <div class="words-section">
+                    <h3 class="words-section-title">Woorden</h3>
+                    <div class="words-add-row">
+                        <input type="text" class="search-input" id="newWordInput" placeholder="Nieuw woord toevoegen...">
+                        <select class="search-input" id="newWordDifficulty" style="max-width:200px;">
+                            <option value="">Geen moeilijkheid</option>
+                        </select>
+                        <button class="btn-primary" id="addWordBtn">+ Toevoegen</button>
+                    </div>
+
+                    <div class="words-list" id="wordsList">
+                        <div class="admin-empty" style="width:100%;">
+                            <span class="empty-icon">&#128218;</span>
+                            <p>Selecteer een leesniveau om woorden te beheren.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -159,10 +181,37 @@
                     <input type="text" id="editWordInput" placeholder="Woord">
                     <input type="hidden" id="editWordId">
                 </div>
+                <div class="form-group">
+                    <label for="editWordDifficulty">Moeilijkheid</label>
+                    <select id="editWordDifficulty">
+                        <option value="">Geen moeilijkheid</option>
+                    </select>
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn-cancel" id="cancelWordModal">Annuleren</button>
                 <button class="btn-primary" id="saveWordBtn">Opslaan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Difficulty Edit Modal -->
+    <div class="modal-overlay" id="difficultyEditModal">
+        <div class="modal" style="max-width:400px;">
+            <div class="modal-header">
+                <h2>Moeilijkheid bewerken</h2>
+                <button class="modal-close" id="closeDifficultyEditModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="editDifficultyInput">Naam</label>
+                    <input type="text" id="editDifficultyInput" placeholder="Moeilijkheid">
+                    <input type="hidden" id="editDifficultyId">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="cancelDifficultyEditModal">Annuleren</button>
+                <button class="btn-primary" id="saveDifficultyBtn">Opslaan</button>
             </div>
         </div>
     </div>

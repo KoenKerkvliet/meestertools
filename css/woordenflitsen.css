@@ -228,6 +228,57 @@
     text-align: center;
 }
 
+/* ---------- Difficulty List (modal) ---------- */
+.wf-diff-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.wf-diff-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 16px;
+    background: white;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+    font-family: inherit;
+    transition: var(--transition);
+    text-align: left;
+}
+
+.wf-diff-option:hover {
+    border-color: var(--primary-light);
+    background: #F8F8FF;
+}
+
+.wf-diff-option.active {
+    border-color: var(--primary);
+    background: #EEF0FF;
+    color: var(--primary);
+}
+
+.wf-diff-count {
+    font-size: 12px;
+    padding: 2px 8px;
+    background: var(--bg-light);
+    border-radius: 10px;
+    color: var(--text-medium);
+    font-weight: 700;
+    margin-left: 8px;
+}
+
+.wf-diff-option.active .wf-diff-count {
+    background: rgba(108, 99, 255, 0.15);
+    color: var(--primary);
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 600px) {
     .wf-display {
