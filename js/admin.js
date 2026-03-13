@@ -887,6 +887,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             chip.appendChild(nums);
 
+            // Difficulty badge with stars
+            const diff = set.difficulty || 'gemiddeld';
+            const starCount = diff === 'makkelijk' ? 1 : diff === 'moeilijk' ? 3 : 2;
+            const diffBadge = document.createElement('span');
+            diffBadge.className = 'game24-diff-badge game24-diff-' + diff;
+            diffBadge.textContent = '\u2605'.repeat(starCount);
+            diffBadge.title = diff.charAt(0).toUpperCase() + diff.slice(1);
+            chip.appendChild(diffBadge);
+
             const delBtn = document.createElement('button');
             delBtn.className = 'word-chip-btn delete';
             delBtn.innerHTML = '&times;';
@@ -918,9 +927,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const difficulty = document.getElementById('game24Difficulty')?.value || 'gemiddeld';
+
         const { error } = await supabase
             .from('game24_sets')
-            .insert({ numbers: numbers });
+            .insert({ numbers: numbers, difficulty: difficulty });
 
         if (error) {
             alert('Fout bij toevoegen: ' + error.message);

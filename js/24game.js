@@ -1,5 +1,5 @@
 /* ============================================
-   24 GAME - JavaScript
+   24 GAME - JavaScript (Kompas Layout)
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -10,36 +10,58 @@ document.addEventListener('DOMContentLoaded', function () {
     // State
     var allSets = [];
     var usedSetIds = [];
-    var currentSet = null;      // { id, numbers: [a,b,c,d] }
-    var cards = [];             // active cards: [{ value, id, isResult }]
-    var selectedCardIndex = null;
+    var currentSet = null;          // { id, numbers, difficulty }
+    var originalCards = [];          // cards at compass positions (indices 0-3)
+    var resultCards = [];            // result cards at bottom
+    var selectedCardRef = null;      // { source: 'original'|'result', index: number }
     var selectedOp = null;
-    var steps = [];             // history: [{ a, op, b, result }]
+    var steps = [];
     var gameOver = false;
     var score = { wins: 0, total: 0 };
+    var selectedDifficulty = '';     // '' = all
 
     // ---------- Supabase ----------
     async function loadSets() {
         var result = await supabase
             .from('game24_sets')
-            .select('id, numbers')
+            .select('id, numbers, difficulty')
             .order('created_at');
 
         allSets = result.data || [];
     }
 
+    // ---------- Filtering ----------
+    function getFilteredSets() {
+        if (!selectedDifficulty) return allSets;
+        return allSets.filter(function (s) {
+            return s.difficulty === selectedDifficulty;
+        });
+    }
+
+    // ---------- Difficulty helpers ----------
+    function getDifficultyStars(difficulty) {
+        if (difficulty === 'makkelijk') return 1;
+        if (difficulty === 'moeilijk') return 3;
+        return 2; // gemiddeld
+    }
+
+    function getStarsClass(difficulty) {
+        return 'stars-' + getDifficultyStars(difficulty);
+    }
+
     // ---------- New Game ----------
     function startNewGame() {
-        if (allSets.length === 0) return;
+        var filtered = getFilteredSets();
+        if (filtered.length === 0) return;
 
         // Get unused sets
-        var unused = allSets.filter(function (s) {
+        var unused = filtered.filter(function (s) {
             return usedSetIds.indexOf(s.id) === -1;
         });
 
         if (unused.length === 0) {
             usedSetIds = [];
-            unused = allSets;
+            unused = filtered;
         }
 
         // Pick random set
@@ -47,12 +69,13 @@ document.addEventListener('DOMContentLoaded', function () {
         currentSet = unused[idx];
         usedSetIds.push(currentSet.id);
 
-        // Initialize cards
-        cards = currentSet.numbers.map(function (n, i) {
-            return { value: n, id: 'card-' + i, isResult: false, used: false };
+        // Initialize original cards at compass positions
+        originalCards = currentSet.numbers.map(function (n, i) {
+            return { value: n, used: false };
         });
 
-        selectedCardIndex = null;
+        resultCards = [];
+        selectedCardRef = null;
         selectedOp = null;
         steps = [];
         gameOver = false;
@@ -63,11 +86,12 @@ document.addEventListener('DOMContentLoaded', function () {
     function resetCurrentGame() {
         if (!currentSet) return;
 
-        cards = currentSet.numbers.map(function (n, i) {
-            return { value: n, id: 'card-' + i, isResult: false, used: false };
+        originalCards = currentSet.numbers.map(function (n, i) {
+            return { value: n, used: false };
         });
 
-        selectedCardIndex = null;
+        resultCards = [];
+        selectedCardRef = null;
         selectedOp = null;
         steps = [];
         gameOver = false;
@@ -78,42 +102,27 @@ document.addEventListener('DOMContentLoaded', function () {
     function undoLastStep() {
         if (steps.length === 0) return;
 
-        var lastStep = steps.pop();
+        steps.pop();
 
-        // Restore the result card to unused state and bring back original cards
-        cards = [];
-        if (steps.length === 0) {
-            // Reset to original
-            cards = currentSet.numbers.map(function (n, i) {
-                return { value: n, id: 'card-' + i, isResult: false, used: false };
-            });
-        } else {
-            // Replay all steps from scratch
-            var tempCards = currentSet.numbers.map(function (n, i) {
-                return { value: n, id: 'card-' + i, isResult: false, used: false };
-            });
+        // Replay from scratch
+        originalCards = currentSet.numbers.map(function (n) {
+            return { value: n, used: false };
+        });
+        resultCards = [];
 
-            for (var i = 0; i < steps.length; i++) {
-                var s = steps[i];
-                // Find the two cards used
-                var cardA = null, cardB = null;
-                for (var j = 0; j < tempCards.length; j++) {
-                    if (!tempCards[j].used && tempCards[j].value === s.a && cardA === null) {
-                        cardA = j;
-                    } else if (!tempCards[j].used && tempCards[j].value === s.b && cardB === null) {
-                        cardB = j;
-                    }
-                }
-                if (cardA !== null) tempCards[cardA].used = true;
-                if (cardB !== null) tempCards[cardB].used = true;
-
-                tempCards.push({ value: s.result, id: 'result-' + i, isResult: true, used: false });
-            }
-
-            cards = tempCards;
+        for (var i = 0; i < steps.length; i++) {
+            var s = steps[i];
+            // Mark original cards used
+            if (s.srcA === 'original') originalCards[s.idxA].used = true;
+            if (s.srcB === 'original') originalCards[s.idxB].used = true;
+            // Mark result cards used
+            if (s.srcA === 'result') resultCards[s.idxA].used = true;
+            if (s.srcB === 'result') resultCards[s.idxB].used = true;
+            // Add result card
+            resultCards.push({ value: s.result, used: false });
         }
 
-        selectedCardIndex = null;
+        selectedCardRef = null;
         selectedOp = null;
         gameOver = false;
 
@@ -121,41 +130,52 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ---------- Card Selection ----------
-    function selectCard(index) {
+    function getCard(ref) {
+        if (ref.source === 'original') return originalCards[ref.index];
+        return resultCards[ref.index];
+    }
+
+    function sameRef(a, b) {
+        return a && b && a.source === b.source && a.index === b.index;
+    }
+
+    function selectCard(ref) {
         if (gameOver) return;
 
-        var card = cards[index];
+        var card = getCard(ref);
         if (card.used) return;
 
-        if (selectedCardIndex === null) {
-            // First card selected
-            selectedCardIndex = index;
+        if (selectedCardRef === null) {
+            selectedCardRef = ref;
             render();
-        } else if (selectedCardIndex === index) {
-            // Deselect
-            selectedCardIndex = null;
+        } else if (sameRef(selectedCardRef, ref)) {
+            selectedCardRef = null;
             render();
         } else if (selectedOp !== null) {
-            // We have first card + op, this is the second card
-            performOperation(selectedCardIndex, selectedOp, index);
+            performOperation(selectedCardRef, selectedOp, ref);
         } else {
-            // Switch selection to this card
-            selectedCardIndex = index;
+            selectedCardRef = ref;
             render();
         }
     }
 
     function selectOperation(op) {
         if (gameOver) return;
-        if (selectedCardIndex === null) return;
+        if (selectedCardRef === null) return;
 
-        selectedOp = op;
+        if (selectedOp === op) {
+            selectedOp = null;
+        } else {
+            selectedOp = op;
+        }
         render();
     }
 
-    function performOperation(cardAIndex, op, cardBIndex) {
-        var a = cards[cardAIndex].value;
-        var b = cards[cardBIndex].value;
+    function performOperation(refA, op, refB) {
+        var cardA = getCard(refA);
+        var cardB = getCard(refB);
+        var a = cardA.value;
+        var b = cardB.value;
         var result;
 
         switch (op) {
@@ -164,7 +184,6 @@ document.addEventListener('DOMContentLoaded', function () {
             case '*': result = a * b; break;
             case '/':
                 if (b === 0) {
-                    alert('Delen door 0 is niet mogelijk.');
                     selectedOp = null;
                     render();
                     return;
@@ -173,23 +192,38 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
         }
 
-        // Record step
-        steps.push({ a: a, op: op, b: b, result: result });
+        // Record step with source info for undo
+        steps.push({
+            a: a, op: op, b: b, result: result,
+            srcA: refA.source, idxA: refA.index,
+            srcB: refB.source, idxB: refB.index
+        });
 
-        // Mark cards as used, add result card
-        cards[cardAIndex].used = true;
-        cards[cardBIndex].used = true;
-        cards.push({ value: result, id: 'result-' + steps.length, isResult: true, used: false });
+        // Mark cards as used
+        cardA.used = true;
+        cardB.used = true;
 
-        selectedCardIndex = null;
+        // Add result card
+        resultCards.push({ value: result, used: false });
+
+        selectedCardRef = null;
         selectedOp = null;
 
-        // Check if game is done (only 1 card remaining)
-        var activeCards = cards.filter(function (c) { return !c.used; });
-        if (activeCards.length === 1) {
+        // Check if game is done
+        var activeCount = 0;
+        var lastActive = null;
+
+        for (var i = 0; i < originalCards.length; i++) {
+            if (!originalCards[i].used) { activeCount++; lastActive = originalCards[i]; }
+        }
+        for (var j = 0; j < resultCards.length; j++) {
+            if (!resultCards[j].used) { activeCount++; lastActive = resultCards[j]; }
+        }
+
+        if (activeCount === 1) {
             gameOver = true;
             score.total++;
-            if (activeCards[0].value === 24) {
+            if (lastActive.value === 24) {
                 score.wins++;
             }
         }
@@ -199,9 +233,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Format Number ----------
     function formatNumber(n) {
-        // Show nice fractions or integers
         if (Number.isInteger(n)) return n.toString();
-        // Round to 2 decimals
         var rounded = Math.round(n * 100) / 100;
         return rounded.toString();
     }
@@ -209,13 +241,29 @@ document.addEventListener('DOMContentLoaded', function () {
     // ---------- Get Instruction Text ----------
     function getInstruction() {
         if (gameOver) return '';
-        if (selectedCardIndex === null) return 'Kies een getal';
+        if (selectedCardRef === null) return 'Kies een getal';
         if (selectedOp === null) return 'Kies een bewerking';
         return 'Kies het tweede getal';
     }
 
+    // ---------- Set Difficulty Filter ----------
+    function setDifficulty(diff) {
+        selectedDifficulty = diff;
+        // Reset game if no matching sets
+        currentSet = null;
+        originalCards = [];
+        resultCards = [];
+        selectedCardRef = null;
+        selectedOp = null;
+        steps = [];
+        gameOver = false;
+        render();
+    }
+
     // ---------- Render ----------
     function render() {
+        var filtered = getFilteredSets();
+
         if (allSets.length === 0) {
             container.innerHTML =
                 '<div class="game24-empty">' +
@@ -225,8 +273,35 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        // Difficulty filter buttons
+        var filterHtml = '<div class="game24-diff-filter">';
+        var filters = [
+            { key: '', label: 'Alles' },
+            { key: 'makkelijk', label: '\u2605 Makkelijk' },
+            { key: 'gemiddeld', label: '\u2605\u2605 Gemiddeld' },
+            { key: 'moeilijk', label: '\u2605\u2605\u2605 Moeilijk' }
+        ];
+        for (var f = 0; f < filters.length; f++) {
+            var activeClass = selectedDifficulty === filters[f].key ? ' active' : '';
+            filterHtml += '<button class="game24-diff-filter-btn' + activeClass + '" data-diff="' + filters[f].key + '">' + filters[f].label + '</button>';
+        }
+        filterHtml += '</div>';
+
+        if (filtered.length === 0) {
+            container.innerHTML = filterHtml +
+                '<div class="game24-empty">' +
+                '    <span class="empty-icon">&#127922;</span>' +
+                '    <p>Geen sets beschikbaar voor deze moeilijkheidsgraad.</p>' +
+                '    <button class="game24-btn game24-btn-new" id="btnShowAll">\ud83d\udd0d Toon alles</button>' +
+                '</div>';
+            bindFilterButtons();
+            var btnShowAll = document.getElementById('btnShowAll');
+            if (btnShowAll) btnShowAll.addEventListener('click', function () { setDifficulty(''); });
+            return;
+        }
+
         if (!currentSet) {
-            container.innerHTML =
+            container.innerHTML = filterHtml +
                 '<div class="game24-target">' +
                 '    <div class="game24-target-label">Doel</div>' +
                 '    <div class="game24-target-number">24</div>' +
@@ -236,63 +311,83 @@ document.addEventListener('DOMContentLoaded', function () {
                 '    <button class="game24-btn game24-btn-new" id="btnNewGame">&#127922; Start spel</button>' +
                 '</div>';
 
+            bindFilterButtons();
             document.getElementById('btnNewGame').addEventListener('click', startNewGame);
             return;
         }
 
-        var html = '';
-        var activeCards = cards.filter(function (c) { return !c.used; });
+        var html = filterHtml;
+        var difficulty = currentSet.difficulty || 'gemiddeld';
+        var starCount = getDifficultyStars(difficulty);
+        var starsStr = '\u2605'.repeat(starCount);
+        var starsClass = getStarsClass(difficulty);
 
-        // Score
-        if (score.total > 0) {
-            html += '<div class="game24-score">';
-            html += '<div class="game24-score-item"><div class="game24-score-value">' + score.wins + '</div><div class="game24-score-label">Goed</div></div>';
-            html += '<div class="game24-score-item"><div class="game24-score-value">' + score.total + '</div><div class="game24-score-label">Gespeeld</div></div>';
-            html += '</div>';
-        }
-
-        // Target
-        html += '<div class="game24-target">';
-        html += '<div class="game24-target-label">Maak</div>';
-        html += '<div class="game24-target-number">24</div>';
-        html += '</div>';
-
+        // Instruction
         if (!gameOver) {
-            // Instruction
             var instruction = getInstruction();
-            var highlightClass = selectedCardIndex !== null ? ' highlight' : '';
+            var highlightClass = selectedCardRef !== null ? ' highlight' : '';
             html += '<div class="game24-instruction' + highlightClass + '">' + escapeHtml(instruction) + '</div>';
         }
 
-        // Cards
-        html += '<div class="game24-cards">';
-        for (var i = 0; i < cards.length; i++) {
-            var card = cards[i];
-            var classes = 'game24-card';
-            if (card.used) classes += ' used';
-            if (i === selectedCardIndex) classes += ' selected';
-            if (card.isResult && !card.used) classes += ' result-card';
-            if (gameOver && !card.used) classes += ' disabled';
+        // Compass grid
+        html += '<div class="game24-compass">';
 
-            html += '<div class="' + classes + '" data-card-index="' + i + '">';
-            html += formatNumber(card.value);
-            html += '</div>';
-        }
+        // North: + operator
+        html += renderOpButton('+', '+', 'n');
+
+        // NW: card 0
+        html += renderOriginalCard(0, 'nw', starsStr, starsClass);
+
+        // NO: card 1
+        html += renderOriginalCard(1, 'no', starsStr, starsClass);
+
+        // West: - operator
+        html += renderOpButton('-', '\u2212', 'w');
+
+        // Center: score
+        html += '<div class="game24-pos-center">';
+        html += '<div class="game24-center">';
+        html += '<div class="game24-center-value">' + score.wins + '</div>';
+        html += '<div class="game24-center-label">Opgelost</div>';
+        html += '</div>';
         html += '</div>';
 
-        // Operations
-        if (!gameOver) {
-            var opsDisabled = selectedCardIndex === null;
-            html += '<div class="game24-operations">';
-            var ops = ['+', '-', '\u00D7', '\u00F7'];
-            var opValues = ['+', '-', '*', '/'];
-            for (var j = 0; j < ops.length; j++) {
-                var opClass = 'game24-op-btn';
-                if (selectedOp === opValues[j]) opClass += ' selected';
-                html += '<button class="' + opClass + '" data-op="' + opValues[j] + '"' + (opsDisabled ? ' disabled' : '') + '>' + ops[j] + '</button>';
+        // East: × operator
+        html += renderOpButton('*', '\u00D7', 'o');
+
+        // ZW: card 2
+        html += renderOriginalCard(2, 'zw', starsStr, starsClass);
+
+        // ZO: card 3
+        html += renderOriginalCard(3, 'zo', starsStr, starsClass);
+
+        // South: ÷ operator
+        html += renderOpButton('/', '\u00F7', 'z');
+
+        html += '</div>'; // end compass
+
+        // Results area
+        html += '<div class="game24-results-area">';
+        html += '<div class="game24-results-label">Resultaten</div>';
+        html += '<div class="game24-results-row">';
+        if (resultCards.length === 0) {
+            html += '<span class="game24-results-empty">Maak een bewerking om resultaten te zien</span>';
+        } else {
+            for (var r = 0; r < resultCards.length; r++) {
+                var rc = resultCards[r];
+                var rcClasses = 'game24-result-card';
+                if (rc.used) rcClasses += ' used';
+                if (selectedCardRef && sameRef(selectedCardRef, { source: 'result', index: r })) rcClasses += ' selected';
+                if (gameOver && !rc.used) rcClasses += ' disabled';
+
+                html += '<div class="' + rcClasses + '" data-result-index="' + r + '">';
+                html += '<span class="game24-result-step">Stap ' + (r + 1) + '</span>';
+                html += formatNumber(rc.value);
+                html += '</div>';
             }
-            html += '</div>';
         }
+        html += '</div>'; // end results-row
+        html += '</div>'; // end results-area
 
         // Steps history
         if (steps.length > 0) {
@@ -300,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '<div class="game24-steps-title">Stappen</div>';
             for (var k = 0; k < steps.length; k++) {
                 var s = steps[k];
-                var opSymbol = s.op === '*' ? '\u00D7' : s.op === '/' ? '\u00F7' : s.op;
+                var opSymbol = s.op === '*' ? '\u00D7' : s.op === '/' ? '\u00F7' : s.op === '-' ? '\u2212' : s.op;
                 html += '<div class="game24-step">';
                 html += '<span class="step-num">' + (k + 1) + '.</span>';
                 html += '<span class="step-calc">' + formatNumber(s.a) + ' ' + opSymbol + ' ' + formatNumber(s.b) + ' = ' + formatNumber(s.result) + '</span>';
@@ -309,20 +404,21 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '</div>';
         }
 
-        // Game over result
+        // Game over
         if (gameOver) {
+            var activeCards = getAllActiveCards();
             var finalValue = activeCards[0].value;
             if (finalValue === 24) {
-                html += '<div class="game24-result win animate">';
-                html += '<span class="game24-result-icon">&#127881;</span>';
-                html += '<div class="game24-result-text">Goed gedaan!</div>';
-                html += '<div class="game24-result-sub">Je hebt 24 gemaakt!</div>';
+                html += '<div class="game24-gameover win animate">';
+                html += '<span class="game24-gameover-icon">&#127881;</span>';
+                html += '<div class="game24-gameover-text">Goed gedaan!</div>';
+                html += '<div class="game24-gameover-sub">Je hebt 24 gemaakt!</div>';
                 html += '</div>';
             } else {
-                html += '<div class="game24-result lose animate">';
-                html += '<span class="game24-result-icon">&#128533;</span>';
-                html += '<div class="game24-result-text">Helaas, ' + formatNumber(finalValue) + '</div>';
-                html += '<div class="game24-result-sub">Het resultaat is niet 24. Probeer het opnieuw!</div>';
+                html += '<div class="game24-gameover lose animate">';
+                html += '<span class="game24-gameover-icon">&#128533;</span>';
+                html += '<div class="game24-gameover-text">Helaas, ' + formatNumber(finalValue) + '</div>';
+                html += '<div class="game24-gameover-sub">Het resultaat is niet 24. Probeer het opnieuw!</div>';
                 html += '</div>';
             }
         }
@@ -341,24 +437,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         container.innerHTML = html;
 
-        // Bind card clicks
-        var cardEls = container.querySelectorAll('.game24-card:not(.used):not(.disabled)');
-        for (var ci = 0; ci < cardEls.length; ci++) {
-            cardEls[ci].addEventListener('click', function () {
-                var idx = parseInt(this.getAttribute('data-card-index'));
-                selectCard(idx);
-            });
-        }
+        // Bind events
+        bindFilterButtons();
+        bindCardClicks();
+        bindOpClicks();
+        bindResultCardClicks();
 
-        // Bind operation clicks
-        var opEls = container.querySelectorAll('.game24-op-btn');
-        for (var oi = 0; oi < opEls.length; oi++) {
-            opEls[oi].addEventListener('click', function () {
-                selectOperation(this.getAttribute('data-op'));
-            });
-        }
-
-        // Bind action buttons
         var btnNew = document.getElementById('btnNewGame');
         if (btnNew) btnNew.addEventListener('click', startNewGame);
 
@@ -367,6 +451,80 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var btnUndo = document.getElementById('btnUndo');
         if (btnUndo) btnUndo.addEventListener('click', undoLastStep);
+    }
+
+    // ---------- Render Helpers ----------
+    function renderOriginalCard(index, position, starsStr, starsClass) {
+        var card = originalCards[index];
+        var classes = 'game24-card game24-pos-' + position;
+        if (card.used) classes += ' used';
+        if (selectedCardRef && sameRef(selectedCardRef, { source: 'original', index: index })) classes += ' selected';
+        if (gameOver && !card.used) classes += ' disabled';
+
+        var html = '<div class="' + classes + '" data-card-index="' + index + '">';
+        html += '<span class="game24-stars ' + starsClass + '">' + starsStr + '</span>';
+        html += formatNumber(card.value);
+        html += '</div>';
+        return html;
+    }
+
+    function renderOpButton(opValue, opSymbol, position) {
+        var opsDisabled = selectedCardRef === null || gameOver;
+        var opClass = 'game24-op-btn game24-pos-' + position;
+        if (selectedOp === opValue) opClass += ' selected';
+
+        return '<button class="' + opClass + '" data-op="' + opValue + '"' + (opsDisabled ? ' disabled' : '') + '>' + opSymbol + '</button>';
+    }
+
+    // ---------- Get all active cards ----------
+    function getAllActiveCards() {
+        var active = [];
+        for (var i = 0; i < originalCards.length; i++) {
+            if (!originalCards[i].used) active.push(originalCards[i]);
+        }
+        for (var j = 0; j < resultCards.length; j++) {
+            if (!resultCards[j].used) active.push(resultCards[j]);
+        }
+        return active;
+    }
+
+    // ---------- Event Binding ----------
+    function bindFilterButtons() {
+        var filterBtns = container.querySelectorAll('.game24-diff-filter-btn');
+        for (var i = 0; i < filterBtns.length; i++) {
+            filterBtns[i].addEventListener('click', function () {
+                setDifficulty(this.getAttribute('data-diff'));
+            });
+        }
+    }
+
+    function bindCardClicks() {
+        var cardEls = container.querySelectorAll('.game24-card:not(.used):not(.disabled)');
+        for (var i = 0; i < cardEls.length; i++) {
+            cardEls[i].addEventListener('click', function () {
+                var idx = parseInt(this.getAttribute('data-card-index'));
+                selectCard({ source: 'original', index: idx });
+            });
+        }
+    }
+
+    function bindOpClicks() {
+        var opEls = container.querySelectorAll('.game24-op-btn');
+        for (var i = 0; i < opEls.length; i++) {
+            opEls[i].addEventListener('click', function () {
+                selectOperation(this.getAttribute('data-op'));
+            });
+        }
+    }
+
+    function bindResultCardClicks() {
+        var rcEls = container.querySelectorAll('.game24-result-card:not(.used):not(.disabled)');
+        for (var i = 0; i < rcEls.length; i++) {
+            rcEls[i].addEventListener('click', function () {
+                var idx = parseInt(this.getAttribute('data-result-index'));
+                selectCard({ source: 'result', index: idx });
+            });
+        }
     }
 
     // ---------- Utility ----------

@@ -305,6 +305,7 @@ CREATE POLICY "Users can delete own daily_questions"
 CREATE TABLE IF NOT EXISTS public.game24_sets (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     numbers INTEGER[] NOT NULL,
+    difficulty TEXT NOT NULL DEFAULT 'gemiddeld',
     created_at TIMESTAMPTZ DEFAULT now()
 );
 

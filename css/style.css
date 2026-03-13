@@ -1308,6 +1308,29 @@ a {
     font-size: 15px;
 }
 
+.game24-diff-badge {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.game24-diff-makkelijk {
+    background: #F0FFF4;
+    color: var(--accent-green);
+}
+
+.game24-diff-gemiddeld {
+    background: #FFF8E1;
+    color: var(--accent-orange);
+}
+
+.game24-diff-moeilijk {
+    background: #FFF0F0;
+    color: var(--secondary);
+}
+
 @media (max-width: 600px) {
     .game24-add-row {
         flex-direction: column;
