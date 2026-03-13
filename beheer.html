@@ -52,6 +52,7 @@
         <div class="admin-tabs">
             <button class="admin-tab active" data-tab="schools">Scholen</button>
             <button class="admin-tab" data-tab="users">Gebruikers</button>
+            <button class="admin-tab" data-tab="words">Woordenlijsten</button>
         </div>
 
         <!-- Schools Tab -->
@@ -123,7 +124,48 @@
                 </table>
             </div>
         </div>
+        <!-- Words Tab -->
+        <div class="admin-tab-panel" id="tab-words">
+            <div class="admin-toolbar">
+                <div class="words-level-tabs" id="levelTabs"></div>
+            </div>
+
+            <div class="words-content">
+                <div class="words-add-row">
+                    <input type="text" class="search-input" id="newWordInput" placeholder="Nieuw woord toevoegen...">
+                    <button class="btn-primary" id="addWordBtn">+ Toevoegen</button>
+                </div>
+
+                <div class="words-list" id="wordsList">
+                    <div class="admin-empty">
+                        <span class="empty-icon">&#128218;</span>
+                        <p>Selecteer een leesniveau om woorden te beheren.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
+
+    <!-- Word Edit Modal -->
+    <div class="modal-overlay" id="wordModal">
+        <div class="modal" style="max-width:400px;">
+            <div class="modal-header">
+                <h2>Woord bewerken</h2>
+                <button class="modal-close" id="closeWordModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="editWordInput">Woord</label>
+                    <input type="text" id="editWordInput" placeholder="Woord">
+                    <input type="hidden" id="editWordId">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="cancelWordModal">Annuleren</button>
+                <button class="btn-primary" id="saveWordBtn">Opslaan</button>
+            </div>
+        </div>
+    </div>
 
     <!-- School Modal -->
     <div class="modal-overlay" id="schoolModal">

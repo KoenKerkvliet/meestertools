@@ -710,6 +710,8 @@ a {
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px 32px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .admin-header {
@@ -964,6 +966,149 @@ a {
 
 .admin-empty p {
     font-size: 15px;
+}
+
+/* ---------- WOORDENLIJSTEN TAB ---------- */
+.words-level-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.words-level-tab {
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    background: var(--bg-white);
+    color: var(--text-medium);
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.words-level-tab:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: #F5F4FF;
+}
+
+.words-level-tab.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.words-level-tab .word-count {
+    display: inline-block;
+    background: rgba(255,255,255,0.25);
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 11px;
+    margin-left: 4px;
+    font-weight: 700;
+}
+
+.words-level-tab.active .word-count {
+    background: rgba(255,255,255,0.3);
+}
+
+.words-content {
+    margin-top: 20px;
+}
+
+.words-add-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.words-add-row .search-input {
+    flex: 1;
+    padding: 10px 16px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    color: var(--text-dark);
+    transition: var(--transition);
+}
+
+.words-add-row .search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+}
+
+.words-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.word-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: var(--bg-white);
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+    transition: var(--transition);
+}
+
+.word-chip:hover {
+    border-color: var(--primary);
+    background: #FAFAFF;
+}
+
+.word-chip-actions {
+    display: flex;
+    gap: 2px;
+}
+
+.word-chip-btn {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 13px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    color: var(--text-light);
+    padding: 0;
+}
+
+.word-chip-btn.edit:hover {
+    background: #F5F4FF;
+    color: var(--primary);
+}
+
+.word-chip-btn.delete:hover {
+    background: #FFE5E5;
+    color: #FF6B6B;
+}
+
+@media (max-width: 600px) {
+    .words-level-tabs {
+        gap: 4px;
+    }
+
+    .words-level-tab {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .words-add-row {
+        flex-direction: column;
+    }
 }
 
 /* ---------- MODAL ---------- */

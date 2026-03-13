@@ -360,13 +360,183 @@ document.addEventListener('DOMContentLoaded', () => {
         return div.innerHTML;
     }
 
+    // ---------- WOORDENLIJSTEN ----------
+    const READING_LEVELS = ['E3', 'M4', 'E4', 'M5', 'E5', 'M6', 'E6', 'M7', 'E7', 'Plus'];
+    let allWords = [];
+    let activeLevel = READING_LEVELS[0];
+    let levelCounts = {};
+
+    function renderLevelTabs() {
+        const container = document.getElementById('levelTabs');
+        if (!container) return;
+        container.innerHTML = '';
+        READING_LEVELS.forEach(level => {
+            const btn = document.createElement('button');
+            btn.className = 'words-level-tab' + (level === activeLevel ? ' active' : '');
+            const count = levelCounts[level] || 0;
+            btn.innerHTML = escapeHtml(level) + ' <span class="word-count">' + count + '</span>';
+            btn.addEventListener('click', () => {
+                activeLevel = level;
+                renderLevelTabs();
+                renderWordsList();
+            });
+            container.appendChild(btn);
+        });
+    }
+
+    async function loadAllWords() {
+        const { data, error } = await supabase
+            .from('flash_words')
+            .select('*')
+            .order('word');
+
+        if (error) {
+            console.error('Error loading words:', error);
+            return;
+        }
+        allWords = data || [];
+
+        levelCounts = {};
+        allWords.forEach(w => {
+            levelCounts[w.level] = (levelCounts[w.level] || 0) + 1;
+        });
+
+        renderLevelTabs();
+        renderWordsList();
+    }
+
+    function renderWordsList() {
+        const container = document.getElementById('wordsList');
+        if (!container) return;
+
+        const words = allWords.filter(w => w.level === activeLevel);
+
+        if (words.length === 0) {
+            container.innerHTML = `
+                <div class="admin-empty" style="width:100%;">
+                    <span class="empty-icon">&#128218;</span>
+                    <p>Nog geen woorden voor ${escapeHtml(activeLevel)}. Voeg er een toe!</p>
+                </div>`;
+            return;
+        }
+
+        container.innerHTML = '';
+        words.forEach(w => {
+            const chip = document.createElement('div');
+            chip.className = 'word-chip';
+
+            const text = document.createElement('span');
+            text.textContent = w.word;
+            chip.appendChild(text);
+
+            const actions = document.createElement('div');
+            actions.className = 'word-chip-actions';
+
+            const editBtn = document.createElement('button');
+            editBtn.className = 'word-chip-btn edit';
+            editBtn.innerHTML = '&#9998;';
+            editBtn.title = 'Bewerken';
+            editBtn.addEventListener('click', () => openEditWordModal(w.id, w.word));
+            actions.appendChild(editBtn);
+
+            const delBtn = document.createElement('button');
+            delBtn.className = 'word-chip-btn delete';
+            delBtn.innerHTML = '&times;';
+            delBtn.title = 'Verwijderen';
+            delBtn.addEventListener('click', () => deleteWord(w.id));
+            actions.appendChild(delBtn);
+
+            chip.appendChild(actions);
+            container.appendChild(chip);
+        });
+    }
+
+    const addWordBtn = document.getElementById('addWordBtn');
+    const newWordInput = document.getElementById('newWordInput');
+
+    if (addWordBtn && newWordInput) {
+        addWordBtn.addEventListener('click', addWord);
+        newWordInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') addWord();
+        });
+    }
+
+    async function addWord() {
+        const word = newWordInput.value.trim();
+        if (!word) return;
+
+        const { error } = await supabase
+            .from('flash_words')
+            .insert({ level: activeLevel, word: word });
+
+        if (error) {
+            alert('Fout bij toevoegen: ' + error.message);
+            return;
+        }
+
+        newWordInput.value = '';
+        newWordInput.focus();
+        await loadAllWords();
+    }
+
+    async function deleteWord(id) {
+        const { error } = await supabase
+            .from('flash_words')
+            .delete()
+            .eq('id', id);
+
+        if (error) {
+            alert('Fout bij verwijderen: ' + error.message);
+            return;
+        }
+
+        await loadAllWords();
+    }
+
+    function openEditWordModal(id, word) {
+        document.getElementById('editWordId').value = id;
+        document.getElementById('editWordInput').value = word;
+        openModal('wordModal');
+        setTimeout(() => document.getElementById('editWordInput').focus(), 100);
+    }
+
+    document.getElementById('saveWordBtn')?.addEventListener('click', async () => {
+        const id = document.getElementById('editWordId').value;
+        const word = document.getElementById('editWordInput').value.trim();
+
+        if (!word) {
+            alert('Vul een woord in.');
+            return;
+        }
+
+        const { error } = await supabase
+            .from('flash_words')
+            .update({ word: word })
+            .eq('id', id);
+
+        if (error) {
+            alert('Fout bij opslaan: ' + error.message);
+            return;
+        }
+
+        closeModal('wordModal');
+        await loadAllWords();
+    });
+
+    document.getElementById('closeWordModal')?.addEventListener('click', () => closeModal('wordModal'));
+    document.getElementById('cancelWordModal')?.addEventListener('click', () => closeModal('wordModal'));
+
+    document.getElementById('editWordInput')?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') document.getElementById('saveWordBtn').click();
+    });
+
     // ---------- Initial Load ----------
     // Wait for auth check to complete, then load data
     const checkAuth = setInterval(async () => {
         if (window.userRole !== undefined) {
             clearInterval(checkAuth);
             if (window.userRole === 'super_admin') {
-                await Promise.all([loadSchools(), loadUsers()]);
+                await Promise.all([loadSchools(), loadUsers(), loadAllWords()]);
             }
         }
     }, 100);

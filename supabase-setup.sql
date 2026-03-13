@@ -212,7 +212,38 @@ CREATE POLICY "Users can delete own students"
     ON public.students FOR DELETE
     USING (auth.uid() = user_id);
 
--- ---------- 13. Super admin instellen voor bestaande user ----------
+-- ---------- 13. Flash Words tabel (woordenlijsten per leesniveau) ----------
+CREATE TABLE IF NOT EXISTS public.flash_words (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    level TEXT NOT NULL,
+    word TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- RLS voor flash_words
+ALTER TABLE public.flash_words ENABLE ROW LEVEL SECURITY;
+
+-- Alle ingelogde users kunnen woorden lezen
+CREATE POLICY "Authenticated users can read flash_words"
+    ON public.flash_words FOR SELECT
+    USING (auth.role() = 'authenticated');
+
+-- Super admin kan woorden aanmaken
+CREATE POLICY "Super admin can insert flash_words"
+    ON public.flash_words FOR INSERT
+    WITH CHECK (public.is_super_admin());
+
+-- Super admin kan woorden updaten
+CREATE POLICY "Super admin can update flash_words"
+    ON public.flash_words FOR UPDATE
+    USING (public.is_super_admin());
+
+-- Super admin kan woorden verwijderen
+CREATE POLICY "Super admin can delete flash_words"
+    ON public.flash_words FOR DELETE
+    USING (public.is_super_admin());
+
+-- ---------- 14. Super admin instellen voor bestaande user ----------
 -- Als koen.kerkvliet@movare.nl al geregistreerd is:
 UPDATE public.profiles
 SET role = 'super_admin'
