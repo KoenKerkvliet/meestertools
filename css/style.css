@@ -382,6 +382,8 @@ a {
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px 32px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .dashboard-hero {
@@ -516,6 +518,8 @@ a {
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px 32px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Compact inline header for individual tools */
