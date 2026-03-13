@@ -5,23 +5,41 @@
 .gp-container {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
     padding: 8px 0;
 }
 
-/* ---------- Controls Bar ---------- */
-.gp-controls {
+/* ---------- Student Select ---------- */
+.gp-student-select {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.gp-week-nav {
+.gp-student-select select {
+    padding: 10px 16px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+    background: var(--bg-white);
+    cursor: pointer;
+    min-width: 240px;
+    transition: var(--transition);
+}
+
+.gp-student-select select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+}
+
+/* ---------- Day Navigation ---------- */
+.gp-day-nav {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: center;
+    gap: 16px;
 }
 
 .gp-nav-btn {
@@ -38,6 +56,7 @@
     align-items: center;
     justify-content: center;
     transition: var(--transition);
+    flex-shrink: 0;
 }
 
 .gp-nav-btn:hover {
@@ -47,32 +66,18 @@
     transform: translateY(-1px);
 }
 
-.gp-week-label {
-    font-size: 16px;
+.gp-nav-btn-sm {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+}
+
+.gp-day-label {
+    font-size: 18px;
     font-weight: 700;
     color: var(--text-dark);
-    min-width: 200px;
+    min-width: 220px;
     text-align: center;
-}
-
-/* Student select */
-.gp-student-select select {
-    padding: 10px 16px;
-    border: 2px solid #E8E8F0;
-    border-radius: var(--radius-md);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-dark);
-    background: var(--bg-white);
-    cursor: pointer;
-    min-width: 200px;
-    transition: var(--transition);
-}
-
-.gp-student-select select:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
 }
 
 /* ---------- Legend ---------- */
@@ -109,13 +114,250 @@
     line-height: 1;
 }
 
-/* ---------- Grid ---------- */
-.gp-grid-wrapper {
+/* ---------- Day Chart ---------- */
+.gp-day-chart {
+    display: flex;
+    gap: 0;
+    min-height: 280px;
+}
+
+.gp-y-axis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+    min-width: 90px;
+    flex-shrink: 0;
+}
+
+.gp-y-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-medium);
+    text-align: right;
+    padding-right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 60px;
+}
+
+/* Chart area */
+.gp-chart-area {
+    flex: 1;
+    position: relative;
+    border-left: 2px solid #E8E8F0;
+    border-bottom: 2px solid #E8E8F0;
+    min-height: 240px;
+}
+
+/* Grid lines */
+.gp-grid-lines {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: none;
+    padding: 20px 0;
+}
+
+.gp-grid-line {
+    height: 0;
+    border-top: 1px dashed #EDEDF2;
+}
+
+/* Columns container */
+.gp-columns {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    padding: 0;
+}
+
+/* Individual column */
+.gp-chart-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Slots (3 per column, from top to bottom: good → moderate → bad) */
+.gp-chart-slot {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.gp-chart-slot:hover {
+    background: rgba(108, 99, 255, 0.06);
+}
+
+/* Marker */
+.gp-chart-marker {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+    position: relative;
+    z-index: 3;
+}
+
+/* Color markers */
+.gp-chart-marker.marker-good {
+    background: #6BCB77;
+    border: 3px solid #5AB868;
+}
+
+.gp-chart-marker.marker-moderate {
+    background: #FFB347;
+    border: 3px solid #E8A33E;
+}
+
+.gp-chart-marker.marker-bad {
+    background: #FF6B6B;
+    border: 3px solid #E85D5D;
+}
+
+/* Smiley markers */
+.gp-chart-marker.marker-smiley {
+    background: var(--bg-white);
+    border: 3px solid #E8E8F0;
+    font-size: 26px;
+    line-height: 1;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Marker pop animation */
+@keyframes markerPop {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.gp-chart-marker.popping {
+    animation: markerPop 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Connection line */
+.gp-connection-line {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.gp-connection-line line {
+    stroke: var(--primary);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    opacity: 0.35;
+}
+
+/* X-axis labels */
+.gp-x-axis {
+    display: flex;
+    margin-left: 90px;
+    border-left: 2px solid transparent;
+}
+
+.gp-x-label {
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-medium);
+    padding: 10px 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ---------- Empty State ---------- */
+.gp-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-light);
+}
+
+.gp-empty-state .empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.gp-empty-state p {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* ---------- Week Overview Section ---------- */
+.gp-week-section {
+    margin-top: 8px;
+}
+
+.gp-week-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.gp-week-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.gp-week-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0;
+    min-width: 200px;
+    text-align: center;
+}
+
+/* PDF button */
+.gp-pdf-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.gp-pdf-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);
+}
+
+/* Week grid table */
+.gp-week-grid-wrapper {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
 
-.gp-grid {
+.gp-week-grid {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
@@ -124,10 +366,9 @@
     box-shadow: var(--shadow-sm);
 }
 
-/* Header row */
-.gp-grid thead th {
-    padding: 14px 12px;
-    font-size: 13px;
+.gp-week-grid thead th {
+    padding: 12px 10px;
+    font-size: 12px;
     font-weight: 700;
     color: var(--text-medium);
     text-transform: uppercase;
@@ -138,105 +379,69 @@
     text-align: center;
 }
 
-.gp-grid thead th:first-child {
+.gp-week-grid thead th:first-child {
     text-align: left;
-    width: 120px;
-    min-width: 100px;
+    width: 100px;
+    min-width: 80px;
 }
 
-/* Body rows */
-.gp-grid tbody tr {
+.gp-week-grid tbody tr {
     transition: background 0.15s ease;
 }
 
-.gp-grid tbody tr:hover {
+.gp-week-grid tbody tr:hover {
     background: #FAFAFF;
 }
 
-.gp-grid tbody tr.today {
+.gp-week-grid tbody tr.today {
     background: #EEEDFB;
 }
 
-.gp-grid tbody td {
-    padding: 10px 12px;
+.gp-week-grid tbody td {
+    padding: 8px 10px;
     border-bottom: 1px solid #F0F0F5;
     text-align: center;
     vertical-align: middle;
+    height: 44px;
 }
 
-.gp-grid tbody td:first-child {
+.gp-week-grid tbody td:first-child {
     text-align: left;
     font-weight: 600;
     color: var(--text-dark);
-    font-size: 14px;
+    font-size: 13px;
 }
 
-.gp-grid tbody tr.today td:first-child {
+.gp-week-grid tbody tr.today td:first-child {
     color: var(--primary);
 }
 
-/* ---------- Grid Cells ---------- */
-.gp-cell {
-    width: 48px;
-    height: 48px;
-    border-radius: var(--radius-md);
-    border: 2px dashed #E0E0EA;
-    background: var(--bg-white);
-    cursor: pointer;
+/* Week cell indicators */
+.gp-week-cell {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
 }
 
-.gp-cell:hover {
-    border-color: var(--primary);
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(108, 99, 255, 0.15);
-}
+.gp-week-cell.wc-good { background: #6BCB77; }
+.gp-week-cell.wc-moderate { background: #FFB347; }
+.gp-week-cell.wc-bad { background: #FF6B6B; }
 
-.gp-cell:active {
-    transform: scale(0.95);
-}
-
-/* Filled states - colors */
-.gp-cell.color-good {
-    background: #6BCB77;
-    border: 2px solid #5AB868;
-    border-style: solid;
-}
-
-.gp-cell.color-moderate {
-    background: #FFB347;
-    border: 2px solid #E8A33E;
-    border-style: solid;
-}
-
-.gp-cell.color-bad {
-    background: #FF6B6B;
-    border: 2px solid #E85D5D;
-    border-style: solid;
-}
-
-/* Filled states - smileys */
-.gp-cell.smiley-filled {
-    border: 2px solid #E8E8F0;
-    border-style: solid;
-    font-size: 28px;
+.gp-week-cell.wc-smiley {
+    background: transparent;
+    font-size: 22px;
     line-height: 1;
 }
 
-/* Cell click animation */
-@keyframes cellPop {
-    0% { transform: scale(1); }
-    40% { transform: scale(1.25); }
-    100% { transform: scale(1); }
-}
-
-.gp-cell.popping {
-    animation: cellPop 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.gp-week-cell.wc-empty {
+    width: 12px;
+    height: 12px;
+    border: 2px dashed #E0E0EA;
+    background: transparent;
 }
 
 /* ---------- Settings: Segments List ---------- */
@@ -308,26 +513,35 @@
     border-style: solid;
 }
 
-/* ---------- Empty State ---------- */
-.gp-empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-light);
-}
-
-.gp-empty-state .empty-icon {
-    font-size: 48px;
-    margin-bottom: 16px;
-}
-
-.gp-empty-state p {
-    font-size: 16px;
-    font-weight: 500;
-}
-
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
-    .gp-controls {
+    .gp-y-axis {
+        min-width: 70px;
+    }
+
+    .gp-y-label {
+        font-size: 11px;
+        padding-right: 10px;
+    }
+
+    .gp-x-axis {
+        margin-left: 70px;
+    }
+
+    .gp-x-label {
+        font-size: 10px;
+    }
+
+    .gp-chart-marker {
+        width: 36px;
+        height: 36px;
+    }
+
+    .gp-chart-marker.marker-smiley {
+        font-size: 20px;
+    }
+
+    .gp-week-header {
         flex-direction: column;
         align-items: stretch;
     }
@@ -336,51 +550,46 @@
         justify-content: center;
     }
 
-    .gp-student-select select {
-        width: 100%;
-    }
-
-    .gp-cell {
-        width: 40px;
-        height: 40px;
-    }
-
-    .gp-cell.smiley-filled {
-        font-size: 22px;
-    }
-
-    .gp-grid thead th {
-        padding: 10px 8px;
-        font-size: 11px;
-    }
-
-    .gp-grid tbody td {
-        padding: 8px 6px;
+    .gp-pdf-btn {
+        align-self: center;
     }
 }
 
 @media (max-width: 600px) {
-    .gp-week-label {
-        font-size: 14px;
+    .gp-day-label {
+        font-size: 15px;
         min-width: 160px;
     }
 
-    .gp-cell {
-        width: 36px;
-        height: 36px;
+    .gp-y-axis {
+        min-width: 55px;
     }
 
-    .gp-cell.smiley-filled {
-        font-size: 18px;
+    .gp-y-label {
+        font-size: 10px;
+        padding-right: 8px;
     }
 
-    .gp-grid thead th:first-child {
-        min-width: 70px;
-        width: 70px;
+    .gp-x-axis {
+        margin-left: 55px;
     }
 
-    .gp-grid tbody td:first-child {
-        font-size: 12px;
+    .gp-x-label {
+        font-size: 9px;
+        padding-top: 6px;
+    }
+
+    .gp-chart-marker {
+        width: 30px;
+        height: 30px;
+    }
+
+    .gp-chart-marker.marker-smiley {
+        font-size: 16px;
+    }
+
+    .gp-day-chart {
+        min-height: 220px;
     }
 
     .gp-legend {
@@ -389,5 +598,23 @@
 
     .gp-legend-item {
         font-size: 12px;
+    }
+
+    .gp-week-grid thead th {
+        padding: 8px 6px;
+        font-size: 10px;
+    }
+
+    .gp-week-grid tbody td {
+        padding: 6px 4px;
+    }
+
+    .gp-week-cell {
+        width: 26px;
+        height: 26px;
+    }
+
+    .gp-week-cell.wc-smiley {
+        font-size: 18px;
     }
 }

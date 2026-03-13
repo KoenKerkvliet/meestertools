@@ -39,32 +39,76 @@
             <button class="tool-settings-btn" id="btnSettings" title="Instellingen">&#9881;&#65039;</button>
         </div>
 
+        <!-- Sectie 1: Dagweergave -->
         <div class="tool-page-body">
             <div class="gp-container">
-                <!-- Controls bar: week nav + student selector -->
-                <div class="gp-controls">
-                    <div class="gp-week-nav">
-                        <button class="gp-nav-btn" id="btnPrevWeek" title="Vorige week">&larr;</button>
-                        <span class="gp-week-label" id="weekLabel">Week 11</span>
-                        <button class="gp-nav-btn" id="btnNextWeek" title="Volgende week">&rarr;</button>
-                    </div>
-                    <div class="gp-student-select" id="studentSelectWrapper" style="display:none;">
-                        <select id="studentSelect">
-                            <option value="">Selecteer leerling...</option>
-                        </select>
-                    </div>
+                <!-- Student selector (individual mode) -->
+                <div class="gp-student-select" id="studentSelectWrapper" style="display:none;">
+                    <select id="studentSelect">
+                        <option value="">Selecteer leerling...</option>
+                    </select>
+                </div>
+
+                <!-- Day navigation -->
+                <div class="gp-day-nav">
+                    <button class="gp-nav-btn" id="btnPrevDay" title="Vorige dag">&larr;</button>
+                    <span class="gp-day-label" id="dayLabel">Donderdag 13 maart</span>
+                    <button class="gp-nav-btn" id="btnNextDay" title="Volgende dag">&rarr;</button>
                 </div>
 
                 <!-- Legend -->
                 <div class="gp-legend" id="gpLegend"></div>
 
-                <!-- Grid -->
-                <div class="gp-grid-wrapper">
-                    <table class="gp-grid" id="gpGrid">
-                        <thead id="gpGridHead"></thead>
-                        <tbody id="gpGridBody"></tbody>
-                    </table>
+                <!-- Day chart -->
+                <div class="gp-day-chart" id="dayChart">
+                    <!-- Y-axis labels -->
+                    <div class="gp-y-axis">
+                        <div class="gp-y-label" data-level="3">Goed</div>
+                        <div class="gp-y-label" data-level="2">Matig</div>
+                        <div class="gp-y-label" data-level="1">Niet goed</div>
+                    </div>
+                    <!-- Chart area with columns -->
+                    <div class="gp-chart-area" id="chartArea">
+                        <!-- Grid lines -->
+                        <div class="gp-grid-lines">
+                            <div class="gp-grid-line"></div>
+                            <div class="gp-grid-line"></div>
+                            <div class="gp-grid-line"></div>
+                        </div>
+                        <!-- Columns rendered by JS -->
+                        <div class="gp-columns" id="chartColumns"></div>
+                        <!-- SVG connection line -->
+                        <svg class="gp-connection-line" id="connectionLine" preserveAspectRatio="none"></svg>
+                    </div>
                 </div>
+                <!-- X-axis labels -->
+                <div class="gp-x-axis" id="xAxisLabels"></div>
+
+                <!-- Empty state for individual mode -->
+                <div class="gp-empty-state" id="emptyState" style="display:none;">
+                    <div class="empty-icon">&#128100;</div>
+                    <p>Selecteer een leerling om het gedragspatroon te bekijken.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sectie 2: Weekoverzicht -->
+        <div class="tool-page-body gp-week-section">
+            <div class="gp-week-header">
+                <div class="gp-week-nav">
+                    <button class="gp-nav-btn gp-nav-btn-sm" id="btnPrevWeek" title="Vorige week">&larr;</button>
+                    <h2 class="gp-week-title" id="weekLabel">Weekoverzicht</h2>
+                    <button class="gp-nav-btn gp-nav-btn-sm" id="btnNextWeek" title="Volgende week">&rarr;</button>
+                </div>
+                <button class="gp-pdf-btn" id="btnDownloadPdf" title="Download als PDF">
+                    &#128196; Download PDF
+                </button>
+            </div>
+            <div class="gp-week-grid-wrapper">
+                <table class="gp-week-grid" id="weekGrid">
+                    <thead id="weekGridHead"></thead>
+                    <tbody id="weekGridBody"></tbody>
+                </table>
             </div>
         </div>
     </main>
@@ -117,6 +161,7 @@
         </p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
     <script src="../../js/supabase-config.js"></script>
     <script src="../../js/app.js"></script>

@@ -16,48 +16,84 @@ document.addEventListener('DOMContentLoaded', () => {
     const groupSelectGroup = document.getElementById('groupSelectGroup');
     const segmentsList = document.getElementById('segmentsList');
     const btnAddSegment = document.getElementById('btnAddSegment');
+    const studentSelectWrapper = document.getElementById('studentSelectWrapper');
+    const studentSelect = document.getElementById('studentSelect');
+    const emptyState = document.getElementById('emptyState');
+
+    // Day view
+    const btnPrevDay = document.getElementById('btnPrevDay');
+    const btnNextDay = document.getElementById('btnNextDay');
+    const dayLabel = document.getElementById('dayLabel');
+    const dayChart = document.getElementById('dayChart');
+    const chartColumns = document.getElementById('chartColumns');
+    const connectionLine = document.getElementById('connectionLine');
+    const xAxisLabels = document.getElementById('xAxisLabels');
+    const gpLegend = document.getElementById('gpLegend');
+
+    // Week view
     const btnPrevWeek = document.getElementById('btnPrevWeek');
     const btnNextWeek = document.getElementById('btnNextWeek');
     const weekLabel = document.getElementById('weekLabel');
-    const studentSelectWrapper = document.getElementById('studentSelectWrapper');
-    const studentSelect = document.getElementById('studentSelect');
-    const gpGrid = document.getElementById('gpGrid');
-    const gpGridHead = document.getElementById('gpGridHead');
-    const gpGridBody = document.getElementById('gpGridBody');
-    const gpLegend = document.getElementById('gpLegend');
+    const weekGridHead = document.getElementById('weekGridHead');
+    const weekGridBody = document.getElementById('weekGridBody');
+    const btnDownloadPdf = document.getElementById('btnDownloadPdf');
 
-    if (!gpGrid) return;
+    if (!chartColumns) return;
 
     // ---------- Constants ----------
-    const DAY_NAMES = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag'];
-    const DAY_SHORT = ['Ma', 'Di', 'Wo', 'Do', 'Vr'];
+    const DAY_NAMES = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'];
+    const DAY_NAMES_SHORT = ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za'];
+    const MONTH_NAMES = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
+    const WEEKDAY_NAMES = ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag'];
 
-    const VALUE_LABELS = {
-        colors: { 3: 'Goed', 2: 'Matig', 1: 'Niet goed' },
-        smileys: { 3: '\u{1F604}', 2: '\u{1F610}', 1: '\u{1F622}' }
-    };
-
-    const COLOR_CLASSES = { 3: 'color-good', 2: 'color-moderate', 1: 'color-bad' };
-    const SMILEY_MAP = { 3: '\u{1F604}', 2: '\u{1F610}', 1: '\u{1F622}' };
+    const LEVELS = [
+        { value: 3, label: 'Goed', color: '#6BCB77', colorBorder: '#5AB868', markerClass: 'marker-good', weekClass: 'wc-good', smiley: '\u{1F604}' },
+        { value: 2, label: 'Matig', color: '#FFB347', colorBorder: '#E8A33E', markerClass: 'marker-moderate', weekClass: 'wc-moderate', smiley: '\u{1F610}' },
+        { value: 1, label: 'Niet goed', color: '#FF6B6B', colorBorder: '#E85D5D', markerClass: 'marker-bad', weekClass: 'wc-bad', smiley: '\u{1F622}' }
+    ];
 
     const DEFAULT_SEGMENTS = ['Ochtend', 'Kleine pauze', 'Na de kleine pauze', 'Grote pauze', 'Middag'];
 
     // ---------- State ----------
-    let mode = 'class'; // 'class' | 'individual'
-    let displayType = 'colors'; // 'colors' | 'smileys'
+    let mode = 'class';
+    let displayType = 'colors';
     let segments = [...DEFAULT_SEGMENTS];
     let selectedGroupId = null;
     let selectedStudentId = null;
-    let weekOffset = 0; // 0 = current week, -1 = last week, etc.
+    let dayOffset = 0; // 0 = today
+    let weekOffset = 0;
     let data = { class: {}, students: {} };
     let students = [];
     let groups = [];
 
     // ---------- Date Helpers ----------
+    function formatDate(d) {
+        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+
+    function getTodayKey() {
+        return formatDate(new Date());
+    }
+
+    function getDateForDayOffset(offset) {
+        const d = new Date();
+        d.setDate(d.getDate() + offset);
+        return d;
+    }
+
+    function getDayKey() {
+        return formatDate(getDateForDayOffset(dayOffset));
+    }
+
+    function formatDayLabel() {
+        const d = getDateForDayOffset(dayOffset);
+        return DAY_NAMES[d.getDay()] + ' ' + d.getDate() + ' ' + MONTH_NAMES[d.getMonth()];
+    }
+
     function getWeekDates(offset = 0) {
         const now = new Date();
         now.setDate(now.getDate() + offset * 7);
-        const day = now.getDay(); // 0=Sun, 1=Mon...
+        const day = now.getDay();
         const mondayOffset = day === 0 ? -6 : 1 - day;
         const monday = new Date(now);
         monday.setDate(now.getDate() + mondayOffset);
@@ -69,14 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
             dates.push(formatDate(d));
         }
         return dates;
-    }
-
-    function formatDate(d) {
-        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-    }
-
-    function getTodayKey() {
-        return formatDate(new Date());
     }
 
     function getWeekNumber(dateStr) {
@@ -91,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const weekNum = getWeekNumber(dates[0]);
         const fmtShort = d => {
             const p = d.split('-');
-            return parseInt(p[2]) + ' ' + ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'][parseInt(p[1]) - 1];
+            return parseInt(p[2]) + ' ' + MONTH_NAMES[parseInt(p[1]) - 1].slice(0, 3);
         };
         return `Week ${weekNum} (${fmtShort(dates[0])} - ${fmtShort(dates[4])})`;
     }
@@ -119,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (Array.isArray(s.segments) && s.segments.length > 0) segments = s.segments;
             if (s.selectedGroupId) selectedGroupId = s.selectedGroupId;
             if (s.data) data = s.data;
-            // Ensure data structure
             if (!data.class) data.class = {};
             if (!data.students) data.students = {};
         }
@@ -151,10 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function loadStudents() {
-        if (!selectedGroupId) {
-            students = [];
-            return;
-        }
+        if (!selectedGroupId) { students = []; return; }
         const user = await getSessionUser();
         if (!user) return;
         const { data: studentData } = await supabase
@@ -179,108 +203,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function setCellValue(dateKey, segmentIndex, value) {
         if (mode === 'class') {
-            if (!data.class[dateKey]) {
-                data.class[dateKey] = new Array(segments.length).fill(null);
-            }
-            // Ensure array is long enough
-            while (data.class[dateKey].length < segments.length) {
-                data.class[dateKey].push(null);
-            }
+            if (!data.class[dateKey]) data.class[dateKey] = new Array(segments.length).fill(null);
+            while (data.class[dateKey].length < segments.length) data.class[dateKey].push(null);
             data.class[dateKey][segmentIndex] = value;
         } else {
             if (!selectedStudentId) return;
-            if (!data.students[selectedStudentId]) {
-                data.students[selectedStudentId] = {};
-            }
-            if (!data.students[selectedStudentId][dateKey]) {
-                data.students[selectedStudentId][dateKey] = new Array(segments.length).fill(null);
-            }
-            while (data.students[selectedStudentId][dateKey].length < segments.length) {
-                data.students[selectedStudentId][dateKey].push(null);
-            }
+            if (!data.students[selectedStudentId]) data.students[selectedStudentId] = {};
+            if (!data.students[selectedStudentId][dateKey]) data.students[selectedStudentId][dateKey] = new Array(segments.length).fill(null);
+            while (data.students[selectedStudentId][dateKey].length < segments.length) data.students[selectedStudentId][dateKey].push(null);
             data.students[selectedStudentId][dateKey][segmentIndex] = value;
         }
         saveSettingsToDb();
     }
 
-    // Cycle: null → 3 (good) → 2 (moderate) → 1 (bad) → null
-    function cycleValue(current) {
-        if (current === null) return 3;
-        if (current === 3) return 2;
-        if (current === 2) return 1;
-        return null;
-    }
-
     // ---------- Build UI ----------
     function buildUI() {
         renderLegend();
-        renderWeekLabel();
         renderStudentSelect();
-        renderGrid();
+        renderDayView();
+        renderWeekView();
     }
 
     // ---------- Legend ----------
     function renderLegend() {
         gpLegend.innerHTML = '';
-
-        const items = [
-            { value: 3, label: 'Goed' },
-            { value: 2, label: 'Matig' },
-            { value: 1, label: 'Niet goed' }
-        ];
-
-        items.forEach(item => {
+        LEVELS.forEach(level => {
             const el = document.createElement('div');
             el.className = 'gp-legend-item';
-
             if (displayType === 'colors') {
                 const dot = document.createElement('span');
-                dot.className = 'gp-legend-dot ' + COLOR_CLASSES[item.value];
+                dot.className = 'gp-legend-dot ' + (level.value === 3 ? 'good' : level.value === 2 ? 'moderate' : 'bad');
                 el.appendChild(dot);
             } else {
                 const emoji = document.createElement('span');
                 emoji.className = 'gp-legend-emoji';
-                emoji.textContent = SMILEY_MAP[item.value];
+                emoji.textContent = level.smiley;
                 el.appendChild(emoji);
             }
-
             const label = document.createElement('span');
-            label.textContent = item.label;
+            label.textContent = level.label;
             el.appendChild(label);
-
             gpLegend.appendChild(el);
         });
-
-        // Add empty indicator
-        const emptyEl = document.createElement('div');
-        emptyEl.className = 'gp-legend-item';
-        const emptyDot = document.createElement('span');
-        emptyDot.className = 'gp-legend-dot';
-        emptyDot.style.border = '2px dashed #E0E0EA';
-        emptyDot.style.background = 'transparent';
-        emptyEl.appendChild(emptyDot);
-        const emptyLabel = document.createElement('span');
-        emptyLabel.textContent = 'Niet ingevuld';
-        emptyEl.appendChild(emptyLabel);
-        gpLegend.appendChild(emptyEl);
     }
-
-    // ---------- Week Navigation ----------
-    function renderWeekLabel() {
-        weekLabel.textContent = formatWeekLabel();
-    }
-
-    btnPrevWeek.addEventListener('click', () => {
-        weekOffset--;
-        renderWeekLabel();
-        renderGrid();
-    });
-
-    btnNextWeek.addEventListener('click', () => {
-        weekOffset++;
-        renderWeekLabel();
-        renderGrid();
-    });
 
     // ---------- Student Select ----------
     function renderStudentSelect() {
@@ -301,40 +266,138 @@ document.addEventListener('DOMContentLoaded', () => {
 
     studentSelect.addEventListener('change', () => {
         selectedStudentId = studentSelect.value || null;
-        renderGrid();
+        renderDayView();
+        renderWeekView();
     });
 
-    // ---------- Render Grid ----------
-    function renderGrid() {
+    // ---------- Day Navigation ----------
+    btnPrevDay.addEventListener('click', () => { dayOffset--; renderDayView(); });
+    btnNextDay.addEventListener('click', () => { dayOffset++; renderDayView(); });
+
+    // ---------- Render Day View ----------
+    function renderDayView() {
+        dayLabel.textContent = formatDayLabel();
+        const dateKey = getDayKey();
+
+        // Handle empty state for individual mode
+        const showEmpty = mode === 'individual' && !selectedStudentId;
+        emptyState.style.display = showEmpty ? '' : 'none';
+        dayChart.style.display = showEmpty ? 'none' : '';
+        xAxisLabels.style.display = showEmpty ? 'none' : '';
+
+        if (showEmpty) return;
+
+        // Build columns
+        chartColumns.innerHTML = '';
+        connectionLine.innerHTML = '';
+
+        segments.forEach((seg, segIndex) => {
+            const col = document.createElement('div');
+            col.className = 'gp-chart-column';
+
+            // 3 slots: top = good (3), middle = moderate (2), bottom = bad (1)
+            LEVELS.forEach(level => {
+                const slot = document.createElement('div');
+                slot.className = 'gp-chart-slot';
+                slot.dataset.segIndex = segIndex;
+                slot.dataset.level = level.value;
+
+                const currentVal = getCellValue(dateKey, segIndex);
+                if (currentVal === level.value) {
+                    const marker = createMarker(level);
+                    slot.appendChild(marker);
+                }
+
+                slot.addEventListener('click', () => {
+                    const val = getCellValue(dateKey, segIndex);
+                    const newVal = val === level.value ? null : level.value;
+                    setCellValue(dateKey, segIndex, newVal);
+                    renderDayView();
+                    renderWeekView();
+                });
+
+                col.appendChild(slot);
+            });
+
+            chartColumns.appendChild(col);
+        });
+
+        // Build x-axis labels
+        xAxisLabels.innerHTML = '';
+        segments.forEach(seg => {
+            const lbl = document.createElement('div');
+            lbl.className = 'gp-x-label';
+            lbl.textContent = seg;
+            lbl.title = seg;
+            xAxisLabels.appendChild(lbl);
+        });
+
+        // Draw connection lines (after render, use setTimeout for layout)
+        requestAnimationFrame(() => drawConnectionLines(dateKey));
+    }
+
+    function createMarker(level) {
+        const marker = document.createElement('div');
+        marker.className = 'gp-chart-marker';
+        if (displayType === 'colors') {
+            marker.classList.add(level.markerClass);
+        } else {
+            marker.classList.add('marker-smiley');
+            marker.textContent = level.smiley;
+        }
+        marker.classList.add('popping');
+        setTimeout(() => marker.classList.remove('popping'), 350);
+        return marker;
+    }
+
+    function drawConnectionLines(dateKey) {
+        connectionLine.innerHTML = '';
+        const points = [];
+        const chartRect = chartColumns.getBoundingClientRect();
+
+        segments.forEach((_, segIndex) => {
+            const val = getCellValue(dateKey, segIndex);
+            if (val === null) {
+                points.push(null);
+                return;
+            }
+            // Find the marker's slot
+            const col = chartColumns.children[segIndex];
+            if (!col) { points.push(null); return; }
+            const levelIndex = LEVELS.findIndex(l => l.value === val);
+            const slot = col.children[levelIndex];
+            if (!slot) { points.push(null); return; }
+            const slotRect = slot.getBoundingClientRect();
+            const x = slotRect.left - chartRect.left + slotRect.width / 2;
+            const y = slotRect.top - chartRect.top + slotRect.height / 2;
+            points.push({ x, y });
+        });
+
+        // Draw lines between consecutive non-null points
+        for (let i = 0; i < points.length - 1; i++) {
+            if (points[i] && points[i + 1]) {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', points[i].x);
+                line.setAttribute('y1', points[i].y);
+                line.setAttribute('x2', points[i + 1].x);
+                line.setAttribute('y2', points[i + 1].y);
+                connectionLine.appendChild(line);
+            }
+        }
+    }
+
+    // ---------- Week Navigation ----------
+    btnPrevWeek.addEventListener('click', () => { weekOffset--; renderWeekView(); });
+    btnNextWeek.addEventListener('click', () => { weekOffset++; renderWeekView(); });
+
+    // ---------- Render Week View ----------
+    function renderWeekView() {
+        weekLabel.textContent = formatWeekLabel();
         const weekDates = getWeekDates(weekOffset);
         const todayKey = getTodayKey();
 
-        // Show empty state for individual mode without student
-        if (mode === 'individual' && !selectedStudentId) {
-            gpGridHead.innerHTML = '';
-            gpGridBody.innerHTML = '';
-            const wrapper = gpGrid.closest('.gp-grid-wrapper');
-            // Replace with empty state
-            let emptyState = wrapper.querySelector('.gp-empty-state');
-            if (!emptyState) {
-                emptyState = document.createElement('div');
-                emptyState.className = 'gp-empty-state';
-                emptyState.innerHTML = '<div class="empty-icon">\u{1F464}</div><p>Selecteer een leerling om het gedragspatroon te bekijken.</p>';
-                wrapper.appendChild(emptyState);
-            }
-            emptyState.style.display = '';
-            gpGrid.style.display = 'none';
-            return;
-        }
-
-        // Remove empty state
-        const wrapper = gpGrid.closest('.gp-grid-wrapper');
-        const emptyState = wrapper.querySelector('.gp-empty-state');
-        if (emptyState) emptyState.style.display = 'none';
-        gpGrid.style.display = '';
-
         // Header
-        gpGridHead.innerHTML = '';
+        weekGridHead.innerHTML = '';
         const headerRow = document.createElement('tr');
         const dayTh = document.createElement('th');
         dayTh.textContent = 'Dag';
@@ -345,64 +408,190 @@ document.addEventListener('DOMContentLoaded', () => {
             th.textContent = seg;
             headerRow.appendChild(th);
         });
-        gpGridHead.appendChild(headerRow);
+        weekGridHead.appendChild(headerRow);
 
         // Body
-        gpGridBody.innerHTML = '';
+        weekGridBody.innerHTML = '';
         weekDates.forEach((dateKey, dayIndex) => {
             const row = document.createElement('tr');
             if (dateKey === todayKey) row.classList.add('today');
 
-            // Day name cell
             const dayTd = document.createElement('td');
-            const dayFull = DAY_NAMES[dayIndex];
             const dateParts = dateKey.split('-');
-            dayTd.innerHTML = `<strong>${dayFull}</strong><br><small style="color:var(--text-light);font-weight:400;">${dateParts[2]}-${dateParts[1]}</small>`;
+            dayTd.innerHTML = `<strong>${WEEKDAY_NAMES[dayIndex]}</strong>`;
             row.appendChild(dayTd);
 
-            // Segment cells
             segments.forEach((_, segIndex) => {
                 const td = document.createElement('td');
-                const cell = document.createElement('div');
-                cell.className = 'gp-cell';
+                const val = getCellValue(dateKey, segIndex);
 
-                const value = getCellValue(dateKey, segIndex);
-                applyCellStyle(cell, value);
+                if (val !== null) {
+                    const cell = document.createElement('div');
+                    cell.className = 'gp-week-cell';
+                    const level = LEVELS.find(l => l.value === val);
+                    if (displayType === 'colors') {
+                        cell.classList.add(level.weekClass);
+                    } else {
+                        cell.classList.add('wc-smiley');
+                        cell.textContent = level.smiley;
+                    }
+                    td.appendChild(cell);
+                } else {
+                    const cell = document.createElement('div');
+                    cell.className = 'gp-week-cell wc-empty';
+                    td.appendChild(cell);
+                }
 
-                cell.addEventListener('click', () => {
-                    const currentVal = getCellValue(dateKey, segIndex);
-                    const newVal = cycleValue(currentVal);
-                    setCellValue(dateKey, segIndex, newVal);
-                    applyCellStyle(cell, newVal);
-
-                    // Pop animation
-                    cell.classList.remove('popping');
-                    void cell.offsetWidth;
-                    cell.classList.add('popping');
-                    setTimeout(() => cell.classList.remove('popping'), 300);
-                });
-
-                td.appendChild(cell);
                 row.appendChild(td);
             });
 
-            gpGridBody.appendChild(row);
+            weekGridBody.appendChild(row);
         });
     }
 
-    function applyCellStyle(cell, value) {
-        // Reset
-        cell.className = 'gp-cell';
-        cell.textContent = '';
+    // ---------- PDF Download ----------
+    function hexToRgb(hex) {
+        return [parseInt(hex.slice(1, 3), 16), parseInt(hex.slice(3, 5), 16), parseInt(hex.slice(5, 7), 16)];
+    }
 
-        if (value === null) return;
-
-        if (displayType === 'colors') {
-            cell.classList.add(COLOR_CLASSES[value]);
-        } else {
-            cell.classList.add('smiley-filled');
-            cell.textContent = SMILEY_MAP[value];
+    function generatePdf() {
+        if (!window.jspdf) {
+            alert('PDF-bibliotheek kon niet geladen worden. Probeer de pagina te vernieuwen.');
+            return;
         }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+        const pageW = 297, pageH = 210;
+        const margin = 20;
+        const weekDates = getWeekDates(weekOffset);
+        const todayKey = getTodayKey();
+
+        // Header
+        doc.setFillColor(108, 99, 255);
+        doc.rect(0, 0, pageW, 28, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(20);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Gedragspatroon', margin, 18);
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        doc.text(formatWeekLabel(), pageW - margin, 18, { align: 'right' });
+
+        // Subtitle (student name if individual)
+        let subtitleY = 38;
+        if (mode === 'individual' && selectedStudentId) {
+            const student = students.find(s => s.id === selectedStudentId);
+            if (student) {
+                doc.setTextColor(50, 50, 70);
+                doc.setFontSize(13);
+                doc.setFont('helvetica', 'bold');
+                const name = student.last_name ? student.first_name + ' ' + student.last_name : student.first_name;
+                doc.text(name, pageW / 2, subtitleY, { align: 'center' });
+                subtitleY += 10;
+            }
+        }
+
+        // Table
+        const tableTop = subtitleY + 4;
+        const colCount = segments.length + 1;
+        const dayColW = 35;
+        const segColW = (pageW - margin * 2 - dayColW) / segments.length;
+        const rowH = 18;
+
+        // Table header
+        doc.setFillColor(248, 248, 252);
+        doc.rect(margin, tableTop, pageW - margin * 2, rowH, 'F');
+        doc.setDrawColor(230, 230, 240);
+        doc.setLineWidth(0.3);
+        doc.line(margin, tableTop + rowH, pageW - margin, tableTop + rowH);
+
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(120, 120, 140);
+        doc.text('DAG', margin + 4, tableTop + 11);
+
+        segments.forEach((seg, i) => {
+            const x = margin + dayColW + i * segColW;
+            doc.text(seg.toUpperCase(), x + segColW / 2, tableTop + 11, { align: 'center' });
+        });
+
+        // Table rows
+        weekDates.forEach((dateKey, dayIndex) => {
+            const rowY = tableTop + rowH + dayIndex * rowH;
+            const isToday = dateKey === todayKey;
+
+            if (isToday) {
+                doc.setFillColor(238, 237, 251);
+                doc.rect(margin, rowY, pageW - margin * 2, rowH, 'F');
+            }
+
+            doc.setDrawColor(240, 240, 245);
+            doc.setLineWidth(0.2);
+            doc.line(margin, rowY + rowH, pageW - margin, rowY + rowH);
+
+            // Day name
+            doc.setFontSize(10);
+            doc.setFont('helvetica', isToday ? 'bold' : 'normal');
+            doc.setTextColor(isToday ? 108 : 50, isToday ? 99 : 50, isToday ? 255 : 70);
+            doc.text(WEEKDAY_NAMES[dayIndex], margin + 4, rowY + 12);
+
+            // Values
+            segments.forEach((_, segIndex) => {
+                const val = getCellValue(dateKey, segIndex);
+                if (val === null) return;
+
+                const x = margin + dayColW + segIndex * segColW + segColW / 2;
+                const y = rowY + rowH / 2;
+                const level = LEVELS.find(l => l.value === val);
+
+                if (displayType === 'colors') {
+                    const [r, g, b] = hexToRgb(level.color);
+                    doc.setFillColor(r, g, b);
+                    doc.circle(x, y, 4, 'F');
+                } else {
+                    doc.setFontSize(12);
+                    doc.text(level.smiley, x, y + 4, { align: 'center' });
+                }
+            });
+        });
+
+        // Legend
+        const legendY = tableTop + rowH + 5 * rowH + 12;
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        let legendX = margin;
+        LEVELS.forEach(level => {
+            if (displayType === 'colors') {
+                const [r, g, b] = hexToRgb(level.color);
+                doc.setFillColor(r, g, b);
+                doc.circle(legendX + 3, legendY - 1.5, 3, 'F');
+                legendX += 10;
+            } else {
+                doc.setFontSize(11);
+                doc.text(level.smiley, legendX, legendY);
+                legendX += 8;
+            }
+            doc.setFontSize(9);
+            doc.setTextColor(100, 100, 110);
+            doc.text(level.label, legendX, legendY);
+            legendX += doc.getTextWidth(level.label) + 14;
+        });
+
+        // Footer
+        doc.setFontSize(8);
+        doc.setTextColor(180, 180, 190);
+        doc.text('Meestertools - Gedragspatroon', margin, pageH - 8);
+        const now = new Date();
+        const timestamp = now.toLocaleDateString('nl-NL') + ' ' + now.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+        doc.text('Gedownload: ' + timestamp, pageW - margin, pageH - 8, { align: 'right' });
+
+        // Save
+        const filename = 'gedragspatroon-' + getWeekDates(weekOffset)[0] + '.pdf';
+        doc.save(filename);
+    }
+
+    if (btnDownloadPdf) {
+        btnDownloadPdf.addEventListener('click', generatePdf);
     }
 
     // ---------- Settings Modal ----------
@@ -450,16 +639,14 @@ document.addEventListener('DOMContentLoaded', () => {
             input.type = 'text';
             input.value = seg;
             input.placeholder = 'Naam dagdeel';
-            input.addEventListener('input', () => {
-                tempSegments[i] = input.value;
-            });
+            input.addEventListener('input', () => { tempSegments[i] = input.value; });
 
             const removeBtn = document.createElement('button');
             removeBtn.className = 'gp-segment-remove';
             removeBtn.innerHTML = '&times;';
             removeBtn.title = 'Verwijderen';
             removeBtn.addEventListener('click', () => {
-                if (tempSegments.length <= 1) return; // At least 1 segment
+                if (tempSegments.length <= 1) return;
                 tempSegments.splice(i, 1);
                 renderSegmentsList();
             });
@@ -473,29 +660,21 @@ document.addEventListener('DOMContentLoaded', () => {
     btnAddSegment.addEventListener('click', () => {
         tempSegments.push('');
         renderSegmentsList();
-        // Focus the new input
         const inputs = segmentsList.querySelectorAll('input');
         if (inputs.length > 0) inputs[inputs.length - 1].focus();
     });
 
     btnSettings.addEventListener('click', openModal);
     btnCloseSettings.addEventListener('click', closeModal);
-
-    settingsModal.addEventListener('click', (e) => {
-        if (e.target === settingsModal) closeModal();
-    });
-
+    settingsModal.addEventListener('click', (e) => { if (e.target === settingsModal) closeModal(); });
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && settingsModal.classList.contains('active')) {
-            closeModal();
-        }
+        if (e.key === 'Escape' && settingsModal.classList.contains('active')) closeModal();
     });
 
     btnSaveSettings.addEventListener('click', async () => {
         mode = settingMode.value;
         displayType = settingDisplayType.value;
 
-        // Filter empty segments and save
         segments = tempSegments.filter(s => s.trim() !== '');
         if (segments.length === 0) segments = [...DEFAULT_SEGMENTS];
 
