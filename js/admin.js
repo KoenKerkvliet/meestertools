@@ -717,17 +717,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function addWord() {
-        const word = newWordInput.value.trim();
-        if (!word) return;
+        const raw = newWordInput.value.trim();
+        if (!raw) return;
 
         const difficultyId = document.getElementById('newWordDifficulty')?.value || null;
 
-        const insertData = { level: activeLevel, word: word };
-        if (difficultyId) insertData.difficulty_id = difficultyId;
+        // Split by comma, trim each, filter empty
+        const words = raw.split(',').map(w => w.trim()).filter(w => w.length > 0);
+        if (words.length === 0) return;
+
+        const rows = words.map(w => {
+            const row = { level: activeLevel, word: w };
+            if (difficultyId) row.difficulty_id = difficultyId;
+            return row;
+        });
 
         const { error } = await supabase
             .from('flash_words')
-            .insert(insertData);
+            .insert(rows);
 
         if (error) {
             alert('Fout bij toevoegen: ' + error.message);
@@ -810,7 +817,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.userRole !== undefined) {
             clearInterval(checkAuth);
             if (window.userRole === 'super_admin') {
-                await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties().then(() => loadAllWords())]);
+                await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties().then(() => { renderDifficultiesList(); updateDifficultyDropdowns(); return loadAllWords(); })]);
             }
         }
     }, 100);
