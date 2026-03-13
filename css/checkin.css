@@ -210,12 +210,38 @@
     margin-top: 8px;
 }
 
+.checkin-week-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
 .checkin-week-title {
     font-size: 22px;
     font-weight: 800;
     color: var(--text-dark);
-    margin: 0 0 24px 0;
-    text-align: center;
+    margin: 0;
+}
+
+/* ---------- PDF Download Button ---------- */
+.checkin-pdf-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.checkin-pdf-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);
 }
 
 .checkin-week-grid {

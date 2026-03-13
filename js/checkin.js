@@ -379,6 +379,169 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ---------- PDF Download ----------
+    const btnDownloadPdf = document.getElementById('btnDownloadPdf');
+
+    function getWeekLabel() {
+        const dates = getWeekDates();
+        const fmt = d => { const p = d.split('-'); return p[2] + '-' + p[1]; };
+        return fmt(dates[0]) + ' t/m ' + fmt(dates[4]);
+    }
+
+    function hexToRgb(hex) {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return [r, g, b];
+    }
+
+    function generatePdf() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+        const pageW = 297, pageH = 210;
+        const margin = 20;
+        const weekDates = getWeekDates();
+        const todayKey = getTodayKey();
+        const config = SMILEY_CONFIGS[smileyCount];
+
+        // ---- Header ----
+        doc.setFillColor(108, 99, 255);
+        doc.rect(0, 0, pageW, 28, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(20);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Check-in Weekoverzicht', margin, 18);
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        doc.text(getWeekLabel(), pageW - margin, 18, { align: 'right' });
+
+        // ---- Title ----
+        doc.setTextColor(50, 50, 70);
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.text(title, pageW / 2, 42, { align: 'center' });
+
+        // ---- Day columns ----
+        const colW = (pageW - margin * 2 - 4 * 8) / 5; // 5 cols with 8mm gaps
+        const startY = 52;
+        const colH = pageH - startY - margin - 10;
+
+        weekDates.forEach((dateKey, i) => {
+            const x = margin + i * (colW + 8);
+            const dayVotes = weekData[dateKey];
+            const isToday = dateKey === todayKey;
+            const hasData = dayVotes && dayVotes.reduce((a, b) => a + b, 0) > 0;
+
+            // Column background
+            if (isToday) {
+                doc.setFillColor(238, 237, 251);
+                doc.setDrawColor(108, 99, 255);
+                doc.setLineWidth(0.6);
+                doc.roundedRect(x, startY, colW, colH, 4, 4, 'FD');
+            } else {
+                doc.setFillColor(248, 248, 252);
+                doc.setDrawColor(230, 230, 240);
+                doc.setLineWidth(0.3);
+                doc.roundedRect(x, startY, colW, colH, 4, 4, 'FD');
+            }
+
+            // Day name
+            doc.setFontSize(13);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(isToday ? 108 : 120, isToday ? 99 : 120, isToday ? 255 : 140);
+            doc.text(DAY_NAMES[i], x + colW / 2, startY + 12, { align: 'center' });
+
+            // Date
+            const dateParts = dateKey.split('-');
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(160, 160, 170);
+            doc.text(dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0], x + colW / 2, startY + 19, { align: 'center' });
+
+            if (hasData) {
+                const total = dayVotes.reduce((a, b) => a + b, 0);
+                const storedConfig = SMILEY_CONFIGS[dayVotes.length] || config;
+
+                // Total votes
+                doc.setFontSize(22);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(50, 50, 70);
+                doc.text(String(total), x + colW / 2, startY + 36, { align: 'center' });
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(140, 140, 150);
+                doc.text(total === 1 ? 'stem' : 'stemmen', x + colW / 2, startY + 42, { align: 'center' });
+
+                // Stacked horizontal bar
+                const barY = startY + 48;
+                const barH = 8;
+                const barW = colW - 12;
+                let barX = x + 6;
+                dayVotes.forEach((v, vi) => {
+                    if (v <= 0) return;
+                    const segW = (v / total) * barW;
+                    const [r, g, b] = hexToRgb(storedConfig.colors[vi]);
+                    doc.setFillColor(r, g, b);
+                    // First segment: round left corners
+                    if (barX === x + 6) {
+                        doc.roundedRect(barX, barY, segW, barH, 3, 3, 'F');
+                    } else {
+                        doc.rect(barX, barY, segW, barH, 'F');
+                    }
+                    barX += segW;
+                });
+
+                // Smiley breakdown list
+                let listY = startY + 66;
+                const smileyLabels = ['Zeer verdrietig', 'Verdrietig', 'Neutraal', 'Blij', 'Zeer blij'];
+                const smileyLabels4 = ['Verdrietig', 'Neutraal', 'Blij', 'Zeer blij'];
+                const smileyLabels3 = ['Verdrietig', 'Neutraal', 'Blij'];
+                const labels = dayVotes.length === 3 ? smileyLabels3 : dayVotes.length === 4 ? smileyLabels4 : smileyLabels;
+
+                dayVotes.forEach((v, vi) => {
+                    const [r, g, b] = hexToRgb(storedConfig.colors[vi]);
+                    // Color dot
+                    doc.setFillColor(r, g, b);
+                    doc.circle(x + 10, listY - 1.5, 2.5, 'F');
+                    // Label
+                    doc.setFontSize(9);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(80, 80, 90);
+                    doc.text(labels[vi], x + 15, listY);
+                    // Count
+                    doc.setFont('helvetica', 'bold');
+                    doc.setTextColor(50, 50, 70);
+                    const pct = Math.round(v / total * 100);
+                    doc.text(`${v} (${pct}%)`, x + colW - 6, listY, { align: 'right' });
+                    listY += 10;
+                });
+            } else {
+                // Empty state
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(180, 180, 190);
+                doc.text('Geen data', x + colW / 2, startY + colH / 2, { align: 'center' });
+            }
+        });
+
+        // ---- Footer ----
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(180, 180, 190);
+        doc.text('Meestertools - Check-in Weekoverzicht', margin, pageH - 8);
+        const now = new Date();
+        const timestamp = now.toLocaleDateString('nl-NL') + ' ' + now.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+        doc.text('Gedownload: ' + timestamp, pageW - margin, pageH - 8, { align: 'right' });
+
+        // ---- Save ----
+        const filename = 'checkin-weekoverzicht-' + getWeekDates()[0] + '.pdf';
+        doc.save(filename);
+    }
+
+    if (btnDownloadPdf) {
+        btnDownloadPdf.addEventListener('click', generatePdf);
+    }
+
     // ---------- Settings Modal ----------
     function openModal() {
         settingTitle.value = title;
