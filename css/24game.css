@@ -1,5 +1,5 @@
 /* ============================================
-   24 GAME - Stylesheet (Kompas Layout)
+   24 GAME - Stylesheet (Speelbord Stijl)
    ============================================ */
 
 .game24-container {
@@ -52,13 +52,13 @@
 }
 
 .game24-diff-filter-btn:hover {
-    border-color: var(--primary-light);
-    color: var(--primary);
+    border-color: #D4A017;
+    color: #B8860B;
 }
 
 .game24-diff-filter-btn.active {
-    background: var(--primary);
-    border-color: var(--primary);
+    background: #D4A017;
+    border-color: #D4A017;
     color: white;
 }
 
@@ -79,27 +79,80 @@
 .game24-target-number {
     font-size: 56px;
     font-weight: 900;
-    background: linear-gradient(135deg, var(--primary), var(--accent-pink));
+    background: linear-gradient(135deg, #D4A017, #FFD700);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     line-height: 1;
 }
 
-/* ---------- Compass Grid ---------- */
+/* ---------- Compass Board ---------- */
+.game24-board-wrapper {
+    position: relative;
+    width: 380px;
+    height: 380px;
+}
+
+/* Gele cirkel achtergrond */
+.game24-board-circle {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, #FFD700 0%, #DAA520 80%, #B8860B 100%);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.2),
+        inset 0 2px 4px rgba(255, 255, 255, 0.3);
+    border: 4px solid #B8860B;
+}
+
+/* Rood kruis */
+.game24-board-cross {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.game24-board-cross::before,
+.game24-board-cross::after {
+    content: '';
+    position: absolute;
+    background: linear-gradient(180deg, #CC0000 0%, #990000 100%);
+    border: 2px solid #800000;
+}
+
+/* Verticale balk */
+.game24-board-cross::before {
+    width: 88px;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Horizontale balk */
+.game24-board-cross::after {
+    height: 88px;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Grid over de cirkel */
 .game24-compass {
+    position: absolute;
+    inset: 0;
     display: grid;
     grid-template-columns: 1fr 100px 80px 100px 1fr;
-    grid-template-rows: auto auto auto auto auto;
-    gap: 8px;
+    grid-template-rows: 1fr 100px 80px 100px 1fr;
     align-items: center;
     justify-items: center;
-    width: 100%;
-    max-width: 480px;
+    z-index: 2;
 }
 
 /* Grid positions */
-.game24-pos-n  { grid-row: 1; grid-column: 3; }
+.game24-pos-n  { grid-row: 1; grid-column: 3; align-self: end; }
 .game24-pos-nw { grid-row: 2; grid-column: 2; }
 .game24-pos-no { grid-row: 2; grid-column: 4; }
 .game24-pos-w  { grid-row: 3; grid-column: 1; justify-self: end; }
@@ -107,76 +160,87 @@
 .game24-pos-o  { grid-row: 3; grid-column: 5; justify-self: start; }
 .game24-pos-zw { grid-row: 4; grid-column: 2; }
 .game24-pos-zo { grid-row: 4; grid-column: 4; }
-.game24-pos-z  { grid-row: 5; grid-column: 3; }
+.game24-pos-z  { grid-row: 5; grid-column: 3; align-self: start; }
 
-/* ---------- Center (Score) ---------- */
+/* ---------- Center (Score) - Rode ruit ---------- */
 .game24-center {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #F8F9FE 0%, #F0F0FF 100%);
-    border: 3px solid #E8E8F0;
+    width: 72px;
+    height: 72px;
+    transform: rotate(45deg);
+    background: linear-gradient(135deg, #CC0000 0%, #990000 100%);
+    border: 3px solid #800000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.game24-center > * {
+    transform: rotate(-45deg);
 }
 
 .game24-center-value {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 900;
-    color: var(--primary);
+    color: #00FF00;
     line-height: 1;
+    text-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
 }
 
 .game24-center-label {
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 700;
-    color: var(--text-light);
+    color: rgba(255, 255, 255, 0.8);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 /* ---------- Number Cards ---------- */
 .game24-card {
-    width: 90px;
-    height: 100px;
+    width: 82px;
+    height: 82px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    background: var(--bg-white);
-    border: 3px solid #E8E8F0;
-    border-radius: var(--radius-lg);
+    gap: 2px;
+    background: linear-gradient(180deg, #1A237E 0%, #0D1442 100%);
+    border: 3px solid #3949AB;
+    border-radius: 12px;
     font-size: 32px;
-    font-weight: 800;
-    color: var(--text-dark);
+    font-weight: 900;
+    color: #FFD700;
     cursor: pointer;
     transition: all 0.2s ease;
     user-select: none;
     position: relative;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .game24-card:hover:not(.used):not(.disabled) {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(108, 99, 255, 0.2);
-    border-color: var(--primary-light);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    border-color: #FFD700;
 }
 
 .game24-card.selected {
-    border-color: var(--primary);
-    background: linear-gradient(135deg, #F0F0FF 0%, #E8E8FF 100%);
-    box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
-    transform: translateY(-3px);
+    border-color: #FFD700;
+    background: linear-gradient(180deg, #283593 0%, #1A237E 100%);
+    box-shadow:
+        0 0 0 4px rgba(255, 215, 0, 0.4),
+        0 8px 24px rgba(0, 0, 0, 0.4);
+    transform: translateY(-4px) scale(1.05);
 }
 
 .game24-card.used {
-    opacity: 0.15;
+    opacity: 0.2;
     cursor: not-allowed;
     pointer-events: none;
-    transform: scale(0.9);
+    transform: scale(0.85);
 }
 
 .game24-card.disabled {
@@ -188,47 +252,53 @@
     font-size: 10px;
     letter-spacing: 1px;
     line-height: 1;
+    text-shadow: none;
 }
 
-.game24-stars.stars-1 { color: var(--accent-green); }
-.game24-stars.stars-2 { color: var(--accent-orange); }
-.game24-stars.stars-3 { color: var(--secondary); }
+.game24-stars.stars-1 { color: #69F0AE; }
+.game24-stars.stars-2 { color: #FFD740; }
+.game24-stars.stars-3 { color: #FF5252; }
 
 /* ---------- Operation Buttons ---------- */
 .game24-op-btn {
-    width: 52px;
-    height: 52px;
+    width: 56px;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 3px solid #E8E8F0;
-    border-radius: 50%;
-    background: var(--bg-white);
-    font-size: 22px;
+    border: 3px solid #1565C0;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #1E88E5 0%, #1565C0 100%);
+    font-size: 24px;
     font-weight: 700;
-    color: var(--text-medium);
+    color: #FFFFFF;
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: inherit;
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .game24-op-btn:hover:not(:disabled) {
-    border-color: var(--accent-orange);
-    color: var(--accent-orange);
-    background: #FFF8F0;
-    transform: scale(1.1);
+    background: linear-gradient(180deg, #42A5F5 0%, #1E88E5 100%);
+    transform: scale(1.15);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 .game24-op-btn.selected {
-    border-color: var(--accent-orange);
-    background: var(--accent-orange);
+    background: linear-gradient(180deg, #FF8F00 0%, #E65100 100%);
+    border-color: #FF8F00;
     color: white;
-    box-shadow: 0 4px 12px rgba(255, 140, 66, 0.3);
-    transform: scale(1.1);
+    box-shadow:
+        0 0 0 4px rgba(255, 143, 0, 0.3),
+        0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: scale(1.15);
 }
 
 .game24-op-btn:disabled {
-    opacity: 0.3;
+    opacity: 0.35;
     cursor: not-allowed;
 }
 
@@ -255,9 +325,9 @@
     flex-wrap: wrap;
     min-height: 70px;
     padding: 12px;
-    background: linear-gradient(135deg, #F8FFF8 0%, #F0FFF0 100%);
-    border: 2px dashed #D0E8D0;
-    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, #1A237E10 0%, #0D144210 100%);
+    border: 2px dashed #3949AB60;
+    border-radius: 12px;
     align-items: center;
 }
 
@@ -274,43 +344,49 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--bg-white);
-    border: 3px solid var(--accent-green);
-    border-radius: var(--radius-md);
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--accent-green);
+    background: linear-gradient(180deg, #2E7D32 0%, #1B5E20 100%);
+    border: 3px solid #4CAF50;
+    border-radius: 10px;
+    font-size: 22px;
+    font-weight: 900;
+    color: #FFFFFF;
     cursor: pointer;
     transition: all 0.2s ease;
     user-select: none;
-    box-shadow: 0 2px 8px rgba(107, 203, 119, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     animation: cardPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.game24-result-card:hover:not(.used) {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(107, 203, 119, 0.25);
+.game24-result-card:hover:not(.used):not(.disabled) {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    border-color: #FFD700;
 }
 
 .game24-result-card.selected {
-    border-color: var(--primary);
-    background: linear-gradient(135deg, #F0F0FF 0%, #E8E8FF 100%);
-    color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
-    transform: translateY(-3px);
+    border-color: #FFD700;
+    box-shadow:
+        0 0 0 4px rgba(255, 215, 0, 0.4),
+        0 8px 20px rgba(0, 0, 0, 0.35);
+    transform: translateY(-4px) scale(1.05);
 }
 
 .game24-result-card.used {
-    opacity: 0.15;
+    opacity: 0.2;
     cursor: not-allowed;
     pointer-events: none;
-    transform: scale(0.9);
+    transform: scale(0.85);
+}
+
+.game24-result-card.disabled {
+    cursor: default;
 }
 
 .game24-result-card .game24-result-step {
     font-size: 9px;
     font-weight: 600;
-    color: var(--text-light);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 @keyframes cardPop {
@@ -340,8 +416,8 @@
     justify-content: center;
     gap: 8px;
     padding: 8px 16px;
-    background: var(--bg-light);
-    border-radius: var(--radius-sm);
+    background: #1A237E10;
+    border-radius: 8px;
     margin-bottom: 6px;
     font-size: 16px;
     font-weight: 600;
@@ -370,18 +446,18 @@
 .game24-gameover {
     text-align: center;
     padding: 24px;
-    border-radius: var(--radius-lg);
+    border-radius: 16px;
     width: 100%;
 }
 
 .game24-gameover.win {
-    background: linear-gradient(135deg, #F0FFF0 0%, #E0FFE0 100%);
-    border: 3px solid #A8E6A8;
+    background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+    border: 3px solid #4CAF50;
 }
 
 .game24-gameover.lose {
-    background: linear-gradient(135deg, #FFF5F0 0%, #FFE8E0 100%);
-    border: 3px solid #FFB0A0;
+    background: linear-gradient(135deg, #B71C1C 0%, #C62828 100%);
+    border: 3px solid #EF5350;
 }
 
 .game24-gameover-icon {
@@ -393,20 +469,13 @@
 .game24-gameover-text {
     font-size: 24px;
     font-weight: 800;
+    color: #FFFFFF;
     margin-bottom: 4px;
-}
-
-.game24-gameover.win .game24-gameover-text {
-    color: var(--accent-green);
-}
-
-.game24-gameover.lose .game24-gameover-text {
-    color: var(--secondary);
 }
 
 .game24-gameover-sub {
     font-size: 14px;
-    color: var(--text-medium);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .game24-gameover.animate {
@@ -423,11 +492,11 @@
 .game24-instruction {
     text-align: center;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text-medium);
-    padding: 8px 16px;
-    background: var(--bg-light);
-    border-radius: var(--radius-md);
+    padding: 10px 20px;
+    background: #1A237E10;
+    border-radius: 20px;
     min-height: 40px;
     display: flex;
     align-items: center;
@@ -435,8 +504,8 @@
 }
 
 .game24-instruction.highlight {
-    color: var(--primary);
-    background: #F0F0FF;
+    color: #1A237E;
+    background: #FFD70030;
 }
 
 /* ---------- Action Buttons ---------- */
@@ -450,48 +519,48 @@
 .game24-btn {
     padding: 12px 28px;
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: 10px;
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
     font-family: inherit;
-    transition: var(--transition);
+    transition: all 0.2s ease;
 }
 
 .game24-btn-new {
-    background: var(--primary);
+    background: linear-gradient(180deg, #1E88E5 0%, #1565C0 100%);
     color: white;
-    box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+    box-shadow: 0 4px 12px rgba(21, 101, 192, 0.3);
 }
 
 .game24-btn-new:hover {
-    background: var(--primary-dark);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(108, 99, 255, 0.4);
+    background: linear-gradient(180deg, #42A5F5 0%, #1E88E5 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(21, 101, 192, 0.4);
 }
 
 .game24-btn-undo {
-    background: #F0F0F5;
+    background: linear-gradient(180deg, #F5F5F5 0%, #E0E0E0 100%);
     color: var(--text-medium);
 }
 
 .game24-btn-undo:hover {
-    background: #E8E8F0;
-    transform: translateY(-1px);
+    background: linear-gradient(180deg, #EEEEEE 0%, #D0D0D0 100%);
+    transform: translateY(-2px);
 }
 
 .game24-btn-reset {
-    background: #FFF0F0;
-    color: var(--secondary);
+    background: linear-gradient(180deg, #EF5350 0%, #C62828 100%);
+    color: white;
 }
 
 .game24-btn-reset:hover {
-    background: #FFE0E0;
-    transform: translateY(-1px);
+    background: linear-gradient(180deg, #FF5252 0%, #D32F2F 100%);
+    transform: translateY(-2px);
 }
 
 .game24-btn:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
     transform: none !important;
 }
@@ -502,15 +571,21 @@
         font-size: 42px;
     }
 
+    .game24-board-wrapper {
+        width: 310px;
+        height: 310px;
+    }
+
     .game24-compass {
         grid-template-columns: 1fr 76px 64px 76px 1fr;
-        gap: 6px;
+        grid-template-rows: 1fr 76px 64px 76px 1fr;
     }
 
     .game24-card {
-        width: 72px;
-        height: 82px;
+        width: 66px;
+        height: 66px;
         font-size: 24px;
+        border-radius: 10px;
     }
 
     .game24-op-btn {
@@ -520,18 +595,26 @@
     }
 
     .game24-center {
-        width: 64px;
-        height: 64px;
+        width: 58px;
+        height: 58px;
     }
 
     .game24-center-value {
-        font-size: 24px;
+        font-size: 22px;
+    }
+
+    .game24-board-cross::before {
+        width: 70px;
+    }
+
+    .game24-board-cross::after {
+        height: 70px;
     }
 
     .game24-result-card {
         width: 60px;
         height: 68px;
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .game24-btn {

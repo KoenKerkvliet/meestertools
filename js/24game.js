@@ -329,7 +329,10 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '<div class="game24-instruction' + highlightClass + '">' + escapeHtml(instruction) + '</div>';
         }
 
-        // Compass grid
+        // Board wrapper met cirkel + kruis + compass grid
+        html += '<div class="game24-board-wrapper">';
+        html += '<div class="game24-board-circle"></div>';
+        html += '<div class="game24-board-cross"></div>';
         html += '<div class="game24-compass">';
 
         // North: + operator
@@ -344,7 +347,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // West: - operator
         html += renderOpButton('-', '\u2212', 'w');
 
-        // Center: score
+        // Center: score (rode ruit)
         html += '<div class="game24-pos-center">';
         html += '<div class="game24-center">';
         html += '<div class="game24-center-value">' + score.wins + '</div>';
@@ -365,6 +368,7 @@ document.addEventListener('DOMContentLoaded', function () {
         html += renderOpButton('/', '\u00F7', 'z');
 
         html += '</div>'; // end compass
+        html += '</div>'; // end board-wrapper
 
         // Results area
         html += '<div class="game24-results-area">';
