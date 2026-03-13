@@ -135,13 +135,14 @@
                 <div class="words-section">
                     <h3 class="words-section-title">Moeilijkheden</h3>
                     <div class="words-add-row">
-                        <input type="text" class="search-input" id="newDifficultyInput" placeholder="Nieuwe moeilijkheid toevoegen...">
+                        <input type="text" class="search-input" id="newDifficultyInput" placeholder="Naam moeilijkheid...">
+                        <div class="diff-levels-row" id="newDifficultyLevels"></div>
                         <button class="btn-primary" id="addDifficultyBtn">+ Toevoegen</button>
                     </div>
                     <div class="words-list" id="difficultiesList">
                         <div class="admin-empty" style="width:100%;">
                             <span class="empty-icon">&#128203;</span>
-                            <p>Selecteer een leesniveau om moeilijkheden te beheren.</p>
+                            <p>Voeg een moeilijkheid toe en koppel deze aan leesniveaus.</p>
                         </div>
                     </div>
                 </div>
@@ -197,7 +198,7 @@
 
     <!-- Difficulty Edit Modal -->
     <div class="modal-overlay" id="difficultyEditModal">
-        <div class="modal" style="max-width:400px;">
+        <div class="modal" style="max-width:440px;">
             <div class="modal-header">
                 <h2>Moeilijkheid bewerken</h2>
                 <button class="modal-close" id="closeDifficultyEditModal">&times;</button>
@@ -207,6 +208,10 @@
                     <label for="editDifficultyInput">Naam</label>
                     <input type="text" id="editDifficultyInput" placeholder="Moeilijkheid">
                     <input type="hidden" id="editDifficultyId">
+                </div>
+                <div class="form-group">
+                    <label>Leesniveaus</label>
+                    <div class="diff-levels-row" id="editDifficultyLevels"></div>
                 </div>
             </div>
             <div class="modal-footer">

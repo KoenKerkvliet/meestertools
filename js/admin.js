@@ -402,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getDifficultiesForLevel(level) {
-        return allDifficulties.filter(d => d.level === level);
+        return allDifficulties.filter(d => d.levels && d.levels.indexOf(level) !== -1);
     }
 
     function getDifficultyName(id) {
@@ -414,25 +414,36 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('difficultiesList');
         if (!container) return;
 
-        const difficulties = getDifficultiesForLevel(activeLevel);
-
-        if (difficulties.length === 0) {
+        if (allDifficulties.length === 0) {
             container.innerHTML = `
                 <div class="admin-empty" style="width:100%;">
                     <span class="empty-icon">&#128203;</span>
-                    <p>Nog geen moeilijkheden voor ${escapeHtml(activeLevel)}. Voeg er een toe!</p>
+                    <p>Nog geen moeilijkheden. Voeg er een toe!</p>
                 </div>`;
             return;
         }
 
         container.innerHTML = '';
-        difficulties.forEach(d => {
+        allDifficulties.forEach(d => {
             const chip = document.createElement('div');
             chip.className = 'word-chip';
 
             const text = document.createElement('span');
             text.textContent = d.name;
             chip.appendChild(text);
+
+            // Show level badges
+            if (d.levels && d.levels.length > 0) {
+                const badgesWrap = document.createElement('span');
+                badgesWrap.className = 'word-levels-badges';
+                d.levels.forEach(lvl => {
+                    const badge = document.createElement('span');
+                    badge.className = 'word-level-badge';
+                    badge.textContent = lvl;
+                    badgesWrap.appendChild(badge);
+                });
+                chip.appendChild(badgesWrap);
+            }
 
             const actions = document.createElement('div');
             actions.className = 'word-chip-actions';
@@ -441,7 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
             editBtn.className = 'word-chip-btn edit';
             editBtn.innerHTML = '&#9998;';
             editBtn.title = 'Bewerken';
-            editBtn.addEventListener('click', () => openEditDifficultyModal(d.id, d.name));
+            editBtn.addEventListener('click', () => openEditDifficultyModal(d.id, d.name, d.levels || []));
             actions.appendChild(editBtn);
 
             const delBtn = document.createElement('button');
@@ -476,6 +487,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Render level checkboxes for a container
+    function renderLevelCheckboxes(containerId, selectedLevels) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+        READING_LEVELS.forEach(level => {
+            const label = document.createElement('label');
+            label.className = 'diff-level-check' + (selectedLevels.indexOf(level) !== -1 ? ' checked' : '');
+
+            const cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.value = level;
+            cb.checked = selectedLevels.indexOf(level) !== -1;
+            cb.addEventListener('change', () => {
+                label.classList.toggle('checked', cb.checked);
+            });
+
+            label.appendChild(cb);
+            label.appendChild(document.createTextNode(level));
+            container.appendChild(label);
+        });
+    }
+
+    function getCheckedLevels(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return [];
+        const checked = [];
+        container.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+            checked.push(cb.value);
+        });
+        return checked;
+    }
+
+    // Init new difficulty level checkboxes
+    renderLevelCheckboxes('newDifficultyLevels', []);
+
     // Add difficulty
     const addDifficultyBtn = document.getElementById('addDifficultyBtn');
     const newDifficultyInput = document.getElementById('newDifficultyInput');
@@ -491,9 +538,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const name = newDifficultyInput.value.trim();
         if (!name) return;
 
+        const levels = getCheckedLevels('newDifficultyLevels');
+        if (levels.length === 0) {
+            alert('Selecteer minimaal één leesniveau.');
+            return;
+        }
+
         const { error } = await supabase
             .from('flash_difficulties')
-            .insert({ level: activeLevel, name: name });
+            .insert({ levels: levels, name: name });
 
         if (error) {
             alert('Fout bij toevoegen: ' + error.message);
@@ -501,6 +554,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         newDifficultyInput.value = '';
+        renderLevelCheckboxes('newDifficultyLevels', []);
         newDifficultyInput.focus();
         await loadAllDifficulties();
         renderDifficultiesList();
@@ -526,9 +580,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function openEditDifficultyModal(id, name) {
+    function openEditDifficultyModal(id, name, levels) {
         document.getElementById('editDifficultyId').value = id;
         document.getElementById('editDifficultyInput').value = name;
+        renderLevelCheckboxes('editDifficultyLevels', levels || []);
         openModal('difficultyEditModal');
         setTimeout(() => document.getElementById('editDifficultyInput').focus(), 100);
     }
@@ -536,15 +591,21 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('saveDifficultyBtn')?.addEventListener('click', async () => {
         const id = document.getElementById('editDifficultyId').value;
         const name = document.getElementById('editDifficultyInput').value.trim();
+        const levels = getCheckedLevels('editDifficultyLevels');
 
         if (!name) {
             alert('Vul een naam in.');
             return;
         }
 
+        if (levels.length === 0) {
+            alert('Selecteer minimaal één leesniveau.');
+            return;
+        }
+
         const { error } = await supabase
             .from('flash_difficulties')
-            .update({ name: name })
+            .update({ name: name, levels: levels })
             .eq('id', id);
 
         if (error) {

@@ -246,7 +246,7 @@ CREATE POLICY "Super admin can delete flash_words"
 -- ---------- 14. Flash Difficulties tabel (leesmoeilijkheden per niveau) ----------
 CREATE TABLE IF NOT EXISTS public.flash_difficulties (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    level TEXT NOT NULL,
+    levels TEXT[] NOT NULL DEFAULT '{}',
     name TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT now()
 );

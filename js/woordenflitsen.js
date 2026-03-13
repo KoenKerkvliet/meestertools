@@ -63,8 +63,8 @@ document.addEventListener('DOMContentLoaded', function () {
     async function loadDifficultiesForLevel(level) {
         var result = await supabase
             .from('flash_difficulties')
-            .select('id, name')
-            .eq('level', level)
+            .select('id, name, levels')
+            .contains('levels', [level])
             .order('name');
 
         difficulties = result.data || [];
