@@ -429,9 +429,47 @@ document.addEventListener('DOMContentLoaded', () => {
         return d ? d.name : '';
     }
 
+    // Search & level filter for difficulties
+    const diffSearchInput = document.getElementById('difficultySearch');
+    if (diffSearchInput) {
+        diffSearchInput.addEventListener('input', () => renderDifficultiesList());
+    }
+
+    const diffLevelFilter = document.getElementById('difficultyLevelFilter');
+    if (diffLevelFilter) {
+        // Populate level options
+        READING_LEVELS.forEach(level => {
+            const opt = document.createElement('option');
+            opt.value = level;
+            opt.textContent = level;
+            diffLevelFilter.appendChild(opt);
+        });
+        diffLevelFilter.addEventListener('change', () => renderDifficultiesList());
+    }
+
     function renderDifficultiesList() {
         const container = document.getElementById('difficultiesList');
         if (!container) return;
+
+        const searchTerm = (document.getElementById('difficultySearch')?.value || '').toLowerCase().trim();
+        const levelFilter = document.getElementById('difficultyLevelFilter')?.value || '';
+
+        let filtered = [...allDifficulties];
+        if (levelFilter) {
+            filtered = filtered.filter(d => d.levels && d.levels.indexOf(levelFilter) !== -1);
+        }
+        if (searchTerm) {
+            filtered = filtered.filter(d => d.name.toLowerCase().indexOf(searchTerm) !== -1);
+        }
+
+        // Update counter
+        const countEl = document.getElementById('difficultyCount');
+        if (countEl) {
+            const hasFilter = searchTerm || levelFilter;
+            countEl.textContent = hasFilter
+                ? filtered.length + ' / ' + allDifficulties.length + ' moeilijkheden'
+                : allDifficulties.length + ' moeilijkheden';
+        }
 
         if (allDifficulties.length === 0) {
             container.innerHTML = `
@@ -442,8 +480,17 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        if (filtered.length === 0) {
+            container.innerHTML = `
+                <div class="admin-empty" style="width:100%;">
+                    <span class="empty-icon">&#128269;</span>
+                    <p>${searchTerm ? 'Geen moeilijkheden gevonden voor "' + escapeHtml(searchTerm) + '".' : 'Nog geen moeilijkheden. Voeg er een toe!'}</p>
+                </div>`;
+            return;
+        }
+
         container.innerHTML = '';
-        allDifficulties.forEach(d => {
+        filtered.forEach(d => {
             const chip = document.createElement('div');
             chip.className = 'word-chip';
 

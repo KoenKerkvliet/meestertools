@@ -141,6 +141,13 @@
                         <div class="diff-levels-row" id="newDifficultyLevels"></div>
                         <button class="btn-primary" id="addDifficultyBtn">+ Toevoegen</button>
                     </div>
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
+                        <input type="text" class="search-input" id="difficultySearch" placeholder="Zoek moeilijkheid..." style="max-width:260px;">
+                        <select class="search-input" id="difficultyLevelFilter" style="max-width:160px;">
+                            <option value="">Alle niveaus</option>
+                        </select>
+                        <span id="difficultyCount" style="font-size:13px;color:var(--text-light);font-weight:600;white-space:nowrap;margin-left:auto;"></span>
+                    </div>
                     <div class="words-list" id="difficultiesList">
                         <div class="admin-empty" style="width:100%;">
                             <span class="empty-icon">&#128203;</span>
