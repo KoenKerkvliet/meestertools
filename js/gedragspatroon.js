@@ -713,15 +713,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 doc.setFillColor(r, g, b);
                 doc.circle(x, y, 4, 'F');
 
-                // If smiley mode, add label text inside/below
-                if (displayType === 'smileys') {
-                    doc.setFontSize(6);
-                    doc.setFont('helvetica', 'bold');
-                    doc.setTextColor(255, 255, 255);
-                    const label = level.value === 3 ? ':)' : level.value === 2 ? ':|' : ':(';
-                    doc.text(label, x, y + 1.8, { align: 'center' });
-                }
-
                 // Note indicator
                 if (note) {
                     doc.setFontSize(6);
@@ -761,14 +752,6 @@ document.addEventListener('DOMContentLoaded', () => {
             doc.setFillColor(r, g, b);
             doc.circle(legendX + 3, noteY - 1.5, 3, 'F');
             legendX += 10;
-
-            if (displayType === 'smileys') {
-                doc.setFontSize(7);
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(255, 255, 255);
-                const label = level.value === 3 ? ':)' : level.value === 2 ? ':|' : ':(';
-                doc.text(label, legendX - 7, noteY - 0.2, { align: 'center' });
-            }
 
             doc.setFontSize(9);
             doc.setFont('helvetica', 'normal');
