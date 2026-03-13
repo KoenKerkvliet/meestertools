@@ -12,9 +12,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var btnCloseSettings = document.getElementById('btnCloseSettings');
     var btnSaveSettings = document.getElementById('btnSaveSettings');
     var selectGroup = document.getElementById('selectGroup');
+    var chkUniqueMode = document.getElementById('chkUniqueMode');
 
     // State
     var selectedGroupId = null;
+    var uniqueMode = false; // default: allow repeats
     var groups = [];
     var studentNames = [];
     var pickedNames = [];
@@ -39,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (result.data && result.data.settings) {
             if (result.data.settings.selectedGroupId) selectedGroupId = result.data.settings.selectedGroupId;
+            if (result.data.settings.uniqueMode === true) uniqueMode = true;
         }
 
         await loadGroups(user.id);
@@ -89,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .upsert({
                 user_id: user.id,
                 tool_name: TOOL_NAME,
-                settings: { selectedGroupId: selectedGroupId },
+                settings: { selectedGroupId: selectedGroupId, uniqueMode: uniqueMode },
                 updated_at: new Date().toISOString()
             }, { onConflict: 'user_id,tool_name' });
     }
@@ -121,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         var remaining = getRemainingNames();
-        var allDone = remaining.length === 0;
+        var allDone = uniqueMode && remaining.length === 0;
 
         var html = '';
         html += '<div class="name-display" id="nameDisplay">';
@@ -135,7 +138,9 @@ document.addEventListener('DOMContentLoaded', function () {
         html += '<button class="tool-action-btn name-pick-btn" id="btnPick"' + (allDone ? ' disabled' : '') + '>&#127919; Kies een naam</button>';
 
         html += '<div class="name-status">';
-        html += '<span class="status-count">' + pickedNames.length + ' / ' + studentNames.length + ' gekozen</span>';
+        if (uniqueMode) {
+            html += '<span class="status-count">' + pickedNames.length + ' / ' + studentNames.length + ' gekozen</span>';
+        }
         if (pickedNames.length > 0) {
             html += '<button class="btn-reset" id="btnReset">Reset</button>';
         }
@@ -181,8 +186,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function pickName() {
         if (isPicking) return;
-        var remaining = getRemainingNames();
-        if (remaining.length === 0) return;
+        var pool = uniqueMode ? getRemainingNames() : studentNames;
+        if (pool.length === 0) return;
 
         isPicking = true;
         var btnPick = document.getElementById('btnPick');
@@ -192,8 +197,8 @@ document.addEventListener('DOMContentLoaded', function () {
         btnPick.disabled = true;
 
         // Choose the final name
-        var finalIndex = Math.floor(Math.random() * remaining.length);
-        var finalName = remaining[finalIndex];
+        var finalIndex = Math.floor(Math.random() * pool.length);
+        var finalName = pool[finalIndex];
 
         // Start spinning animation
         nameDisplay.className = 'name-display spinning';
@@ -230,8 +235,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     isPicking = false;
                     btnPick.disabled = false;
 
-                    // Check if all done
-                    if (getRemainingNames().length === 0) {
+                    // Check if all done (only in unique mode)
+                    if (uniqueMode && getRemainingNames().length === 0) {
                         btnPick.disabled = true;
                         var statusArea = document.querySelector('.name-status');
                         if (statusArea) {
@@ -249,9 +254,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateStatus() {
-        // Update count
+        // Update count (only in unique mode)
         var countEl = container.querySelector('.status-count');
-        if (countEl) {
+        if (countEl && uniqueMode) {
             countEl.textContent = pickedNames.length + ' / ' + studentNames.length + ' gekozen';
         }
 
@@ -321,6 +326,7 @@ document.addEventListener('DOMContentLoaded', function () {
             selectGroup.innerHTML = options;
         }
 
+        chkUniqueMode.checked = uniqueMode;
         settingsModal.classList.add('active');
     });
 
@@ -342,12 +348,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     btnSaveSettings.addEventListener('click', async function () {
         var newGroupId = selectGroup.value;
+        var newUniqueMode = chkUniqueMode.checked;
 
         if (newGroupId !== selectedGroupId) {
             selectedGroupId = newGroupId;
             pickedNames = [];
             var user = await getSessionUser();
             if (user) await loadStudents(user.id);
+        }
+
+        if (newUniqueMode !== uniqueMode) {
+            uniqueMode = newUniqueMode;
+            pickedNames = [];
         }
 
         await saveSettingsToDb();

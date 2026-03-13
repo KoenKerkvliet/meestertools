@@ -1,0 +1,264 @@
+/* ============================================
+   WOORDEN FLITSEN - Stylesheet
+   ============================================ */
+
+.wf-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    padding: 20px 0;
+}
+
+/* ---------- Word Display ---------- */
+.wf-display {
+    width: 100%;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #F0F0FF 0%, #FFF0F5 100%);
+    border-radius: var(--radius-lg);
+    border: 3px solid #E8E8F0;
+    position: relative;
+    overflow: hidden;
+}
+
+.wf-display.active {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
+}
+
+.wf-word {
+    font-size: 64px;
+    font-weight: 800;
+    color: var(--text-dark);
+    text-align: center;
+    padding: 20px;
+    transition: opacity 0.1s ease;
+}
+
+.wf-word.placeholder {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+.wf-word.flash-in {
+    animation: wordFlashIn 0.2s ease forwards;
+}
+
+@keyframes wordFlashIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.wf-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 0 2px 0 0;
+    transition: width linear;
+}
+
+/* ---------- Controls ---------- */
+.wf-controls {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 24px;
+    background: var(--bg-light);
+    border-radius: var(--radius-lg);
+    border: 1px solid #E8E8F0;
+}
+
+.wf-control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.wf-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ---------- Level Selector ---------- */
+.wf-level-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.wf-level-btn {
+    padding: 8px 14px;
+    background: white;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-medium);
+    cursor: pointer;
+    font-family: inherit;
+    transition: var(--transition);
+}
+
+.wf-level-btn:hover {
+    border-color: var(--primary-light);
+    color: var(--primary);
+}
+
+.wf-level-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+/* ---------- Speed Stars ---------- */
+.wf-speed-selector {
+    display: flex;
+    gap: 4px;
+}
+
+.wf-star-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #D0D0D8;
+    cursor: pointer;
+    transition: color 0.15s ease, transform 0.15s ease;
+    padding: 0;
+}
+
+.wf-star-btn:hover {
+    transform: scale(1.2);
+}
+
+.wf-star-btn.active {
+    color: #FFB800;
+}
+
+/* ---------- Difficulty Button ---------- */
+.wf-difficulty-btn {
+    padding: 10px 20px;
+    background: white;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-medium);
+    cursor: pointer;
+    font-family: inherit;
+    transition: var(--transition);
+}
+
+.wf-difficulty-btn:hover {
+    border-color: var(--primary-light);
+    color: var(--primary);
+}
+
+/* ---------- Start/Pause Button ---------- */
+.wf-control-action {
+    align-self: flex-end;
+}
+
+.wf-start-btn {
+    padding: 12px 32px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+}
+
+.wf-start-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(108, 99, 255, 0.4);
+}
+
+.wf-start-btn:active {
+    transform: translateY(0);
+}
+
+.wf-start-btn.paused {
+    background: var(--accent-orange, #FF9500);
+    box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3);
+}
+
+.wf-start-btn.paused:hover {
+    box-shadow: 0 6px 16px rgba(255, 149, 0, 0.4);
+}
+
+.wf-start-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ---------- Word Count ---------- */
+.wf-word-count {
+    font-size: 14px;
+    color: var(--text-light);
+    font-weight: 600;
+    text-align: center;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+    .wf-display {
+        min-height: 160px;
+    }
+
+    .wf-word {
+        font-size: 40px;
+        padding: 16px;
+    }
+
+    .wf-word.placeholder {
+        font-size: 18px;
+    }
+
+    .wf-controls {
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .wf-level-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .wf-start-btn {
+        padding: 10px 24px;
+        font-size: 15px;
+    }
+
+    .wf-container {
+        gap: 20px;
+    }
+}
