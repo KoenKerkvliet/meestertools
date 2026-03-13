@@ -66,11 +66,13 @@
                 <!-- Vraag toevoegen -->
                 <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;">Vraag toevoegen</h3>
                 <div class="vvdd-add-form">
-                    <input type="text" class="search-input" id="newQuestion" placeholder="Vraag...">
-                    <input type="text" class="search-input" id="newAnswer" placeholder="Antwoord...">
-                    <input type="text" class="search-input" id="newTheme" list="themesList" placeholder="Thema (optioneel)">
-                    <datalist id="themesList"></datalist>
-                    <button class="btn-primary" id="addQuestionBtn">+ Toevoegen</button>
+                    <textarea class="search-input vvdd-textarea" id="newQuestion" placeholder="Vraag..." rows="3"></textarea>
+                    <textarea class="search-input vvdd-textarea" id="newAnswer" placeholder="Antwoord..." rows="3"></textarea>
+                    <div class="vvdd-add-form-row">
+                        <input type="text" class="search-input" id="newTheme" list="themesList" placeholder="Thema (optioneel)">
+                        <datalist id="themesList"></datalist>
+                        <button class="btn-primary" id="addQuestionBtn">+ Toevoegen</button>
+                    </div>
                 </div>
 
                 <!-- Vragenlijst -->
@@ -96,11 +98,11 @@
                 <input type="hidden" id="editQuestionId">
                 <div class="form-group">
                     <label for="editQuestionInput">Vraag</label>
-                    <input type="text" id="editQuestionInput" placeholder="Vraag">
+                    <textarea id="editQuestionInput" placeholder="Vraag" rows="3" class="vvdd-textarea"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="editAnswerInput">Antwoord</label>
-                    <input type="text" id="editAnswerInput" placeholder="Antwoord">
+                    <textarea id="editAnswerInput" placeholder="Antwoord" rows="3" class="vvdd-textarea"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="editThemeInput">Thema</label>

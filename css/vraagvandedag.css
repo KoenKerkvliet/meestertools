@@ -242,17 +242,42 @@
     animation: answerReveal 0.4s ease forwards;
 }
 
+/* ---------- Settings: Textareas ---------- */
+.vvdd-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text-dark);
+    resize: vertical;
+    min-height: 60px;
+    line-height: 1.5;
+    box-sizing: border-box;
+}
+
+.vvdd-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+}
+
 /* ---------- Settings: Add Form ---------- */
 .vvdd-add-form {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.vvdd-add-form-row {
+    display: flex;
     gap: 8px;
     align-items: center;
 }
 
-.vvdd-add-form .search-input {
+.vvdd-add-form-row .search-input {
     flex: 1;
-    min-width: 120px;
 }
 
 /* ---------- Settings: Questions List ---------- */
