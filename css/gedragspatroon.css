@@ -1,0 +1,393 @@
+/* ============================================
+   GEDRAGSPATROON TOOL - Styling
+   ============================================ */
+
+.gp-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 8px 0;
+}
+
+/* ---------- Controls Bar ---------- */
+.gp-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.gp-week-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.gp-nav-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #E8E8F0;
+    background: var(--bg-white);
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-medium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.gp-nav-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: #F5F4FF;
+    transform: translateY(-1px);
+}
+
+.gp-week-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+    min-width: 200px;
+    text-align: center;
+}
+
+/* Student select */
+.gp-student-select select {
+    padding: 10px 16px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+    background: var(--bg-white);
+    cursor: pointer;
+    min-width: 200px;
+    transition: var(--transition);
+}
+
+.gp-student-select select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+}
+
+/* ---------- Legend ---------- */
+.gp-legend {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.gp-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-medium);
+}
+
+.gp-legend-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.gp-legend-dot.good { background: #6BCB77; }
+.gp-legend-dot.moderate { background: #FFB347; }
+.gp-legend-dot.bad { background: #FF6B6B; }
+
+.gp-legend-emoji {
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* ---------- Grid ---------- */
+.gp-grid-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.gp-grid {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Header row */
+.gp-grid thead th {
+    padding: 14px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--bg-light);
+    border-bottom: 2px solid #E8E8F0;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.gp-grid thead th:first-child {
+    text-align: left;
+    width: 120px;
+    min-width: 100px;
+}
+
+/* Body rows */
+.gp-grid tbody tr {
+    transition: background 0.15s ease;
+}
+
+.gp-grid tbody tr:hover {
+    background: #FAFAFF;
+}
+
+.gp-grid tbody tr.today {
+    background: #EEEDFB;
+}
+
+.gp-grid tbody td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #F0F0F5;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.gp-grid tbody td:first-child {
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 14px;
+}
+
+.gp-grid tbody tr.today td:first-child {
+    color: var(--primary);
+}
+
+/* ---------- Grid Cells ---------- */
+.gp-cell {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    border: 2px dashed #E0E0EA;
+    background: var(--bg-white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.gp-cell:hover {
+    border-color: var(--primary);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(108, 99, 255, 0.15);
+}
+
+.gp-cell:active {
+    transform: scale(0.95);
+}
+
+/* Filled states - colors */
+.gp-cell.color-good {
+    background: #6BCB77;
+    border: 2px solid #5AB868;
+    border-style: solid;
+}
+
+.gp-cell.color-moderate {
+    background: #FFB347;
+    border: 2px solid #E8A33E;
+    border-style: solid;
+}
+
+.gp-cell.color-bad {
+    background: #FF6B6B;
+    border: 2px solid #E85D5D;
+    border-style: solid;
+}
+
+/* Filled states - smileys */
+.gp-cell.smiley-filled {
+    border: 2px solid #E8E8F0;
+    border-style: solid;
+    font-size: 28px;
+    line-height: 1;
+}
+
+/* Cell click animation */
+@keyframes cellPop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.25); }
+    100% { transform: scale(1); }
+}
+
+.gp-cell.popping {
+    animation: cellPop 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- Settings: Segments List ---------- */
+.gp-segments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.gp-segment-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gp-segment-item input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--text-dark);
+    transition: var(--transition);
+}
+
+.gp-segment-item input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+}
+
+.gp-segment-remove {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg-light);
+    color: var(--text-light);
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    flex-shrink: 0;
+}
+
+.gp-segment-remove:hover {
+    background: #FFE5E5;
+    color: #FF6B6B;
+}
+
+.gp-add-segment-btn {
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    background: var(--bg-light);
+    color: var(--primary);
+    border: 2px dashed var(--primary);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.gp-add-segment-btn:hover {
+    background: #F5F4FF;
+    border-style: solid;
+}
+
+/* ---------- Empty State ---------- */
+.gp-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-light);
+}
+
+.gp-empty-state .empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.gp-empty-state p {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .gp-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .gp-week-nav {
+        justify-content: center;
+    }
+
+    .gp-student-select select {
+        width: 100%;
+    }
+
+    .gp-cell {
+        width: 40px;
+        height: 40px;
+    }
+
+    .gp-cell.smiley-filled {
+        font-size: 22px;
+    }
+
+    .gp-grid thead th {
+        padding: 10px 8px;
+        font-size: 11px;
+    }
+
+    .gp-grid tbody td {
+        padding: 8px 6px;
+    }
+}
+
+@media (max-width: 600px) {
+    .gp-week-label {
+        font-size: 14px;
+        min-width: 160px;
+    }
+
+    .gp-cell {
+        width: 36px;
+        height: 36px;
+    }
+
+    .gp-cell.smiley-filled {
+        font-size: 18px;
+    }
+
+    .gp-grid thead th:first-child {
+        min-width: 70px;
+        width: 70px;
+    }
+
+    .gp-grid tbody td:first-child {
+        font-size: 12px;
+    }
+
+    .gp-legend {
+        gap: 12px;
+    }
+
+    .gp-legend-item {
+        font-size: 12px;
+    }
+}

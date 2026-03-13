@@ -396,6 +396,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function generatePdf() {
+        if (!window.jspdf) {
+            alert('PDF-bibliotheek kon niet geladen worden. Probeer de pagina te vernieuwen.');
+            return;
+        }
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
         const pageW = 297, pageH = 210;
