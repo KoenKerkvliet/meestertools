@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // If user is already logged in, redirect to dashboard
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (session) {
-                window.location.href = 'dashboard.html';
+                window.location.href = 'dashboard';
             }
         });
 
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorEl.textContent = 'Inloggen mislukt. Controleer je e-mail en wachtwoord.';
                     errorEl.style.display = 'block';
                 } else {
-                    window.location.href = 'dashboard.html';
+                    window.location.href = 'dashboard';
                     return;
                 }
             } catch (err) {
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isDashboard || isToolPage || isAdminPage) {
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (!session) {
-                window.location.href = getBasePath() + 'index.html';
+                window.location.href = getBasePath() + 'index';
                 return;
             }
             // Set profile info and fetch role from database
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // If admin page, verify super_admin access
             if (isAdminPage && profile.role !== 'super_admin') {
-                window.location.href = getBasePath() + 'dashboard.html';
+                window.location.href = getBasePath() + 'dashboard';
             }
         }
     }
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const adminItem = document.createElement('div');
         adminItem.className = 'dropdown-item admin-link';
 
-        const beheerPath = getBasePath() + 'beheer.html';
+        const beheerPath = getBasePath() + 'beheer';
 
         adminItem.innerHTML = '&#128736;&#65039; Beheer';
         adminItem.addEventListener('click', () => {
@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.addEventListener('click', async (e) => {
             e.preventDefault();
             await supabase.auth.signOut();
-            window.location.href = getBasePath() + 'index.html';
+            window.location.href = getBasePath() + 'index';
         });
     }
 
