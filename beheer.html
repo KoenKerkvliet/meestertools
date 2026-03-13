@@ -52,7 +52,7 @@
         <div class="admin-tabs">
             <button class="admin-tab active" data-tab="schools">Scholen</button>
             <button class="admin-tab" data-tab="users">Gebruikers</button>
-            <button class="admin-tab" data-tab="words">Woordenlijsten</button>
+            <button class="admin-tab" data-tab="words">Woorden Flitsen</button>
         </div>
 
         <!-- Schools Tab -->
@@ -126,14 +126,15 @@
         </div>
         <!-- Words Tab -->
         <div class="admin-tab-panel" id="tab-words">
-            <div class="admin-toolbar">
-                <div class="words-level-tabs" id="levelTabs"></div>
+            <!-- Sub-tabs -->
+            <div class="words-sub-tabs">
+                <button class="words-sub-tab active" data-subtab="difficulties">Moeilijkheden</button>
+                <button class="words-sub-tab" data-subtab="words">Woorden</button>
             </div>
 
-            <div class="words-content">
-                <!-- Moeilijkheden sectie -->
+            <!-- Moeilijkheden sub-panel -->
+            <div class="words-sub-panel active" id="subtab-difficulties">
                 <div class="words-section">
-                    <h3 class="words-section-title">Moeilijkheden</h3>
                     <div class="words-add-row">
                         <input type="text" class="search-input" id="newDifficultyInput" placeholder="Naam moeilijkheid...">
                         <div class="diff-levels-row" id="newDifficultyLevels"></div>
@@ -146,10 +147,14 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Woorden sectie -->
+            <!-- Woorden sub-panel -->
+            <div class="words-sub-panel" id="subtab-words">
+                <div class="admin-toolbar">
+                    <div class="words-level-tabs" id="levelTabs"></div>
+                </div>
                 <div class="words-section">
-                    <h3 class="words-section-title">Woorden</h3>
                     <div class="words-add-row">
                         <input type="text" class="search-input" id="newWordInput" placeholder="Woord(en), gescheiden door komma...">
                         <select class="search-input" id="newWordDifficulty" style="max-width:200px;">
@@ -157,7 +162,6 @@
                         </select>
                         <button class="btn-primary" id="addWordBtn">+ Toevoegen</button>
                     </div>
-
                     <div class="words-list" id="wordsList">
                         <div class="admin-empty" style="width:100%;">
                             <span class="empty-icon">&#128218;</span>

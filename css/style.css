@@ -774,6 +774,45 @@ a {
     display: block;
 }
 
+/* Words Sub-Tabs */
+.words-sub-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #E8E8F0;
+}
+
+.words-sub-tab {
+    padding: 10px 20px;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-medium);
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+}
+
+.words-sub-tab:hover {
+    color: var(--text-dark);
+}
+
+.words-sub-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.words-sub-panel {
+    display: none;
+}
+
+.words-sub-panel.active {
+    display: block;
+}
+
 /* Admin Toolbar */
 .admin-toolbar {
     display: flex;

@@ -273,7 +273,35 @@ CREATE POLICY "Super admin can delete flash_difficulties"
 -- ---------- 15. Koppel flash_words aan flash_difficulties ----------
 ALTER TABLE public.flash_words ADD COLUMN IF NOT EXISTS difficulty_id UUID REFERENCES public.flash_difficulties(id) ON DELETE SET NULL;
 
--- ---------- 16. Super admin instellen voor bestaande user ----------
+-- ---------- 16. Daily Questions tabel (vraag van de dag) ----------
+CREATE TABLE IF NOT EXISTS public.daily_questions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES auth.users ON DELETE CASCADE,
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL,
+    theme TEXT,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE public.daily_questions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can read own daily_questions"
+    ON public.daily_questions FOR SELECT
+    USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert own daily_questions"
+    ON public.daily_questions FOR INSERT
+    WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update own daily_questions"
+    ON public.daily_questions FOR UPDATE
+    USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete own daily_questions"
+    ON public.daily_questions FOR DELETE
+    USING (auth.uid() = user_id);
+
+-- ---------- 17. Super admin instellen voor bestaande user ----------
 -- Als koen.kerkvliet@movare.nl al geregistreerd is:
 UPDATE public.profiles
 SET role = 'super_admin'

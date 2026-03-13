@@ -26,6 +26,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ---------- Sub-Tab Switching (Woorden Flitsen) ----------
+    const subTabs = document.querySelectorAll('.words-sub-tab');
+    const subPanels = document.querySelectorAll('.words-sub-panel');
+
+    subTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            subTabs.forEach(t => t.classList.remove('active'));
+            subPanels.forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById('subtab-' + tab.dataset.subtab).classList.add('active');
+        });
+    });
+
     // ---------- Load Data ----------
     async function loadSchools() {
         const showArchived = document.getElementById('showArchivedSchools')?.checked;
