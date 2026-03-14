@@ -79,87 +79,87 @@
 
             <!-- Sectie 3: Instellingen bewerkingen -->
             <div class="wb-section" id="settingsBewerkingen">
-                <h3 class="wb-section-title">Instellingen</h3>
+                <h3 class="wb-section-title">Instellingen bewerkingen</h3>
 
-                <div class="wb-row">
-                    <div class="wb-field">
-                        <label for="wbCount">Aantal sommen</label>
-                        <input type="number" id="wbCount" class="wb-input wb-input-sm" value="40" min="1" max="200">
+                <div class="wb-field">
+                    <label>Aantal sommen</label>
+                    <div class="wb-stepper">
+                        <button class="wb-stepper-btn" id="wbCountMinus" type="button">&minus;</button>
+                        <input type="number" id="wbCount" class="wb-stepper-input" value="40" min="1" max="200">
+                        <button class="wb-stepper-btn" id="wbCountPlus" type="button">+</button>
                     </div>
                 </div>
 
                 <div class="wb-field">
                     <label>Bewerkingen</label>
-                    <div class="wb-toggles">
-                        <button class="wb-toggle active" data-op="+" title="Optellen">+</button>
-                        <button class="wb-toggle active" data-op="-" title="Aftrekken">&minus;</button>
-                        <button class="wb-toggle active" data-op="*" title="Vermenigvuldigen">&times;</button>
-                        <button class="wb-toggle active" data-op="/" title="Delen">&divide;</button>
+                    <div class="wb-toggles-wide">
+                        <button class="wb-toggle-wide active" data-op="+" title="Optellen"><span class="wb-toggle-sym">+</span> Optellen</button>
+                        <button class="wb-toggle-wide active" data-op="-" title="Aftrekken"><span class="wb-toggle-sym">&minus;</span> Aftrekken</button>
+                        <button class="wb-toggle-wide active" data-op="*" title="Vermenigvuldigen"><span class="wb-toggle-sym">&times;</span> Vermenigvuldigen</button>
+                        <button class="wb-toggle-wide active" data-op="/" title="Delen"><span class="wb-toggle-sym">&divide;</span> Delen</button>
                     </div>
                 </div>
 
                 <div class="wb-field">
-                    <label>Getalltype</label>
-                    <div class="wb-radio-group">
-                        <label class="wb-radio-label">
-                            <input type="radio" name="numberType" value="heel" checked> Hele getallen
-                        </label>
-                        <label class="wb-radio-label">
-                            <input type="radio" name="numberType" value="decimaal"> Decimale getallen
-                        </label>
+                    <label>Type getallen</label>
+                    <div class="wb-switch-group">
+                        <button class="wb-switch-btn active" data-numtype="heel">Hele getallen</button>
+                        <button class="wb-switch-btn" data-numtype="decimaal">Decimale getallen</button>
                     </div>
+                    <input type="hidden" name="numberType" id="numberTypeHidden" value="heel">
                 </div>
 
-                <div class="wb-field wb-decimal-options" id="decimalOptions" style="display:none;">
+                <div class="wb-field" id="decimalOptions" style="display:none;">
                     <div class="wb-row">
                         <div class="wb-field">
-                            <label for="wbDec1">Decimalen getal 1</label>
-                            <select id="wbDec1" class="wb-input wb-input-sm">
-                                <option value="1" selected>1 decimaal</option>
-                                <option value="2">2 decimalen</option>
-                                <option value="3">3 decimalen</option>
-                            </select>
+                            <label>Aantal decimalen (linker getal)</label>
+                            <div class="wb-toggle-row">
+                                <button class="wb-toggle-num active" data-dec="1" data-target="wbDec1">1</button>
+                                <button class="wb-toggle-num" data-dec="2" data-target="wbDec1">2</button>
+                                <button class="wb-toggle-num" data-dec="3" data-target="wbDec1">3</button>
+                            </div>
+                            <input type="hidden" id="wbDec1" value="1">
                         </div>
                         <div class="wb-field">
-                            <label for="wbDec2">Decimalen getal 2</label>
-                            <select id="wbDec2" class="wb-input wb-input-sm">
-                                <option value="1" selected>1 decimaal</option>
-                                <option value="2">2 decimalen</option>
-                                <option value="3">3 decimalen</option>
-                            </select>
+                            <label>Aantal decimalen (rechter getal)</label>
+                            <div class="wb-toggle-row">
+                                <button class="wb-toggle-num active" data-dec="1" data-target="wbDec2">1</button>
+                                <button class="wb-toggle-num" data-dec="2" data-target="wbDec2">2</button>
+                                <button class="wb-toggle-num" data-dec="3" data-target="wbDec2">3</button>
+                            </div>
+                            <input type="hidden" id="wbDec2" value="1">
                         </div>
                     </div>
                 </div>
 
-                <div class="wb-row">
-                    <div class="wb-field">
-                        <label>Range getal 1</label>
-                        <div class="wb-range-row">
-                            <input type="number" id="wbMin1" class="wb-input wb-input-sm" value="1" placeholder="Min">
-                            <span class="wb-range-sep">t/m</span>
-                            <input type="number" id="wbMax1" class="wb-input wb-input-sm" value="100" placeholder="Max">
+                <div class="wb-field">
+                    <label>Bereik van getallen</label>
+                    <div class="wb-row">
+                        <div class="wb-field">
+                            <span class="wb-range-label">Eerste getal</span>
+                            <div class="wb-range-row">
+                                <input type="number" id="wbMin1" class="wb-input" value="1" placeholder="Min">
+                                <input type="number" id="wbMax1" class="wb-input" value="100" placeholder="Max">
+                            </div>
                         </div>
-                    </div>
-                    <div class="wb-field">
-                        <label>Range getal 2</label>
-                        <div class="wb-range-row">
-                            <input type="number" id="wbMin2" class="wb-input wb-input-sm" value="1" placeholder="Min">
-                            <span class="wb-range-sep">t/m</span>
-                            <input type="number" id="wbMax2" class="wb-input wb-input-sm" value="100" placeholder="Max">
+                        <div class="wb-field">
+                            <span class="wb-range-label">Tweede getal</span>
+                            <div class="wb-range-row">
+                                <input type="number" id="wbMin2" class="wb-input" value="1" placeholder="Min">
+                                <input type="number" id="wbMax2" class="wb-input" value="100" placeholder="Max">
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="wb-row">
-                    <div class="wb-field wb-field-check">
-                        <label class="wb-checkbox-label">
-                            <input type="checkbox" id="wbAnswerSheet" checked> Antwoordblad genereren
-                        </label>
-                    </div>
+                <div class="wb-field wb-field-check">
+                    <label class="wb-checkbox-label">
+                        <input type="checkbox" id="wbAnswerSheet" checked> Antwoordblad toevoegen
+                    </label>
                 </div>
 
                 <div class="wb-actions">
-                    <button class="btn-primary wb-generate-btn" id="btnGenerate">&#128196; Werkblad genereren</button>
+                    <button class="btn-primary wb-generate-btn" id="btnGenerate">&#128065; Voorbeeld bekijken</button>
                 </div>
             </div>
 

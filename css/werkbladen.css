@@ -21,10 +21,10 @@
 }
 
 .wb-section-title {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 700;
     color: var(--text-dark);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 /* Rows & Fields */
@@ -36,19 +36,17 @@
 }
 
 .wb-field {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     flex: 1;
     min-width: 180px;
 }
 
 .wb-field label {
     display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-medium);
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 10px;
 }
 
 .wb-field-check {
@@ -74,8 +72,59 @@
     box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
 }
 
-.wb-input-sm {
-    max-width: 160px;
+/* Stepper (aantal sommen) */
+.wb-stepper {
+    display: inline-flex;
+    align-items: center;
+    border: 1.5px solid #D8D8E8;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: white;
+}
+
+.wb-stepper-btn {
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: white;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wb-stepper-btn:hover {
+    background: #F0F0FF;
+    color: var(--primary);
+}
+
+.wb-stepper-input {
+    width: 60px;
+    height: 44px;
+    border: none;
+    border-left: 1.5px solid #D8D8E8;
+    border-right: 1.5px solid #D8D8E8;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-dark);
+    background: white;
+    -moz-appearance: textfield;
+}
+
+.wb-stepper-input::-webkit-outer-spin-button,
+.wb-stepper-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.wb-stepper-input:focus {
+    outline: none;
+    background: #F8F8FF;
 }
 
 /* Checkbox */
@@ -93,38 +142,6 @@
 .wb-checkbox-label input[type="checkbox"] {
     width: 18px;
     height: 18px;
-    accent-color: var(--primary);
-    cursor: pointer;
-}
-
-/* Radio */
-.wb-radio-group {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.wb-radio-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-dark);
-    cursor: pointer;
-    padding: 8px 16px;
-    border: 1.5px solid #D8D8E8;
-    border-radius: var(--radius-md);
-    background: white;
-    transition: var(--transition);
-}
-
-.wb-radio-label:has(input:checked) {
-    border-color: var(--primary);
-    background: #F0F0FF;
-}
-
-.wb-radio-label input[type="radio"] {
     accent-color: var(--primary);
     cursor: pointer;
 }
@@ -173,54 +190,123 @@
     color: var(--text-dark);
 }
 
-/* Toggle buttons (operations) */
-.wb-toggles {
-    display: flex;
-    gap: 8px;
+/* Wide toggle buttons (bewerkingen) */
+.wb-toggles-wide {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
 }
 
-.wb-toggle {
-    width: 52px;
-    height: 52px;
-    border: 2px solid #D8D8E8;
-    border-radius: var(--radius-md);
-    background: white;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--text-medium);
-    cursor: pointer;
-    transition: var(--transition);
+.wb-toggle-wide {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 6px;
+    padding: 12px 8px;
+    border: 2px solid #D8D8E8;
+    border-radius: var(--radius-md);
+    background: white;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
 }
 
-.wb-toggle:hover {
+.wb-toggle-wide .wb-toggle-sym {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.wb-toggle-wide:hover {
     border-color: var(--primary);
 }
 
-.wb-toggle.active {
+.wb-toggle-wide.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+/* Switch group (type getallen) */
+.wb-switch-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 2px solid #D8D8E8;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.wb-switch-btn {
+    padding: 12px 16px;
+    border: none;
+    background: white;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.wb-switch-btn:first-child {
+    border-right: 1.5px solid #D8D8E8;
+}
+
+.wb-switch-btn:hover:not(.active) {
+    background: #F8F8FF;
+}
+
+.wb-switch-btn.active {
+    background: var(--primary);
+    color: white;
+}
+
+/* Decimal toggle row */
+.wb-toggle-row {
+    display: flex;
+    gap: 10px;
+}
+
+.wb-toggle-num {
+    flex: 1;
+    padding: 10px 16px;
+    border: 2px solid #D8D8E8;
+    border-radius: var(--radius-md);
+    background: white;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.wb-toggle-num:hover {
+    border-color: var(--primary);
+}
+
+.wb-toggle-num.active {
     background: var(--primary);
     border-color: var(--primary);
     color: white;
 }
 
 /* Range row */
+.wb-range-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--primary);
+    margin-bottom: 6px;
+}
+
 .wb-range-row {
     display: flex;
     align-items: center;
     gap: 8px;
-}
-
-.wb-range-row .wb-input {
-    max-width: 100px;
-}
-
-.wb-range-sep {
-    font-size: 13px;
-    color: var(--text-light);
-    font-weight: 600;
-    white-space: nowrap;
 }
 
 /* Actions */
@@ -367,6 +453,10 @@
     .wb-type-card {
         flex-direction: row;
         min-width: auto;
+    }
+
+    .wb-toggles-wide {
+        grid-template-columns: 1fr 1fr;
     }
 
     .wb-row {

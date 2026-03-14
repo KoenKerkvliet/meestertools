@@ -44,33 +44,70 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // ---------- Operation Toggles ----------
-    var toggleBtns = document.querySelectorAll('.wb-toggle');
+    // ---------- Operation Toggles (wide) ----------
+    var toggleBtns = document.querySelectorAll('.wb-toggle-wide');
     toggleBtns.forEach(function (btn) {
         btn.addEventListener('click', function () {
             this.classList.toggle('active');
             // Ensure at least one is active
-            var anyActive = document.querySelector('.wb-toggle.active');
+            var anyActive = document.querySelector('.wb-toggle-wide.active');
             if (!anyActive) this.classList.add('active');
         });
     });
 
-    // ---------- Number Type Radio ----------
-    var radioInputs = document.querySelectorAll('input[name="numberType"]');
-    radioInputs.forEach(function (radio) {
-        radio.addEventListener('change', function () {
-            decimalOptions.style.display = this.value === 'decimaal' ? '' : 'none';
+    // ---------- Stepper (aantal sommen) ----------
+    var countInput = document.getElementById('wbCount');
+    var btnMinus = document.getElementById('wbCountMinus');
+    var btnPlus = document.getElementById('wbCountPlus');
+
+    if (btnMinus) {
+        btnMinus.addEventListener('click', function () {
+            var val = parseInt(countInput.value) || 40;
+            if (val > 1) countInput.value = val - 1;
+        });
+    }
+    if (btnPlus) {
+        btnPlus.addEventListener('click', function () {
+            var val = parseInt(countInput.value) || 40;
+            if (val < 200) countInput.value = val + 1;
+        });
+    }
+
+    // ---------- Number Type Switch ----------
+    var switchBtns = document.querySelectorAll('.wb-switch-btn');
+    var numberTypeHidden = document.getElementById('numberTypeHidden');
+
+    switchBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            switchBtns.forEach(function (b) { b.classList.remove('active'); });
+            this.classList.add('active');
+            var val = this.getAttribute('data-numtype');
+            numberTypeHidden.value = val;
+            decimalOptions.style.display = val === 'decimaal' ? '' : 'none';
+        });
+    });
+
+    // ---------- Decimal Toggle Buttons ----------
+    document.querySelectorAll('.wb-toggle-num').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var target = this.getAttribute('data-target');
+            // Deactivate siblings
+            this.parentNode.querySelectorAll('.wb-toggle-num').forEach(function (b) {
+                b.classList.remove('active');
+            });
+            this.classList.add('active');
+            document.getElementById(target).value = this.getAttribute('data-dec');
         });
     });
 
     // ---------- Read Settings ----------
     function readSettings() {
         var ops = [];
-        document.querySelectorAll('.wb-toggle.active').forEach(function (btn) {
+        document.querySelectorAll('.wb-toggle-wide.active').forEach(function (btn) {
             ops.push(btn.getAttribute('data-op'));
         });
 
-        var numberType = document.querySelector('input[name="numberType"]:checked').value;
+        var numberType = numberTypeHidden.value;
 
         return {
             title: document.getElementById('wbTitle').value.trim() || 'Rekenen',
