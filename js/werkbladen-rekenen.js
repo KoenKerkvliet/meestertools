@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function generateSums(settings) {
         var sums = [];
         var used = {};
-        var maxAttempts = settings.count * 10;
+        var maxAttempts = settings.count * 200;
         var totalAttempts = 0;
 
         while (sums.length < settings.count && totalAttempts < maxAttempts) {
@@ -710,7 +710,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function generateLongDivisions(settings) {
         var divisions = [];
         var used = {};
-        var maxAttempts = settings.count * 50;
+        var maxAttempts = settings.count * 200;
         var totalAttempts = 0;
 
         while (divisions.length < settings.count && totalAttempts < maxAttempts) {
@@ -1089,7 +1089,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function generateCijferSums(settings) {
         var sums = [];
         var used = {};
-        var maxAttempts = settings.count * 50; // More attempts for constrained generation
+        var maxAttempts = settings.count * 200; // More attempts for constrained generation
         var totalAttempts = 0;
 
         while (sums.length < settings.count && totalAttempts < maxAttempts) {
@@ -1336,11 +1336,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ---------- Generate Percent Sums ----------
+    function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
+
     function generatePercentSums(settings) {
         var sums = [];
         var used = {};
-        var maxAttempts = settings.count * 50;
-        var totalAttempts = 0;
 
         // Define percentage pools based on level
         var easyPcts = [10, 25, 50, 5, 75, 1];
@@ -1360,17 +1360,32 @@ document.addEventListener('DOMContentLoaded', function () {
             default: pctPool = easyPcts;
         }
 
-        while (sums.length < settings.count && totalAttempts < maxAttempts) {
+        // Pre-compute valid geheel values per percentage (must give whole-number answer)
+        var validGeheel = {};
+        for (var pi = 0; pi < pctPool.length; pi++) {
+            var p = pctPool[pi];
+            var step = 100 / gcd(p, 100); // geheel must be multiple of step
+            var values = [];
+            var start = Math.ceil(settings.pctMin / step) * step;
+            for (var v = start; v <= settings.pctMax; v += step) {
+                values.push(v);
+            }
+            if (values.length > 0) validGeheel[p] = values;
+        }
+
+        // Filter pctPool to only percentages that have valid geheel values
+        var usablePcts = pctPool.filter(function (p) { return validGeheel[p] && validGeheel[p].length > 0; });
+
+        var maxAttempts = settings.count * 200;
+        var totalAttempts = 0;
+
+        while (sums.length < settings.count && totalAttempts < maxAttempts && usablePcts.length > 0) {
             totalAttempts++;
 
-            var pct = pctPool[Math.floor(Math.random() * pctPool.length)];
-            var geheel = Math.floor(Math.random() * (settings.pctMax - settings.pctMin + 1)) + settings.pctMin;
-
+            var pct = usablePcts[Math.floor(Math.random() * usablePcts.length)];
+            var geheelArr = validGeheel[pct];
+            var geheel = geheelArr[Math.floor(Math.random() * geheelArr.length)];
             var answer = (pct / 100) * geheel;
-
-            // Only allow whole number answers
-            if (!Number.isInteger(answer)) continue;
-            if (answer < 0) continue;
 
             // Skip duplicates
             var key = pct + '%van' + geheel;
