@@ -69,14 +69,31 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // ---------- Hide preview on any setting change ----------
+    function hidePreview() {
+        previewSection.style.display = 'none';
+    }
+
+    // Listen to all setting inputs (text fields, number fields, date)
+    document.querySelectorAll('#settingsGeneral input, #settingsBewerkingen input, #settingsStaartdelingen input').forEach(function (input) {
+        input.addEventListener('input', hidePreview);
+        input.addEventListener('change', hidePreview);
+    });
+    if (settingsCijferen) {
+        settingsCijferen.querySelectorAll('input').forEach(function (input) {
+            input.addEventListener('input', hidePreview);
+            input.addEventListener('change', hidePreview);
+        });
+    }
+
     // ---------- Operation Toggles (wide) ----------
     var toggleBtns = document.querySelectorAll('.wb-toggle-wide');
     toggleBtns.forEach(function (btn) {
         btn.addEventListener('click', function () {
             this.classList.toggle('active');
-            // Ensure at least one is active
             var anyActive = document.querySelector('.wb-toggle-wide.active');
             if (!anyActive) this.classList.add('active');
+            hidePreview();
         });
     });
 
@@ -89,12 +106,14 @@ document.addEventListener('DOMContentLoaded', function () {
         btnMinus.addEventListener('click', function () {
             var val = parseInt(countInput.value) || 40;
             if (val > 1) countInput.value = val - 1;
+            hidePreview();
         });
     }
     if (btnPlus) {
         btnPlus.addEventListener('click', function () {
             var val = parseInt(countInput.value) || 40;
             if (val < 200) countInput.value = val + 1;
+            hidePreview();
         });
     }
 
@@ -109,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var val = this.getAttribute('data-numtype');
             numberTypeHidden.value = val;
             decimalOptions.style.display = val === 'decimaal' ? '' : 'none';
+            hidePreview();
         });
     });
 
@@ -121,6 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
             nameFieldBtns.forEach(function (b) { b.classList.remove('active'); });
             this.classList.add('active');
             nameFieldHidden.value = this.getAttribute('data-namefield');
+            hidePreview();
         });
     });
 
@@ -133,12 +154,14 @@ document.addEventListener('DOMContentLoaded', function () {
         ldBtnMinus.addEventListener('click', function () {
             var val = parseInt(ldCountInput.value) || 12;
             if (val > 1) ldCountInput.value = val - 1;
+            hidePreview();
         });
     }
     if (ldBtnPlus) {
         ldBtnPlus.addEventListener('click', function () {
             var val = parseInt(ldCountInput.value) || 12;
             if (val < 48) ldCountInput.value = val + 1;
+            hidePreview();
         });
     }
 
@@ -154,6 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var val = this.getAttribute('data-remainder');
             remainderHidden.value = val;
             ldDecimalOptions.style.display = val === 'decimaal' ? '' : 'none';
+            hidePreview();
         });
     });
 
@@ -165,6 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             this.classList.add('active');
             document.getElementById('wbLdDecimals').value = this.getAttribute('data-lddec');
+            hidePreview();
         });
     });
 
@@ -172,12 +197,12 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.wb-toggle-num').forEach(function (btn) {
         btn.addEventListener('click', function () {
             var target = this.getAttribute('data-target');
-            // Deactivate siblings
             this.parentNode.querySelectorAll('.wb-toggle-num').forEach(function (b) {
                 b.classList.remove('active');
             });
             this.classList.add('active');
             if (target) document.getElementById(target).value = this.getAttribute('data-dec') || this.getAttribute('data-cfdec') || this.getAttribute('data-lddec');
+            hidePreview();
         });
     });
 
@@ -190,12 +215,14 @@ document.addEventListener('DOMContentLoaded', function () {
         cfBtnMinus.addEventListener('click', function () {
             var val = parseInt(cfCountInput.value) || 20;
             if (val > 1) cfCountInput.value = val - 1;
+            hidePreview();
         });
     }
     if (cfBtnPlus) {
         cfBtnPlus.addEventListener('click', function () {
             var val = parseInt(cfCountInput.value) || 20;
             if (val < 80) cfCountInput.value = val + 1;
+            hidePreview();
         });
     }
 
@@ -217,6 +244,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var anyActive = document.querySelector('.wb-toggle-wide[data-cfop].active');
             if (!anyActive) this.classList.add('active');
             updateCfSubOptionsVisibility();
+            hidePreview();
         });
     });
 
@@ -228,6 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             this.classList.add('active');
             document.getElementById('wbCfAddType').value = this.getAttribute('data-cfadd');
+            hidePreview();
         });
     });
 
@@ -239,6 +268,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             this.classList.add('active');
             document.getElementById('wbCfSubType').value = this.getAttribute('data-cfsub');
+            hidePreview();
         });
     });
 
@@ -254,6 +284,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var val = this.getAttribute('data-cfnumtype');
             if (cfNumberTypeHidden) cfNumberTypeHidden.value = val;
             if (cfDecimalOptions) cfDecimalOptions.style.display = val === 'decimaal' ? '' : 'none';
+            hidePreview();
         });
     });
 
