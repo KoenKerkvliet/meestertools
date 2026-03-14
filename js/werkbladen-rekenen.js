@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var settingsBewerkingen = document.getElementById('settingsBewerkingen');
     var settingsStaartdelingen = document.getElementById('settingsStaartdelingen');
     var settingsCijferen = document.getElementById('settingsCijferen');
+    var settingsPercent = document.getElementById('settingsPercent');
     var generateSection = document.getElementById('generateSection');
 
     if (!btnGenerate) return;
@@ -31,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var generatedSums = [];
     var generatedDivisions = [];
     var generatedCijfer = [];
+    var generatedPercent = [];
     var currentSettings = {};
 
     // ---------- Type Cards ----------
@@ -48,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
         settingsBewerkingen.style.display = 'none';
         settingsStaartdelingen.style.display = 'none';
         if (settingsCijferen) settingsCijferen.style.display = 'none';
+        if (settingsPercent) settingsPercent.style.display = 'none';
         generateSection.style.display = '';
         previewSection.style.display = 'none';
 
@@ -57,9 +60,10 @@ document.addEventListener('DOMContentLoaded', function () {
             settingsStaartdelingen.style.display = '';
         } else if (currentType === 'cijferen') {
             if (settingsCijferen) settingsCijferen.style.display = '';
+        } else if (currentType === 'procenten') {
+            if (settingsPercent) settingsPercent.style.display = '';
         } else {
             generateSection.style.display = 'none';
-            // Show coming soon in preview
             previewSection.style.display = '';
             previewEl.innerHTML =
                 '<div class="wb-coming-soon">' +
@@ -75,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Listen to all setting inputs (text fields, number fields, date)
-    document.querySelectorAll('#settingsGeneral input, #settingsBewerkingen input, #settingsStaartdelingen input').forEach(function (input) {
+    document.querySelectorAll('#settingsGeneral input, #settingsBewerkingen input, #settingsStaartdelingen input, #settingsPercent input').forEach(function (input) {
         input.addEventListener('input', hidePreview);
         input.addEventListener('change', hidePreview);
     });
@@ -312,6 +316,58 @@ document.addEventListener('DOMContentLoaded', function () {
             this.classList.add('active');
             var target = this.getAttribute('data-target');
             if (target) document.getElementById(target).value = this.getAttribute('data-cfdec');
+        });
+    });
+
+    // ---------- Procenten Stepper ----------
+    var pctCountInput = document.getElementById('wbPctCount');
+    var pctBtnMinus = document.getElementById('wbPctCountMinus');
+    var pctBtnPlus = document.getElementById('wbPctCountPlus');
+
+    if (pctBtnMinus) {
+        pctBtnMinus.addEventListener('click', function () {
+            var val = parseInt(pctCountInput.value) || 50;
+            if (val > 1) pctCountInput.value = val - 1;
+            hidePreview();
+        });
+    }
+    if (pctBtnPlus) {
+        pctBtnPlus.addEventListener('click', function () {
+            var val = parseInt(pctCountInput.value) || 50;
+            if (val < 200) pctCountInput.value = val + 1;
+            hidePreview();
+        });
+    }
+
+    // ---------- Procenten Type Switch ----------
+    var pctTypeBtns = document.querySelectorAll('.wb-switch-btn[data-pcttype]');
+    var pctTypeHidden = document.getElementById('wbPctType');
+    var pctDeelOptions = document.getElementById('pctDeelOptions');
+    var pctOmrekenOptions = document.getElementById('pctOmrekenOptions');
+    var pctRangeField = document.getElementById('pctRangeField');
+
+    pctTypeBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            pctTypeBtns.forEach(function (b) { b.classList.remove('active'); });
+            this.classList.add('active');
+            var val = this.getAttribute('data-pcttype');
+            if (pctTypeHidden) pctTypeHidden.value = val;
+            if (pctDeelOptions) pctDeelOptions.style.display = val === 'deelvangeheel' ? '' : 'none';
+            if (pctOmrekenOptions) pctOmrekenOptions.style.display = val === 'omrekenen' ? '' : 'none';
+            if (pctRangeField) pctRangeField.style.display = val === 'deelvangeheel' ? '' : 'none';
+            hidePreview();
+        });
+    });
+
+    // ---------- Procenten Level Sub-options ----------
+    document.querySelectorAll('.wb-suboption[data-pctlevel]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.wb-suboption[data-pctlevel]').forEach(function (b) {
+                b.classList.remove('active');
+            });
+            this.classList.add('active');
+            document.getElementById('wbPctLevel').value = this.getAttribute('data-pctlevel');
+            hidePreview();
         });
     });
 
@@ -564,15 +620,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function renderSumsGrid(sums, showAnswers) {
         var layout = arrangeInBlocks(sums);
-        var widths = calcMaxWidths(sums);
+        var isPct = sums.length > 0 && sums[0].op === 'pct';
 
-        // Build grid-template-columns based on max character widths
-        var colA = Math.max(widths.maxA, 2) + 'ch';
-        var colOp = '2ch';
-        var colB = Math.max(widths.maxB, 2) + 'ch';
-        var colEq = '1.5ch';
-        var colAns = showAnswers ? Math.max(widths.maxAnswer, 3) + 'ch' : '4ch';
-        var gridCols = colA + ' ' + colOp + ' ' + colB + ' ' + colEq + ' ' + colAns;
+        if (isPct) {
+            // Procenten: "a% van b = ___"
+            var widths = calcMaxWidths(sums);
+            // a = percentage (add "%" suffix), op = "van", b = geheel
+            var colA = Math.max(widths.maxA + 1, 3) + 'ch'; // +1 for % sign
+            var colOp = '3.5ch'; // "van"
+            var colB = Math.max(widths.maxB, 3) + 'ch';
+            var colEq = '1.5ch';
+            var colAns = showAnswers ? Math.max(widths.maxAnswer, 3) + 'ch' : '4ch';
+            var gridCols = colA + ' ' + colOp + ' ' + colB + ' ' + colEq + ' ' + colAns;
+        } else {
+            var widths = calcMaxWidths(sums);
+            var colA = Math.max(widths.maxA, 2) + 'ch';
+            var colOp = '2ch';
+            var colB = Math.max(widths.maxB, 2) + 'ch';
+            var colEq = '1.5ch';
+            var colAns = showAnswers ? Math.max(widths.maxAnswer, 3) + 'ch' : '4ch';
+            var gridCols = colA + ' ' + colOp + ' ' + colB + ' ' + colEq + ' ' + colAns;
+        }
 
         var html = '<div class="wb-preview-blocks">';
 
@@ -584,8 +652,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     var entry = block[i];
                     var s = entry.sum;
                     html += '<div class="wb-preview-sum" style="grid-template-columns:' + gridCols + ';">';
-                    html += '<span class="wb-preview-a">' + formatNum(s.a) + '</span>';
-                    html += '<span class="wb-preview-op">' + opSymbol(s.op) + '</span>';
+                    if (isPct) {
+                        html += '<span class="wb-preview-a">' + s.a + '%</span>';
+                        html += '<span class="wb-preview-op">van</span>';
+                    } else {
+                        html += '<span class="wb-preview-a">' + formatNum(s.a) + '</span>';
+                        html += '<span class="wb-preview-op">' + opSymbol(s.op) + '</span>';
+                    }
                     html += '<span class="wb-preview-b">' + formatNum(s.b) + '</span>';
                     html += '<span class="wb-preview-eq">=</span>';
                     if (showAnswers) {
@@ -1235,6 +1308,86 @@ document.addEventListener('DOMContentLoaded', function () {
         doc.text('Meester Tools', margin, 290);
     }
 
+    // ============================================
+    // PROCENTEN (Percentages)
+    // ============================================
+
+    // ---------- Read Settings Procenten ----------
+    function readSettingsPercent() {
+        var dateVal = document.getElementById('wbDate').value;
+        var dateStr = '';
+        if (dateVal) {
+            var d = new Date(dateVal);
+            dateStr = ('0' + d.getDate()).slice(-2) + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear();
+        }
+
+        return {
+            title: document.getElementById('wbTitle').value.trim() || 'Rekenwerkblad',
+            date: dateStr,
+            datePrefix: document.getElementById('wbDatePrefix').value.trim(),
+            showName: document.getElementById('wbNameField').value === 'ja',
+            count: Math.max(1, Math.min(200, parseInt(pctCountInput.value) || 50)),
+            pctType: pctTypeHidden ? pctTypeHidden.value : 'deelvangeheel',
+            pctLevel: document.getElementById('wbPctLevel').value || 'makkelijk',
+            pctMin: parseInt(document.getElementById('wbPctMin').value) || 50,
+            pctMax: parseInt(document.getElementById('wbPctMax').value) || 500,
+            answerSheet: document.getElementById('wbPctAnswerSheet').checked
+        };
+    }
+
+    // ---------- Generate Percent Sums ----------
+    function generatePercentSums(settings) {
+        var sums = [];
+        var used = {};
+        var maxAttempts = settings.count * 50;
+        var totalAttempts = 0;
+
+        // Define percentage pools based on level
+        var easyPcts = [10, 25, 50, 5, 75, 1];
+        var via10Pcts = [10, 20, 30, 40, 50, 60, 70, 80, 90];
+        var hardPcts = [];
+        for (var i = 1; i <= 99; i++) {
+            if (easyPcts.indexOf(i) === -1 && via10Pcts.indexOf(i) === -1) {
+                hardPcts.push(i);
+            }
+        }
+
+        var pctPool;
+        switch (settings.pctLevel) {
+            case 'makkelijk': pctPool = easyPcts; break;
+            case 'via10': pctPool = via10Pcts; break;
+            case 'moeilijk': pctPool = hardPcts; break;
+            default: pctPool = easyPcts;
+        }
+
+        while (sums.length < settings.count && totalAttempts < maxAttempts) {
+            totalAttempts++;
+
+            var pct = pctPool[Math.floor(Math.random() * pctPool.length)];
+            var geheel = Math.floor(Math.random() * (settings.pctMax - settings.pctMin + 1)) + settings.pctMin;
+
+            var answer = (pct / 100) * geheel;
+
+            // Only allow whole number answers
+            if (!Number.isInteger(answer)) continue;
+            if (answer < 0) continue;
+
+            // Skip duplicates
+            var key = pct + '%van' + geheel;
+            if (used[key]) continue;
+            used[key] = true;
+
+            sums.push({
+                a: pct,
+                op: 'pct',
+                b: geheel,
+                answer: answer
+            });
+        }
+
+        return sums;
+    }
+
     // ---------- Generate Button ----------
     btnGenerate.addEventListener('click', function () {
         if (currentType === 'bewerkingen') {
@@ -1242,19 +1395,29 @@ document.addEventListener('DOMContentLoaded', function () {
             generatedSums = generateSums(currentSettings);
             generatedDivisions = [];
             generatedCijfer = [];
+            generatedPercent = [];
             renderPreview(currentSettings, generatedSums);
         } else if (currentType === 'staartdelingen') {
             currentSettings = readSettingsStaartdelingen();
             generatedDivisions = generateLongDivisions(currentSettings);
             generatedSums = [];
             generatedCijfer = [];
+            generatedPercent = [];
             renderLdPreview(currentSettings, generatedDivisions);
         } else if (currentType === 'cijferen') {
             currentSettings = readSettingsCijferen();
             generatedCijfer = generateCijferSums(currentSettings);
             generatedSums = [];
             generatedDivisions = [];
+            generatedPercent = [];
             renderCfPreview(currentSettings, generatedCijfer);
+        } else if (currentType === 'procenten') {
+            currentSettings = readSettingsPercent();
+            generatedPercent = generatePercentSums(currentSettings);
+            generatedSums = [];
+            generatedDivisions = [];
+            generatedCijfer = [];
+            renderPreview(currentSettings, generatedPercent);
         } else {
             return;
         }
@@ -1265,7 +1428,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- PDF Generation ----------
     btnDownloadPdf.addEventListener('click', function () {
-        if (generatedSums.length === 0 && generatedDivisions.length === 0 && generatedCijfer.length === 0) return;
+        if (generatedSums.length === 0 && generatedDivisions.length === 0 && generatedCijfer.length === 0 && generatedPercent.length === 0) return;
         if (!window.jspdf) {
             alert('PDF-bibliotheek kon niet geladen worden. Probeer de pagina te vernieuwen.');
             return;
@@ -1307,6 +1470,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
             var filename = 'werkblad-staartdelingen-' + new Date().toISOString().slice(0, 10) + '.pdf';
+            doc.save(filename);
+        } else if (generatedPercent.length > 0) {
+            // Procenten PDF - same layout as bewerkingen
+            var pctPages = Math.ceil(generatedPercent.length / SUMS_PER_PAGE);
+            for (var p = 0; p < pctPages; p++) {
+                if (p > 0) doc.addPage();
+                var pageSums = generatedPercent.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
+                generatePdfPage(doc, currentSettings, pageSums, false);
+            }
+            if (currentSettings.answerSheet) {
+                for (var p = 0; p < pctPages; p++) {
+                    doc.addPage();
+                    var pageSums = generatedPercent.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
+                    generatePdfPage(doc, currentSettings, pageSums, true);
+                }
+            }
+            var filename = 'werkblad-procenten-' + new Date().toISOString().slice(0, 10) + '.pdf';
             doc.save(filename);
         } else {
             // Bewerkingen PDF - paginate per 50
@@ -1371,6 +1551,9 @@ document.addEventListener('DOMContentLoaded', function () {
         var colGap = 12;
         var colW = (contentW - colGap * (numCols - 1)) / numCols;
 
+        // Detect if this is a percentage worksheet
+        var isPctPdf = sums.length > 0 && sums[0].op === 'pct';
+
         // Calculate dynamic column widths based on content
         doc.setFontSize(11);
         doc.setFont('helvetica', 'normal');
@@ -1379,7 +1562,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var ansW = 0;
         for (var si = 0; si < sums.length; si++) {
             var tw;
-            tw = doc.getTextWidth(formatNum(sums[si].a));
+            var aText = isPctPdf ? sums[si].a + '%' : formatNum(sums[si].a);
+            tw = doc.getTextWidth(aText);
             if (tw > aW) aW = tw;
             tw = doc.getTextWidth(formatNum(sums[si].b));
             if (tw > bW) bW = tw;
@@ -1390,7 +1574,7 @@ document.addEventListener('DOMContentLoaded', function () {
         aW += 1;
         bW += 1;
         ansW += 1;
-        var opW = 5;
+        var opW = isPctPdf ? doc.getTextWidth('van') + 3 : 5;
         var eqW = 4;
 
         var y = yStart;
@@ -1418,11 +1602,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(50, 50, 70);
 
-                    // Getal 1 (right-aligned within its column)
-                    doc.text(formatNum(s.a), colX + aW, currentY, { align: 'right' });
-
-                    // Operator (center)
-                    doc.text(opSymbolPdf(s.op), colX + aW + opW / 2, currentY, { align: 'center' });
+                    if (isPctPdf) {
+                        // Percentage: "25% van 200 = ___"
+                        doc.text(s.a + '%', colX + aW, currentY, { align: 'right' });
+                        doc.text('van', colX + aW + opW / 2, currentY, { align: 'center' });
+                    } else {
+                        // Getal 1 (right-aligned within its column)
+                        doc.text(formatNum(s.a), colX + aW, currentY, { align: 'right' });
+                        // Operator (center)
+                        doc.text(opSymbolPdf(s.op), colX + aW + opW / 2, currentY, { align: 'center' });
+                    }
 
                     // Getal 2 (right-aligned within its column)
                     doc.text(formatNum(s.b), colX + aW + opW + bW, currentY, { align: 'right' });
