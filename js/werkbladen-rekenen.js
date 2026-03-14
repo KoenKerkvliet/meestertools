@@ -201,11 +201,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Cijferen Operation Toggles ----------
     var cfToggleBtns = document.querySelectorAll('.wb-toggle-wide[data-cfop]');
+    var cfAddOptions = document.getElementById('cfAddOptions');
+    var cfSubOptions = document.getElementById('cfSubOptions');
+
+    function updateCfSubOptionsVisibility() {
+        var addActive = document.querySelector('.wb-toggle-wide[data-cfop="+"].active');
+        var subActive = document.querySelector('.wb-toggle-wide[data-cfop="-"].active');
+        if (cfAddOptions) cfAddOptions.style.display = addActive ? '' : 'none';
+        if (cfSubOptions) cfSubOptions.style.display = subActive ? '' : 'none';
+    }
+
     cfToggleBtns.forEach(function (btn) {
         btn.addEventListener('click', function () {
             this.classList.toggle('active');
             var anyActive = document.querySelector('.wb-toggle-wide[data-cfop].active');
             if (!anyActive) this.classList.add('active');
+            updateCfSubOptionsVisibility();
+        });
+    });
+
+    // ---------- Cijferen Sub-option Toggles (Optellen) ----------
+    document.querySelectorAll('.wb-suboption[data-cfadd]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.wb-suboption[data-cfadd]').forEach(function (b) {
+                b.classList.remove('active');
+            });
+            this.classList.add('active');
+            document.getElementById('wbCfAddType').value = this.getAttribute('data-cfadd');
+        });
+    });
+
+    // ---------- Cijferen Sub-option Toggles (Aftrekken) ----------
+    document.querySelectorAll('.wb-suboption[data-cfsub]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.wb-suboption[data-cfsub]').forEach(function (b) {
+                b.classList.remove('active');
+            });
+            this.classList.add('active');
+            document.getElementById('wbCfSubType').value = this.getAttribute('data-cfsub');
         });
     });
 
@@ -750,12 +783,7 @@ document.addEventListener('DOMContentLoaded', function () {
             yPos += 8;
         }
 
-        // Separator line
-        doc.setDrawColor(200, 200, 210);
-        doc.setLineWidth(0.5);
-        doc.line(margin, yPos, pageW - margin, yPos);
-
-        var yStart = yPos + 8;
+        var yStart = yPos + 4;
 
         // Grid: 3 columns, max 4 rows
         var numCols = 3;
@@ -801,11 +829,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        // Footer separator
-        doc.setDrawColor(220, 220, 230);
-        doc.setLineWidth(0.3);
-        doc.line(margin, 285, pageW - margin, 285);
-
         // Footer
         doc.setFontSize(9);
         doc.setFont('helvetica', 'normal');
@@ -835,6 +858,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var numberType = cfNumberTypeHidden ? cfNumberTypeHidden.value : 'heel';
 
+        var addTypeEl = document.getElementById('wbCfAddType');
+        var subTypeEl = document.getElementById('wbCfSubType');
+
         return {
             title: document.getElementById('wbTitle').value.trim() || 'Rekenwerkblad',
             date: dateStr,
@@ -843,6 +869,8 @@ document.addEventListener('DOMContentLoaded', function () {
             count: Math.max(1, Math.min(80, parseInt(document.getElementById('wbCfCount').value) || 20)),
             operations: ops,
             numberType: numberType,
+            addType: addTypeEl ? addTypeEl.value : 'zonder',
+            subType: subTypeEl ? subTypeEl.value : 'zonder',
             decimals1: numberType === 'decimaal' ? parseInt(document.getElementById('wbCfDec1').value) : 0,
             decimals2: numberType === 'decimaal' ? parseInt(document.getElementById('wbCfDec2').value) : 0,
             min1: parseFloat(document.getElementById('wbCfMin1').value) || 100,
@@ -853,11 +881,94 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
+    // ---------- Digit Helpers for Cijferen ----------
+    function getDigits(n) {
+        // Returns [units, tens, hundreds, thousands, ...]
+        var digits = [];
+        n = Math.abs(Math.round(n));
+        if (n === 0) return [0];
+        while (n > 0) {
+            digits.push(n % 10);
+            n = Math.floor(n / 10);
+        }
+        return digits;
+    }
+
+    function getCarries(a, b) {
+        // Returns array of carries: [carryToTens, carryToHundreds, carryToThousands]
+        var da = getDigits(a);
+        var db = getDigits(b);
+        var maxLen = Math.max(da.length, db.length);
+        var carry = 0;
+        var carries = [];
+        for (var i = 0; i < maxLen; i++) {
+            var sum = (da[i] || 0) + (db[i] || 0) + carry;
+            carry = sum >= 10 ? 1 : 0;
+            carries.push(carry);
+        }
+        if (carry) carries.push(carry);
+        return carries;
+    }
+
+    function getBorrows(a, b) {
+        // Returns array of borrows: [borrowFromTens, borrowFromHundreds, ...]
+        var da = getDigits(a);
+        var db = getDigits(b);
+        var maxLen = Math.max(da.length, db.length);
+        var borrow = 0;
+        var borrows = [];
+        for (var i = 0; i < maxLen; i++) {
+            var diff = (da[i] || 0) - (db[i] || 0) - borrow;
+            if (diff < 0) {
+                borrow = 1;
+                borrows.push(1);
+            } else {
+                borrow = 0;
+                borrows.push(0);
+            }
+        }
+        return borrows;
+    }
+
+    function matchesAddType(a, b, addType) {
+        var carries = getCarries(a, b);
+        var answer = a + b;
+        // carries[0] = carry from E to T, carries[1] = carry from T to H
+        var carryT = carries[0] || 0;
+        var carryH = carries[1] || 0;
+
+        switch (addType) {
+            case 'zonder': return carryT === 0 && carryH === 0;
+            case 't': return carryT === 1 && carryH === 0;
+            case 'h': return carryT === 0 && carryH === 1;
+            case 'th': return carryT === 1 && carryH === 1;
+            case 'soms': return true; // any combination
+            case 'd': return answer >= 1000;
+        }
+        return true;
+    }
+
+    function matchesSubType(a, b, subType) {
+        // a >= b assumed
+        var borrows = getBorrows(a, b);
+        // borrows[0] = borrow at E (from T), borrows[1] = borrow at T (from H)
+        var borrowT = borrows[0] || 0;
+        var borrowH = borrows[1] || 0;
+
+        switch (subType) {
+            case 'zonder': return borrowT === 0 && borrowH === 0;
+            case 't': return borrowT === 1 && borrowH === 0;
+            case 'th': return borrowT === 1 && borrowH === 1;
+            case 'soms': return true;
+        }
+        return true;
+    }
+
     // ---------- Generate Cijfer Sums ----------
     function generateCijferSums(settings) {
         var sums = [];
         var used = {};
-        var maxAttempts = settings.count * 10;
+        var maxAttempts = settings.count * 50; // More attempts for constrained generation
         var totalAttempts = 0;
 
         while (sums.length < settings.count && totalAttempts < maxAttempts) {
@@ -886,6 +997,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Skip negative answers
             if (answer < 0) continue;
+
+            // Check overschrijding/lenen constraints
+            if (op === '+' && !matchesAddType(a, b, settings.addType)) continue;
+            if (op === '-' && !matchesSubType(a, b, settings.subType)) continue;
 
             // Skip duplicates
             var key = a + op + b;
@@ -932,19 +1047,20 @@ document.addEventListener('DOMContentLoaded', function () {
             var bStr = formatNum(s.b);
             var ansStr = formatNum(s.answer);
 
-            // Determine the widest string for alignment
-            var maxLen = Math.max(aStr.length, bStr.length + 2, showAnswers ? ansStr.length : 0);
+            // Calculate line width based on widest number
+            var maxLen = Math.max(aStr.length, bStr.length, showAnswers ? ansStr.length : 0);
+            var lineWidth = (maxLen * 0.75) + 0.5; // ch-based width
 
             html += '<div class="wb-cf-cell">';
             // Top number (right-aligned)
             html += '<div class="wb-cf-number">' + escapeHtml(aStr) + '</div>';
-            // Bottom number with operator
+            // Bottom number with operator to the right
             html += '<div class="wb-cf-bottom-row">';
-            html += '<span class="wb-cf-op">' + opSymbol(s.op) + '</span>';
             html += '<span class="wb-cf-number">' + escapeHtml(bStr) + '</span>';
+            html += '<span class="wb-cf-op">' + opSymbol(s.op) + '</span>';
             html += '</div>';
-            // Line
-            html += '<div class="wb-cf-line"></div>';
+            // Line (width based on numbers)
+            html += '<div class="wb-cf-line" style="width:' + lineWidth + 'em;"></div>';
             // Answer or empty
             if (showAnswers) {
                 html += '<div class="wb-cf-answer">' + escapeHtml(ansStr) + '</div>';
@@ -990,12 +1106,7 @@ document.addEventListener('DOMContentLoaded', function () {
             yPos += 8;
         }
 
-        // Separator line
-        doc.setDrawColor(200, 200, 210);
-        doc.setLineWidth(0.5);
-        doc.line(margin, yPos, pageW - margin, yPos);
-
-        var yStart = yPos + 8;
+        var yStart = yPos + 4;
 
         // Grid: 4 columns, max 5 rows
         var numCols = 4;
@@ -1021,23 +1132,26 @@ document.addEventListener('DOMContentLoaded', function () {
             doc.setFont('courier', 'normal');
             doc.setTextColor(50, 50, 70);
 
-            // Right edge of the cell for alignment
-            var rightX = x + colW - 4;
+            // Right edge for number alignment
+            var rightX = x + colW - 8;
 
             // Top number (right-aligned)
             doc.text(aStr, rightX, y, { align: 'right' });
 
-            // Bottom number with operator (right-aligned, op to the left)
+            // Bottom number (right-aligned)
             var lineY = y + 7;
             doc.text(bStr, rightX, lineY, { align: 'right' });
 
-            // Operator to the left of the bottom number
-            var bWidth = doc.getTextWidth(bStr);
+            // Operator to the right of the bottom number
             var opStr = opSymbolPdf(s.op);
-            doc.text(opStr, rightX - bWidth - 2, lineY);
+            doc.text(opStr, rightX + 2, lineY);
 
-            // Underline
-            var lineStartX = rightX - Math.max(doc.getTextWidth(aStr), bWidth + doc.getTextWidth(opStr) + 2) - 2;
+            // Underline (width based on widest number only)
+            var aWidth = doc.getTextWidth(aStr);
+            var bWidth = doc.getTextWidth(bStr);
+            var ansWidth = isAnswers ? doc.getTextWidth(ansStr) : 0;
+            var maxNumWidth = Math.max(aWidth, bWidth, ansWidth);
+            var lineStartX = rightX - maxNumWidth - 1;
             doc.setDrawColor(80, 80, 90);
             doc.setLineWidth(0.4);
             doc.line(lineStartX, lineY + 2, rightX + 1, lineY + 2);
@@ -1049,11 +1163,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 doc.text(ansStr, rightX, lineY + 9, { align: 'right' });
             }
         }
-
-        // Footer separator
-        doc.setDrawColor(220, 220, 230);
-        doc.setLineWidth(0.3);
-        doc.line(margin, 285, pageW - margin, 285);
 
         // Footer
         doc.setFontSize(9);
@@ -1188,12 +1297,7 @@ document.addEventListener('DOMContentLoaded', function () {
             yPos += 8;
         }
 
-        // Separator line
-        doc.setDrawColor(200, 200, 210);
-        doc.setLineWidth(0.5);
-        doc.line(margin, yPos, pageW - margin, yPos);
-
-        var yStart = yPos + 6;
+        var yStart = yPos + 4;
 
         // Block layout: 2 columns, blocks of 5 sums, left-to-right
         var layout = arrangeInBlocks(sums);
@@ -1285,11 +1389,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             y += maxBlockSize * lineH + blockGap;
         }
-
-        // Footer separator
-        doc.setDrawColor(220, 220, 230);
-        doc.setLineWidth(0.3);
-        doc.line(margin, 285, pageW - margin, 285);
 
         // Footer
         doc.setFontSize(9);

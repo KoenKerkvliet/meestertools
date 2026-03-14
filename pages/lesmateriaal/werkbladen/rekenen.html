@@ -255,6 +255,30 @@
                     </div>
                 </div>
 
+                <div class="wb-field" id="cfAddOptions">
+                    <label>Type optelling</label>
+                    <div class="wb-suboptions">
+                        <button class="wb-suboption active" data-cfadd="zonder">Zonder overschrijding</button>
+                        <button class="wb-suboption" data-cfadd="t">Overschrijding T</button>
+                        <button class="wb-suboption" data-cfadd="h">Overschrijding H</button>
+                        <button class="wb-suboption" data-cfadd="th">Overschrijding T+H</button>
+                        <button class="wb-suboption" data-cfadd="soms">Soms overschrijding</button>
+                        <button class="wb-suboption" data-cfadd="d">D in het antwoord</button>
+                    </div>
+                    <input type="hidden" id="wbCfAddType" value="zonder">
+                </div>
+
+                <div class="wb-field" id="cfSubOptions" style="display:none;">
+                    <label>Type aftrekking</label>
+                    <div class="wb-suboptions">
+                        <button class="wb-suboption active" data-cfsub="zonder">Zonder lenen</button>
+                        <button class="wb-suboption" data-cfsub="t">Met lenen T</button>
+                        <button class="wb-suboption" data-cfsub="th">Met lenen T+H</button>
+                        <button class="wb-suboption" data-cfsub="soms">Soms lenen</button>
+                    </div>
+                    <input type="hidden" id="wbCfSubType" value="zonder">
+                </div>
+
                 <div class="wb-field">
                     <label>Type getallen</label>
                     <div class="wb-switch-group">
