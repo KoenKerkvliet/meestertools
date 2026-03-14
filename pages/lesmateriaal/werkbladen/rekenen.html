@@ -233,6 +233,87 @@
                 </div>
             </div>
 
+            <!-- Sectie: Instellingen cijferen -->
+            <div class="wb-section" id="settingsCijferen" style="display:none;">
+                <h3 class="wb-section-title">Instellingen cijferen</h3>
+
+                <div class="wb-field">
+                    <label>Aantal sommen</label>
+                    <div class="wb-stepper">
+                        <button class="wb-stepper-btn" id="wbCfCountMinus" type="button">&minus;</button>
+                        <input type="number" id="wbCfCount" class="wb-stepper-input" value="20" min="1" max="80">
+                        <button class="wb-stepper-btn" id="wbCfCountPlus" type="button">+</button>
+                    </div>
+                </div>
+
+                <div class="wb-field">
+                    <label>Bewerkingen</label>
+                    <div class="wb-toggles-wide wb-toggles-three">
+                        <button class="wb-toggle-wide active" data-cfop="+" title="Optellen"><span class="wb-toggle-sym">+</span> Optellen</button>
+                        <button class="wb-toggle-wide" data-cfop="-" title="Aftrekken"><span class="wb-toggle-sym">&minus;</span> Aftrekken</button>
+                        <button class="wb-toggle-wide" data-cfop="*" title="Vermenigvuldigen"><span class="wb-toggle-sym">&times;</span> Vermenigvuldigen</button>
+                    </div>
+                </div>
+
+                <div class="wb-field">
+                    <label>Type getallen</label>
+                    <div class="wb-switch-group">
+                        <button class="wb-switch-btn active" data-cfnumtype="heel">Hele getallen</button>
+                        <button class="wb-switch-btn" data-cfnumtype="decimaal">Decimale getallen</button>
+                    </div>
+                    <input type="hidden" id="cfNumberTypeHidden" value="heel">
+                </div>
+
+                <div class="wb-field" id="cfDecimalOptions" style="display:none;">
+                    <div class="wb-row">
+                        <div class="wb-field">
+                            <label>Aantal decimalen (bovenste getal)</label>
+                            <div class="wb-toggle-row">
+                                <button class="wb-toggle-num active" data-cfdec="1" data-target="wbCfDec1">1</button>
+                                <button class="wb-toggle-num" data-cfdec="2" data-target="wbCfDec1">2</button>
+                                <button class="wb-toggle-num" data-cfdec="3" data-target="wbCfDec1">3</button>
+                            </div>
+                            <input type="hidden" id="wbCfDec1" value="1">
+                        </div>
+                        <div class="wb-field">
+                            <label>Aantal decimalen (onderste getal)</label>
+                            <div class="wb-toggle-row">
+                                <button class="wb-toggle-num active" data-cfdec="1" data-target="wbCfDec2">1</button>
+                                <button class="wb-toggle-num" data-cfdec="2" data-target="wbCfDec2">2</button>
+                                <button class="wb-toggle-num" data-cfdec="3" data-target="wbCfDec2">3</button>
+                            </div>
+                            <input type="hidden" id="wbCfDec2" value="1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wb-field">
+                    <label>Bereik van getallen</label>
+                    <div class="wb-row">
+                        <div class="wb-field">
+                            <span class="wb-range-label">Eerste getal (boven)</span>
+                            <div class="wb-range-row">
+                                <input type="number" id="wbCfMin1" class="wb-input" value="100" placeholder="Min">
+                                <input type="number" id="wbCfMax1" class="wb-input" value="500" placeholder="Max">
+                            </div>
+                        </div>
+                        <div class="wb-field">
+                            <span class="wb-range-label">Tweede getal (onder)</span>
+                            <div class="wb-range-row">
+                                <input type="number" id="wbCfMin2" class="wb-input" value="100" placeholder="Min">
+                                <input type="number" id="wbCfMax2" class="wb-input" value="500" placeholder="Max">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wb-field wb-field-check">
+                    <label class="wb-checkbox-label">
+                        <input type="checkbox" id="wbCfAnswerSheet" checked> Antwoordblad toevoegen
+                    </label>
+                </div>
+            </div>
+
             <!-- Gedeelde actie-knop -->
             <div class="wb-section" id="generateSection">
                 <div class="wb-actions">

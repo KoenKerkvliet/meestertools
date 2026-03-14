@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var decimalOptions = document.getElementById('decimalOptions');
     var settingsBewerkingen = document.getElementById('settingsBewerkingen');
     var settingsStaartdelingen = document.getElementById('settingsStaartdelingen');
+    var settingsCijferen = document.getElementById('settingsCijferen');
     var generateSection = document.getElementById('generateSection');
 
     if (!btnGenerate) return;
@@ -29,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var currentType = 'bewerkingen';
     var generatedSums = [];
     var generatedDivisions = [];
+    var generatedCijfer = [];
     var currentSettings = {};
 
     // ---------- Type Cards ----------
@@ -45,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateSettingsVisibility() {
         settingsBewerkingen.style.display = 'none';
         settingsStaartdelingen.style.display = 'none';
+        if (settingsCijferen) settingsCijferen.style.display = 'none';
         generateSection.style.display = '';
         previewSection.style.display = 'none';
 
@@ -52,6 +55,8 @@ document.addEventListener('DOMContentLoaded', function () {
             settingsBewerkingen.style.display = '';
         } else if (currentType === 'staartdelingen') {
             settingsStaartdelingen.style.display = '';
+        } else if (currentType === 'cijferen') {
+            if (settingsCijferen) settingsCijferen.style.display = '';
         } else {
             generateSection.style.display = 'none';
             // Show coming soon in preview
@@ -172,14 +177,69 @@ document.addEventListener('DOMContentLoaded', function () {
                 b.classList.remove('active');
             });
             this.classList.add('active');
-            document.getElementById(target).value = this.getAttribute('data-dec');
+            if (target) document.getElementById(target).value = this.getAttribute('data-dec') || this.getAttribute('data-cfdec') || this.getAttribute('data-lddec');
+        });
+    });
+
+    // ---------- Cijferen Stepper ----------
+    var cfCountInput = document.getElementById('wbCfCount');
+    var cfBtnMinus = document.getElementById('wbCfCountMinus');
+    var cfBtnPlus = document.getElementById('wbCfCountPlus');
+
+    if (cfBtnMinus) {
+        cfBtnMinus.addEventListener('click', function () {
+            var val = parseInt(cfCountInput.value) || 20;
+            if (val > 1) cfCountInput.value = val - 1;
+        });
+    }
+    if (cfBtnPlus) {
+        cfBtnPlus.addEventListener('click', function () {
+            var val = parseInt(cfCountInput.value) || 20;
+            if (val < 80) cfCountInput.value = val + 1;
+        });
+    }
+
+    // ---------- Cijferen Operation Toggles ----------
+    var cfToggleBtns = document.querySelectorAll('.wb-toggle-wide[data-cfop]');
+    cfToggleBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            this.classList.toggle('active');
+            var anyActive = document.querySelector('.wb-toggle-wide[data-cfop].active');
+            if (!anyActive) this.classList.add('active');
+        });
+    });
+
+    // ---------- Cijferen Number Type Switch ----------
+    var cfNumTypeBtns = document.querySelectorAll('.wb-switch-btn[data-cfnumtype]');
+    var cfNumberTypeHidden = document.getElementById('cfNumberTypeHidden');
+    var cfDecimalOptions = document.getElementById('cfDecimalOptions');
+
+    cfNumTypeBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            cfNumTypeBtns.forEach(function (b) { b.classList.remove('active'); });
+            this.classList.add('active');
+            var val = this.getAttribute('data-cfnumtype');
+            if (cfNumberTypeHidden) cfNumberTypeHidden.value = val;
+            if (cfDecimalOptions) cfDecimalOptions.style.display = val === 'decimaal' ? '' : 'none';
+        });
+    });
+
+    // ---------- Cijferen Decimal Toggles ----------
+    document.querySelectorAll('.wb-toggle-num[data-cfdec]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            this.parentNode.querySelectorAll('.wb-toggle-num').forEach(function (b) {
+                b.classList.remove('active');
+            });
+            this.classList.add('active');
+            var target = this.getAttribute('data-target');
+            if (target) document.getElementById(target).value = this.getAttribute('data-cfdec');
         });
     });
 
     // ---------- Read Settings ----------
     function readSettings() {
         var ops = [];
-        document.querySelectorAll('.wb-toggle-wide.active').forEach(function (btn) {
+        document.querySelectorAll('.wb-toggle-wide[data-op].active').forEach(function (btn) {
             ops.push(btn.getAttribute('data-op'));
         });
 
@@ -401,28 +461,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function renderPreview(settings, sums) {
         var html = '';
-        var totalPages = Math.ceil(sums.length / SUMS_PER_PAGE);
 
-        // Sums pages
-        for (var p = 0; p < totalPages; p++) {
-            var pageSums = sums.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
+        // Preview: only show first page of sums (PDF downloads all pages)
+        var previewSums = sums.slice(0, SUMS_PER_PAGE);
+        html += '<div class="wb-preview-page">';
+        html += buildHeaderHtml(settings, false);
+        html += renderSumsGrid(previewSums, false);
+        html += '<div class="wb-preview-footer">Meester Tools</div>';
+        html += '</div>';
+
+        // Answer sheet: only first page
+        if (settings.answerSheet) {
             html += '<div class="wb-preview-page">';
-            html += buildHeaderHtml(settings, false);
-            html += renderSumsGrid(pageSums, false);
+            html += buildHeaderHtml(settings, true);
+            html += renderSumsGrid(previewSums, true);
             html += '<div class="wb-preview-footer">Meester Tools</div>';
             html += '</div>';
-        }
-
-        // Answer sheet pages
-        if (settings.answerSheet) {
-            for (var p = 0; p < totalPages; p++) {
-                var pageSums = sums.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
-                html += '<div class="wb-preview-page">';
-                html += buildHeaderHtml(settings, true);
-                html += renderSumsGrid(pageSums, true);
-                html += '<div class="wb-preview-footer">Meester Tools</div>';
-                html += '</div>';
-            }
         }
 
         previewEl.innerHTML = html;
@@ -604,28 +658,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function renderLdPreview(settings, divisions) {
         var html = '';
-        var totalPages = Math.ceil(divisions.length / LD_PER_PAGE);
 
-        // Sums pages
-        for (var p = 0; p < totalPages; p++) {
-            var pageDivs = divisions.slice(p * LD_PER_PAGE, (p + 1) * LD_PER_PAGE);
+        // Preview: only show first page of divisions (PDF downloads all pages)
+        var previewDivs = divisions.slice(0, LD_PER_PAGE);
+        html += '<div class="wb-preview-page">';
+        html += buildHeaderHtml(settings, false);
+        html += renderLdGrid(previewDivs, false);
+        html += '<div class="wb-preview-footer">Meester Tools</div>';
+        html += '</div>';
+
+        // Answer sheet: only first page
+        if (settings.answerSheet) {
             html += '<div class="wb-preview-page">';
-            html += buildHeaderHtml(settings, false);
-            html += renderLdGrid(pageDivs, false);
+            html += buildHeaderHtml(settings, true);
+            html += renderLdGrid(previewDivs, true);
             html += '<div class="wb-preview-footer">Meester Tools</div>';
             html += '</div>';
-        }
-
-        // Answer sheet pages
-        if (settings.answerSheet) {
-            for (var p = 0; p < totalPages; p++) {
-                var pageDivs = divisions.slice(p * LD_PER_PAGE, (p + 1) * LD_PER_PAGE);
-                html += '<div class="wb-preview-page">';
-                html += buildHeaderHtml(settings, true);
-                html += renderLdGrid(pageDivs, true);
-                html += '<div class="wb-preview-footer">Meester Tools</div>';
-                html += '</div>';
-            }
         }
 
         previewEl.innerHTML = html;
@@ -675,27 +723,27 @@ document.addEventListener('DOMContentLoaded', function () {
         var contentW = pageW - margin * 2;
 
         // Title (left-aligned)
-        doc.setFontSize(20);
+        doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(50, 50, 70);
         var titleText = settings.title;
         if (isAnswers) titleText += ' - Antwoordblad';
-        doc.text(titleText, margin, margin + 8);
+        doc.text(titleText, margin, margin + 7);
 
         // Date (right-aligned)
         if (settings.date) {
-            doc.setFontSize(11);
+            doc.setFontSize(10);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(100, 100, 110);
             var dateDisplay = settings.datePrefix ? settings.datePrefix + ' ' + settings.date : settings.date;
-            doc.text(dateDisplay, pageW - margin, margin + 8, { align: 'right' });
+            doc.text(dateDisplay, pageW - margin, margin + 7, { align: 'right' });
         }
 
-        var yPos = margin + 14;
+        var yPos = margin + 16;
 
-        // Name field
+        // Name field (above separator)
         if (settings.showName) {
-            doc.setFontSize(11);
+            doc.setFontSize(10);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(100, 100, 110);
             doc.text('Naam: ___________________________', margin, yPos);
@@ -765,18 +813,275 @@ document.addEventListener('DOMContentLoaded', function () {
         doc.text('Meester Tools', margin, 290);
     }
 
+    // ============================================
+    // CIJFEREN (Column Arithmetic)
+    // ============================================
+
+    var CF_PER_PAGE = 20; // 4 cols × 5 rows
+
+    // ---------- Read Settings Cijferen ----------
+    function readSettingsCijferen() {
+        var ops = [];
+        document.querySelectorAll('.wb-toggle-wide[data-cfop].active').forEach(function (btn) {
+            ops.push(btn.getAttribute('data-cfop'));
+        });
+
+        var dateVal = document.getElementById('wbDate').value;
+        var dateStr = '';
+        if (dateVal) {
+            var d = new Date(dateVal);
+            dateStr = ('0' + d.getDate()).slice(-2) + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear();
+        }
+
+        var numberType = cfNumberTypeHidden ? cfNumberTypeHidden.value : 'heel';
+
+        return {
+            title: document.getElementById('wbTitle').value.trim() || 'Rekenwerkblad',
+            date: dateStr,
+            datePrefix: document.getElementById('wbDatePrefix').value.trim(),
+            showName: document.getElementById('wbNameField').value === 'ja',
+            count: Math.max(1, Math.min(80, parseInt(document.getElementById('wbCfCount').value) || 20)),
+            operations: ops,
+            numberType: numberType,
+            decimals1: numberType === 'decimaal' ? parseInt(document.getElementById('wbCfDec1').value) : 0,
+            decimals2: numberType === 'decimaal' ? parseInt(document.getElementById('wbCfDec2').value) : 0,
+            min1: parseFloat(document.getElementById('wbCfMin1').value) || 100,
+            max1: parseFloat(document.getElementById('wbCfMax1').value) || 500,
+            min2: parseFloat(document.getElementById('wbCfMin2').value) || 100,
+            max2: parseFloat(document.getElementById('wbCfMax2').value) || 500,
+            answerSheet: document.getElementById('wbCfAnswerSheet').checked
+        };
+    }
+
+    // ---------- Generate Cijfer Sums ----------
+    function generateCijferSums(settings) {
+        var sums = [];
+        var used = {};
+        var maxAttempts = settings.count * 10;
+        var totalAttempts = 0;
+
+        while (sums.length < settings.count && totalAttempts < maxAttempts) {
+            totalAttempts++;
+
+            var op = settings.operations[Math.floor(Math.random() * settings.operations.length)];
+            var a = randomInRange(settings.min1, settings.max1, settings.decimals1);
+            var b = randomInRange(settings.min2, settings.max2, settings.decimals2);
+
+            // Subtraction: ensure a >= b (no negative answers)
+            if (op === '-' && a < b) {
+                var tmp = a; a = b; b = tmp;
+            }
+
+            var answer;
+            switch (op) {
+                case '+': answer = a + b; break;
+                case '-': answer = a - b; break;
+                case '*': answer = a * b; break;
+            }
+
+            answer = Math.round(answer * 1000) / 1000;
+
+            // For whole numbers mode, skip non-integer answers
+            if (settings.numberType === 'heel' && !Number.isInteger(answer)) continue;
+
+            // Skip negative answers
+            if (answer < 0) continue;
+
+            // Skip duplicates
+            var key = a + op + b;
+            if (used[key]) continue;
+            used[key] = true;
+
+            sums.push({ a: a, op: op, b: b, answer: answer });
+        }
+
+        return sums;
+    }
+
+    // ---------- Render Cijferen Preview ----------
+    function renderCfPreview(settings, sums) {
+        var html = '';
+
+        // Preview: only first page
+        var previewSums = sums.slice(0, CF_PER_PAGE);
+        html += '<div class="wb-preview-page">';
+        html += buildHeaderHtml(settings, false);
+        html += renderCfGrid(previewSums, false);
+        html += '<div class="wb-preview-footer">Meester Tools</div>';
+        html += '</div>';
+
+        // Answer sheet: only first page
+        if (settings.answerSheet) {
+            html += '<div class="wb-preview-page">';
+            html += buildHeaderHtml(settings, true);
+            html += renderCfGrid(previewSums, true);
+            html += '<div class="wb-preview-footer">Meester Tools</div>';
+            html += '</div>';
+        }
+
+        previewEl.innerHTML = html;
+        previewSection.style.display = '';
+    }
+
+    function renderCfGrid(sums, showAnswers) {
+        var html = '<div class="wb-cf-grid">';
+
+        for (var i = 0; i < sums.length; i++) {
+            var s = sums[i];
+            var aStr = formatNum(s.a);
+            var bStr = formatNum(s.b);
+            var ansStr = formatNum(s.answer);
+
+            // Determine the widest string for alignment
+            var maxLen = Math.max(aStr.length, bStr.length + 2, showAnswers ? ansStr.length : 0);
+
+            html += '<div class="wb-cf-cell">';
+            // Top number (right-aligned)
+            html += '<div class="wb-cf-number">' + escapeHtml(aStr) + '</div>';
+            // Bottom number with operator
+            html += '<div class="wb-cf-bottom-row">';
+            html += '<span class="wb-cf-op">' + opSymbol(s.op) + '</span>';
+            html += '<span class="wb-cf-number">' + escapeHtml(bStr) + '</span>';
+            html += '</div>';
+            // Line
+            html += '<div class="wb-cf-line"></div>';
+            // Answer or empty
+            if (showAnswers) {
+                html += '<div class="wb-cf-answer">' + escapeHtml(ansStr) + '</div>';
+            }
+            html += '</div>';
+        }
+
+        html += '</div>';
+        return html;
+    }
+
+    // ---------- Cijferen PDF ----------
+    function generateCfPdfPage(doc, settings, sums, isAnswers) {
+        var pageW = 210;
+        var margin = 20;
+        var contentW = pageW - margin * 2;
+
+        // Title (left-aligned)
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(50, 50, 70);
+        var titleText = settings.title;
+        if (isAnswers) titleText += ' - Antwoordblad';
+        doc.text(titleText, margin, margin + 7);
+
+        // Date (right-aligned)
+        if (settings.date) {
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 110);
+            var dateDisplay = settings.datePrefix ? settings.datePrefix + ' ' + settings.date : settings.date;
+            doc.text(dateDisplay, pageW - margin, margin + 7, { align: 'right' });
+        }
+
+        var yPos = margin + 16;
+
+        // Name field (above separator)
+        if (settings.showName) {
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 110);
+            doc.text('Naam: ___________________________', margin, yPos);
+            yPos += 8;
+        }
+
+        // Separator line
+        doc.setDrawColor(200, 200, 210);
+        doc.setLineWidth(0.5);
+        doc.line(margin, yPos, pageW - margin, yPos);
+
+        var yStart = yPos + 8;
+
+        // Grid: 4 columns, max 5 rows
+        var numCols = 4;
+        var colGap = 8;
+        var colW = (contentW - colGap * (numCols - 1)) / numCols;
+        var cellH = isAnswers ? 28 : 40;
+        var rowGap = 6;
+
+        doc.setFont('courier', 'normal');
+
+        for (var i = 0; i < sums.length; i++) {
+            var col = i % numCols;
+            var row = Math.floor(i / numCols);
+            var x = margin + col * (colW + colGap);
+            var y = yStart + row * (cellH + rowGap);
+
+            var s = sums[i];
+            var aStr = formatNum(s.a);
+            var bStr = formatNum(s.b);
+            var ansStr = formatNum(s.answer);
+
+            doc.setFontSize(12);
+            doc.setFont('courier', 'normal');
+            doc.setTextColor(50, 50, 70);
+
+            // Right edge of the cell for alignment
+            var rightX = x + colW - 4;
+
+            // Top number (right-aligned)
+            doc.text(aStr, rightX, y, { align: 'right' });
+
+            // Bottom number with operator (right-aligned, op to the left)
+            var lineY = y + 7;
+            doc.text(bStr, rightX, lineY, { align: 'right' });
+
+            // Operator to the left of the bottom number
+            var bWidth = doc.getTextWidth(bStr);
+            var opStr = opSymbolPdf(s.op);
+            doc.text(opStr, rightX - bWidth - 2, lineY);
+
+            // Underline
+            var lineStartX = rightX - Math.max(doc.getTextWidth(aStr), bWidth + doc.getTextWidth(opStr) + 2) - 2;
+            doc.setDrawColor(80, 80, 90);
+            doc.setLineWidth(0.4);
+            doc.line(lineStartX, lineY + 2, rightX + 1, lineY + 2);
+
+            // Answer
+            if (isAnswers) {
+                doc.setFont('courier', 'bold');
+                doc.setTextColor(108, 99, 255);
+                doc.text(ansStr, rightX, lineY + 9, { align: 'right' });
+            }
+        }
+
+        // Footer separator
+        doc.setDrawColor(220, 220, 230);
+        doc.setLineWidth(0.3);
+        doc.line(margin, 285, pageW - margin, 285);
+
+        // Footer
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(160, 160, 175);
+        doc.text('Meester Tools', margin, 290);
+    }
+
     // ---------- Generate Button ----------
     btnGenerate.addEventListener('click', function () {
         if (currentType === 'bewerkingen') {
             currentSettings = readSettings();
             generatedSums = generateSums(currentSettings);
             generatedDivisions = [];
+            generatedCijfer = [];
             renderPreview(currentSettings, generatedSums);
         } else if (currentType === 'staartdelingen') {
             currentSettings = readSettingsStaartdelingen();
             generatedDivisions = generateLongDivisions(currentSettings);
             generatedSums = [];
+            generatedCijfer = [];
             renderLdPreview(currentSettings, generatedDivisions);
+        } else if (currentType === 'cijferen') {
+            currentSettings = readSettingsCijferen();
+            generatedCijfer = generateCijferSums(currentSettings);
+            generatedSums = [];
+            generatedDivisions = [];
+            renderCfPreview(currentSettings, generatedCijfer);
         } else {
             return;
         }
@@ -787,7 +1092,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- PDF Generation ----------
     btnDownloadPdf.addEventListener('click', function () {
-        if (generatedSums.length === 0 && generatedDivisions.length === 0) return;
+        if (generatedSums.length === 0 && generatedDivisions.length === 0 && generatedCijfer.length === 0) return;
         if (!window.jspdf) {
             alert('PDF-bibliotheek kon niet geladen worden. Probeer de pagina te vernieuwen.');
             return;
@@ -796,7 +1101,24 @@ document.addEventListener('DOMContentLoaded', function () {
         var jsPDF = window.jspdf.jsPDF;
         var doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
-        if (generatedDivisions.length > 0) {
+        if (generatedCijfer.length > 0) {
+            // Cijferen PDF - paginate per 20
+            var cfPages = Math.ceil(generatedCijfer.length / CF_PER_PAGE);
+            for (var p = 0; p < cfPages; p++) {
+                if (p > 0) doc.addPage();
+                var pageSums = generatedCijfer.slice(p * CF_PER_PAGE, (p + 1) * CF_PER_PAGE);
+                generateCfPdfPage(doc, currentSettings, pageSums, false);
+            }
+            if (currentSettings.answerSheet) {
+                for (var p = 0; p < cfPages; p++) {
+                    doc.addPage();
+                    var pageSums = generatedCijfer.slice(p * CF_PER_PAGE, (p + 1) * CF_PER_PAGE);
+                    generateCfPdfPage(doc, currentSettings, pageSums, true);
+                }
+            }
+            var filename = 'werkblad-cijferen-' + new Date().toISOString().slice(0, 10) + '.pdf';
+            doc.save(filename);
+        } else if (generatedDivisions.length > 0) {
             // Staartdelingen PDF - paginate per 12
             var ldPages = Math.ceil(generatedDivisions.length / LD_PER_PAGE);
             for (var p = 0; p < ldPages; p++) {

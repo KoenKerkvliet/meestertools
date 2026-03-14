@@ -586,6 +586,27 @@ document.addEventListener('DOMContentLoaded', () => {
         closeModal();
     });
 
+    // ---------- Day Change Detection ----------
+    // Automatically reset votes when a new day starts (e.g. page stays open overnight)
+    let currentDayKey = getTodayKey();
+
+    function checkDayChange() {
+        const newDayKey = getTodayKey();
+        if (newDayKey !== currentDayKey) {
+            // Day has changed - previous day's data is already saved in weekData
+            // Start fresh for the new day
+            currentDayKey = newDayKey;
+            votes = new Array(smileyCount).fill(0);
+            buildUI();
+        }
+    }
+
+    // Check every 30 seconds if the day has changed
+    setInterval(checkDayChange, 30000);
+
+    // Also check on window focus (e.g. user returns to tab the next day)
+    window.addEventListener('focus', checkDayChange);
+
     // ---------- Init ----------
     async function init() {
         await loadSettings();
