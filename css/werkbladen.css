@@ -393,32 +393,32 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 .wb-preview-title {
     text-align: left;
-    font-size: 20px;
-    font-weight: 800;
+    font-size: 15px;
+    font-weight: 700;
     color: var(--text-dark);
 }
 
 .wb-preview-date {
-    font-size: 13px;
+    font-size: 11px;
     color: var(--text-medium);
     white-space: nowrap;
 }
 
 .wb-preview-name {
-    font-size: 13px;
+    font-size: 11px;
     color: var(--text-medium);
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .wb-preview-separator {
-    height: 1.5px;
+    height: 1px;
     background: #C8C8D8;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
 }
 
 .wb-preview-footer {
