@@ -322,57 +322,48 @@ document.addEventListener('DOMContentLoaded', function () {
         var starsStr = '\u2605'.repeat(starCount);
         var starsClass = getStarsClass(difficulty);
 
+        // Two-column layout
+        html += '<div class="game24-layout">';
+
+        // === LEFT COLUMN: Board ===
+        html += '<div class="game24-col-board">';
+        html += '<div class="game24-board-wrapper">';
+        html += '<div class="game24-board-circle"></div>';
+        html += '<div class="game24-board-cross"></div>';
+
+        // Difficulty indicator below + button in rode balk
+        html += '<div class="game24-diff-indicator diff-' + difficulty + '">' + starsStr + '</div>';
+
+        html += '<div class="game24-compass">';
+        html += renderOpButton('+', '+', 'n');
+        html += renderOriginalCard(0, 'nw');
+        html += renderOriginalCard(1, 'no');
+        html += renderOpButton('-', '\u2212', 'w');
+
+        // Center: score (rode ruit - alleen getal)
+        html += '<div class="game24-pos-center">';
+        html += '<div class="game24-center">';
+        html += '<div class="game24-center-value">' + score.wins + '</div>';
+        html += '</div>';
+        html += '</div>';
+
+        html += renderOpButton('*', '\u00D7', 'o');
+        html += renderOriginalCard(2, 'zw');
+        html += renderOriginalCard(3, 'zo');
+        html += renderOpButton('/', '\u00F7', 'z');
+        html += '</div>'; // end compass
+        html += '</div>'; // end board-wrapper
+        html += '</div>'; // end col-board
+
+        // === RIGHT COLUMN: Controls ===
+        html += '<div class="game24-col-panel">';
+
         // Instruction
         if (!gameOver) {
             var instruction = getInstruction();
             var highlightClass = selectedCardRef !== null ? ' highlight' : '';
             html += '<div class="game24-instruction' + highlightClass + '">' + escapeHtml(instruction) + '</div>';
         }
-
-        // Board wrapper met cirkel + kruis + compass grid
-        html += '<div class="game24-board-wrapper">';
-        html += '<div class="game24-board-circle"></div>';
-        html += '<div class="game24-board-cross"></div>';
-
-        // Difficulty indicator in rode verticale balk
-        html += '<div class="game24-diff-indicator diff-' + difficulty + '">' + starsStr + '</div>';
-
-        html += '<div class="game24-compass">';
-
-        // North: + operator
-        html += renderOpButton('+', '+', 'n');
-
-        // NW: card 0
-        html += renderOriginalCard(0, 'nw');
-
-        // NO: card 1
-        html += renderOriginalCard(1, 'no');
-
-        // West: - operator
-        html += renderOpButton('-', '\u2212', 'w');
-
-        // Center: score (rode ruit)
-        html += '<div class="game24-pos-center">';
-        html += '<div class="game24-center">';
-        html += '<div class="game24-center-value">' + score.wins + '</div>';
-        html += '<div class="game24-center-label">Opgelost</div>';
-        html += '</div>';
-        html += '</div>';
-
-        // East: × operator
-        html += renderOpButton('*', '\u00D7', 'o');
-
-        // ZW: card 2
-        html += renderOriginalCard(2, 'zw');
-
-        // ZO: card 3
-        html += renderOriginalCard(3, 'zo');
-
-        // South: ÷ operator
-        html += renderOpButton('/', '\u00F7', 'z');
-
-        html += '</div>'; // end compass
-        html += '</div>'; // end board-wrapper
 
         // Results area
         html += '<div class="game24-results-area">';
@@ -394,8 +385,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 html += '</div>';
             }
         }
-        html += '</div>'; // end results-row
-        html += '</div>'; // end results-area
+        html += '</div>';
+        html += '</div>';
 
         // Steps history
         if (steps.length > 0) {
@@ -426,7 +417,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 html += '<div class="game24-gameover lose animate">';
                 html += '<span class="game24-gameover-icon">&#128533;</span>';
                 html += '<div class="game24-gameover-text">Helaas, ' + formatNumber(finalValue) + '</div>';
-                html += '<div class="game24-gameover-sub">Het resultaat is niet 24. Probeer het opnieuw!</div>';
+                html += '<div class="game24-gameover-sub">Het resultaat is niet 24.</div>';
                 html += '</div>';
             }
         }
@@ -435,13 +426,16 @@ document.addEventListener('DOMContentLoaded', function () {
         html += '<div class="game24-actions">';
         if (gameOver) {
             html += '<button class="game24-btn game24-btn-new" id="btnNewGame">&#127922; Nieuw spel</button>';
-            html += '<button class="game24-btn game24-btn-reset" id="btnReset">&#128260; Opnieuw proberen</button>';
+            html += '<button class="game24-btn game24-btn-reset" id="btnReset">&#128260; Opnieuw</button>';
         } else {
-            html += '<button class="game24-btn game24-btn-undo" id="btnUndo"' + (steps.length === 0 ? ' disabled' : '') + '>&#8592; Ongedaan maken</button>';
+            html += '<button class="game24-btn game24-btn-undo" id="btnUndo"' + (steps.length === 0 ? ' disabled' : '') + '>&#8592; Undo</button>';
             html += '<button class="game24-btn game24-btn-reset" id="btnReset"' + (steps.length === 0 ? ' disabled' : '') + '>&#128260; Reset</button>';
             html += '<button class="game24-btn game24-btn-new" id="btnNewGame">&#127922; Nieuw spel</button>';
         }
         html += '</div>';
+
+        html += '</div>'; // end col-panel
+        html += '</div>'; // end layout
 
         container.innerHTML = html;
 
