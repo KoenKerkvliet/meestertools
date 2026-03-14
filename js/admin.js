@@ -1072,24 +1072,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---------- Initial Load ----------
-    // Wait for auth check to complete, then load data
-    const checkAuth = setInterval(async () => {
-        if (window.userRole !== undefined) {
-            clearInterval(checkAuth);
-            if (window.userRole === 'super_admin') {
-                try {
-                    await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets()]);
-                } catch (e) {
-                    console.error('Error during initial load:', e);
-                }
-                // Always render after all data is loaded
-                renderDifficultiesList();
-                updateDifficultyDropdowns();
-            }
+    async function initAdminData() {
+        if (window.userRole !== 'super_admin') return;
+        try {
+            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets()]);
+        } catch (e) {
+            console.error('Error during initial load:', e);
         }
-    }, 100);
+        renderDifficultiesList();
+        updateDifficultyDropdowns();
+    }
 
-    // Timeout after 5 seconds
-    setTimeout(() => clearInterval(checkAuth), 5000);
+    // Listen for the role-ready event from app.js
+    window.addEventListener('userRoleReady', () => initAdminData());
+
+    // Also check if role was already set (in case app.js fired before admin.js loaded)
+    if (window.userRole !== undefined) {
+        initAdminData();
+    }
 
 });

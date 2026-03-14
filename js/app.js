@@ -169,6 +169,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Store role globally for other scripts
             window.userRole = profile.role;
 
+            // Dispatch event so admin.js and other scripts can react
+            window.dispatchEvent(new CustomEvent('userRoleReady', { detail: { role: profile.role } }));
+
             // Add admin link if super_admin
             if (profile.role === 'super_admin') {
                 addAdminLink();
