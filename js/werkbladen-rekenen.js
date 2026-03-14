@@ -230,12 +230,15 @@ document.addEventListener('DOMContentLoaded', function () {
     var cfToggleBtns = document.querySelectorAll('.wb-toggle-wide[data-cfop]');
     var cfAddOptions = document.getElementById('cfAddOptions');
     var cfSubOptions = document.getElementById('cfSubOptions');
+    var cfMulOptions = document.getElementById('cfMulOptions');
 
     function updateCfSubOptionsVisibility() {
         var addActive = document.querySelector('.wb-toggle-wide[data-cfop="+"].active');
         var subActive = document.querySelector('.wb-toggle-wide[data-cfop="-"].active');
+        var mulActive = document.querySelector('.wb-toggle-wide[data-cfop="*"].active');
         if (cfAddOptions) cfAddOptions.style.display = addActive ? '' : 'none';
         if (cfSubOptions) cfSubOptions.style.display = subActive ? '' : 'none';
+        if (cfMulOptions) cfMulOptions.style.display = mulActive ? '' : 'none';
     }
 
     cfToggleBtns.forEach(function (btn) {
@@ -268,6 +271,18 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             this.classList.add('active');
             document.getElementById('wbCfSubType').value = this.getAttribute('data-cfsub');
+            hidePreview();
+        });
+    });
+
+    // ---------- Cijferen Sub-option Toggles (Vermenigvuldigen) ----------
+    document.querySelectorAll('.wb-suboption[data-cfmul]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.wb-suboption[data-cfmul]').forEach(function (b) {
+                b.classList.remove('active');
+            });
+            this.classList.add('active');
+            document.getElementById('wbCfMulType').value = this.getAttribute('data-cfmul');
             hidePreview();
         });
     });
@@ -891,6 +906,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var addTypeEl = document.getElementById('wbCfAddType');
         var subTypeEl = document.getElementById('wbCfSubType');
+        var mulTypeEl = document.getElementById('wbCfMulType');
 
         return {
             title: document.getElementById('wbTitle').value.trim() || 'Rekenwerkblad',
@@ -902,6 +918,7 @@ document.addEventListener('DOMContentLoaded', function () {
             numberType: numberType,
             addType: addTypeEl ? addTypeEl.value : 'zonder',
             subType: subTypeEl ? subTypeEl.value : 'zonder',
+            mulType: mulTypeEl ? mulTypeEl.value : '1cijfer',
             decimals1: numberType === 'decimaal' ? parseInt(document.getElementById('wbCfDec1').value) : 0,
             decimals2: numberType === 'decimaal' ? parseInt(document.getElementById('wbCfDec2').value) : 0,
             min1: parseFloat(document.getElementById('wbCfMin1').value) || 100,
@@ -1007,7 +1024,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
             var op = settings.operations[Math.floor(Math.random() * settings.operations.length)];
             var a = randomInRange(settings.min1, settings.max1, settings.decimals1);
-            var b = randomInRange(settings.min2, settings.max2, settings.decimals2);
+            var b;
+
+            // Multiplication: override second number based on mulType
+            if (op === '*') {
+                switch (settings.mulType) {
+                    case '1cijfer':
+                        b = Math.floor(Math.random() * 8) + 2; // 2-9
+                        break;
+                    case 'tientallen':
+                        b = (Math.floor(Math.random() * 9) + 1) * 10; // 10,20,...,90
+                        break;
+                    case '2cijfers':
+                        b = Math.floor(Math.random() * 89) + 11; // 11-99
+                        break;
+                    default:
+                        b = randomInRange(settings.min2, settings.max2, settings.decimals2);
+                }
+            } else {
+                b = randomInRange(settings.min2, settings.max2, settings.decimals2);
+            }
 
             // Subtraction: ensure a >= b (no negative answers)
             if (op === '-' && a < b) {
