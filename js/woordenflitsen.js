@@ -108,16 +108,16 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isRunning) stopFlashing();
 
         selectedLevel = level;
-        selectedDifficultyIds = [];
-
-        // Reset difficulty button text
-        btnDifficulty.textContent = 'Alle woorden';
 
         // Load data
         wfWord.textContent = 'Laden...';
         wfWord.className = 'wf-word placeholder';
 
         await Promise.all([loadWordsForLevel(level), loadDifficultiesForLevel(level)]);
+
+        // Select all difficulties by default
+        selectedDifficultyIds = difficulties.map(function (d) { return d.id; });
+        updateDifficultyButtonText();
 
         updateReadyState();
     }
@@ -206,6 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
         wfDisplay.classList.add('active');
         btnStartPause.innerHTML = '&#10074;&#10074; Pauze';
         btnStartPause.classList.add('paused');
+        document.body.classList.add('wf-focus-mode');
 
         showNextWord();
     }
@@ -263,6 +264,7 @@ document.addEventListener('DOMContentLoaded', function () {
         btnStartPause.innerHTML = '&#9654; Start';
         btnStartPause.classList.remove('paused');
         wfDisplay.classList.remove('active');
+        document.body.classList.remove('wf-focus-mode');
     }
 
     function stopFlashing() {
@@ -272,6 +274,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         btnStartPause.innerHTML = '&#9654; Start';
         btnStartPause.classList.remove('paused');
+        document.body.classList.remove('wf-focus-mode');
         wfDisplay.classList.remove('active');
     }
 

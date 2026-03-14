@@ -312,6 +312,40 @@
     color: white;
 }
 
+/* ---------- Focus Mode (during flashing) ---------- */
+.wf-focus-mode .app-header,
+.wf-focus-mode .tool-inline-header,
+.wf-focus-mode .app-footer {
+    opacity: 0.12;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.wf-focus-mode .wf-control-group:not(.wf-control-action) {
+    opacity: 0.12;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.wf-focus-mode .wf-controls {
+    background: transparent;
+    border-color: transparent;
+    transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+/* Keep pause button fully visible and clickable */
+.wf-focus-mode .wf-control-action {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.4s ease;
+}
+
+/* Make sure the display stays prominent */
+.wf-focus-mode .wf-display {
+    position: relative;
+    z-index: 2;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 600px) {
     .wf-display {
