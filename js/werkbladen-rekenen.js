@@ -86,12 +86,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // ---------- Operation Toggles (wide) ----------
-    var toggleBtns = document.querySelectorAll('.wb-toggle-wide');
+    // ---------- Operation Toggles (wide) - Bewerkingen only ----------
+    var toggleBtns = document.querySelectorAll('.wb-toggle-wide[data-op]');
     toggleBtns.forEach(function (btn) {
         btn.addEventListener('click', function () {
             this.classList.toggle('active');
-            var anyActive = document.querySelector('.wb-toggle-wide.active');
+            var anyActive = document.querySelector('.wb-toggle-wide[data-op].active');
             if (!anyActive) this.classList.add('active');
             hidePreview();
         });
@@ -499,19 +499,19 @@ document.addEventListener('DOMContentLoaded', function () {
     function buildHeaderHtml(settings, isAnswers) {
         var html = '';
 
-        // Title row (title left, date right)
+        // Title row (title left, name field right)
         html += '<div class="wb-preview-header-row">';
         var titleText = isAnswers ? escapeHtml(settings.title) + ' - Antwoordblad' : escapeHtml(settings.title);
         html += '<div class="wb-preview-title">' + titleText + '</div>';
-        if (settings.date) {
-            var dateDisplay = settings.datePrefix ? escapeHtml(settings.datePrefix) + ' ' + settings.date : settings.date;
-            html += '<div class="wb-preview-date">' + dateDisplay + '</div>';
+        if (settings.showName) {
+            html += '<div class="wb-preview-name">Naam: ___________________________</div>';
         }
         html += '</div>';
 
-        // Name field
-        if (settings.showName) {
-            html += '<div class="wb-preview-name">Naam: ___________________________</div>';
+        // Date row (below title)
+        if (settings.date) {
+            var dateDisplay = settings.datePrefix ? escapeHtml(settings.datePrefix) + ' ' + settings.date : settings.date;
+            html += '<div class="wb-preview-date">' + dateDisplay + '</div>';
         }
 
         // Separator
@@ -794,24 +794,24 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isAnswers) titleText += ' - Antwoordblad';
         doc.text(titleText, margin, 12);
 
-        // Date (right-aligned)
+        // Name field (right-aligned, same line as title)
+        if (settings.showName) {
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 110);
+            doc.text('Naam: ___________________________', pageW - margin, 12, { align: 'right' });
+        }
+
+        var yPos = 18;
+
+        // Date (below title)
         if (settings.date) {
             doc.setFontSize(10);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(100, 100, 110);
             var dateDisplay = settings.datePrefix ? settings.datePrefix + ' ' + settings.date : settings.date;
-            doc.text(dateDisplay, pageW - margin, 12, { align: 'right' });
-        }
-
-        var yPos = 20;
-
-        // Name field (above separator)
-        if (settings.showName) {
-            doc.setFontSize(10);
-            doc.setFont('helvetica', 'normal');
-            doc.setTextColor(100, 100, 110);
-            doc.text('Naam: ___________________________', margin, yPos);
-            yPos += 8;
+            doc.text(dateDisplay, margin, yPos);
+            yPos += 6;
         }
 
         var yStart = yPos + 4;
@@ -1114,24 +1114,24 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isAnswers) titleText += ' - Antwoordblad';
         doc.text(titleText, margin, 12);
 
-        // Date (right-aligned)
+        // Name field (right-aligned, same line as title)
+        if (settings.showName) {
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 110);
+            doc.text('Naam: ___________________________', pageW - margin, 12, { align: 'right' });
+        }
+
+        var yPos = 18;
+
+        // Date (below title)
         if (settings.date) {
             doc.setFontSize(10);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(100, 100, 110);
             var dateDisplay = settings.datePrefix ? settings.datePrefix + ' ' + settings.date : settings.date;
-            doc.text(dateDisplay, pageW - margin, 12, { align: 'right' });
-        }
-
-        var yPos = 20;
-
-        // Name field (above separator)
-        if (settings.showName) {
-            doc.setFontSize(10);
-            doc.setFont('helvetica', 'normal');
-            doc.setTextColor(100, 100, 110);
-            doc.text('Naam: ___________________________', margin, yPos);
-            yPos += 8;
+            doc.text(dateDisplay, margin, yPos);
+            yPos += 6;
         }
 
         var yStart = yPos + 4;
@@ -1305,24 +1305,24 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isAnswers) titleText += ' - Antwoordblad';
         doc.text(titleText, margin, 12);
 
-        // Date (right-aligned)
+        // Name field (right-aligned, same line as title)
+        if (settings.showName) {
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 110);
+            doc.text('Naam: ___________________________', pageW - margin, 12, { align: 'right' });
+        }
+
+        var yPos = 18;
+
+        // Date (below title)
         if (settings.date) {
             doc.setFontSize(10);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(100, 100, 110);
             var dateDisplay = settings.datePrefix ? settings.datePrefix + ' ' + settings.date : settings.date;
-            doc.text(dateDisplay, pageW - margin, 12, { align: 'right' });
-        }
-
-        var yPos = 20;
-
-        // Name field (above separator)
-        if (settings.showName) {
-            doc.setFontSize(10);
-            doc.setFont('helvetica', 'normal');
-            doc.setTextColor(100, 100, 110);
-            doc.text('Naam: ___________________________', margin, yPos);
-            yPos += 8;
+            doc.text(dateDisplay, margin, yPos);
+            yPos += 6;
         }
 
         var yStart = yPos + 4;

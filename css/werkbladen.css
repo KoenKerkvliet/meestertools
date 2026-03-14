@@ -432,12 +432,12 @@
     font-size: 11px;
     color: var(--text-medium);
     white-space: nowrap;
+    margin-bottom: 4px;
 }
 
 .wb-preview-name {
     font-size: 11px;
     color: var(--text-medium);
-    margin-bottom: 8px;
 }
 
 .wb-preview-separator {
