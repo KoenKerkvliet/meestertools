@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var previewEl = document.getElementById('wbPreview');
     var decimalOptions = document.getElementById('decimalOptions');
     var settingsBewerkingen = document.getElementById('settingsBewerkingen');
+    var settingsStaartdelingen = document.getElementById('settingsStaartdelingen');
+    var generateSection = document.getElementById('generateSection');
 
     if (!btnGenerate) return;
 
@@ -26,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var currentType = 'bewerkingen';
     var generatedSums = [];
+    var generatedDivisions = [];
     var currentSettings = {};
 
     // ---------- Type Cards ----------
@@ -40,10 +43,17 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function updateSettingsVisibility() {
+        settingsBewerkingen.style.display = 'none';
+        settingsStaartdelingen.style.display = 'none';
+        generateSection.style.display = '';
+        previewSection.style.display = 'none';
+
         if (currentType === 'bewerkingen') {
             settingsBewerkingen.style.display = '';
+        } else if (currentType === 'staartdelingen') {
+            settingsStaartdelingen.style.display = '';
         } else {
-            settingsBewerkingen.style.display = 'none';
+            generateSection.style.display = 'none';
             // Show coming soon in preview
             previewSection.style.display = '';
             previewEl.innerHTML =
@@ -106,6 +116,36 @@ document.addEventListener('DOMContentLoaded', function () {
             nameFieldBtns.forEach(function (b) { b.classList.remove('active'); });
             this.classList.add('active');
             nameFieldHidden.value = this.getAttribute('data-namefield');
+        });
+    });
+
+    // ---------- Long Division Stepper ----------
+    var ldCountInput = document.getElementById('wbLdCount');
+    var ldBtnMinus = document.getElementById('wbLdCountMinus');
+    var ldBtnPlus = document.getElementById('wbLdCountPlus');
+
+    if (ldBtnMinus) {
+        ldBtnMinus.addEventListener('click', function () {
+            var val = parseInt(ldCountInput.value) || 12;
+            if (val > 1) ldCountInput.value = val - 1;
+        });
+    }
+    if (ldBtnPlus) {
+        ldBtnPlus.addEventListener('click', function () {
+            var val = parseInt(ldCountInput.value) || 12;
+            if (val < 12) ldCountInput.value = val + 1;
+        });
+    }
+
+    // ---------- Long Division Remainder Switch ----------
+    var remainderBtns = document.querySelectorAll('.wb-switch-btn[data-remainder]');
+    var remainderHidden = document.getElementById('wbLdRemainder');
+
+    remainderBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            remainderBtns.forEach(function (b) { b.classList.remove('active'); });
+            this.classList.add('active');
+            remainderHidden.value = this.getAttribute('data-remainder');
         });
     });
 
@@ -407,13 +447,267 @@ document.addEventListener('DOMContentLoaded', function () {
         return html;
     }
 
+    // ============================================
+    // STAARTDELINGEN (Long Division)
+    // ============================================
+
+    // ---------- Read Settings Staartdelingen ----------
+    function readSettingsStaartdelingen() {
+        // Format date (shared)
+        var dateVal = document.getElementById('wbDate').value;
+        var dateStr = '';
+        if (dateVal) {
+            var d = new Date(dateVal);
+            dateStr = ('0' + d.getDate()).slice(-2) + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear();
+        }
+
+        return {
+            title: document.getElementById('wbTitle').value.trim() || 'Rekenwerkblad',
+            date: dateStr,
+            datePrefix: document.getElementById('wbDatePrefix').value.trim(),
+            showName: document.getElementById('wbNameField').value === 'ja',
+            count: Math.max(1, Math.min(12, parseInt(document.getElementById('wbLdCount').value) || 12)),
+            allowRemainder: document.getElementById('wbLdRemainder').value === 'met',
+            minDeeltal: parseInt(document.getElementById('wbLdMinDeeltal').value) || 10,
+            maxDeeltal: parseInt(document.getElementById('wbLdMaxDeeltal').value) || 100,
+            minDeler: parseInt(document.getElementById('wbLdMinDeler').value) || 2,
+            maxDeler: parseInt(document.getElementById('wbLdMaxDeler').value) || 9,
+            answerSheet: document.getElementById('wbLdAnswerSheet').checked
+        };
+    }
+
+    // ---------- Generate Long Divisions ----------
+    function generateLongDivisions(settings) {
+        var divisions = [];
+        var used = {};
+        var maxAttempts = settings.count * 50;
+        var totalAttempts = 0;
+
+        while (divisions.length < settings.count && totalAttempts < maxAttempts) {
+            totalAttempts++;
+
+            var deler = Math.floor(Math.random() * (settings.maxDeler - settings.minDeler + 1)) + settings.minDeler;
+            if (deler <= 0) deler = 2;
+
+            var deeltal, quotient, rest;
+
+            if (!settings.allowRemainder) {
+                // Without remainder: deeltal = deler * quotient
+                var minQ = Math.max(3, Math.ceil(settings.minDeeltal / deler));
+                var maxQ = Math.floor(settings.maxDeeltal / deler);
+                if (minQ > maxQ) continue;
+
+                quotient = Math.floor(Math.random() * (maxQ - minQ + 1)) + minQ;
+                deeltal = deler * quotient;
+                rest = 0;
+            } else {
+                // With remainder: deeltal = deler * quotient + rest, 0 < rest < deler
+                var minQ = Math.max(3, Math.ceil(settings.minDeeltal / deler));
+                var maxQ = Math.floor(settings.maxDeeltal / deler);
+                if (minQ > maxQ) continue;
+
+                quotient = Math.floor(Math.random() * (maxQ - minQ + 1)) + minQ;
+                // rest must be 1..deler-1
+                if (deler <= 1) continue;
+                rest = Math.floor(Math.random() * (deler - 1)) + 1;
+                deeltal = deler * quotient + rest;
+
+                // Check deeltal is still in range
+                if (deeltal > settings.maxDeeltal || deeltal < settings.minDeeltal) continue;
+            }
+
+            // Skip duplicates
+            var key = deeltal + '/' + deler;
+            if (used[key]) continue;
+            used[key] = true;
+
+            divisions.push({
+                deeltal: deeltal,
+                deler: deler,
+                quotient: quotient,
+                rest: rest
+            });
+        }
+
+        return divisions;
+    }
+
+    // ---------- Render Long Division Preview ----------
+    function renderLdPreview(settings, divisions) {
+        var html = '';
+
+        // Sums page
+        html += '<div class="wb-preview-page">';
+        html += buildHeaderHtml(settings, false);
+        html += renderLdGrid(divisions, false);
+        html += '<div class="wb-preview-footer">Meester Tools</div>';
+        html += '</div>';
+
+        // Answer sheet
+        if (settings.answerSheet) {
+            html += '<div class="wb-preview-page">';
+            html += buildHeaderHtml(settings, true);
+            html += renderLdGrid(divisions, true);
+            html += '<div class="wb-preview-footer">Meester Tools</div>';
+            html += '</div>';
+        }
+
+        previewEl.innerHTML = html;
+        previewSection.style.display = '';
+    }
+
+    function renderLdGrid(divisions, showAnswers) {
+        var cols = 3;
+        var html = '<div class="wb-ld-grid">';
+
+        for (var i = 0; i < divisions.length; i++) {
+            var div = divisions[i];
+            html += '<div class="wb-ld-cell">';
+            html += '<div class="wb-ld-notation">';
+            html += '<span>' + div.deler + '</span>';
+            html += ' / ';
+            html += '<span>' + div.deeltal + '</span>';
+            html += ' \\ ';
+            if (showAnswers) {
+                html += '<span class="wb-ld-answer">' + div.quotient;
+                if (div.rest > 0) html += ' rest ' + div.rest;
+                html += '</span>';
+            } else {
+                html += '<span class="wb-ld-blank">___</span>';
+            }
+            html += '</div>';
+
+            // Work space with dotted lines
+            if (!showAnswers) {
+                html += '<div class="wb-ld-work">';
+                for (var l = 0; l < 4; l++) {
+                    html += '<div class="wb-ld-work-line"></div>';
+                }
+                html += '</div>';
+            }
+
+            html += '</div>';
+        }
+
+        html += '</div>';
+        return html;
+    }
+
+    // ---------- Long Division PDF ----------
+    function generateLdPdfPage(doc, settings, divisions, isAnswers) {
+        var pageW = 210;
+        var margin = 20;
+        var contentW = pageW - margin * 2;
+
+        // Title (left-aligned)
+        doc.setFontSize(20);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(50, 50, 70);
+        var titleText = settings.title;
+        if (isAnswers) titleText += ' - Antwoordblad';
+        doc.text(titleText, margin, margin + 8);
+
+        // Date (right-aligned)
+        if (settings.date) {
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 110);
+            var dateDisplay = settings.datePrefix ? settings.datePrefix + ' ' + settings.date : settings.date;
+            doc.text(dateDisplay, pageW - margin, margin + 8, { align: 'right' });
+        }
+
+        var yPos = margin + 14;
+
+        // Name field
+        if (settings.showName) {
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 110);
+            doc.text('Naam: ___________________________', margin, yPos);
+            yPos += 8;
+        }
+
+        // Separator line
+        doc.setDrawColor(200, 200, 210);
+        doc.setLineWidth(0.5);
+        doc.line(margin, yPos, pageW - margin, yPos);
+
+        var yStart = yPos + 8;
+
+        // Grid: 3 columns, max 4 rows
+        var numCols = 3;
+        var colGap = 8;
+        var colW = (contentW - colGap * (numCols - 1)) / numCols;
+        var cellH = isAnswers ? 20 : 55; // answers need less space
+        var rowGap = 6;
+
+        for (var i = 0; i < divisions.length; i++) {
+            var col = i % numCols;
+            var row = Math.floor(i / numCols);
+            var x = margin + col * (colW + colGap);
+            var y = yStart + row * (cellH + rowGap);
+
+            var div = divisions[i];
+
+            // Notation: deler / deeltal \ answer
+            doc.setFontSize(12);
+            doc.setFont('courier', 'normal');
+            doc.setTextColor(50, 50, 70);
+
+            var notation = div.deler + ' / ' + div.deeltal + ' \\ ';
+            doc.text(notation, x, y);
+
+            if (isAnswers) {
+                var ansText = div.quotient.toString();
+                if (div.rest > 0) ansText += ' rest ' + div.rest;
+                doc.setFont('courier', 'bold');
+                doc.setTextColor(108, 99, 255);
+                var notationW = doc.getTextWidth(notation);
+                doc.text(ansText, x + notationW, y);
+            } else {
+                // Draw answer line
+                var notationW = doc.getTextWidth(notation);
+                doc.setDrawColor(200, 200, 210);
+                doc.setLineWidth(0.3);
+                doc.line(x + notationW, y, x + notationW + 12, y);
+
+                // Draw work lines below
+                doc.setDrawColor(220, 220, 230);
+                doc.setLineWidth(0.2);
+                for (var l = 1; l <= 5; l++) {
+                    var lineY = y + l * 8;
+                    doc.line(x, lineY, x + colW, lineY);
+                }
+            }
+        }
+
+        // Footer separator
+        doc.setDrawColor(220, 220, 230);
+        doc.setLineWidth(0.3);
+        doc.line(margin, 285, pageW - margin, 285);
+
+        // Footer
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(160, 160, 175);
+        doc.text('Meester Tools', margin, 290);
+    }
+
     // ---------- Generate Button ----------
     btnGenerate.addEventListener('click', function () {
-        if (currentType !== 'bewerkingen') return;
-
-        currentSettings = readSettings();
-        generatedSums = generateSums(currentSettings);
-        renderPreview(currentSettings, generatedSums);
+        if (currentType === 'bewerkingen') {
+            currentSettings = readSettings();
+            generatedSums = generateSums(currentSettings);
+            generatedDivisions = [];
+            renderPreview(currentSettings, generatedSums);
+        } else if (currentType === 'staartdelingen') {
+            currentSettings = readSettingsStaartdelingen();
+            generatedDivisions = generateLongDivisions(currentSettings);
+            generatedSums = [];
+            renderLdPreview(currentSettings, generatedDivisions);
+        } else {
+            return;
+        }
 
         // Scroll to preview
         previewSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -421,7 +715,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- PDF Generation ----------
     btnDownloadPdf.addEventListener('click', function () {
-        if (generatedSums.length === 0) return;
+        if (generatedSums.length === 0 && generatedDivisions.length === 0) return;
         if (!window.jspdf) {
             alert('PDF-bibliotheek kon niet geladen worden. Probeer de pagina te vernieuwen.');
             return;
@@ -429,21 +723,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var jsPDF = window.jspdf.jsPDF;
         var doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-        var pageW = 210;
-        var pageH = 297;
-        var margin = 20;
-        var contentW = pageW - margin * 2;
 
-        generatePdfPage(doc, currentSettings, generatedSums, false);
-
-        // Answer sheet on new page
-        if (currentSettings.answerSheet) {
-            doc.addPage();
-            generatePdfPage(doc, currentSettings, generatedSums, true);
+        if (generatedDivisions.length > 0) {
+            // Staartdelingen PDF
+            generateLdPdfPage(doc, currentSettings, generatedDivisions, false);
+            if (currentSettings.answerSheet) {
+                doc.addPage();
+                generateLdPdfPage(doc, currentSettings, generatedDivisions, true);
+            }
+            var filename = 'werkblad-staartdelingen-' + new Date().toISOString().slice(0, 10) + '.pdf';
+            doc.save(filename);
+        } else {
+            // Bewerkingen PDF
+            generatePdfPage(doc, currentSettings, generatedSums, false);
+            if (currentSettings.answerSheet) {
+                doc.addPage();
+                generatePdfPage(doc, currentSettings, generatedSums, true);
+            }
+            var filename = 'werkblad-rekenen-' + new Date().toISOString().slice(0, 10) + '.pdf';
+            doc.save(filename);
         }
-
-        var filename = 'werkblad-rekenen-' + new Date().toISOString().slice(0, 10) + '.pdf';
-        doc.save(filename);
     });
 
     function generatePdfPage(doc, settings, sums, isAnswers) {

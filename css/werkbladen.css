@@ -511,6 +511,53 @@
     margin-top: 16px;
 }
 
+/* Long Division (Staartdelingen) Preview */
+.wb-ld-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px 16px;
+    flex: 1;
+}
+
+.wb-ld-cell {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #E8E8F0;
+    border-radius: 4px;
+    padding: 8px;
+    min-height: 80px;
+}
+
+.wb-ld-notation {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dark);
+    white-space: nowrap;
+    margin-bottom: 4px;
+}
+
+.wb-ld-notation .wb-ld-answer {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.wb-ld-notation .wb-ld-blank {
+    color: var(--text-light);
+}
+
+.wb-ld-work {
+    flex: 1;
+    border-top: 1px solid #E8E8F0;
+    margin-top: 4px;
+    /* Empty space for student work */
+}
+
+.wb-ld-work-line {
+    border-bottom: 1px dotted #E0E0EC;
+    height: 14px;
+}
+
 /* Coming soon for other types */
 .wb-coming-soon {
     text-align: center;

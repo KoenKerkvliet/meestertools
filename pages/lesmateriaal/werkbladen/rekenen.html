@@ -171,7 +171,59 @@
                         <input type="checkbox" id="wbAnswerSheet" checked> Antwoordblad toevoegen
                     </label>
                 </div>
+            </div>
 
+            <!-- Sectie: Instellingen staartdelingen -->
+            <div class="wb-section" id="settingsStaartdelingen" style="display:none;">
+                <h3 class="wb-section-title">Instellingen staartdelingen</h3>
+
+                <div class="wb-field">
+                    <label>Aantal sommen</label>
+                    <div class="wb-stepper">
+                        <button class="wb-stepper-btn" id="wbLdCountMinus" type="button">&minus;</button>
+                        <input type="number" id="wbLdCount" class="wb-stepper-input" value="12" min="1" max="12">
+                        <button class="wb-stepper-btn" id="wbLdCountPlus" type="button">+</button>
+                    </div>
+                </div>
+
+                <div class="wb-field">
+                    <label>Type staartdeling</label>
+                    <div class="wb-switch-group">
+                        <button class="wb-switch-btn active" data-remainder="zonder">Zonder rest</button>
+                        <button class="wb-switch-btn" data-remainder="met">Met rest</button>
+                    </div>
+                    <input type="hidden" id="wbLdRemainder" value="zonder">
+                </div>
+
+                <div class="wb-field">
+                    <label>Bereik van getallen</label>
+                    <div class="wb-row">
+                        <div class="wb-field">
+                            <span class="wb-range-label">Deeltal (groot getal)</span>
+                            <div class="wb-range-row">
+                                <input type="number" id="wbLdMinDeeltal" class="wb-input" value="10" placeholder="Min">
+                                <input type="number" id="wbLdMaxDeeltal" class="wb-input" value="100" placeholder="Max">
+                            </div>
+                        </div>
+                        <div class="wb-field">
+                            <span class="wb-range-label">Deler (klein getal)</span>
+                            <div class="wb-range-row">
+                                <input type="number" id="wbLdMinDeler" class="wb-input" value="2" placeholder="Min">
+                                <input type="number" id="wbLdMaxDeler" class="wb-input" value="9" placeholder="Max">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wb-field wb-field-check">
+                    <label class="wb-checkbox-label">
+                        <input type="checkbox" id="wbLdAnswerSheet" checked> Antwoordblad toevoegen
+                    </label>
+                </div>
+            </div>
+
+            <!-- Gedeelde actie-knop -->
+            <div class="wb-section" id="generateSection">
                 <div class="wb-actions">
                     <button class="btn-primary wb-generate-btn" id="btnGenerate">&#128065; Voorbeeld bekijken</button>
                 </div>
