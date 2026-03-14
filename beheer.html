@@ -141,48 +141,22 @@
                         <div class="diff-levels-row" id="newDifficultyLevels"></div>
                         <button class="btn-primary" id="addDifficultyBtn">+ Toevoegen</button>
                     </div>
-                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
-                        <input type="text" class="search-input" id="difficultySearch" placeholder="Zoek moeilijkheid..." style="max-width:260px;">
-                        <select class="search-input" id="difficultyLevelFilter" style="max-width:160px;">
-                            <option value="">Alle niveaus</option>
-                        </select>
-                        <span id="difficultyCount" style="font-size:13px;color:var(--text-light);font-weight:600;white-space:nowrap;margin-left:auto;"></span>
-                    </div>
-                    <div class="words-list" id="difficultiesList">
-                        <div class="admin-empty" style="width:100%;">
-                            <span class="empty-icon">&#128203;</span>
-                            <p>Voeg een moeilijkheid toe en koppel deze aan leesniveaus.</p>
-                        </div>
-                    </div>
+                    <div id="difficultiesByLevel"></div>
                 </div>
             </div>
 
             <!-- Woorden sub-panel -->
             <div class="words-sub-panel" id="subtab-words">
-                <div class="admin-toolbar">
-                    <div class="words-level-tabs" id="levelTabs"></div>
-                </div>
                 <div class="words-section">
                     <div class="words-add-row">
+                        <select class="search-input" id="newWordLevel" style="max-width:120px;"></select>
                         <input type="text" class="search-input" id="newWordInput" placeholder="Woord(en), gescheiden door komma...">
                         <select class="search-input" id="newWordDifficulty" style="max-width:200px;">
                             <option value="">Geen moeilijkheid</option>
                         </select>
                         <button class="btn-primary" id="addWordBtn">+ Toevoegen</button>
                     </div>
-                    <div style="display:flex;align-items:center;gap:10px;margin:12px 0 10px;flex-wrap:wrap;">
-                        <input type="text" class="search-input" id="wordsSearch" placeholder="Zoek woord..." style="max-width:220px;">
-                        <select class="search-input" id="wordsDiffFilter" style="max-width:200px;">
-                            <option value="">Alle moeilijkheden</option>
-                        </select>
-                        <span id="wordsCount" style="font-size:13px;color:var(--text-light);font-weight:600;white-space:nowrap;margin-left:auto;"></span>
-                    </div>
-                    <div id="wordsList">
-                        <div class="admin-empty" style="width:100%;">
-                            <span class="empty-icon">&#128218;</span>
-                            <p>Selecteer een leesniveau om woorden te beheren.</p>
-                        </div>
-                    </div>
+                    <div id="wordsByLevel"></div>
                 </div>
             </div>
         </div>

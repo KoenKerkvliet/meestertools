@@ -1356,9 +1356,76 @@ a {
     color: white;
 }
 
-/* Words grouped by difficulty */
+/* Level sections (collapsible) */
+.level-section {
+    margin-bottom: 12px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.level-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, var(--primary) 0%, #5A52E0 100%);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+}
+
+.level-section-header:hover {
+    background: linear-gradient(135deg, #5A52E0 0%, #4A42D0 100%);
+}
+
+.level-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+}
+
+.level-section-count {
+    font-size: 12px;
+    font-weight: 700;
+    background: rgba(255,255,255,0.25);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 10px;
+    min-width: 22px;
+    text-align: center;
+}
+
+.level-section-toggle {
+    margin-left: auto;
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    transition: transform 0.2s;
+}
+
+.level-section.collapsed .level-section-toggle {
+    transform: rotate(-90deg);
+}
+
+.level-section-body {
+    padding: 12px 14px;
+}
+
+.level-section.collapsed .level-section-body {
+    display: none;
+}
+
+.level-section-empty {
+    font-size: 13px;
+    color: var(--text-light);
+    font-style: italic;
+    margin: 0;
+    padding: 4px 0;
+}
+
+/* Words grouped by difficulty (within level) */
 .words-group-section {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 }
 
 .words-group-section:last-child {
@@ -1369,27 +1436,27 @@ a {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 8px 14px;
+    padding: 6px 12px;
     background: linear-gradient(135deg, #F0F0FF 0%, #E8E8FF 100%);
     border: 1px solid #D8D8F0;
     border-radius: var(--radius-md);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .words-group-title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--primary);
 }
 
 .words-group-count {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     background: var(--primary);
     color: white;
-    padding: 1px 8px;
+    padding: 1px 7px;
     border-radius: 10px;
-    min-width: 20px;
+    min-width: 18px;
     text-align: center;
 }
 
