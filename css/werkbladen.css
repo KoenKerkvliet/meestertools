@@ -51,8 +51,12 @@
 
 .wb-field-check {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     min-width: auto;
+}
+
+.wb-field-check .wb-checkbox-label {
+    padding: 10px 0;
 }
 
 .wb-input {
