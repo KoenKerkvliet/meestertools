@@ -129,24 +129,12 @@
         <div class="admin-tab-panel" id="tab-words">
             <!-- Sub-tabs -->
             <div class="words-sub-tabs">
-                <button class="words-sub-tab active" data-subtab="difficulties">Moeilijkheden</button>
-                <button class="words-sub-tab" data-subtab="words">Woorden</button>
-            </div>
-
-            <!-- Moeilijkheden sub-panel -->
-            <div class="words-sub-panel active" id="subtab-difficulties">
-                <div class="words-section">
-                    <div class="words-add-row">
-                        <input type="text" class="search-input" id="newDifficultyInput" placeholder="Naam moeilijkheid...">
-                        <div class="diff-levels-row" id="newDifficultyLevels"></div>
-                        <button class="btn-primary" id="addDifficultyBtn">+ Toevoegen</button>
-                    </div>
-                    <div id="difficultiesByLevel"></div>
-                </div>
+                <button class="words-sub-tab active" data-subtab="words">Woorden</button>
+                <button class="words-sub-tab" data-subtab="difficulties">Moeilijkheden</button>
             </div>
 
             <!-- Woorden sub-panel -->
-            <div class="words-sub-panel" id="subtab-words">
+            <div class="words-sub-panel active" id="subtab-words">
                 <div class="words-section">
                     <div class="words-add-row">
                         <select class="search-input" id="newWordLevel" style="max-width:120px;"></select>
@@ -157,6 +145,18 @@
                         <button class="btn-primary" id="addWordBtn">+ Toevoegen</button>
                     </div>
                     <div id="wordsByLevel"></div>
+                </div>
+            </div>
+
+            <!-- Moeilijkheden sub-panel -->
+            <div class="words-sub-panel" id="subtab-difficulties">
+                <div class="words-section">
+                    <div class="words-add-row">
+                        <input type="text" class="search-input" id="newDifficultyInput" placeholder="Naam moeilijkheid...">
+                        <div class="diff-levels-row" id="newDifficultyLevels"></div>
+                        <button class="btn-primary" id="addDifficultyBtn">+ Toevoegen</button>
+                    </div>
+                    <div id="difficultiesByLevel"></div>
                 </div>
             </div>
         </div>
