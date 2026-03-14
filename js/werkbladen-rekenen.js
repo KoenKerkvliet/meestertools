@@ -99,22 +99,41 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ---------- Generate Sums ----------
+    function sumKey(a, op, b) {
+        return a + op + b;
+    }
+
     function generateSums(settings) {
         var sums = [];
+        var used = {};
+        var maxAttempts = settings.count * 10;
+        var totalAttempts = 0;
 
-        for (var i = 0; i < settings.count; i++) {
+        while (sums.length < settings.count && totalAttempts < maxAttempts) {
+            totalAttempts++;
+
             var op = settings.operations[Math.floor(Math.random() * settings.operations.length)];
             var a = randomInRange(settings.min1, settings.max1, settings.decimals1);
             var b = randomInRange(settings.min2, settings.max2, settings.decimals2);
 
-            // Division: prevent divide by zero
+            // Division: ensure whole number answer
             if (op === '/') {
-                var attempts = 0;
-                while (b === 0 && attempts < 20) {
+                // Pick b first (not zero), then make a a multiple of b
+                var bAttempts = 0;
+                while (b === 0 && bAttempts < 20) {
                     b = randomInRange(settings.min2, settings.max2, settings.decimals2);
-                    attempts++;
+                    bAttempts++;
                 }
                 if (b === 0) b = 1;
+                // Make a a multiple of b within range
+                var minMult = Math.ceil(settings.min1 / b);
+                var maxMult = Math.floor(settings.max1 / b);
+                if (minMult > maxMult) {
+                    // No valid multiple in range, skip
+                    continue;
+                }
+                var mult = Math.floor(Math.random() * (maxMult - minMult + 1)) + minMult;
+                a = mult * b;
             }
 
             var answer;
@@ -127,6 +146,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Round answer to avoid floating point issues
             answer = Math.round(answer * 1000) / 1000;
+
+            // Skip if answer is not a whole number
+            if (!Number.isInteger(answer)) continue;
+
+            // Skip duplicates
+            var key = sumKey(a, op, b);
+            if (used[key]) continue;
+            used[key] = true;
 
             sums.push({ a: a, op: op, b: b, answer: answer });
         }
