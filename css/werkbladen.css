@@ -59,6 +59,15 @@
     padding: 10px 0;
 }
 
+/* Naamveld switch (compact) */
+.wb-field-name {
+    max-width: 200px;
+}
+
+.wb-switch-small {
+    max-width: 160px;
+}
+
 .wb-input {
     width: 100%;
     padding: 10px 14px;

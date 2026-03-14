@@ -48,10 +48,13 @@
                         <label for="wbTitle">Titel werkblad</label>
                         <input type="text" id="wbTitle" class="wb-input" placeholder="Rekenwerkblad" value="Rekenwerkblad">
                     </div>
-                    <div class="wb-field wb-field-check">
-                        <label class="wb-checkbox-label">
-                            <input type="checkbox" id="wbNameField"> Naamveld toevoegen
-                        </label>
+                    <div class="wb-field wb-field-name">
+                        <label>Naamveld toevoegen</label>
+                        <div class="wb-switch-group wb-switch-small">
+                            <button class="wb-switch-btn active" data-namefield="ja">Ja</button>
+                            <button class="wb-switch-btn" data-namefield="nee">Nee</button>
+                        </div>
+                        <input type="hidden" id="wbNameField" value="ja">
                     </div>
                 </div>
 

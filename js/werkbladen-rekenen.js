@@ -84,16 +84,28 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ---------- Number Type Switch ----------
-    var switchBtns = document.querySelectorAll('.wb-switch-btn');
+    var numTypeBtns = document.querySelectorAll('.wb-switch-btn[data-numtype]');
     var numberTypeHidden = document.getElementById('numberTypeHidden');
 
-    switchBtns.forEach(function (btn) {
+    numTypeBtns.forEach(function (btn) {
         btn.addEventListener('click', function () {
-            switchBtns.forEach(function (b) { b.classList.remove('active'); });
+            numTypeBtns.forEach(function (b) { b.classList.remove('active'); });
             this.classList.add('active');
             var val = this.getAttribute('data-numtype');
             numberTypeHidden.value = val;
             decimalOptions.style.display = val === 'decimaal' ? '' : 'none';
+        });
+    });
+
+    // ---------- Name Field Switch ----------
+    var nameFieldBtns = document.querySelectorAll('.wb-switch-btn[data-namefield]');
+    var nameFieldHidden = document.getElementById('wbNameField');
+
+    nameFieldBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            nameFieldBtns.forEach(function (b) { b.classList.remove('active'); });
+            this.classList.add('active');
+            nameFieldHidden.value = this.getAttribute('data-namefield');
         });
     });
 
@@ -131,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
             title: document.getElementById('wbTitle').value.trim() || 'Rekenwerkblad',
             date: dateStr,
             datePrefix: document.getElementById('wbDatePrefix').value.trim(),
-            showName: document.getElementById('wbNameField').checked,
+            showName: document.getElementById('wbNameField').value === 'ja',
             count: Math.max(1, Math.min(200, parseInt(document.getElementById('wbCount').value) || 40)),
             operations: ops,
             numberType: numberType,
