@@ -381,7 +381,12 @@
                 </div>
 
                 <div class="wb-field" id="pctOmrekenOptions" style="display:none;">
-                    <p class="wb-coming-text" style="color:var(--text-medium); font-size:13px;">Binnenkort beschikbaar.</p>
+                    <label>Moeilijkheidsgraad</label>
+                    <div class="wb-suboptions">
+                        <button class="wb-suboption active" data-convlevel="makkelijk">Makkelijk</button>
+                        <button class="wb-suboption" data-convlevel="moeilijk">Moeilijk</button>
+                    </div>
+                    <input type="hidden" id="wbConvLevel" value="makkelijk">
                 </div>
 
                 <div class="wb-field" id="pctRangeField">

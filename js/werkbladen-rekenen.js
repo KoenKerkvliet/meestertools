@@ -371,6 +371,18 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // ---------- Conversion Level Sub-options ----------
+    document.querySelectorAll('.wb-suboption[data-convlevel]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.wb-suboption[data-convlevel]').forEach(function (b) {
+                b.classList.remove('active');
+            });
+            this.classList.add('active');
+            document.getElementById('wbConvLevel').value = this.getAttribute('data-convlevel');
+            hidePreview();
+        });
+    });
+
     // ---------- Read Settings ----------
     function readSettings() {
         var ops = [];
@@ -1329,6 +1341,7 @@ document.addEventListener('DOMContentLoaded', function () {
             count: Math.max(1, Math.min(200, parseInt(pctCountInput.value) || 50)),
             pctType: pctTypeHidden ? pctTypeHidden.value : 'deelvangeheel',
             pctLevel: document.getElementById('wbPctLevel').value || 'makkelijk',
+            convLevel: document.getElementById('wbConvLevel').value || 'makkelijk',
             pctMin: parseInt(document.getElementById('wbPctMin').value) || 50,
             pctMax: parseInt(document.getElementById('wbPctMax').value) || 500,
             answerSheet: document.getElementById('wbPctAnswerSheet').checked
@@ -1403,6 +1416,333 @@ document.addEventListener('DOMContentLoaded', function () {
         return sums;
     }
 
+    // ============================================
+    // CONVERSIES (Breuken / Procenten / Komma's)
+    // ============================================
+
+    var easyConv = [
+        { breuk: '1/2', procent: '50', komma: '0,5' },
+        { breuk: '1/4', procent: '25', komma: '0,25' },
+        { breuk: '1/5', procent: '20', komma: '0,2' },
+        { breuk: '1/10', procent: '10', komma: '0,1' },
+        { breuk: '1/20', procent: '5', komma: '0,05' },
+        { breuk: '1/25', procent: '4', komma: '0,04' },
+        { breuk: '1/50', procent: '2', komma: '0,02' },
+        { breuk: '1/100', procent: '1', komma: '0,01' },
+        { breuk: '1/8', procent: '12,5', komma: '0,125' },
+        { breuk: '1/3', procent: '33\u2153', komma: '0,33...' }
+    ];
+
+    var hardConv = easyConv.concat([
+        { breuk: '3/4', procent: '75', komma: '0,75' },
+        { breuk: '2/5', procent: '40', komma: '0,4' },
+        { breuk: '3/5', procent: '60', komma: '0,6' },
+        { breuk: '4/5', procent: '80', komma: '0,8' },
+        { breuk: '2/3', procent: '66\u2154', komma: '0,66...' },
+        { breuk: '3/10', procent: '30', komma: '0,3' },
+        { breuk: '7/10', procent: '70', komma: '0,7' },
+        { breuk: '9/10', procent: '90', komma: '0,9' },
+        { breuk: '3/8', procent: '37,5', komma: '0,375' },
+        { breuk: '5/8', procent: '62,5', komma: '0,625' },
+        { breuk: '7/8', procent: '87,5', komma: '0,875' },
+        { breuk: '3/20', procent: '15', komma: '0,15' },
+        { breuk: '7/20', procent: '35', komma: '0,35' },
+        { breuk: '9/20', procent: '45', komma: '0,45' },
+        { breuk: '2/25', procent: '8', komma: '0,08' },
+        { breuk: '3/25', procent: '12', komma: '0,12' }
+    ]);
+
+    function generateConvSums(settings) {
+        var pool = settings.convLevel === 'moeilijk' ? hardConv : easyConv;
+        var sums = [];
+        var used = {};
+        var maxAttempts = settings.count * 200;
+        var totalAttempts = 0;
+
+        while (sums.length < settings.count && totalAttempts < maxAttempts) {
+            totalAttempts++;
+
+            var conv = pool[Math.floor(Math.random() * pool.length)];
+            var given = Math.floor(Math.random() * 3); // 0=breuk, 1=procent, 2=komma
+
+            // Skip duplicates (same conversion, same given)
+            var key = conv.breuk + '_' + given;
+            if (used[key]) {
+                // Allow same conversion with different given
+                key = conv.breuk + '_any_' + totalAttempts;
+                // But also skip if all 3 givens of this conversion are used
+                if (used[conv.breuk + '_0'] && used[conv.breuk + '_1'] && used[conv.breuk + '_2']) continue;
+                // Try another given
+                for (var g = 0; g < 3; g++) {
+                    if (!used[conv.breuk + '_' + g]) { given = g; break; }
+                }
+                key = conv.breuk + '_' + given;
+                if (used[key]) continue;
+            }
+            used[key] = true;
+
+            sums.push({
+                breuk: conv.breuk,
+                procent: conv.procent,
+                komma: conv.komma,
+                given: given,
+                op: 'conv' // marker for type detection
+            });
+        }
+
+        return sums;
+    }
+
+    // ---------- Render Conversion Preview ----------
+    function renderConvPreview(settings, sums) {
+        var html = '';
+
+        var previewSums = sums.slice(0, SUMS_PER_PAGE);
+        html += '<div class="wb-preview-page">';
+        html += buildHeaderHtml(settings, false);
+        html += renderConvGrid(previewSums, false);
+        html += '<div class="wb-preview-footer">Meester Tools</div>';
+        html += '</div>';
+
+        if (settings.answerSheet) {
+            html += '<div class="wb-preview-page">';
+            html += buildHeaderHtml(settings, true);
+            html += renderConvGrid(previewSums, true);
+            html += '<div class="wb-preview-footer">Meester Tools</div>';
+            html += '</div>';
+        }
+
+        previewEl.innerHTML = html;
+        previewSection.style.display = '';
+    }
+
+    function renderConvGrid(sums, showAnswers) {
+        var layout = arrangeInBlocks(sums);
+
+        // Calculate max widths
+        var maxBreuk = 0, maxPct = 0, maxKomma = 0;
+        for (var i = 0; i < sums.length; i++) {
+            maxBreuk = Math.max(maxBreuk, sums[i].breuk.length);
+            maxPct = Math.max(maxPct, (sums[i].procent + '%').length);
+            maxKomma = Math.max(maxKomma, sums[i].komma.length);
+        }
+        var colBreuk = Math.max(maxBreuk, 4) + 'ch';
+        var colEq = '1.5ch';
+        var colPct = Math.max(maxPct, 5) + 'ch';
+        var colKomma = Math.max(maxKomma, 5) + 'ch';
+        var gridCols = colBreuk + ' ' + colEq + ' ' + colPct + ' ' + colEq + ' ' + colKomma;
+
+        var html = '<div class="wb-preview-blocks">';
+
+        for (var r = 0; r < layout.rows; r++) {
+            for (var c = 0; c < layout.cols; c++) {
+                var block = layout.grid[r][c];
+                html += '<div class="wb-preview-block">';
+                for (var i = 0; i < block.length; i++) {
+                    var entry = block[i];
+                    var s = entry.sum;
+                    html += '<div class="wb-preview-sum" style="grid-template-columns:' + gridCols + ';">';
+
+                    // Breuk
+                    if (showAnswers || s.given === 0) {
+                        html += '<span class="wb-preview-a">' + escapeHtml(s.breuk) + '</span>';
+                    } else {
+                        html += '<span class="wb-preview-line">___</span>';
+                    }
+                    html += '<span class="wb-preview-eq">=</span>';
+
+                    // Procent
+                    if (showAnswers || s.given === 1) {
+                        html += '<span class="wb-preview-b">' + escapeHtml(s.procent) + '%</span>';
+                    } else {
+                        html += '<span class="wb-preview-line">___%</span>';
+                    }
+                    html += '<span class="wb-preview-eq">=</span>';
+
+                    // Komma
+                    if (showAnswers || s.given === 2) {
+                        html += '<span class="wb-preview-answer">' + escapeHtml(s.komma) + '</span>';
+                    } else {
+                        html += '<span class="wb-preview-line">___</span>';
+                    }
+
+                    html += '</div>';
+                }
+                html += '</div>';
+            }
+        }
+
+        html += '</div>';
+        return html;
+    }
+
+    // ---------- Conversion PDF ----------
+    function generateConvPdfPage(doc, settings, sums, isAnswers) {
+        var pageW = 210;
+        var margin = 20;
+        var contentW = pageW - margin * 2;
+
+        // Title (left-aligned)
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(50, 50, 70);
+        var titleText = settings.title;
+        if (isAnswers) titleText += ' - Antwoordblad';
+        doc.text(titleText, margin, 12);
+
+        // Name field (right-aligned, same line as title)
+        if (settings.showName) {
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 110);
+            doc.text('Naam: ___________________________', pageW - margin, 12, { align: 'right' });
+        }
+
+        var yPos = 18;
+
+        // Date (below title)
+        if (settings.date) {
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 110);
+            var dateDisplay = settings.datePrefix ? settings.datePrefix + ' ' + settings.date : settings.date;
+            doc.text(dateDisplay, margin, yPos);
+            yPos += 6;
+        }
+
+        var yStart = yPos + 10;
+
+        // Block layout: 2 columns, blocks of 5
+        var layout = arrangeInBlocks(sums);
+        var lineH = 7.5;
+        var blockGap = 8;
+        var numCols = 2;
+        var colGap = 12;
+        var colW = (contentW - colGap * (numCols - 1)) / numCols;
+
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+
+        // Calculate column widths
+        var breukW = 0, pctW = 0, kommaW = 0;
+        for (var si = 0; si < sums.length; si++) {
+            var tw;
+            tw = doc.getTextWidth(sums[si].breuk);
+            if (tw > breukW) breukW = tw;
+            tw = doc.getTextWidth(sums[si].procent + '%');
+            if (tw > pctW) pctW = tw;
+            tw = doc.getTextWidth(sums[si].komma);
+            if (tw > kommaW) kommaW = tw;
+        }
+        breukW += 1;
+        pctW += 1;
+        kommaW += 1;
+        var eqW = 4;
+        var blankW = doc.getTextWidth('____') + 1;
+
+        var y = yStart;
+
+        for (var r = 0; r < layout.rows; r++) {
+            for (var c = 0; c < layout.cols; c++) {
+                var block = layout.grid[r][c];
+                if (block.length === 0) continue;
+
+                var colX = margin + c * (colW + colGap);
+
+                for (var i = 0; i < block.length; i++) {
+                    var entry = block[i];
+                    var s = entry.sum;
+                    var currentY = y + i * lineH;
+
+                    if (currentY > 280) {
+                        doc.addPage();
+                        y = margin + 8;
+                        currentY = y + i * lineH;
+                    }
+
+                    doc.setFontSize(11);
+
+                    var xPos = colX;
+
+                    // Breuk
+                    if (s.given === 0) {
+                        doc.setFont('helvetica', 'normal');
+                        doc.setTextColor(50, 50, 70);
+                        doc.text(s.breuk, xPos + breukW, currentY, { align: 'right' });
+                    } else if (isAnswers) {
+                        doc.setFont('helvetica', 'bold');
+                        doc.setTextColor(108, 99, 255);
+                        doc.text(s.breuk, xPos + breukW, currentY, { align: 'right' });
+                    } else {
+                        doc.setDrawColor(200, 200, 210);
+                        doc.setLineWidth(0.3);
+                        doc.line(xPos + breukW - blankW, currentY, xPos + breukW, currentY);
+                    }
+                    xPos += breukW;
+
+                    // = sign
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(50, 50, 70);
+                    doc.text('=', xPos + eqW / 2, currentY, { align: 'center' });
+                    xPos += eqW;
+
+                    // Procent
+                    if (s.given === 1) {
+                        doc.setFont('helvetica', 'normal');
+                        doc.setTextColor(50, 50, 70);
+                        doc.text(s.procent + '%', xPos + pctW, currentY, { align: 'right' });
+                    } else if (isAnswers) {
+                        doc.setFont('helvetica', 'bold');
+                        doc.setTextColor(108, 99, 255);
+                        doc.text(s.procent + '%', xPos + pctW, currentY, { align: 'right' });
+                    } else {
+                        doc.setDrawColor(200, 200, 210);
+                        doc.setLineWidth(0.3);
+                        doc.line(xPos + pctW - blankW, currentY, xPos + pctW, currentY);
+                        doc.setFont('helvetica', 'normal');
+                        doc.setTextColor(50, 50, 70);
+                        doc.text('%', xPos + pctW + 1, currentY);
+                    }
+                    xPos += pctW;
+
+                    // = sign
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(50, 50, 70);
+                    doc.text('=', xPos + eqW / 2, currentY, { align: 'center' });
+                    xPos += eqW;
+
+                    // Komma
+                    if (s.given === 2) {
+                        doc.setFont('helvetica', 'normal');
+                        doc.setTextColor(50, 50, 70);
+                        doc.text(s.komma, xPos + kommaW, currentY, { align: 'right' });
+                    } else if (isAnswers) {
+                        doc.setFont('helvetica', 'bold');
+                        doc.setTextColor(108, 99, 255);
+                        doc.text(s.komma, xPos + kommaW, currentY, { align: 'right' });
+                    } else {
+                        doc.setDrawColor(200, 200, 210);
+                        doc.setLineWidth(0.3);
+                        doc.line(xPos + kommaW - blankW, currentY, xPos + kommaW, currentY);
+                    }
+                }
+            }
+
+            var maxBlockSize = 0;
+            for (var mc = 0; mc < layout.cols; mc++) {
+                var bl = layout.grid[r][mc];
+                if (bl.length > maxBlockSize) maxBlockSize = bl.length;
+            }
+            y += maxBlockSize * lineH + blockGap;
+        }
+
+        // Footer
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(160, 160, 175);
+        doc.text('Meester Tools', margin, 290);
+    }
+
     // ---------- Generate Button ----------
     btnGenerate.addEventListener('click', function () {
         if (currentType === 'bewerkingen') {
@@ -1428,11 +1768,16 @@ document.addEventListener('DOMContentLoaded', function () {
             renderCfPreview(currentSettings, generatedCijfer);
         } else if (currentType === 'procenten') {
             currentSettings = readSettingsPercent();
-            generatedPercent = generatePercentSums(currentSettings);
             generatedSums = [];
             generatedDivisions = [];
             generatedCijfer = [];
-            renderPreview(currentSettings, generatedPercent);
+            if (currentSettings.pctType === 'omrekenen') {
+                generatedPercent = generateConvSums(currentSettings);
+                renderConvPreview(currentSettings, generatedPercent);
+            } else {
+                generatedPercent = generatePercentSums(currentSettings);
+                renderPreview(currentSettings, generatedPercent);
+            }
         } else {
             return;
         }
@@ -1487,18 +1832,20 @@ document.addEventListener('DOMContentLoaded', function () {
             var filename = 'werkblad-staartdelingen-' + new Date().toISOString().slice(0, 10) + '.pdf';
             doc.save(filename);
         } else if (generatedPercent.length > 0) {
-            // Procenten PDF - same layout as bewerkingen
+            // Detect conversion type
+            var isConv = generatedPercent[0] && generatedPercent[0].op === 'conv';
+            var pdfFn = isConv ? generateConvPdfPage : generatePdfPage;
             var pctPages = Math.ceil(generatedPercent.length / SUMS_PER_PAGE);
             for (var p = 0; p < pctPages; p++) {
                 if (p > 0) doc.addPage();
                 var pageSums = generatedPercent.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
-                generatePdfPage(doc, currentSettings, pageSums, false);
+                pdfFn(doc, currentSettings, pageSums, false);
             }
             if (currentSettings.answerSheet) {
                 for (var p = 0; p < pctPages; p++) {
                     doc.addPage();
                     var pageSums = generatedPercent.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
-                    generatePdfPage(doc, currentSettings, pageSums, true);
+                    pdfFn(doc, currentSettings, pageSums, true);
                 }
             }
             var filename = 'werkblad-procenten-' + new Date().toISOString().slice(0, 10) + '.pdf';
