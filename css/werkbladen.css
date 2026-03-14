@@ -587,14 +587,7 @@
     text-align: right;
     white-space: nowrap;
     line-height: 1.5;
-}
-
-.wb-cf-bottom-row {
-    display: flex;
-    align-items: baseline;
-    gap: 4px;
-    width: 100%;
-    justify-content: flex-end;
+    position: relative;
 }
 
 .wb-cf-op {
@@ -602,6 +595,9 @@
     font-size: 12px;
     font-weight: 600;
     color: var(--text-dark);
+    position: absolute;
+    left: calc(100% + 3px);
+    top: 0;
 }
 
 .wb-cf-line {

@@ -761,7 +761,7 @@ document.addEventListener('DOMContentLoaded', function () {
         doc.setTextColor(50, 50, 70);
         var titleText = settings.title;
         if (isAnswers) titleText += ' - Antwoordblad';
-        doc.text(titleText, margin, margin + 7);
+        doc.text(titleText, margin, 12);
 
         // Date (right-aligned)
         if (settings.date) {
@@ -769,10 +769,10 @@ document.addEventListener('DOMContentLoaded', function () {
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(100, 100, 110);
             var dateDisplay = settings.datePrefix ? settings.datePrefix + ' ' + settings.date : settings.date;
-            doc.text(dateDisplay, pageW - margin, margin + 7, { align: 'right' });
+            doc.text(dateDisplay, pageW - margin, 12, { align: 'right' });
         }
 
-        var yPos = margin + 16;
+        var yPos = 20;
 
         // Name field (above separator)
         if (settings.showName) {
@@ -1054,11 +1054,8 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '<div class="wb-cf-cell">';
             // Top number (right-aligned)
             html += '<div class="wb-cf-number">' + escapeHtml(aStr) + '</div>';
-            // Bottom number with operator to the right
-            html += '<div class="wb-cf-bottom-row">';
-            html += '<span class="wb-cf-number">' + escapeHtml(bStr) + '</span>';
-            html += '<span class="wb-cf-op">' + opSymbol(s.op) + '</span>';
-            html += '</div>';
+            // Bottom number with operator absolutely positioned to the right
+            html += '<div class="wb-cf-number wb-cf-bottom">' + escapeHtml(bStr) + '<span class="wb-cf-op">' + opSymbol(s.op) + '</span></div>';
             // Line (width based on numbers)
             html += '<div class="wb-cf-line" style="width:' + lineWidth + 'em;"></div>';
             // Answer or empty
@@ -1084,7 +1081,7 @@ document.addEventListener('DOMContentLoaded', function () {
         doc.setTextColor(50, 50, 70);
         var titleText = settings.title;
         if (isAnswers) titleText += ' - Antwoordblad';
-        doc.text(titleText, margin, margin + 7);
+        doc.text(titleText, margin, 12);
 
         // Date (right-aligned)
         if (settings.date) {
@@ -1092,10 +1089,10 @@ document.addEventListener('DOMContentLoaded', function () {
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(100, 100, 110);
             var dateDisplay = settings.datePrefix ? settings.datePrefix + ' ' + settings.date : settings.date;
-            doc.text(dateDisplay, pageW - margin, margin + 7, { align: 'right' });
+            doc.text(dateDisplay, pageW - margin, 12, { align: 'right' });
         }
 
-        var yPos = margin + 16;
+        var yPos = 20;
 
         // Name field (above separator)
         if (settings.showName) {
@@ -1275,7 +1272,7 @@ document.addEventListener('DOMContentLoaded', function () {
         doc.setTextColor(50, 50, 70);
         var titleText = settings.title;
         if (isAnswers) titleText += ' - Antwoordblad';
-        doc.text(titleText, margin, margin + 7);
+        doc.text(titleText, margin, 12);
 
         // Date (right-aligned)
         if (settings.date) {
@@ -1283,10 +1280,10 @@ document.addEventListener('DOMContentLoaded', function () {
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(100, 100, 110);
             var dateDisplay = settings.datePrefix ? settings.datePrefix + ' ' + settings.date : settings.date;
-            doc.text(dateDisplay, pageW - margin, margin + 7, { align: 'right' });
+            doc.text(dateDisplay, pageW - margin, 12, { align: 'right' });
         }
 
-        var yPos = margin + 16;
+        var yPos = 20;
 
         // Name field (above separator)
         if (settings.showName) {
