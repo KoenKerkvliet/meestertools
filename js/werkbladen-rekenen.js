@@ -163,10 +163,26 @@ document.addEventListener('DOMContentLoaded', function () {
         return op;
     }
 
-    // ---------- Layout: 4 cols, rows of blocks, 5 sums per block ----------
+    // ---------- Calculate Max Column Widths ----------
+    function calcMaxWidths(sums) {
+        var maxA = 0;
+        var maxB = 0;
+        var maxAnswer = 0;
+        for (var i = 0; i < sums.length; i++) {
+            var aLen = formatNum(sums[i].a).length;
+            var bLen = formatNum(sums[i].b).length;
+            var ansLen = formatNum(sums[i].answer).length;
+            if (aLen > maxA) maxA = aLen;
+            if (bLen > maxB) maxB = bLen;
+            if (ansLen > maxAnswer) maxAnswer = ansLen;
+        }
+        return { maxA: maxA, maxB: maxB, maxAnswer: maxAnswer };
+    }
+
+    // ---------- Layout: 2 cols, 4 rows of blocks, 5 sums per block ----------
     // Numbering goes left-to-right, top-to-bottom through blocks
     function arrangeInBlocks(sums) {
-        var cols = 4;
+        var cols = 2;
         var sumsPerBlock = 5;
         var totalBlocks = Math.ceil(sums.length / sumsPerBlock);
         var rows = Math.ceil(totalBlocks / cols);
@@ -223,6 +239,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function renderSumsGrid(sums, showAnswers) {
         var layout = arrangeInBlocks(sums);
+        var widths = calcMaxWidths(sums);
+
+        // Build grid-template-columns based on max character widths
+        var colA = Math.max(widths.maxA, 2) + 'ch';
+        var colOp = '2ch';
+        var colB = Math.max(widths.maxB, 2) + 'ch';
+        var colEq = '1.5ch';
+        var colAns = showAnswers ? Math.max(widths.maxAnswer, 3) + 'ch' : '4ch';
+        var gridCols = colA + ' ' + colOp + ' ' + colB + ' ' + colEq + ' ' + colAns;
+
         var html = '<div class="wb-preview-blocks">';
 
         for (var r = 0; r < layout.rows; r++) {
@@ -232,14 +258,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 for (var i = 0; i < block.length; i++) {
                     var entry = block[i];
                     var s = entry.sum;
-                    html += '<div class="wb-preview-sum">';
+                    html += '<div class="wb-preview-sum" style="grid-template-columns:' + gridCols + ';">';
                     html += '<span class="wb-preview-a">' + formatNum(s.a) + '</span>';
                     html += '<span class="wb-preview-op">' + opSymbol(s.op) + '</span>';
                     html += '<span class="wb-preview-b">' + formatNum(s.b) + '</span>';
+                    html += '<span class="wb-preview-eq">=</span>';
                     if (showAnswers) {
-                        html += '<span class="wb-preview-eq">= <span class="wb-preview-answer">' + formatNum(s.answer) + '</span></span>';
+                        html += '<span class="wb-preview-answer">' + formatNum(s.answer) + '</span>';
                     } else {
-                        html += '<span class="wb-preview-eq">= ___</span>';
+                        html += '<span class="wb-preview-line">___</span>';
                     }
                     html += '</div>';
                 }
@@ -314,20 +341,35 @@ document.addEventListener('DOMContentLoaded', function () {
             yStart += 12;
         }
 
-        // Block layout: 4 columns, blocks of 5 sums, left-to-right
+        // Block layout: 2 columns, blocks of 5 sums, left-to-right
         var layout = arrangeInBlocks(sums);
         var lineH = 7.5;
         var blockGap = 8;
-        var numCols = 4;
-        var colGap = 6;
+        var numCols = 2;
+        var colGap = 12;
         var colW = (contentW - colGap * (numCols - 1)) / numCols;
 
-        // Fixed column positions within each column (for alignment)
-        // [getal1 right-aligned] [op center] [getal2 right-aligned] [= answer]
-        var aW = 12;
+        // Calculate dynamic column widths based on content
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        var aW = 0;
+        var bW = 0;
+        var ansW = 0;
+        for (var si = 0; si < sums.length; si++) {
+            var tw;
+            tw = doc.getTextWidth(formatNum(sums[si].a));
+            if (tw > aW) aW = tw;
+            tw = doc.getTextWidth(formatNum(sums[si].b));
+            if (tw > bW) bW = tw;
+            tw = doc.getTextWidth(formatNum(sums[si].answer));
+            if (tw > ansW) ansW = tw;
+        }
+        // Add small padding
+        aW += 1;
+        bW += 1;
+        ansW += 1;
         var opW = 5;
-        var bW = 12;
-        var eqX = aW + opW + bW;
+        var eqW = 4;
 
         var y = yStart;
 
@@ -354,27 +396,29 @@ document.addEventListener('DOMContentLoaded', function () {
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(50, 50, 70);
 
-                    // Getal 1 (right-aligned)
+                    // Getal 1 (right-aligned within its column)
                     doc.text(formatNum(s.a), colX + aW, currentY, { align: 'right' });
 
                     // Operator (center)
                     doc.text(opSymbolPdf(s.op), colX + aW + opW / 2, currentY, { align: 'center' });
 
-                    // Getal 2 (right-aligned)
+                    // Getal 2 (right-aligned within its column)
                     doc.text(formatNum(s.b), colX + aW + opW + bW, currentY, { align: 'right' });
 
                     // = sign
-                    doc.text('=', colX + eqX + 2, currentY);
+                    var eqX = colX + aW + opW + bW + 2;
+                    doc.text('=', eqX, currentY);
 
                     // Answer or line
+                    var ansX = eqX + eqW;
                     if (isAnswers) {
                         doc.setFont('helvetica', 'bold');
                         doc.setTextColor(108, 99, 255);
-                        doc.text(formatNum(s.answer), colX + eqX + 7, currentY);
+                        doc.text(formatNum(s.answer), ansX, currentY);
                     } else {
                         doc.setDrawColor(200, 200, 210);
                         doc.setLineWidth(0.3);
-                        doc.line(colX + eqX + 7, currentY, colX + eqX + 19, currentY);
+                        doc.line(ansX, currentY, ansX + 12, currentY);
                     }
                 }
             }

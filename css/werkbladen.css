@@ -277,7 +277,7 @@
 
 .wb-preview-blocks {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 16px 24px;
 }
 
@@ -288,13 +288,14 @@
 
 .wb-preview-sum {
     display: grid;
-    grid-template-columns: auto auto auto auto;
+    /* grid-template-columns set inline by JS for dynamic widths */
     justify-content: start;
     align-items: baseline;
-    gap: 0 3px;
+    gap: 0 4px;
     padding: 5px 0;
     border-bottom: 1px solid #F0F0F4;
     font-size: 15px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .wb-preview-a {
@@ -307,7 +308,6 @@
     text-align: center;
     color: var(--text-dark);
     font-weight: 500;
-    min-width: 14px;
 }
 
 .wb-preview-b {
@@ -317,15 +317,18 @@
 }
 
 .wb-preview-eq {
-    text-align: left;
+    text-align: center;
     color: var(--text-dark);
     font-weight: 500;
-    padding-left: 2px;
 }
 
 .wb-preview-answer {
     color: var(--primary);
     font-weight: 700;
+}
+
+.wb-preview-line {
+    color: var(--text-light);
 }
 
 .wb-preview-divider {
