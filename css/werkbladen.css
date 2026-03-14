@@ -72,6 +72,27 @@
     box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
 }
 
+/* Date field */
+.wb-field-date {
+    min-width: 200px;
+    flex: 0.6;
+}
+
+.wb-date-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wb-date-row .wb-input {
+    flex: 1;
+}
+
+.wb-date-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
 /* Stepper (aantal sommen) */
 .wb-stepper {
     display: inline-flex;
@@ -350,24 +371,36 @@
     aspect-ratio: 210 / 297;
 }
 
-.wb-preview-title {
-    text-align: left;
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--text-dark);
-    margin-bottom: 8px;
+.wb-preview-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
 }
 
-.wb-preview-separator {
-    height: 2px;
-    background: #D8D8E8;
-    margin-bottom: 12px;
+.wb-preview-title {
+    text-align: left;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.wb-preview-date {
+    font-size: 13px;
+    color: var(--text-medium);
+    white-space: nowrap;
 }
 
 .wb-preview-name {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-medium);
-    margin-bottom: 20px;
+    margin-bottom: 6px;
+}
+
+.wb-preview-separator {
+    height: 1.5px;
+    background: #C8C8D8;
+    margin-bottom: 14px;
 }
 
 .wb-preview-footer {

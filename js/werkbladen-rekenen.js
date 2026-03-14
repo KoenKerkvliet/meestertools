@@ -14,6 +14,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!btnGenerate) return;
 
+    // Set date to today
+    var dateInput = document.getElementById('wbDate');
+    if (dateInput) {
+        var today = new Date();
+        var yyyy = today.getFullYear();
+        var mm = ('0' + (today.getMonth() + 1)).slice(-2);
+        var dd = ('0' + today.getDate()).slice(-2);
+        dateInput.value = yyyy + '-' + mm + '-' + dd;
+    }
+
     var currentType = 'bewerkingen';
     var generatedSums = [];
     var currentSettings = {};
@@ -109,8 +119,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var numberType = numberTypeHidden.value;
 
+        // Format date
+        var dateVal = document.getElementById('wbDate').value;
+        var dateStr = '';
+        if (dateVal) {
+            var d = new Date(dateVal);
+            dateStr = ('0' + d.getDate()).slice(-2) + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear();
+        }
+
         return {
-            title: document.getElementById('wbTitle').value.trim() || 'Rekenen',
+            title: document.getElementById('wbTitle').value.trim() || 'Rekenwerkblad',
+            date: dateStr,
+            datePrefix: document.getElementById('wbDatePrefix').value.trim(),
             showName: document.getElementById('wbNameField').checked,
             count: Math.max(1, Math.min(200, parseInt(document.getElementById('wbCount').value) || 40)),
             operations: ops,
@@ -285,29 +305,43 @@ document.addEventListener('DOMContentLoaded', function () {
         return { grid: grid, rows: rows, cols: cols };
     }
 
-    // ---------- Render Preview ----------
-    function renderPreview(settings, sums) {
+    // ---------- Build header HTML ----------
+    function buildHeaderHtml(settings, isAnswers) {
         var html = '';
 
-        // Title + separator
-        html += '<div class="wb-preview-title">' + escapeHtml(settings.title) + '</div>';
-        html += '<div class="wb-preview-separator"></div>';
+        // Title row (title left, date right)
+        html += '<div class="wb-preview-header-row">';
+        var titleText = isAnswers ? escapeHtml(settings.title) + ' - Antwoordblad' : escapeHtml(settings.title);
+        html += '<div class="wb-preview-title">' + titleText + '</div>';
+        if (settings.date) {
+            var dateDisplay = settings.datePrefix ? escapeHtml(settings.datePrefix) + ' ' + settings.date : settings.date;
+            html += '<div class="wb-preview-date">' + dateDisplay + '</div>';
+        }
+        html += '</div>';
 
         // Name field
         if (settings.showName) {
             html += '<div class="wb-preview-name">Naam: ___________________________</div>';
         }
 
-        html += renderSumsGrid(sums, false);
+        // Separator
+        html += '<div class="wb-preview-separator"></div>';
 
-        // Footer
+        return html;
+    }
+
+    // ---------- Render Preview ----------
+    function renderPreview(settings, sums) {
+        var html = '';
+
+        html += buildHeaderHtml(settings, false);
+        html += renderSumsGrid(sums, false);
         html += '<div class="wb-preview-footer">Meester Tools</div>';
 
         // Answer sheet
         if (settings.answerSheet) {
             html += '<div class="wb-preview-divider">Antwoordblad</div>';
-            html += '<div class="wb-preview-title">' + escapeHtml(settings.title) + ' - Antwoordblad</div>';
-            html += '<div class="wb-preview-separator"></div>';
+            html += buildHeaderHtml(settings, true);
             html += renderSumsGrid(sums, true);
             html += '<div class="wb-preview-footer">Meester Tools</div>';
         }
@@ -409,22 +443,32 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isAnswers) titleText += ' - Antwoordblad';
         doc.text(titleText, margin, margin + 8);
 
-        // Separator line
-        var sepY = margin + 12;
-        doc.setDrawColor(200, 200, 210);
-        doc.setLineWidth(0.5);
-        doc.line(margin, sepY, pageW - margin, sepY);
+        // Date (right-aligned)
+        if (settings.date) {
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 110);
+            var dateDisplay = settings.datePrefix ? settings.datePrefix + ' ' + settings.date : settings.date;
+            doc.text(dateDisplay, pageW - margin, margin + 8, { align: 'right' });
+        }
 
-        var yStart = sepY + 8;
+        var yPos = margin + 14;
 
-        // Name field
+        // Name field (above separator)
         if (settings.showName) {
             doc.setFontSize(11);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(100, 100, 110);
-            doc.text('Naam: ___________________________', margin, yStart);
-            yStart += 10;
+            doc.text('Naam: ___________________________', margin, yPos);
+            yPos += 8;
         }
+
+        // Separator line
+        doc.setDrawColor(200, 200, 210);
+        doc.setLineWidth(0.5);
+        doc.line(margin, yPos, pageW - margin, yPos);
+
+        var yStart = yPos + 6;
 
         // Block layout: 2 columns, blocks of 5 sums, left-to-right
         var layout = arrangeInBlocks(sums);

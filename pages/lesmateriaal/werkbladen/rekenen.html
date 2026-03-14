@@ -39,12 +39,28 @@
         </div>
 
         <div class="tool-page-body">
-            <!-- Sectie 1: Werkblad header -->
-            <div class="wb-section wb-section-compact">
+            <!-- Sectie 1: Algemene instellingen -->
+            <div class="wb-section">
+                <h3 class="wb-section-title">Algemene instellingen</h3>
+
                 <div class="wb-row">
                     <div class="wb-field">
                         <label for="wbTitle">Titel werkblad</label>
-                        <input type="text" id="wbTitle" class="wb-input" placeholder="Rekenen" value="Rekenen">
+                        <input type="text" id="wbTitle" class="wb-input" placeholder="Rekenwerkblad" value="Rekenwerkblad">
+                    </div>
+                    <div class="wb-field wb-field-date">
+                        <label for="wbDate">Datum</label>
+                        <div class="wb-date-row">
+                            <span class="wb-date-icon">&#128197;</span>
+                            <input type="date" id="wbDate" class="wb-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wb-row">
+                    <div class="wb-field">
+                        <label for="wbDatePrefix">Toevoeging voorafgaand aan datum (optioneel)</label>
+                        <input type="text" id="wbDatePrefix" class="wb-input" placeholder="Bijv. Huiswerk voor">
                     </div>
                     <div class="wb-field wb-field-check">
                         <label class="wb-checkbox-label">
@@ -52,28 +68,23 @@
                         </label>
                     </div>
                 </div>
-            </div>
 
-            <!-- Sectie 2: Type sommen -->
-            <div class="wb-section">
-                <h3 class="wb-section-title">Type sommen</h3>
-                <div class="wb-type-cards">
-                    <button class="wb-type-card active" data-type="bewerkingen">
-                        <span class="wb-type-icon">&#10133;</span>
-                        <span class="wb-type-label">Bewerkingen</span>
-                    </button>
-                    <button class="wb-type-card" data-type="staartdelingen">
-                        <span class="wb-type-icon">&#10135;</span>
-                        <span class="wb-type-label">Staartdelingen</span>
-                    </button>
-                    <button class="wb-type-card" data-type="cijferen">
-                        <span class="wb-type-icon">&#128290;</span>
-                        <span class="wb-type-label">Cijferen</span>
-                    </button>
-                    <button class="wb-type-card" data-type="verhoudingstabellen">
-                        <span class="wb-type-icon">&#128200;</span>
-                        <span class="wb-type-label">Verhoudingstabellen</span>
-                    </button>
+                <div class="wb-field">
+                    <label>Aanvullende opties</label>
+                    <div class="wb-type-cards">
+                        <button class="wb-type-card active" data-type="bewerkingen">
+                            <span class="wb-type-label">Bewerkingen</span>
+                        </button>
+                        <button class="wb-type-card" data-type="staartdelingen">
+                            <span class="wb-type-label">Staartdelingen</span>
+                        </button>
+                        <button class="wb-type-card" data-type="cijferen">
+                            <span class="wb-type-label">Cijferen</span>
+                        </button>
+                        <button class="wb-type-card" data-type="verhoudingstabellen">
+                            <span class="wb-type-label">Verhoudingstabellen</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
