@@ -814,7 +814,7 @@ document.addEventListener('DOMContentLoaded', function () {
             yPos += 6;
         }
 
-        var yStart = yPos + 4;
+        var yStart = yPos + 10;
 
         // Grid: 3 columns, max 4 rows
         var numCols = 3;
@@ -1134,7 +1134,7 @@ document.addEventListener('DOMContentLoaded', function () {
             yPos += 6;
         }
 
-        var yStart = yPos + 4;
+        var yStart = yPos + 10;
 
         // Grid: 4 columns, max 5 rows
         var numCols = 4;
@@ -1325,7 +1325,7 @@ document.addEventListener('DOMContentLoaded', function () {
             yPos += 6;
         }
 
-        var yStart = yPos + 4;
+        var yStart = yPos + 10;
 
         // Block layout: 2 columns, blocks of 5 sums, left-to-right
         var layout = arrangeInBlocks(sums);
