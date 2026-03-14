@@ -275,17 +275,23 @@
     margin-bottom: 24px;
 }
 
-.wb-preview-grid {
+.wb-preview-blocks {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px 40px;
+    gap: 20px 40px;
+}
+
+.wb-preview-block {
+    display: flex;
+    flex-direction: column;
 }
 
 .wb-preview-sum {
-    display: flex;
+    display: grid;
+    grid-template-columns: 28px 1fr auto auto auto;
     align-items: baseline;
-    gap: 6px;
-    padding: 6px 0;
+    gap: 0 4px;
+    padding: 5px 0;
     border-bottom: 1px solid #F0F0F4;
     font-size: 15px;
 }
@@ -293,18 +299,39 @@
 .wb-preview-num {
     font-weight: 700;
     color: var(--text-light);
-    min-width: 28px;
+    text-align: right;
+    padding-right: 4px;
 }
 
-.wb-preview-calc {
+.wb-preview-a {
+    text-align: right;
     color: var(--text-dark);
     font-weight: 500;
+}
+
+.wb-preview-op {
+    text-align: center;
+    color: var(--text-dark);
+    font-weight: 500;
+    min-width: 18px;
+}
+
+.wb-preview-b {
+    text-align: right;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.wb-preview-eq {
+    text-align: left;
+    color: var(--text-dark);
+    font-weight: 500;
+    padding-left: 4px;
 }
 
 .wb-preview-answer {
     color: var(--primary);
     font-weight: 700;
-    margin-left: auto;
 }
 
 .wb-preview-divider {
@@ -354,7 +381,7 @@
         min-width: auto;
     }
 
-    .wb-preview-grid {
+    .wb-preview-blocks {
         grid-template-columns: 1fr;
     }
 

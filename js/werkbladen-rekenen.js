@@ -152,6 +152,40 @@ document.addEventListener('DOMContentLoaded', function () {
         return op;
     }
 
+    // ---------- Layout: 2 cols, 4 rows of blocks, 5 sums per block ----------
+    // Numbering goes left-to-right, top-to-bottom through blocks
+    function arrangeInBlocks(sums) {
+        var cols = 2;
+        var sumsPerBlock = 5;
+        var totalBlocks = Math.ceil(sums.length / sumsPerBlock);
+        var rows = Math.ceil(totalBlocks / cols);
+        var blocks = [];
+
+        for (var b = 0; b < totalBlocks; b++) {
+            var start = b * sumsPerBlock;
+            var end = Math.min(start + sumsPerBlock, sums.length);
+            var block = [];
+            for (var i = start; i < end; i++) {
+                block.push({ sum: sums[i], index: i });
+            }
+            blocks.push(block);
+        }
+
+        // Arrange in grid order: row by row, left to right
+        // blocks[0] = top-left, blocks[1] = top-right, blocks[2] = second-row-left, etc.
+        var grid = [];
+        for (var r = 0; r < rows; r++) {
+            var rowBlocks = [];
+            for (var c = 0; c < cols; c++) {
+                var idx = r * cols + c;
+                rowBlocks.push(idx < blocks.length ? blocks[idx] : []);
+            }
+            grid.push(rowBlocks);
+        }
+
+        return { grid: grid, rows: rows, cols: cols };
+    }
+
     // ---------- Render Preview ----------
     function renderPreview(settings, sums) {
         var html = '';
@@ -164,34 +198,47 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '<div class="wb-preview-name">Naam: ___________________________</div>';
         }
 
-        // Sums grid
-        html += '<div class="wb-preview-grid">';
-        for (var i = 0; i < sums.length; i++) {
-            var s = sums[i];
-            html += '<div class="wb-preview-sum">';
-            html += '<span class="wb-preview-num">' + (i + 1) + '.</span>';
-            html += '<span class="wb-preview-calc">' + formatNum(s.a) + ' ' + opSymbol(s.op) + ' ' + formatNum(s.b) + ' = ___</span>';
-            html += '</div>';
-        }
-        html += '</div>';
+        html += renderSumsGrid(sums, false);
 
         // Answer sheet
         if (settings.answerSheet) {
             html += '<div class="wb-preview-divider">Antwoordblad</div>';
-            html += '<div class="wb-preview-grid">';
-            for (var j = 0; j < sums.length; j++) {
-                var sa = sums[j];
-                html += '<div class="wb-preview-sum">';
-                html += '<span class="wb-preview-num">' + (j + 1) + '.</span>';
-                html += '<span class="wb-preview-calc">' + formatNum(sa.a) + ' ' + opSymbol(sa.op) + ' ' + formatNum(sa.b) + ' = </span>';
-                html += '<span class="wb-preview-answer">' + formatNum(sa.answer) + '</span>';
-                html += '</div>';
-            }
-            html += '</div>';
+            html += renderSumsGrid(sums, true);
         }
 
         previewEl.innerHTML = html;
         previewSection.style.display = '';
+    }
+
+    function renderSumsGrid(sums, showAnswers) {
+        var layout = arrangeInBlocks(sums);
+        var html = '<div class="wb-preview-blocks">';
+
+        for (var r = 0; r < layout.rows; r++) {
+            for (var c = 0; c < layout.cols; c++) {
+                var block = layout.grid[r][c];
+                html += '<div class="wb-preview-block">';
+                for (var i = 0; i < block.length; i++) {
+                    var entry = block[i];
+                    var s = entry.sum;
+                    html += '<div class="wb-preview-sum">';
+                    html += '<span class="wb-preview-num">' + (entry.index + 1) + '.</span>';
+                    html += '<span class="wb-preview-a">' + formatNum(s.a) + '</span>';
+                    html += '<span class="wb-preview-op">' + opSymbol(s.op) + '</span>';
+                    html += '<span class="wb-preview-b">' + formatNum(s.b) + '</span>';
+                    if (showAnswers) {
+                        html += '<span class="wb-preview-eq">= <span class="wb-preview-answer">' + formatNum(s.answer) + '</span></span>';
+                    } else {
+                        html += '<span class="wb-preview-eq">= ___</span>';
+                    }
+                    html += '</div>';
+                }
+                html += '</div>';
+            }
+        }
+
+        html += '</div>';
+        return html;
     }
 
     // ---------- Generate Button ----------
@@ -257,55 +304,83 @@ document.addEventListener('DOMContentLoaded', function () {
             yStart += 12;
         }
 
-        // Sums in 2 columns
-        var colW = contentW / 2 - 5;
-        var lineH = 8;
-        var sumsPerCol = Math.ceil(sums.length / 2);
+        // Block layout: 2 columns, blocks of 5 sums, numbered left-to-right
+        var layout = arrangeInBlocks(sums);
+        var lineH = 7.5;
+        var blockGap = 8;
+        var colGap = 14;
+        var colW = (contentW - colGap) / 2;
+
+        // Fixed column positions within each column (for alignment)
+        // [num] [getal1 right-aligned] [op center] [getal2 right-aligned] [= answer]
+        var numW = 10;
+        var aW = 22;
+        var opW = 8;
+        var bW = 22;
+        var eqX = numW + aW + opW + bW;
+
         var y = yStart;
 
-        for (var i = 0; i < sums.length; i++) {
-            var col = i < sumsPerCol ? 0 : 1;
-            var row = col === 0 ? i : i - sumsPerCol;
-            var x = margin + col * (colW + 10);
-            var currentY = y + row * lineH;
+        for (var r = 0; r < layout.rows; r++) {
+            for (var c = 0; c < layout.cols; c++) {
+                var block = layout.grid[r][c];
+                if (block.length === 0) continue;
 
-            // Check page break
-            if (currentY > 280) {
-                doc.addPage();
-                y = margin + 8;
-                // Recalculate based on remaining
-                currentY = y + row * lineH;
+                var colX = margin + c * (colW + colGap);
+
+                for (var i = 0; i < block.length; i++) {
+                    var entry = block[i];
+                    var s = entry.sum;
+                    var currentY = y + i * lineH;
+
+                    // Check page break
+                    if (currentY > 280) {
+                        doc.addPage();
+                        y = margin + 8;
+                        currentY = y + i * lineH;
+                    }
+
+                    doc.setFontSize(11);
+
+                    // Number
+                    doc.setFont('helvetica', 'bold');
+                    doc.setTextColor(160, 160, 170);
+                    doc.text((entry.index + 1) + '.', colX + numW - 2, currentY, { align: 'right' });
+
+                    // Getal 1 (right-aligned)
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(50, 50, 70);
+                    doc.text(formatNum(s.a), colX + numW + aW, currentY, { align: 'right' });
+
+                    // Operator (center)
+                    doc.text(opSymbol(s.op), colX + numW + aW + opW / 2, currentY, { align: 'center' });
+
+                    // Getal 2 (right-aligned)
+                    doc.text(formatNum(s.b), colX + numW + aW + opW + bW, currentY, { align: 'right' });
+
+                    // = sign
+                    doc.text('=', colX + eqX + 3, currentY);
+
+                    // Answer or line
+                    if (isAnswers) {
+                        doc.setFont('helvetica', 'bold');
+                        doc.setTextColor(108, 99, 255);
+                        doc.text(formatNum(s.answer), colX + eqX + 8, currentY);
+                    } else {
+                        doc.setDrawColor(200, 200, 210);
+                        doc.setLineWidth(0.3);
+                        doc.line(colX + eqX + 8, currentY, colX + eqX + 28, currentY);
+                    }
+                }
             }
 
-            var s = sums[i];
-            var num = (i + 1) + '.';
-            var calc = formatNum(s.a) + ' ' + opSymbol(s.op) + ' ' + formatNum(s.b) + ' = ';
-
-            // Number
-            doc.setFontSize(11);
-            doc.setFont('helvetica', 'bold');
-            doc.setTextColor(160, 160, 170);
-            doc.text(num, x, currentY);
-
-            // Calculation
-            doc.setFont('helvetica', 'normal');
-            doc.setTextColor(50, 50, 70);
-            doc.text(calc, x + 10, currentY);
-
-            // Answer (or line)
-            if (isAnswers) {
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(108, 99, 255);
-                var calcWidth = doc.getTextWidth(calc);
-                doc.text(formatNum(s.answer), x + 10 + calcWidth, currentY);
-            } else {
-                // Draw answer line
-                var calcW2 = doc.getTextWidth(calc);
-                var lineX = x + 10 + calcW2;
-                doc.setDrawColor(200, 200, 210);
-                doc.setLineWidth(0.3);
-                doc.line(lineX, currentY, lineX + 20, currentY);
+            // Move y down for next row of blocks
+            var maxBlockSize = 0;
+            for (var mc = 0; mc < layout.cols; mc++) {
+                var bl = layout.grid[r][mc];
+                if (bl.length > maxBlockSize) maxBlockSize = bl.length;
             }
+            y += maxBlockSize * lineH + blockGap;
         }
 
         // Footer
