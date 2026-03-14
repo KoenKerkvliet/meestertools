@@ -670,6 +670,50 @@
     font-size: 15px;
 }
 
+/* Stacked fraction display */
+.wb-frac {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    font-size: 10px;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.wb-frac-num,
+.wb-frac-den {
+    padding: 0 2px;
+}
+
+.wb-frac-num {
+    border-bottom: 1.5px solid #333;
+    padding-bottom: 1px;
+}
+
+.wb-frac-den {
+    padding-top: 1px;
+}
+
+.wb-frac-blank {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    font-size: 10px;
+    line-height: 1.2;
+}
+
+.wb-frac-blank .wb-frac-num,
+.wb-frac-blank .wb-frac-den {
+    color: transparent;
+    min-width: 14px;
+}
+
+.wb-frac-blank .wb-frac-num {
+    border-bottom-color: #ccc;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
     .wb-type-cards {

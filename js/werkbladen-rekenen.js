@@ -1456,8 +1456,10 @@ document.addEventListener('DOMContentLoaded', function () {
         var pool = settings.convLevel === 'moeilijk' ? hardConv : easyConv;
         var sums = [];
         var used = {};
+        var maxUnique = pool.length * 3; // Each conversion can appear with 3 different given states
         var maxAttempts = settings.count * 200;
         var totalAttempts = 0;
+        var allUniqueUsed = false;
 
         while (sums.length < settings.count && totalAttempts < maxAttempts) {
             totalAttempts++;
@@ -1465,28 +1467,32 @@ document.addEventListener('DOMContentLoaded', function () {
             var conv = pool[Math.floor(Math.random() * pool.length)];
             var given = Math.floor(Math.random() * 3); // 0=breuk, 1=procent, 2=komma
 
-            // Skip duplicates (same conversion, same given)
-            var key = conv.breuk + '_' + given;
-            if (used[key]) {
-                // Allow same conversion with different given
-                key = conv.breuk + '_any_' + totalAttempts;
-                // But also skip if all 3 givens of this conversion are used
-                if (used[conv.breuk + '_0'] && used[conv.breuk + '_1'] && used[conv.breuk + '_2']) continue;
-                // Try another given
-                for (var g = 0; g < 3; g++) {
-                    if (!used[conv.breuk + '_' + g]) { given = g; break; }
+            if (!allUniqueUsed) {
+                // Try to use unique combinations first
+                var key = conv.breuk + '_' + given;
+                if (used[key]) {
+                    if (used[conv.breuk + '_0'] && used[conv.breuk + '_1'] && used[conv.breuk + '_2']) continue;
+                    for (var g = 0; g < 3; g++) {
+                        if (!used[conv.breuk + '_' + g]) { given = g; break; }
+                    }
+                    key = conv.breuk + '_' + given;
+                    if (used[key]) continue;
                 }
-                key = conv.breuk + '_' + given;
-                if (used[key]) continue;
+                used[key] = true;
+
+                // Check if all unique combinations are exhausted
+                if (Object.keys(used).length >= maxUnique) {
+                    allUniqueUsed = true;
+                }
             }
-            used[key] = true;
+            // When all unique used, allow any combination (duplicates ok)
 
             sums.push({
                 breuk: conv.breuk,
                 procent: conv.procent,
                 komma: conv.komma,
                 given: given,
-                op: 'conv' // marker for type detection
+                op: 'conv'
             });
         }
 
@@ -1522,11 +1528,17 @@ document.addEventListener('DOMContentLoaded', function () {
         // Calculate max widths
         var maxBreuk = 0, maxPct = 0, maxKomma = 0;
         for (var i = 0; i < sums.length; i++) {
-            maxBreuk = Math.max(maxBreuk, sums[i].breuk.length);
+            // For stacked fractions: width based on max of num/den
+            var fracParts = sums[i].breuk.split('/');
+            if (fracParts.length === 2) {
+                maxBreuk = Math.max(maxBreuk, Math.max(fracParts[0].length, fracParts[1].length) + 1);
+            } else {
+                maxBreuk = Math.max(maxBreuk, sums[i].breuk.length);
+            }
             maxPct = Math.max(maxPct, (sums[i].procent + '%').length);
             maxKomma = Math.max(maxKomma, sums[i].komma.length);
         }
-        var colBreuk = Math.max(maxBreuk, 4) + 'ch';
+        var colBreuk = Math.max(maxBreuk, 3) + 'ch';
         var colEq = '1.5ch';
         var colPct = Math.max(maxPct, 5) + 'ch';
         var colKomma = Math.max(maxKomma, 5) + 'ch';
@@ -1545,9 +1557,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // Breuk
                     if (showAnswers || s.given === 0) {
-                        html += '<span class="wb-preview-a">' + escapeHtml(s.breuk) + '</span>';
+                        html += '<span class="wb-preview-a">' + renderFracHtml(s.breuk, false) + '</span>';
                     } else {
-                        html += '<span class="wb-preview-line">___</span>';
+                        html += '<span class="wb-preview-a">' + renderFracHtml(s.breuk, true) + '</span>';
                     }
                     html += '<span class="wb-preview-eq">=</span>';
 
@@ -1614,7 +1626,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Block layout: 2 columns, blocks of 5
         var layout = arrangeInBlocks(sums);
-        var lineH = 7.5;
+        var lineH = 9;
         var blockGap = 8;
         var numCols = 2;
         var colGap = 12;
@@ -1625,16 +1637,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Calculate column widths
         var breukW = 0, pctW = 0, kommaW = 0;
+        doc.setFontSize(9); // fraction font size
         for (var si = 0; si < sums.length; si++) {
             var tw;
-            tw = doc.getTextWidth(sums[si].breuk);
+            // For fraction: width is max of numerator, denominator
+            var fracParts = sums[si].breuk.split('/');
+            if (fracParts.length === 2) {
+                var numTw = doc.getTextWidth(fracParts[0]);
+                var denTw = doc.getTextWidth(fracParts[1]);
+                tw = Math.max(numTw, denTw) + 2;
+            } else {
+                tw = doc.getTextWidth(sums[si].breuk);
+            }
             if (tw > breukW) breukW = tw;
+        }
+        doc.setFontSize(11);
+        for (var si = 0; si < sums.length; si++) {
+            var tw;
             tw = doc.getTextWidth(sums[si].procent + '%');
             if (tw > pctW) pctW = tw;
             tw = doc.getTextWidth(sums[si].komma);
             if (tw > kommaW) kommaW = tw;
         }
-        breukW += 1;
+        breukW += 2;
         pctW += 1;
         kommaW += 1;
         var eqW = 4;
@@ -1664,19 +1689,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     var xPos = colX;
 
-                    // Breuk
-                    if (s.given === 0) {
-                        doc.setFont('helvetica', 'normal');
-                        doc.setTextColor(50, 50, 70);
-                        doc.text(s.breuk, xPos + breukW, currentY, { align: 'right' });
-                    } else if (isAnswers) {
-                        doc.setFont('helvetica', 'bold');
-                        doc.setTextColor(108, 99, 255);
-                        doc.text(s.breuk, xPos + breukW, currentY, { align: 'right' });
+                    // Breuk (stacked fraction)
+                    if (s.given === 0 || isAnswers) {
+                        var fracColor = (s.given !== 0 && isAnswers) ? [108, 99, 255] : [50, 50, 70];
+                        drawFractionPdf(doc, s.breuk, xPos + breukW, currentY, fracColor);
                     } else {
-                        doc.setDrawColor(200, 200, 210);
-                        doc.setLineWidth(0.3);
-                        doc.line(xPos + breukW - blankW, currentY, xPos + breukW, currentY);
+                        // Blank fraction: draw placeholder lines
+                        drawFractionPdf(doc, '?/?', xPos + breukW, currentY, null);
                     }
                     xPos += breukW;
 
@@ -1687,6 +1706,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     xPos += eqW;
 
                     // Procent
+                    var pctSymW = doc.getTextWidth('%');
                     if (s.given === 1) {
                         doc.setFont('helvetica', 'normal');
                         doc.setTextColor(50, 50, 70);
@@ -1696,12 +1716,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         doc.setTextColor(108, 99, 255);
                         doc.text(s.procent + '%', xPos + pctW, currentY, { align: 'right' });
                     } else {
-                        doc.setDrawColor(200, 200, 210);
-                        doc.setLineWidth(0.3);
-                        doc.line(xPos + pctW - blankW, currentY, xPos + pctW, currentY);
+                        // Draw blank line and % sign within column bounds
                         doc.setFont('helvetica', 'normal');
                         doc.setTextColor(50, 50, 70);
-                        doc.text('%', xPos + pctW + 1, currentY);
+                        doc.text('%', xPos + pctW, currentY, { align: 'right' });
+                        doc.setDrawColor(200, 200, 210);
+                        doc.setLineWidth(0.3);
+                        var lineEnd = xPos + pctW - pctSymW - 1;
+                        doc.line(lineEnd - blankW, currentY, lineEnd, currentY);
                     }
                     xPos += pctW;
 
@@ -2013,9 +2035,74 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ---------- Utility ----------
+    // Draw stacked fraction in PDF: num over den with horizontal line
+    // rightX = right edge of fraction column, baseY = text baseline
+    // color = [r,g,b] for text, null = blank placeholder
+    function drawFractionPdf(doc, breukStr, rightX, baseY, color) {
+        var parts = breukStr.split('/');
+        if (parts.length !== 2) {
+            if (color) {
+                doc.setTextColor(color[0], color[1], color[2]);
+                doc.text(breukStr, rightX, baseY, { align: 'right' });
+            }
+            return;
+        }
+        var num = parts[0], den = parts[1];
+        doc.setFontSize(9);
+
+        if (color) {
+            // Draw actual fraction
+            var numW = doc.getTextWidth(num);
+            var denW = doc.getTextWidth(den);
+            var fracW = Math.max(numW, denW) + 2;
+
+            // Center fraction at rightX - fracW/2
+            var centerX = rightX - fracW / 2;
+
+            doc.setFont('helvetica', color[0] === 108 ? 'bold' : 'normal');
+            doc.setTextColor(color[0], color[1], color[2]);
+
+            // Numerator (above baseline)
+            doc.text(num, centerX, baseY - 3, { align: 'center' });
+
+            // Fraction line
+            doc.setDrawColor(color[0], color[1], color[2]);
+            doc.setLineWidth(0.4);
+            doc.line(centerX - fracW / 2, baseY - 1.5, centerX + fracW / 2, baseY - 1.5);
+
+            // Denominator (below baseline)
+            doc.text(den, centerX, baseY + 1.5, { align: 'center' });
+        } else {
+            // Blank placeholder: just draw the fraction line and small blanks
+            var placeholderW = 8;
+            var centerX = rightX - placeholderW / 2;
+
+            doc.setDrawColor(200, 200, 210);
+            doc.setLineWidth(0.3);
+            doc.line(centerX - placeholderW / 2, baseY - 1.5, centerX + placeholderW / 2, baseY - 1.5);
+
+            // Small blank lines for num and den
+            doc.line(centerX - 3, baseY - 3, centerX + 3, baseY - 3);
+            doc.line(centerX - 3, baseY + 1.5, centerX + 3, baseY + 1.5);
+        }
+
+        doc.setFontSize(11);
+    }
+
     function escapeHtml(str) {
         var div = document.createElement('div');
         div.textContent = str;
         return div.innerHTML;
+    }
+
+    // Render a fraction as stacked HTML (numerator over denominator with horizontal line)
+    function renderFracHtml(breukStr, isBlank) {
+        var parts = breukStr.split('/');
+        if (parts.length !== 2) return escapeHtml(breukStr);
+        var cls = isBlank ? 'wb-frac wb-frac-blank' : 'wb-frac';
+        return '<span class="' + cls + '">' +
+            '<span class="wb-frac-num">' + escapeHtml(parts[0]) + '</span>' +
+            '<span class="wb-frac-den">' + escapeHtml(parts[1]) + '</span>' +
+            '</span>';
     }
 });
