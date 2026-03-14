@@ -546,9 +546,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Layout: 2 cols, 4 rows of blocks, 5 sums per block ----------
     // Numbering goes left-to-right, top-to-bottom through blocks
-    function arrangeInBlocks(sums) {
+    function arrangeInBlocks(sums, blockSize) {
         var cols = 2;
-        var sumsPerBlock = 5;
+        var sumsPerBlock = blockSize || 5;
         var totalBlocks = Math.ceil(sums.length / sumsPerBlock);
         var rows = Math.ceil(totalBlocks / cols);
         var blocks = [];
@@ -1523,7 +1523,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderConvGrid(sums, showAnswers) {
-        var layout = arrangeInBlocks(sums);
+        var layout = arrangeInBlocks(sums, 4);
 
         // Calculate max widths
         var maxBreuk = 0, maxPct = 0, maxKomma = 0;
@@ -1624,8 +1624,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var yStart = yPos + 10;
 
-        // Block layout: 2 columns, blocks of 5
-        var layout = arrangeInBlocks(sums);
+        // Block layout: 2 columns, blocks of 4
+        var layout = arrangeInBlocks(sums, 4);
         var lineH = 9;
         var blockGap = 8;
         var numCols = 2;
