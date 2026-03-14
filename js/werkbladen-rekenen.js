@@ -334,16 +334,20 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderPreview(settings, sums) {
         var html = '';
 
+        // Sums page
+        html += '<div class="wb-preview-page">';
         html += buildHeaderHtml(settings, false);
         html += renderSumsGrid(sums, false);
         html += '<div class="wb-preview-footer">Meester Tools</div>';
+        html += '</div>';
 
-        // Answer sheet
+        // Answer sheet as separate page
         if (settings.answerSheet) {
-            html += '<div class="wb-preview-divider">Antwoordblad</div>';
+            html += '<div class="wb-preview-page">';
             html += buildHeaderHtml(settings, true);
             html += renderSumsGrid(sums, true);
             html += '<div class="wb-preview-footer">Meester Tools</div>';
+            html += '</div>';
         }
 
         previewEl.innerHTML = html;
