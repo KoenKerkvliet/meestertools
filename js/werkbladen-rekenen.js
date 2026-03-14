@@ -222,7 +222,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     var entry = block[i];
                     var s = entry.sum;
                     html += '<div class="wb-preview-sum">';
-                    html += '<span class="wb-preview-num">' + (entry.index + 1) + '.</span>';
                     html += '<span class="wb-preview-a">' + formatNum(s.a) + '</span>';
                     html += '<span class="wb-preview-op">' + opSymbol(s.op) + '</span>';
                     html += '<span class="wb-preview-b">' + formatNum(s.b) + '</span>';
@@ -312,12 +311,11 @@ document.addEventListener('DOMContentLoaded', function () {
         var colW = (contentW - colGap) / 2;
 
         // Fixed column positions within each column (for alignment)
-        // [num] [getal1 right-aligned] [op center] [getal2 right-aligned] [= answer]
-        var numW = 10;
-        var aW = 22;
-        var opW = 8;
-        var bW = 22;
-        var eqX = numW + aW + opW + bW;
+        // [getal1 right-aligned] [op center] [getal2 right-aligned] [= answer]
+        var aW = 20;
+        var opW = 6;
+        var bW = 20;
+        var eqX = aW + opW + bW;
 
         var y = yStart;
 
@@ -341,35 +339,30 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
 
                     doc.setFontSize(11);
-
-                    // Number
-                    doc.setFont('helvetica', 'bold');
-                    doc.setTextColor(160, 160, 170);
-                    doc.text((entry.index + 1) + '.', colX + numW - 2, currentY, { align: 'right' });
-
-                    // Getal 1 (right-aligned)
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(50, 50, 70);
-                    doc.text(formatNum(s.a), colX + numW + aW, currentY, { align: 'right' });
+
+                    // Getal 1 (right-aligned)
+                    doc.text(formatNum(s.a), colX + aW, currentY, { align: 'right' });
 
                     // Operator (center)
-                    doc.text(opSymbol(s.op), colX + numW + aW + opW / 2, currentY, { align: 'center' });
+                    doc.text(opSymbol(s.op), colX + aW + opW / 2, currentY, { align: 'center' });
 
                     // Getal 2 (right-aligned)
-                    doc.text(formatNum(s.b), colX + numW + aW + opW + bW, currentY, { align: 'right' });
+                    doc.text(formatNum(s.b), colX + aW + opW + bW, currentY, { align: 'right' });
 
                     // = sign
-                    doc.text('=', colX + eqX + 3, currentY);
+                    doc.text('=', colX + eqX + 2, currentY);
 
                     // Answer or line
                     if (isAnswers) {
                         doc.setFont('helvetica', 'bold');
                         doc.setTextColor(108, 99, 255);
-                        doc.text(formatNum(s.answer), colX + eqX + 8, currentY);
+                        doc.text(formatNum(s.answer), colX + eqX + 7, currentY);
                     } else {
                         doc.setDrawColor(200, 200, 210);
                         doc.setLineWidth(0.3);
-                        doc.line(colX + eqX + 8, currentY, colX + eqX + 28, currentY);
+                        doc.line(colX + eqX + 7, currentY, colX + eqX + 25, currentY);
                     }
                 }
             }
