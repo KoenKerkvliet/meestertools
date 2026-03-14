@@ -340,11 +340,14 @@
 
 .wb-preview {
     background: white;
-    border: 1px solid #E8E8F0;
-    border-radius: var(--radius-md);
-    padding: 32px;
-    min-height: 200px;
-    box-shadow: var(--shadow-sm);
+    border: 1px solid #D0D0DC;
+    border-radius: 2px;
+    padding: 48px 40px;
+    max-width: 595px;
+    min-height: 842px;
+    margin: 0 auto;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+    aspect-ratio: 210 / 297;
 }
 
 .wb-preview-title {
@@ -488,7 +491,10 @@
     }
 
     .wb-preview {
-        padding: 20px 16px;
+        padding: 24px 16px;
+        max-width: 100%;
+        min-height: auto;
+        aspect-ratio: auto;
     }
 
     .wb-preview-header {
