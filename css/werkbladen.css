@@ -1,0 +1,370 @@
+/* ============================================
+   WERKBLADEN - CSS
+   ============================================ */
+
+/* Sections */
+.wb-section {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #E8E8F0;
+}
+
+.wb-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.wb-section-compact {
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+}
+
+.wb-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+}
+
+/* Rows & Fields */
+.wb-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.wb-field {
+    margin-bottom: 16px;
+    flex: 1;
+    min-width: 180px;
+}
+
+.wb-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-medium);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.wb-field-check {
+    display: flex;
+    align-items: center;
+    min-width: auto;
+}
+
+.wb-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #D8D8E8;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    color: var(--text-dark);
+    background: white;
+    transition: var(--transition);
+}
+
+.wb-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+}
+
+.wb-input-sm {
+    max-width: 160px;
+}
+
+/* Checkbox */
+.wb-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+    cursor: pointer;
+    padding: 8px 0;
+}
+
+.wb-checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+/* Radio */
+.wb-radio-group {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.wb-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+    cursor: pointer;
+    padding: 8px 16px;
+    border: 1.5px solid #D8D8E8;
+    border-radius: var(--radius-md);
+    background: white;
+    transition: var(--transition);
+}
+
+.wb-radio-label:has(input:checked) {
+    border-color: var(--primary);
+    background: #F0F0FF;
+}
+
+.wb-radio-label input[type="radio"] {
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+/* Type cards */
+.wb-type-cards {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.wb-type-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 20px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-lg);
+    background: white;
+    cursor: pointer;
+    transition: var(--transition);
+    min-width: 120px;
+    flex: 1;
+}
+
+.wb-type-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.wb-type-card.active {
+    border-color: var(--primary);
+    background: #F0F0FF;
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+}
+
+.wb-type-icon {
+    font-size: 28px;
+}
+
+.wb-type-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Toggle buttons (operations) */
+.wb-toggles {
+    display: flex;
+    gap: 8px;
+}
+
+.wb-toggle {
+    width: 52px;
+    height: 52px;
+    border: 2px solid #D8D8E8;
+    border-radius: var(--radius-md);
+    background: white;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-medium);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wb-toggle:hover {
+    border-color: var(--primary);
+}
+
+.wb-toggle.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+/* Range row */
+.wb-range-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wb-range-row .wb-input {
+    max-width: 100px;
+}
+
+.wb-range-sep {
+    font-size: 13px;
+    color: var(--text-light);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Actions */
+.wb-actions {
+    margin-top: 8px;
+}
+
+.wb-generate-btn {
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+/* Preview */
+.wb-preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.wb-preview-header .wb-section-title {
+    margin-bottom: 0;
+}
+
+.wb-download-btn {
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.wb-preview {
+    background: white;
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    padding: 32px;
+    min-height: 200px;
+    box-shadow: var(--shadow-sm);
+}
+
+.wb-preview-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.wb-preview-name {
+    font-size: 14px;
+    color: var(--text-medium);
+    margin-bottom: 24px;
+}
+
+.wb-preview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 40px;
+}
+
+.wb-preview-sum {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 6px 0;
+    border-bottom: 1px solid #F0F0F4;
+    font-size: 15px;
+}
+
+.wb-preview-num {
+    font-weight: 700;
+    color: var(--text-light);
+    min-width: 28px;
+}
+
+.wb-preview-calc {
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.wb-preview-answer {
+    color: var(--primary);
+    font-weight: 700;
+    margin-left: auto;
+}
+
+.wb-preview-divider {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    padding: 20px 0 8px;
+    border-top: 2px dashed #E8E8F0;
+    margin-top: 16px;
+}
+
+/* Coming soon for other types */
+.wb-coming-soon {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-medium);
+}
+
+.wb-coming-soon .wb-coming-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.wb-coming-soon p {
+    font-size: 15px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .wb-type-cards {
+        flex-direction: column;
+    }
+
+    .wb-type-card {
+        flex-direction: row;
+        min-width: auto;
+    }
+
+    .wb-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .wb-field {
+        min-width: auto;
+    }
+
+    .wb-preview-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .wb-preview {
+        padding: 20px 16px;
+    }
+
+    .wb-preview-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+}
