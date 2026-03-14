@@ -152,10 +152,21 @@ document.addEventListener('DOMContentLoaded', function () {
         return op;
     }
 
-    // ---------- Layout: 2 cols, 4 rows of blocks, 5 sums per block ----------
+    // PDF-safe symbols (jsPDF default font doesn't support unicode math chars)
+    function opSymbolPdf(op) {
+        switch (op) {
+            case '+': return '+';
+            case '-': return '-';
+            case '*': return 'x';
+            case '/': return ':';
+        }
+        return op;
+    }
+
+    // ---------- Layout: 4 cols, rows of blocks, 5 sums per block ----------
     // Numbering goes left-to-right, top-to-bottom through blocks
     function arrangeInBlocks(sums) {
-        var cols = 2;
+        var cols = 4;
         var sumsPerBlock = 5;
         var totalBlocks = Math.ceil(sums.length / sumsPerBlock);
         var rows = Math.ceil(totalBlocks / cols);
@@ -303,18 +314,19 @@ document.addEventListener('DOMContentLoaded', function () {
             yStart += 12;
         }
 
-        // Block layout: 2 columns, blocks of 5 sums, numbered left-to-right
+        // Block layout: 4 columns, blocks of 5 sums, left-to-right
         var layout = arrangeInBlocks(sums);
         var lineH = 7.5;
         var blockGap = 8;
-        var colGap = 14;
-        var colW = (contentW - colGap) / 2;
+        var numCols = 4;
+        var colGap = 6;
+        var colW = (contentW - colGap * (numCols - 1)) / numCols;
 
         // Fixed column positions within each column (for alignment)
         // [getal1 right-aligned] [op center] [getal2 right-aligned] [= answer]
-        var aW = 20;
-        var opW = 6;
-        var bW = 20;
+        var aW = 12;
+        var opW = 5;
+        var bW = 12;
         var eqX = aW + opW + bW;
 
         var y = yStart;
@@ -346,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     doc.text(formatNum(s.a), colX + aW, currentY, { align: 'right' });
 
                     // Operator (center)
-                    doc.text(opSymbol(s.op), colX + aW + opW / 2, currentY, { align: 'center' });
+                    doc.text(opSymbolPdf(s.op), colX + aW + opW / 2, currentY, { align: 'center' });
 
                     // Getal 2 (right-aligned)
                     doc.text(formatNum(s.b), colX + aW + opW + bW, currentY, { align: 'right' });
@@ -362,7 +374,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     } else {
                         doc.setDrawColor(200, 200, 210);
                         doc.setLineWidth(0.3);
-                        doc.line(colX + eqX + 7, currentY, colX + eqX + 25, currentY);
+                        doc.line(colX + eqX + 7, currentY, colX + eqX + 19, currentY);
                     }
                 }
             }

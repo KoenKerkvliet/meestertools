@@ -277,8 +277,8 @@
 
 .wb-preview-blocks {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px 40px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px 24px;
 }
 
 .wb-preview-block {
@@ -376,7 +376,7 @@
     }
 
     .wb-preview-blocks {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
     }
 
     .wb-preview {
