@@ -333,16 +333,20 @@ document.addEventListener('DOMContentLoaded', function () {
         html += '<div class="game24-board-wrapper">';
         html += '<div class="game24-board-circle"></div>';
         html += '<div class="game24-board-cross"></div>';
+
+        // Difficulty indicator in rode verticale balk
+        html += '<div class="game24-diff-indicator diff-' + difficulty + '">' + starsStr + '</div>';
+
         html += '<div class="game24-compass">';
 
         // North: + operator
         html += renderOpButton('+', '+', 'n');
 
         // NW: card 0
-        html += renderOriginalCard(0, 'nw', starsStr, starsClass);
+        html += renderOriginalCard(0, 'nw');
 
         // NO: card 1
-        html += renderOriginalCard(1, 'no', starsStr, starsClass);
+        html += renderOriginalCard(1, 'no');
 
         // West: - operator
         html += renderOpButton('-', '\u2212', 'w');
@@ -359,10 +363,10 @@ document.addEventListener('DOMContentLoaded', function () {
         html += renderOpButton('*', '\u00D7', 'o');
 
         // ZW: card 2
-        html += renderOriginalCard(2, 'zw', starsStr, starsClass);
+        html += renderOriginalCard(2, 'zw');
 
         // ZO: card 3
-        html += renderOriginalCard(3, 'zo', starsStr, starsClass);
+        html += renderOriginalCard(3, 'zo');
 
         // South: ÷ operator
         html += renderOpButton('/', '\u00F7', 'z');
@@ -458,7 +462,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ---------- Render Helpers ----------
-    function renderOriginalCard(index, position, starsStr, starsClass) {
+    function renderOriginalCard(index, position) {
         var card = originalCards[index];
         var classes = 'game24-card game24-pos-' + position;
         if (card.used) classes += ' used';
@@ -466,7 +470,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (gameOver && !card.used) classes += ' disabled';
 
         var html = '<div class="' + classes + '" data-card-index="' + index + '">';
-        html += '<span class="game24-stars ' + starsClass + '">' + starsStr + '</span>';
         html += formatNumber(card.value);
         html += '</div>';
         return html;
