@@ -348,17 +348,32 @@
 }
 
 .wb-preview-title {
-    text-align: center;
+    text-align: left;
     font-size: 22px;
     font-weight: 800;
     color: var(--text-dark);
-    margin-bottom: 4px;
+    margin-bottom: 8px;
+}
+
+.wb-preview-separator {
+    height: 2px;
+    background: #D8D8E8;
+    margin-bottom: 12px;
 }
 
 .wb-preview-name {
     font-size: 14px;
     color: var(--text-medium);
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+}
+
+.wb-preview-footer {
+    text-align: left;
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 24px;
+    padding-top: 12px;
+    border-top: 1px solid #E8E8F0;
 }
 
 .wb-preview-blocks {

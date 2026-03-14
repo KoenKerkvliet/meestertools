@@ -153,7 +153,12 @@ document.addEventListener('DOMContentLoaded', function () {
             var a = randomInRange(settings.min1, settings.max1, settings.decimals1);
             var b = randomInRange(settings.min2, settings.max2, settings.decimals2);
 
-            // Division: ensure whole number answer
+            // Subtraction: ensure a >= b (no negative answers)
+            if (op === '-' && a < b) {
+                var tmp = a; a = b; b = tmp;
+            }
+
+            // Division: ensure whole number answer >= 5
             if (op === '/') {
                 // Pick b first (not zero), then make a a multiple of b
                 var bAttempts = 0;
@@ -162,8 +167,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     bAttempts++;
                 }
                 if (b === 0) b = 1;
-                // Make a a multiple of b within range
-                var minMult = Math.ceil(settings.min1 / b);
+                // Make a a multiple of b within range, with answer >= 5
+                var minMult = Math.max(Math.ceil(settings.min1 / b), 5);
                 var maxMult = Math.floor(settings.max1 / b);
                 if (minMult > maxMult) {
                     // No valid multiple in range, skip
@@ -186,6 +191,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Skip if answer is not a whole number
             if (!Number.isInteger(answer)) continue;
+
+            // Skip negative answers
+            if (answer < 0) continue;
 
             // Skip duplicates
             var key = sumKey(a, op, b);
@@ -281,8 +289,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderPreview(settings, sums) {
         var html = '';
 
-        // Title
+        // Title + separator
         html += '<div class="wb-preview-title">' + escapeHtml(settings.title) + '</div>';
+        html += '<div class="wb-preview-separator"></div>';
 
         // Name field
         if (settings.showName) {
@@ -291,10 +300,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         html += renderSumsGrid(sums, false);
 
+        // Footer
+        html += '<div class="wb-preview-footer">Meester Tools</div>';
+
         // Answer sheet
         if (settings.answerSheet) {
             html += '<div class="wb-preview-divider">Antwoordblad</div>';
+            html += '<div class="wb-preview-title">' + escapeHtml(settings.title) + ' - Antwoordblad</div>';
+            html += '<div class="wb-preview-separator"></div>';
             html += renderSumsGrid(sums, true);
+            html += '<div class="wb-preview-footer">Meester Tools</div>';
         }
 
         previewEl.innerHTML = html;
@@ -386,15 +401,21 @@ document.addEventListener('DOMContentLoaded', function () {
         var margin = 20;
         var contentW = pageW - margin * 2;
 
-        // Title
+        // Title (left-aligned)
         doc.setFontSize(20);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(50, 50, 70);
         var titleText = settings.title;
         if (isAnswers) titleText += ' - Antwoordblad';
-        doc.text(titleText, pageW / 2, margin + 8, { align: 'center' });
+        doc.text(titleText, margin, margin + 8);
 
-        var yStart = margin + 16;
+        // Separator line
+        var sepY = margin + 12;
+        doc.setDrawColor(200, 200, 210);
+        doc.setLineWidth(0.5);
+        doc.line(margin, sepY, pageW - margin, sepY);
+
+        var yStart = sepY + 8;
 
         // Name field
         if (settings.showName) {
@@ -402,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function () {
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(100, 100, 110);
             doc.text('Naam: ___________________________', margin, yStart);
-            yStart += 12;
+            yStart += 10;
         }
 
         // Block layout: 2 columns, blocks of 5 sums, left-to-right
@@ -496,14 +517,16 @@ document.addEventListener('DOMContentLoaded', function () {
             y += maxBlockSize * lineH + blockGap;
         }
 
+        // Footer separator
+        doc.setDrawColor(220, 220, 230);
+        doc.setLineWidth(0.3);
+        doc.line(margin, 285, pageW - margin, 285);
+
         // Footer
-        doc.setFontSize(8);
+        doc.setFontSize(9);
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(180, 180, 190);
-        doc.text('Meestertools - Werkblad Rekenen', margin, 290);
-        var now = new Date();
-        var timestamp = now.toLocaleDateString('nl-NL') + ' ' + now.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
-        doc.text(timestamp, pageW - margin, 290, { align: 'right' });
+        doc.setTextColor(160, 160, 175);
+        doc.text('Meester Tools', margin, 290);
     }
 
     // ---------- Utility ----------
