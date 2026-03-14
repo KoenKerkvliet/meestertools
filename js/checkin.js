@@ -467,17 +467,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 const storedConfig = SMILEY_CONFIGS[dayVotes.length] || config;
 
                 // Total votes
-                doc.setFontSize(22);
+                doc.setFontSize(20);
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(50, 50, 70);
-                doc.text(String(total), x + colW / 2, startY + 36, { align: 'center' });
-                doc.setFontSize(9);
+                doc.text(String(total), x + colW / 2, startY + 34, { align: 'center' });
+                doc.setFontSize(8);
                 doc.setFont('helvetica', 'normal');
                 doc.setTextColor(140, 140, 150);
-                doc.text(total === 1 ? 'stem' : 'stemmen', x + colW / 2, startY + 42, { align: 'center' });
+                doc.text(total === 1 ? 'stem' : 'stemmen', x + colW / 2, startY + 40, { align: 'center' });
 
                 // Stacked horizontal bar
-                const barY = startY + 48;
+                const barY = startY + 45;
                 const barH = 8;
                 const barW = colW - 12;
                 let barX = x + 6;
@@ -496,7 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 // Smiley breakdown list
-                let listY = startY + 66;
+                let listY = startY + 60;
                 const smileyLabels = ['Zeer verdrietig', 'Verdrietig', 'Neutraal', 'Blij', 'Zeer blij'];
                 const smileyLabels4 = ['Verdrietig', 'Neutraal', 'Blij', 'Zeer blij'];
                 const smileyLabels3 = ['Verdrietig', 'Neutraal', 'Blij'];
@@ -506,18 +506,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     const [r, g, b] = hexToRgb(storedConfig.colors[vi]);
                     // Color dot
                     doc.setFillColor(r, g, b);
-                    doc.circle(x + 10, listY - 1.5, 2.5, 'F');
+                    doc.circle(x + 8, listY - 1.5, 2.5, 'F');
                     // Label
-                    doc.setFontSize(9);
+                    doc.setFontSize(8);
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(80, 80, 90);
-                    doc.text(labels[vi], x + 15, listY);
-                    // Count
+                    doc.text(labels[vi], x + 13, listY);
+                    // Count + percentage on next line
                     doc.setFont('helvetica', 'bold');
                     doc.setTextColor(50, 50, 70);
                     const pct = Math.round(v / total * 100);
-                    doc.text(`${v} (${pct}%)`, x + colW - 6, listY, { align: 'right' });
-                    listY += 10;
+                    doc.text(v + ' (' + pct + '%)', x + 13, listY + 4.5);
+                    listY += 13;
                 });
             } else {
                 // Empty state
