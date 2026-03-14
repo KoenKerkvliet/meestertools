@@ -30,7 +30,7 @@
 }
 
 .wf-word {
-    font-size: 64px;
+    font-size: 66px;
     font-weight: 800;
     color: var(--text-dark);
     text-align: center;
@@ -353,7 +353,7 @@
     }
 
     .wf-word {
-        font-size: 40px;
+        font-size: 42px;
         padding: 16px;
     }
 
