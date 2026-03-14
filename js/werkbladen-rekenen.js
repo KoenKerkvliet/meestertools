@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (ldBtnPlus) {
         ldBtnPlus.addEventListener('click', function () {
             var val = parseInt(ldCountInput.value) || 12;
-            if (val < 12) ldCountInput.value = val + 1;
+            if (val < 48) ldCountInput.value = val + 1;
         });
     }
 
@@ -397,23 +397,32 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ---------- Render Preview ----------
+    var SUMS_PER_PAGE = 50; // 2 cols × 5 rows × 5 per block
+
     function renderPreview(settings, sums) {
         var html = '';
+        var totalPages = Math.ceil(sums.length / SUMS_PER_PAGE);
 
-        // Sums page
-        html += '<div class="wb-preview-page">';
-        html += buildHeaderHtml(settings, false);
-        html += renderSumsGrid(sums, false);
-        html += '<div class="wb-preview-footer">Meester Tools</div>';
-        html += '</div>';
-
-        // Answer sheet as separate page
-        if (settings.answerSheet) {
+        // Sums pages
+        for (var p = 0; p < totalPages; p++) {
+            var pageSums = sums.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
             html += '<div class="wb-preview-page">';
-            html += buildHeaderHtml(settings, true);
-            html += renderSumsGrid(sums, true);
+            html += buildHeaderHtml(settings, false);
+            html += renderSumsGrid(pageSums, false);
             html += '<div class="wb-preview-footer">Meester Tools</div>';
             html += '</div>';
+        }
+
+        // Answer sheet pages
+        if (settings.answerSheet) {
+            for (var p = 0; p < totalPages; p++) {
+                var pageSums = sums.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
+                html += '<div class="wb-preview-page">';
+                html += buildHeaderHtml(settings, true);
+                html += renderSumsGrid(pageSums, true);
+                html += '<div class="wb-preview-footer">Meester Tools</div>';
+                html += '</div>';
+            }
         }
 
         previewEl.innerHTML = html;
@@ -480,7 +489,7 @@ document.addEventListener('DOMContentLoaded', function () {
             date: dateStr,
             datePrefix: document.getElementById('wbDatePrefix').value.trim(),
             showName: document.getElementById('wbNameField').value === 'ja',
-            count: Math.max(1, Math.min(12, parseInt(document.getElementById('wbLdCount').value) || 12)),
+            count: Math.max(1, Math.min(48, parseInt(document.getElementById('wbLdCount').value) || 12)),
             divisionType: document.getElementById('wbLdRemainder').value,
             ldDecimals: parseInt(document.getElementById('wbLdDecimals').value) || 1,
             minDeeltal: parseInt(document.getElementById('wbLdMinDeeltal').value) || 10,
@@ -591,23 +600,32 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ---------- Render Long Division Preview ----------
+    var LD_PER_PAGE = 12; // 3 cols × 4 rows
+
     function renderLdPreview(settings, divisions) {
         var html = '';
+        var totalPages = Math.ceil(divisions.length / LD_PER_PAGE);
 
-        // Sums page
-        html += '<div class="wb-preview-page">';
-        html += buildHeaderHtml(settings, false);
-        html += renderLdGrid(divisions, false);
-        html += '<div class="wb-preview-footer">Meester Tools</div>';
-        html += '</div>';
-
-        // Answer sheet
-        if (settings.answerSheet) {
+        // Sums pages
+        for (var p = 0; p < totalPages; p++) {
+            var pageDivs = divisions.slice(p * LD_PER_PAGE, (p + 1) * LD_PER_PAGE);
             html += '<div class="wb-preview-page">';
-            html += buildHeaderHtml(settings, true);
-            html += renderLdGrid(divisions, true);
+            html += buildHeaderHtml(settings, false);
+            html += renderLdGrid(pageDivs, false);
             html += '<div class="wb-preview-footer">Meester Tools</div>';
             html += '</div>';
+        }
+
+        // Answer sheet pages
+        if (settings.answerSheet) {
+            for (var p = 0; p < totalPages; p++) {
+                var pageDivs = divisions.slice(p * LD_PER_PAGE, (p + 1) * LD_PER_PAGE);
+                html += '<div class="wb-preview-page">';
+                html += buildHeaderHtml(settings, true);
+                html += renderLdGrid(pageDivs, true);
+                html += '<div class="wb-preview-footer">Meester Tools</div>';
+                html += '</div>';
+            }
         }
 
         previewEl.innerHTML = html;
@@ -779,20 +797,36 @@ document.addEventListener('DOMContentLoaded', function () {
         var doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
         if (generatedDivisions.length > 0) {
-            // Staartdelingen PDF
-            generateLdPdfPage(doc, currentSettings, generatedDivisions, false);
+            // Staartdelingen PDF - paginate per 12
+            var ldPages = Math.ceil(generatedDivisions.length / LD_PER_PAGE);
+            for (var p = 0; p < ldPages; p++) {
+                if (p > 0) doc.addPage();
+                var pageDivs = generatedDivisions.slice(p * LD_PER_PAGE, (p + 1) * LD_PER_PAGE);
+                generateLdPdfPage(doc, currentSettings, pageDivs, false);
+            }
             if (currentSettings.answerSheet) {
-                doc.addPage();
-                generateLdPdfPage(doc, currentSettings, generatedDivisions, true);
+                for (var p = 0; p < ldPages; p++) {
+                    doc.addPage();
+                    var pageDivs = generatedDivisions.slice(p * LD_PER_PAGE, (p + 1) * LD_PER_PAGE);
+                    generateLdPdfPage(doc, currentSettings, pageDivs, true);
+                }
             }
             var filename = 'werkblad-staartdelingen-' + new Date().toISOString().slice(0, 10) + '.pdf';
             doc.save(filename);
         } else {
-            // Bewerkingen PDF
-            generatePdfPage(doc, currentSettings, generatedSums, false);
+            // Bewerkingen PDF - paginate per 50
+            var sumPages = Math.ceil(generatedSums.length / SUMS_PER_PAGE);
+            for (var p = 0; p < sumPages; p++) {
+                if (p > 0) doc.addPage();
+                var pageSums = generatedSums.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
+                generatePdfPage(doc, currentSettings, pageSums, false);
+            }
             if (currentSettings.answerSheet) {
-                doc.addPage();
-                generatePdfPage(doc, currentSettings, generatedSums, true);
+                for (var p = 0; p < sumPages; p++) {
+                    doc.addPage();
+                    var pageSums = generatedSums.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
+                    generatePdfPage(doc, currentSettings, pageSums, true);
+                }
             }
             var filename = 'werkblad-rekenen-' + new Date().toISOString().slice(0, 10) + '.pdf';
             doc.save(filename);
