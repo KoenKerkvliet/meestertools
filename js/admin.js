@@ -421,7 +421,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getDifficultiesForLevel(level) {
-        return allDifficulties.filter(d => d.levels && d.levels.indexOf(level) !== -1);
+        return allDifficulties
+            .filter(d => d.levels && d.levels.indexOf(level) !== -1)
+            .sort((a, b) => a.name.localeCompare(b.name));
     }
 
     function getDifficultyName(id) {
@@ -762,7 +764,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 sortedKeys.forEach(key => {
-                    const groupWords = groups[key];
+                    const groupWords = groups[key].sort((a, b) => a.word.localeCompare(b.word));
                     const diffName = key === noGroupKey ? 'Geen moeilijkheid' : getDifficultyName(key);
 
                     const groupEl = document.createElement('div');
