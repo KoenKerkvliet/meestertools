@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meestertools - Changelog</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .changelog-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 32px;
+        }
+
+        .changelog-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .changelog-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .changelog-header p {
+            font-size: 15px;
+            color: var(--text-medium);
+        }
+
+        .changelog-entry {
+            background: var(--bg-white);
+            border: 1px solid #E8E8F0;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .changelog-date {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .changelog-date::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .changelog-section {
+            margin-bottom: 12px;
+        }
+
+        .changelog-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .changelog-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .changelog-badge.new {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .changelog-badge.improved {
+            background: #E3F2FD;
+            color: #1565C0;
+        }
+
+        .changelog-badge.fix {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .changelog-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .changelog-list li {
+            font-size: 14px;
+            color: var(--text-dark);
+            padding: 4px 0 4px 20px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .changelog-list li::before {
+            content: '\2022';
+            position: absolute;
+            left: 4px;
+            color: var(--text-light);
+        }
+
+        .changelog-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            margin-bottom: 24px;
+        }
+
+        .changelog-back:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .changelog-container {
+                padding: 24px 16px;
+            }
+
+            .changelog-entry {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="dashboard" class="header-logo">
+            <span class="logo-icon">&#127891;</span>
+            Meestertools
+        </a>
+        <div class="header-profile">
+            <button class="profile-btn" id="profileBtn" title="Profiel">?</button>
+            <div class="profile-dropdown" id="profileDropdown">
+                <div class="dropdown-header">
+                    <div class="name">Laden...</div>
+                    <div class="email"></div>
+                </div>
+                <div class="dropdown-item" onclick="window.location.href='#'">&#9881;&#65039; Instellingen</div>
+                <div class="dropdown-item" onclick="window.location.href='#'">&#128100; Mijn profiel</div>
+                <div class="dropdown-item" onclick="window.location.href='#'">&#10067; Help</div>
+                <div class="dropdown-item logout">&#128682; Uitloggen</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="changelog-container">
+        <a href="dashboard" class="changelog-back">&larr; Terug naar dashboard</a>
+
+        <div class="changelog-header">
+            <h1>Changelog</h1>
+            <p>Alle updates en verbeteringen van Meestertools.</p>
+        </div>
+
+        <!-- 14 maart 2026 -->
+        <div class="changelog-entry">
+            <div class="changelog-date">14 maart 2026</div>
+
+            <div class="changelog-section">
+                <span class="changelog-badge new">Nieuw</span>
+                <ul class="changelog-list">
+                    <li>24 Game tool toegevoegd met kompas-layout speelbord</li>
+                    <li>Moeilijkheidsgraden (makkelijk/gemiddeld/moeilijk) voor 24 Game sets</li>
+                    <li>Twee-kolommen layout voor 24 Game: bord links, besturing rechts</li>
+                    <li>Resultaatkaarten zijn herbruikbaar in volgende bewerkingen</li>
+                    <li>Difficulty filter in 24 Game om per niveau te filteren</li>
+                    <li>Changelog pagina toegevoegd (deze pagina)</li>
+                </ul>
+            </div>
+
+            <div class="changelog-section">
+                <span class="changelog-badge improved">Verbeterd</span>
+                <ul class="changelog-list">
+                    <li>Woorden in beheer nu gegroepeerd per moeilijkheid met sectie-headers</li>
+                    <li>Zoek- en filterfunctie toegevoegd voor woorden in beheer</li>
+                    <li>Footer herontworpen: copyright links, versienummer rechts met link naar changelog</li>
+                    <li>Woorden Flitsen: woordgrootte verhoogd met 2px voor betere leesbaarheid</li>
+                    <li>24 Game past nu volledig op het scherm zonder scrollen (digibord-vriendelijk)</li>
+                </ul>
+            </div>
+
+            <div class="changelog-section">
+                <span class="changelog-badge fix">Fix</span>
+                <ul class="changelog-list">
+                    <li>Gebruikte resultaatkaarten in 24 Game blijven nu permanent gefade</li>
+                    <li>Bewerkingsknoppen in 24 Game correct uitgelijnd binnen het kompas</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 13 maart 2026 -->
+        <div class="changelog-entry">
+            <div class="changelog-date">13 maart 2026</div>
+
+            <div class="changelog-section">
+                <span class="changelog-badge new">Nieuw</span>
+                <ul class="changelog-list">
+                    <li>Woorden Flitsen tool met leesniveaus en leesmoeilijkheden</li>
+                    <li>Vraag van de Dag tool toegevoegd</li>
+                    <li>Beheer-paneel uitgebreid met tabs voor Woorden Flitsen en Vraag van de Dag</li>
+                </ul>
+            </div>
+
+            <div class="changelog-section">
+                <span class="changelog-badge improved">Verbeterd</span>
+                <ul class="changelog-list">
+                    <li>Grotere tekstvelden voor vragen en antwoorden in Vraag van de Dag</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="app-footer">
+        <div class="footer-inner">
+            <span class="footer-left">&copy; <span id="footerYear"></span> Meestertools &middot; Design by <a href="https://designpixels.nl" target="_blank" rel="noopener">Design Pixels</a></span>
+            <a href="changelog" class="version">v0.0.2</a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -316,7 +316,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        var html = filterHtml;
+        var html = '';
         var difficulty = currentSet.difficulty || 'gemiddeld';
         var starCount = getDifficultyStars(difficulty);
         var starsStr = '\u2605'.repeat(starCount);
@@ -357,6 +357,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // === RIGHT COLUMN: Controls ===
         html += '<div class="game24-col-panel">';
+
+        // Difficulty filter in panel
+        html += filterHtml;
 
         // Instruction
         if (!gameOver) {

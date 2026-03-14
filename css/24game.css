@@ -34,7 +34,6 @@
 .game24-diff-filter {
     display: flex;
     gap: 8px;
-    justify-content: center;
     flex-wrap: wrap;
 }
 
@@ -89,10 +88,10 @@
 /* ---------- Two Column Layout ---------- */
 .game24-layout {
     display: flex;
-    gap: 32px;
+    gap: 48px;
     align-items: flex-start;
     width: 100%;
-    max-width: 900px;
+    max-width: 940px;
 }
 
 .game24-col-board {
@@ -267,10 +266,10 @@
 }
 
 .game24-card.used {
-    opacity: 0.2;
+    opacity: 0.2 !important;
     cursor: not-allowed;
     pointer-events: none;
-    transform: scale(0.85);
+    transform: scale(0.85) !important;
 }
 
 .game24-card.disabled {
@@ -407,10 +406,11 @@
 }
 
 .game24-result-card.used {
-    opacity: 0.2;
+    opacity: 0.2 !important;
     cursor: not-allowed;
     pointer-events: none;
-    transform: scale(0.85);
+    transform: scale(0.85) !important;
+    animation: none !important;
 }
 
 .game24-result-card.disabled {

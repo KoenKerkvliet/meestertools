@@ -482,12 +482,19 @@ a {
     margin-top: auto;
     padding: 24px 32px;
     padding-top: 60px;
-    text-align: center;
     border-top: 1px solid #E8E8F0;
     background: var(--bg-white);
 }
 
-.app-footer p {
+.app-footer .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.app-footer .footer-left {
     font-size: 13px;
     color: var(--text-medium);
 }
@@ -509,8 +516,15 @@ a {
     border-radius: 20px;
     font-size: 11px;
     color: var(--text-medium);
-    margin-left: 8px;
     font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.app-footer .version:hover {
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
 }
 
 /* ---------- TOOL PAGE ---------- */

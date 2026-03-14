@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(start \"\" \"C:/Users/koenk/OneDrive/___Claude projecten/Meestertools/index.html\")",
+      "Bash(git init)",
+      "Bash(gh auth status)",
+      "Bash(where gh)",
+      "Bash(git add index.html dashboard.html css/style.css js/app.js pages/digibordtools.html pages/lesmateriaal.html pages/educatieve-games.html pages/schrijfbord.html pages/klasseprestatie.html pages/ontspanning.html)",
+      "Bash(git commit:*)",
+      "Bash(git remote add origin https://github.com/KoenKerkvliet/meestertools.git)",
+      "Bash(git branch -M main)",
+      "Bash(git push -u origin main)",
+      "Bash(for f in digibordtools.html lesmateriaal.html educatieve-games.html schrijfbord.html klasseprestatie.html ontspanning.html)",
+      "Bash(do sed -i \"s|<div class=\"\"dropdown-item logout\"\" onclick=\"\"window.location.href=''../index.html''\"\">|<div class=\"\"dropdown-item logout\"\">|\" \"$f\")",
+      "Bash(done)",
+      "Bash(do sed -i 's|    <script src=\"\"../js/app.js\"\"></script>|    <script src=\"\"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2\"\"></script>\\\\n    <script src=\"\"../js/supabase-config.js\"\"></script>\\\\n    <script src=\"\"../js/app.js\"\"></script>|' \"$f\")",
+      "Bash(git add index.html registreer.html dashboard.html css/style.css js/app.js js/supabase-config.js pages/digibordtools.html pages/lesmateriaal.html pages/educatieve-games.html pages/schrijfbord.html pages/klasseprestatie.html pages/ontspanning.html)",
+      "Bash(git push)",
+      "Bash(git add CNAME)",
+      "Bash(git push origin main)",
+      "Bash(git pull --rebase origin main)",
+      "Bash(git add css/style.css dashboard.html js/app.js js/admin.js beheer.html supabase-setup.sql pages/digibordtools.html pages/educatieve-games.html pages/klasseprestatie.html pages/lesmateriaal.html pages/ontspanning.html pages/schrijfbord.html)",
+      "WebFetch(domain:meestertools.nl)",
+      "WebFetch(domain:chnjybpwquystuwmiger.supabase.co)",
+      "Bash(git add js/app.js)",
+      "WebFetch(domain:cdn.jsdelivr.net)",
+      "Bash(find \"C:\\\\Users\\\\koenk\\\\OneDrive\\\\___Claude projecten\\\\Meestertools\" -type f -name \"*.js\" -exec wc -l {} +)",
+      "Bash(curl -sI \"https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js\")",
+      "Bash(curl -sI \"https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js\")",
+      "Bash(curl -sI \"https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js\")",
+      "Bash(find . -name \"*.html\" -exec grep -l \"app-footer\" {})"
+    ]
+  }
+}
