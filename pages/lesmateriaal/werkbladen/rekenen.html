@@ -188,11 +188,22 @@
 
                 <div class="wb-field">
                     <label>Type staartdeling</label>
-                    <div class="wb-switch-group">
+                    <div class="wb-switch-group wb-switch-triple">
                         <button class="wb-switch-btn active" data-remainder="zonder">Zonder rest</button>
                         <button class="wb-switch-btn" data-remainder="met">Met rest</button>
+                        <button class="wb-switch-btn" data-remainder="decimaal">Met decimalen</button>
                     </div>
                     <input type="hidden" id="wbLdRemainder" value="zonder">
+                </div>
+
+                <div class="wb-field" id="ldDecimalOptions" style="display:none;">
+                    <label>Maximaal aantal decimalen</label>
+                    <div class="wb-toggle-row">
+                        <button class="wb-toggle-num active" data-lddec="1">1</button>
+                        <button class="wb-toggle-num" data-lddec="2">2</button>
+                        <button class="wb-toggle-num" data-lddec="3">3</button>
+                    </div>
+                    <input type="hidden" id="wbLdDecimals" value="1">
                 </div>
 
                 <div class="wb-field">

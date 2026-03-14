@@ -140,12 +140,26 @@ document.addEventListener('DOMContentLoaded', function () {
     // ---------- Long Division Remainder Switch ----------
     var remainderBtns = document.querySelectorAll('.wb-switch-btn[data-remainder]');
     var remainderHidden = document.getElementById('wbLdRemainder');
+    var ldDecimalOptions = document.getElementById('ldDecimalOptions');
 
     remainderBtns.forEach(function (btn) {
         btn.addEventListener('click', function () {
             remainderBtns.forEach(function (b) { b.classList.remove('active'); });
             this.classList.add('active');
-            remainderHidden.value = this.getAttribute('data-remainder');
+            var val = this.getAttribute('data-remainder');
+            remainderHidden.value = val;
+            ldDecimalOptions.style.display = val === 'decimaal' ? '' : 'none';
+        });
+    });
+
+    // ---------- Long Division Decimal Toggle ----------
+    document.querySelectorAll('.wb-toggle-num[data-lddec]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            this.parentNode.querySelectorAll('.wb-toggle-num').forEach(function (b) {
+                b.classList.remove('active');
+            });
+            this.classList.add('active');
+            document.getElementById('wbLdDecimals').value = this.getAttribute('data-lddec');
         });
     });
 
@@ -467,7 +481,8 @@ document.addEventListener('DOMContentLoaded', function () {
             datePrefix: document.getElementById('wbDatePrefix').value.trim(),
             showName: document.getElementById('wbNameField').value === 'ja',
             count: Math.max(1, Math.min(12, parseInt(document.getElementById('wbLdCount').value) || 12)),
-            allowRemainder: document.getElementById('wbLdRemainder').value === 'met',
+            divisionType: document.getElementById('wbLdRemainder').value,
+            ldDecimals: parseInt(document.getElementById('wbLdDecimals').value) || 1,
             minDeeltal: parseInt(document.getElementById('wbLdMinDeeltal').value) || 10,
             maxDeeltal: parseInt(document.getElementById('wbLdMaxDeeltal').value) || 100,
             minDeler: parseInt(document.getElementById('wbLdMinDeler').value) || 2,
@@ -489,9 +504,9 @@ document.addEventListener('DOMContentLoaded', function () {
             var deler = Math.floor(Math.random() * (settings.maxDeler - settings.minDeler + 1)) + settings.minDeler;
             if (deler <= 0) deler = 2;
 
-            var deeltal, quotient, rest;
+            var deeltal, quotient, rest, decimalAnswer;
 
-            if (!settings.allowRemainder) {
+            if (settings.divisionType === 'zonder') {
                 // Without remainder: deeltal = deler * quotient
                 var minQ = Math.max(3, Math.ceil(settings.minDeeltal / deler));
                 var maxQ = Math.floor(settings.maxDeeltal / deler);
@@ -500,20 +515,62 @@ document.addEventListener('DOMContentLoaded', function () {
                 quotient = Math.floor(Math.random() * (maxQ - minQ + 1)) + minQ;
                 deeltal = deler * quotient;
                 rest = 0;
-            } else {
+                decimalAnswer = null;
+            } else if (settings.divisionType === 'met') {
                 // With remainder: deeltal = deler * quotient + rest, 0 < rest < deler
                 var minQ = Math.max(3, Math.ceil(settings.minDeeltal / deler));
                 var maxQ = Math.floor(settings.maxDeeltal / deler);
                 if (minQ > maxQ) continue;
 
                 quotient = Math.floor(Math.random() * (maxQ - minQ + 1)) + minQ;
-                // rest must be 1..deler-1
                 if (deler <= 1) continue;
                 rest = Math.floor(Math.random() * (deler - 1)) + 1;
                 deeltal = deler * quotient + rest;
 
-                // Check deeltal is still in range
                 if (deeltal > settings.maxDeeltal || deeltal < settings.minDeeltal) continue;
+                decimalAnswer = null;
+            } else {
+                // Decimal: deeltal / deler = decimal answer with max N decimals
+                // Generate a decimal answer first, then compute deeltal
+                var factor = Math.pow(10, settings.ldDecimals);
+                var wholeMin = Math.max(3, Math.ceil(settings.minDeeltal / deler));
+                var wholeMax = Math.floor(settings.maxDeeltal / deler);
+                if (wholeMin > wholeMax) continue;
+
+                // Random whole part >= 3
+                var wholePart = Math.floor(Math.random() * (wholeMax - wholeMin + 1)) + wholeMin;
+                // Random decimal part (at least 1 so it's not a whole number)
+                var decPart = Math.floor(Math.random() * (factor - 1)) + 1;
+                var answer = wholePart + decPart / factor;
+
+                // deeltal = deler * answer, must be a whole number
+                deeltal = Math.round(deler * answer * factor) / factor;
+                // Check deeltal is integer
+                if (!Number.isInteger(Math.round(deeltal * 100) / 100)) {
+                    // Force it: deeltal = deler * (wholePart * factor + decPart) / factor
+                    var numerator = wholePart * factor + decPart;
+                    if ((numerator * deler) % factor !== 0) {
+                        // Not a clean integer deeltal, try differently
+                        // Pick deeltal directly as integer, compute decimal answer
+                        deeltal = Math.floor(Math.random() * (settings.maxDeeltal - settings.minDeeltal + 1)) + settings.minDeeltal;
+                        answer = Math.round((deeltal / deler) * factor) / factor;
+                        // Ensure answer has decimals and >= 3
+                        if (answer === Math.floor(answer) || answer < 3) continue;
+                    } else {
+                        deeltal = (numerator * deler) / factor;
+                    }
+                }
+
+                if (deeltal > settings.maxDeeltal || deeltal < settings.minDeeltal) continue;
+                if (!Number.isInteger(deeltal)) continue;
+
+                decimalAnswer = Math.round((deeltal / deler) * factor) / factor;
+                if (decimalAnswer < 3) continue;
+                // Verify it actually has decimals
+                if (decimalAnswer === Math.floor(decimalAnswer)) continue;
+
+                quotient = Math.floor(decimalAnswer);
+                rest = 0;
             }
 
             // Skip duplicates
@@ -525,7 +582,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 deeltal: deeltal,
                 deler: deler,
                 quotient: quotient,
-                rest: rest
+                rest: rest,
+                decimalAnswer: decimalAnswer
             });
         }
 
@@ -557,7 +615,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderLdGrid(divisions, showAnswers) {
-        var cols = 3;
         var html = '<div class="wb-ld-grid">';
 
         for (var i = 0; i < divisions.length; i++) {
@@ -569,21 +626,21 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '<span>' + div.deeltal + '</span>';
             html += ' \\ ';
             if (showAnswers) {
-                html += '<span class="wb-ld-answer">' + div.quotient;
-                if (div.rest > 0) html += ' rest ' + div.rest;
-                html += '</span>';
+                if (div.decimalAnswer !== null) {
+                    html += '<span class="wb-ld-answer">' + div.decimalAnswer + '</span>';
+                } else {
+                    html += '<span class="wb-ld-answer">' + div.quotient;
+                    if (div.rest > 0) html += ' rest ' + div.rest;
+                    html += '</span>';
+                }
             } else {
                 html += '<span class="wb-ld-blank">___</span>';
             }
             html += '</div>';
 
-            // Work space with dotted lines
+            // Empty work space
             if (!showAnswers) {
-                html += '<div class="wb-ld-work">';
-                for (var l = 0; l < 4; l++) {
-                    html += '<div class="wb-ld-work-line"></div>';
-                }
-                html += '</div>';
+                html += '<div class="wb-ld-work"></div>';
             }
 
             html += '</div>';
@@ -658,8 +715,13 @@ document.addEventListener('DOMContentLoaded', function () {
             doc.text(notation, x, y);
 
             if (isAnswers) {
-                var ansText = div.quotient.toString();
-                if (div.rest > 0) ansText += ' rest ' + div.rest;
+                var ansText;
+                if (div.decimalAnswer !== null) {
+                    ansText = div.decimalAnswer.toString();
+                } else {
+                    ansText = div.quotient.toString();
+                    if (div.rest > 0) ansText += ' rest ' + div.rest;
+                }
                 doc.setFont('courier', 'bold');
                 doc.setTextColor(108, 99, 255);
                 var notationW = doc.getTextWidth(notation);
@@ -670,14 +732,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 doc.setDrawColor(200, 200, 210);
                 doc.setLineWidth(0.3);
                 doc.line(x + notationW, y, x + notationW + 12, y);
-
-                // Draw work lines below
-                doc.setDrawColor(220, 220, 230);
-                doc.setLineWidth(0.2);
-                for (var l = 1; l <= 5; l++) {
-                    var lineY = y + l * 8;
-                    doc.line(x, lineY, x + colW, lineY);
-                }
             }
         }
 

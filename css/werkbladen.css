@@ -273,6 +273,18 @@
     overflow: hidden;
 }
 
+.wb-switch-triple {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.wb-switch-triple .wb-switch-btn {
+    border-right: 1.5px solid #D8D8E8;
+}
+
+.wb-switch-triple .wb-switch-btn:last-child {
+    border-right: none;
+}
+
 .wb-switch-btn {
     padding: 12px 16px;
     border: none;
@@ -548,14 +560,7 @@
 
 .wb-ld-work {
     flex: 1;
-    border-top: 1px solid #E8E8F0;
     margin-top: 4px;
-    /* Empty space for student work */
-}
-
-.wb-ld-work-line {
-    border-bottom: 1px dotted #E0E0EC;
-    height: 14px;
 }
 
 /* Coming soon for other types */
