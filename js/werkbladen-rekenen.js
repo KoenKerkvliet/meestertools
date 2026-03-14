@@ -805,27 +805,27 @@ document.addEventListener('DOMContentLoaded', function () {
         var contentW = pageW - margin * 2;
 
         // Title (left-aligned)
-        doc.setFontSize(20);
+        doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(50, 50, 70);
         var titleText = settings.title;
         if (isAnswers) titleText += ' - Antwoordblad';
-        doc.text(titleText, margin, margin + 8);
+        doc.text(titleText, margin, margin + 7);
 
         // Date (right-aligned)
         if (settings.date) {
-            doc.setFontSize(11);
+            doc.setFontSize(10);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(100, 100, 110);
             var dateDisplay = settings.datePrefix ? settings.datePrefix + ' ' + settings.date : settings.date;
-            doc.text(dateDisplay, pageW - margin, margin + 8, { align: 'right' });
+            doc.text(dateDisplay, pageW - margin, margin + 7, { align: 'right' });
         }
 
-        var yPos = margin + 14;
+        var yPos = margin + 16;
 
         // Name field (above separator)
         if (settings.showName) {
-            doc.setFontSize(11);
+            doc.setFontSize(10);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(100, 100, 110);
             doc.text('Naam: ___________________________', margin, yPos);
