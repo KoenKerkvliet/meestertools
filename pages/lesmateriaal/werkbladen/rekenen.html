@@ -384,6 +384,46 @@
                     </div>
                 </div>
 
+                <div class="wb-field" id="fracAddOptions" style="display:none;">
+                    <label>Optellen opties</label>
+                    <div class="wb-suboptions wb-toggles-three">
+                        <button class="wb-suboption active" data-fracadd="kleiner1">Antwoord &lt; 1</button>
+                        <button class="wb-suboption" data-fracadd="soms">Soms &gt; 1</button>
+                        <button class="wb-suboption" data-fracadd="groter1">Altijd &gt; 1</button>
+                    </div>
+                    <input type="hidden" id="wbFracAddOpt" value="kleiner1">
+                </div>
+
+                <div class="wb-field" id="fracSubOptions" style="display:none;">
+                    <label>Aftrekken opties</label>
+                    <div class="wb-suboptions wb-toggles-three">
+                        <button class="wb-suboption active" data-fracsub="gewoon">Zonder helen</button>
+                        <button class="wb-suboption" data-fracsub="methelen">Met helen</button>
+                        <button class="wb-suboption" data-fracsub="beidehelen">Beide met helen</button>
+                    </div>
+                    <input type="hidden" id="wbFracSubOpt" value="gewoon">
+                </div>
+
+                <div class="wb-field" id="fracMulOptions" style="display:none;">
+                    <label>Vermenigvuldigen opties</label>
+                    <div class="wb-suboptions wb-toggles-three">
+                        <button class="wb-suboption active" data-fracmul="breukxbreuk">Breuk &times; breuk</button>
+                        <button class="wb-suboption" data-fracmul="breukxheel">Breuk &times; heel getal</button>
+                        <button class="wb-suboption" data-fracmul="gemengd">Gemengd</button>
+                    </div>
+                    <input type="hidden" id="wbFracMulOpt" value="breukxbreuk">
+                </div>
+
+                <div class="wb-field" id="fracDivOptions" style="display:none;">
+                    <label>Delen opties</label>
+                    <div class="wb-suboptions wb-toggles-three">
+                        <button class="wb-suboption active" data-fracdiv="breukdbreuk">Breuk &divide; breuk</button>
+                        <button class="wb-suboption" data-fracdiv="breukdheel">Breuk &divide; heel getal</button>
+                        <button class="wb-suboption" data-fracdiv="gemengd">Gemengd</button>
+                    </div>
+                    <input type="hidden" id="wbFracDivOpt" value="breukdbreuk">
+                </div>
+
                 <div class="wb-field" id="fracLevelOptions">
                     <label>Moeilijkheidsgraad</label>
                     <div class="wb-suboptions">

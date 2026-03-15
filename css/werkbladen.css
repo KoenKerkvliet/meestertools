@@ -699,8 +699,10 @@
 
 .wb-frac-blank .wb-frac-num,
 .wb-frac-blank .wb-frac-den {
-    color: transparent;
+    color: #ccc;
     min-width: 14px;
+    font-size: 0.7em;
+    letter-spacing: 1px;
 }
 
 .wb-frac-blank .wb-frac-num {

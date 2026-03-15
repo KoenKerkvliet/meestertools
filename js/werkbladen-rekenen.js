@@ -361,10 +361,52 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ---------- Breuken Operation Toggles ----------
+    var fracAddOptions = document.getElementById('fracAddOptions');
+    var fracSubOptions = document.getElementById('fracSubOptions');
+    var fracMulOptions = document.getElementById('fracMulOptions');
+    var fracDivOptions = document.getElementById('fracDivOptions');
+
+    function updateFracOpSubOptions() {
+        var addActive = document.querySelector('.wb-toggle-wide[data-fracop="+"].active');
+        var subActive = document.querySelector('.wb-toggle-wide[data-fracop="-"].active');
+        var mulActive = document.querySelector('.wb-toggle-wide[data-fracop="*"].active');
+        var divActive = document.querySelector('.wb-toggle-wide[data-fracop="/"].active');
+        if (fracAddOptions) fracAddOptions.style.display = addActive ? '' : 'none';
+        if (fracSubOptions) fracSubOptions.style.display = subActive ? '' : 'none';
+        if (fracMulOptions) fracMulOptions.style.display = mulActive ? '' : 'none';
+        if (fracDivOptions) fracDivOptions.style.display = divActive ? '' : 'none';
+    }
+
     document.querySelectorAll('.wb-toggle-wide[data-fracop]').forEach(function (btn) {
         btn.addEventListener('click', function () {
             this.classList.toggle('active');
+            updateFracOpSubOptions();
             hidePreview();
+        });
+    });
+
+    // Show sub-options for initially active ops
+    updateFracOpSubOptions();
+
+    // ---------- Breuken Sub-option groups ----------
+    var fracSubOptionGroups = ['fracadd', 'fracsub', 'fracmul', 'fracdiv'];
+    var fracSubOptionHiddens = {
+        fracadd: 'wbFracAddOpt',
+        fracsub: 'wbFracSubOpt',
+        fracmul: 'wbFracMulOpt',
+        fracdiv: 'wbFracDivOpt'
+    };
+    fracSubOptionGroups.forEach(function (group) {
+        document.querySelectorAll('.wb-suboption[data-' + group + ']').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.wb-suboption[data-' + group + ']').forEach(function (b) {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+                var hiddenId = fracSubOptionHiddens[group];
+                if (hiddenId) document.getElementById(hiddenId).value = this.getAttribute('data-' + group);
+                hidePreview();
+            });
         });
     });
 
@@ -395,6 +437,15 @@ document.addEventListener('DOMContentLoaded', function () {
             // Show/hide rekenen-specific options
             if (fracRekenenOptions) fracRekenenOptions.style.display = val === 'rekenen' ? '' : 'none';
             if (fracLevelOptions) fracLevelOptions.style.display = val === 'rekenen' ? '' : 'none';
+            // Hide all op sub-options when not rekenen
+            if (val !== 'rekenen') {
+                if (fracAddOptions) fracAddOptions.style.display = 'none';
+                if (fracSubOptions) fracSubOptions.style.display = 'none';
+                if (fracMulOptions) fracMulOptions.style.display = 'none';
+                if (fracDivOptions) fracDivOptions.style.display = 'none';
+            } else {
+                updateFracOpSubOptions();
+            }
             // Adjust default count: rekenen 40 (2x4x5), vereenvoudigen/helen 60 (3x4x5)
             var defaultCount = val === 'rekenen' ? 40 : 60;
             fracCountInput.value = defaultCount;
@@ -1530,14 +1581,23 @@ document.addEventListener('DOMContentLoaded', function () {
             ops: activeFracOps,
             level: document.getElementById('wbFracLevel').value || 'gelijknamig',
             maxDen: Math.max(2, parseInt(fracMaxDenInput.value) || 12),
+            addOpt: document.getElementById('wbFracAddOpt').value || 'kleiner1',
+            subOpt: document.getElementById('wbFracSubOpt').value || 'gewoon',
+            mulOpt: document.getElementById('wbFracMulOpt').value || 'breukxbreuk',
+            divOpt: document.getElementById('wbFracDivOpt').value || 'breukdbreuk',
             answerSheet: document.getElementById('wbFracAnswerSheet').checked
         };
+    }
+
+    // Helper: random int in range [min, max]
+    function randInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     function generateFracSums(settings) {
         var sums = [];
         var used = {};
-        var maxAttempts = settings.count * 200;
+        var maxAttempts = settings.count * 300;
         var attempts = 0;
 
         while (sums.length < settings.count && attempts < maxAttempts) {
@@ -1545,59 +1605,137 @@ document.addEventListener('DOMContentLoaded', function () {
             var op = settings.ops[Math.floor(Math.random() * settings.ops.length)];
             var den1, den2, num1, num2, resDen, resNum;
 
-            if (settings.level === 'gelijknamig') {
-                // Same denominator
-                den1 = Math.floor(Math.random() * (settings.maxDen - 1)) + 2;
-                den2 = den1;
+            // --- Determine denominators ---
+            if (op === '+' || op === '-') {
+                if (settings.level === 'gelijknamig') {
+                    den1 = randInt(2, settings.maxDen);
+                    den2 = den1;
+                } else {
+                    den1 = randInt(2, settings.maxDen);
+                    den2 = randInt(2, settings.maxDen);
+                    if (den1 === den2) den2 = den1 < settings.maxDen ? den1 + 1 : den1 - 1;
+                }
             } else {
-                // Different denominators
-                den1 = Math.floor(Math.random() * (settings.maxDen - 1)) + 2;
-                den2 = Math.floor(Math.random() * (settings.maxDen - 1)) + 2;
-                if (den1 === den2) den2 = den1 < settings.maxDen ? den1 + 1 : den1 - 1;
+                den1 = randInt(2, settings.maxDen);
+                den2 = randInt(2, settings.maxDen);
             }
 
-            if (op === '+' || op === '-') {
-                num1 = Math.floor(Math.random() * (den1 - 1)) + 1;
-                num2 = Math.floor(Math.random() * (den2 - 1)) + 1;
+            // --- Generate per operation ---
+            if (op === '+') {
+                var opt = settings.addOpt || 'kleiner1';
+                if (opt === 'groter1') {
+                    // Both nums > half den so sum > 1
+                    num1 = randInt(Math.ceil(den1 / 2), den1 - 1);
+                    num2 = randInt(Math.ceil(den2 / 2), den2 - 1);
+                } else if (opt === 'kleiner1') {
+                    num1 = randInt(1, den1 - 1);
+                    num2 = randInt(1, den2 - 1);
+                } else {
+                    // soms: random
+                    num1 = randInt(1, den1 - 1);
+                    num2 = randInt(1, den2 - 1);
+                }
 
                 if (settings.level === 'gelijknamig') {
-                    resNum = op === '+' ? num1 + num2 : num1 - num2;
+                    resNum = num1 + num2;
                     resDen = den1;
                 } else {
-                    // Common denominator = lcm
                     var g = gcd(den1, den2);
                     var commonDen = (den1 * den2) / g;
                     if (commonDen > 100) continue;
-                    var adjNum1 = num1 * (commonDen / den1);
-                    var adjNum2 = num2 * (commonDen / den2);
-                    resNum = op === '+' ? adjNum1 + adjNum2 : adjNum1 - adjNum2;
+                    resNum = num1 * (commonDen / den1) + num2 * (commonDen / den2);
                     resDen = commonDen;
                 }
 
                 if (resNum <= 0) continue;
+                // Filter based on addOpt
+                if (opt === 'kleiner1' && resNum >= resDen) continue;
+                if (opt === 'groter1' && resNum <= resDen) continue;
+
+            } else if (op === '-') {
+                var subOpt = settings.subOpt || 'gewoon';
+                if (subOpt === 'gewoon') {
+                    // Zonder helen: gewone breuken < 1
+                    num1 = randInt(1, den1 - 1);
+                    num2 = randInt(1, den2 - 1);
+                } else if (subOpt === 'methelen') {
+                    // Met helen: eerste getal is gemengd (> 1)
+                    var helen1 = randInt(1, 4);
+                    num1 = helen1 * den1 + randInt(1, den1 - 1);
+                    num2 = randInt(1, den2 - 1);
+                } else {
+                    // Beide met helen
+                    var helen1 = randInt(2, 5);
+                    num1 = helen1 * den1 + randInt(1, den1 - 1);
+                    var helen2 = randInt(1, helen1 - 1);
+                    num2 = helen2 * den2 + randInt(1, den2 - 1);
+                }
+
+                if (settings.level === 'gelijknamig') {
+                    resNum = num1 - num2;
+                    resDen = den1;
+                } else {
+                    var g = gcd(den1, den2);
+                    var commonDen = (den1 * den2) / g;
+                    if (commonDen > 100) continue;
+                    resNum = num1 * (commonDen / den1) - num2 * (commonDen / den2);
+                    resDen = commonDen;
+                }
+
+                if (resNum <= 0) continue;
+
             } else if (op === '*') {
-                num1 = Math.floor(Math.random() * (den1 - 1)) + 1;
-                num2 = Math.floor(Math.random() * (den2 - 1)) + 1;
+                var mulOpt = settings.mulOpt || 'breukxbreuk';
+                if (mulOpt === 'breukxheel') {
+                    num1 = randInt(1, den1 - 1);
+                    num2 = randInt(2, 10);
+                    den2 = 1;
+                } else if (mulOpt === 'gemengd') {
+                    if (Math.random() < 0.5) {
+                        num1 = randInt(1, den1 - 1);
+                        num2 = randInt(2, 10);
+                        den2 = 1;
+                    } else {
+                        num1 = randInt(1, den1 - 1);
+                        num2 = randInt(1, den2 - 1);
+                    }
+                } else {
+                    num1 = randInt(1, den1 - 1);
+                    num2 = randInt(1, den2 - 1);
+                }
                 resNum = num1 * num2;
                 resDen = den1 * den2;
                 if (resDen > 100) continue;
+
             } else {
-                // Division: a/b ÷ c/d = a/b × d/c = (a*d)/(b*c)
-                num1 = Math.floor(Math.random() * (den1 - 1)) + 1;
-                num2 = Math.floor(Math.random() * (den2 - 1)) + 1;
+                // Division: a/b ÷ c/d = (a*d)/(b*c)
+                var divOpt = settings.divOpt || 'breukdbreuk';
+                if (divOpt === 'breukdheel') {
+                    num1 = randInt(1, den1 - 1);
+                    num2 = randInt(2, 10);
+                    den2 = 1;
+                } else if (divOpt === 'gemengd') {
+                    if (Math.random() < 0.5) {
+                        num1 = randInt(1, den1 - 1);
+                        num2 = randInt(2, 10);
+                        den2 = 1;
+                    } else {
+                        num1 = randInt(1, den1 - 1);
+                        num2 = randInt(1, den2 - 1);
+                    }
+                } else {
+                    num1 = randInt(1, den1 - 1);
+                    num2 = randInt(1, den2 - 1);
+                }
                 resNum = num1 * den2;
                 resDen = den1 * num2;
                 if (resDen > 100 || resDen === 0) continue;
             }
 
             // Simplify result
-            var g2 = gcd(Math.abs(resNum), resDen);
-            resNum = resNum / g2;
-            resDen = resDen / g2;
-
-            // Also simplify input fractions for display
-            var g1a = gcd(num1, den1);
-            var g1b = gcd(num2, den2);
+            var gs = gcd(Math.abs(resNum), Math.abs(resDen));
+            resNum = resNum / gs;
+            resDen = resDen / gs;
 
             var key = num1 + '/' + den1 + op + num2 + '/' + den2;
             if (used[key]) continue;
@@ -1711,6 +1849,26 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Helper: render fraction answer, showing mixed number when num >= den
+    function renderFracAnswerHtml(num, den) {
+        if (den === 1) return '<span>' + num + '</span>';
+        if (num < den) return renderFracHtml(num + '/' + den, false);
+        var whole = Math.floor(num / den);
+        var rest = num % den;
+        if (rest === 0) return '<span>' + whole + '</span>';
+        return '<span>' + whole + ' </span>' + renderFracHtml(rest + '/' + den, false);
+    }
+
+    // Helper: render fraction input (num1/den1) - shows mixed number for nums > den
+    function renderFracInputHtml(num, den) {
+        if (den === 1) return '<span>' + num + '</span>';
+        if (num <= den) return renderFracHtml(num + '/' + den, false);
+        var whole = Math.floor(num / den);
+        var rest = num % den;
+        if (rest === 0) return '<span>' + whole + '</span>';
+        return '<span>' + whole + ' </span>' + renderFracHtml(rest + '/' + den, false);
+    }
+
     // Helper: render helen answer as "2 1/3" (whole + fraction)
     function renderHelenAnswer(helen, restNum, restDen, isBlank) {
         if (isBlank) {
@@ -1758,13 +1916,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                         html += '</div>';
                     } else {
-                        html += '<div class="wb-preview-sum" style="grid-template-columns: 3ch 2ch 3ch 2ch 4ch; align-items: center;">';
-                        html += '<span>' + renderFracHtml(s.num1 + '/' + s.den1, false) + '</span>';
+                        html += '<div class="wb-preview-sum" style="grid-template-columns: 5ch 2ch 5ch 2ch 6ch; align-items: center;">';
+                        html += '<span>' + renderFracInputHtml(s.num1, s.den1) + '</span>';
                         html += '<span class="wb-preview-eq">' + opSymbolHtml(s.op) + '</span>';
-                        html += '<span>' + renderFracHtml(s.num2 + '/' + s.den2, false) + '</span>';
+                        html += '<span>' + renderFracInputHtml(s.num2, s.den2) + '</span>';
                         html += '<span class="wb-preview-eq">=</span>';
                         if (showAnswers) {
-                            html += '<span class="wb-preview-answer">' + renderFracHtml(s.resNum + '/' + s.resDen, false) + '</span>';
+                            html += '<span class="wb-preview-answer">' + renderFracAnswerHtml(s.resNum, s.resDen) + '</span>';
                         } else {
                             html += '<span>' + renderFracHtml('?/?', true) + '</span>';
                         }
@@ -1922,8 +2080,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             doc.line(xPos, currentY, xPos + fracW * 2, currentY);
                         }
                     } else {
-                        // Rekenen: breuk op breuk = antwoord
-                        drawFractionPdf(doc, s.num1 + '/' + s.den1, xPos + fracW, currentY, [50, 50, 70]);
+                        // Rekenen: breuk op breuk = antwoord (with mixed numbers)
+                        drawMixedFracPdf(doc, s.num1, s.den1, xPos + fracW, currentY, [50, 50, 70]);
                         xPos += fracW;
 
                         doc.setFontSize(11);
@@ -1932,7 +2090,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         doc.text(opSymbolPdfFrac(s.op), xPos + opW / 2, currentY, { align: 'center' });
                         xPos += opW;
 
-                        drawFractionPdf(doc, s.num2 + '/' + s.den2, xPos + fracW, currentY, [50, 50, 70]);
+                        drawMixedFracPdf(doc, s.num2, s.den2, xPos + fracW, currentY, [50, 50, 70]);
                         xPos += fracW;
 
                         doc.setFontSize(11);
@@ -1941,7 +2099,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         xPos += eqW;
 
                         if (isAnswers) {
-                            drawFractionPdf(doc, s.resNum + '/' + s.resDen, xPos + fracW, currentY, [108, 99, 255]);
+                            drawMixedFracPdf(doc, s.resNum, s.resDen, xPos + fracW, currentY, [108, 99, 255]);
                         } else {
                             drawFractionPdf(doc, '?/?', xPos + fracW, currentY, null);
                         }
@@ -2669,6 +2827,42 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Draw fraction or mixed number in PDF
+    // If num >= den, shows as whole + fraction (e.g. 2 1/3)
+    function drawMixedFracPdf(doc, num, den, rightX, baseY, color) {
+        if (den === 1) {
+            doc.setFontSize(11);
+            doc.setFont('helvetica', color[0] === 108 ? 'bold' : 'normal');
+            doc.setTextColor(color[0], color[1], color[2]);
+            doc.text(String(num), rightX, baseY, { align: 'right' });
+            return;
+        }
+        if (num < den) {
+            drawFractionPdf(doc, num + '/' + den, rightX, baseY, color);
+            return;
+        }
+        var whole = Math.floor(num / den);
+        var rest = num % den;
+        if (rest === 0) {
+            doc.setFontSize(11);
+            doc.setFont('helvetica', color[0] === 108 ? 'bold' : 'normal');
+            doc.setTextColor(color[0], color[1], color[2]);
+            doc.text(String(whole), rightX, baseY, { align: 'right' });
+            return;
+        }
+        // Draw fraction part first (right-aligned at rightX)
+        doc.setFontSize(9);
+        var numW = doc.getTextWidth(String(rest));
+        var denW = doc.getTextWidth(String(den));
+        var fracW = Math.max(numW, denW) + 2;
+        drawFractionPdf(doc, rest + '/' + den, rightX, baseY, color);
+        // Draw whole number to the left of fraction
+        doc.setFontSize(11);
+        doc.setFont('helvetica', color[0] === 108 ? 'bold' : 'normal');
+        doc.setTextColor(color[0], color[1], color[2]);
+        doc.text(String(whole) + ' ', rightX - fracW, baseY, { align: 'right' });
+    }
+
     // Draw stacked fraction in PDF: num over den with horizontal line
     // rightX = right edge of fraction column, baseY = text baseline
     // color = [r,g,b] for text, null = blank placeholder
@@ -2736,8 +2930,13 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderFracHtml(breukStr, isBlank) {
         var parts = breukStr.split('/');
         if (parts.length !== 2) return escapeHtml(breukStr);
-        var cls = isBlank ? 'wb-frac wb-frac-blank' : 'wb-frac';
-        return '<span class="' + cls + '">' +
+        if (isBlank) {
+            return '<span class="wb-frac wb-frac-blank">' +
+                '<span class="wb-frac-num">...</span>' +
+                '<span class="wb-frac-den">...</span>' +
+                '</span>';
+        }
+        return '<span class="wb-frac">' +
             '<span class="wb-frac-num">' + escapeHtml(parts[0]) + '</span>' +
             '<span class="wb-frac-den">' + escapeHtml(parts[1]) + '</span>' +
             '</span>';
