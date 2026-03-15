@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meestertools - Werkblad Spelling</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/instellingen.css">
+    <link rel="stylesheet" href="../../../css/werkbladen.css">
+</head>
+<body>
+    <header class="app-header">
+        <a href="../../../dashboard" class="header-logo">
+            <span class="logo-icon">&#127891;</span>
+            Meestertools
+        </a>
+        <div class="header-profile">
+            <button class="profile-btn" id="profileBtn" title="Profiel">?</button>
+            <div class="profile-dropdown" id="profileDropdown">
+                <div class="dropdown-header">
+                    <div class="name">Laden...</div>
+                    <div class="email"></div>
+                </div>
+                <div class="dropdown-item" onclick="window.location.href='#'">&#9881;&#65039; Instellingen</div>
+                <div class="dropdown-item" onclick="window.location.href='#'">&#128100; Mijn profiel</div>
+                <div class="dropdown-item" onclick="window.location.href='#'">&#10067; Help</div>
+                <div class="dropdown-item logout">&#128682; Uitloggen</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../werkbladen" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Werkblad Spelling</h1>
+                <p>Genereer werkbladen voor werkwoordspelling en spelling.</p>
+            </div>
+        </div>
+
+        <div class="tool-page-body">
+            <!-- Sectie 1: Algemene instellingen -->
+            <div class="wb-section">
+                <h3 class="wb-section-title">Algemene instellingen</h3>
+
+                <div class="wb-row">
+                    <div class="wb-field">
+                        <label for="wbSpTitle">Titel werkblad</label>
+                        <input type="text" id="wbSpTitle" class="wb-input" placeholder="Spellingwerkblad" value="Spellingwerkblad">
+                    </div>
+                    <div class="wb-field wb-field-name">
+                        <label>Naamveld toevoegen</label>
+                        <div class="wb-switch-group wb-switch-small">
+                            <button class="wb-switch-btn active" data-spnamefield="ja">Ja</button>
+                            <button class="wb-switch-btn" data-spnamefield="nee">Nee</button>
+                        </div>
+                        <input type="hidden" id="wbSpNameField" value="ja">
+                    </div>
+                </div>
+
+                <div class="wb-row wb-row-date">
+                    <div class="wb-field wb-field-name">
+                        <label>Datum toevoegen</label>
+                        <div class="wb-switch-group wb-switch-small">
+                            <button class="wb-switch-btn" data-spdatefield="ja">Ja</button>
+                            <button class="wb-switch-btn active" data-spdatefield="nee">Nee</button>
+                        </div>
+                        <input type="hidden" id="wbSpDateField" value="nee">
+                    </div>
+                    <div class="wb-field" id="spDatePrefix" style="display:none;">
+                        <label for="wbSpDatePrefix">Prefix (optioneel)</label>
+                        <input type="text" id="wbSpDatePrefix" class="wb-input" placeholder="Bijv. Huiswerk voor">
+                    </div>
+                    <div class="wb-field wb-field-date" id="spDatePicker" style="display:none;">
+                        <label for="wbSpDate">Datum</label>
+                        <div class="wb-date-row">
+                            <span class="wb-date-icon">&#128197;</span>
+                            <input type="date" id="wbSpDate" class="wb-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sectie 2: Type werkblad -->
+            <div class="wb-section">
+                <h3 class="wb-section-title">Type werkblad</h3>
+
+                <div class="wb-type-cards">
+                    <button class="wb-type-card active" data-sptype="werkwoordspelling">
+                        <span class="wb-type-label">Werkwoordspelling</span>
+                    </button>
+                    <button class="wb-type-card" data-sptype="spelling">
+                        <span class="wb-type-label">Spelling</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sectie 3: Instellingen werkwoordspelling -->
+            <div class="wb-section" id="settingsWerkwoordspelling">
+                <h3 class="wb-section-title">Instellingen</h3>
+
+                <div class="wb-coming-soon">
+                    <div class="wb-coming-icon">&#128679;</div>
+                    <p>De instellingen voor werkwoordspelling worden binnenkort toegevoegd.</p>
+                </div>
+            </div>
+
+            <!-- Sectie 3: Instellingen spelling -->
+            <div class="wb-section" id="settingsSpelling" style="display:none;">
+                <h3 class="wb-section-title">Instellingen</h3>
+
+                <div class="wb-coming-soon">
+                    <div class="wb-coming-icon">&#128679;</div>
+                    <p>De instellingen voor spelling worden binnenkort toegevoegd.</p>
+                </div>
+            </div>
+
+            <!-- Gedeelde actie-knop -->
+            <div class="wb-section" id="spGenerateSection" style="display:none;">
+                <div class="wb-actions">
+                    <button class="btn-primary wb-generate-btn" id="btnSpGenerate">&#128065; Voorbeeld bekijken</button>
+                </div>
+            </div>
+
+            <!-- Preview + Download -->
+            <div class="wb-section" id="spPreviewSection" style="display:none;">
+                <div class="wb-preview-header">
+                    <h3 class="wb-section-title">Voorbeeld</h3>
+                    <button class="btn-primary wb-download-btn" id="btnSpDownloadPdf">&#128229; Download PDF</button>
+                </div>
+                <div class="wb-preview" id="wbSpPreview"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <div class="footer-inner">
+            <span class="footer-left">&copy; <span id="footerYear"></span> Meestertools &middot; Design by <a href="https://designpixels.nl" target="_blank" rel="noopener">Design Pixels</a></span>
+            <a href="../../../changelog" class="version">v0.0.2</a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+    <script src="../../../js/supabase-config.js"></script>
+    <script src="../../../js/app.js"></script>
+    <script src="../../../js/instellingen.js"></script>
+    <script src="../../../js/werkbladen-spelling.js"></script>
+</body>
+</html>
