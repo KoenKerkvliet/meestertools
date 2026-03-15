@@ -976,28 +976,29 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Group by werkwoord
+        // Group by vorm
+        const vormOrder = ['ik', 'jij', 'hij', 'wij', 'vd', 'bvd'];
+        const vormLabels = { ik: 'ik-vorm', jij: 'jij-vorm', hij: 'hij-vorm', wij: 'wij-vorm', vd: 'voltooid deelwoord', bvd: 'bijv. gebr. vd' };
         const groups = {};
         allSpellingSentences.forEach(s => {
-            const key = s.werkwoord || 'Onbekend';
+            const key = s.vorm || 'ik';
             if (!groups[key]) groups[key] = [];
             groups[key].push(s);
         });
 
-        const vormLabels = { ik: 'ik', jij: 'jij', hij: 'hij', wij: 'wij', vd: 'vd', bvd: 'bvd' };
-        const sortedKeys = Object.keys(groups).sort((a, b) => a.localeCompare(b));
+        const sortedKeys = vormOrder.filter(k => groups[k] && groups[k].length > 0);
 
         container.innerHTML = '';
 
-        sortedKeys.forEach(werkwoord => {
-            const sentences = groups[werkwoord];
+        sortedKeys.forEach(vorm => {
+            const sentences = groups[vorm];
 
             const section = document.createElement('div');
             section.className = 'level-section';
 
             const header = document.createElement('div');
             header.className = 'level-section-header';
-            header.innerHTML = '<span class="level-section-title">' + escapeHtml(werkwoord) + '</span>' +
+            header.innerHTML = '<span class="level-section-title">' + escapeHtml(vormLabels[vorm] || vorm) + '</span>' +
                 '<span class="level-section-count">' + sentences.length + '</span>' +
                 '<span class="level-section-toggle">&#9660;</span>';
             section.appendChild(header);
@@ -1008,17 +1009,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const table = document.createElement('table');
             table.className = 'admin-table';
             table.style.fontSize = '13px';
-            table.innerHTML = '<thead><tr><th>Tijd</th><th>Vorm</th><th>Zin</th><th>Antwoord</th><th>Sterk</th><th>Acties</th></tr></thead>';
+            table.innerHTML = '<thead><tr><th>Tijd</th><th>Werkwoord</th><th>Zin</th><th>Sterk</th><th>Acties</th></tr></thead>';
 
             const tbody = document.createElement('tbody');
             sentences.forEach(s => {
-                const zinDisplay = (s.zin_begin ? s.zin_begin + ' ' : '') + '___' + (s.zin_einde ? ' ' + s.zin_einde : '');
+                let zinDisplay = s.zin_begin || '';
+                if (s.antwoord) zinDisplay += (zinDisplay ? ' ' : '') + '[' + s.antwoord + ']';
+                if (s.zin_vervolg) zinDisplay += ' ' + s.zin_vervolg;
+                if (s.antwoord2) zinDisplay += ' [' + s.antwoord2 + ']';
+                if (s.zin_einde) zinDisplay += ' ' + s.zin_einde;
+
                 const tr = document.createElement('tr');
                 tr.innerHTML =
                     '<td>' + (s.tijd === 'tt' ? 'tt' : 'vt') + '</td>' +
-                    '<td>' + escapeHtml(vormLabels[s.vorm] || s.vorm || '-') + '</td>' +
+                    '<td><em>' + escapeHtml(s.werkwoord) + '</em></td>' +
                     '<td>' + escapeHtml(zinDisplay) + '</td>' +
-                    '<td><strong>' + escapeHtml(s.antwoord) + '</strong></td>' +
                     '<td>' + (s.sterk ? '&#10004;' : '') + '</td>' +
                     '<td class="actions">' +
                         '<button class="btn-small btn-edit" data-sp-edit="' + s.id + '">Bewerken</button>' +
@@ -1059,11 +1064,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const vorm = document.getElementById('spNewVorm')?.value || 'ik';
         const sterk = document.getElementById('spNewSterk')?.checked || false;
         const zinBegin = document.getElementById('spNewZinBegin')?.value.trim() || '';
-        const antwoord = document.getElementById('spNewAntwoord')?.value.trim();
+        const antwoord = document.getElementById('spNewAntwoord')?.value.trim() || '';
+        const zinVervolg = document.getElementById('spNewZinVervolg')?.value.trim() || '';
+        const antwoord2 = document.getElementById('spNewAntwoord2')?.value.trim() || '';
         const zinEinde = document.getElementById('spNewZinEinde')?.value.trim() || '';
 
         if (!werkwoord) { alert('Vul een werkwoord in.'); return; }
-        if (!antwoord) { alert('Vul het antwoord (vervoegd werkwoord) in.'); return; }
+        if (!antwoord && !antwoord2) { alert('Vul minimaal één antwoord in.'); return; }
 
         const { error } = await supabase
             .from('spelling_sentences')
@@ -1073,6 +1080,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 werkwoord: werkwoord,
                 zin_begin: zinBegin,
                 antwoord: antwoord,
+                zin_vervolg: zinVervolg,
+                antwoord2: antwoord2,
                 zin_einde: zinEinde,
                 vorm: vorm,
                 sterk: sterk
@@ -1086,6 +1095,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clear inputs
         document.getElementById('spNewZinBegin').value = '';
         document.getElementById('spNewAntwoord').value = '';
+        document.getElementById('spNewZinVervolg').value = '';
+        document.getElementById('spNewAntwoord2').value = '';
         document.getElementById('spNewZinEinde').value = '';
         document.getElementById('spNewZinBegin').focus();
         await loadSpellingSentences();
@@ -1103,6 +1114,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('editSpSterk').checked = s.sterk || false;
         document.getElementById('editSpZinBegin').value = s.zin_begin || '';
         document.getElementById('editSpAntwoord').value = s.antwoord || '';
+        document.getElementById('editSpZinVervolg').value = s.zin_vervolg || '';
+        document.getElementById('editSpAntwoord2').value = s.antwoord2 || '';
         document.getElementById('editSpZinEinde').value = s.zin_einde || '';
         openModal('spSentenceModal');
     }
@@ -1116,10 +1129,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const sterk = document.getElementById('editSpSterk').checked;
         const zinBegin = document.getElementById('editSpZinBegin').value.trim();
         const antwoord = document.getElementById('editSpAntwoord').value.trim();
+        const zinVervolg = document.getElementById('editSpZinVervolg').value.trim();
+        const antwoord2 = document.getElementById('editSpAntwoord2').value.trim();
         const zinEinde = document.getElementById('editSpZinEinde').value.trim();
 
         if (!werkwoord) { alert('Vul een werkwoord in.'); return; }
-        if (!antwoord) { alert('Vul het antwoord in.'); return; }
+        if (!antwoord && !antwoord2) { alert('Vul minimaal één antwoord in.'); return; }
 
         const { error } = await supabase
             .from('spelling_sentences')
@@ -1128,6 +1143,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 werkwoord: werkwoord,
                 zin_begin: zinBegin,
                 antwoord: antwoord,
+                zin_vervolg: zinVervolg,
+                antwoord2: antwoord2,
                 zin_einde: zinEinde,
                 vorm: vorm,
                 sterk: sterk

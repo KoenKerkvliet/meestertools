@@ -305,12 +305,25 @@ document.addEventListener('DOMContentLoaded', function () {
             var nr = idx + 1;
             var zin = '';
             if (s.zin_begin) zin += escapeHtml(s.zin_begin) + ' ';
-            if (isAnswers) {
-                zin += '<span class="wb-sp-answer">' + escapeHtml(s.antwoord) + '</span>';
-            } else {
-                zin += '<span class="wb-sp-blank">____________</span>';
+            if (s.antwoord) {
+                if (isAnswers) {
+                    zin += '<span class="wb-sp-answer">' + escapeHtml(s.antwoord) + '</span>';
+                } else {
+                    zin += '<span class="wb-sp-blank">____________</span>';
+                }
+                zin += ' ';
             }
-            if (s.zin_einde) zin += ' ' + escapeHtml(s.zin_einde);
+            if (s.zin_vervolg) zin += escapeHtml(s.zin_vervolg) + ' ';
+            if (s.antwoord2) {
+                if (isAnswers) {
+                    zin += '<span class="wb-sp-answer">' + escapeHtml(s.antwoord2) + '</span>';
+                } else {
+                    zin += '<span class="wb-sp-blank">____________</span>';
+                }
+                zin += ' ';
+            }
+            if (s.zin_einde) zin += escapeHtml(s.zin_einde);
+            zin = zin.trim();
 
             html += '<tr>';
             html += '<td style="color:#999;">' + nr + '</td>';
@@ -500,37 +513,61 @@ document.addEventListener('DOMContentLoaded', function () {
             doc.setFontSize(10);
             doc.setTextColor(30, 30, 30);
 
+            // Build full sentence for non-answer display
             var zinParts = '';
             if (s.zin_begin) zinParts += s.zin_begin + ' ';
-
-            if (isAnswers) {
-                zinParts += s.antwoord;
-            } else {
-                zinParts += '____________';
+            if (s.antwoord) {
+                zinParts += isAnswers ? s.antwoord : '____________';
+                zinParts += ' ';
             }
-
-            if (s.zin_einde) zinParts += ' ' + s.zin_einde;
+            if (s.zin_vervolg) zinParts += s.zin_vervolg + ' ';
+            if (s.antwoord2) {
+                zinParts += isAnswers ? s.antwoord2 : '____________';
+                zinParts += ' ';
+            }
+            if (s.zin_einde) zinParts += s.zin_einde;
+            zinParts = zinParts.trim();
 
             // Truncate if too long
             var maxZinW = pageW - margin - colZin;
             var zinLines = doc.splitTextToSize(zinParts, maxZinW);
-            doc.text(zinLines[0], colZin, y);
 
             if (isAnswers) {
-                // Highlight answer in bold
-                var beforeAnswer = s.zin_begin ? s.zin_begin + ' ' : '';
-                var answerX = colZin + doc.getTextWidth(beforeAnswer);
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(108, 99, 255);
-                doc.text(s.antwoord, answerX, y);
+                // Draw sentence with highlighted answers
+                var curX = colZin;
                 doc.setFont('helvetica', 'normal');
+                doc.setFontSize(10);
                 doc.setTextColor(30, 30, 30);
 
-                // Draw rest of sentence after answer
-                if (s.zin_einde) {
-                    var afterAnswerX = answerX + doc.getTextWidth(s.antwoord + ' ');
-                    doc.text(s.zin_einde, afterAnswerX, y);
+                if (s.zin_begin) {
+                    doc.text(s.zin_begin + ' ', curX, y);
+                    curX += doc.getTextWidth(s.zin_begin + ' ');
                 }
+                if (s.antwoord) {
+                    doc.setFont('helvetica', 'bold');
+                    doc.setTextColor(108, 99, 255);
+                    doc.text(s.antwoord, curX, y);
+                    curX += doc.getTextWidth(s.antwoord + ' ');
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(30, 30, 30);
+                }
+                if (s.zin_vervolg) {
+                    doc.text(s.zin_vervolg + ' ', curX, y);
+                    curX += doc.getTextWidth(s.zin_vervolg + ' ');
+                }
+                if (s.antwoord2) {
+                    doc.setFont('helvetica', 'bold');
+                    doc.setTextColor(108, 99, 255);
+                    doc.text(s.antwoord2, curX, y);
+                    curX += doc.getTextWidth(s.antwoord2 + ' ');
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(30, 30, 30);
+                }
+                if (s.zin_einde) {
+                    doc.text(s.zin_einde, curX, y);
+                }
+            } else {
+                doc.text(zinLines[0], colZin, y);
             }
 
             // Light line
