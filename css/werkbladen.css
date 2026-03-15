@@ -449,6 +449,11 @@
     gap: 10px 24px;
 }
 
+.wb-preview-blocks-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px 16px;
+}
+
 .wb-preview-block {
     display: flex;
     flex-direction: column;

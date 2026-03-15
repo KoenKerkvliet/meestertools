@@ -395,6 +395,9 @@ document.addEventListener('DOMContentLoaded', function () {
             // Show/hide rekenen-specific options
             if (fracRekenenOptions) fracRekenenOptions.style.display = val === 'rekenen' ? '' : 'none';
             if (fracLevelOptions) fracLevelOptions.style.display = val === 'rekenen' ? '' : 'none';
+            // Adjust default count: rekenen 40 (2x4x5), vereenvoudigen/helen 60 (3x4x5)
+            var defaultCount = val === 'rekenen' ? 40 : 60;
+            fracCountInput.value = defaultCount;
             hidePreview();
         });
     });
@@ -631,8 +634,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Layout: 2 cols, 4 rows of blocks, 5 sums per block ----------
     // Numbering goes left-to-right, top-to-bottom through blocks
-    function arrangeInBlocks(sums) {
-        var cols = 2;
+    function arrangeInBlocks(sums, numCols) {
+        var cols = numCols || 2;
         var sumsPerBlock = 5;
         var totalBlocks = Math.ceil(sums.length / sumsPerBlock);
         var rows = Math.ceil(totalBlocks / cols);
@@ -691,6 +694,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // ---------- Render Preview ----------
     var SUMS_PER_PAGE = 50; // 2 cols × 5 rows × 5 per block
     var CONV_PER_PAGE = 40; // 2 cols × 4 rows × 5 per block
+    var FRAC_CALC_PER_PAGE = 40; // 2 cols × 4 rows × 5 per block (breuken rekenen)
+    var FRAC_SIMPLE_PER_PAGE = 60; // 3 cols × 4 rows × 5 per block (vereenvoudigen/helen)
 
     function renderPreview(settings, sums) {
         var html = '';
@@ -1718,11 +1723,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderFracSumGrid(sums, showAnswers) {
-        var layout = arrangeInBlocks(sums);
-        var html = '<div class="wb-preview-blocks">';
-
         // Detect type from first sum
         var fracType = sums.length > 0 && sums[0].type ? sums[0].type : 'rekenen';
+        var gridCols = (fracType === 'simpl' || fracType === 'helen') ? 3 : 2;
+        var layout = arrangeInBlocks(sums, gridCols);
+        var blocksClass = gridCols === 3 ? 'wb-preview-blocks wb-preview-blocks-3' : 'wb-preview-blocks';
+        var html = '<div class="' + blocksClass + '">';
 
         for (var r = 0; r < layout.rows; r++) {
             for (var c = 0; c < layout.cols; c++) {
@@ -1774,7 +1780,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function renderFracPreview(settings, sums) {
         var html = '';
-        var previewSums = sums.slice(0, SUMS_PER_PAGE);
+        var perPage = settings.fracType === 'rekenen' ? FRAC_CALC_PER_PAGE : FRAC_SIMPLE_PER_PAGE;
+        var previewSums = sums.slice(0, perPage);
 
         html += '<div class="wb-preview-page">';
         html += buildHeaderHtml(settings, false);
@@ -1825,15 +1832,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         var yStart = yPos + 10;
-        var layout = arrangeInBlocks(sums);
-        var lineH = 11;
-        var blockGap = 8;
-        var numCols = 2;
-        var colGap = 12;
-        var colW = (contentW - colGap * (numCols - 1)) / numCols;
 
         // Detect type
         var fracType = sums.length > 0 && sums[0].type ? sums[0].type : 'rekenen';
+        var numCols = (fracType === 'simpl' || fracType === 'helen') ? 3 : 2;
+        var layout = arrangeInBlocks(sums, numCols);
+        var lineH = 11;
+        var blockGap = 8;
+        var colGap = numCols === 3 ? 8 : 12;
+        var colW = (contentW - colGap * (numCols - 1)) / numCols;
 
         // Measure fraction widths
         doc.setFontSize(9);
@@ -2442,16 +2449,17 @@ document.addEventListener('DOMContentLoaded', function () {
             var filename = 'werkblad-procenten-' + new Date().toISOString().slice(0, 10) + '.pdf';
             doc.save(filename);
         } else if (generatedFractions.length > 0) {
-            var fracPages = Math.ceil(generatedFractions.length / SUMS_PER_PAGE);
+            var fracPerPage = currentSettings.fracType === 'rekenen' ? FRAC_CALC_PER_PAGE : FRAC_SIMPLE_PER_PAGE;
+            var fracPages = Math.ceil(generatedFractions.length / fracPerPage);
             for (var p = 0; p < fracPages; p++) {
                 if (p > 0) doc.addPage();
-                var pageSums = generatedFractions.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
+                var pageSums = generatedFractions.slice(p * fracPerPage, (p + 1) * fracPerPage);
                 generateFracPdfPage(doc, currentSettings, pageSums, false);
             }
             if (currentSettings.answerSheet) {
                 for (var p = 0; p < fracPages; p++) {
                     doc.addPage();
-                    var pageSums = generatedFractions.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
+                    var pageSums = generatedFractions.slice(p * fracPerPage, (p + 1) * fracPerPage);
                     generateFracPdfPage(doc, currentSettings, pageSums, true);
                 }
             }
