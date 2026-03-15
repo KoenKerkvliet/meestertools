@@ -759,11 +759,15 @@
     font-weight: 700;
 }
 
-/* Vormen toggles (6 columns) */
+/* Vormen toggles (4 columns top row, 2 columns bottom row) */
 .wb-toggles-vormen {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 6px;
+}
+
+.wb-toggles-vormen-2 {
+    grid-template-columns: repeat(2, 1fr);
 }
 
 /* Responsive */
@@ -819,6 +823,10 @@
     }
 
     .wb-toggles-vormen {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .wb-toggles-vormen-2 {
+        grid-template-columns: 1fr;
     }
 }
