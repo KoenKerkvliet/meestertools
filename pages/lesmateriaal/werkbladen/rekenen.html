@@ -365,6 +365,16 @@
                 </div>
 
                 <div class="wb-field">
+                    <label>Type som</label>
+                    <div class="wb-switch-group">
+                        <button class="wb-switch-btn active" data-fractype="rekenen">Rekenen</button>
+                        <button class="wb-switch-btn" data-fractype="vereenvoudigen">Vereenvoudigen</button>
+                        <button class="wb-switch-btn" data-fractype="helen">Helen eruit halen</button>
+                    </div>
+                    <input type="hidden" id="wbFracType" value="rekenen">
+                </div>
+
+                <div class="wb-field" id="fracRekenenOptions">
                     <label>Bewerkingen</label>
                     <div class="wb-toggles-wide">
                         <button class="wb-toggle-wide active" data-fracop="+" title="Optellen"><span class="wb-toggle-sym">+</span> Optellen</button>
@@ -374,7 +384,7 @@
                     </div>
                 </div>
 
-                <div class="wb-field">
+                <div class="wb-field" id="fracLevelOptions">
                     <label>Moeilijkheidsgraad</label>
                     <div class="wb-suboptions">
                         <button class="wb-suboption active" data-fraclevel="gelijknamig">Gelijknamig</button>

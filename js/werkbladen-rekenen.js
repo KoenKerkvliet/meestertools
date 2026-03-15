@@ -380,6 +380,25 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // ---------- Breuken Type Switch ----------
+    var fracTypeBtns = document.querySelectorAll('.wb-switch-btn[data-fractype]');
+    var fracTypeHidden = document.getElementById('wbFracType');
+    var fracRekenenOptions = document.getElementById('fracRekenenOptions');
+    var fracLevelOptions = document.getElementById('fracLevelOptions');
+
+    fracTypeBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            fracTypeBtns.forEach(function (b) { b.classList.remove('active'); });
+            this.classList.add('active');
+            var val = this.getAttribute('data-fractype');
+            if (fracTypeHidden) fracTypeHidden.value = val;
+            // Show/hide rekenen-specific options
+            if (fracRekenenOptions) fracRekenenOptions.style.display = val === 'rekenen' ? '' : 'none';
+            if (fracLevelOptions) fracLevelOptions.style.display = val === 'rekenen' ? '' : 'none';
+            hidePreview();
+        });
+    });
+
     // ---------- Procenten Stepper ----------
     var pctCountInput = document.getElementById('wbPctCount');
     var pctBtnMinus = document.getElementById('wbPctCountMinus');
@@ -1502,6 +1521,7 @@ document.addEventListener('DOMContentLoaded', function () {
             datePrefix: document.getElementById('wbDatePrefix').value.trim(),
             showName: document.getElementById('wbNameField').value === 'ja',
             count: Math.max(1, Math.min(200, parseInt(fracCountInput.value) || 50)),
+            fracType: fracTypeHidden ? fracTypeHidden.value : 'rekenen',
             ops: activeFracOps,
             level: document.getElementById('wbFracLevel').value || 'gelijknamig',
             maxDen: Math.max(2, parseInt(fracMaxDenInput.value) || 12),
@@ -1589,6 +1609,83 @@ document.addEventListener('DOMContentLoaded', function () {
         return sums;
     }
 
+    // ---------- Vereenvoudigen ----------
+    function generateSimplSums(settings) {
+        var sums = [];
+        var used = {};
+        var maxAttempts = settings.count * 200;
+        var attempts = 0;
+
+        while (sums.length < settings.count && attempts < maxAttempts) {
+            attempts++;
+            // Generate a simplified fraction, then multiply by a factor
+            var den = Math.floor(Math.random() * (settings.maxDen - 1)) + 2;
+            var num = Math.floor(Math.random() * (den - 1)) + 1;
+            // Make sure it's already simplified
+            var g = gcd(num, den);
+            var simpNum = num / g;
+            var simpDen = den / g;
+            if (simpNum === num && simpDen === den) {
+                // Already simplified, need to multiply to create unsimplified version
+                var factor = Math.floor(Math.random() * 4) + 2;
+                num = simpNum * factor;
+                den = simpDen * factor;
+                if (den > 100) continue;
+            }
+            // Now num/den can be simplified to simpNum/simpDen
+            g = gcd(num, den);
+            simpNum = num / g;
+            simpDen = den / g;
+            if (simpNum === num) continue; // already simplified, skip
+
+            var key = num + '/' + den;
+            if (used[key]) continue;
+            used[key] = true;
+
+            sums.push({
+                type: 'simpl',
+                num1: num, den1: den,
+                resNum: simpNum, resDen: simpDen
+            });
+        }
+        return sums;
+    }
+
+    // ---------- Helen eruit halen ----------
+    function generateHelenSums(settings) {
+        var sums = [];
+        var used = {};
+        var maxAttempts = settings.count * 200;
+        var attempts = 0;
+
+        while (sums.length < settings.count && attempts < maxAttempts) {
+            attempts++;
+            var den = Math.floor(Math.random() * (settings.maxDen - 1)) + 2;
+            // Numerator must be > denominator (oneigenlijke breuk)
+            var helen = Math.floor(Math.random() * 5) + 1; // 1-5 whole parts
+            var restNum = Math.floor(Math.random() * (den - 1)) + 1; // rest 1..den-1
+            // Simplify the rest
+            var g = gcd(restNum, den);
+            restNum = restNum / g;
+            den = den / g;
+            if (den < 2) continue;
+
+            var num = helen * den + restNum;
+
+            var key = num + '/' + den;
+            if (used[key]) continue;
+            used[key] = true;
+
+            sums.push({
+                type: 'helen',
+                num1: num, den1: den,
+                helen: helen,
+                restNum: restNum, restDen: den
+            });
+        }
+        return sums;
+    }
+
     function opSymbolHtml(op) {
         switch (op) {
             case '+': return '+';
@@ -1609,9 +1706,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Helper: render helen answer as "2 1/3" (whole + fraction)
+    function renderHelenAnswer(helen, restNum, restDen, isBlank) {
+        if (isBlank) {
+            return '<span class="wb-preview-line">___</span>';
+        }
+        if (restNum === 0) {
+            return '<span>' + helen + '</span>';
+        }
+        return '<span>' + helen + ' </span>' + renderFracHtml(restNum + '/' + restDen, false);
+    }
+
     function renderFracSumGrid(sums, showAnswers) {
         var layout = arrangeInBlocks(sums);
         var html = '<div class="wb-preview-blocks">';
+
+        // Detect type from first sum
+        var fracType = sums.length > 0 && sums[0].type ? sums[0].type : 'rekenen';
 
         for (var r = 0; r < layout.rows; r++) {
             for (var c = 0; c < layout.cols; c++) {
@@ -1619,27 +1730,43 @@ document.addEventListener('DOMContentLoaded', function () {
                 html += '<div class="wb-preview-block">';
                 for (var i = 0; i < block.length; i++) {
                     var s = block[i].sum;
-                    html += '<div class="wb-preview-sum" style="grid-template-columns: 3ch 2ch 3ch 2ch 4ch; align-items: center;">';
-                    // Fraction 1
-                    html += '<span>' + renderFracHtml(s.num1 + '/' + s.den1, false) + '</span>';
-                    // Operator
-                    html += '<span class="wb-preview-eq">' + opSymbolHtml(s.op) + '</span>';
-                    // Fraction 2
-                    html += '<span>' + renderFracHtml(s.num2 + '/' + s.den2, false) + '</span>';
-                    // = sign
-                    html += '<span class="wb-preview-eq">=</span>';
-                    // Answer
-                    if (showAnswers) {
-                        html += '<span class="wb-preview-answer">' + renderFracHtml(s.resNum + '/' + s.resDen, false) + '</span>';
+
+                    if (fracType === 'simpl') {
+                        html += '<div class="wb-preview-sum" style="grid-template-columns: 4ch 2.5ch 4ch; align-items: center;">';
+                        html += '<span>' + renderFracHtml(s.num1 + '/' + s.den1, false) + '</span>';
+                        html += '<span class="wb-preview-eq">=</span>';
+                        if (showAnswers) {
+                            html += '<span class="wb-preview-answer">' + renderFracHtml(s.resNum + '/' + s.resDen, false) + '</span>';
+                        } else {
+                            html += '<span>' + renderFracHtml('?/?', true) + '</span>';
+                        }
+                        html += '</div>';
+                    } else if (fracType === 'helen') {
+                        html += '<div class="wb-preview-sum" style="grid-template-columns: 4ch 2.5ch 5ch; align-items: center;">';
+                        html += '<span>' + renderFracHtml(s.num1 + '/' + s.den1, false) + '</span>';
+                        html += '<span class="wb-preview-eq">=</span>';
+                        if (showAnswers) {
+                            html += '<span class="wb-preview-answer">' + renderHelenAnswer(s.helen, s.restNum, s.restDen, false) + '</span>';
+                        } else {
+                            html += '<span>' + renderHelenAnswer(0, 0, 0, true) + '</span>';
+                        }
+                        html += '</div>';
                     } else {
-                        html += '<span>' + renderFracHtml('?/?', true) + '</span>';
+                        html += '<div class="wb-preview-sum" style="grid-template-columns: 3ch 2ch 3ch 2ch 4ch; align-items: center;">';
+                        html += '<span>' + renderFracHtml(s.num1 + '/' + s.den1, false) + '</span>';
+                        html += '<span class="wb-preview-eq">' + opSymbolHtml(s.op) + '</span>';
+                        html += '<span>' + renderFracHtml(s.num2 + '/' + s.den2, false) + '</span>';
+                        html += '<span class="wb-preview-eq">=</span>';
+                        if (showAnswers) {
+                            html += '<span class="wb-preview-answer">' + renderFracHtml(s.resNum + '/' + s.resDen, false) + '</span>';
+                        } else {
+                            html += '<span>' + renderFracHtml('?/?', true) + '</span>';
+                        }
+                        html += '</div>';
                     }
-                    html += '</div>';
                 }
                 html += '</div>';
             }
-
-            html += '';
         }
         html += '</div>';
         return html;
@@ -1663,7 +1790,8 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '</div>';
         }
 
-        return html;
+        previewEl.innerHTML = html;
+        previewSection.style.display = '';
     }
 
     function generateFracPdfPage(doc, settings, sums, isAnswers) {
@@ -1704,12 +1832,19 @@ document.addEventListener('DOMContentLoaded', function () {
         var colGap = 12;
         var colW = (contentW - colGap * (numCols - 1)) / numCols;
 
+        // Detect type
+        var fracType = sums.length > 0 && sums[0].type ? sums[0].type : 'rekenen';
+
         // Measure fraction widths
         doc.setFontSize(9);
         var fracW = 0;
         for (var si = 0; si < sums.length; si++) {
             var s = sums[si];
-            var nums = [s.num1, s.den1, s.num2, s.den2, s.resNum, s.resDen];
+            var nums = [s.num1, s.den1];
+            if (s.num2 !== undefined) { nums.push(s.num2); nums.push(s.den2); }
+            if (s.resNum !== undefined) { nums.push(s.resNum); nums.push(s.resDen); }
+            if (s.helen !== undefined) nums.push(s.helen);
+            if (s.restNum !== undefined) { nums.push(s.restNum); nums.push(s.restDen); }
             for (var ni = 0; ni < nums.length; ni++) {
                 var tw = doc.getTextWidth(String(Math.abs(nums[ni])));
                 if (tw > fracW) fracW = tw;
@@ -1740,32 +1875,69 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     var xPos = colX;
 
-                    // Fraction 1
-                    drawFractionPdf(doc, s.num1 + '/' + s.den1, xPos + fracW, currentY, [50, 50, 70]);
-                    xPos += fracW;
-
-                    // Operator
-                    doc.setFontSize(11);
-                    doc.setFont('helvetica', 'normal');
-                    doc.setTextColor(50, 50, 70);
-                    doc.text(opSymbolPdfFrac(s.op), xPos + opW / 2, currentY, { align: 'center' });
-                    xPos += opW;
-
-                    // Fraction 2
-                    drawFractionPdf(doc, s.num2 + '/' + s.den2, xPos + fracW, currentY, [50, 50, 70]);
-                    xPos += fracW;
-
-                    // = sign
-                    doc.setFontSize(11);
-                    doc.setTextColor(50, 50, 70);
-                    doc.text('=', xPos + eqW / 2, currentY, { align: 'center' });
-                    xPos += eqW;
-
-                    // Answer
-                    if (isAnswers) {
-                        drawFractionPdf(doc, s.resNum + '/' + s.resDen, xPos + fracW, currentY, [108, 99, 255]);
+                    if (fracType === 'simpl') {
+                        // Vereenvoudigen: breuk = antwoord
+                        drawFractionPdf(doc, s.num1 + '/' + s.den1, xPos + fracW, currentY, [50, 50, 70]);
+                        xPos += fracW;
+                        doc.setFontSize(11);
+                        doc.setTextColor(50, 50, 70);
+                        doc.text('=', xPos + eqW / 2, currentY, { align: 'center' });
+                        xPos += eqW;
+                        if (isAnswers) {
+                            drawFractionPdf(doc, s.resNum + '/' + s.resDen, xPos + fracW, currentY, [108, 99, 255]);
+                        } else {
+                            drawFractionPdf(doc, '?/?', xPos + fracW, currentY, null);
+                        }
+                    } else if (fracType === 'helen') {
+                        // Helen: breuk = heel rest
+                        drawFractionPdf(doc, s.num1 + '/' + s.den1, xPos + fracW, currentY, [50, 50, 70]);
+                        xPos += fracW;
+                        doc.setFontSize(11);
+                        doc.setTextColor(50, 50, 70);
+                        doc.text('=', xPos + eqW / 2, currentY, { align: 'center' });
+                        xPos += eqW;
+                        if (isAnswers) {
+                            var color = [108, 99, 255];
+                            doc.setFontSize(11);
+                            doc.setFont('helvetica', 'bold');
+                            doc.setTextColor(color[0], color[1], color[2]);
+                            if (s.restNum === 0) {
+                                doc.text(String(s.helen), xPos + fracW, currentY, { align: 'right' });
+                            } else {
+                                var helenStr = String(s.helen);
+                                var helenW = doc.getTextWidth(helenStr + ' ');
+                                doc.text(helenStr, xPos, currentY);
+                                drawFractionPdf(doc, s.restNum + '/' + s.restDen, xPos + helenW + fracW, currentY, color);
+                            }
+                        } else {
+                            doc.setDrawColor(200, 200, 210);
+                            doc.setLineWidth(0.3);
+                            doc.line(xPos, currentY, xPos + fracW * 2, currentY);
+                        }
                     } else {
-                        drawFractionPdf(doc, '?/?', xPos + fracW, currentY, null);
+                        // Rekenen: breuk op breuk = antwoord
+                        drawFractionPdf(doc, s.num1 + '/' + s.den1, xPos + fracW, currentY, [50, 50, 70]);
+                        xPos += fracW;
+
+                        doc.setFontSize(11);
+                        doc.setFont('helvetica', 'normal');
+                        doc.setTextColor(50, 50, 70);
+                        doc.text(opSymbolPdfFrac(s.op), xPos + opW / 2, currentY, { align: 'center' });
+                        xPos += opW;
+
+                        drawFractionPdf(doc, s.num2 + '/' + s.den2, xPos + fracW, currentY, [50, 50, 70]);
+                        xPos += fracW;
+
+                        doc.setFontSize(11);
+                        doc.setTextColor(50, 50, 70);
+                        doc.text('=', xPos + eqW / 2, currentY, { align: 'center' });
+                        xPos += eqW;
+
+                        if (isAnswers) {
+                            drawFractionPdf(doc, s.resNum + '/' + s.resDen, xPos + fracW, currentY, [108, 99, 255]);
+                        } else {
+                            drawFractionPdf(doc, '?/?', xPos + fracW, currentY, null);
+                        }
                     }
                 }
             }
@@ -2175,7 +2347,13 @@ document.addEventListener('DOMContentLoaded', function () {
             generatedDivisions = [];
             generatedCijfer = [];
             generatedPercent = [];
-            generatedFractions = generateFracSums(currentSettings);
+            if (currentSettings.fracType === 'vereenvoudigen') {
+                generatedFractions = generateSimplSums(currentSettings);
+            } else if (currentSettings.fracType === 'helen') {
+                generatedFractions = generateHelenSums(currentSettings);
+            } else {
+                generatedFractions = generateFracSums(currentSettings);
+            }
             renderFracPreview(currentSettings, generatedFractions);
         } else if (currentType === 'procenten') {
             currentSettings = readSettingsPercent();
