@@ -334,7 +334,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (pctBtnPlus) {
         pctBtnPlus.addEventListener('click', function () {
             var val = parseInt(pctCountInput.value) || 50;
-            if (val < 200) pctCountInput.value = val + 1;
+            var maxVal = parseInt(pctCountInput.max) || 200;
+            if (val < maxVal) pctCountInput.value = val + 1;
             hidePreview();
         });
     }
@@ -355,6 +356,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (pctDeelOptions) pctDeelOptions.style.display = val === 'deelvangeheel' ? '' : 'none';
             if (pctOmrekenOptions) pctOmrekenOptions.style.display = val === 'omrekenen' ? '' : 'none';
             if (pctRangeField) pctRangeField.style.display = val === 'deelvangeheel' ? '' : 'none';
+            // Conversie: max 40 sommen (2x4 grid × 5 rijen)
+            var maxCount = val === 'omrekenen' ? 40 : 200;
+            pctCountInput.max = maxCount;
+            if (parseInt(pctCountInput.value) > maxCount) pctCountInput.value = maxCount;
             hidePreview();
         });
     });
@@ -1539,10 +1544,11 @@ document.addEventListener('DOMContentLoaded', function () {
             maxKomma = Math.max(maxKomma, sums[i].komma.length);
         }
         var colBreuk = Math.max(maxBreuk, 3) + 'ch';
-        var colEq = '1.5ch';
+        var colEq1 = '2.5ch';
+        var colEq2 = '1.5ch';
         var colPct = Math.max(maxPct, 5) + 'ch';
         var colKomma = Math.max(maxKomma, 5) + 'ch';
-        var gridCols = colBreuk + ' ' + colEq + ' ' + colPct + ' ' + colEq + ' ' + colKomma;
+        var gridCols = colBreuk + ' ' + colEq1 + ' ' + colPct + ' ' + colEq2 + ' ' + colKomma;
 
         var html = '<div class="wb-preview-blocks">';
 
@@ -1673,7 +1679,8 @@ document.addEventListener('DOMContentLoaded', function () {
         breukW += 2;
         pctW += 1;
         kommaW += 1;
-        var eqW = 4;
+        var eqW1 = 6; // meer ruimte na eerste =
+        var eqW2 = 4;
         var blankW = doc.getTextWidth('____') + 1;
 
         var y = yStart;
@@ -1710,11 +1717,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                     xPos += breukW;
 
-                    // = sign
+                    // = sign (eerste, met extra ruimte)
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(50, 50, 70);
-                    doc.text('=', xPos + eqW / 2, currentY, { align: 'center' });
-                    xPos += eqW;
+                    doc.text('=', xPos + eqW1 / 2, currentY, { align: 'center' });
+                    xPos += eqW1;
 
                     // Procent
                     var pctSymW = doc.getTextWidth('%');
@@ -1734,11 +1741,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                     xPos += pctW;
 
-                    // = sign
+                    // = sign (tweede)
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(50, 50, 70);
-                    doc.text('=', xPos + eqW / 2, currentY, { align: 'center' });
-                    xPos += eqW;
+                    doc.text('=', xPos + eqW2 / 2, currentY, { align: 'center' });
+                    xPos += eqW2;
 
                     // Komma
                     if (s.given === 2) {
