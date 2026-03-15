@@ -996,6 +996,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const section = document.createElement('div');
             section.className = 'level-section';
 
+            // Restore collapsed state from localStorage
+            const collapseKey = 'sp_collapsed_' + vorm;
+            if (localStorage.getItem(collapseKey) === '1') {
+                section.classList.add('collapsed');
+            }
+
             const header = document.createElement('div');
             header.className = 'level-section-header';
             header.innerHTML = '<span class="level-section-title">' + escapeHtml(vormLabels[vorm] || vorm) + '</span>' +
@@ -1037,9 +1043,14 @@ document.addEventListener('DOMContentLoaded', () => {
             section.appendChild(body);
             container.appendChild(section);
 
-            // Toggle collapse
+            // Toggle collapse + save state to localStorage
             header.addEventListener('click', () => {
                 section.classList.toggle('collapsed');
+                if (section.classList.contains('collapsed')) {
+                    localStorage.setItem(collapseKey, '1');
+                } else {
+                    localStorage.removeItem(collapseKey);
+                }
             });
 
             // Bind edit/delete buttons
