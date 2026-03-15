@@ -722,6 +722,50 @@
     border-bottom-color: #ccc;
 }
 
+/* Spelling werkblad preview */
+.wb-sp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+}
+
+.wb-sp-table th,
+.wb-sp-table td {
+    padding: 5px 8px;
+    border-bottom: 1px solid #E8E8F0;
+    text-align: left;
+}
+
+.wb-sp-table th {
+    font-weight: 700;
+    font-size: 9px;
+    color: var(--text-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #F5F5FA;
+}
+
+.wb-sp-table td {
+    color: var(--text-dark);
+}
+
+.wb-sp-blank {
+    color: var(--text-light);
+    letter-spacing: 1px;
+}
+
+.wb-sp-answer {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* Vormen toggles (6 columns) */
+.wb-toggles-vormen {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
     .wb-type-cards {
@@ -772,5 +816,9 @@
 
     .wb-suboptions {
         grid-template-columns: 1fr;
+    }
+
+    .wb-toggles-vormen {
+        grid-template-columns: repeat(3, 1fr);
     }
 }

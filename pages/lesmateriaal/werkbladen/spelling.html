@@ -99,9 +99,61 @@
             <div class="wb-section" id="settingsWerkwoordspelling">
                 <h3 class="wb-section-title">Instellingen</h3>
 
-                <div class="wb-coming-soon">
-                    <div class="wb-coming-icon">&#128679;</div>
-                    <p>De instellingen voor werkwoordspelling worden binnenkort toegevoegd.</p>
+                <div class="wb-row">
+                    <div class="wb-field wb-field-name">
+                        <label>Tijd tonen</label>
+                        <div class="wb-switch-group wb-switch-small">
+                            <button class="wb-switch-btn active" data-sptijd="ja">Ja</button>
+                            <button class="wb-switch-btn" data-sptijd="nee">Nee</button>
+                        </div>
+                        <input type="hidden" id="wbSpTijdField" value="ja">
+                    </div>
+                </div>
+
+                <div class="wb-row">
+                    <div class="wb-field">
+                        <label>Filter op tijd</label>
+                        <div class="wb-switch-group wb-switch-small wb-switch-triple">
+                            <button class="wb-switch-btn active" data-spfiltertijd="beide">Beide</button>
+                            <button class="wb-switch-btn" data-spfiltertijd="tt">Tegenw. tijd</button>
+                            <button class="wb-switch-btn" data-spfiltertijd="vt">Verleden tijd</button>
+                        </div>
+                        <input type="hidden" id="wbSpFilterTijd" value="beide">
+                    </div>
+                    <div class="wb-field">
+                        <label>Werkwoorden</label>
+                        <div class="wb-switch-group wb-switch-small wb-switch-triple">
+                            <button class="wb-switch-btn active" data-spsterk="beide">Beide</button>
+                            <button class="wb-switch-btn" data-spsterk="zwak">Zwak</button>
+                            <button class="wb-switch-btn" data-spsterk="sterk">Sterk</button>
+                        </div>
+                        <input type="hidden" id="wbSpFilterSterk" value="beide">
+                    </div>
+                </div>
+
+                <div class="wb-row">
+                    <div class="wb-field">
+                        <label>Vormen</label>
+                        <div class="wb-toggles-vormen">
+                            <button class="wb-toggle-wide active" data-spvorm="ik">ik</button>
+                            <button class="wb-toggle-wide active" data-spvorm="jij">jij</button>
+                            <button class="wb-toggle-wide active" data-spvorm="hij">hij</button>
+                            <button class="wb-toggle-wide active" data-spvorm="wij">wij</button>
+                            <button class="wb-toggle-wide active" data-spvorm="vd">vd</button>
+                            <button class="wb-toggle-wide active" data-spvorm="bvd">bvd</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wb-row">
+                    <div class="wb-field wb-field-name">
+                        <label>Antwoordblad</label>
+                        <div class="wb-switch-group wb-switch-small">
+                            <button class="wb-switch-btn active" data-spantwoord="ja">Ja</button>
+                            <button class="wb-switch-btn" data-spantwoord="nee">Nee</button>
+                        </div>
+                        <input type="hidden" id="wbSpAnswerSheet" value="ja">
+                    </div>
                 </div>
             </div>
 
@@ -116,7 +168,7 @@
             </div>
 
             <!-- Gedeelde actie-knop -->
-            <div class="wb-section" id="spGenerateSection" style="display:none;">
+            <div class="wb-section" id="spGenerateSection">
                 <div class="wb-actions">
                     <button class="btn-primary wb-generate-btn" id="btnSpGenerate">&#128065; Voorbeeld bekijken</button>
                 </div>

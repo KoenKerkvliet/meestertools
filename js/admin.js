@@ -929,6 +929,241 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Enter') document.getElementById('saveWordBtn').click();
     });
 
+    // ---------- SPELLING SUB-TAB SWITCHING ----------
+    const spSubTabs = document.querySelectorAll('.spelling-sub-tab');
+    const spSubPanels = document.querySelectorAll('.spelling-sub-panel');
+
+    spSubTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            spSubTabs.forEach(t => t.classList.remove('active'));
+            spSubPanels.forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById('subtab-' + tab.dataset.subtab).classList.add('active');
+        });
+    });
+
+    // ---------- SPELLING SENTENCES ----------
+    let allSpellingSentences = [];
+
+    async function loadSpellingSentences() {
+        try {
+            const { data, error } = await supabase
+                .from('spelling_sentences')
+                .select('*')
+                .eq('type', 'werkwoordspelling')
+                .order('werkwoord')
+                .order('tijd');
+
+            if (error) {
+                console.error('Error loading spelling sentences:', error);
+                allSpellingSentences = [];
+                return;
+            }
+            allSpellingSentences = data || [];
+        } catch (e) {
+            console.error('Exception loading spelling sentences:', e);
+            allSpellingSentences = [];
+        }
+        renderSpellingSentences();
+    }
+
+    function renderSpellingSentences() {
+        const container = document.getElementById('spSentencesList');
+        if (!container) return;
+
+        if (allSpellingSentences.length === 0) {
+            container.innerHTML = '<div class="admin-empty" style="width:100%;"><span class="empty-icon">&#128221;</span><p>Nog geen zinnen. Voeg er een toe!</p></div>';
+            return;
+        }
+
+        // Group by werkwoord
+        const groups = {};
+        allSpellingSentences.forEach(s => {
+            const key = s.werkwoord || 'Onbekend';
+            if (!groups[key]) groups[key] = [];
+            groups[key].push(s);
+        });
+
+        const vormLabels = { ik: 'ik', jij: 'jij', hij: 'hij', wij: 'wij', vd: 'vd', bvd: 'bvd' };
+        const sortedKeys = Object.keys(groups).sort((a, b) => a.localeCompare(b));
+
+        container.innerHTML = '';
+
+        sortedKeys.forEach(werkwoord => {
+            const sentences = groups[werkwoord];
+
+            const section = document.createElement('div');
+            section.className = 'level-section';
+
+            const header = document.createElement('div');
+            header.className = 'level-section-header';
+            header.innerHTML = '<span class="level-section-title">' + escapeHtml(werkwoord) + '</span>' +
+                '<span class="level-section-count">' + sentences.length + '</span>' +
+                '<span class="level-section-toggle">&#9660;</span>';
+            section.appendChild(header);
+
+            const body = document.createElement('div');
+            body.className = 'level-section-body';
+
+            const table = document.createElement('table');
+            table.className = 'admin-table';
+            table.style.fontSize = '13px';
+            table.innerHTML = '<thead><tr><th>Tijd</th><th>Vorm</th><th>Zin</th><th>Antwoord</th><th>Sterk</th><th>Acties</th></tr></thead>';
+
+            const tbody = document.createElement('tbody');
+            sentences.forEach(s => {
+                const zinDisplay = (s.zin_begin ? s.zin_begin + ' ' : '') + '___' + (s.zin_einde ? ' ' + s.zin_einde : '');
+                const tr = document.createElement('tr');
+                tr.innerHTML =
+                    '<td>' + (s.tijd === 'tt' ? 'tt' : 'vt') + '</td>' +
+                    '<td>' + escapeHtml(vormLabels[s.vorm] || s.vorm || '-') + '</td>' +
+                    '<td>' + escapeHtml(zinDisplay) + '</td>' +
+                    '<td><strong>' + escapeHtml(s.antwoord) + '</strong></td>' +
+                    '<td>' + (s.sterk ? '&#10004;' : '') + '</td>' +
+                    '<td class="actions">' +
+                        '<button class="btn-small btn-edit" data-sp-edit="' + s.id + '">Bewerken</button>' +
+                        '<button class="btn-small btn-delete" data-sp-delete="' + s.id + '">Verwijderen</button>' +
+                    '</td>';
+                tbody.appendChild(tr);
+            });
+            table.appendChild(tbody);
+            body.appendChild(table);
+
+            section.appendChild(body);
+            container.appendChild(section);
+
+            // Toggle collapse
+            header.addEventListener('click', () => {
+                section.classList.toggle('collapsed');
+            });
+
+            // Bind edit/delete buttons
+            body.querySelectorAll('[data-sp-edit]').forEach(btn => {
+                btn.addEventListener('click', () => editSpellingSentence(btn.dataset.spEdit));
+            });
+            body.querySelectorAll('[data-sp-delete]').forEach(btn => {
+                btn.addEventListener('click', () => deleteSpellingSentence(btn.dataset.spDelete));
+            });
+        });
+    }
+
+    // Add sentence
+    const spAddBtn = document.getElementById('spAddSentenceBtn');
+    if (spAddBtn) {
+        spAddBtn.addEventListener('click', addSpellingSentence);
+    }
+
+    async function addSpellingSentence() {
+        const tijd = document.getElementById('spNewTijd')?.value || 'tt';
+        const werkwoord = document.getElementById('spNewWerkwoord')?.value.trim();
+        const vorm = document.getElementById('spNewVorm')?.value || 'ik';
+        const sterk = document.getElementById('spNewSterk')?.checked || false;
+        const zinBegin = document.getElementById('spNewZinBegin')?.value.trim() || '';
+        const antwoord = document.getElementById('spNewAntwoord')?.value.trim();
+        const zinEinde = document.getElementById('spNewZinEinde')?.value.trim() || '';
+
+        if (!werkwoord) { alert('Vul een werkwoord in.'); return; }
+        if (!antwoord) { alert('Vul het antwoord (vervoegd werkwoord) in.'); return; }
+
+        const { error } = await supabase
+            .from('spelling_sentences')
+            .insert({
+                type: 'werkwoordspelling',
+                tijd: tijd,
+                werkwoord: werkwoord,
+                zin_begin: zinBegin,
+                antwoord: antwoord,
+                zin_einde: zinEinde,
+                vorm: vorm,
+                sterk: sterk
+            });
+
+        if (error) {
+            alert('Fout bij toevoegen: ' + error.message);
+            return;
+        }
+
+        // Clear inputs
+        document.getElementById('spNewZinBegin').value = '';
+        document.getElementById('spNewAntwoord').value = '';
+        document.getElementById('spNewZinEinde').value = '';
+        document.getElementById('spNewZinBegin').focus();
+        await loadSpellingSentences();
+    }
+
+    // Edit sentence
+    function editSpellingSentence(id) {
+        const s = allSpellingSentences.find(s => s.id === id);
+        if (!s) return;
+
+        document.getElementById('editSpSentenceId').value = s.id;
+        document.getElementById('editSpTijd').value = s.tijd || 'tt';
+        document.getElementById('editSpWerkwoord').value = s.werkwoord || '';
+        document.getElementById('editSpVorm').value = s.vorm || 'ik';
+        document.getElementById('editSpSterk').checked = s.sterk || false;
+        document.getElementById('editSpZinBegin').value = s.zin_begin || '';
+        document.getElementById('editSpAntwoord').value = s.antwoord || '';
+        document.getElementById('editSpZinEinde').value = s.zin_einde || '';
+        openModal('spSentenceModal');
+    }
+
+    // Save sentence
+    document.getElementById('saveSpSentenceBtn')?.addEventListener('click', async () => {
+        const id = document.getElementById('editSpSentenceId').value;
+        const tijd = document.getElementById('editSpTijd').value;
+        const werkwoord = document.getElementById('editSpWerkwoord').value.trim();
+        const vorm = document.getElementById('editSpVorm').value;
+        const sterk = document.getElementById('editSpSterk').checked;
+        const zinBegin = document.getElementById('editSpZinBegin').value.trim();
+        const antwoord = document.getElementById('editSpAntwoord').value.trim();
+        const zinEinde = document.getElementById('editSpZinEinde').value.trim();
+
+        if (!werkwoord) { alert('Vul een werkwoord in.'); return; }
+        if (!antwoord) { alert('Vul het antwoord in.'); return; }
+
+        const { error } = await supabase
+            .from('spelling_sentences')
+            .update({
+                tijd: tijd,
+                werkwoord: werkwoord,
+                zin_begin: zinBegin,
+                antwoord: antwoord,
+                zin_einde: zinEinde,
+                vorm: vorm,
+                sterk: sterk
+            })
+            .eq('id', id);
+
+        if (error) {
+            alert('Fout bij opslaan: ' + error.message);
+            return;
+        }
+
+        closeModal('spSentenceModal');
+        await loadSpellingSentences();
+    });
+
+    // Delete sentence
+    function deleteSpellingSentence(id) {
+        showConfirm('Zin verwijderen', 'Weet je zeker dat je deze zin wilt verwijderen?', async () => {
+            const { error } = await supabase
+                .from('spelling_sentences')
+                .delete()
+                .eq('id', id);
+
+            if (error) {
+                alert('Fout bij verwijderen: ' + error.message);
+                return;
+            }
+
+            await loadSpellingSentences();
+        });
+    }
+
+    // Modal close handlers
+    document.getElementById('closeSpSentenceModal')?.addEventListener('click', () => closeModal('spSentenceModal'));
+    document.getElementById('cancelSpSentenceModal')?.addEventListener('click', () => closeModal('spSentenceModal'));
+
     // ---------- 24 GAME SETS ----------
     let allGame24Sets = [];
     let game24Filter = '';
@@ -1077,7 +1312,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function initAdminData() {
         if (window.userRole !== 'super_admin') return;
         try {
-            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets()]);
+            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets(), loadSpellingSentences()]);
         } catch (e) {
             console.error('Error during initial load:', e);
         }

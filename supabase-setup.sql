@@ -327,7 +327,43 @@ CREATE POLICY "Super admin can delete game24_sets"
     ON public.game24_sets FOR DELETE
     USING (public.is_super_admin());
 
--- ---------- 18. Super admin instellen voor bestaande user ----------
+-- ---------- 18. Spelling Sentences tabel ----------
+CREATE TABLE IF NOT EXISTS public.spelling_sentences (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    type TEXT NOT NULL CHECK (type IN ('werkwoordspelling', 'spelling')),
+    tijd TEXT CHECK (tijd IN ('tt', 'vt')),
+    werkwoord TEXT NOT NULL,
+    zin_begin TEXT NOT NULL DEFAULT '',
+    antwoord TEXT NOT NULL,
+    zin_einde TEXT NOT NULL DEFAULT '',
+    vorm TEXT CHECK (vorm IN ('ik', 'jij', 'hij', 'wij', 'vd', 'bvd')),
+    sterk BOOLEAN DEFAULT false,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE public.spelling_sentences ENABLE ROW LEVEL SECURITY;
+
+-- Alle ingelogde users kunnen zinnen lezen
+CREATE POLICY "Authenticated users can read spelling_sentences"
+    ON public.spelling_sentences FOR SELECT
+    USING (auth.role() = 'authenticated');
+
+-- Super admin kan zinnen aanmaken
+CREATE POLICY "Super admin can insert spelling_sentences"
+    ON public.spelling_sentences FOR INSERT
+    WITH CHECK (public.is_super_admin());
+
+-- Super admin kan zinnen updaten
+CREATE POLICY "Super admin can update spelling_sentences"
+    ON public.spelling_sentences FOR UPDATE
+    USING (public.is_super_admin());
+
+-- Super admin kan zinnen verwijderen
+CREATE POLICY "Super admin can delete spelling_sentences"
+    ON public.spelling_sentences FOR DELETE
+    USING (public.is_super_admin());
+
+-- ---------- 19. Super admin instellen voor bestaande user ----------
 -- Als koen.kerkvliet@movare.nl al geregistreerd is:
 UPDATE public.profiles
 SET role = 'super_admin'

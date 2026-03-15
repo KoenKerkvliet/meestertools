@@ -53,6 +53,7 @@
             <button class="admin-tab active" data-tab="schools">Scholen</button>
             <button class="admin-tab" data-tab="users">Gebruikers</button>
             <button class="admin-tab" data-tab="words">Woorden Flitsen</button>
+            <button class="admin-tab" data-tab="spelling">Spelling</button>
             <button class="admin-tab" data-tab="game24">24 Game</button>
         </div>
 
@@ -157,6 +158,113 @@
                         <button class="btn-primary" id="addDifficultyBtn">+ Toevoegen</button>
                     </div>
                     <div id="difficultiesByLevel"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spelling Tab -->
+        <div class="admin-tab-panel" id="tab-spelling">
+            <!-- Sub-tabs -->
+            <div class="words-sub-tabs spelling-sub-tabs">
+                <button class="words-sub-tab spelling-sub-tab active" data-subtab="sp-werkwoord">Werkwoordspelling</button>
+                <button class="words-sub-tab spelling-sub-tab" data-subtab="sp-spelling">Spelling</button>
+            </div>
+
+            <!-- Werkwoordspelling sub-panel -->
+            <div class="words-sub-panel spelling-sub-panel active" id="subtab-sp-werkwoord">
+                <div class="words-section">
+                    <h3 style="font-size:15px;font-weight:700;margin-bottom:16px;">Zin toevoegen</h3>
+                    <div class="words-add-row" style="flex-wrap:wrap;">
+                        <select class="search-input" id="spNewTijd" style="max-width:180px;">
+                            <option value="tt">Tegenwoordige tijd</option>
+                            <option value="vt">Verleden tijd</option>
+                        </select>
+                        <input type="text" class="search-input" id="spNewWerkwoord" placeholder="Werkwoord (hele vorm)" style="max-width:200px;">
+                        <select class="search-input" id="spNewVorm" style="max-width:200px;">
+                            <option value="ik">ik-vorm</option>
+                            <option value="jij">jij-vorm</option>
+                            <option value="hij">hij-vorm</option>
+                            <option value="wij">wij-vorm</option>
+                            <option value="vd">voltooid deelwoord</option>
+                            <option value="bvd">bijv. gebr. vd</option>
+                        </select>
+                        <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;white-space:nowrap;">
+                            <input type="checkbox" id="spNewSterk"> Sterk
+                        </label>
+                    </div>
+                    <div class="words-add-row" style="margin-top:8px;">
+                        <input type="text" class="search-input" id="spNewZinBegin" placeholder="Zin begin...">
+                        <input type="text" class="search-input" id="spNewAntwoord" placeholder="Antwoord (vervoegd)">
+                        <input type="text" class="search-input" id="spNewZinEinde" placeholder="Zin einde...">
+                        <button class="btn-primary" id="spAddSentenceBtn">+ Toevoegen</button>
+                    </div>
+                    <div id="spSentencesList" style="margin-top:16px;"></div>
+                </div>
+            </div>
+
+            <!-- Spelling sub-panel (placeholder) -->
+            <div class="words-sub-panel spelling-sub-panel" id="subtab-sp-spelling">
+                <div class="words-section">
+                    <div class="admin-empty" style="width:100%;">
+                        <span class="empty-icon">&#128221;</span>
+                        <p>Binnenkort beschikbaar.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spelling Sentence Edit Modal -->
+        <div class="modal-overlay" id="spSentenceModal">
+            <div class="modal" style="max-width:560px;">
+                <div class="modal-header">
+                    <h2>Zin bewerken</h2>
+                    <button class="modal-close" id="closeSpSentenceModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editSpSentenceId">
+                    <div class="form-group">
+                        <label for="editSpTijd">Tijd</label>
+                        <select id="editSpTijd">
+                            <option value="tt">Tegenwoordige tijd</option>
+                            <option value="vt">Verleden tijd</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editSpWerkwoord">Werkwoord</label>
+                        <input type="text" id="editSpWerkwoord" placeholder="Werkwoord (hele vorm)">
+                    </div>
+                    <div class="form-group">
+                        <label for="editSpVorm">Vorm</label>
+                        <select id="editSpVorm">
+                            <option value="ik">ik-vorm</option>
+                            <option value="jij">jij-vorm</option>
+                            <option value="hij">hij-vorm</option>
+                            <option value="wij">wij-vorm</option>
+                            <option value="vd">voltooid deelwoord</option>
+                            <option value="bvd">bijv. gebr. vd</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="editSpSterk"> Sterk werkwoord
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="editSpZinBegin">Zin begin</label>
+                        <input type="text" id="editSpZinBegin" placeholder="Zin begin...">
+                    </div>
+                    <div class="form-group">
+                        <label for="editSpAntwoord">Antwoord</label>
+                        <input type="text" id="editSpAntwoord" placeholder="Antwoord (vervoegd)">
+                    </div>
+                    <div class="form-group">
+                        <label for="editSpZinEinde">Zin einde</label>
+                        <input type="text" id="editSpZinEinde" placeholder="Zin einde...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancel" id="cancelSpSentenceModal">Annuleren</button>
+                    <button class="btn-primary" id="saveSpSentenceBtn">Opslaan</button>
                 </div>
             </div>
         </div>
