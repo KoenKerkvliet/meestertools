@@ -1654,7 +1654,18 @@ document.addEventListener('DOMContentLoaded', function () {
         doc.setFontSize(11);
         for (var si = 0; si < sums.length; si++) {
             var tw;
-            tw = doc.getTextWidth(sums[si].procent + '%');
+            // Handle Unicode fraction chars for width calculation
+            var pctStr = sums[si].procent;
+            if (/\u2153/.test(pctStr)) {
+                // e.g. '33⅓' → measure '33' + mini fraction width + '%'
+                var cleanNum = pctStr.replace(/\u2153/, '');
+                doc.setFontSize(7);
+                var miniFW = Math.max(doc.getTextWidth('1'), doc.getTextWidth('3')) + 1.5;
+                doc.setFontSize(11);
+                tw = doc.getTextWidth(cleanNum) + miniFW + doc.getTextWidth('%') + 1;
+            } else {
+                tw = doc.getTextWidth(pctStr + '%');
+            }
             if (tw > pctW) pctW = tw;
             tw = doc.getTextWidth(sums[si].komma);
             if (tw > kommaW) kommaW = tw;
@@ -1708,13 +1719,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Procent
                     var pctSymW = doc.getTextWidth('%');
                     if (s.given === 1) {
-                        doc.setFont('helvetica', 'normal');
-                        doc.setTextColor(50, 50, 70);
-                        doc.text(s.procent + '%', xPos + pctW, currentY, { align: 'right' });
+                        drawPercentPdf(doc, s.procent, xPos + pctW, currentY, [50, 50, 70], 'normal');
                     } else if (isAnswers) {
-                        doc.setFont('helvetica', 'bold');
-                        doc.setTextColor(108, 99, 255);
-                        doc.text(s.procent + '%', xPos + pctW, currentY, { align: 'right' });
+                        drawPercentPdf(doc, s.procent, xPos + pctW, currentY, [108, 99, 255], 'bold');
                     } else {
                         // Draw blank line and % sign within column bounds
                         doc.setFont('helvetica', 'normal');
@@ -2035,6 +2042,47 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ---------- Utility ----------
+
+    // Draw percentage text in PDF, handling Unicode fraction chars like ⅓
+    // rightX = right edge, baseY = text baseline, pctText = e.g. '33⅓'
+    function drawPercentPdf(doc, pctText, rightX, baseY, color, fontStyle) {
+        doc.setFont('helvetica', fontStyle || 'normal');
+        doc.setTextColor(color[0], color[1], color[2]);
+
+        // Check for Unicode vulgar fraction ⅓ (U+2153)
+        var fracMatch = pctText.match(/^(\d+)\u2153$/);
+        if (fracMatch) {
+            var mainNum = fracMatch[1];
+            doc.setFontSize(11);
+            var pctSymW = doc.getTextWidth('%');
+            // Draw "%" at rightX
+            doc.text('%', rightX, baseY, { align: 'right' });
+            // Draw mini fraction "1/3" before %
+            var miniSize = 7;
+            doc.setFontSize(miniSize);
+            var miniNumW = doc.getTextWidth('1');
+            var miniDenW = doc.getTextWidth('3');
+            var miniFracW = Math.max(miniNumW, miniDenW) + 1;
+            var fracRightX = rightX - pctSymW - 0.5;
+            var fracCenterX = fracRightX - miniFracW / 2;
+            // Numerator
+            doc.text('1', fracCenterX, baseY - 2.5, { align: 'center' });
+            // Fraction line
+            doc.setDrawColor(color[0], color[1], color[2]);
+            doc.setLineWidth(0.3);
+            doc.line(fracCenterX - miniFracW / 2, baseY - 1, fracCenterX + miniFracW / 2, baseY - 1);
+            // Denominator
+            doc.text('3', fracCenterX, baseY + 1.5, { align: 'center' });
+            // Draw main number before fraction
+            doc.setFontSize(11);
+            doc.text(mainNum, fracRightX - miniFracW - 0.5, baseY, { align: 'right' });
+            doc.setFontSize(11);
+        } else {
+            doc.setFontSize(11);
+            doc.text(pctText + '%', rightX, baseY, { align: 'right' });
+        }
+    }
+
     // Draw stacked fraction in PDF: num over den with horizontal line
     // rightX = right edge of fraction column, baseY = text baseline
     // color = [r,g,b] for text, null = blank placeholder
