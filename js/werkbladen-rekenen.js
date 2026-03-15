@@ -166,7 +166,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // ---------- Date Field Switch ----------
     var dateFieldBtns = document.querySelectorAll('.wb-switch-btn[data-datefield]');
     var dateFieldHidden = document.getElementById('wbDateField');
-    var dateOptionsRow = document.getElementById('dateOptionsRow');
+    var datePrefixField = document.getElementById('datePrefix');
+    var datePickerField = document.getElementById('datePicker');
 
     dateFieldBtns.forEach(function (btn) {
         btn.addEventListener('click', function () {
@@ -174,7 +175,8 @@ document.addEventListener('DOMContentLoaded', function () {
             this.classList.add('active');
             var val = this.getAttribute('data-datefield');
             dateFieldHidden.value = val;
-            if (dateOptionsRow) dateOptionsRow.style.display = val === 'ja' ? '' : 'none';
+            if (datePrefixField) datePrefixField.style.display = val === 'ja' ? '' : 'none';
+            if (datePickerField) datePickerField.style.display = val === 'ja' ? '' : 'none';
             hidePreview();
         });
     });
