@@ -278,6 +278,10 @@
     grid-template-columns: 1fr 1fr 1fr;
 }
 
+.wb-switch-quad {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
 .wb-switch-btn {
     padding: 10px 12px;
     border: 2px solid #D8D8E8;
@@ -649,6 +653,11 @@
 /* Three-column toggles for cijferen */
 .wb-toggles-three {
     grid-template-columns: repeat(3, 1fr);
+}
+
+/* Metric unit toggles */
+.wb-toggles-metric {
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
 }
 
 /* Coming soon for other types */

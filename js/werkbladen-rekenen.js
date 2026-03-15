@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var settingsStaartdelingen = document.getElementById('settingsStaartdelingen');
     var settingsCijferen = document.getElementById('settingsCijferen');
     var settingsBreuken = document.getElementById('settingsBreuken');
+    var settingsMetriek = document.getElementById('settingsMetriek');
     var settingsPercent = document.getElementById('settingsPercent');
     var generateSection = document.getElementById('generateSection');
 
@@ -52,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
         settingsStaartdelingen.style.display = 'none';
         if (settingsCijferen) settingsCijferen.style.display = 'none';
         if (settingsBreuken) settingsBreuken.style.display = 'none';
+        if (settingsMetriek) settingsMetriek.style.display = 'none';
         if (settingsPercent) settingsPercent.style.display = 'none';
         generateSection.style.display = '';
         previewSection.style.display = 'none';
@@ -64,18 +66,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (settingsCijferen) settingsCijferen.style.display = '';
         } else if (currentType === 'breuken') {
             if (settingsBreuken) settingsBreuken.style.display = '';
+        } else if (currentType === 'metriek') {
+            if (settingsMetriek) settingsMetriek.style.display = '';
         } else if (currentType === 'procenten') {
             if (settingsPercent) settingsPercent.style.display = '';
-        } else if (currentType === 'metriek') {
-            // Coming soon
-            generateSection.style.display = 'none';
-            previewSection.style.display = '';
-            previewEl.innerHTML =
-                '<div class="wb-coming-soon">' +
-                '<div class="wb-coming-icon">&#128679;</div>' +
-                '<p>Dit type werkblad is binnenkort beschikbaar.</p>' +
-                '</div>';
-            return;
         } else {
             generateSection.style.display = 'none';
             previewSection.style.display = '';
@@ -99,6 +93,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     if (settingsCijferen) {
         settingsCijferen.querySelectorAll('input').forEach(function (input) {
+            input.addEventListener('input', hidePreview);
+            input.addEventListener('change', hidePreview);
+        });
+    }
+    if (settingsMetriek) {
+        settingsMetriek.querySelectorAll('input').forEach(function (input) {
             input.addEventListener('input', hidePreview);
             input.addEventListener('change', hidePreview);
         });
@@ -546,6 +546,76 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             this.classList.add('active');
             document.getElementById('wbConvLevel').value = this.getAttribute('data-convlevel');
+            hidePreview();
+        });
+    });
+
+    // ---------- Metriek Stepper ----------
+    var metCountInput = document.getElementById('wbMetCount');
+    var metBtnMinus = document.getElementById('wbMetCountMinus');
+    var metBtnPlus = document.getElementById('wbMetCountPlus');
+
+    if (metBtnMinus) {
+        metBtnMinus.addEventListener('click', function () {
+            var val = parseInt(metCountInput.value) || 75;
+            if (val > 1) metCountInput.value = val - 1;
+            hidePreview();
+        });
+    }
+    if (metBtnPlus) {
+        metBtnPlus.addEventListener('click', function () {
+            var val = parseInt(metCountInput.value) || 75;
+            if (val < 200) metCountInput.value = val + 1;
+            hidePreview();
+        });
+    }
+
+    // ---------- Metriek Category Switch ----------
+    var metCatBtns = document.querySelectorAll('.wb-switch-btn[data-metcat]');
+    var metCatHidden = document.getElementById('wbMetCat');
+    var metUnitsLengte = document.getElementById('metUnitsLengte');
+    var metUnitsOppervlakte = document.getElementById('metUnitsOppervlakte');
+    var metUnitsInhoud = document.getElementById('metUnitsInhoud');
+    var metUnitsGewicht = document.getElementById('metUnitsGewicht');
+
+    function updateMetUnitsVisibility() {
+        var cat = metCatHidden ? metCatHidden.value : 'lengte';
+        if (metUnitsLengte) metUnitsLengte.style.display = cat === 'lengte' ? '' : 'none';
+        if (metUnitsOppervlakte) metUnitsOppervlakte.style.display = cat === 'oppervlakte' ? '' : 'none';
+        if (metUnitsInhoud) metUnitsInhoud.style.display = cat === 'inhoud' ? '' : 'none';
+        if (metUnitsGewicht) metUnitsGewicht.style.display = cat === 'gewicht' ? '' : 'none';
+    }
+
+    metCatBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            metCatBtns.forEach(function (b) { b.classList.remove('active'); });
+            this.classList.add('active');
+            if (metCatHidden) metCatHidden.value = this.getAttribute('data-metcat');
+            updateMetUnitsVisibility();
+            hidePreview();
+        });
+    });
+
+    // ---------- Metriek Unit Toggles ----------
+    document.querySelectorAll('#settingsMetriek .wb-toggle-wide[data-metunit]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            this.classList.toggle('active');
+            // Ensure at least 2 units active in the current category
+            var parent = this.closest('.wb-field');
+            var activeCount = parent.querySelectorAll('.wb-toggle-wide.active').length;
+            if (activeCount < 2) this.classList.add('active');
+            hidePreview();
+        });
+    });
+
+    // ---------- Metriek Level Sub-options ----------
+    document.querySelectorAll('.wb-suboption[data-metlevel]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.wb-suboption[data-metlevel]').forEach(function (b) {
+                b.classList.remove('active');
+            });
+            this.classList.add('active');
+            document.getElementById('wbMetLevel').value = this.getAttribute('data-metlevel');
             hidePreview();
         });
     });
@@ -2135,6 +2205,365 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ============================================
+    // METRIEK (Metric Conversions)
+    // ============================================
+
+    var METRIC_PER_PAGE = 75; // 3 cols × 5 rows × 5 per block
+
+    // Unit definitions per category with conversion factors to base unit
+    var metricUnits = {
+        lengte: {
+            units: ['km', 'hm', 'dam', 'm', 'dm', 'cm', 'mm'],
+            factors: { km: 1000, hm: 100, dam: 10, m: 1, dm: 0.1, cm: 0.01, mm: 0.001 },
+            labels: { km: 'km', hm: 'hm', dam: 'dam', m: 'm', dm: 'dm', cm: 'cm', mm: 'mm' }
+        },
+        oppervlakte: {
+            units: ['km2', 'hm2', 'dam2', 'm2', 'dm2', 'cm2', 'mm2'],
+            factors: { km2: 1000000, hm2: 10000, dam2: 100, m2: 1, dm2: 0.01, cm2: 0.0001, mm2: 0.000001 },
+            labels: { km2: 'km\u00B2', hm2: 'hm\u00B2', dam2: 'dam\u00B2', m2: 'm\u00B2', dm2: 'dm\u00B2', cm2: 'cm\u00B2', mm2: 'mm\u00B2' }
+        },
+        inhoud: {
+            units: ['kl', 'hl', 'dal', 'l', 'dl', 'cl', 'ml'],
+            factors: { kl: 1000, hl: 100, dal: 10, l: 1, dl: 0.1, cl: 0.01, ml: 0.001 },
+            labels: { kl: 'kl', hl: 'hl', dal: 'dal', l: 'l', dl: 'dl', cl: 'cl', ml: 'ml' }
+        },
+        gewicht: {
+            units: ['ton', 'kg', 'hg', 'dag', 'g', 'dg', 'cg', 'mg'],
+            factors: { ton: 1000000, kg: 1000, hg: 100, dag: 10, g: 1, dg: 0.1, cg: 0.01, mg: 0.001 },
+            labels: { ton: 'ton', kg: 'kg', hg: 'hg', dag: 'dag', g: 'g', dg: 'dg', cg: 'cg', mg: 'mg' }
+        }
+    };
+
+    function readSettingsMetriek() {
+        var cat = metCatHidden ? metCatHidden.value : 'lengte';
+        var unitContainerId = 'metUnits' + cat.charAt(0).toUpperCase() + cat.slice(1);
+        var container = document.getElementById(unitContainerId);
+        var activeUnits = [];
+        if (container) {
+            container.querySelectorAll('.wb-toggle-wide.active[data-metunit]').forEach(function (b) {
+                activeUnits.push(b.getAttribute('data-metunit'));
+            });
+        }
+        if (activeUnits.length < 2) {
+            var allUnits = metricUnits[cat].units;
+            activeUnits = [allUnits[0], allUnits[1]];
+        }
+
+        return {
+            title: document.getElementById('wbTitle').value.trim() || 'Rekenwerkblad',
+            date: getFormattedDate(),
+            datePrefix: getDatePrefix(),
+            showName: document.getElementById('wbNameField').value === 'ja',
+            count: Math.max(1, Math.min(200, parseInt(metCountInput.value) || 75)),
+            category: cat,
+            units: activeUnits,
+            level: document.getElementById('wbMetLevel').value || 'makkelijk',
+            answerSheet: document.getElementById('wbMetAnswerSheet').checked
+        };
+    }
+
+    function generateMetricSums(settings) {
+        var sums = [];
+        var used = {};
+        var cat = metricUnits[settings.category];
+        var units = settings.units;
+        var maxAttempts = settings.count * 300;
+        var attempts = 0;
+
+        // Determine step size based on category
+        var stepFactor = settings.category === 'oppervlakte' ? 100 : 10;
+
+        while (sums.length < settings.count && attempts < maxAttempts) {
+            attempts++;
+
+            // Pick two different units
+            var fromIdx = Math.floor(Math.random() * units.length);
+            var toIdx = Math.floor(Math.random() * units.length);
+            if (fromIdx === toIdx) continue;
+            var fromUnit = units[fromIdx];
+            var toUnit = units[toIdx];
+
+            // Calculate steps between units
+            var fromPos = cat.units.indexOf(fromUnit);
+            var toPos = cat.units.indexOf(toUnit);
+            var steps = Math.abs(toPos - fromPos);
+
+            // Limit steps based on difficulty
+            if (settings.level === 'makkelijk' && steps > 2) continue;
+            if (settings.level === 'gemiddeld' && steps > 4) continue;
+            // moeilijk: no limit
+
+            // Generate value based on difficulty
+            var value;
+            var convFactor = cat.factors[fromUnit] / cat.factors[toUnit];
+
+            if (settings.level === 'makkelijk') {
+                // Simple whole numbers
+                var maxVal = toPos > fromPos ? 100 : 10;
+                value = Math.floor(Math.random() * maxVal) + 1;
+            } else if (settings.level === 'gemiddeld') {
+                // Allow some decimals (1 decimal place)
+                if (Math.random() < 0.4 && toPos < fromPos) {
+                    value = Math.floor(Math.random() * 90 + 10) / 10; // 1.0 - 9.9
+                } else {
+                    value = Math.floor(Math.random() * 50) + 1;
+                }
+            } else {
+                // Moeilijk: decimals and larger numbers
+                if (Math.random() < 0.5) {
+                    value = Math.floor(Math.random() * 900 + 100) / 100; // 1.00 - 9.99
+                } else {
+                    value = Math.floor(Math.random() * 500) + 1;
+                }
+            }
+
+            // Calculate answer
+            var answer = value * convFactor;
+
+            // Round to avoid floating point issues
+            answer = Math.round(answer * 1e10) / 1e10;
+
+            // Skip very large or very small answers
+            if (answer > 999999 || answer < 0.001) continue;
+            if (answer === 0) continue;
+
+            // Skip duplicates
+            var key = value + fromUnit + toUnit;
+            if (used[key]) continue;
+            used[key] = true;
+
+            sums.push({
+                value: value,
+                fromUnit: fromUnit,
+                toUnit: toUnit,
+                answer: answer,
+                op: 'metric'
+            });
+        }
+
+        return sums;
+    }
+
+    // Format metric number nicely (remove trailing zeros, use comma for Dutch)
+    function formatMetric(n) {
+        if (Number.isInteger(n)) return n.toString();
+        // Show up to 6 decimals, trim trailing zeros
+        var str = parseFloat(n.toFixed(6)).toString();
+        return str.replace('.', ',');
+    }
+
+    function formatMetricDisplay(n) {
+        var str = formatMetric(n);
+        return str;
+    }
+
+    var generatedMetric = [];
+
+    function renderMetricPreview(settings, sums) {
+        var html = '';
+        var perPage = METRIC_PER_PAGE;
+        var previewSums = sums.slice(0, perPage);
+
+        html += '<div class="wb-preview-page">';
+        html += buildHeaderHtml(settings, false);
+        html += renderMetricGrid(previewSums, false, settings);
+        html += '<div class="wb-preview-footer">Meester Tools</div>';
+        html += '</div>';
+
+        if (settings.answerSheet) {
+            html += '<div class="wb-preview-page">';
+            html += buildHeaderHtml(settings, true);
+            html += renderMetricGrid(previewSums, true, settings);
+            html += '<div class="wb-preview-footer">Meester Tools</div>';
+            html += '</div>';
+        }
+
+        previewEl.innerHTML = html;
+        previewSection.style.display = '';
+    }
+
+    function renderMetricGrid(sums, showAnswers, settings) {
+        var layout = arrangeInBlocks(sums, 3);
+        var cat = metricUnits[settings.category];
+
+        // Calculate max widths
+        var maxValue = 0, maxUnit1 = 0, maxUnit2 = 0, maxAnswer = 0;
+        for (var i = 0; i < sums.length; i++) {
+            var s = sums[i];
+            maxValue = Math.max(maxValue, formatMetricDisplay(s.value).length);
+            maxUnit1 = Math.max(maxUnit1, (cat.labels[s.fromUnit] || s.fromUnit).length);
+            maxUnit2 = Math.max(maxUnit2, (cat.labels[s.toUnit] || s.toUnit).length);
+            maxAnswer = Math.max(maxAnswer, formatMetricDisplay(s.answer).length);
+        }
+
+        var colVal = Math.max(maxValue, 3) + 'ch';
+        var colU1 = Math.max(maxUnit1, 2) + 1 + 'ch';
+        var colEq = '1.5ch';
+        var colAns = showAnswers ? Math.max(maxAnswer, 3) + 'ch' : '4ch';
+        var colU2 = Math.max(maxUnit2, 2) + 1 + 'ch';
+        var gridCols = colVal + ' ' + colU1 + ' ' + colEq + ' ' + colAns + ' ' + colU2;
+
+        var html = '<div class="wb-preview-blocks wb-preview-blocks-3">';
+
+        for (var r = 0; r < layout.rows; r++) {
+            for (var c = 0; c < layout.cols; c++) {
+                var block = layout.grid[r][c];
+                html += '<div class="wb-preview-block">';
+                for (var i = 0; i < block.length; i++) {
+                    var s = block[i].sum;
+                    html += '<div class="wb-preview-sum" style="grid-template-columns:' + gridCols + ';">';
+                    html += '<span class="wb-preview-a">' + escapeHtml(formatMetricDisplay(s.value)) + '</span>';
+                    html += '<span class="wb-preview-op">' + escapeHtml(cat.labels[s.fromUnit] || s.fromUnit) + '</span>';
+                    html += '<span class="wb-preview-eq">=</span>';
+                    if (showAnswers) {
+                        html += '<span class="wb-preview-answer">' + escapeHtml(formatMetricDisplay(s.answer)) + '</span>';
+                    } else {
+                        html += '<span class="wb-preview-line">___</span>';
+                    }
+                    html += '<span class="wb-preview-op">' + escapeHtml(cat.labels[s.toUnit] || s.toUnit) + '</span>';
+                    html += '</div>';
+                }
+                html += '</div>';
+            }
+        }
+        html += '</div>';
+        return html;
+    }
+
+    function generateMetricPdfPage(doc, settings, sums, isAnswers) {
+        var pageW = 210;
+        var margin = 15;
+        var contentW = pageW - margin * 2;
+        var cat = metricUnits[settings.category];
+
+        // Title
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(50, 50, 70);
+        var titleText = settings.title;
+        if (isAnswers) titleText += ' - Antwoordblad';
+        doc.text(titleText, margin, 12);
+
+        if (settings.showName) {
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 110);
+            doc.text('Naam: ___________________________', pageW - margin, 12, { align: 'right' });
+        }
+
+        var yPos = 18;
+        if (settings.date) {
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 110);
+            var dateDisplay = settings.datePrefix ? settings.datePrefix + ' ' + settings.date : settings.date;
+            doc.text(dateDisplay, margin, yPos);
+            yPos += 6;
+        }
+
+        var yStart = yPos + 8;
+
+        // Layout: 3 columns
+        var numCols = 3;
+        var layout = arrangeInBlocks(sums, numCols);
+        var lineH = 7;
+        var blockGap = 6;
+        var colGap = 6;
+        var colW = (contentW - colGap * (numCols - 1)) / numCols;
+
+        // Measure column widths
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        var valW = 0, u1W = 0, u2W = 0, ansW = 0;
+        for (var si = 0; si < sums.length; si++) {
+            var tw;
+            tw = doc.getTextWidth(formatMetricDisplay(sums[si].value));
+            if (tw > valW) valW = tw;
+            tw = doc.getTextWidth(cat.labels[sums[si].fromUnit] || sums[si].fromUnit);
+            if (tw > u1W) u1W = tw;
+            tw = doc.getTextWidth(cat.labels[sums[si].toUnit] || sums[si].toUnit);
+            if (tw > u2W) u2W = tw;
+            tw = doc.getTextWidth(formatMetricDisplay(sums[si].answer));
+            if (tw > ansW) ansW = tw;
+        }
+        valW += 1;
+        u1W += 1;
+        u2W += 1;
+        ansW += 1;
+        var eqW = 4;
+        var blankW = doc.getTextWidth('____') + 1;
+
+        var y = yStart;
+
+        for (var r = 0; r < layout.rows; r++) {
+            for (var c = 0; c < layout.cols; c++) {
+                var block = layout.grid[r][c];
+                if (block.length === 0) continue;
+                var colX = margin + c * (colW + colGap);
+
+                for (var i = 0; i < block.length; i++) {
+                    var s = block[i].sum;
+                    var currentY = y + i * lineH;
+
+                    if (currentY > 280) {
+                        doc.addPage();
+                        y = margin + 8;
+                        currentY = y + i * lineH;
+                    }
+
+                    doc.setFontSize(10);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(50, 50, 70);
+
+                    var xPos = colX;
+
+                    // Value (right-aligned)
+                    doc.text(formatMetricDisplay(s.value), xPos + valW, currentY, { align: 'right' });
+                    xPos += valW;
+
+                    // From unit
+                    doc.text(' ' + (cat.labels[s.fromUnit] || s.fromUnit), xPos, currentY);
+                    xPos += u1W + 1;
+
+                    // = sign
+                    doc.text('=', xPos + eqW / 2, currentY, { align: 'center' });
+                    xPos += eqW;
+
+                    // Answer or blank
+                    if (isAnswers) {
+                        doc.setFont('helvetica', 'bold');
+                        doc.setTextColor(108, 99, 255);
+                        doc.text(formatMetricDisplay(s.answer), xPos + ansW, currentY, { align: 'right' });
+                    } else {
+                        doc.setDrawColor(200, 200, 210);
+                        doc.setLineWidth(0.3);
+                        doc.line(xPos + ansW - blankW, currentY, xPos + ansW, currentY);
+                    }
+                    xPos += ansW;
+
+                    // To unit
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(50, 50, 70);
+                    doc.text(' ' + (cat.labels[s.toUnit] || s.toUnit), xPos, currentY);
+                }
+            }
+
+            var maxBlockSize = 0;
+            for (var mc = 0; mc < layout.cols; mc++) {
+                var bl = layout.grid[r][mc];
+                if (bl.length > maxBlockSize) maxBlockSize = bl.length;
+            }
+            y += maxBlockSize * lineH + blockGap;
+        }
+
+        // Footer
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(160, 160, 175);
+        doc.text('Meester Tools', margin, 290);
+    }
+
+    // ============================================
     // CONVERSIES (Breuken / Procenten / Komma's)
     // ============================================
 
@@ -2501,6 +2930,7 @@ document.addEventListener('DOMContentLoaded', function () {
             generatedCijfer = [];
             generatedPercent = [];
             generatedFractions = [];
+            generatedMetric = [];
             renderPreview(currentSettings, generatedSums);
         } else if (currentType === 'staartdelingen') {
             currentSettings = readSettingsStaartdelingen();
@@ -2509,6 +2939,7 @@ document.addEventListener('DOMContentLoaded', function () {
             generatedCijfer = [];
             generatedPercent = [];
             generatedFractions = [];
+            generatedMetric = [];
             renderLdPreview(currentSettings, generatedDivisions);
         } else if (currentType === 'cijferen') {
             currentSettings = readSettingsCijferen();
@@ -2517,6 +2948,7 @@ document.addEventListener('DOMContentLoaded', function () {
             generatedDivisions = [];
             generatedPercent = [];
             generatedFractions = [];
+            generatedMetric = [];
             renderCfPreview(currentSettings, generatedCijfer);
         } else if (currentType === 'breuken') {
             currentSettings = getFracSettings();
@@ -2524,6 +2956,7 @@ document.addEventListener('DOMContentLoaded', function () {
             generatedDivisions = [];
             generatedCijfer = [];
             generatedPercent = [];
+            generatedMetric = [];
             if (currentSettings.fracType === 'vereenvoudigen') {
                 generatedFractions = generateSimplSums(currentSettings);
             } else if (currentSettings.fracType === 'helen') {
@@ -2532,12 +2965,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 generatedFractions = generateFracSums(currentSettings);
             }
             renderFracPreview(currentSettings, generatedFractions);
+        } else if (currentType === 'metriek') {
+            currentSettings = readSettingsMetriek();
+            generatedSums = [];
+            generatedDivisions = [];
+            generatedCijfer = [];
+            generatedPercent = [];
+            generatedFractions = [];
+            generatedMetric = generateMetricSums(currentSettings);
+            renderMetricPreview(currentSettings, generatedMetric);
         } else if (currentType === 'procenten') {
             currentSettings = readSettingsPercent();
             generatedSums = [];
             generatedDivisions = [];
             generatedCijfer = [];
             generatedFractions = [];
+            generatedMetric = [];
             if (currentSettings.pctType === 'omrekenen') {
                 generatedPercent = generateConvSums(currentSettings);
                 renderConvPreview(currentSettings, generatedPercent);
@@ -2555,7 +2998,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- PDF Generation ----------
     btnDownloadPdf.addEventListener('click', function () {
-        if (generatedSums.length === 0 && generatedDivisions.length === 0 && generatedCijfer.length === 0 && generatedPercent.length === 0 && generatedFractions.length === 0) return;
+        if (generatedSums.length === 0 && generatedDivisions.length === 0 && generatedCijfer.length === 0 && generatedPercent.length === 0 && generatedFractions.length === 0 && generatedMetric.length === 0) return;
         if (!window.jspdf) {
             alert('PDF-bibliotheek kon niet geladen worden. Probeer de pagina te vernieuwen.');
             return;
@@ -2617,6 +3060,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
             var filename = 'werkblad-procenten-' + new Date().toISOString().slice(0, 10) + '.pdf';
+            doc.save(filename);
+        } else if (generatedMetric.length > 0) {
+            var metPages = Math.ceil(generatedMetric.length / METRIC_PER_PAGE);
+            for (var p = 0; p < metPages; p++) {
+                if (p > 0) doc.addPage();
+                var pageSums = generatedMetric.slice(p * METRIC_PER_PAGE, (p + 1) * METRIC_PER_PAGE);
+                generateMetricPdfPage(doc, currentSettings, pageSums, false);
+            }
+            if (currentSettings.answerSheet) {
+                for (var p = 0; p < metPages; p++) {
+                    doc.addPage();
+                    var pageSums = generatedMetric.slice(p * METRIC_PER_PAGE, (p + 1) * METRIC_PER_PAGE);
+                    generateMetricPdfPage(doc, currentSettings, pageSums, true);
+                }
+            }
+            var filename = 'werkblad-metriek-' + new Date().toISOString().slice(0, 10) + '.pdf';
             doc.save(filename);
         } else if (generatedFractions.length > 0) {
             var fracPerPage = currentSettings.fracType === 'rekenen' ? FRAC_CALC_PER_PAGE : FRAC_SIMPLE_PER_PAGE;

@@ -364,6 +364,100 @@
                 </div>
             </div>
 
+            <!-- Sectie: Instellingen metriek -->
+            <div class="wb-section" id="settingsMetriek" style="display:none;">
+                <h3 class="wb-section-title">Instellingen</h3>
+
+                <div class="wb-field">
+                    <label>Aantal sommen</label>
+                    <div class="wb-stepper">
+                        <button class="wb-stepper-btn" id="wbMetCountMinus" type="button">&minus;</button>
+                        <input type="number" id="wbMetCount" class="wb-stepper-input" value="75" min="1" max="200">
+                        <button class="wb-stepper-btn" id="wbMetCountPlus" type="button">+</button>
+                    </div>
+                </div>
+
+                <div class="wb-field">
+                    <label>Categorie</label>
+                    <div class="wb-switch-group wb-switch-quad">
+                        <button class="wb-switch-btn active" data-metcat="lengte">Lengte</button>
+                        <button class="wb-switch-btn" data-metcat="oppervlakte">Oppervlakte</button>
+                        <button class="wb-switch-btn" data-metcat="inhoud">Inhoud</button>
+                        <button class="wb-switch-btn" data-metcat="gewicht">Gewicht</button>
+                    </div>
+                    <input type="hidden" id="wbMetCat" value="lengte">
+                </div>
+
+                <div class="wb-field" id="metUnitsLengte">
+                    <label>Eenheden</label>
+                    <div class="wb-toggles-wide wb-toggles-metric">
+                        <button class="wb-toggle-wide active" data-metunit="km">km</button>
+                        <button class="wb-toggle-wide active" data-metunit="hm">hm</button>
+                        <button class="wb-toggle-wide active" data-metunit="dam">dam</button>
+                        <button class="wb-toggle-wide active" data-metunit="m">m</button>
+                        <button class="wb-toggle-wide active" data-metunit="dm">dm</button>
+                        <button class="wb-toggle-wide active" data-metunit="cm">cm</button>
+                        <button class="wb-toggle-wide active" data-metunit="mm">mm</button>
+                    </div>
+                </div>
+
+                <div class="wb-field" id="metUnitsOppervlakte" style="display:none;">
+                    <label>Eenheden</label>
+                    <div class="wb-toggles-wide wb-toggles-metric">
+                        <button class="wb-toggle-wide active" data-metunit="km2">km&sup2;</button>
+                        <button class="wb-toggle-wide active" data-metunit="hm2">hm&sup2;</button>
+                        <button class="wb-toggle-wide active" data-metunit="dam2">dam&sup2;</button>
+                        <button class="wb-toggle-wide active" data-metunit="m2">m&sup2;</button>
+                        <button class="wb-toggle-wide active" data-metunit="dm2">dm&sup2;</button>
+                        <button class="wb-toggle-wide active" data-metunit="cm2">cm&sup2;</button>
+                        <button class="wb-toggle-wide active" data-metunit="mm2">mm&sup2;</button>
+                    </div>
+                </div>
+
+                <div class="wb-field" id="metUnitsInhoud" style="display:none;">
+                    <label>Eenheden</label>
+                    <div class="wb-toggles-wide wb-toggles-metric">
+                        <button class="wb-toggle-wide active" data-metunit="kl">kl</button>
+                        <button class="wb-toggle-wide active" data-metunit="hl">hl</button>
+                        <button class="wb-toggle-wide active" data-metunit="dal">dal</button>
+                        <button class="wb-toggle-wide active" data-metunit="l">l</button>
+                        <button class="wb-toggle-wide active" data-metunit="dl">dl</button>
+                        <button class="wb-toggle-wide active" data-metunit="cl">cl</button>
+                        <button class="wb-toggle-wide active" data-metunit="ml">ml</button>
+                    </div>
+                </div>
+
+                <div class="wb-field" id="metUnitsGewicht" style="display:none;">
+                    <label>Eenheden</label>
+                    <div class="wb-toggles-wide wb-toggles-metric">
+                        <button class="wb-toggle-wide active" data-metunit="ton">ton</button>
+                        <button class="wb-toggle-wide active" data-metunit="kg">kg</button>
+                        <button class="wb-toggle-wide active" data-metunit="hg">hg</button>
+                        <button class="wb-toggle-wide active" data-metunit="dag">dag</button>
+                        <button class="wb-toggle-wide active" data-metunit="g">g</button>
+                        <button class="wb-toggle-wide active" data-metunit="dg">dg</button>
+                        <button class="wb-toggle-wide active" data-metunit="cg">cg</button>
+                        <button class="wb-toggle-wide active" data-metunit="mg">mg</button>
+                    </div>
+                </div>
+
+                <div class="wb-field">
+                    <label>Moeilijkheidsgraad</label>
+                    <div class="wb-suboptions">
+                        <button class="wb-suboption active" data-metlevel="makkelijk">Makkelijk</button>
+                        <button class="wb-suboption" data-metlevel="gemiddeld">Gemiddeld</button>
+                        <button class="wb-suboption" data-metlevel="moeilijk">Moeilijk</button>
+                    </div>
+                    <input type="hidden" id="wbMetLevel" value="makkelijk">
+                </div>
+
+                <div class="wb-field wb-field-check">
+                    <label class="wb-checkbox-label">
+                        <input type="checkbox" id="wbMetAnswerSheet" checked> Antwoordblad toevoegen
+                    </label>
+                </div>
+            </div>
+
             <!-- Sectie: Instellingen breuken -->
             <div class="wb-section" id="settingsBreuken" style="display:none;">
                 <h3 class="wb-section-title">Instellingen</h3>
