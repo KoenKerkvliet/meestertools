@@ -66,6 +66,16 @@ document.addEventListener('DOMContentLoaded', function () {
             if (settingsBreuken) settingsBreuken.style.display = '';
         } else if (currentType === 'procenten') {
             if (settingsPercent) settingsPercent.style.display = '';
+        } else if (currentType === 'metriek') {
+            // Coming soon
+            generateSection.style.display = 'none';
+            previewSection.style.display = '';
+            previewEl.innerHTML =
+                '<div class="wb-coming-soon">' +
+                '<div class="wb-coming-icon">&#128679;</div>' +
+                '<p>Dit type werkblad is binnenkort beschikbaar.</p>' +
+                '</div>';
+            return;
         } else {
             generateSection.style.display = 'none';
             previewSection.style.display = '';
@@ -149,6 +159,22 @@ document.addEventListener('DOMContentLoaded', function () {
             nameFieldBtns.forEach(function (b) { b.classList.remove('active'); });
             this.classList.add('active');
             nameFieldHidden.value = this.getAttribute('data-namefield');
+            hidePreview();
+        });
+    });
+
+    // ---------- Date Field Switch ----------
+    var dateFieldBtns = document.querySelectorAll('.wb-switch-btn[data-datefield]');
+    var dateFieldHidden = document.getElementById('wbDateField');
+    var dateOptionsRow = document.getElementById('dateOptionsRow');
+
+    dateFieldBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            dateFieldBtns.forEach(function (b) { b.classList.remove('active'); });
+            this.classList.add('active');
+            var val = this.getAttribute('data-datefield');
+            dateFieldHidden.value = val;
+            if (dateOptionsRow) dateOptionsRow.style.display = val === 'ja' ? '' : 'none';
             hidePreview();
         });
     });
@@ -523,6 +549,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ---------- Read Settings ----------
+    // ---------- Shared Date Helper ----------
+    function getFormattedDate() {
+        if (dateFieldHidden && dateFieldHidden.value === 'nee') return '';
+        var dateVal = document.getElementById('wbDate').value;
+        if (!dateVal) return '';
+        var d = new Date(dateVal);
+        return ('0' + d.getDate()).slice(-2) + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear();
+    }
+
+    function getDatePrefix() {
+        if (dateFieldHidden && dateFieldHidden.value === 'nee') return '';
+        return document.getElementById('wbDatePrefix').value.trim();
+    }
+
     function readSettings() {
         var ops = [];
         document.querySelectorAll('.wb-toggle-wide[data-op].active').forEach(function (btn) {
@@ -531,18 +571,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var numberType = numberTypeHidden.value;
 
-        // Format date
-        var dateVal = document.getElementById('wbDate').value;
-        var dateStr = '';
-        if (dateVal) {
-            var d = new Date(dateVal);
-            dateStr = ('0' + d.getDate()).slice(-2) + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear();
-        }
-
         return {
             title: document.getElementById('wbTitle').value.trim() || 'Rekenwerkblad',
-            date: dateStr,
-            datePrefix: document.getElementById('wbDatePrefix').value.trim(),
+            date: getFormattedDate(),
+            datePrefix: getDatePrefix(),
             showName: document.getElementById('wbNameField').value === 'ja',
             count: Math.max(1, Math.min(200, parseInt(document.getElementById('wbCount').value) || 40)),
             operations: ops,
@@ -836,18 +868,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Read Settings Staartdelingen ----------
     function readSettingsStaartdelingen() {
-        // Format date (shared)
-        var dateVal = document.getElementById('wbDate').value;
-        var dateStr = '';
-        if (dateVal) {
-            var d = new Date(dateVal);
-            dateStr = ('0' + d.getDate()).slice(-2) + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear();
-        }
-
         return {
             title: document.getElementById('wbTitle').value.trim() || 'Rekenwerkblad',
-            date: dateStr,
-            datePrefix: document.getElementById('wbDatePrefix').value.trim(),
+            date: getFormattedDate(),
+            datePrefix: getDatePrefix(),
             showName: document.getElementById('wbNameField').value === 'ja',
             count: Math.max(1, Math.min(48, parseInt(document.getElementById('wbLdCount').value) || 12)),
             divisionType: document.getElementById('wbLdRemainder').value,
@@ -1122,13 +1146,6 @@ document.addEventListener('DOMContentLoaded', function () {
             ops.push(btn.getAttribute('data-cfop'));
         });
 
-        var dateVal = document.getElementById('wbDate').value;
-        var dateStr = '';
-        if (dateVal) {
-            var d = new Date(dateVal);
-            dateStr = ('0' + d.getDate()).slice(-2) + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear();
-        }
-
         var numberType = cfNumberTypeHidden ? cfNumberTypeHidden.value : 'heel';
 
         var addTypeEl = document.getElementById('wbCfAddType');
@@ -1137,8 +1154,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         return {
             title: document.getElementById('wbTitle').value.trim() || 'Rekenwerkblad',
-            date: dateStr,
-            datePrefix: document.getElementById('wbDatePrefix').value.trim(),
+            date: getFormattedDate(),
+            datePrefix: getDatePrefix(),
             showName: document.getElementById('wbNameField').value === 'ja',
             count: Math.max(1, Math.min(80, parseInt(document.getElementById('wbCfCount').value) || 20)),
             operations: ops,
@@ -1468,17 +1485,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Read Settings Procenten ----------
     function readSettingsPercent() {
-        var dateVal = document.getElementById('wbDate').value;
-        var dateStr = '';
-        if (dateVal) {
-            var d = new Date(dateVal);
-            dateStr = ('0' + d.getDate()).slice(-2) + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear();
-        }
-
         return {
             title: document.getElementById('wbTitle').value.trim() || 'Rekenwerkblad',
-            date: dateStr,
-            datePrefix: document.getElementById('wbDatePrefix').value.trim(),
+            date: getFormattedDate(),
+            datePrefix: getDatePrefix(),
             showName: document.getElementById('wbNameField').value === 'ja',
             count: Math.max(1, Math.min(200, parseInt(pctCountInput.value) || 50)),
             pctType: pctTypeHidden ? pctTypeHidden.value : 'deelvangeheel',
@@ -1573,8 +1583,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         return {
             title: document.getElementById('wbTitle').value.trim() || 'Rekenwerkblad',
-            date: dateInput ? dateInput.value : '',
-            datePrefix: document.getElementById('wbDatePrefix').value.trim(),
+            date: getFormattedDate(),
+            datePrefix: getDatePrefix(),
             showName: document.getElementById('wbNameField').value === 'ja',
             count: Math.max(1, Math.min(200, parseInt(fracCountInput.value) || 50)),
             fracType: fracTypeHidden ? fracTypeHidden.value : 'rekenen',

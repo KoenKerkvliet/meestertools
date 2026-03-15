@@ -59,6 +59,17 @@
                 </div>
 
                 <div class="wb-row">
+                    <div class="wb-field wb-field-name">
+                        <label>Datum toevoegen</label>
+                        <div class="wb-switch-group wb-switch-small">
+                            <button class="wb-switch-btn" data-datefield="ja">Ja</button>
+                            <button class="wb-switch-btn active" data-datefield="nee">Nee</button>
+                        </div>
+                        <input type="hidden" id="wbDateField" value="nee">
+                    </div>
+                </div>
+
+                <div id="dateOptionsRow" class="wb-row" style="display:none;">
                     <div class="wb-field">
                         <label for="wbDatePrefix">Prefix (optioneel)</label>
                         <input type="text" id="wbDatePrefix" class="wb-input" placeholder="Bijv. Huiswerk voor">
@@ -73,7 +84,7 @@
                 </div>
 
                 <div class="wb-field">
-                    <label>Aanvullende opties</label>
+                    <label>Type werkblad</label>
                     <div class="wb-type-cards">
                         <button class="wb-type-card active" data-type="bewerkingen">
                             <span class="wb-type-label">Bewerkingen</span>
@@ -83,6 +94,9 @@
                         </button>
                         <button class="wb-type-card" data-type="cijferen">
                             <span class="wb-type-label">Cijferen</span>
+                        </button>
+                        <button class="wb-type-card" data-type="metriek">
+                            <span class="wb-type-label">Metriek</span>
                         </button>
                         <button class="wb-type-card" data-type="breuken">
                             <span class="wb-type-label">Breuken</span>
@@ -94,9 +108,9 @@
                 </div>
             </div>
 
-            <!-- Sectie 3: Instellingen bewerkingen -->
+            <!-- Sectie 2: Instellingen bewerkingen -->
             <div class="wb-section" id="settingsBewerkingen">
-                <h3 class="wb-section-title">Instellingen bewerkingen</h3>
+                <h3 class="wb-section-title">Instellingen</h3>
 
                 <div class="wb-field">
                     <label>Aantal sommen</label>
@@ -178,7 +192,7 @@
 
             <!-- Sectie: Instellingen staartdelingen -->
             <div class="wb-section" id="settingsStaartdelingen" style="display:none;">
-                <h3 class="wb-section-title">Instellingen staartdelingen</h3>
+                <h3 class="wb-section-title">Instellingen</h3>
 
                 <div class="wb-field">
                     <label>Aantal sommen</label>
@@ -238,7 +252,7 @@
 
             <!-- Sectie: Instellingen cijferen -->
             <div class="wb-section" id="settingsCijferen" style="display:none;">
-                <h3 class="wb-section-title">Instellingen cijferen</h3>
+                <h3 class="wb-section-title">Instellingen</h3>
 
                 <div class="wb-field">
                     <label>Aantal sommen</label>
@@ -353,7 +367,7 @@
 
             <!-- Sectie: Instellingen breuken -->
             <div class="wb-section" id="settingsBreuken" style="display:none;">
-                <h3 class="wb-section-title">Instellingen breuken</h3>
+                <h3 class="wb-section-title">Instellingen</h3>
 
                 <div class="wb-field">
                     <label>Aantal sommen</label>
@@ -451,7 +465,7 @@
 
             <!-- Sectie: Instellingen procenten -->
             <div class="wb-section" id="settingsPercent" style="display:none;">
-                <h3 class="wb-section-title">Instellingen procenten</h3>
+                <h3 class="wb-section-title">Instellingen</h3>
 
                 <div class="wb-field">
                     <label>Aantal sommen</label>
