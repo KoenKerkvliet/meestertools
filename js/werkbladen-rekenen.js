@@ -2081,9 +2081,12 @@ document.addEventListener('DOMContentLoaded', function () {
             doc.setLineWidth(0.3);
             doc.line(centerX - placeholderW / 2, baseY - 1.5, centerX + placeholderW / 2, baseY - 1.5);
 
-            // Small blank lines for num and den
-            doc.line(centerX - 3, baseY - 3, centerX + 3, baseY - 3);
-            doc.line(centerX - 3, baseY + 1.5, centerX + 3, baseY + 1.5);
+            // Placeholder dots for num and den
+            doc.setFontSize(9);
+            doc.setTextColor(200, 200, 210);
+            doc.text('...', centerX, baseY - 3, { align: 'center' });
+            doc.text('...', centerX, baseY + 1.5, { align: 'center' });
+            doc.setTextColor(0, 0, 0);
         }
 
         doc.setFontSize(11);
