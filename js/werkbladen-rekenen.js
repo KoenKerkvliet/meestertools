@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var settingsBewerkingen = document.getElementById('settingsBewerkingen');
     var settingsStaartdelingen = document.getElementById('settingsStaartdelingen');
     var settingsCijferen = document.getElementById('settingsCijferen');
+    var settingsBreuken = document.getElementById('settingsBreuken');
     var settingsPercent = document.getElementById('settingsPercent');
     var generateSection = document.getElementById('generateSection');
 
@@ -50,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
         settingsBewerkingen.style.display = 'none';
         settingsStaartdelingen.style.display = 'none';
         if (settingsCijferen) settingsCijferen.style.display = 'none';
+        if (settingsBreuken) settingsBreuken.style.display = 'none';
         if (settingsPercent) settingsPercent.style.display = 'none';
         generateSection.style.display = '';
         previewSection.style.display = 'none';
@@ -60,6 +62,8 @@ document.addEventListener('DOMContentLoaded', function () {
             settingsStaartdelingen.style.display = '';
         } else if (currentType === 'cijferen') {
             if (settingsCijferen) settingsCijferen.style.display = '';
+        } else if (currentType === 'breuken') {
+            if (settingsBreuken) settingsBreuken.style.display = '';
         } else if (currentType === 'procenten') {
             if (settingsPercent) settingsPercent.style.display = '';
         } else {
@@ -319,6 +323,63 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // ---------- Breuken Stepper ----------
+    var fracCountInput = document.getElementById('wbFracCount');
+    var fracBtnMinus = document.getElementById('wbFracCountMinus');
+    var fracBtnPlus = document.getElementById('wbFracCountPlus');
+    var fracMaxDenInput = document.getElementById('wbFracMaxDen');
+    var fracMaxDenMinus = document.getElementById('wbFracMaxDenMinus');
+    var fracMaxDenPlus = document.getElementById('wbFracMaxDenPlus');
+
+    if (fracBtnMinus) {
+        fracBtnMinus.addEventListener('click', function () {
+            var val = parseInt(fracCountInput.value) || 50;
+            if (val > 1) fracCountInput.value = val - 1;
+            hidePreview();
+        });
+    }
+    if (fracBtnPlus) {
+        fracBtnPlus.addEventListener('click', function () {
+            var val = parseInt(fracCountInput.value) || 50;
+            if (val < 200) fracCountInput.value = val + 1;
+            hidePreview();
+        });
+    }
+    if (fracMaxDenMinus) {
+        fracMaxDenMinus.addEventListener('click', function () {
+            var val = parseInt(fracMaxDenInput.value) || 12;
+            if (val > 2) fracMaxDenInput.value = val - 1;
+            hidePreview();
+        });
+    }
+    if (fracMaxDenPlus) {
+        fracMaxDenPlus.addEventListener('click', function () {
+            var val = parseInt(fracMaxDenInput.value) || 12;
+            if (val < 100) fracMaxDenInput.value = val + 1;
+            hidePreview();
+        });
+    }
+
+    // ---------- Breuken Operation Toggles ----------
+    document.querySelectorAll('.wb-toggle-wide[data-fracop]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            this.classList.toggle('active');
+            hidePreview();
+        });
+    });
+
+    // ---------- Breuken Level Sub-options ----------
+    document.querySelectorAll('.wb-suboption[data-fraclevel]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.wb-suboption[data-fraclevel]').forEach(function (b) {
+                b.classList.remove('active');
+            });
+            this.classList.add('active');
+            document.getElementById('wbFracLevel').value = this.getAttribute('data-fraclevel');
+            hidePreview();
+        });
+    });
+
     // ---------- Procenten Stepper ----------
     var pctCountInput = document.getElementById('wbPctCount');
     var pctBtnMinus = document.getElementById('wbPctCountMinus');
@@ -551,9 +612,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Layout: 2 cols, 4 rows of blocks, 5 sums per block ----------
     // Numbering goes left-to-right, top-to-bottom through blocks
-    function arrangeInBlocks(sums, blockSize) {
+    function arrangeInBlocks(sums) {
         var cols = 2;
-        var sumsPerBlock = blockSize || 5;
+        var sumsPerBlock = 5;
         var totalBlocks = Math.ceil(sums.length / sumsPerBlock);
         var rows = Math.ceil(totalBlocks / cols);
         var blocks = [];
@@ -610,6 +671,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Render Preview ----------
     var SUMS_PER_PAGE = 50; // 2 cols × 5 rows × 5 per block
+    var CONV_PER_PAGE = 40; // 2 cols × 4 rows × 5 per block
 
     function renderPreview(settings, sums) {
         var html = '';
@@ -1422,6 +1484,308 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ============================================
+    // BREUKEN (optellen, aftrekken, ×, ÷)
+    // ============================================
+
+    var generatedFractions = [];
+
+    function getFracSettings() {
+        var activeFracOps = [];
+        document.querySelectorAll('.wb-toggle-wide[data-fracop].active').forEach(function (b) {
+            activeFracOps.push(b.getAttribute('data-fracop'));
+        });
+        if (activeFracOps.length === 0) activeFracOps = ['+'];
+
+        return {
+            title: document.getElementById('wbTitle').value.trim() || 'Rekenwerkblad',
+            date: dateInput ? dateInput.value : '',
+            datePrefix: document.getElementById('wbDatePrefix').value.trim(),
+            showName: document.getElementById('wbNameField').value === 'ja',
+            count: Math.max(1, Math.min(200, parseInt(fracCountInput.value) || 50)),
+            ops: activeFracOps,
+            level: document.getElementById('wbFracLevel').value || 'gelijknamig',
+            maxDen: Math.max(2, parseInt(fracMaxDenInput.value) || 12),
+            answerSheet: document.getElementById('wbFracAnswerSheet').checked
+        };
+    }
+
+    function generateFracSums(settings) {
+        var sums = [];
+        var used = {};
+        var maxAttempts = settings.count * 200;
+        var attempts = 0;
+
+        while (sums.length < settings.count && attempts < maxAttempts) {
+            attempts++;
+            var op = settings.ops[Math.floor(Math.random() * settings.ops.length)];
+            var den1, den2, num1, num2, resDen, resNum;
+
+            if (settings.level === 'gelijknamig') {
+                // Same denominator
+                den1 = Math.floor(Math.random() * (settings.maxDen - 1)) + 2;
+                den2 = den1;
+            } else {
+                // Different denominators
+                den1 = Math.floor(Math.random() * (settings.maxDen - 1)) + 2;
+                den2 = Math.floor(Math.random() * (settings.maxDen - 1)) + 2;
+                if (den1 === den2) den2 = den1 < settings.maxDen ? den1 + 1 : den1 - 1;
+            }
+
+            if (op === '+' || op === '-') {
+                num1 = Math.floor(Math.random() * (den1 - 1)) + 1;
+                num2 = Math.floor(Math.random() * (den2 - 1)) + 1;
+
+                if (settings.level === 'gelijknamig') {
+                    resNum = op === '+' ? num1 + num2 : num1 - num2;
+                    resDen = den1;
+                } else {
+                    // Common denominator = lcm
+                    var g = gcd(den1, den2);
+                    var commonDen = (den1 * den2) / g;
+                    if (commonDen > 100) continue;
+                    var adjNum1 = num1 * (commonDen / den1);
+                    var adjNum2 = num2 * (commonDen / den2);
+                    resNum = op === '+' ? adjNum1 + adjNum2 : adjNum1 - adjNum2;
+                    resDen = commonDen;
+                }
+
+                if (resNum <= 0) continue;
+            } else if (op === '*') {
+                num1 = Math.floor(Math.random() * (den1 - 1)) + 1;
+                num2 = Math.floor(Math.random() * (den2 - 1)) + 1;
+                resNum = num1 * num2;
+                resDen = den1 * den2;
+                if (resDen > 100) continue;
+            } else {
+                // Division: a/b ÷ c/d = a/b × d/c = (a*d)/(b*c)
+                num1 = Math.floor(Math.random() * (den1 - 1)) + 1;
+                num2 = Math.floor(Math.random() * (den2 - 1)) + 1;
+                resNum = num1 * den2;
+                resDen = den1 * num2;
+                if (resDen > 100 || resDen === 0) continue;
+            }
+
+            // Simplify result
+            var g2 = gcd(Math.abs(resNum), resDen);
+            resNum = resNum / g2;
+            resDen = resDen / g2;
+
+            // Also simplify input fractions for display
+            var g1a = gcd(num1, den1);
+            var g1b = gcd(num2, den2);
+
+            var key = num1 + '/' + den1 + op + num2 + '/' + den2;
+            if (used[key]) continue;
+            used[key] = true;
+
+            sums.push({
+                num1: num1, den1: den1,
+                num2: num2, den2: den2,
+                op: op,
+                resNum: resNum, resDen: resDen
+            });
+        }
+
+        return sums;
+    }
+
+    function opSymbolHtml(op) {
+        switch (op) {
+            case '+': return '+';
+            case '-': return '&minus;';
+            case '*': return '&times;';
+            case '/': return '&divide;';
+            default: return op;
+        }
+    }
+
+    function opSymbolPdfFrac(op) {
+        switch (op) {
+            case '+': return '+';
+            case '-': return '-';
+            case '*': return 'x';
+            case '/': return ':';
+            default: return op;
+        }
+    }
+
+    function renderFracSumGrid(sums, showAnswers) {
+        var layout = arrangeInBlocks(sums);
+        var html = '<div class="wb-preview-blocks">';
+
+        for (var r = 0; r < layout.rows; r++) {
+            for (var c = 0; c < layout.cols; c++) {
+                var block = layout.grid[r][c];
+                html += '<div class="wb-preview-block">';
+                for (var i = 0; i < block.length; i++) {
+                    var s = block[i].sum;
+                    html += '<div class="wb-preview-sum" style="grid-template-columns: 3ch 2ch 3ch 2ch 4ch; align-items: center;">';
+                    // Fraction 1
+                    html += '<span>' + renderFracHtml(s.num1 + '/' + s.den1, false) + '</span>';
+                    // Operator
+                    html += '<span class="wb-preview-eq">' + opSymbolHtml(s.op) + '</span>';
+                    // Fraction 2
+                    html += '<span>' + renderFracHtml(s.num2 + '/' + s.den2, false) + '</span>';
+                    // = sign
+                    html += '<span class="wb-preview-eq">=</span>';
+                    // Answer
+                    if (showAnswers) {
+                        html += '<span class="wb-preview-answer">' + renderFracHtml(s.resNum + '/' + s.resDen, false) + '</span>';
+                    } else {
+                        html += '<span>' + renderFracHtml('?/?', true) + '</span>';
+                    }
+                    html += '</div>';
+                }
+                html += '</div>';
+            }
+
+            html += '';
+        }
+        html += '</div>';
+        return html;
+    }
+
+    function renderFracPreview(settings, sums) {
+        var html = '';
+        var previewSums = sums.slice(0, SUMS_PER_PAGE);
+
+        html += '<div class="wb-preview-page">';
+        html += buildHeaderHtml(settings, false);
+        html += renderFracSumGrid(previewSums, false);
+        html += '<div class="wb-preview-footer">Meester Tools</div>';
+        html += '</div>';
+
+        if (settings.answerSheet) {
+            html += '<div class="wb-preview-page">';
+            html += buildHeaderHtml(settings, true);
+            html += renderFracSumGrid(previewSums, true);
+            html += '<div class="wb-preview-footer">Meester Tools</div>';
+            html += '</div>';
+        }
+
+        return html;
+    }
+
+    function generateFracPdfPage(doc, settings, sums, isAnswers) {
+        var pageW = 210;
+        var margin = 20;
+        var contentW = pageW - margin * 2;
+
+        // Title
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(50, 50, 70);
+        var titleText = settings.title;
+        if (isAnswers) titleText += ' - Antwoordblad';
+        doc.text(titleText, margin, 12);
+
+        if (settings.showName) {
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 110);
+            doc.text('Naam: ___________________________', pageW - margin, 12, { align: 'right' });
+        }
+
+        var yPos = 18;
+        if (settings.date) {
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 110);
+            var dateDisplay = settings.datePrefix ? settings.datePrefix + ' ' + settings.date : settings.date;
+            doc.text(dateDisplay, margin, yPos);
+            yPos += 6;
+        }
+
+        var yStart = yPos + 10;
+        var layout = arrangeInBlocks(sums);
+        var lineH = 11;
+        var blockGap = 8;
+        var numCols = 2;
+        var colGap = 12;
+        var colW = (contentW - colGap * (numCols - 1)) / numCols;
+
+        // Measure fraction widths
+        doc.setFontSize(9);
+        var fracW = 0;
+        for (var si = 0; si < sums.length; si++) {
+            var s = sums[si];
+            var nums = [s.num1, s.den1, s.num2, s.den2, s.resNum, s.resDen];
+            for (var ni = 0; ni < nums.length; ni++) {
+                var tw = doc.getTextWidth(String(Math.abs(nums[ni])));
+                if (tw > fracW) fracW = tw;
+            }
+        }
+        fracW += 3;
+        doc.setFontSize(11);
+        var opW = 5;
+        var eqW = 5;
+
+        var y = yStart;
+
+        for (var r = 0; r < layout.rows; r++) {
+            for (var c = 0; c < layout.cols; c++) {
+                var block = layout.grid[r][c];
+                if (block.length === 0) continue;
+                var colX = margin + c * (colW + colGap);
+
+                for (var i = 0; i < block.length; i++) {
+                    var s = block[i].sum;
+                    var currentY = y + i * lineH;
+
+                    if (currentY > 280) {
+                        doc.addPage();
+                        y = margin + 8;
+                        currentY = y + i * lineH;
+                    }
+
+                    var xPos = colX;
+
+                    // Fraction 1
+                    drawFractionPdf(doc, s.num1 + '/' + s.den1, xPos + fracW, currentY, [50, 50, 70]);
+                    xPos += fracW;
+
+                    // Operator
+                    doc.setFontSize(11);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(50, 50, 70);
+                    doc.text(opSymbolPdfFrac(s.op), xPos + opW / 2, currentY, { align: 'center' });
+                    xPos += opW;
+
+                    // Fraction 2
+                    drawFractionPdf(doc, s.num2 + '/' + s.den2, xPos + fracW, currentY, [50, 50, 70]);
+                    xPos += fracW;
+
+                    // = sign
+                    doc.setFontSize(11);
+                    doc.setTextColor(50, 50, 70);
+                    doc.text('=', xPos + eqW / 2, currentY, { align: 'center' });
+                    xPos += eqW;
+
+                    // Answer
+                    if (isAnswers) {
+                        drawFractionPdf(doc, s.resNum + '/' + s.resDen, xPos + fracW, currentY, [108, 99, 255]);
+                    } else {
+                        drawFractionPdf(doc, '?/?', xPos + fracW, currentY, null);
+                    }
+                }
+            }
+
+            var maxBlockSize = 0;
+            for (var mc = 0; mc < layout.cols; mc++) {
+                var bl = layout.grid[r][mc];
+                if (bl.length > maxBlockSize) maxBlockSize = bl.length;
+            }
+            y += maxBlockSize * lineH + blockGap;
+        }
+
+        // Footer
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(160, 160, 175);
+        doc.text('Meester Tools', margin, 290);
+    }
+
+    // ============================================
     // CONVERSIES (Breuken / Procenten / Komma's)
     // ============================================
 
@@ -1508,7 +1872,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderConvPreview(settings, sums) {
         var html = '';
 
-        var previewSums = sums.slice(0, SUMS_PER_PAGE);
+        var previewSums = sums.slice(0, CONV_PER_PAGE);
         html += '<div class="wb-preview-page">';
         html += buildHeaderHtml(settings, false);
         html += renderConvGrid(previewSums, false);
@@ -1528,7 +1892,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderConvGrid(sums, showAnswers) {
-        var layout = arrangeInBlocks(sums, 4);
+        var layout = arrangeInBlocks(sums);
 
         // Calculate max widths
         var maxBreuk = 0, maxPct = 0, maxKomma = 0;
@@ -1630,8 +1994,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var yStart = yPos + 10;
 
-        // Block layout: 2 columns, blocks of 4
-        var layout = arrangeInBlocks(sums, 4);
+        // Block layout: 2 columns, blocks of 5
+        var layout = arrangeInBlocks(sums);
         var lineH = 9;
         var blockGap = 8;
         var numCols = 2;
@@ -1787,6 +2151,7 @@ document.addEventListener('DOMContentLoaded', function () {
             generatedDivisions = [];
             generatedCijfer = [];
             generatedPercent = [];
+            generatedFractions = [];
             renderPreview(currentSettings, generatedSums);
         } else if (currentType === 'staartdelingen') {
             currentSettings = readSettingsStaartdelingen();
@@ -1794,6 +2159,7 @@ document.addEventListener('DOMContentLoaded', function () {
             generatedSums = [];
             generatedCijfer = [];
             generatedPercent = [];
+            generatedFractions = [];
             renderLdPreview(currentSettings, generatedDivisions);
         } else if (currentType === 'cijferen') {
             currentSettings = readSettingsCijferen();
@@ -1801,12 +2167,22 @@ document.addEventListener('DOMContentLoaded', function () {
             generatedSums = [];
             generatedDivisions = [];
             generatedPercent = [];
+            generatedFractions = [];
             renderCfPreview(currentSettings, generatedCijfer);
+        } else if (currentType === 'breuken') {
+            currentSettings = getFracSettings();
+            generatedSums = [];
+            generatedDivisions = [];
+            generatedCijfer = [];
+            generatedPercent = [];
+            generatedFractions = generateFracSums(currentSettings);
+            renderFracPreview(currentSettings, generatedFractions);
         } else if (currentType === 'procenten') {
             currentSettings = readSettingsPercent();
             generatedSums = [];
             generatedDivisions = [];
             generatedCijfer = [];
+            generatedFractions = [];
             if (currentSettings.pctType === 'omrekenen') {
                 generatedPercent = generateConvSums(currentSettings);
                 renderConvPreview(currentSettings, generatedPercent);
@@ -1824,7 +2200,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- PDF Generation ----------
     btnDownloadPdf.addEventListener('click', function () {
-        if (generatedSums.length === 0 && generatedDivisions.length === 0 && generatedCijfer.length === 0 && generatedPercent.length === 0) return;
+        if (generatedSums.length === 0 && generatedDivisions.length === 0 && generatedCijfer.length === 0 && generatedPercent.length === 0 && generatedFractions.length === 0) return;
         if (!window.jspdf) {
             alert('PDF-bibliotheek kon niet geladen worden. Probeer de pagina te vernieuwen.');
             return;
@@ -1871,20 +2247,37 @@ document.addEventListener('DOMContentLoaded', function () {
             // Detect conversion type
             var isConv = generatedPercent[0] && generatedPercent[0].op === 'conv';
             var pdfFn = isConv ? generateConvPdfPage : generatePdfPage;
-            var pctPages = Math.ceil(generatedPercent.length / SUMS_PER_PAGE);
+            var perPage = isConv ? CONV_PER_PAGE : SUMS_PER_PAGE;
+            var pctPages = Math.ceil(generatedPercent.length / perPage);
             for (var p = 0; p < pctPages; p++) {
                 if (p > 0) doc.addPage();
-                var pageSums = generatedPercent.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
+                var pageSums = generatedPercent.slice(p * perPage, (p + 1) * perPage);
                 pdfFn(doc, currentSettings, pageSums, false);
             }
             if (currentSettings.answerSheet) {
                 for (var p = 0; p < pctPages; p++) {
                     doc.addPage();
-                    var pageSums = generatedPercent.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
+                    var pageSums = generatedPercent.slice(p * perPage, (p + 1) * perPage);
                     pdfFn(doc, currentSettings, pageSums, true);
                 }
             }
             var filename = 'werkblad-procenten-' + new Date().toISOString().slice(0, 10) + '.pdf';
+            doc.save(filename);
+        } else if (generatedFractions.length > 0) {
+            var fracPages = Math.ceil(generatedFractions.length / SUMS_PER_PAGE);
+            for (var p = 0; p < fracPages; p++) {
+                if (p > 0) doc.addPage();
+                var pageSums = generatedFractions.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
+                generateFracPdfPage(doc, currentSettings, pageSums, false);
+            }
+            if (currentSettings.answerSheet) {
+                for (var p = 0; p < fracPages; p++) {
+                    doc.addPage();
+                    var pageSums = generatedFractions.slice(p * SUMS_PER_PAGE, (p + 1) * SUMS_PER_PAGE);
+                    generateFracPdfPage(doc, currentSettings, pageSums, true);
+                }
+            }
+            var filename = 'werkblad-breuken-' + new Date().toISOString().slice(0, 10) + '.pdf';
             doc.save(filename);
         } else {
             // Bewerkingen PDF - paginate per 50

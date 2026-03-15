@@ -84,6 +84,9 @@
                         <button class="wb-type-card" data-type="cijferen">
                             <span class="wb-type-label">Cijferen</span>
                         </button>
+                        <button class="wb-type-card" data-type="breuken">
+                            <span class="wb-type-label">Breuken</span>
+                        </button>
                         <button class="wb-type-card" data-type="procenten">
                             <span class="wb-type-label">Procenten</span>
                         </button>
@@ -344,6 +347,54 @@
                 <div class="wb-field wb-field-check">
                     <label class="wb-checkbox-label">
                         <input type="checkbox" id="wbCfAnswerSheet" checked> Antwoordblad toevoegen
+                    </label>
+                </div>
+            </div>
+
+            <!-- Sectie: Instellingen breuken -->
+            <div class="wb-section" id="settingsBreuken" style="display:none;">
+                <h3 class="wb-section-title">Instellingen breuken</h3>
+
+                <div class="wb-field">
+                    <label>Aantal sommen</label>
+                    <div class="wb-stepper">
+                        <button class="wb-stepper-btn" id="wbFracCountMinus" type="button">&minus;</button>
+                        <input type="number" id="wbFracCount" class="wb-stepper-input" value="50" min="1" max="200">
+                        <button class="wb-stepper-btn" id="wbFracCountPlus" type="button">+</button>
+                    </div>
+                </div>
+
+                <div class="wb-field">
+                    <label>Bewerkingen</label>
+                    <div class="wb-toggles-wide">
+                        <button class="wb-toggle-wide active" data-fracop="+" title="Optellen"><span class="wb-toggle-sym">+</span> Optellen</button>
+                        <button class="wb-toggle-wide" data-fracop="-" title="Aftrekken"><span class="wb-toggle-sym">&minus;</span> Aftrekken</button>
+                        <button class="wb-toggle-wide" data-fracop="*" title="Vermenigvuldigen"><span class="wb-toggle-sym">&times;</span> Vermenigvuldigen</button>
+                        <button class="wb-toggle-wide" data-fracop="/" title="Delen"><span class="wb-toggle-sym">&divide;</span> Delen</button>
+                    </div>
+                </div>
+
+                <div class="wb-field">
+                    <label>Moeilijkheidsgraad</label>
+                    <div class="wb-suboptions">
+                        <button class="wb-suboption active" data-fraclevel="gelijknamig">Gelijknamig</button>
+                        <button class="wb-suboption" data-fraclevel="ongelijknamig">Ongelijknamig</button>
+                    </div>
+                    <input type="hidden" id="wbFracLevel" value="gelijknamig">
+                </div>
+
+                <div class="wb-field">
+                    <label>Maximale noemer</label>
+                    <div class="wb-stepper">
+                        <button class="wb-stepper-btn" id="wbFracMaxDenMinus" type="button">&minus;</button>
+                        <input type="number" id="wbFracMaxDen" class="wb-stepper-input" value="12" min="2" max="100">
+                        <button class="wb-stepper-btn" id="wbFracMaxDenPlus" type="button">+</button>
+                    </div>
+                </div>
+
+                <div class="wb-field wb-field-check">
+                    <label class="wb-checkbox-label">
+                        <input type="checkbox" id="wbFracAnswerSheet" checked> Antwoordblad toevoegen
                     </label>
                 </div>
             </div>
