@@ -1,0 +1,272 @@
+/* ============================================
+   DRAAIRAD - Styles
+   ============================================ */
+
+.draairad-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 16px 0;
+}
+
+/* ---------- Group bar ---------- */
+.draairad-group-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.draairad-group-pill {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 2px solid #E2E2EE;
+    background: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    color: #555;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.draairad-group-pill:hover {
+    border-color: #6C63FF;
+    color: #6C63FF;
+}
+
+.draairad-group-pill.active {
+    background: #6C63FF;
+    border-color: #6C63FF;
+    color: #fff;
+}
+
+/* ---------- Wheel wrapper ---------- */
+.draairad-wheel-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#wheelCanvas {
+    display: block;
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 24px rgba(108, 99, 255, .15), 0 0 0 6px #6C63FF;
+    transition: box-shadow .3s;
+}
+
+.draairad-wheel-wrapper:hover #wheelCanvas {
+    box-shadow: 0 6px 32px rgba(108, 99, 255, .25), 0 0 0 6px #6C63FF;
+}
+
+/* ---------- Pointer ---------- */
+.draairad-pointer {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 28px solid #6C63FF;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,.2));
+    z-index: 10;
+}
+
+/* ---------- Result ---------- */
+.draairad-result {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    min-height: 42px;
+    text-align: center;
+    transition: opacity .3s;
+}
+
+.draairad-result.pop {
+    animation: resultPop .4s ease-out;
+}
+
+@keyframes resultPop {
+    0%   { transform: scale(0.6); opacity: 0; }
+    60%  { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ---------- Settings modal ---------- */
+.modal-wide {
+    max-width: 560px;
+}
+
+.settings-groups-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.settings-group-card {
+    border: 1px solid #E2E2EE;
+    border-radius: 12px;
+    background: #FAFAFD;
+    padding: 16px;
+}
+
+.settings-group-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.settings-group-header input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #E2E2EE;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    background: #fff;
+}
+
+.settings-group-header input:focus {
+    outline: none;
+    border-color: #6C63FF;
+}
+
+.settings-group-delete {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #999;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all .2s;
+}
+
+.settings-group-delete:hover {
+    background: #FFE5E5;
+    color: #FF6B6B;
+}
+
+.settings-items-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.settings-item-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    background: #fff;
+    border: 1px solid #E2E2EE;
+    border-radius: 16px;
+    font-size: 14px;
+    color: #444;
+}
+
+.settings-item-chip .chip-remove {
+    background: none;
+    border: none;
+    font-size: 15px;
+    color: #bbb;
+    cursor: pointer;
+    padding: 0 2px;
+    line-height: 1;
+    transition: color .2s;
+}
+
+.settings-item-chip .chip-remove:hover {
+    color: #FF6B6B;
+}
+
+.settings-add-item-row {
+    display: flex;
+    gap: 6px;
+}
+
+.settings-add-item-row input {
+    flex: 1;
+    padding: 7px 12px;
+    border: 1px solid #E2E2EE;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fff;
+}
+
+.settings-add-item-row input:focus {
+    outline: none;
+    border-color: #6C63FF;
+}
+
+.settings-add-item-row button {
+    padding: 7px 14px;
+    border: none;
+    border-radius: 8px;
+    background: #6C63FF;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+    white-space: nowrap;
+}
+
+.settings-add-item-row button:hover {
+    background: #5a52e0;
+}
+
+.settings-add-group-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: 2px dashed #E2E2EE;
+    border-radius: 12px;
+    background: transparent;
+    font-size: 15px;
+    font-weight: 600;
+    color: #6C63FF;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.settings-add-group-btn:hover {
+    border-color: #6C63FF;
+    background: #F5F4FF;
+}
+
+/* ---------- Spinning state ---------- */
+.draairad-wheel-wrapper.spinning {
+    cursor: not-allowed;
+}
+
+/* ---------- Hint ---------- */
+.draairad-hint {
+    font-size: 14px;
+    color: #999;
+    margin-top: -8px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+    #wheelCanvas {
+        max-width: 320px;
+    }
+
+    .draairad-result {
+        font-size: 22px;
+    }
+
+    .modal-wide {
+        max-width: 95vw;
+    }
+}
