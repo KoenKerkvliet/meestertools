@@ -445,6 +445,12 @@ a {
 .tool-card:nth-child(4)::before { background: var(--accent-cyan); }
 .tool-card:nth-child(5)::before { background: var(--accent-yellow); }
 .tool-card:nth-child(6)::before { background: var(--accent-pink); }
+.tool-card:nth-child(7)::before { background: var(--accent-blue); }
+.tool-card:nth-child(8)::before { background: var(--secondary); }
+.tool-card:nth-child(9)::before { background: var(--accent-green); }
+.tool-card:nth-child(10)::before { background: var(--primary); }
+.tool-card:nth-child(11)::before { background: var(--accent-orange); }
+.tool-card:nth-child(12)::before { background: var(--accent-cyan); }
 
 .tool-card:hover {
     transform: translateY(-3px);
@@ -457,6 +463,12 @@ a {
 .tool-card:nth-child(4):hover { border-color: var(--accent-cyan); }
 .tool-card:nth-child(5):hover { border-color: var(--accent-yellow); }
 .tool-card:nth-child(6):hover { border-color: var(--accent-pink); }
+.tool-card:nth-child(7):hover { border-color: var(--accent-blue); }
+.tool-card:nth-child(8):hover { border-color: var(--secondary); }
+.tool-card:nth-child(9):hover { border-color: var(--accent-green); }
+.tool-card:nth-child(10):hover { border-color: var(--primary); }
+.tool-card:nth-child(11):hover { border-color: var(--accent-orange); }
+.tool-card:nth-child(12):hover { border-color: var(--accent-cyan); }
 
 .tool-card .card-icon {
     font-size: 48px;
