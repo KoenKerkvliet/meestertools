@@ -770,6 +770,11 @@
     grid-template-columns: repeat(2, 1fr);
 }
 
+.wb-toggles-vormen-1 {
+    grid-template-columns: 1fr;
+    max-width: 50%;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
     .wb-type-cards {
@@ -828,5 +833,9 @@
 
     .wb-toggles-vormen-2 {
         grid-template-columns: 1fr;
+    }
+
+    .wb-toggles-vormen-1 {
+        max-width: 100%;
     }
 }

@@ -207,10 +207,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Filter tijd
         if (settings.filterTijd === 'tt') {
-            query = query.eq('tijd', 'tt');
+            query = query.eq('tijd', 'tt').neq('vorm', 'vd');
         } else if (settings.filterTijd === 'vt') {
-            query = query.eq('tijd', 'vt');
+            query = query.eq('tijd', 'vt').neq('vorm', 'vd');
+        } else if (settings.filterTijd === 'voltooide') {
+            query = query.eq('vorm', 'vd');
         }
+        // 'gemengd' = geen filter, alles door elkaar
 
         // Filter sterk
         if (settings.filterSterk === 'sterk') {
@@ -219,9 +222,14 @@ document.addEventListener('DOMContentLoaded', function () {
             query = query.eq('sterk', false);
         }
 
-        // Filter vormen
-        if (settings.vormen.length > 0) {
-            query = query.in('vorm', settings.vormen);
+        // Filter vormen (alleen als niet voltooide tijd)
+        if (settings.filterTijd !== 'voltooide' && settings.vormen.length > 0) {
+            // Bij gemengd ook vd meenemen
+            var vormenFilter = settings.vormen.slice();
+            if (settings.filterTijd === 'gemengd' && vormenFilter.indexOf('vd') === -1) {
+                vormenFilter.push('vd');
+            }
+            query = query.in('vorm', vormenFilter);
         }
 
         var result = await query;
@@ -329,7 +337,7 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '<td style="color:#999;">' + nr + '</td>';
             html += '<td><em>' + escapeHtml(s.werkwoord) + '</em></td>';
             if (settings.showTijd) {
-                html += '<td style="font-size:10px;color:#888;">' + (s.tijd === 'tt' ? 'tt' : 'vt') + '</td>';
+                html += '<td style="font-size:10px;color:#888;">' + (s.vorm === 'vd' ? 'vd' : (s.tijd === 'tt' ? 'tt' : 'vt')) + '</td>';
             }
             html += '<td>' + zin + '</td>';
             html += '</tr>';
@@ -505,7 +513,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 doc.setFont('helvetica', 'normal');
                 doc.setFontSize(8);
                 doc.setTextColor(130, 130, 130);
-                doc.text(s.tijd === 'tt' ? 'tt' : 'vt', colTijd, y);
+                doc.text(s.vorm === 'vd' ? 'vd' : (s.tijd === 'tt' ? 'tt' : 'vt'), colTijd, y);
             }
 
             // Zin
