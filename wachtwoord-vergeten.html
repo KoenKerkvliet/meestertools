@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meestertools - Inloggen</title>
+    <title>Meestertools - Wachtwoord vergeten</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,34 +12,27 @@
             <div class="login-logo">
                 <span class="logo-icon">&#127891;</span>
                 <h1>Meestertools</h1>
-                <p>Het digitale platform voor de basisschool</p>
+                <p>Wachtwoord vergeten?</p>
             </div>
 
-            <div id="loginError" class="form-error" style="display:none;"></div>
+            <div id="forgotError" class="form-error" style="display:none;"></div>
+            <div id="forgotSuccess" class="form-success" style="display:none;"></div>
 
-            <form id="loginForm">
+            <form id="forgotForm">
                 <div class="form-group">
                     <label for="email">E-mailadres</label>
                     <input type="email" id="email" placeholder="juf@basisschool.nl" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="password">Wachtwoord</label>
-                    <input type="password" id="password" placeholder="Voer je wachtwoord in" required>
-                </div>
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">
+                    We sturen je een e-mail met een link om je wachtwoord opnieuw in te stellen.
+                </p>
 
-                <div class="form-options">
-                    <label>
-                        <input type="checkbox"> Onthoud mij
-                    </label>
-                    <a href="wachtwoord-vergeten">Wachtwoord vergeten?</a>
-                </div>
-
-                <button type="submit" class="btn-login" id="loginBtn">Inloggen</button>
+                <button type="submit" class="btn-login" id="forgotBtn">Stuur reset-link</button>
             </form>
 
             <div class="login-footer">
-                Nog geen account? <a href="registreer">Registreer hier</a>
+                Toch onthouden? <a href="index">Terug naar inloggen</a>
             </div>
         </div>
     </div>

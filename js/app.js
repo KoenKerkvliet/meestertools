@@ -127,6 +127,123 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ---------- Forgot Password Form (Supabase Auth) ----------
+    const forgotForm = document.getElementById('forgotForm');
+    if (forgotForm) {
+        forgotForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const forgotBtn = document.getElementById('forgotBtn');
+            const errorEl = document.getElementById('forgotError');
+            const successEl = document.getElementById('forgotSuccess');
+
+            forgotBtn.disabled = true;
+            forgotBtn.textContent = 'Bezig met versturen...';
+            errorEl.style.display = 'none';
+            successEl.style.display = 'none';
+
+            try {
+                const { error } = await withTimeout(
+                    supabase.auth.resetPasswordForEmail(email, {
+                        redirectTo: window.location.origin + '/wachtwoord-resetten'
+                    }),
+                    15000
+                );
+
+                if (error) {
+                    errorEl.textContent = 'Er ging iets mis: ' + error.message;
+                    errorEl.style.display = 'block';
+                } else {
+                    successEl.textContent = 'Gelukt! Als er een account bestaat met dit e-mailadres, ontvang je binnen enkele minuten een e-mail met een reset-link. Check ook je spam-folder.';
+                    successEl.style.display = 'block';
+                    forgotForm.reset();
+                }
+            } catch (err) {
+                console.error('Wachtwoord-reset fout:', err);
+                errorEl.textContent = err.message || 'Er ging iets mis. Probeer het opnieuw.';
+                errorEl.style.display = 'block';
+            }
+
+            forgotBtn.disabled = false;
+            forgotBtn.textContent = 'Stuur reset-link';
+        });
+    }
+
+    // ---------- Reset Password Form (Supabase Auth) ----------
+    const resetForm = document.getElementById('resetForm');
+    if (resetForm) {
+        // Supabase JS detects the recovery token in the URL hash automatically
+        // and creates a temporary session. We listen for that event.
+        let recoveryReady = false;
+
+        supabase.auth.onAuthStateChange((event, session) => {
+            if (event === 'PASSWORD_RECOVERY') {
+                recoveryReady = true;
+            }
+        });
+
+        // Fallback: if there's already a session when we arrive (token was
+        // detected before the listener was attached), assume recovery flow.
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session) recoveryReady = true;
+        });
+
+        resetForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const resetBtn = document.getElementById('resetBtn');
+            const errorEl = document.getElementById('resetError');
+            const successEl = document.getElementById('resetSuccess');
+
+            errorEl.style.display = 'none';
+            successEl.style.display = 'none';
+
+            if (newPassword.length < 6) {
+                errorEl.textContent = 'Wachtwoord moet minimaal 6 tekens zijn.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                errorEl.textContent = 'De wachtwoorden komen niet overeen.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            resetBtn.disabled = true;
+            resetBtn.textContent = 'Bezig met opslaan...';
+
+            try {
+                const { error } = await withTimeout(
+                    supabase.auth.updateUser({ password: newPassword }),
+                    15000
+                );
+
+                if (error) {
+                    errorEl.textContent = 'Wachtwoord opslaan mislukt: ' + error.message + ' (Mogelijk is de reset-link verlopen — vraag een nieuwe aan.)';
+                    errorEl.style.display = 'block';
+                } else {
+                    successEl.textContent = 'Wachtwoord succesvol gewijzigd! Je wordt doorgestuurd naar de inlogpagina...';
+                    successEl.style.display = 'block';
+                    resetForm.reset();
+                    setTimeout(async () => {
+                        await supabase.auth.signOut();
+                        window.location.href = 'index';
+                    }, 2000);
+                    return;
+                }
+            } catch (err) {
+                console.error('Wachtwoord update fout:', err);
+                errorEl.textContent = err.message || 'Er ging iets mis. Probeer het opnieuw.';
+                errorEl.style.display = 'block';
+            }
+
+            resetBtn.disabled = false;
+            resetBtn.textContent = 'Wachtwoord opslaan';
+        });
+    }
+
     // ---------- Auth Guard (dashboard, tool pages & admin) ----------
     const isDashboard = document.querySelector('.dashboard-content');
     const isToolPage = document.querySelector('.tool-page-content');
