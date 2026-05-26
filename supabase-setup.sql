@@ -97,11 +97,29 @@ CREATE POLICY "Super admin can update all profiles"
     ON public.profiles FOR UPDATE
     USING (public.is_super_admin());
 
--- Users kunnen eigen profiel updaten (behalve role)
+-- Users kunnen eigen profiel updaten (behalve role - zie trigger hieronder)
 CREATE POLICY "Users can update own profile"
     ON public.profiles FOR UPDATE
     USING (auth.uid() = id)
     WITH CHECK (auth.uid() = id);
+
+-- Security: blokkeer role-wijziging tenzij super_admin.
+-- RLS WITH CHECK kan column-niveau niet afdwingen, dus een trigger.
+CREATE OR REPLACE FUNCTION public.prevent_self_role_change()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF OLD.role IS DISTINCT FROM NEW.role AND NOT public.is_super_admin() THEN
+        RAISE EXCEPTION 'Je kunt je eigen rol niet wijzigen.';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, pg_temp;
+
+DROP TRIGGER IF EXISTS prevent_self_role_change_trigger ON public.profiles;
+CREATE TRIGGER prevent_self_role_change_trigger
+    BEFORE UPDATE OF role ON public.profiles
+    FOR EACH ROW
+    EXECUTE FUNCTION public.prevent_self_role_change();
 
 -- ---------- 8. RLS Policies: schools ----------
 
