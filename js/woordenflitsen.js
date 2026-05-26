@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var currentIndex = 0;
     var flashTimer = null;
     var blankTimer = null;
+    var countdownTimer = null;
 
     // Speed map: basistijd (ms) dat een woord van max 6 tekens zichtbaar is.
     // Level 3 = baseline (gemiddeld tempo). Level 4 en 5 zijn verzacht zodat
@@ -209,8 +210,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function startFlashing() {
         if (!selectedLevel) return;
 
-        // If starting fresh (not resuming from pause), prepare new set
-        if (currentIndex === 0 || flashWords.length === 0) {
+        // Detect fresh start vs hervat-na-pauze
+        var isFreshStart = currentIndex === 0 || flashWords.length === 0;
+
+        if (isFreshStart) {
             prepareFlashWords();
         }
 
@@ -222,7 +225,35 @@ document.addEventListener('DOMContentLoaded', function () {
         btnStartPause.classList.add('paused');
         document.body.classList.add('wf-focus-mode');
 
-        showNextWord();
+        if (isFreshStart) {
+            // Aftellen 3, 2, 1 voordat woorden komen — geeft kinderen tijd om te focussen
+            runCountdown(3, function () {
+                if (isRunning) showNextWord();
+            });
+        } else {
+            showNextWord();
+        }
+    }
+
+    function runCountdown(from, onComplete) {
+        if (!isRunning) return;
+
+        if (from <= 0) {
+            wfWord.textContent = '';
+            wfWord.className = 'wf-word';
+            onComplete();
+            return;
+        }
+
+        wfWord.textContent = from;
+        // Force reflow zodat animatie elke seconde opnieuw afspeelt
+        wfWord.className = 'wf-word';
+        void wfWord.offsetWidth;
+        wfWord.className = 'wf-word wf-countdown';
+
+        countdownTimer = setTimeout(function () {
+            runCountdown(from - 1, onComplete);
+        }, 1000);
     }
 
     function showNextWord() {
@@ -274,6 +305,7 @@ document.addEventListener('DOMContentLoaded', function () {
         isRunning = false;
         clearTimeout(flashTimer);
         clearTimeout(blankTimer);
+        clearTimeout(countdownTimer);
 
         btnStartPause.innerHTML = '&#9654; Start';
         btnStartPause.classList.remove('paused');
@@ -285,6 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
         isRunning = false;
         clearTimeout(flashTimer);
         clearTimeout(blankTimer);
+        clearTimeout(countdownTimer);
 
         btnStartPause.innerHTML = '&#9654; Start';
         btnStartPause.classList.remove('paused');

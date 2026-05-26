@@ -379,3 +379,27 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ============================================
+   Countdown vóór start (3, 2, 1)
+   ============================================ */
+.wf-word.wf-countdown {
+    font-size: 180px;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+    animation: wfCountdownPulse 1s ease-out forwards;
+}
+
+@keyframes wfCountdownPulse {
+    0%   { transform: scale(0.5); opacity: 0; }
+    25%  { transform: scale(1.15); opacity: 1; }
+    60%  { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.6; }
+}
+
+@media (max-width: 600px) {
+    .wf-word.wf-countdown {
+        font-size: 120px;
+    }
+}
