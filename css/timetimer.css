@@ -4,9 +4,19 @@
 
 .timer-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+}
+
+/* Side panel naast de timer: presets boven, controls onder */
+.timer-side {
+    display: flex;
+    flex-direction: column;
     gap: 32px;
+    min-width: 240px;
 }
 
 /* ---------- Timer Display ---------- */
@@ -50,6 +60,11 @@
     justify-content: center;
     gap: 10px;
     max-width: 480px;
+}
+
+/* Compactere presets in side panel naast de timer */
+.timer-side .timer-presets {
+    max-width: 300px;
 }
 
 .preset-btn {
@@ -288,8 +303,22 @@
 }
 
 /* ---------- Responsive ---------- */
-/* Tablet: timer iets kleiner zodat 'ie comfortabel past */
+/* Tablet: timer iets kleiner én controls weer onder de timer (stacked) */
 @media (max-width: 900px) {
+    .timer-container {
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .timer-side {
+        min-width: 0;
+        align-items: center;
+    }
+
+    .timer-side .timer-presets {
+        max-width: 480px;
+    }
+
     .timer-display {
         width: 420px;
         height: 420px;

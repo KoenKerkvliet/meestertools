@@ -65,20 +65,23 @@
                     <div class="timer-digital" id="timerDigital">00:00</div>
                 </div>
 
-                <!-- Time Presets (dynamically rendered from settings) -->
-                <div class="timer-presets" id="timerPresets"></div>
+                <!-- Side panel: presets + controls naast de timer (desktop), eronder op kleinere schermen -->
+                <div class="timer-side">
+                    <!-- Time Presets (dynamically rendered from settings) -->
+                    <div class="timer-presets" id="timerPresets"></div>
 
-                <!-- Controls -->
-                <div class="timer-controls">
-                    <button class="timer-btn timer-btn-start" id="btnStart" disabled>
-                        &#9654; Start
-                    </button>
-                    <button class="timer-btn timer-btn-pause" id="btnPause" style="display:none;">
-                        &#9646;&#9646; Pauze
-                    </button>
-                    <button class="timer-btn timer-btn-reset" id="btnReset" disabled>
-                        &#8635; Reset
-                    </button>
+                    <!-- Controls -->
+                    <div class="timer-controls">
+                        <button class="timer-btn timer-btn-start" id="btnStart" disabled>
+                            &#9654; Start
+                        </button>
+                        <button class="timer-btn timer-btn-pause" id="btnPause" style="display:none;">
+                            &#9646;&#9646; Pauze
+                        </button>
+                        <button class="timer-btn timer-btn-reset" id="btnReset" disabled>
+                            &#8635; Reset
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
