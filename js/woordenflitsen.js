@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var flashTimer = null;
     var blankTimer = null;
 
-    // Speed map: milliseconds word is shown (display time)
+    // Speed map: basistijd (ms) dat een woord van max 6 tekens zichtbaar is.
     // Level 3 = baseline (gemiddeld tempo). Level 4 en 5 zijn verzacht zodat
     // ook het snelste tempo nog bijbenbaar is voor basisschool-leerlingen.
     var speedMap = {
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
         5: 750
     };
 
-    // Blank time between words
+    // Blank time between words (constant per snelheid, niet afhankelijk van woordlengte)
     var blankMap = {
         1: 1000,
         2: 700,
@@ -51,6 +51,18 @@ document.addEventListener('DOMContentLoaded', function () {
         4: 400,
         5: 350
     };
+
+    // Extra leestijd per teken boven de 6. Voor langere woorden hebben kinderen
+    // meer tijd nodig; korte woorden zien ze in één oogopslag.
+    var EXTRA_MS_PER_CHAR = 100;
+    var BASELINE_WORD_LEN = 6;
+
+    // Bereken de display-tijd voor een specifiek woord op het gekozen tempo.
+    function getDisplayTime(speedLevel, word) {
+        var base = speedMap[speedLevel];
+        var extraChars = Math.max(0, (word ? word.length : 0) - BASELINE_WORD_LEN);
+        return base + extraChars * EXTRA_MS_PER_CHAR;
+    }
 
     // ---------- Supabase ----------
     async function loadWordsForLevel(level) {
@@ -255,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 showNextWord();
             }, blankMap[speed]);
 
-        }, speedMap[speed]);
+        }, getDisplayTime(speed, word));
     }
 
     function pauseFlashing() {
