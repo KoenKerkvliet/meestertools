@@ -27,11 +27,16 @@ Het digitale platform voor de basisschool. Interactieve tools voor digibord, kla
 ├── CNAME                               # GitHub Pages custom domain
 ├── css/                                # Stylesheets
 ├── js/                                 # Vanilla JS (per tool een bestand)
-├── pages/                              # Tool-pagina's
-│   ├── digibord/                       # Digibordtools (timer, draairad, dobbelstenen, ...)
-│   ├── educatieve-games/               # 24 game e.d.
-│   ├── lesmateriaal/                   # Werkbladen, vraag van de dag, woordenflitsen
-│   └── seo/                            # Check-in, gedragspatroon
+├── digibordtools.html                  # Digibordtools overview
+├── educatieve-games.html               # Games overview
+├── klasseprestatie.html                # Klasprestatie
+├── lesmateriaal.html                   # Lesmateriaal overview
+├── ontspanning.html                    # Ontspanningstools
+├── seo.html                            # SEO overview
+├── digibord/                           # Digibordtools (timer, draairad, dobbelstenen, ...)
+├── educatieve-games/                   # 24 game e.d.
+├── lesmateriaal/                       # Werkbladen, vraag van de dag, woordenflitsen
+├── seo/                                # Check-in, gedragspatroon
 ├── supabase/
 │   └── functions/
 │       ├── _shared/                    # Herbruikbare CORS + emailit helpers

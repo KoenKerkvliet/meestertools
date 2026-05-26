@@ -13,13 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return Promise.race([promise, timeout]);
     }
 
-    // ---------- Base Path Helper (handles nested subfolders) ----------
+    // ---------- Base Path Helper ----------
+    // Alle interne navigatie gebruikt absolute paden (/dashboard, /index, /beheer).
+    // Vroeger berekende dit relatieve paths op basis van /pages/ — dat is niet meer nodig
+    // sinds alles uit pages/ naar de root is verplaatst.
     function getBasePath() {
-        const path = window.location.pathname;
-        if (!path.includes('/pages/')) return '';
-        const afterPages = path.split('/pages/')[1];
-        const depth = (afterPages.match(/\//g) || []).length;
-        return '../' + '../'.repeat(depth);
+        return '/';
     }
 
     // ---------- Dynamic Footer Year ----------

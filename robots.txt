@@ -5,6 +5,5 @@ Allow: /
 Disallow: /dashboard
 Disallow: /beheer
 Disallow: /wachtwoord-resetten
-Disallow: /pages/
 
 Sitemap: https://meestertools.nl/sitemap.xml

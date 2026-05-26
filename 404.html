@@ -24,6 +24,17 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>Meestertools - Pagina niet gevonden</title>
     <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Legacy redirect: oude /pages/ URLs naar nieuwe locatie -->
+    <script>
+        (function () {
+            var p = window.location.pathname;
+            if (p.indexOf('/pages/') === 0) {
+                var newPath = p.replace('/pages/', '/');
+                window.location.replace(newPath + window.location.search + window.location.hash);
+            }
+        })();
+    </script>
     <style>
         .err-container {
             min-height: 100vh;
