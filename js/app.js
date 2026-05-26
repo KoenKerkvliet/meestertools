@@ -143,15 +143,20 @@ document.addEventListener('DOMContentLoaded', () => {
             successEl.style.display = 'none';
 
             try {
-                const { error } = await withTimeout(
-                    supabase.auth.resetPasswordForEmail(email, {
-                        redirectTo: window.location.origin + '/wachtwoord-resetten'
+                // Stuur via onze eigen emailit-edge-function (niet Supabase's default mailer)
+                const { data, error } = await withTimeout(
+                    supabase.functions.invoke('send-password-reset-email', {
+                        body: {
+                            email,
+                            redirectTo: window.location.origin + '/wachtwoord-resetten'
+                        }
                     }),
                     15000
                 );
 
-                if (error) {
-                    errorEl.textContent = 'Er ging iets mis: ' + error.message;
+                if (error || (data && data.success === false)) {
+                    const msg = (data && data.error) || (error && error.message) || 'Onbekende fout';
+                    errorEl.textContent = 'Er ging iets mis: ' + msg;
                     errorEl.style.display = 'block';
                 } else {
                     successEl.textContent = 'Gelukt! Als er een account bestaat met dit e-mailadres, ontvang je binnen enkele minuten een e-mail met een reset-link. Check ook je spam-folder.';
