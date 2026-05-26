@@ -28,24 +28,7 @@
     <link rel="stylesheet" href="../../css/gedragspatroon.css">
 </head>
 <body>
-    <header class="app-header">
-        <a href="../../dashboard" class="header-logo">
-            <span class="logo-icon">&#127891;</span>
-            Meestertools
-        </a>
-        <div class="header-profile">
-            <button class="profile-btn" id="profileBtn" title="Profiel">?</button>
-            <div class="profile-dropdown" id="profileDropdown">
-                <div class="dropdown-header">
-                    <div class="name">Laden...</div>
-                    <div class="email"></div>
-                </div>
-                <div class="dropdown-item" onclick="openInstellingen()">&#9881;&#65039; Instellingen</div>
-                <div class="dropdown-item" onclick="openInstellingen('profiel')">&#128100; Mijn profiel</div>
-                <div class="dropdown-item logout">&#128682; Uitloggen</div>
-            </div>
-        </div>
-    </header>
+    <header id="app-header-slot"></header>
 
     <main class="tool-page-content">
         <div class="tool-inline-header">
@@ -184,14 +167,10 @@
         </div>
     </div>
 
-    <footer class="app-footer">
-        <div class="footer-inner">
-            <span class="footer-left">&copy; <span id="footerYear"></span> Meestertools &middot; Design by <a href="https://designpixels.nl" target="_blank" rel="noopener">Design Pixels</a></span>
-            <a href="../../changelog" class="version">v0.0.2</a>
-        </div>
-    </footer>
+    <footer id="app-footer-slot"></footer>
 
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+    <script src="/js/template.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
     <script src="../../js/supabase-config.js"></script>
     <script src="../../js/app.js"></script>
