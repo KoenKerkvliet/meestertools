@@ -1674,3 +1674,28 @@ a {
         padding: 24px;
     }
 }
+
+/* ============================================
+   Accessibility: focus indicators
+   Toont alleen focus-outline bij keyboard navigation (niet bij muisklik).
+   ============================================ */
+*:focus-visible {
+    outline: 2px solid var(--primary, #6C63FF);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible,
+.dropdown-item:focus-visible,
+.tool-card:focus-visible,
+.profile-btn:focus-visible {
+    outline: 2px solid var(--primary, #6C63FF);
+    outline-offset: 3px;
+}
+
+/* Skip outline on mouse-only interactions */
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+    outline: none;
+}

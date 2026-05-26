@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
             errorEl.style.display = 'none';
 
             try {
-                console.log('Login gestart voor:', email);
                 const { error } = await withTimeout(
                     supabase.auth.signInWithPassword({ email, password }),
                     15000
@@ -92,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
             successEl.style.display = 'none';
 
             try {
-                console.log('Registratie gestart voor:', email);
                 const { data, error } = await withTimeout(
                     supabase.auth.signUp({
                         email,
@@ -103,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }),
                     15000
                 );
-                console.log('Registratie response:', { data, error });
 
                 if (error) {
                     errorEl.textContent = 'Registratie mislukt: ' + error.message;

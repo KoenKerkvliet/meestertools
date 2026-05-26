@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Pagina niet gevonden</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .err-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 16px;
+            background: linear-gradient(135deg, #6C63FF 0%, #FF6B9D 50%, #FFD93D 100%);
+        }
+        .err-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 48px 40px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        .err-icon { font-size: 72px; margin-bottom: 16px; }
+        .err-code { font-size: 14px; color: #B2BEC3; letter-spacing: 2px; margin-bottom: 8px; }
+        .err-card h1 { margin: 0 0 16px 0; font-size: 28px; color: #2D3436; }
+        .err-card p { color: #636E72; line-height: 1.6; margin: 0 0 24px 0; }
+        .err-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .err-btn {
+            background: #6C63FF;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.15s;
+        }
+        .err-btn:hover { transform: translateY(-2px); }
+        .err-btn.secondary { background: #F8F9FE; color: #6C63FF; border: 1px solid #E8E8F0; }
+    </style>
+</head>
+<body>
+    <div class="err-container">
+        <div class="err-card">
+            <div class="err-icon">&#128269;</div>
+            <div class="err-code">404</div>
+            <h1>Pagina niet gevonden</h1>
+            <p>Hmm, deze pagina bestaat niet (meer). Misschien is hij verplaatst of heb je een verkeerde link gebruikt.</p>
+            <div class="err-actions">
+                <a href="/" class="err-btn">Naar inlogpagina</a>
+                <a href="/dashboard" class="err-btn secondary">Naar dashboard</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
