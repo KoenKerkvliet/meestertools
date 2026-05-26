@@ -33,12 +33,14 @@ document.addEventListener('DOMContentLoaded', function () {
     var blankTimer = null;
 
     // Speed map: milliseconds word is shown (display time)
+    // Level 3 = baseline (gemiddeld tempo). Level 4 en 5 zijn verzacht zodat
+    // ook het snelste tempo nog bijbenbaar is voor basisschool-leerlingen.
     var speedMap = {
         1: 2500,
         2: 1800,
         3: 1200,
-        4: 800,
-        5: 500
+        4: 950,
+        5: 750
     };
 
     // Blank time between words
@@ -46,8 +48,8 @@ document.addEventListener('DOMContentLoaded', function () {
         1: 1000,
         2: 700,
         3: 500,
-        4: 350,
-        5: 250
+        4: 400,
+        5: 350
     };
 
     // ---------- Supabase ----------
