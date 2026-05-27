@@ -346,10 +346,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mode === 'minutenspel' && msPhase !== 'picking') classes.push('kpr-ms-frozen');
 
         var html = '<div class="' + classes.join(' ') + '" data-student-id="' + s.id + '">';
-        // Punten badge alleen tonen buiten minutenspel-modus
-        if (mode !== 'minutenspel') {
-            html += '<div class="kpr-pts-badge ' + ptsBadgeClass + '">' + (pts > 0 ? '+' : '') + pts + '</div>';
-        }
+        // Punten badge altijd tonen — ook in minutenspel-modus zodat bonus-puntjes direct zichtbaar zijn
+        html += '<div class="kpr-pts-badge ' + ptsBadgeClass + '">' + (pts > 0 ? '+' : '') + pts + '</div>';
         // In minutenspel-modus met badge: groot rondenummer in plaats van avatar
         if (hasMsBadge) {
             html += '<div class="kpr-ms-number">' + msRound + '</div>';
@@ -578,46 +576,62 @@ document.addEventListener('DOMContentLoaded', () => {
             taskOverlay.style.display = 'none';
             taskModal.classList.remove('chosen', 'spinning');
         }, 200);
+
         // Award bonus aan leerlingen die niet in logboek staan
-        await msAwardBonusIfEnabled();
+        var receivers = await msAwardBonusIfEnabled();
+
+        if (receivers && receivers.length > 0) {
+            // Re-render zodat punten-badges direct geüpdate worden
+            render();
+            // Flash groen op alle bonus-kaarten zodat visueel duidelijk is wie de bonus kreeg
+            receivers.forEach(function (s) {
+                var card = document.querySelector('.kpr-student-card[data-student-id="' + s.id + '"]');
+                if (card) {
+                    card.classList.add('kpr-flash-pos');
+                    setTimeout(function () { card.classList.remove('kpr-flash-pos'); }, 600);
+                }
+            });
+            // Wacht zodat de flash visueel zichtbaar is voordat de timer opent
+            await new Promise(function (r) { setTimeout(r, 800); });
+        }
+
         msStartTimer(minutes);
     });
 
     /**
      * Geef positieve beloning aan leerlingen die NIET in het minutenspel-log staan
-     * (en die niet afwezig zijn). Alleen als bonusEnabled + bonusRewardTypeId ingesteld.
+     * (en die niet afwezig zijn). Returns array van ontvangers (of leeg).
      */
     async function msAwardBonusIfEnabled() {
-        if (!bonusEnabled || !bonusRewardTypeId) return;
+        if (!bonusEnabled || !bonusRewardTypeId) return [];
         var rt = rewardTypes.find(function (r) { return r.id === bonusRewardTypeId; });
-        if (!rt || rt.type !== 'positief') return;
+        if (!rt || rt.type !== 'positief') return [];
 
-        // Set van studentIds die wel in logboek staan
         var loggedIds = new Set(msLog.map(function (e) { return e.studentId; }));
         var receivers = students.filter(function (s) {
             return !loggedIds.has(s.id) && !attendanceToday[s.id];
         });
-        if (receivers.length === 0) return;
+        if (receivers.length === 0) return [];
 
         var rows = receivers.map(function (s) {
             return {
                 user_id: currentUser.id,
                 student_id: s.id,
                 reward_type_id: rt.id,
-                points: rt.points, // positief
+                points: rt.points,
             };
         });
         var { error } = await supabase.from('klasseprestatie_points').insert(rows);
         if (error) {
             console.error('Bonus award fout:', error);
-            return;
+            return [];
         }
-        // Update lokale totals
         receivers.forEach(function (s) {
             pointsByStudent[s.id] = (pointsByStudent[s.id] || 0) + rt.points;
         });
         showToast(receivers.length + ' leerling' + (receivers.length === 1 ? '' : 'en') +
             ' kregen "' + rt.label + '" (+' + rt.points + ') als bonus');
+        return receivers;
     }
 
     function showToast(text) {
