@@ -346,8 +346,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mode === 'minutenspel' && msPhase !== 'picking') classes.push('kpr-ms-frozen');
 
         var html = '<div class="' + classes.join(' ') + '" data-student-id="' + s.id + '">';
-        // Punten badge altijd tonen — ook in minutenspel-modus zodat bonus-puntjes direct zichtbaar zijn
-        html += '<div class="kpr-pts-badge ' + ptsBadgeClass + '">' + (pts > 0 ? '+' : '') + pts + '</div>';
+        // Punten badge verbergen tijdens minutenspel — focus op het spel zelf.
+        // Bonus-toekenning blijft zichtbaar via groene flash + toast.
+        if (mode !== 'minutenspel') {
+            html += '<div class="kpr-pts-badge ' + ptsBadgeClass + '">' + (pts > 0 ? '+' : '') + pts + '</div>';
+        }
         // In minutenspel-modus met badge: groot rondenummer in plaats van avatar
         if (hasMsBadge) {
             html += '<div class="kpr-ms-number">' + msRound + '</div>';
