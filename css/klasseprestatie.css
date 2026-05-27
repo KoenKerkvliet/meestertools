@@ -453,3 +453,305 @@
     }
     .kpr-btn { padding: 8px 14px; font-size: 12px; }
 }
+
+/* ============================================
+   MINUTENSPEL integratie binnen Klasseprestatie
+   ============================================ */
+
+/* Groot rondenummer i.p.v. avatar wanneer leerling badge heeft */
+.kpr-ms-number {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--secondary, #FF6B6B), #FF8C42);
+    color: white;
+    font-size: 28px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4px auto 10px auto;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.35);
+    animation: kprPop 0.3s ease-out;
+}
+@keyframes kprPop {
+    0%   { transform: scale(0.5); }
+    60%  { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+.kpr-mode-minutenspel .kpr-student-card {
+    border-color: rgba(255, 107, 107, 0.2);
+}
+.kpr-mode-minutenspel .kpr-student-card:hover {
+    border-color: var(--secondary);
+}
+.kpr-mode-minutenspel .kpr-student-card.kpr-has-ms-badge {
+    border-color: var(--secondary);
+    background: linear-gradient(to bottom, #FFF5F5 0%, white 60%);
+}
+
+/* In de timerRunning fase: cards niet meer clickable */
+.kpr-ms-frozen { cursor: default; }
+.kpr-ms-frozen:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Task reveal area */
+.kpr-task-reveal {
+    margin: 16px auto 16px auto;
+    padding: 20px 24px;
+    background: white;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    max-width: 600px;
+    box-shadow: var(--shadow-sm);
+}
+
+.kpr-task-reveal.spinning .kpr-task-reveal-text {
+    opacity: 0.5;
+    transform: scale(0.95);
+    transition: all 0.05s;
+}
+
+.kpr-task-reveal.chosen {
+    border-color: var(--secondary, #FF6B6B);
+    background: linear-gradient(135deg, #FFF5F5 0%, #FFFFFF 60%);
+    animation: kprRevealPop 0.5s ease-out;
+}
+@keyframes kprRevealPop {
+    0%   { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.kpr-task-reveal-text {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text-dark);
+    text-align: center;
+    line-height: 1.2;
+}
+
+.kpr-task-reveal-students {
+    font-size: 14px;
+    color: var(--text-medium);
+    font-weight: 600;
+    font-style: italic;
+}
+
+/* ---------- Timer overlay (fullscreen) ---------- */
+.kpr-timer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 52, 54, 0.95);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: kprFadeIn 0.3s ease;
+}
+@keyframes kprFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.kpr-timer-modal {
+    background: white;
+    border-radius: 24px;
+    padding: 48px 56px;
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.kpr-timer-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: var(--text-medium);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    line-height: 1;
+}
+.kpr-timer-close:hover { background: var(--bg-light); }
+
+.kpr-timer-time {
+    font-size: 120px;
+    font-weight: 900;
+    color: var(--primary, #6C63FF);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    margin-bottom: 16px;
+    transition: color 0.3s;
+}
+.kpr-timer-time.kpr-timer-warning { color: #FFA94D; }
+.kpr-timer-time.kpr-timer-danger {
+    color: var(--secondary, #FF6B6B);
+    animation: kprBlink 1s infinite;
+}
+@keyframes kprBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+.kpr-timer-progress {
+    width: 100%;
+    height: 12px;
+    background: var(--bg-light);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+.kpr-timer-progress-bar {
+    height: 100%;
+    background: var(--primary);
+    transition: width 1s linear, background 0.3s;
+}
+.kpr-timer-progress-bar.kpr-timer-warning { background: #FFA94D; }
+.kpr-timer-progress-bar.kpr-timer-danger { background: var(--secondary, #FF6B6B); }
+
+.kpr-timer-task {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+.kpr-timer-students {
+    font-size: 16px;
+    color: var(--text-medium);
+    font-style: italic;
+}
+
+.kpr-timer-done-icon {
+    font-size: 80px;
+    line-height: 1;
+    display: block;
+    margin-bottom: 8px;
+}
+.kpr-timer-done-text {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--accent-green, #6BCB77);
+    margin-bottom: 8px;
+}
+.kpr-timer-done-btn {
+    margin-top: 24px;
+    padding: 12px 32px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+}
+.kpr-timer-done-btn:hover { background: var(--primary-dark); }
+
+/* ---------- Confetti ---------- */
+.kpr-confetti-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1100;
+    overflow: hidden;
+}
+.kpr-confetti-piece {
+    position: absolute;
+    top: -20px;
+    animation: kprConfettiFall linear forwards;
+}
+@keyframes kprConfettiFall {
+    to {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* ---------- Settings: minutenspel taakjes ---------- */
+.kpr-settings-heading {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 4px 0;
+}
+.kpr-settings-sub {
+    font-size: 12px;
+    color: var(--text-medium);
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+}
+
+.kpr-tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+.kpr-task-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1px solid #E8E8F0;
+    border-left: 4px solid var(--secondary, #FF6B6B);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+}
+.kpr-task-text {
+    flex: 1;
+    font-size: 14px;
+    color: var(--text-dark);
+}
+.kpr-task-edit-input {
+    flex: 1;
+    padding: 6px 10px;
+    border: 2px solid var(--primary);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+}
+
+.kpr-add-task-row {
+    display: flex;
+    gap: 8px;
+}
+.kpr-add-task-row input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-family: inherit;
+}
+.kpr-add-task-row input:focus { border-color: var(--primary); outline: none; }
+
+.kpr-btn-add-task {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: var(--primary);
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-family: inherit;
+}
+.kpr-btn-add-task:hover { background: var(--primary-dark); }
+
+/* Disabled button */
+.kpr-btn[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}

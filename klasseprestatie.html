@@ -44,6 +44,12 @@
             <div id="kprContainer" class="kpr-container">
                 <!-- Wordt door JS gevuld -->
             </div>
+
+            <!-- Task reveal area (zichtbaar tijdens minutenspel taskRevealed/timerRunning) -->
+            <div id="kprTaskReveal" class="kpr-task-reveal" style="display:none;">
+                <span class="kpr-task-reveal-text" id="kprTaskRevealText"></span>
+                <span class="kpr-task-reveal-students" id="kprTaskRevealStudents"></span>
+            </div>
         </div>
     </main>
 
@@ -93,6 +99,20 @@
                 </div>
 
                 <button class="btn-add-reward" id="kprBtnAddReward">&plus; Nieuwe toevoegen</button>
+
+                <hr class="settings-divider">
+
+                <h3 class="kpr-settings-heading">&#127922; Minutenspel taakjes</h3>
+                <p class="kpr-settings-sub">Korte taakjes die willekeurig worden gekozen bij het minutenspel. Bv. "Bord schoonmaken" of "Boekenkast opruimen".</p>
+
+                <div id="kprTasksList" class="kpr-tasks-list">
+                    <!-- Gevuld door JS -->
+                </div>
+
+                <div class="kpr-add-task-row">
+                    <input type="text" id="kprNewTaskInput" placeholder="Nieuw taakje toevoegen..." maxlength="60">
+                    <button class="kpr-btn-add-task" id="kprBtnAddTask">&plus;</button>
+                </div>
             </div>
         </div>
     </div>

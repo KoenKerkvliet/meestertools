@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- DOM ----------
     var container = document.getElementById('kprContainer');
     var btnSettings = document.getElementById('kprBtnSettings');
+    var taskRevealEl = document.getElementById('kprTaskReveal');
+    var taskRevealText = document.getElementById('kprTaskRevealText');
+    var taskRevealStudents = document.getElementById('kprTaskRevealStudents');
 
     var rewardModal = document.getElementById('kprRewardModal');
     var rewardTitle = document.getElementById('kprRewardTitle');
@@ -34,6 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
     var settingsList = document.getElementById('kprSettingsList');
     var btnAddReward = document.getElementById('kprBtnAddReward');
     var btnCloseSettings = document.getElementById('kprBtnCloseSettings');
+    var tasksList = document.getElementById('kprTasksList');
+    var newTaskInput = document.getElementById('kprNewTaskInput');
+    var btnAddTask = document.getElementById('kprBtnAddTask');
 
     var editModal = document.getElementById('kprEditModal');
     var editTitle = document.getElementById('kprEditTitle');
@@ -55,12 +61,23 @@ document.addEventListener('DOMContentLoaded', () => {
     var attendanceToday = {};        // {student_id: is_absent (boolean)}
     var pendingAttendance = {};      // tijdens aanwezigheid-modus: in-memory wijzigingen voor save
 
-    var mode = 'default';            // 'default' | 'aanwezigheid' | 'selecteer'
+    var mode = 'default';            // 'default' | 'aanwezigheid' | 'selecteer' | 'minutenspel'
     var selectedStudentIds = new Set(); // voor 'selecteer' modus
     var activeRewardTab = 'positief';
     var activeSettingsTab = 'positief';
     var editingRewardType = null;    // null = nieuw, anders het reward_type object
     var pendingTargetStudentIds = []; // welke leerlingen krijgen de toegekende beloning
+
+    // ---------- Minutenspel state ----------
+    var tasks = [];                  // string array, opgeslagen in tool_settings.klasseprestatie.tasks
+    var msBadges = {};               // {student_id: roundNumber}
+    var msRoundNumber = 0;
+    var msRoundTimer = null;         // 3-sec timer voor ronde-grouping
+    var msRoundTimeout = 3000;
+    var msPhase = 'picking';         // 'picking' | 'taskRevealed' | 'timerRunning' | 'done'
+    var msChosenTask = null;
+    var msChosenStudentNames = [];
+    var msCountdownInterval = null;
 
     // ---------- Helpers ----------
     function studentName(s) {
@@ -169,8 +186,23 @@ document.addEventListener('DOMContentLoaded', () => {
             .eq('user_id', currentUser.id)
             .eq('tool_name', TOOL_NAME)
             .single();
-        if (data && data.settings && data.settings.selectedGroupId) {
-            selectedGroupId = data.settings.selectedGroupId;
+        if (data && data.settings) {
+            if (data.settings.selectedGroupId) selectedGroupId = data.settings.selectedGroupId;
+            if (Array.isArray(data.settings.tasks)) tasks = data.settings.tasks;
+        }
+
+        // Eenmalige import: als tasks leeg en oude minutenspel-tool tasks heeft, kopieer
+        if (tasks.length === 0) {
+            var { data: msData } = await supabase
+                .from('tool_settings')
+                .select('settings')
+                .eq('user_id', currentUser.id)
+                .eq('tool_name', 'minutenspel')
+                .single();
+            if (msData && msData.settings && Array.isArray(msData.settings.tasks) && msData.settings.tasks.length > 0) {
+                tasks = msData.settings.tasks.slice();
+                await saveSettings();
+            }
         }
     }
 
@@ -180,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .upsert({
                 user_id: currentUser.id,
                 tool_name: TOOL_NAME,
-                settings: { selectedGroupId: selectedGroupId },
+                settings: { selectedGroupId: selectedGroupId, tasks: tasks },
                 updated_at: new Date().toISOString()
             }, { onConflict: 'user_id,tool_name' });
     }
@@ -206,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        var html = '<div class="kpr-grid" id="kprStudentGrid">';
+        var html = '<div class="kpr-grid' + (mode === 'minutenspel' ? ' kpr-mode-minutenspel' : '') + '" id="kprStudentGrid">';
         students.forEach(function (s) {
             html += renderStudentCard(s);
         });
@@ -223,14 +255,41 @@ document.addEventListener('DOMContentLoaded', () => {
             html += '<span class="kpr-pending-count">' + Object.keys(pendingAttendance).length + ' wijziging' + (Object.keys(pendingAttendance).length === 1 ? '' : 'en') + ' onopgeslagen</span>';
             html += '<button class="kpr-btn kpr-btn-primary" id="kprBtnSaveAttendance">&#128190; Opslaan</button>';
         }
+        // Minutenspel game controls
+        if (mode === 'minutenspel') {
+            var hasBadges = Object.keys(msBadges).length > 0;
+            if (msPhase === 'picking') {
+                html += '<button class="kpr-btn kpr-btn-primary" id="kprBtnMsTask"' + (hasBadges ? '' : ' disabled') + '>&#127922; Kies een taakje</button>';
+            } else if (msPhase === 'taskRevealed') {
+                var minutes = msGetHighestBadge();
+                html += '<button class="kpr-btn kpr-btn-primary" id="kprBtnMsStart">&#9654; Start timer (' + minutes + ' min)</button>';
+            }
+            if (hasBadges || msPhase !== 'picking') {
+                html += '<button class="kpr-btn" id="kprBtnMsReset">&#128260; Reset</button>';
+            }
+        }
         html += '</div>';
         html += '<div class="kpr-actionbar-right">';
-        html += '<button class="kpr-btn ' + (mode === 'aanwezigheid' ? 'kpr-btn-active' : '') + '" id="kprBtnAttendance">&#128100; Aanwezigheid</button>';
-        html += '<button class="kpr-btn ' + (mode === 'selecteer' ? 'kpr-btn-active' : '') + '" id="kprBtnSelect">&#9745;&#65039; Selecteer</button>';
+        var disableOther = mode === 'minutenspel' ? ' disabled' : '';
+        html += '<button class="kpr-btn ' + (mode === 'aanwezigheid' ? 'kpr-btn-active' : '') + '" id="kprBtnAttendance"' + disableOther + '>&#128100; Aanwezigheid</button>';
+        html += '<button class="kpr-btn ' + (mode === 'selecteer' ? 'kpr-btn-active' : '') + '" id="kprBtnSelect"' + disableOther + '>&#9745;&#65039; Selecteer</button>';
+        html += '<button class="kpr-btn ' + (mode === 'minutenspel' ? 'kpr-btn-active' : '') + '" id="kprBtnMinutenspel">&#127922; Minutenspel</button>';
         html += '</div>';
         html += '</div>';
 
         container.innerHTML = html;
+
+        // Task reveal area visibility
+        if (mode === 'minutenspel' && (msPhase === 'taskRevealed' || msPhase === 'timerRunning' || msPhase === 'done')) {
+            taskRevealEl.style.display = 'flex';
+            taskRevealText.textContent = msChosenTask || '';
+            taskRevealStudents.textContent = msChosenStudentNames.join(', ');
+            taskRevealEl.classList.add('chosen');
+            taskRevealEl.classList.remove('spinning');
+        } else {
+            taskRevealEl.style.display = 'none';
+            taskRevealEl.classList.remove('chosen', 'spinning');
+        }
 
         // Wire up
         document.querySelectorAll('.kpr-student-card').forEach(function (card) {
@@ -238,11 +297,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         document.getElementById('kprBtnAttendance').addEventListener('click', toggleAttendanceMode);
         document.getElementById('kprBtnSelect').addEventListener('click', toggleSelectMode);
+        document.getElementById('kprBtnMinutenspel').addEventListener('click', toggleMinutenspelMode);
 
         var btnSave = document.getElementById('kprBtnSaveAttendance');
         if (btnSave) btnSave.addEventListener('click', saveAttendance);
         var btnRwSel = document.getElementById('kprBtnRewardSelected');
         if (btnRwSel) btnRwSel.addEventListener('click', openRewardForSelected);
+
+        // Minutenspel buttons
+        var btnMsTask = document.getElementById('kprBtnMsTask');
+        if (btnMsTask) btnMsTask.addEventListener('click', msAssignTask);
+        var btnMsStart = document.getElementById('kprBtnMsStart');
+        if (btnMsStart) btnMsStart.addEventListener('click', function () { msStartTimer(msGetHighestBadge()); });
+        var btnMsReset = document.getElementById('kprBtnMsReset');
+        if (btnMsReset) btnMsReset.addEventListener('click', msResetGame);
     }
 
     function renderStudentCard(s) {
@@ -256,19 +324,31 @@ document.addEventListener('DOMContentLoaded', () => {
         var isSelected = selectedStudentIds.has(s.id);
         var pts = pointsByStudent[s.id] || 0;
         var ptsBadgeClass = pts > 0 ? 'kpr-pts-pos' : pts < 0 ? 'kpr-pts-neg' : 'kpr-pts-zero';
-        var clickableInDefault = mode === 'default' && !isAbsent;
+        var msRound = msBadges[s.id]; // undefined of een nummer
+        var hasMsBadge = mode === 'minutenspel' && msRound !== undefined;
 
         var classes = ['kpr-student-card'];
         if (isAbsent) classes.push('kpr-absent');
         if (isSelected) classes.push('kpr-selected');
         if (mode === 'default' && isAbsent) classes.push('kpr-blocked');
+        if (hasMsBadge) classes.push('kpr-has-ms-badge');
+        if (mode === 'minutenspel' && msPhase !== 'picking') classes.push('kpr-ms-frozen');
 
-        return '<div class="' + classes.join(' ') + '" data-student-id="' + s.id + '">' +
-            '<div class="kpr-pts-badge ' + ptsBadgeClass + '">' + (pts > 0 ? '+' : '') + pts + '</div>' +
-            '<div class="kpr-avatar">' + escapeHtml(initials(s)) + '</div>' +
-            '<div class="kpr-name">' + escapeHtml(studentName(s)) + '</div>' +
-            (isAbsent ? '<div class="kpr-absent-label">afwezig</div>' : '') +
-        '</div>';
+        var html = '<div class="' + classes.join(' ') + '" data-student-id="' + s.id + '">';
+        // Punten badge alleen tonen buiten minutenspel-modus
+        if (mode !== 'minutenspel') {
+            html += '<div class="kpr-pts-badge ' + ptsBadgeClass + '">' + (pts > 0 ? '+' : '') + pts + '</div>';
+        }
+        // In minutenspel-modus met badge: groot rondenummer in plaats van avatar
+        if (hasMsBadge) {
+            html += '<div class="kpr-ms-number">' + msRound + '</div>';
+        } else {
+            html += '<div class="kpr-avatar">' + escapeHtml(initials(s)) + '</div>';
+        }
+        html += '<div class="kpr-name">' + escapeHtml(studentName(s)) + '</div>';
+        if (isAbsent) html += '<div class="kpr-absent-label">afwezig</div>';
+        html += '</div>';
+        return html;
     }
 
     // ---------- Click handler op leerlingkaart ----------
@@ -282,7 +362,6 @@ document.addEventListener('DOMContentLoaded', () => {
             var newState = !currentPending;
 
             if (newState === currentDbState) {
-                // Terug naar DB state, verwijder pending
                 delete pendingAttendance[studentId];
             } else {
                 pendingAttendance[studentId] = newState;
@@ -292,6 +371,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (selectedStudentIds.has(studentId)) selectedStudentIds.delete(studentId);
             else selectedStudentIds.add(studentId);
             render();
+        } else if (mode === 'minutenspel') {
+            if (msPhase !== 'picking') return;  // geen klik na taak gekozen
+            if (attendanceToday[studentId]) return;
+            msHandleStudentClick(studentId);
         } else {
             // default modus: open beloningspopup voor deze leerling
             if (attendanceToday[studentId]) return; // afwezig = geen punten
@@ -301,8 +384,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- Modus toggles ----------
     function toggleAttendanceMode() {
+        if (mode === 'minutenspel') return; // disabled tijdens minutenspel
         if (mode === 'aanwezigheid') {
-            // Annuleren
             if (Object.keys(pendingAttendance).length > 0) {
                 if (!confirm('Onopgeslagen wijzigingen verwerpen?')) return;
             }
@@ -317,6 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function toggleSelectMode() {
+        if (mode === 'minutenspel') return; // disabled tijdens minutenspel
         if (mode === 'selecteer') {
             mode = 'default';
             selectedStudentIds.clear();
@@ -325,6 +409,276 @@ document.addEventListener('DOMContentLoaded', () => {
             pendingAttendance = {};
         }
         render();
+    }
+
+    function toggleMinutenspelMode() {
+        if (mode === 'minutenspel') {
+            // Deactiveren
+            msResetGame(true); // silent
+            mode = 'default';
+        } else {
+            // Activeren
+            if (tasks.length === 0) {
+                alert('Er zijn nog geen taakjes ingesteld voor het minutenspel. Voeg er eerst toe via Instellingen (⚙️ rechtsboven).');
+                return;
+            }
+            mode = 'minutenspel';
+            selectedStudentIds.clear();
+            pendingAttendance = {};
+            msBadges = {};
+            msRoundNumber = 0;
+            msPhase = 'picking';
+            msChosenTask = null;
+            msChosenStudentNames = [];
+        }
+        render();
+    }
+
+    // ============================================
+    // MINUTENSPEL game logic
+    // ============================================
+
+    function msHandleStudentClick(studentId) {
+        // Zelfde 3-sec ronde logica als originele minutenspel:
+        // - Klik binnen 3 sec van vorige klik: zelfde rondenummer
+        // - Klik na 3 sec timeout: nieuwe ronde, reset badges, nieuw nummer
+        if (msRoundTimer) {
+            // Binnen 3 sec van vorige klik: voeg toe aan huidige ronde
+            clearTimeout(msRoundTimer);
+            msBadges[studentId] = msRoundNumber;
+        } else {
+            // Nieuwe ronde: reset badges, increment nummer
+            msRoundNumber++;
+            msBadges = {};
+            msBadges[studentId] = msRoundNumber;
+        }
+        msRoundTimer = setTimeout(function () { msRoundTimer = null; }, msRoundTimeout);
+        render();
+    }
+
+    function msGetHighestBadge() {
+        var max = 0;
+        Object.keys(msBadges).forEach(function (k) {
+            if (msBadges[k] > max) max = msBadges[k];
+        });
+        return max;
+    }
+
+    function msGetStudentsWithHighestBadge() {
+        var highest = msGetHighestBadge();
+        return Object.keys(msBadges).filter(function (k) { return msBadges[k] === highest; });
+    }
+
+    function msAssignTask() {
+        if (mode !== 'minutenspel' || msPhase !== 'picking') return;
+        if (Object.keys(msBadges).length === 0 || tasks.length === 0) return;
+
+        // Stop ronde timer
+        if (msRoundTimer) { clearTimeout(msRoundTimer); msRoundTimer = null; }
+
+        var winnerIds = msGetStudentsWithHighestBadge();
+        msChosenStudentNames = winnerIds.map(function (sid) {
+            var s = students.find(function (x) { return x.id === sid; });
+            return s ? studentName(s) : '?';
+        });
+
+        // Spin-animatie: random taak tonen, dan vastzetten
+        var finalTask = tasks[Math.floor(Math.random() * tasks.length)];
+        msChosenTask = finalTask;
+
+        taskRevealEl.style.display = 'flex';
+        taskRevealEl.classList.remove('chosen');
+        taskRevealEl.classList.add('spinning');
+        taskRevealStudents.textContent = msChosenStudentNames.join(', ');
+
+        var spinDuration = 1500;
+        var startTime = Date.now();
+        function spinStep() {
+            var elapsed = Date.now() - startTime;
+            var progress = Math.min(elapsed / spinDuration, 1);
+            if (progress < 1) {
+                var interval = 50 + (progress * progress * 200);
+                taskRevealText.textContent = tasks[Math.floor(Math.random() * tasks.length)];
+                setTimeout(spinStep, interval);
+            } else {
+                taskRevealText.textContent = finalTask;
+                taskRevealEl.classList.remove('spinning');
+                taskRevealEl.classList.add('chosen');
+                msPhase = 'taskRevealed';
+                render();
+            }
+        }
+        spinStep();
+
+        // Disable Kies-knop tijdens spin
+        var btn = document.getElementById('kprBtnMsTask');
+        if (btn) btn.disabled = true;
+    }
+
+    function msStartTimer(minutes) {
+        if (mode !== 'minutenspel' || msPhase !== 'taskRevealed') return;
+        msPhase = 'timerRunning';
+
+        var totalSeconds = minutes * 60;
+        var remaining = totalSeconds;
+
+        // Fullscreen overlay
+        var overlay = document.createElement('div');
+        overlay.className = 'kpr-timer-overlay';
+        overlay.id = 'kprTimerOverlay';
+
+        var modal = document.createElement('div');
+        modal.className = 'kpr-timer-modal';
+
+        var closeBtn = document.createElement('button');
+        closeBtn.className = 'kpr-timer-close';
+        closeBtn.innerHTML = '&times;';
+        closeBtn.addEventListener('click', msStopTimer);
+
+        var timeDisplay = document.createElement('div');
+        timeDisplay.className = 'kpr-timer-time';
+        timeDisplay.textContent = msFormatTime(remaining);
+
+        var progressDiv = document.createElement('div');
+        progressDiv.className = 'kpr-timer-progress';
+        var progressBar = document.createElement('div');
+        progressBar.className = 'kpr-timer-progress-bar';
+        progressBar.style.width = '100%';
+        progressDiv.appendChild(progressBar);
+
+        var taskDiv = document.createElement('div');
+        taskDiv.className = 'kpr-timer-task';
+        taskDiv.textContent = msChosenTask;
+
+        var studentDiv = document.createElement('div');
+        studentDiv.className = 'kpr-timer-students';
+        studentDiv.textContent = msChosenStudentNames.join(', ');
+
+        modal.appendChild(closeBtn);
+        modal.appendChild(timeDisplay);
+        modal.appendChild(progressDiv);
+        modal.appendChild(taskDiv);
+        modal.appendChild(studentDiv);
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+
+        msCountdownInterval = setInterval(function () {
+            remaining--;
+            if (remaining <= 0) {
+                clearInterval(msCountdownInterval);
+                msCountdownInterval = null;
+                msTimerDone(overlay, modal);
+                return;
+            }
+            timeDisplay.textContent = msFormatTime(remaining);
+            var pct = (remaining / totalSeconds) * 100;
+            progressBar.style.width = pct + '%';
+            if (pct <= 25 && pct > 10) {
+                timeDisplay.classList.add('kpr-timer-warning');
+                progressBar.classList.add('kpr-timer-warning');
+            } else if (pct <= 10) {
+                timeDisplay.classList.remove('kpr-timer-warning');
+                progressBar.classList.remove('kpr-timer-warning');
+                timeDisplay.classList.add('kpr-timer-danger');
+                progressBar.classList.add('kpr-timer-danger');
+            }
+        }, 1000);
+    }
+
+    function msFormatTime(seconds) {
+        var m = Math.floor(seconds / 60);
+        var s = seconds % 60;
+        return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
+    function msStopTimer() {
+        if (msCountdownInterval) {
+            clearInterval(msCountdownInterval);
+            msCountdownInterval = null;
+        }
+        var overlay = document.getElementById('kprTimerOverlay');
+        if (overlay) overlay.remove();
+        msPhase = 'taskRevealed';
+        render();
+    }
+
+    function msTimerDone(overlay, modal) {
+        msPhase = 'done';
+        msShowConfetti();
+
+        modal.innerHTML = '';
+        var closeBtn = document.createElement('button');
+        closeBtn.className = 'kpr-timer-close';
+        closeBtn.innerHTML = '&times;';
+        closeBtn.addEventListener('click', function () {
+            overlay.remove();
+            render();
+        });
+
+        var icon = document.createElement('span');
+        icon.className = 'kpr-timer-done-icon';
+        icon.innerHTML = '&#127881;';
+        var doneText = document.createElement('div');
+        doneText.className = 'kpr-timer-done-text';
+        doneText.textContent = 'Klaar!';
+        var taskDiv = document.createElement('div');
+        taskDiv.className = 'kpr-timer-task';
+        taskDiv.textContent = msChosenTask;
+        var studentDiv = document.createElement('div');
+        studentDiv.className = 'kpr-timer-students';
+        studentDiv.textContent = msChosenStudentNames.join(', ');
+        var doneBtn = document.createElement('button');
+        doneBtn.className = 'kpr-timer-done-btn';
+        doneBtn.textContent = 'Sluiten';
+        doneBtn.addEventListener('click', function () {
+            overlay.remove();
+            msResetGame();
+        });
+
+        modal.appendChild(closeBtn);
+        modal.appendChild(icon);
+        modal.appendChild(doneText);
+        modal.appendChild(taskDiv);
+        modal.appendChild(studentDiv);
+        modal.appendChild(doneBtn);
+    }
+
+    function msShowConfetti() {
+        var confettiContainer = document.createElement('div');
+        confettiContainer.className = 'kpr-confetti-container';
+        document.body.appendChild(confettiContainer);
+        var colors = ['#6C63FF', '#FF6B6B', '#51CF66', '#FFA94D', '#22B8CF', '#F06595', '#FFD43B'];
+        for (var i = 0; i < 60; i++) {
+            var piece = document.createElement('div');
+            piece.className = 'kpr-confetti-piece';
+            var color = colors[Math.floor(Math.random() * colors.length)];
+            var size = 6 + Math.random() * 8;
+            var left = Math.random() * 100;
+            var duration = 1.5 + Math.random() * 2;
+            var delay = Math.random() * 0.8;
+            piece.style.width = size + 'px';
+            piece.style.height = size + 'px';
+            piece.style.background = color;
+            piece.style.left = left + '%';
+            piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+            piece.style.animationDuration = duration + 's';
+            piece.style.animationDelay = delay + 's';
+            confettiContainer.appendChild(piece);
+        }
+        setTimeout(function () { confettiContainer.remove(); }, 4000);
+    }
+
+    function msResetGame(silent) {
+        msBadges = {};
+        msRoundNumber = 0;
+        msChosenTask = null;
+        msChosenStudentNames = [];
+        msPhase = 'picking';
+        if (msRoundTimer) { clearTimeout(msRoundTimer); msRoundTimer = null; }
+        if (msCountdownInterval) { clearInterval(msCountdownInterval); msCountdownInterval = null; }
+        var overlay = document.getElementById('kprTimerOverlay');
+        if (overlay) overlay.remove();
+        if (!silent) render();
     }
 
     // ---------- Aanwezigheid opslaan ----------
@@ -496,8 +850,100 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         renderSettingsList();
+        renderTasksList();
         settingsModal.classList.add('active');
     }
+
+    function renderTasksList() {
+        tasksList.innerHTML = '';
+        if (tasks.length === 0) {
+            tasksList.innerHTML = '<p class="kpr-empty-msg" style="padding:14px;font-size:13px;">Geen taakjes. Voeg hieronder een taakje toe.</p>';
+            return;
+        }
+        tasks.forEach(function (t, idx) {
+            var item = document.createElement('div');
+            item.className = 'kpr-task-item';
+
+            var text = document.createElement('span');
+            text.className = 'kpr-task-text';
+            text.textContent = t;
+
+            var editBtn = document.createElement('button');
+            editBtn.className = 'kpr-set-btn';
+            editBtn.innerHTML = '&#9998;';
+            editBtn.title = 'Bewerken';
+            editBtn.addEventListener('click', function () { editTaskInline(idx); });
+
+            var delBtn = document.createElement('button');
+            delBtn.className = 'kpr-set-btn kpr-set-delete';
+            delBtn.innerHTML = '&times;';
+            delBtn.title = 'Verwijderen';
+            delBtn.addEventListener('click', async function () {
+                tasks.splice(idx, 1);
+                await saveSettings();
+                renderTasksList();
+            });
+
+            item.appendChild(text);
+            item.appendChild(editBtn);
+            item.appendChild(delBtn);
+            tasksList.appendChild(item);
+        });
+    }
+
+    function editTaskInline(idx) {
+        var items = tasksList.querySelectorAll('.kpr-task-item');
+        var item = items[idx];
+        if (!item) return;
+        var oldText = tasks[idx];
+        item.innerHTML = '';
+        var input = document.createElement('input');
+        input.type = 'text';
+        input.value = oldText;
+        input.maxLength = 60;
+        input.className = 'kpr-task-edit-input';
+        var saveBtn = document.createElement('button');
+        saveBtn.className = 'kpr-set-btn';
+        saveBtn.innerHTML = '&#10003;';
+        var cancelBtn = document.createElement('button');
+        cancelBtn.className = 'kpr-set-btn kpr-set-delete';
+        cancelBtn.innerHTML = '&times;';
+
+        async function save() {
+            var v = input.value.trim();
+            if (v) {
+                tasks[idx] = v;
+                await saveSettings();
+            }
+            renderTasksList();
+        }
+        saveBtn.addEventListener('click', save);
+        cancelBtn.addEventListener('click', renderTasksList);
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') save();
+            if (e.key === 'Escape') renderTasksList();
+        });
+
+        item.appendChild(input);
+        item.appendChild(saveBtn);
+        item.appendChild(cancelBtn);
+        input.focus();
+    }
+
+    async function addTask() {
+        var v = newTaskInput.value.trim();
+        if (!v) return;
+        tasks.push(v);
+        await saveSettings();
+        newTaskInput.value = '';
+        renderTasksList();
+        newTaskInput.focus();
+    }
+
+    btnAddTask.addEventListener('click', addTask);
+    newTaskInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') addTask();
+    });
 
     selectGroup.addEventListener('change', async function () {
         selectedGroupId = selectGroup.value;
