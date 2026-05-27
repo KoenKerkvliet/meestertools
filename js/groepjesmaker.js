@@ -141,13 +141,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Mutual = beide kanten dezelfde keuze. Sla canonical 'min:max' op zodat we makkelijk kunnen lookup.
         const mutualNeg = new Set();
+        const oneWayNeg = new Set();
         const mutualPos = new Set();
         negPairs.forEach(function (key) {
             const parts = key.split(':');
             const reverse = parts[1] + ':' + parts[0];
+            const sorted = parts[0] < parts[1] ? parts[0] + ':' + parts[1] : parts[1] + ':' + parts[0];
             if (negPairs.has(reverse)) {
-                const sorted = parts[0] < parts[1] ? parts[0] + ':' + parts[1] : parts[1] + ':' + parts[0];
                 mutualNeg.add(sorted);
+            } else {
+                oneWayNeg.add(sorted);
             }
         });
         posPairs.forEach(function (key) {
@@ -161,6 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         sociogramConstraints = {
             mutualNeg: mutualNeg,
+            oneWayNeg: oneWayNeg,
             mutualPos: mutualPos,
             session: session,
         };
@@ -260,139 +264,118 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Telt het aantal wederzijds-negatieve paren in dezelfde groep — dit zijn de
-     * harde violations die we willen vermijden.
+     * Weighted cost van een groepsindeling.
+     *   wederzijds negatief in zelfde groep = +1000 (hard violation, moet vermeden)
+     *   eenzijdig  negatief in zelfde groep = +10   (soft violation, liefst vermeden)
+     *   wederzijds positief in zelfde groep = -1    (bonus, lagere cost is beter)
+     *
+     * Lager = beter.
      */
-    function countViolations(grouping) {
+    function calculateCost(grouping) {
         if (!sociogramConstraints) return 0;
-        var count = 0;
+        var cost = 0;
         for (var g = 0; g < grouping.length; g++) {
             var group = grouping[g];
             for (var i = 0; i < group.length; i++) {
                 for (var j = i + 1; j < group.length; j++) {
                     var a = group[i].id, b = group[j].id;
                     var key = a < b ? a + ':' + b : b + ':' + a;
-                    if (sociogramConstraints.mutualNeg.has(key)) count++;
+                    if (sociogramConstraints.mutualNeg.has(key)) cost += 1000;
+                    else if (sociogramConstraints.oneWayNeg.has(key)) cost += 10;
+                    if (sociogramConstraints.mutualPos.has(key)) cost -= 1;
                 }
             }
         }
-        return count;
+        return cost;
     }
 
     /**
-     * Probeer een groepsindeling te vinden zonder wederzijds-negatieve paren.
-     * Strategie: random verdelen, dan swaps proberen tot violations 0 of max iteraties.
+     * Tel violations per type voor reporting.
+     */
+    function countStats(grouping) {
+        var stats = { mutualNeg: 0, oneWayNeg: 0, mutualPos: 0 };
+        if (!sociogramConstraints) return stats;
+        for (var g = 0; g < grouping.length; g++) {
+            var group = grouping[g];
+            for (var i = 0; i < group.length; i++) {
+                for (var j = i + 1; j < group.length; j++) {
+                    var a = group[i].id, b = group[j].id;
+                    var key = a < b ? a + ':' + b : b + ':' + a;
+                    if (sociogramConstraints.mutualNeg.has(key)) stats.mutualNeg++;
+                    else if (sociogramConstraints.oneWayNeg.has(key)) stats.oneWayNeg++;
+                    if (sociogramConstraints.mutualPos.has(key)) stats.mutualPos++;
+                }
+            }
+        }
+        return stats;
+    }
+
+    /**
+     * Probeer een groepsindeling te vinden met minimale cost.
+     * Strategie: meerdere random verdelingen, elk repairen via swaps, beste behouden.
      */
     function divideIntoGroupsWithSociogram(studs, method, count) {
         var bestGrouping = null;
-        var bestViolations = Infinity;
-        var bestPositiveBonds = 0;
+        var bestCost = Infinity;
+        var bestStats = null;
 
         var maxAttempts = 30;
         for (var attempt = 0; attempt < maxAttempts; attempt++) {
             var grouping = divideIntoGroups(studs, method, count);
             grouping = repairGrouping(grouping);
-            var violations = countViolations(grouping);
-            var positives = countPositiveBonds(grouping);
+            var cost = calculateCost(grouping);
 
-            // Beter als minder violations, of bij gelijke violations meer positives
-            if (violations < bestViolations || (violations === bestViolations && positives > bestPositiveBonds)) {
+            if (cost < bestCost) {
                 bestGrouping = grouping;
-                bestViolations = violations;
-                bestPositiveBonds = positives;
-                if (violations === 0 && attempt >= 5) break; // genoeg geprobeerd
+                bestCost = cost;
+                bestStats = countStats(grouping);
+                if (bestStats.mutualNeg === 0 && bestStats.oneWayNeg === 0 && attempt >= 5) break;
             }
         }
-        return { grouping: bestGrouping, violations: bestViolations, positiveBonds: bestPositiveBonds };
-    }
-
-    function countPositiveBonds(grouping) {
-        if (!sociogramConstraints) return 0;
-        var count = 0;
-        for (var g = 0; g < grouping.length; g++) {
-            var group = grouping[g];
-            for (var i = 0; i < group.length; i++) {
-                for (var j = i + 1; j < group.length; j++) {
-                    var a = group[i].id, b = group[j].id;
-                    var key = a < b ? a + ':' + b : b + ':' + a;
-                    if (sociogramConstraints.mutualPos.has(key)) count++;
-                }
-            }
-        }
-        return count;
+        return { grouping: bestGrouping, stats: bestStats };
     }
 
     /**
-     * Probeer swaps te doen om violations weg te krijgen.
-     * Voor elke violation: zoek een swap die de violation oplost zonder een nieuwe te creëren.
+     * Probeer swaps die de totale cost verlagen.
+     * Hill-climbing: voor elke swap, check of het de cost verlaagt. Zo ja, hou hem.
      */
     function repairGrouping(grouping) {
         if (!sociogramConstraints) return grouping;
-        var maxIterations = 50;
+        var maxIterations = 100;
         for (var iter = 0; iter < maxIterations; iter++) {
-            var fixedSomething = false;
-            // Vind eerste violation
-            for (var g = 0; g < grouping.length; g++) {
-                var group = grouping[g];
-                for (var i = 0; i < group.length; i++) {
-                    for (var j = i + 1; j < group.length; j++) {
-                        var a = group[i].id, b = group[j].id;
-                        var key = a < b ? a + ':' + b : b + ':' + a;
-                        if (sociogramConstraints.mutualNeg.has(key)) {
-                            // Probeer student i te swappen met iemand in andere groep
-                            if (trySwap(grouping, g, i)) {
-                                fixedSomething = true;
-                            } else if (trySwap(grouping, g, j)) {
-                                fixedSomething = true;
+            var beforeCost = calculateCost(grouping);
+            var improved = false;
+
+            // Probeer elke swap tussen verschillende groepen
+            outer:
+            for (var g1 = 0; g1 < grouping.length; g1++) {
+                for (var i = 0; i < grouping[g1].length; i++) {
+                    for (var g2 = g1 + 1; g2 < grouping.length; g2++) {
+                        for (var j = 0; j < grouping[g2].length; j++) {
+                            // Swap
+                            var temp = grouping[g1][i];
+                            grouping[g1][i] = grouping[g2][j];
+                            grouping[g2][j] = temp;
+
+                            var newCost = calculateCost(grouping);
+                            if (newCost < beforeCost) {
+                                // Verbetering, hou de swap
+                                improved = true;
+                                break outer;
+                            } else {
+                                // Revert
+                                temp = grouping[g1][i];
+                                grouping[g1][i] = grouping[g2][j];
+                                grouping[g2][j] = temp;
                             }
-                            if (fixedSomething) break;
                         }
                     }
-                    if (fixedSomething) break;
                 }
-                if (fixedSomething) break;
             }
-            if (!fixedSomething) break;
+
+            if (!improved) break;
         }
         return grouping;
-    }
-
-    /**
-     * Zoek een student in een andere groep om mee te wisselen, zonder nieuwe violations te creëren.
-     */
-    function trySwap(grouping, groupIdx, studentIdx) {
-        var student = grouping[groupIdx][studentIdx];
-        // Probeer alle andere studenten in andere groepen
-        for (var g = 0; g < grouping.length; g++) {
-            if (g === groupIdx) continue;
-            for (var k = 0; k < grouping[g].length; k++) {
-                var other = grouping[g][k];
-                // Voer swap uit, check of het violations vermindert
-                grouping[groupIdx][studentIdx] = other;
-                grouping[g][k] = student;
-                if (countViolationsInGroup(grouping[groupIdx]) === 0 &&
-                    countViolationsInGroup(grouping[g]) === 0) {
-                    return true; // success
-                }
-                // Revert
-                grouping[groupIdx][studentIdx] = student;
-                grouping[g][k] = other;
-            }
-        }
-        return false;
-    }
-
-    function countViolationsInGroup(group) {
-        if (!sociogramConstraints) return 0;
-        var count = 0;
-        for (var i = 0; i < group.length; i++) {
-            for (var j = i + 1; j < group.length; j++) {
-                var a = group[i].id, b = group[j].id;
-                var key = a < b ? a + ':' + b : b + ':' + a;
-                if (sociogramConstraints.mutualNeg.has(key)) count++;
-            }
-        }
-        return count;
     }
 
     async function shuffleGroups() {
@@ -413,35 +396,44 @@ document.addEventListener('DOMContentLoaded', () => {
         await new Promise(function (resolve) { setTimeout(resolve, 400); });
 
         // Calculate groups — gebruik sociogram-aware variant als ingeschakeld
-        var grouping, violations = 0, positiveBonds = 0, usedSociogram = false;
+        var grouping, stats = null, usedSociogram = false;
         if (useSociogram && sociogramConstraints) {
             var r = divideIntoGroupsWithSociogram(students, splitMethod, splitCount);
             grouping = r.grouping;
-            violations = r.violations;
-            positiveBonds = r.positiveBonds;
+            stats = r.stats;
             usedSociogram = true;
         } else {
             grouping = divideIntoGroups(students, splitMethod, splitCount);
         }
 
-        // Sociogram banner bovenaan als de tool actief gebruikt is
-        var bannerHtml = '';
+        // Subtiel info-icoon (rechtsboven) i.p.v. prominente banner
+        var infoIconHtml = '';
         if (usedSociogram) {
             var sessionLabel = sociogramConstraints.session.titel ||
                 (sociogramConstraints.session.type === 'werken' ? 'Samen werken' : 'Samen spelen');
-            bannerHtml = '<div class="groepjes-sociogram-banner">' +
-                '<span class="banner-icon">&#129309;</span>' +
-                '<div class="banner-text">' +
-                    '<strong>Sociogram toegepast: ' + escapeHtml(sessionLabel) + '</strong>' +
-                    '<small>' + positiveBonds + ' positieve band' + (positiveBonds === 1 ? '' : 'en') + ' gerespecteerd' +
-                        (violations > 0 ? ' &middot; <span class="banner-warning">&#9888;&#65039; ' + violations + ' conflict' + (violations === 1 ? '' : 'en') + ' konden niet vermeden worden</span>' : '') +
-                    '</small>' +
-                '</div>' +
+
+            // Bouw tooltip text (multi-line via \n in data-tooltip)
+            var tooltipLines = ['Sociogram toegepast: ' + sessionLabel];
+            tooltipLines.push('✓ ' + stats.mutualPos + ' wederzijds positieve band' + (stats.mutualPos === 1 ? '' : 'en') + ' samen geplaatst');
+            if (stats.mutualNeg === 0) {
+                tooltipLines.push('✓ 0 wederzijds-negatieve paren in zelfde groep');
+            } else {
+                tooltipLines.push('⚠ ' + stats.mutualNeg + ' wederzijds-negatief paar' + (stats.mutualNeg === 1 ? '' : 'paren') + ' kon niet vermeden worden');
+            }
+            if (stats.oneWayNeg === 0) {
+                tooltipLines.push('✓ 0 eenzijdig-negatieve paren in zelfde groep');
+            } else {
+                tooltipLines.push('⚠ ' + stats.oneWayNeg + ' eenzijdig-negatief paar' + (stats.oneWayNeg === 1 ? '' : ' paren') + ' in zelfde groep (kon niet anders)');
+            }
+
+            var tooltipText = tooltipLines.join('\n');
+            infoIconHtml = '<div class="groepjes-info-wrap">' +
+                '<span class="groepjes-info-icon" tabindex="0" data-tooltip="' + escapeHtml(tooltipText) + '" aria-label="Sociogram informatie">i</span>' +
             '</div>';
         }
 
         // Render groups with staggered animation
-        var html = bannerHtml;
+        var html = infoIconHtml;
         for (var i = 0; i < grouping.length; i++) {
             var group = grouping[i];
             var delay = i * 80;
