@@ -30,6 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
     var btnTaskReroll = document.getElementById('kprBtnTaskReroll');
     var btnTaskStart = document.getElementById('kprBtnTaskStart');
 
+    var bonusCheckbox = document.getElementById('kprRewardBonusCheckbox');
+    var bonusTypeWrap = document.getElementById('kprBonusTypeWrap');
+    var bonusTypeSelect = document.getElementById('kprRewardBonusType');
+
+    var toastEl = document.getElementById('kprToast');
+    var toastText = document.getElementById('kprToastText');
+
     var rewardModal = document.getElementById('kprRewardModal');
     var rewardTitle = document.getElementById('kprRewardTitle');
     var rewardGrid = document.getElementById('kprRewardGrid');
@@ -75,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- Minutenspel state ----------
     var tasks = [];                  // string array, opgeslagen in tool_settings.klasseprestatie.tasks
-    var msBadges = {};               // {student_id: roundNumber}
+    var msBadges = {};               // {student_id: roundNumber} — alleen huidige ronde
     var msRoundNumber = 0;
     var msRoundTimer = null;         // 3-sec timer voor ronde-grouping
     var msRoundTimeout = 3000;
@@ -83,6 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
     var msChosenTask = null;
     var msChosenStudentNames = [];
     var msCountdownInterval = null;
+    var msLog = [];                  // [{studentId, name, roundNumber}], chronologisch
+    var bonusEnabled = false;        // setting: belonen niet-genoemde leerlingen?
+    var bonusRewardTypeId = null;    // setting: welke positieve reward type
 
     // ---------- Helpers ----------
     function studentName(s) {
@@ -194,6 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data && data.settings) {
             if (data.settings.selectedGroupId) selectedGroupId = data.settings.selectedGroupId;
             if (Array.isArray(data.settings.tasks)) tasks = data.settings.tasks;
+            if (typeof data.settings.bonusEnabled === 'boolean') bonusEnabled = data.settings.bonusEnabled;
+            if (data.settings.bonusRewardTypeId) bonusRewardTypeId = data.settings.bonusRewardTypeId;
         }
 
         // Eenmalige import: als tasks leeg en oude minutenspel-tool tasks heeft, kopieer
@@ -217,7 +229,12 @@ document.addEventListener('DOMContentLoaded', () => {
             .upsert({
                 user_id: currentUser.id,
                 tool_name: TOOL_NAME,
-                settings: { selectedGroupId: selectedGroupId, tasks: tasks },
+                settings: {
+                    selectedGroupId: selectedGroupId,
+                    tasks: tasks,
+                    bonusEnabled: bonusEnabled,
+                    bonusRewardTypeId: bonusRewardTypeId,
+                },
                 updated_at: new Date().toISOString()
             }, { onConflict: 'user_id,tool_name' });
     }
@@ -279,6 +296,11 @@ document.addEventListener('DOMContentLoaded', () => {
         html += '<button class="kpr-btn ' + (mode === 'minutenspel' ? 'kpr-btn-active' : '') + '" id="kprBtnMinutenspel">&#127922; Minutenspel</button>';
         html += '</div>';
         html += '</div>';
+
+        // Logboek (alleen tijdens minutenspel, met entries)
+        if (mode === 'minutenspel' && msLog.length > 0) {
+            html += renderLogbook();
+        }
 
         container.innerHTML = html;
 
@@ -419,6 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
             msPhase = 'picking';
             msChosenTask = null;
             msChosenStudentNames = [];
+            msLog = [];
         }
         render();
     }
@@ -431,15 +454,27 @@ document.addEventListener('DOMContentLoaded', () => {
         // Zelfde 3-sec ronde logica als originele minutenspel:
         // - Klik binnen 3 sec van vorige klik: zelfde rondenummer
         // - Klik na 3 sec timeout: nieuwe ronde, reset badges, nieuw nummer
+        var isNewAssignment;
         if (msRoundTimer) {
             // Binnen 3 sec van vorige klik: voeg toe aan huidige ronde
             clearTimeout(msRoundTimer);
+            isNewAssignment = msBadges[studentId] !== msRoundNumber;
             msBadges[studentId] = msRoundNumber;
         } else {
-            // Nieuwe ronde: reset badges, increment nummer
+            // Nieuwe ronde: reset zichtbare badges, increment nummer
             msRoundNumber++;
             msBadges = {};
             msBadges[studentId] = msRoundNumber;
+            isNewAssignment = true;
+        }
+        if (isNewAssignment) {
+            // Push naar log (chronologisch, blijft staan ook na ronde-reset)
+            var s = students.find(function (x) { return x.id === studentId; });
+            msLog.push({
+                studentId: studentId,
+                name: s ? studentName(s) : '?',
+                roundNumber: msRoundNumber,
+            });
         }
         msRoundTimer = setTimeout(function () { msRoundTimer = null; }, msRoundTimeout);
         render();
@@ -535,7 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
         msPhase = 'picking'; // tijdelijk om de check in msAssignTask te omzeilen
         msAssignTask();
     });
-    btnTaskStart.addEventListener('click', function () {
+    btnTaskStart.addEventListener('click', async function () {
         if (msPhase !== 'taskRevealed') return;
         var minutes = msGetHighestBadge();
         taskOverlay.classList.remove('active');
@@ -543,8 +578,94 @@ document.addEventListener('DOMContentLoaded', () => {
             taskOverlay.style.display = 'none';
             taskModal.classList.remove('chosen', 'spinning');
         }, 200);
+        // Award bonus aan leerlingen die niet in logboek staan
+        await msAwardBonusIfEnabled();
         msStartTimer(minutes);
     });
+
+    /**
+     * Geef positieve beloning aan leerlingen die NIET in het minutenspel-log staan
+     * (en die niet afwezig zijn). Alleen als bonusEnabled + bonusRewardTypeId ingesteld.
+     */
+    async function msAwardBonusIfEnabled() {
+        if (!bonusEnabled || !bonusRewardTypeId) return;
+        var rt = rewardTypes.find(function (r) { return r.id === bonusRewardTypeId; });
+        if (!rt || rt.type !== 'positief') return;
+
+        // Set van studentIds die wel in logboek staan
+        var loggedIds = new Set(msLog.map(function (e) { return e.studentId; }));
+        var receivers = students.filter(function (s) {
+            return !loggedIds.has(s.id) && !attendanceToday[s.id];
+        });
+        if (receivers.length === 0) return;
+
+        var rows = receivers.map(function (s) {
+            return {
+                user_id: currentUser.id,
+                student_id: s.id,
+                reward_type_id: rt.id,
+                points: rt.points, // positief
+            };
+        });
+        var { error } = await supabase.from('klasseprestatie_points').insert(rows);
+        if (error) {
+            console.error('Bonus award fout:', error);
+            return;
+        }
+        // Update lokale totals
+        receivers.forEach(function (s) {
+            pointsByStudent[s.id] = (pointsByStudent[s.id] || 0) + rt.points;
+        });
+        showToast(receivers.length + ' leerling' + (receivers.length === 1 ? '' : 'en') +
+            ' kregen "' + rt.label + '" (+' + rt.points + ') als bonus');
+    }
+
+    function showToast(text) {
+        toastText.textContent = text;
+        toastEl.classList.add('visible');
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(function () {
+            toastEl.classList.remove('visible');
+        }, 4000);
+    }
+
+    /**
+     * Render het logboek onderaan: chronologische lijst van leerlingen
+     * gegroepeerd per ronde, met huidige ronde gemarkeerd.
+     */
+    function renderLogbook() {
+        if (msLog.length === 0) return '';
+        // Groepeer per roundNumber
+        var byRound = {};
+        msLog.forEach(function (entry) {
+            if (!byRound[entry.roundNumber]) byRound[entry.roundNumber] = [];
+            byRound[entry.roundNumber].push(entry);
+        });
+        // Sorteer rondes omgekeerd (nieuwste boven)
+        var roundKeys = Object.keys(byRound).map(Number).sort(function (a, b) { return b - a; });
+        var html = '<div class="kpr-ms-log">';
+        html += '<div class="kpr-ms-log-header">';
+        html += '<span class="kpr-ms-log-title">&#128221; Logboek minutenspel</span>';
+        html += '<span class="kpr-ms-log-count">' + msLog.length + ' inzending' + (msLog.length === 1 ? '' : 'en') + ' &middot; ' + roundKeys.length + ' ronde' + (roundKeys.length === 1 ? '' : 's') + '</span>';
+        html += '</div>';
+        html += '<div class="kpr-ms-log-rounds">';
+        roundKeys.forEach(function (rn) {
+            var isCurrent = (rn === msRoundNumber) && Object.keys(msBadges).length > 0;
+            html += '<div class="kpr-ms-log-round' + (isCurrent ? ' kpr-ms-log-current' : '') + '">';
+            html += '<div><span class="kpr-ms-log-round-num">' + rn + '</span>';
+            if (isCurrent) html += '<span class="kpr-ms-log-current-label">huidig</span>';
+            html += '</div>';
+            html += '<div class="kpr-ms-log-students">';
+            byRound[rn].forEach(function (entry) {
+                html += '<span class="kpr-ms-log-student">' + escapeHtml(entry.name) + '</span>';
+            });
+            html += '</div>';
+            html += '</div>';
+        });
+        html += '</div>';
+        html += '</div>';
+        return html;
+    }
 
     function msStartTimer(minutes) {
         if (mode !== 'minutenspel' || msPhase !== 'taskRevealed') return;
@@ -704,6 +825,7 @@ document.addEventListener('DOMContentLoaded', () => {
         msRoundNumber = 0;
         msChosenTask = null;
         msChosenStudentNames = [];
+        msLog = [];
         msPhase = 'picking';
         if (msRoundTimer) { clearTimeout(msRoundTimer); msRoundTimer = null; }
         if (msCountdownInterval) { clearInterval(msCountdownInterval); msCountdownInterval = null; }
@@ -886,8 +1008,47 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         renderSettingsList();
         renderTasksList();
+        renderBonusSettings();
         settingsModal.classList.add('active');
     }
+
+    function renderBonusSettings() {
+        bonusCheckbox.checked = !!bonusEnabled;
+        // Vul dropdown met positieve reward types
+        bonusTypeSelect.innerHTML = '';
+        var positives = rewardTypes.filter(function (r) { return r.type === 'positief'; });
+        if (positives.length === 0) {
+            var opt = document.createElement('option');
+            opt.value = '';
+            opt.textContent = 'Geen positieve beloningen — voeg er eerst toe';
+            bonusTypeSelect.appendChild(opt);
+        } else {
+            positives.forEach(function (r) {
+                var opt = document.createElement('option');
+                opt.value = r.id;
+                opt.textContent = r.icon + ' ' + r.label + ' (+' + r.points + ')';
+                if (r.id === bonusRewardTypeId) opt.selected = true;
+                bonusTypeSelect.appendChild(opt);
+            });
+            // Als geen geldige selectie, default naar eerste
+            if (!positives.find(function (r) { return r.id === bonusRewardTypeId; })) {
+                bonusRewardTypeId = positives[0].id;
+                bonusTypeSelect.value = bonusRewardTypeId;
+            }
+        }
+        bonusTypeWrap.style.display = bonusEnabled ? 'block' : 'none';
+    }
+
+    bonusCheckbox.addEventListener('change', async function () {
+        bonusEnabled = bonusCheckbox.checked;
+        bonusTypeWrap.style.display = bonusEnabled ? 'block' : 'none';
+        await saveSettings();
+    });
+
+    bonusTypeSelect.addEventListener('change', async function () {
+        bonusRewardTypeId = bonusTypeSelect.value || null;
+        await saveSettings();
+    });
 
     function renderTasksList() {
         tasksList.innerHTML = '';

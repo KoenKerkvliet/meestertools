@@ -123,8 +123,31 @@
                     <input type="text" id="kprNewTaskInput" placeholder="Nieuw taakje toevoegen..." maxlength="60">
                     <button class="kpr-btn-add-task" id="kprBtnAddTask">&plus;</button>
                 </div>
+
+                <hr class="settings-divider">
+
+                <h3 class="kpr-settings-heading">&#127881; Bonus voor stille kinderen</h3>
+                <p class="kpr-settings-sub">Optioneel: leerlingen die tijdens dit minutenspel NIET zijn aangeklikt (niet in het logboek staan) krijgen automatisch een positieve beloning wanneer je de timer start.</p>
+
+                <label class="checkbox-option">
+                    <input type="checkbox" id="kprRewardBonusCheckbox">
+                    <span>Beloon leerlingen die niet in het logboek staan</span>
+                </label>
+
+                <div class="form-group" id="kprBonusTypeWrap" style="display:none; margin-top:12px;">
+                    <label for="kprRewardBonusType">Welke beloning?</label>
+                    <select id="kprRewardBonusType">
+                        <!-- Gevuld door JS met positieve reward types -->
+                    </select>
+                </div>
             </div>
         </div>
+    </div>
+
+    <!-- Toast voor bonus-feedback -->
+    <div id="kprToast" class="kpr-toast">
+        <span class="kpr-toast-icon">&#127881;</span>
+        <span id="kprToastText"></span>
     </div>
 
     <!-- Edit reward type form modal -->

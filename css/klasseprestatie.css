@@ -463,7 +463,7 @@
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--secondary, #FF6B6B), #FF8C42);
+    background: linear-gradient(135deg, var(--primary, #6C63FF), var(--primary-light, #8B83FF));
     color: white;
     font-size: 28px;
     font-weight: 900;
@@ -471,7 +471,7 @@
     align-items: center;
     justify-content: center;
     margin: 4px auto 10px auto;
-    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.35);
+    box-shadow: 0 4px 12px rgba(108, 99, 255, 0.4);
     animation: kprPop 0.3s ease-out;
 }
 @keyframes kprPop {
@@ -480,19 +480,19 @@
     100% { transform: scale(1); }
 }
 
-/* Duidelijke coral border voor ALLE leerlingkaarten in minutenspel-modus */
+/* Duidelijke paarse border voor ALLE leerlingkaarten in minutenspel-modus */
 .kpr-mode-minutenspel .kpr-student-card {
-    border-color: var(--secondary, #FF6B6B);
-    background: linear-gradient(to bottom, rgba(255, 107, 107, 0.04) 0%, white 80%);
+    border-color: var(--primary, #6C63FF);
+    background: linear-gradient(to bottom, rgba(108, 99, 255, 0.04) 0%, white 80%);
 }
 .kpr-mode-minutenspel .kpr-student-card:hover {
-    border-color: #E74C3C;
-    box-shadow: 0 4px 14px rgba(255, 107, 107, 0.22);
+    border-color: var(--primary-dark, #5A52D5);
+    box-shadow: 0 4px 14px rgba(108, 99, 255, 0.22);
 }
 .kpr-mode-minutenspel .kpr-student-card.kpr-has-ms-badge {
-    border-color: #E74C3C;
-    background: linear-gradient(to bottom, #FFEDED 0%, #FFF5F5 100%);
-    box-shadow: 0 4px 14px rgba(255, 107, 107, 0.25);
+    border-color: var(--primary-dark, #5A52D5);
+    background: linear-gradient(to bottom, rgba(108, 99, 255, 0.12) 0%, rgba(108, 99, 255, 0.04) 100%);
+    box-shadow: 0 4px 14px rgba(108, 99, 255, 0.28);
 }
 .kpr-mode-minutenspel .kpr-student-card.kpr-absent {
     /* Afwezige kaarten houden hun grijze look */
@@ -850,3 +850,132 @@
     opacity: 0.4;
     cursor: not-allowed;
 }
+
+/* ============================================
+   MINUTENSPEL — Logboek + Bonus toast
+   ============================================ */
+
+.kpr-ms-log {
+    margin-top: 32px;
+    padding: 20px 24px;
+    background: white;
+    border: 2px solid var(--primary, #6C63FF);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.kpr-ms-log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+    border-bottom: 1px dashed #E8E8F0;
+    padding-bottom: 10px;
+}
+
+.kpr-ms-log-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--primary, #6C63FF);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.kpr-ms-log-count {
+    font-size: 12px;
+    color: var(--text-medium);
+    font-weight: 600;
+}
+
+.kpr-ms-log-rounds {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.kpr-ms-log-round {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 14px;
+    align-items: start;
+}
+
+.kpr-ms-log-round-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    background: var(--bg-light);
+    color: var(--text-medium);
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+}
+
+.kpr-ms-log-round.kpr-ms-log-current .kpr-ms-log-round-num {
+    background: linear-gradient(135deg, var(--primary, #6C63FF), var(--primary-light, #8B83FF));
+    color: white;
+    box-shadow: 0 2px 8px rgba(108, 99, 255, 0.35);
+}
+
+.kpr-ms-log-students {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.kpr-ms-log-student {
+    background: var(--bg-light);
+    color: var(--text-dark);
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.kpr-ms-log-round.kpr-ms-log-current .kpr-ms-log-student {
+    background: rgba(108, 99, 255, 0.1);
+    color: var(--primary, #6C63FF);
+    border: 1px solid rgba(108, 99, 255, 0.25);
+}
+
+.kpr-ms-log-current-label {
+    font-size: 10px;
+    color: var(--primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 8px;
+}
+
+/* Bonus toast (verschijnt na taak-start) */
+.kpr-toast {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: linear-gradient(135deg, var(--accent-green, #6BCB77), #4CAF50);
+    color: white;
+    padding: 14px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    z-index: 60;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 92vw;
+}
+.kpr-toast.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.kpr-toast-icon { font-size: 18px; }
