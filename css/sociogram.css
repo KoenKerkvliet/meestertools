@@ -597,3 +597,189 @@
 }
 
 /* form-error reused from style.css */
+
+/* ---------- PLAATSING tab ---------- */
+.sg-plaatsing-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.sg-plaatsing-toolbar .sg-tab-intro {
+    flex: 1;
+    margin: 0;
+}
+
+.sg-plaatsing-toolbar .btn-secondary {
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid var(--primary);
+    background: white;
+    color: var(--primary);
+    font-family: inherit;
+}
+.sg-plaatsing-toolbar .btn-secondary:hover {
+    background: rgba(108, 99, 255, 0.05);
+}
+
+/* Samenvattings-stats bovenaan */
+.sg-pl-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+    .sg-pl-summary { grid-template-columns: repeat(2, 1fr); }
+}
+
+.sg-pl-stat {
+    padding: 12px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.sg-pl-stat strong { font-size: 22px; font-weight: 800; }
+.sg-pl-stat span { font-size: 11px; font-weight: 600; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.sg-pl-stat-perfect    { background: #E8F5E9; color: #2E7D32; }
+.sg-pl-stat-positive   { background: #F1F8E9; color: #558B2F; }
+.sg-pl-stat-neutral    { background: #ECEFF1; color: #455A64; }
+.sg-pl-stat-suboptimal { background: #FFF3E0; color: #E65100; }
+
+/* Waarschuwing voor harde violations */
+.sg-pl-warning {
+    background: #FFF3E0;
+    border: 2px solid #FFB74D;
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    color: #5D4037;
+    font-size: 14px;
+    line-height: 1.6;
+}
+.sg-pl-warning span { font-weight: 700; }
+
+/* Duo's grid */
+.sg-pl-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+}
+
+.sg-pl-pair {
+    display: flex;
+    background: white;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.sg-pl-pair:hover {
+    box-shadow: var(--shadow-sm);
+}
+
+.sg-pl-pair-number {
+    background: var(--bg-light);
+    color: var(--text-medium);
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-right: 1px solid #E8E8F0;
+    flex-shrink: 0;
+}
+
+.sg-pl-pair-body {
+    padding: 12px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sg-pl-pair-names {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.sg-pl-pair-names strong { color: var(--text-dark); }
+.sg-pl-pair-link { color: var(--text-medium); }
+
+.sg-pl-pair-meta {
+    font-size: 12px;
+}
+
+.sg-pl-quality {
+    color: var(--text-medium);
+}
+
+/* Quality variants */
+.sg-pl-perfect    { border-color: #C8E6C9; background: linear-gradient(to right, #F1F8E9 0%, white 30%); }
+.sg-pl-perfect .sg-pl-pair-number { background: #E8F5E9; color: #2E7D32; }
+.sg-pl-perfect .sg-pl-quality { color: #2E7D32; font-weight: 600; }
+
+.sg-pl-positive .sg-pl-pair-number { background: #F1F8E9; color: #558B2F; }
+.sg-pl-positive .sg-pl-quality { color: #558B2F; }
+
+.sg-pl-neutral .sg-pl-pair-number { background: #ECEFF1; color: #455A64; }
+
+.sg-pl-suboptimal { border-color: #FFCC80; background: linear-gradient(to right, #FFF8E1 0%, white 30%); }
+.sg-pl-suboptimal .sg-pl-pair-number { background: #FFF3E0; color: #E65100; }
+.sg-pl-suboptimal .sg-pl-quality { color: #E65100; font-weight: 600; }
+
+/* Leftover (solo) */
+.sg-pl-leftover {
+    margin-top: 24px;
+    padding: 16px 20px;
+    background: #FFF8E1;
+    border: 2px dashed #FFD54F;
+    border-radius: var(--radius-md);
+}
+
+.sg-pl-leftover h4 {
+    margin: 0 0 10px 0;
+    font-size: 15px;
+    color: #6D4C41;
+}
+
+.sg-pl-leftover-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.sg-pl-leftover-name {
+    background: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dark);
+    border: 1px solid #FFD54F;
+}
+
+.sg-pl-leftover-hint {
+    font-size: 12px;
+    color: #6D4C41;
+    margin: 0;
+    font-style: italic;
+}

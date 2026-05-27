@@ -499,6 +499,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- Tab 4: Aandachtspunten ---
         renderAandacht(statsByStudent);
 
+        // --- Tab 5: Plaatsing ---
+        renderPlaatsing(picks);
+
         // Reset tab to first
         tabBtns.forEach(function (b) { b.classList.toggle('active', b.dataset.tab === 'overzicht'); });
         document.querySelectorAll('.sg-tab-content').forEach(function (c) {
@@ -506,6 +509,196 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         showState('results');
+    }
+
+    // ---------- PLAATSING (seating suggestions) ----------
+    // Cache picks zodat regenereer-knop opnieuw kan matchen
+    var currentPicksData = null;
+
+    function renderPlaatsing(picks) {
+        currentPicksData = picks;
+        var container = document.getElementById('sgTab-plaatsing');
+        container.innerHTML =
+            '<div class="sg-plaatsing-toolbar">' +
+                '<p class="sg-tab-intro">Automatisch voorgestelde duo-plaatsing op basis van de sociogram-data. Wederzijds negatief = nooit samen. Wederzijds positief = bij voorkeur samen.</p>' +
+                '<button class="btn-secondary" id="sgBtnRegenerate">&#8635; Regenereer</button>' +
+            '</div>' +
+            '<div id="sgPlaatsingResult"></div>';
+
+        document.getElementById('sgBtnRegenerate').addEventListener('click', function () {
+            buildAndRenderPairs(currentPicksData);
+        });
+
+        buildAndRenderPairs(picks);
+    }
+
+    function buildAndRenderPairs(picks) {
+        var result = generatePairs(picks, students);
+        var resultEl = document.getElementById('sgPlaatsingResult');
+
+        var html = '';
+
+        // Group pairs by quality (perfect / compatible / suboptimal)
+        var perfect = result.pairs.filter(function (p) { return p.quality === 'perfect'; });
+        var positive = result.pairs.filter(function (p) { return p.quality === 'positive'; });
+        var neutral = result.pairs.filter(function (p) { return p.quality === 'neutral'; });
+        var suboptimal = result.pairs.filter(function (p) { return p.quality === 'suboptimal'; });
+
+        html += '<div class="sg-pl-summary">' +
+            '<div class="sg-pl-stat sg-pl-stat-perfect"><strong>' + perfect.length + '</strong><span>wederzijds positief</span></div>' +
+            '<div class="sg-pl-stat sg-pl-stat-positive"><strong>' + positive.length + '</strong><span>eenzijdig positief</span></div>' +
+            '<div class="sg-pl-stat sg-pl-stat-neutral"><strong>' + neutral.length + '</strong><span>neutraal</span></div>' +
+            '<div class="sg-pl-stat sg-pl-stat-suboptimal"><strong>' + suboptimal.length + '</strong><span>niet ideaal</span></div>' +
+        '</div>';
+
+        if (result.violations.length > 0) {
+            html += '<div class="sg-pl-warning">' +
+                '<strong>&#9888;&#65039; Let op:</strong> de algorithm kon niet alle harde restricties vermijden. ' +
+                'De volgende koppels zijn wederzijds negatief en zouden niet samen moeten zitten:<br>' +
+                result.violations.map(function (v) {
+                    return '<span>' + escapeHtml(studentName(v.a)) + ' &harr; ' + escapeHtml(studentName(v.b)) + '</span>';
+                }).join(', ') +
+            '</div>';
+        }
+
+        html += '<div class="sg-pl-grid">';
+        result.pairs.forEach(function (pair, idx) {
+            var qualityIcon = {
+                perfect: '&#129309;', // 🤝
+                positive: '&#128077;', // 👍
+                neutral: '&#9898;',     // ⚪
+                suboptimal: '&#9888;&#65039;', // ⚠️
+            }[pair.quality];
+            var qualityLabel = {
+                perfect: 'Wederzijds positief',
+                positive: 'Eenzijdig positief',
+                neutral: 'Geen voorkeur',
+                suboptimal: 'Niet ideaal — eenzijdig negatief',
+            }[pair.quality];
+
+            html += '<div class="sg-pl-pair sg-pl-' + pair.quality + '">' +
+                '<div class="sg-pl-pair-number">Duo ' + (idx + 1) + '</div>' +
+                '<div class="sg-pl-pair-body">' +
+                    '<div class="sg-pl-pair-names">' +
+                        '<strong>' + escapeHtml(studentName(pair.a)) + '</strong>' +
+                        '<span class="sg-pl-pair-link">&harr;</span>' +
+                        '<strong>' + escapeHtml(studentName(pair.b)) + '</strong>' +
+                    '</div>' +
+                    '<div class="sg-pl-pair-meta">' +
+                        '<span class="sg-pl-quality">' + qualityIcon + ' ' + qualityLabel + '</span>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+        });
+        html += '</div>';
+
+        // Leftover students (odd number)
+        if (result.leftover.length > 0) {
+            html += '<div class="sg-pl-leftover">' +
+                '<h4>&#128100; Solo (geen duo):</h4>' +
+                '<div class="sg-pl-leftover-list">' +
+                result.leftover.map(function (s) {
+                    return '<span class="sg-pl-leftover-name">' + escapeHtml(studentName(s)) + '</span>';
+                }).join('') +
+                '</div>' +
+                '<p class="sg-pl-leftover-hint">Bij oneven aantal leerlingen blijft 1 leerling over. Plaats deze bij een geschikt duo om een trio te vormen.</p>' +
+            '</div>';
+        }
+
+        resultEl.innerHTML = html;
+    }
+
+    /**
+     * Genereer duo's op basis van picks via greedy matching met scoring.
+     *
+     * Scoring:
+     *   wederzijds positief  = +20  (kwaliteit: perfect)
+     *   eenzijdig positief   = +5   (kwaliteit: positive)
+     *   geen voorkeur        =  0   (kwaliteit: neutral)
+     *   eenzijdig negatief   = -10  (kwaliteit: suboptimal)
+     *   wederzijds negatief  = -Inf (harde constraint, nooit samen)
+     *
+     * Met randomized tiebreaks zodat "Regenereer" andere varianten kan tonen.
+     */
+    function generatePairs(picks, allStudents) {
+        // Bouw quick-lookup sets
+        var posSet = new Set(); // 'from:to'
+        var negSet = new Set();
+        picks.forEach(function (p) {
+            var key = p.from_student_id + ':' + p.to_student_id;
+            if (p.pick_type === 'positief') posSet.add(key);
+            else negSet.add(key);
+        });
+
+        function compat(aId, bId) {
+            var aPosB = posSet.has(aId + ':' + bId);
+            var bPosA = posSet.has(bId + ':' + aId);
+            var aNegB = negSet.has(aId + ':' + bId);
+            var bNegA = negSet.has(bId + ':' + aId);
+
+            if (aNegB && bNegA) return { score: -Infinity, quality: 'forbidden' };
+            if (aPosB && bPosA) return { score: 20, quality: 'perfect' };
+            if (aNegB || bNegA) return { score: -10, quality: 'suboptimal' };
+            if (aPosB || bPosA) return { score: 5, quality: 'positive' };
+            return { score: 0, quality: 'neutral' };
+        }
+
+        // Generate all candidate pairs met scoring
+        var candidates = [];
+        for (var i = 0; i < allStudents.length; i++) {
+            for (var j = i + 1; j < allStudents.length; j++) {
+                var c = compat(allStudents[i].id, allStudents[j].id);
+                candidates.push({
+                    a: allStudents[i],
+                    b: allStudents[j],
+                    score: c.score,
+                    quality: c.quality,
+                    tiebreak: Math.random(), // randomize ties voor regenereer
+                });
+            }
+        }
+
+        // Sorteer: hoogste score eerst, met random tiebreak
+        candidates.sort(function (x, y) {
+            if (y.score !== x.score) return y.score - x.score;
+            return y.tiebreak - x.tiebreak;
+        });
+
+        // Greedy matching
+        var paired = new Set();
+        var pairs = [];
+        var violations = [];
+
+        for (var k = 0; k < candidates.length; k++) {
+            var cand = candidates[k];
+            if (paired.has(cand.a.id) || paired.has(cand.b.id)) continue;
+            if (cand.quality === 'forbidden') {
+                // Geen forbidden pair maken — skip
+                continue;
+            }
+            pairs.push(cand);
+            paired.add(cand.a.id);
+            paired.add(cand.b.id);
+        }
+
+        // Leftover students (oneven aantal of niet-koppelbaar door alle forbidden)
+        var leftover = allStudents.filter(function (s) { return !paired.has(s.id); });
+
+        // Als er nog 2+ leftovers zijn die alleen forbidden pairs hebben — fallback noodzakelijk
+        // Voor V1: gewoon als leftover tonen, gebruiker plaatst zelf
+        if (leftover.length >= 2) {
+            // Check of er forbidden pairs onder de leftovers zijn (voor warning)
+            for (var i = 0; i < leftover.length; i++) {
+                for (var j = i + 1; j < leftover.length; j++) {
+                    var c2 = compat(leftover[i].id, leftover[j].id);
+                    if (c2.quality === 'forbidden') {
+                        violations.push({ a: leftover[i], b: leftover[j] });
+                    }
+                }
+            }
+        }
+
+        return { pairs: pairs, leftover: leftover, violations: violations };
     }
 
     function renderOverzicht(statsByStudent) {
