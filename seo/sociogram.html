@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sociogram tool: breng onderlinge relaties tussen leerlingen in beeld op het gebied van samenwerken en samen spelen.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/seo/sociogram">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/seo/sociogram">
+    <meta property="og:title" content="Meestertools - Sociogram">
+    <meta property="og:description" content="Sociogram tool: breng onderlinge relaties tussen leerlingen in beeld.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Sociogram">
+    <meta name="twitter:description" content="Sociogram tool: breng onderlinge relaties in beeld.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Sociogram</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/sociogram.css">
+</head>
+<body>
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../seo" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Sociogram</h1>
+                <p>Breng de onderlinge relaties in je klas in beeld op het gebied van samen werken en samen spelen.</p>
+            </div>
+        </div>
+
+        <div class="sg-container">
+
+            <!-- ============= WELCOME STATE ============= -->
+            <section id="sgState-welcome" class="sg-state">
+                <div class="sg-actions-row">
+                    <button class="btn-primary sg-btn-large" id="sgBtnNew">
+                        &plus; Nieuw sociogram maken
+                    </button>
+                </div>
+
+                <h2 class="sg-section-title">Eerdere sociogrammen</h2>
+                <div id="sgPastList" class="sg-past-list">
+                    <p class="sg-empty-msg">Nog geen sociogrammen afgenomen.</p>
+                </div>
+            </section>
+
+            <!-- ============= SETUP STATE ============= -->
+            <section id="sgState-setup" class="sg-state hidden">
+                <div class="sg-card">
+                    <h2 class="sg-section-title">Nieuw sociogram</h2>
+
+                    <div class="form-group">
+                        <label for="sgGroupSelect">Klas</label>
+                        <select id="sgGroupSelect">
+                            <option value="">Kies een klas...</option>
+                        </select>
+                        <p class="sg-hint" id="sgGroupHint" style="display:none;">
+                            Geen klassen gevonden. Voeg eerst een klas en leerlingen toe via <a href="/beheer">Beheer</a>.
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Soort sociogram</label>
+                        <div class="sg-type-cards">
+                            <label class="sg-type-card">
+                                <input type="radio" name="sgType" value="werken">
+                                <div class="sg-type-content">
+                                    <span class="sg-type-icon">&#128218;</span>
+                                    <strong>Samen werken</strong>
+                                    <small>Relaties in de klas</small>
+                                </div>
+                            </label>
+                            <label class="sg-type-card">
+                                <input type="radio" name="sgType" value="spelen">
+                                <div class="sg-type-content">
+                                    <span class="sg-type-icon">&#9917;</span>
+                                    <strong>Samen spelen</strong>
+                                    <small>Relaties op het plein</small>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group sg-form-row">
+                        <div class="sg-form-col">
+                            <label for="sgDate">Afnamedatum</label>
+                            <input type="date" id="sgDate">
+                        </div>
+                        <div class="sg-form-col">
+                            <label for="sgTitel">Titel (optioneel)</label>
+                            <input type="text" id="sgTitel" placeholder="Bv. Begin schooljaar">
+                        </div>
+                    </div>
+
+                    <div id="sgSetupError" class="form-error" style="display:none;"></div>
+
+                    <div class="sg-actions-row">
+                        <button class="btn-cancel" id="sgBtnSetupCancel">Annuleren</button>
+                        <button class="btn-primary" id="sgBtnSetupNext">Verder naar invoer &rarr;</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============= ENTRY STATE ============= -->
+            <section id="sgState-entry" class="sg-state hidden">
+                <div class="sg-entry-toolbar">
+                    <div class="sg-entry-info">
+                        <strong id="sgEntryGroupName"></strong>
+                        <span class="sg-entry-meta" id="sgEntryMeta"></span>
+                        <span class="sg-entry-progress" id="sgEntryProgress"></span>
+                    </div>
+                    <div class="sg-entry-actions">
+                        <button class="btn-cancel" id="sgBtnEntryCancel">Annuleren</button>
+                        <button class="btn-primary" id="sgBtnEntrySave">Opslaan &amp; resultaten &rarr;</button>
+                    </div>
+                </div>
+
+                <div id="sgEntryCards" class="sg-entry-cards"></div>
+
+                <div id="sgEntryError" class="form-error" style="display:none;"></div>
+
+                <div class="sg-actions-row">
+                    <button class="btn-cancel" id="sgBtnEntryCancel2">Annuleren</button>
+                    <button class="btn-primary" id="sgBtnEntrySave2">Opslaan &amp; resultaten &rarr;</button>
+                </div>
+            </section>
+
+            <!-- ============= RESULTS STATE ============= -->
+            <section id="sgState-results" class="sg-state hidden">
+                <div class="sg-results-header">
+                    <div>
+                        <h2 id="sgResultsTitle">Resultaten</h2>
+                        <p class="sg-results-meta" id="sgResultsMeta"></p>
+                    </div>
+                    <div class="sg-results-actions">
+                        <button class="btn-cancel" id="sgBtnResultsBack">&larr; Terug naar overzicht</button>
+                        <button class="btn-danger" id="sgBtnResultsDelete">Verwijderen</button>
+                    </div>
+                </div>
+
+                <div class="sg-tabs">
+                    <button class="sg-tab active" data-tab="overzicht">Overzicht</button>
+                    <button class="sg-tab" data-tab="wederzijds">Wederzijds positief</button>
+                    <button class="sg-tab" data-tab="conflict">Conflicten</button>
+                    <button class="sg-tab" data-tab="aandacht">Aandachtspunten</button>
+                </div>
+
+                <div class="sg-tab-content active" id="sgTab-overzicht"></div>
+                <div class="sg-tab-content" id="sgTab-wederzijds"></div>
+                <div class="sg-tab-content" id="sgTab-conflict"></div>
+                <div class="sg-tab-content" id="sgTab-aandacht"></div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <script src="/js/template.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/sociogram.js"></script>
+</body>
+</html>
