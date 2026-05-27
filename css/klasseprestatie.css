@@ -1,0 +1,455 @@
+/* ============================================
+   KLASSEPRESTATIE - Stylesheet
+   ============================================ */
+
+.kpr-container {
+    width: 100%;
+    padding-bottom: 100px; /* ruimte voor sticky actionbar */
+}
+
+.kpr-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-medium);
+}
+.kpr-empty-icon {
+    display: block;
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+.kpr-empty a { color: var(--primary); font-weight: 600; }
+
+/* ---------- Student grid ---------- */
+.kpr-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.kpr-student-card {
+    position: relative;
+    background: white;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-lg);
+    padding: 16px 12px 14px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s;
+    user-select: none;
+    overflow: hidden;
+}
+
+.kpr-student-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md, 0 4px 12px rgba(0,0,0,0.08));
+    border-color: var(--primary-light);
+}
+
+.kpr-student-card.kpr-absent {
+    opacity: 0.4;
+    filter: grayscale(0.6);
+    background: var(--bg-light);
+}
+
+.kpr-student-card.kpr-blocked {
+    cursor: not-allowed;
+}
+.kpr-student-card.kpr-blocked:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: #E8E8F0;
+}
+
+.kpr-student-card.kpr-selected {
+    border-color: var(--primary);
+    background: rgba(108, 99, 255, 0.06);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Punten badge rechtsbovenin */
+.kpr-pts-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+    border: 2px solid white;
+}
+.kpr-pts-pos {
+    background: var(--accent-green, #6BCB77);
+    color: white;
+}
+.kpr-pts-neg {
+    background: var(--secondary, #FF6B6B);
+    color: white;
+}
+.kpr-pts-zero {
+    background: #ECEFF1;
+    color: var(--text-medium);
+}
+
+.kpr-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    font-size: 22px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4px auto 10px auto;
+    box-shadow: 0 4px 10px rgba(108, 99, 255, 0.25);
+}
+
+.kpr-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+.kpr-absent-label {
+    margin-top: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-medium);
+}
+
+/* Flash animaties bij toekenning */
+@keyframes kprFlashPos {
+    0%   { background: white; transform: scale(1); }
+    20%  { background: rgba(107, 203, 119, 0.25); transform: scale(1.05); }
+    100% { background: white; transform: scale(1); }
+}
+@keyframes kprFlashNeg {
+    0%   { background: white; transform: scale(1); }
+    20%  { background: rgba(255, 107, 107, 0.25); transform: scale(1.05); }
+    100% { background: white; transform: scale(1); }
+}
+.kpr-student-card.kpr-flash-pos { animation: kprFlashPos 0.6s ease; }
+.kpr-student-card.kpr-flash-neg { animation: kprFlashNeg 0.6s ease; }
+
+/* ---------- Sticky bottom action bar ---------- */
+.kpr-actionbar {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid #E8E8F0;
+    border-radius: 999px;
+    padding: 8px 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 40;
+    flex-wrap: wrap;
+    max-width: calc(100% - 32px);
+}
+
+.kpr-actionbar-left,
+.kpr-actionbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.kpr-actionbar-left:empty {
+    display: none;
+}
+
+.kpr-selected-count,
+.kpr-pending-count {
+    font-size: 13px;
+    color: var(--text-medium);
+    font-weight: 600;
+    padding: 0 6px;
+}
+
+.kpr-btn {
+    padding: 9px 18px;
+    border: none;
+    border-radius: 999px;
+    background: var(--bg-light);
+    color: var(--text-dark);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: var(--transition);
+}
+
+.kpr-btn:hover {
+    background: #DFDFEB;
+}
+
+.kpr-btn-active {
+    background: var(--primary);
+    color: white;
+}
+.kpr-btn-active:hover {
+    background: var(--primary-dark);
+}
+
+.kpr-btn-primary {
+    background: var(--accent-green, #6BCB77);
+    color: white;
+}
+.kpr-btn-primary:hover {
+    background: #5BB967;
+}
+
+/* ---------- Beloningspopup ---------- */
+.kpr-reward-modal,
+.kpr-settings-modal,
+.kpr-edit-modal {
+    max-width: 720px;
+    width: 100%;
+}
+
+.kpr-reward-tabs,
+.kpr-settings-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #E8E8F0;
+}
+
+.kpr-reward-tab,
+.kpr-settings-tab {
+    flex: 1;
+    padding: 10px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-medium);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    font-family: inherit;
+}
+
+.kpr-reward-tab:hover,
+.kpr-settings-tab:hover {
+    color: var(--text-dark);
+}
+
+.kpr-reward-tab.active,
+.kpr-settings-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.kpr-reward-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+}
+
+.kpr-reward-card {
+    background: white;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    padding: 14px 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: var(--transition);
+    font-family: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.kpr-reward-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.kpr-reward-icon {
+    font-size: 32px;
+    line-height: 1;
+}
+
+.kpr-reward-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.3;
+}
+
+.kpr-reward-value {
+    font-size: 14px;
+    font-weight: 800;
+    margin-top: 2px;
+}
+
+.kpr-reward-pos { border-color: #C8E6C9; }
+.kpr-reward-pos:hover { border-color: #66BB6A; }
+.kpr-reward-pos .kpr-reward-value { color: #2E7D32; }
+
+.kpr-reward-neg { border-color: #FFCDD2; }
+.kpr-reward-neg:hover { border-color: #EF5350; }
+.kpr-reward-neg .kpr-reward-value { color: #C62828; }
+
+.kpr-empty-msg {
+    color: var(--text-medium);
+    font-style: italic;
+    text-align: center;
+    padding: 30px 16px;
+    background: var(--bg-light);
+    border-radius: var(--radius-md);
+}
+
+/* ---------- Settings lijst ---------- */
+.kpr-settings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+.kpr-settings-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: white;
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-md);
+}
+
+.kpr-set-pos { border-left: 4px solid #66BB6A; }
+.kpr-set-neg { border-left: 4px solid #EF5350; }
+
+.kpr-set-icon {
+    font-size: 24px;
+    width: 36px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.kpr-set-label {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.kpr-set-pts {
+    font-weight: 800;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+    padding: 4px 10px;
+    border-radius: 999px;
+    flex-shrink: 0;
+}
+.kpr-set-pos .kpr-set-pts { background: #E8F5E9; color: #2E7D32; }
+.kpr-set-neg .kpr-set-pts { background: #FFEBEE; color: #C62828; }
+
+.kpr-set-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    transition: var(--transition);
+    font-family: inherit;
+}
+.kpr-set-btn:hover { background: var(--bg-light); }
+.kpr-set-delete:hover { background: #FFEBEE; }
+
+.btn-add-reward {
+    width: 100%;
+    padding: 12px;
+    border: 2px dashed #E8E8F0;
+    background: transparent;
+    border-radius: var(--radius-md);
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+}
+.btn-add-reward:hover {
+    border-color: var(--primary);
+    background: rgba(108, 99, 255, 0.05);
+}
+
+/* ---------- Edit modal ---------- */
+.kpr-icon-picker {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+    background: var(--bg-light);
+    padding: 12px;
+    border-radius: var(--radius-md);
+}
+
+@media (max-width: 600px) {
+    .kpr-icon-picker { grid-template-columns: repeat(6, 1fr); }
+}
+
+.kpr-icon-btn {
+    aspect-ratio: 1;
+    border: 2px solid transparent;
+    background: white;
+    border-radius: 8px;
+    font-size: 22px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.kpr-icon-btn:hover {
+    border-color: var(--primary-light);
+}
+
+.kpr-icon-btn.active {
+    border-color: var(--primary);
+    background: rgba(108, 99, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.kpr-edit-error {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #FFEBEE;
+    color: #C62828;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+    .kpr-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 8px;
+    }
+    .kpr-avatar { width: 48px; height: 48px; font-size: 18px; }
+    .kpr-name { font-size: 12px; }
+    .kpr-actionbar {
+        padding: 8px 12px;
+        gap: 6px;
+    }
+    .kpr-btn { padding: 8px 14px; font-size: 12px; }
+}

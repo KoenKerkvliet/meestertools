@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Klasprestatie en gedrag bijhouden met Meestertools.">
+    <meta name="description" content="Klasseprestatie en gedrag bijhouden met Meestertools — ClassDojo-stijl beloningssysteem.">
     <meta name="theme-color" content="#6C63FF">
     <link rel="canonical" href="https://meestertools.nl/klasseprestatie">
 
-    <!-- Open Graph / social sharing -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://meestertools.nl/klasseprestatie">
     <meta property="og:title" content="Meestertools - Klasseprestatie">
-    <meta property="og:description" content="Klasprestatie en gedrag bijhouden met Meestertools.">
+    <meta property="og:description" content="Klasseprestatie en gedrag bijhouden met Meestertools.">
     <meta property="og:image" content="https://meestertools.nl/favicon.svg">
     <meta property="og:locale" content="nl_NL">
     <meta property="og:site_name" content="Meestertools">
@@ -19,30 +19,114 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Meestertools - Klasseprestatie">
-    <meta name="twitter:description" content="Klasprestatie en gedrag bijhouden met Meestertools.">
+    <meta name="twitter:description" content="Klasseprestatie en gedrag bijhouden met Meestertools.">
     <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>Meestertools - Klasseprestatie</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/instellingen.css">
+    <link rel="stylesheet" href="css/klasseprestatie.css">
 </head>
 <body>
     <header id="app-header-slot"></header>
 
     <main class="tool-page-content">
-        <a href="dashboard" class="back-link">&larr; Terug naar dashboard</a>
-        <div class="tool-page-header">
-            <span class="page-icon">&#127942;</span>
-            <h1>Klasseprestatie</h1>
-            <p>Volg de voortgang en vier de prestaties van je klas.</p>
+        <div class="tool-inline-header">
+            <a href="dashboard" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Klasseprestatie</h1>
+                <p>Volg gedrag en prestaties met een beloningssysteem.</p>
+            </div>
+            <button class="tool-settings-btn" id="kprBtnSettings" title="Instellingen">&#9881;&#65039;</button>
         </div>
+
         <div class="tool-page-body">
-            <div class="placeholder">
-                <span class="placeholder-icon">&#128736;&#65039;</span>
-                <p>Deze pagina wordt binnenkort gevuld met klasseprestatie-tools.</p>
+            <div id="kprContainer" class="kpr-container">
+                <!-- Wordt door JS gevuld -->
             </div>
         </div>
     </main>
+
+    <!-- Beloningspopup -->
+    <div class="modal-overlay" id="kprRewardModal">
+        <div class="modal kpr-reward-modal">
+            <div class="modal-header">
+                <h2 id="kprRewardTitle">Beloning toekennen</h2>
+                <button class="modal-close" id="kprBtnCloseReward">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="kpr-reward-tabs">
+                    <button class="kpr-reward-tab active" data-tab="positief">&#128077; Positief</button>
+                    <button class="kpr-reward-tab" data-tab="aandachtspunt">&#9888;&#65039; Aandachtspunten</button>
+                </div>
+                <div class="kpr-reward-grid" id="kprRewardGrid">
+                    <!-- Gevuld door JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings modal -->
+    <div class="modal-overlay" id="kprSettingsModal">
+        <div class="modal kpr-settings-modal">
+            <div class="modal-header">
+                <h2>Instellingen Klasseprestatie</h2>
+                <button class="modal-close" id="kprBtnCloseSettings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="kprSelectGroup">Klas</label>
+                    <select id="kprSelectGroup">
+                        <option value="">Laden...</option>
+                    </select>
+                </div>
+
+                <hr class="settings-divider">
+
+                <div class="kpr-settings-tabs">
+                    <button class="kpr-settings-tab active" data-tab="positief">&#128077; Positief</button>
+                    <button class="kpr-settings-tab" data-tab="aandachtspunt">&#9888;&#65039; Aandachtspunten</button>
+                </div>
+
+                <div id="kprSettingsList" class="kpr-settings-list">
+                    <!-- Gevuld door JS -->
+                </div>
+
+                <button class="btn-add-reward" id="kprBtnAddReward">&plus; Nieuwe toevoegen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit reward type form modal -->
+    <div class="modal-overlay" id="kprEditModal">
+        <div class="modal kpr-edit-modal">
+            <div class="modal-header">
+                <h2 id="kprEditTitle">Beloning toevoegen</h2>
+                <button class="modal-close" id="kprBtnCloseEdit">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Icoon</label>
+                    <div class="kpr-icon-picker" id="kprIconPicker">
+                        <!-- Iconen gevuld door JS -->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="kprEditLabel">Tekst</label>
+                    <input type="text" id="kprEditLabel" placeholder="Bv. Goed bezig" maxlength="40">
+                </div>
+                <div class="form-group">
+                    <label for="kprEditPoints">Waarde (aantal punten)</label>
+                    <input type="number" id="kprEditPoints" min="1" max="20" value="1">
+                </div>
+                <div class="kpr-edit-error" id="kprEditError" style="display:none;"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="kprBtnCancelEdit">Annuleren</button>
+                <button class="btn-primary" id="kprBtnSaveEdit">Opslaan</button>
+            </div>
+        </div>
+    </div>
 
     <footer id="app-footer-slot"></footer>
 
@@ -52,5 +136,6 @@
     <script src="js/supabase-config.js"></script>
     <script src="js/app.js"></script>
     <script src="js/instellingen.js"></script>
+    <script src="js/klasseprestatie.js"></script>
 </body>
 </html>
