@@ -45,10 +45,20 @@
                 <!-- Wordt door JS gevuld -->
             </div>
 
-            <!-- Task reveal area (zichtbaar tijdens minutenspel taskRevealed/timerRunning) -->
-            <div id="kprTaskReveal" class="kpr-task-reveal" style="display:none;">
-                <span class="kpr-task-reveal-text" id="kprTaskRevealText"></span>
-                <span class="kpr-task-reveal-students" id="kprTaskRevealStudents"></span>
+            <!-- Task reveal popup (fullscreen overlay tijdens taskRevealed phase) -->
+            <div id="kprTaskOverlay" class="kpr-task-overlay" style="display:none;">
+                <div class="kpr-task-modal" id="kprTaskModal">
+                    <button class="kpr-task-close" id="kprBtnTaskClose" title="Sluiten">&times;</button>
+                    <div class="kpr-task-modal-content">
+                        <span class="kpr-task-label">Het taakje is voor</span>
+                        <div class="kpr-task-students" id="kprTaskStudents"></div>
+                        <div class="kpr-task-text" id="kprTaskText">&hellip;</div>
+                        <div class="kpr-task-actions" id="kprTaskActions" style="display:none;">
+                            <button class="kpr-task-btn kpr-task-btn-secondary" id="kprBtnTaskReroll">&#127922; Andere taak</button>
+                            <button class="kpr-task-btn kpr-task-btn-primary" id="kprBtnTaskStart">&#9654; Start timer</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
