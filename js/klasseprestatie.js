@@ -331,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
         var btnMsTask = document.getElementById('kprBtnMsTask');
         if (btnMsTask) btnMsTask.addEventListener('click', msAssignTask);
         var btnMsReset = document.getElementById('kprBtnMsReset');
-        if (btnMsReset) btnMsReset.addEventListener('click', msResetGame);
+        if (btnMsReset) btnMsReset.addEventListener('click', function () { msResetGame(); });
     }
 
     function renderStudentCard(s) {
