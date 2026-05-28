@@ -108,6 +108,18 @@ document.addEventListener('DOMContentLoaded', () => {
         var li = l.charAt(0).toUpperCase();
         return fi + (li || '');
     }
+    var MONSTER_COUNT = 36;
+    function monsterForStudent(s) {
+        // Deterministische keuze 1..MONSTER_COUNT op basis van leerling-id,
+        // zodat een leerling altijd hetzelfde monstertje houdt.
+        var key = String((s && s.id) || '');
+        var h = 0;
+        for (var i = 0; i < key.length; i++) {
+            h = (h * 31 + key.charCodeAt(i)) >>> 0;
+        }
+        var n = (h % MONSTER_COUNT) + 1;
+        return 'assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.png';
+    }
     function escapeHtml(str) {
         var d = document.createElement('div');
         d.textContent = String(str || '');
@@ -355,7 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (hasMsBadge) {
             html += '<div class="kpr-ms-number">' + msRound + '</div>';
         } else {
-            html += '<div class="kpr-avatar"><img class="kpr-avatar-img" src="assets/avatars/monster.png" alt="" '
+            html += '<div class="kpr-avatar"><img class="kpr-avatar-img" src="' + monsterForStudent(s) + '" alt="" '
                 + 'onerror="this.parentNode.classList.add(\'kpr-avatar-noimg\')" />'
                 + '<span class="kpr-avatar-initials">' + escapeHtml(initials(s)) + '</span></div>';
         }

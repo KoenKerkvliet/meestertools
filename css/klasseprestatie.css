@@ -96,9 +96,9 @@
 
 .kpr-avatar {
     position: relative;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
+    width: 58px;
+    height: 58px;
+    border-radius: 14px;
     background: linear-gradient(135deg, var(--primary), var(--primary-light));
     color: white;
     font-size: 22px;
@@ -107,7 +107,7 @@
     align-items: center;
     justify-content: center;
     margin: 4px auto 10px auto;
-    box-shadow: 0 4px 10px rgba(108, 99, 255, 0.25);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     overflow: hidden;
 }
 .kpr-avatar-img {
