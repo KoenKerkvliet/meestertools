@@ -49,6 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
     var settingsModal = document.getElementById('kprSettingsModal');
     var selectGroup = document.getElementById('kprSelectGroup');
     var settingsTabs = settingsModal.querySelectorAll('.kpr-settings-tab');
+    var panelRewards = document.getElementById('kprPanelRewards');
+    var panelMinutenspel = document.getElementById('kprPanelMinutenspel');
     var settingsList = document.getElementById('kprSettingsList');
     var btnAddReward = document.getElementById('kprBtnAddReward');
     var btnCloseSettings = document.getElementById('kprBtnCloseSettings');
@@ -1048,9 +1050,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectGroup.appendChild(opt);
             });
         }
-        renderSettingsList();
         renderTasksList();
         renderBonusSettings();
+        // Synchroniseer actieve tab-knop met state en toon het juiste panel
+        settingsTabs.forEach(function (x) { x.classList.toggle('active', x.dataset.tab === activeSettingsTab); });
+        applySettingsTab();
         settingsModal.classList.add('active');
     }
 
@@ -1196,9 +1200,18 @@ document.addEventListener('DOMContentLoaded', () => {
         t.addEventListener('click', function () {
             settingsTabs.forEach(function (x) { x.classList.toggle('active', x === t); });
             activeSettingsTab = t.dataset.tab;
-            renderSettingsList();
+            applySettingsTab();
         });
     });
+
+    // Toont het juiste panel bij de actieve tab. Positief & aandachtspunt delen
+    // het beloningen-panel (gefilterd); minutenspel heeft een eigen panel.
+    function applySettingsTab() {
+        var isMinuten = activeSettingsTab === 'minutenspel';
+        panelRewards.style.display = isMinuten ? 'none' : 'block';
+        panelMinutenspel.style.display = isMinuten ? 'block' : 'none';
+        if (!isMinuten) renderSettingsList();
+    }
 
     function renderSettingsList() {
         var filtered = rewardTypes.filter(function (r) { return r.type === activeSettingsTab; });

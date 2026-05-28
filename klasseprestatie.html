@@ -109,43 +109,47 @@
                 <div class="kpr-settings-tabs">
                     <button class="kpr-settings-tab active" data-tab="positief">&#128077; Positief</button>
                     <button class="kpr-settings-tab" data-tab="aandachtspunt">&#9888;&#65039; Aandachtspunten</button>
+                    <button class="kpr-settings-tab" data-tab="minutenspel">&#127922; Minutenspel</button>
                 </div>
 
-                <div id="kprSettingsList" class="kpr-settings-list">
-                    <!-- Gevuld door JS -->
+                <!-- Panel: beloningen (positief & aandachtspunten) -->
+                <div class="kpr-settings-panel" id="kprPanelRewards">
+                    <div id="kprSettingsList" class="kpr-settings-list">
+                        <!-- Gevuld door JS -->
+                    </div>
+                    <button class="btn-add-reward" id="kprBtnAddReward">&plus; Nieuwe toevoegen</button>
                 </div>
 
-                <button class="btn-add-reward" id="kprBtnAddReward">&plus; Nieuwe toevoegen</button>
+                <!-- Panel: minutenspel (taakjes + bonus) -->
+                <div class="kpr-settings-panel" id="kprPanelMinutenspel" style="display:none;">
+                    <h3 class="kpr-settings-heading">&#127922; Taakjes</h3>
+                    <p class="kpr-settings-sub">Korte taakjes die willekeurig worden gekozen bij het minutenspel. Bv. "Bord schoonmaken" of "Boekenkast opruimen".</p>
 
-                <hr class="settings-divider">
+                    <div id="kprTasksList" class="kpr-tasks-list">
+                        <!-- Gevuld door JS -->
+                    </div>
 
-                <h3 class="kpr-settings-heading">&#127922; Minutenspel taakjes</h3>
-                <p class="kpr-settings-sub">Korte taakjes die willekeurig worden gekozen bij het minutenspel. Bv. "Bord schoonmaken" of "Boekenkast opruimen".</p>
+                    <div class="kpr-add-task-row">
+                        <input type="text" id="kprNewTaskInput" placeholder="Nieuw taakje toevoegen..." maxlength="60">
+                        <button class="kpr-btn-add-task" id="kprBtnAddTask">&plus;</button>
+                    </div>
 
-                <div id="kprTasksList" class="kpr-tasks-list">
-                    <!-- Gevuld door JS -->
-                </div>
+                    <hr class="settings-divider">
 
-                <div class="kpr-add-task-row">
-                    <input type="text" id="kprNewTaskInput" placeholder="Nieuw taakje toevoegen..." maxlength="60">
-                    <button class="kpr-btn-add-task" id="kprBtnAddTask">&plus;</button>
-                </div>
+                    <h3 class="kpr-settings-heading">&#127881; Bonus voor stille kinderen</h3>
+                    <p class="kpr-settings-sub">Optioneel: leerlingen die tijdens dit minutenspel NIET zijn aangeklikt (niet in het logboek staan) krijgen automatisch een positieve beloning wanneer je de timer start.</p>
 
-                <hr class="settings-divider">
+                    <label class="checkbox-option">
+                        <input type="checkbox" id="kprRewardBonusCheckbox">
+                        <span>Beloon leerlingen die niet in het logboek staan</span>
+                    </label>
 
-                <h3 class="kpr-settings-heading">&#127881; Bonus voor stille kinderen</h3>
-                <p class="kpr-settings-sub">Optioneel: leerlingen die tijdens dit minutenspel NIET zijn aangeklikt (niet in het logboek staan) krijgen automatisch een positieve beloning wanneer je de timer start.</p>
-
-                <label class="checkbox-option">
-                    <input type="checkbox" id="kprRewardBonusCheckbox">
-                    <span>Beloon leerlingen die niet in het logboek staan</span>
-                </label>
-
-                <div class="form-group" id="kprBonusTypeWrap" style="display:none; margin-top:12px;">
-                    <label for="kprRewardBonusType">Welke beloning?</label>
-                    <select id="kprRewardBonusType">
-                        <!-- Gevuld door JS met positieve reward types -->
-                    </select>
+                    <div class="form-group" id="kprBonusTypeWrap" style="display:none; margin-top:12px;">
+                        <label for="kprRewardBonusType">Welke beloning?</label>
+                        <select id="kprRewardBonusType">
+                            <!-- Gevuld door JS met positieve reward types -->
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
