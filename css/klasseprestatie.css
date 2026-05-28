@@ -95,6 +95,7 @@
 }
 
 .kpr-avatar {
+    position: relative;
     width: 56px;
     height: 56px;
     border-radius: 50%;
@@ -107,6 +108,23 @@
     justify-content: center;
     margin: 4px auto 10px auto;
     box-shadow: 0 4px 10px rgba(108, 99, 255, 0.25);
+    overflow: hidden;
+}
+.kpr-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+/* Initialen alleen tonen als er geen plaatje is */
+.kpr-avatar-initials {
+    display: none;
+}
+.kpr-avatar-noimg .kpr-avatar-img {
+    display: none;
+}
+.kpr-avatar-noimg .kpr-avatar-initials {
+    display: block;
 }
 
 .kpr-name {

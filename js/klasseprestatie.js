@@ -355,7 +355,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (hasMsBadge) {
             html += '<div class="kpr-ms-number">' + msRound + '</div>';
         } else {
-            html += '<div class="kpr-avatar">' + escapeHtml(initials(s)) + '</div>';
+            html += '<div class="kpr-avatar"><img class="kpr-avatar-img" src="assets/avatars/monster.png" alt="" '
+                + 'onerror="this.parentNode.classList.add(\'kpr-avatar-noimg\')" />'
+                + '<span class="kpr-avatar-initials">' + escapeHtml(initials(s)) + '</span></div>';
         }
         html += '<div class="kpr-name">' + escapeHtml(studentName(s)) + '</div>';
         if (isAbsent) html += '<div class="kpr-absent-label">afwezig</div>';
