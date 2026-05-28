@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Punten badge verbergen tijdens minutenspel — focus op het spel zelf.
         // Bonus-toekenning blijft zichtbaar via groene flash + toast.
         if (mode !== 'minutenspel') {
-            html += '<div class="kpr-pts-badge ' + ptsBadgeClass + '">' + (pts > 0 ? '+' : '') + pts + '</div>';
+            html += '<div class="kpr-pts-badge ' + ptsBadgeClass + '">' + pts + '</div>';
         }
         // In minutenspel-modus met badge: groot rondenummer in plaats van avatar
         if (hasMsBadge) {
