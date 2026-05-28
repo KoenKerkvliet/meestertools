@@ -73,10 +73,12 @@
     position: absolute;
     top: 8px;
     right: 8px;
-    width: 28px;
+    z-index: 2;
+    min-width: 28px;
     height: 28px;
+    padding: 0 7px;
     box-sizing: border-box;
-    border-radius: 50%;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
