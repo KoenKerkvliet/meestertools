@@ -56,6 +56,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var user = await getSessionUser();
         if (!user) return;
 
+        if (window.MTActiveClass && selectedGroupId) window.MTActiveClass.setId(selectedGroupId);
+
         await supabase
             .from('tool_settings')
             .upsert({
@@ -75,6 +77,10 @@ document.addEventListener('DOMContentLoaded', function () {
             .order('created_at', { ascending: true });
 
         groups = result.data || [];
+
+        if (window.MTActiveClass) {
+            selectedGroupId = window.MTActiveClass.resolveDefault(selectedGroupId, groups);
+        }
 
         if (groups.length > 0 && !groups.find(function (g) { return g.id === selectedGroupId; })) {
             selectedGroupId = groups[0].id;

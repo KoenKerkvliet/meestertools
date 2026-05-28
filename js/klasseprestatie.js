@@ -1189,6 +1189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     selectGroup.addEventListener('change', async function () {
         selectedGroupId = selectGroup.value;
+        if (window.MTActiveClass && selectedGroupId) window.MTActiveClass.setId(selectedGroupId);
         await saveSettings();
         await loadStudents();
         await loadPointTotals();
@@ -1341,6 +1342,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!currentUser) return;
             await loadSettings();
             await loadGroups();
+            if (window.MTActiveClass) selectedGroupId = window.MTActiveClass.resolveDefault(selectedGroupId, groups);
             if (!selectedGroupId && groups.length > 0) selectedGroupId = groups[0].id;
             await loadStudents();
             await loadRewardTypes();

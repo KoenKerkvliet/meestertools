@@ -958,6 +958,7 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedStudentId = null;
             await loadStudents();
         }
+        if (window.MTActiveClass && newGroupId) window.MTActiveClass.setId(newGroupId);
 
         await saveSettingsToDb();
         buildUI();
@@ -967,6 +968,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- Init ----------
     async function init() {
         await loadSettings();
+        await loadGroups();
+        if (window.MTActiveClass) {
+            selectedGroupId = window.MTActiveClass.resolveDefault(selectedGroupId, groups);
+        }
         if (mode === 'individual' && selectedGroupId) {
             await loadStudents();
         }

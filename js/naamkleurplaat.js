@@ -243,6 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- Events ----------
     selectGroup.addEventListener('change', async () => {
         const groupId = selectGroup.value;
+        if (window.MTActiveClass && groupId) window.MTActiveClass.setId(groupId);
         if (!groupId) {
             students = [];
             studentInfo.textContent = '';
@@ -297,6 +298,15 @@ document.addEventListener('DOMContentLoaded', () => {
             opt.textContent = g.name;
             selectGroup.appendChild(opt);
         });
+
+        // Voorselecteer de globale actieve klas zodat de leerlingen meteen laden
+        if (window.MTActiveClass) {
+            const activeId = window.MTActiveClass.getId();
+            if (activeId && groups.some(g => g.id === activeId)) {
+                selectGroup.value = activeId;
+                selectGroup.dispatchEvent(new Event('change'));
+            }
+        }
         updateReadiness();
     }
     init();

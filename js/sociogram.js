@@ -203,6 +203,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 groupSelect.appendChild(opt);
             });
         }
+        // Voorselecteer de globale actieve klas (indien beschikbaar)
+        if (window.MTActiveClass) {
+            var activeId = window.MTActiveClass.getId();
+            if (activeId && groups.some(function (g) { return g.id === activeId; })) {
+                groupSelect.value = activeId;
+            }
+        }
         // Defaults
         dateInput.value = new Date().toISOString().slice(0, 10);
         titelInput.value = '';
@@ -222,6 +229,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!groupId) return showError(setupError, 'Kies eerst een klas.');
         if (!type) return showError(setupError, 'Kies "Samen werken" of "Samen spelen".');
         if (!datum) return showError(setupError, 'Vul een afnamedatum in.');
+
+        if (window.MTActiveClass) window.MTActiveClass.setId(groupId);
 
         students = await loadStudents(groupId);
         if (students.length < 4) {

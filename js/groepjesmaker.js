@@ -75,6 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         groups = data || [];
 
+        if (window.MTActiveClass) {
+            selectedGroupId = window.MTActiveClass.resolveDefault(selectedGroupId, groups);
+        }
+
         // If selected group not in list, auto-select first
         if (groups.length > 0 && !groups.find(g => g.id === selectedGroupId)) {
             selectedGroupId = groups[0].id;
@@ -173,6 +177,8 @@ document.addEventListener('DOMContentLoaded', () => {
     async function saveSettingsToDb() {
         const user = await getSessionUser();
         if (!user) return;
+
+        if (window.MTActiveClass && selectedGroupId) window.MTActiveClass.setId(selectedGroupId);
 
         await supabase
             .from('tool_settings')
