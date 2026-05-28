@@ -1,0 +1,186 @@
+/* ============================================
+   NAAMKLEURPLAAT - Stylesheet
+   ============================================ */
+
+.nk-layout {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+/* ---------- Bedieningspaneel ---------- */
+.nk-controls {
+    flex: 0 0 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 22px;
+}
+
+.nk-controls .form-group { margin: 0; }
+
+.nk-info {
+    margin: 6px 0 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* ---------- Dropzone ---------- */
+.nk-dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    padding: 22px 16px;
+    border: 2px dashed #C9CEDB;
+    border-radius: var(--radius-md);
+    background: var(--bg-light);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.nk-dropzone:hover,
+.nk-dropzone.dragover {
+    border-color: var(--primary);
+    background: #F3F2FF;
+}
+
+.nk-dropzone.has-image {
+    border-style: solid;
+    border-color: var(--accent-green);
+    background: #F0FBF2;
+}
+
+.nk-dropzone-icon { font-size: 30px; }
+
+.nk-dropzone-text {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+    word-break: break-word;
+}
+
+.nk-dropzone-sub {
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+/* ---------- Range ---------- */
+#nkSize { width: 100%; accent-color: var(--primary); }
+
+#nkSizeVal {
+    float: right;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* ---------- Download ---------- */
+.nk-download-btn {
+    width: 100%;
+    margin-top: 4px;
+}
+
+.nk-download-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.nk-hint {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-medium);
+    text-align: center;
+}
+
+/* ---------- Voorbeeld ---------- */
+.nk-preview {
+    flex: 1 1 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.nk-preview-stage {
+    width: 100%;
+    min-height: 320px;
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+}
+
+.nk-canvas {
+    max-width: 100%;
+    max-height: 70vh;
+    border: 1px solid #E8E8F0;
+    border-radius: 4px;
+    box-shadow: var(--shadow-md);
+}
+
+.nk-preview-empty {
+    text-align: center;
+    color: var(--text-light);
+    padding: 40px 20px;
+}
+
+.nk-preview-empty-icon {
+    font-size: 52px;
+    display: block;
+    margin-bottom: 12px;
+    opacity: 0.6;
+}
+
+.nk-preview-empty p {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* ---------- Voorbeeld-navigatie ---------- */
+.nk-preview-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.nk-nav-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #E0E0EA;
+    background: var(--bg-white);
+    font-size: 18px;
+    color: var(--text-medium);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.nk-nav-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.nk-preview-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-dark);
+    min-width: 160px;
+    text-align: center;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 760px) {
+    .nk-controls { flex-basis: 100%; }
+    .nk-preview { flex-basis: 100%; }
+}

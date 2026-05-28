@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Een tool van Meestertools - het digitale platform voor de basisschool.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/ontspanning/naamkleurplaat">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/ontspanning/naamkleurplaat">
+    <meta property="og:title" content="Meestertools - Naamkleurplaat">
+    <meta property="og:description" content="Een tool van Meestertools - het digitale platform voor de basisschool.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Naamkleurplaat">
+    <meta name="twitter:description" content="Een tool van Meestertools - het digitale platform voor de basisschool.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Naamkleurplaat</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/naamkleurplaat.css">
+</head>
+<body>
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../ontspanning" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Naamkleurplaat</h1>
+                <p>Zet de namen van je klas met dikke letters over een kleurplaat en print ze uit.</p>
+            </div>
+            <div style="width:38px;"></div>
+        </div>
+
+        <div class="tool-page-body">
+            <div class="nk-layout">
+                <!-- Bedieningspaneel -->
+                <div class="nk-controls">
+                    <div class="form-group">
+                        <label for="nkSelectGroup">Klas</label>
+                        <select id="nkSelectGroup">
+                            <option value="">Laden...</option>
+                        </select>
+                        <p class="nk-info" id="nkStudentInfo"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kleurplaat</label>
+                        <div class="nk-dropzone" id="nkDropzone">
+                            <input type="file" id="nkFileInput" accept="image/png,image/jpeg,image/webp" hidden>
+                            <span class="nk-dropzone-icon">&#128247;</span>
+                            <span class="nk-dropzone-text" id="nkDropzoneText">Klik of sleep een afbeelding hierheen</span>
+                            <span class="nk-dropzone-sub">PNG, JPG of WEBP &middot; een lijntekening werkt het mooist</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nkStyle">Letterstijl</label>
+                        <select id="nkStyle">
+                            <option value="open">Open letters (zelf inkleuren)</option>
+                            <option value="solid">Volle zwarte letters</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nkPosition">Positie van de naam</label>
+                        <select id="nkPosition">
+                            <option value="bottom">Onderaan</option>
+                            <option value="middle">In het midden</option>
+                            <option value="top">Bovenaan</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nkSize">Lettergrootte <span id="nkSizeVal">100%</span></label>
+                        <input type="range" id="nkSize" min="50" max="160" value="100" step="5">
+                    </div>
+
+                    <button class="btn-primary nk-download-btn" id="nkDownloadBtn" disabled>
+                        &#128196; Download alle kleurplaten (PDF)
+                    </button>
+                    <p class="nk-hint" id="nkHint">Kies een klas en upload een kleurplaat om te beginnen.</p>
+                </div>
+
+                <!-- Voorbeeld -->
+                <div class="nk-preview">
+                    <div class="nk-preview-stage" id="nkPreviewStage">
+                        <canvas id="nkPreviewCanvas" class="nk-canvas"></canvas>
+                        <div class="nk-preview-empty" id="nkPreviewEmpty">
+                            <span class="nk-preview-empty-icon">&#127912;</span>
+                            <p>Hier zie je een voorbeeld zodra je een kleurplaat hebt geüpload.</p>
+                        </div>
+                    </div>
+                    <div class="nk-preview-nav" id="nkPreviewNav" style="display:none;">
+                        <button class="nk-nav-btn" id="nkPrevName" title="Vorige naam">&larr;</button>
+                        <span class="nk-preview-name" id="nkPreviewLabel"></span>
+                        <button class="nk-nav-btn" id="nkNextName" title="Volgende naam">&rarr;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+    <script src="/js/template.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/naamkleurplaat.js"></script>
+</body>
+</html>
