@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Een tool van Meestertools - het digitale platform voor de basisschool.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/educatieve-games/potje1000">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/educatieve-games/potje1000">
+    <meta property="og:title" content="Meestertools - Potje 1000">
+    <meta property="og:description" content="Een tool van Meestertools - het digitale platform voor de basisschool.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Potje 1000">
+    <meta name="twitter:description" content="Een tool van Meestertools - het digitale platform voor de basisschool.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Potje 1000</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/potje1000.css">
+</head>
+<body>
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../educatieve-games" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Potje 1000</h1>
+                <p>Gooi 6 keer, vul je HTE-schema en kom zo dicht mogelijk bij de 1000.</p>
+            </div>
+            <div style="width:38px;"></div>
+        </div>
+
+        <div class="tool-page-body">
+            <div class="p1000-layout">
+                <!-- Links: dobbelsteen + knoppen -->
+                <div class="p1000-left">
+                    <div class="p1000-counter" id="p1000Counter">Worp 1 van 6</div>
+
+                    <div class="p1000-dice" id="p1000Dice">
+                        <span class="p1000-pip" data-i="0"></span>
+                        <span class="p1000-pip" data-i="1"></span>
+                        <span class="p1000-pip" data-i="2"></span>
+                        <span class="p1000-pip" data-i="3"></span>
+                        <span class="p1000-pip" data-i="4"></span>
+                        <span class="p1000-pip" data-i="5"></span>
+                        <span class="p1000-pip" data-i="6"></span>
+                        <span class="p1000-pip" data-i="7"></span>
+                        <span class="p1000-pip" data-i="8"></span>
+                    </div>
+
+                    <button class="p1000-btn p1000-btn-roll" id="p1000RollBtn">&#127922; Gooi de dobbelsteen</button>
+                    <button class="p1000-btn p1000-btn-check" id="p1000CheckBtn" style="display:none;">&#9989; Controleer</button>
+                    <button class="p1000-btn p1000-btn-reset" id="p1000ResetBtn" style="display:none;">&#128260; Nieuw potje</button>
+
+                    <div class="p1000-history" id="p1000History"></div>
+                </div>
+
+                <!-- Rechts: HTE-schema -->
+                <div class="p1000-right">
+                    <div class="p1000-board">
+                        <div class="p1000-board-title">potje <span>duizend</span></div>
+
+                        <div class="p1000-schema">
+                            <div class="p1000-col-headers">
+                                <span class="h">H</span><span class="t">T</span><span class="e">E</span>
+                            </div>
+
+                            <div class="p1000-top" id="p1000Top">
+                                <div class="p1000-cell" data-row="0" data-place="0"></div>
+                                <div class="p1000-cell" data-row="0" data-place="1"></div>
+                                <div class="p1000-cell" data-row="0" data-place="2"></div>
+                                <div class="p1000-cell" data-row="1" data-place="0"></div>
+                                <div class="p1000-cell" data-row="1" data-place="1"></div>
+                                <div class="p1000-cell" data-row="1" data-place="2"></div>
+                            </div>
+
+                            <div class="p1000-plus">+</div>
+
+                            <div class="p1000-total-wrap">
+                                <span class="p1000-total-label">totaal:</span>
+                                <div class="p1000-total" id="p1000Total">
+                                    <div class="p1000-tcell" data-place="d"><span class="p1000-tlabel">D</span></div>
+                                    <div class="p1000-tcell" data-place="h"><span class="p1000-tlabel">H</span></div>
+                                    <div class="p1000-tcell" data-place="t"><span class="p1000-tlabel">T</span></div>
+                                    <div class="p1000-tcell" data-place="e"><span class="p1000-tlabel">E</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p1000-question">Wie komt het dichtst bij de 1000?</div>
+                    </div>
+
+                    <div class="p1000-result" id="p1000Result" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <script src="/js/template.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/potje1000.js"></script>
+</body>
+</html>
