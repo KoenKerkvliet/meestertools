@@ -4,7 +4,63 @@
 
 .kpr-container {
     width: 100%;
-    padding-bottom: 100px; /* ruimte voor sticky actionbar */
+    padding-bottom: 24px;
+}
+/* Extra ruimte onderaan zodra de zwevende actiebalk zichtbaar is */
+.kpr-container.kpr-has-actionbar {
+    padding-bottom: 100px;
+}
+
+/* ---------- Toolbar in de bovenbalk (modus-knoppen) ---------- */
+.kpr-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.kpr-tool-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 38px;
+    padding: 0 14px;
+    border-radius: 19px;
+    border: 2px solid #E8E8F0;
+    background: var(--bg-white);
+    color: var(--text-medium);
+    font-size: 13px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition);
+}
+.kpr-tool-btn:hover:not(:disabled) {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--bg-light);
+}
+.kpr-tool-btn.kpr-tool-active {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: #fff;
+}
+.kpr-tool-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+.kpr-tool-btn .kpr-tool-ic {
+    font-size: 15px;
+    line-height: 1;
+}
+@media (max-width: 720px) {
+    .kpr-tool-btn {
+        padding: 0;
+        width: 38px;
+        justify-content: center;
+    }
+    .kpr-tool-btn .kpr-tool-lbl {
+        display: none;
+    }
 }
 
 .kpr-empty {
@@ -179,15 +235,10 @@
     max-width: calc(100% - 32px);
 }
 
-.kpr-actionbar-left,
-.kpr-actionbar-right {
+.kpr-actionbar-left {
     display: flex;
     align-items: center;
     gap: 8px;
-}
-
-.kpr-actionbar-left:empty {
-    display: none;
 }
 
 .kpr-selected-count,
@@ -213,14 +264,6 @@
 
 .kpr-btn:hover {
     background: #DFDFEB;
-}
-
-.kpr-btn-active {
-    background: var(--primary);
-    color: white;
-}
-.kpr-btn-active:hover {
-    background: var(--primary-dark);
 }
 
 .kpr-btn-primary {

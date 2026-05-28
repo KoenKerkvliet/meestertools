@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- DOM ----------
     var container = document.getElementById('kprContainer');
     var btnSettings = document.getElementById('kprBtnSettings');
+    var btnAttendance = document.getElementById('kprBtnAttendance');
+    var btnSelect = document.getElementById('kprBtnSelect');
+    var btnMinutenspel = document.getElementById('kprBtnMinutenspel');
     var taskOverlay = document.getElementById('kprTaskOverlay');
     var taskModal = document.getElementById('kprTaskModal');
     var taskText = document.getElementById('kprTaskText');
@@ -279,36 +282,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         html += '</div>';
 
-        // Bottom action bar (sticky)
-        html += '<div class="kpr-actionbar">';
-        html += '<div class="kpr-actionbar-left">';
+        // Contextuele actiebalk (zwevend onderaan) — alleen tonen als er acties zijn.
+        // De modus-knoppen zelf staan nu in de toolbar bovenin.
+        var bar = '';
         if (mode === 'selecteer' && selectedStudentIds.size > 0) {
-            html += '<span class="kpr-selected-count">' + selectedStudentIds.size + ' leerling' + (selectedStudentIds.size === 1 ? '' : 'en') + ' geselecteerd</span>';
-            html += '<button class="kpr-btn kpr-btn-primary" id="kprBtnRewardSelected">&#127942; Beloning geven</button>';
+            bar += '<span class="kpr-selected-count">' + selectedStudentIds.size + ' leerling' + (selectedStudentIds.size === 1 ? '' : 'en') + ' geselecteerd</span>';
+            bar += '<button class="kpr-btn kpr-btn-primary" id="kprBtnRewardSelected">&#127942; Beloning geven</button>';
         }
         if (mode === 'aanwezigheid' && Object.keys(pendingAttendance).length > 0) {
-            html += '<span class="kpr-pending-count">' + Object.keys(pendingAttendance).length + ' wijziging' + (Object.keys(pendingAttendance).length === 1 ? '' : 'en') + ' onopgeslagen</span>';
-            html += '<button class="kpr-btn kpr-btn-primary" id="kprBtnSaveAttendance">&#128190; Opslaan</button>';
+            bar += '<span class="kpr-pending-count">' + Object.keys(pendingAttendance).length + ' wijziging' + (Object.keys(pendingAttendance).length === 1 ? '' : 'en') + ' onopgeslagen</span>';
+            bar += '<button class="kpr-btn kpr-btn-primary" id="kprBtnSaveAttendance">&#128190; Opslaan</button>';
         }
         // Minutenspel game controls
         if (mode === 'minutenspel') {
             var hasBadges = Object.keys(msBadges).length > 0;
             if (msPhase === 'picking') {
-                html += '<button class="kpr-btn kpr-btn-primary" id="kprBtnMsTask"' + (hasBadges ? '' : ' disabled') + '>&#127922; Kies een taakje</button>';
+                bar += '<button class="kpr-btn kpr-btn-primary" id="kprBtnMsTask"' + (hasBadges ? '' : ' disabled') + '>&#127922; Kies een taakje</button>';
             }
             // taskRevealed actie zit nu in de overlay-popup zelf (Start timer / Andere taak)
             if (hasBadges || msPhase !== 'picking') {
-                html += '<button class="kpr-btn" id="kprBtnMsReset">&#128260; Reset</button>';
+                bar += '<button class="kpr-btn" id="kprBtnMsReset">&#128260; Reset</button>';
             }
         }
-        html += '</div>';
-        html += '<div class="kpr-actionbar-right">';
-        var disableOther = mode === 'minutenspel' ? ' disabled' : '';
-        html += '<button class="kpr-btn ' + (mode === 'aanwezigheid' ? 'kpr-btn-active' : '') + '" id="kprBtnAttendance"' + disableOther + '>&#128100; Aanwezigheid</button>';
-        html += '<button class="kpr-btn ' + (mode === 'selecteer' ? 'kpr-btn-active' : '') + '" id="kprBtnSelect"' + disableOther + '>&#9745;&#65039; Selecteer</button>';
-        html += '<button class="kpr-btn ' + (mode === 'minutenspel' ? 'kpr-btn-active' : '') + '" id="kprBtnMinutenspel">&#127922; Minutenspel</button>';
-        html += '</div>';
-        html += '</div>';
+        if (bar) {
+            html += '<div class="kpr-actionbar"><div class="kpr-actionbar-left">' + bar + '</div></div>';
+        }
 
         // Logboek (alleen tijdens minutenspel, met entries)
         if (mode === 'minutenspel' && msLog.length > 0) {
@@ -316,14 +314,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         container.innerHTML = html;
+        container.classList.toggle('kpr-has-actionbar', !!bar);
+        updateToolbarState();
 
         // Wire up
         document.querySelectorAll('.kpr-student-card').forEach(function (card) {
             card.addEventListener('click', function () { onStudentClick(card.dataset.studentId); });
         });
-        document.getElementById('kprBtnAttendance').addEventListener('click', toggleAttendanceMode);
-        document.getElementById('kprBtnSelect').addEventListener('click', toggleSelectMode);
-        document.getElementById('kprBtnMinutenspel').addEventListener('click', toggleMinutenspelMode);
 
         var btnSave = document.getElementById('kprBtnSaveAttendance');
         if (btnSave) btnSave.addEventListener('click', saveAttendance);
@@ -1016,6 +1013,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 600);
         });
     }
+
+    // ---------- Toolbar modus-knoppen (eenmalig gewired) ----------
+    function updateToolbarState() {
+        var disableOther = mode === 'minutenspel';
+        btnAttendance.classList.toggle('kpr-tool-active', mode === 'aanwezigheid');
+        btnSelect.classList.toggle('kpr-tool-active', mode === 'selecteer');
+        btnMinutenspel.classList.toggle('kpr-tool-active', mode === 'minutenspel');
+        btnAttendance.disabled = disableOther;
+        btnSelect.disabled = disableOther;
+    }
+    btnAttendance.addEventListener('click', toggleAttendanceMode);
+    btnSelect.addEventListener('click', toggleSelectMode);
+    btnMinutenspel.addEventListener('click', toggleMinutenspelMode);
 
     // ---------- Settings modal ----------
     btnSettings.addEventListener('click', openSettings);
