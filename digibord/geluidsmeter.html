@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Een tool van Meestertools - het digitale platform voor de basisschool.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/digibord/geluidsmeter">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/digibord/geluidsmeter">
+    <meta property="og:title" content="Meestertools - Geluidsmeter">
+    <meta property="og:description" content="Een tool van Meestertools - het digitale platform voor de basisschool.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Geluidsmeter">
+    <meta name="twitter:description" content="Een tool van Meestertools - het digitale platform voor de basisschool.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Geluidsmeter</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/geluidsmeter.css">
+</head>
+<body>
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../digibordtools" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Geluidsmeter</h1>
+                <p>Houd het geluidsniveau in de klas in de gaten met de microfoon.</p>
+            </div>
+            <button class="tool-settings-btn" id="btnSettings" title="Instellingen">&#9881;&#65039;</button>
+        </div>
+
+        <div class="tool-page-body">
+            <div class="gm-stage">
+                <!-- Startscherm -->
+                <div class="gm-start" id="gmStart">
+                    <span class="gm-start-icon">&#127908;</span>
+                    <p class="gm-start-text">
+                        Klik op start en geef toestemming voor de microfoon.<br>
+                        Het geluid wordt alleen in je browser gemeten &mdash; er wordt niets opgenomen of opgeslagen.
+                    </p>
+                    <button class="tool-action-btn" id="gmStartBtn">&#127908; Start de geluidsmeter</button>
+                    <p class="gm-error" id="gmError" style="display:none;"></p>
+                </div>
+
+                <!-- Meter -->
+                <div class="gm-meter" id="gmMeter" style="display:none;">
+                    <div class="gm-circle calm" id="gmCircle">
+                        <span class="gm-face" id="gmFace">&#128578;</span>
+                    </div>
+                    <div class="gm-status" id="gmStatus">Lekker rustig</div>
+
+                    <div class="gm-bar">
+                        <div class="gm-bar-fill" id="gmBarFill"></div>
+                        <div class="gm-bar-threshold" id="gmBarThreshold"></div>
+                    </div>
+
+                    <button class="gm-stop-btn" id="gmStopBtn">&#9209;&#65039; Stop meten</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Instellingen modal -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Instellingen</h2>
+                <button class="modal-close" id="btnCloseSettings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="gmSensitivity">Gevoeligheid <span id="gmSensitivityVal">5</span></label>
+                    <input type="range" id="gmSensitivity" min="1" max="12" value="5" step="1">
+                    <p class="gm-hint">Hoger = de meter reageert sterker op zacht geluid.</p>
+                </div>
+                <div class="form-group">
+                    <label for="gmThreshold">Drempel "te luid" <span id="gmThresholdVal">60%</span></label>
+                    <input type="range" id="gmThreshold" min="20" max="100" value="60" step="5">
+                    <p class="gm-hint">Boven deze waarde verschijnt de waarschuwing.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="btnSaveSettings">Opslaan</button>
+            </div>
+        </div>
+    </div>
+
+    <footer id="app-footer-slot"></footer>
+
+    <script src="/js/template.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="/js/active-class.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/geluidsmeter.js"></script>
+</body>
+</html>

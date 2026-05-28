@@ -1,0 +1,171 @@
+/* ============================================
+   GELUIDSMETER - Stylesheet
+   ============================================ */
+
+.gm-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+}
+
+/* ---------- Startscherm ---------- */
+.gm-start {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    max-width: 460px;
+}
+
+.gm-start-icon {
+    font-size: 64px;
+}
+
+.gm-start-text {
+    font-size: 16px;
+    color: var(--text-medium);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.gm-error {
+    color: #E63946;
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* ---------- Meter ---------- */
+.gm-meter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
+    width: 100%;
+}
+
+.gm-circle {
+    width: min(46vw, 320px);
+    height: min(46vw, 320px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 14px solid var(--accent-green);
+    background: #F0FBF2;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.08s linear;
+    will-change: transform;
+}
+
+.gm-circle .gm-face {
+    font-size: min(22vw, 150px);
+    line-height: 1;
+    user-select: none;
+}
+
+.gm-circle.calm {
+    border-color: var(--accent-green, #6BCB77);
+    background: #F0FBF2;
+}
+
+.gm-circle.busy {
+    border-color: #F4A93B;
+    background: #FFF7EC;
+}
+
+.gm-circle.loud {
+    border-color: #E63946;
+    background: #FDECEE;
+}
+
+.gm-circle.alert {
+    animation: gm-shake 0.45s ease infinite;
+}
+
+@keyframes gm-shake {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    25% { transform: translateX(-7px) rotate(-2deg); }
+    75% { transform: translateX(7px) rotate(2deg); }
+}
+
+/* ---------- Status ---------- */
+.gm-status {
+    font-size: clamp(22px, 4vw, 34px);
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.gm-status.calm { color: #3DA35D; }
+.gm-status.busy { color: #D98613; }
+.gm-status.loud { color: #E63946; }
+
+/* ---------- Niveaubalk ---------- */
+.gm-bar {
+    position: relative;
+    width: min(80vw, 520px);
+    height: 26px;
+    background: var(--bg-light, #EEF0F6);
+    border-radius: 999px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.gm-bar-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #6BCB77 0%, #F4A93B 65%, #E63946 100%);
+    transition: width 0.08s linear;
+}
+
+.gm-bar-threshold {
+    position: absolute;
+    top: -4px;
+    bottom: -4px;
+    width: 4px;
+    left: 60%;
+    background: var(--text-dark);
+    border-radius: 2px;
+    opacity: 0.65;
+}
+
+/* ---------- Stopknop ---------- */
+.gm-stop-btn {
+    padding: 12px 28px;
+    border: 2px solid #E0E0EA;
+    background: var(--bg-white);
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-medium);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.gm-stop-btn:hover {
+    border-color: #E63946;
+    color: #E63946;
+}
+
+.gm-hint {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+#gmSensitivity, #gmThreshold {
+    width: 100%;
+    accent-color: var(--primary);
+}
+
+#gmSensitivityVal, #gmThresholdVal {
+    float: right;
+    font-weight: 700;
+    color: var(--primary);
+}
