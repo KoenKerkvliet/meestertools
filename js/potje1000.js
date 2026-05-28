@@ -43,6 +43,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 { type: 'cell', pad: 3, h: 'E' }
             ]
         },
+        dec1: {
+            name: '1 decimaal', targetText: '100', decimals: 1, divisor: 10,
+            topTokens: [
+                { type: 'cell', place: 0, h: 'T' },
+                { type: 'cell', place: 1, h: 'E' },
+                { type: 'comma' },
+                { type: 'cell', place: 2, h: 't' }
+            ],
+            totalTokens: [
+                { type: 'cell', pad: 0, h: 'H', blankZero: true },
+                { type: 'cell', pad: 1, h: 'T' },
+                { type: 'cell', pad: 2, h: 'E' },
+                { type: 'comma' },
+                { type: 'cell', pad: 3, h: 't' }
+            ]
+        },
         dec2: {
             name: '2 decimalen', targetText: '10', decimals: 2, divisor: 100,
             topTokens: [
