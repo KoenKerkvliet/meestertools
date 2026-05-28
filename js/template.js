@@ -67,4 +67,20 @@
     } else {
         inject();
     }
+
+    // ---------- Page loader ----------
+    // Pagina's met <div class="mt-page-loader"> tonen een spinner tot de pagina
+    // klaar is. Roep window.hidePageLoader() aan zodra alles gerenderd is.
+    var loaderFallback = null;
+    window.hidePageLoader = function () {
+        var loader = document.getElementById('mtPageLoader');
+        if (!loader) return;
+        loader.classList.add('mt-hidden');
+        if (loaderFallback) clearTimeout(loaderFallback);
+        setTimeout(function () {
+            if (loader.parentNode) loader.parentNode.removeChild(loader);
+        }, 350);
+    };
+    // Veiligheidsnet: nooit eindeloos blijven hangen als een pagina vergeet te verbergen.
+    loaderFallback = setTimeout(window.hidePageLoader, 12000);
 })();

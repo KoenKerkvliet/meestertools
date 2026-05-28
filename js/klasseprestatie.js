@@ -1313,15 +1313,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- Init ----------
     (async function init() {
-        currentUser = await getUser();
-        if (!currentUser) return;
-        await loadSettings();
-        await loadGroups();
-        if (!selectedGroupId && groups.length > 0) selectedGroupId = groups[0].id;
-        await loadStudents();
-        await loadRewardTypes();
-        await loadPointTotals();
-        await loadAttendanceToday();
-        render();
+        try {
+            currentUser = await getUser();
+            if (!currentUser) return;
+            await loadSettings();
+            await loadGroups();
+            if (!selectedGroupId && groups.length > 0) selectedGroupId = groups[0].id;
+            await loadStudents();
+            await loadRewardTypes();
+            await loadPointTotals();
+            await loadAttendanceToday();
+            render();
+        } finally {
+            if (window.hidePageLoader) window.hidePageLoader();
+        }
     })();
 });
