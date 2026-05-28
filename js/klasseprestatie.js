@@ -374,7 +374,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 + '<span class="kpr-avatar-initials">' + escapeHtml(initials(s)) + '</span></div>';
         }
         html += '<div class="kpr-name">' + escapeHtml(studentName(s)) + '</div>';
-        if (isAbsent) html += '<div class="kpr-absent-label">afwezig</div>';
         html += '</div>';
         return html;
     }

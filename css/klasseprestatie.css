@@ -73,32 +73,40 @@
     position: absolute;
     top: 8px;
     right: 8px;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 12px;
+    width: 28px;
+    height: 28px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
     font-weight: 800;
     font-variant-numeric: tabular-nums;
-    line-height: 1.2;
-    border: 2px solid white;
+    line-height: 1;
+    border: 2px solid;
 }
 .kpr-pts-pos {
-    background: var(--accent-green, #6BCB77);
-    color: white;
+    background: #E3F8E8;
+    border-color: #2E7D32;
+    color: #1B5E20;
 }
 .kpr-pts-neg {
-    background: var(--secondary, #FF6B6B);
-    color: white;
+    background: #FDE7E7;
+    border-color: #C62828;
+    color: #B71C1C;
 }
 .kpr-pts-zero {
     background: #ECEFF1;
-    color: var(--text-medium);
+    border-color: #90A4AE;
+    color: #546E7A;
 }
 
 .kpr-avatar {
     position: relative;
-    width: 58px;
-    height: 58px;
-    border-radius: 14px;
+    width: 76px;
+    height: 76px;
+    border-radius: 16px;
     background: linear-gradient(135deg, var(--primary), var(--primary-light));
     color: white;
     font-size: 22px;
@@ -135,14 +143,6 @@
     word-break: break-word;
 }
 
-.kpr-absent-label {
-    margin-top: 6px;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-medium);
-}
 
 /* Flash animaties bij toekenning */
 @keyframes kprFlashPos {
