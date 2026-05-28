@@ -109,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return fi + (li || '');
     }
     var MONSTER_COUNT = 36;
+    var HATCH_AT = 5; // vanaf dit aantal punten komt het ei uit
     function monsterForStudent(s) {
         // Deterministische keuze 1..MONSTER_COUNT op basis van leerling-id,
         // zodat een leerling altijd hetzelfde monstertje houdt.
@@ -367,7 +368,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (hasMsBadge) {
             html += '<div class="kpr-ms-number">' + msRound + '</div>';
         } else {
-            html += '<div class="kpr-avatar"><img class="kpr-avatar-img" src="' + monsterForStudent(s) + '" alt="" '
+            var avatarSrc = pts >= HATCH_AT ? monsterForStudent(s) : 'assets/egg.png';
+            html += '<div class="kpr-avatar"><img class="kpr-avatar-img" src="' + avatarSrc + '" alt="" '
                 + 'onerror="this.parentNode.classList.add(\'kpr-avatar-noimg\')" />'
                 + '<span class="kpr-avatar-initials">' + escapeHtml(initials(s)) + '</span></div>';
         }
