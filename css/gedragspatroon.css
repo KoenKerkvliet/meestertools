@@ -302,6 +302,66 @@
     font-weight: 500;
 }
 
+.gp-empty-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 18px;
+}
+
+.gp-continue-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+.gp-continue-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border: 2px solid var(--primary, #6C63FF);
+    background: #fff;
+    color: var(--primary, #6C63FF);
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease, transform .1s ease;
+}
+
+.gp-continue-chip:hover {
+    background: var(--primary, #6C63FF);
+    color: #fff;
+}
+
+.gp-continue-chip:active {
+    transform: scale(.96);
+}
+
+.gp-continue-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #6BCB77;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.gp-empty-sub {
+    margin-top: 20px;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: var(--text-light);
+}
+
 /* ---------- Week Overview Section ---------- */
 .gp-week-section {
     margin-top: 8px;

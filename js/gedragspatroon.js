@@ -314,6 +314,69 @@ document.addEventListener('DOMContentLoaded', () => {
         renderWeekView();
     });
 
+    function studentName(s) {
+        return s.last_name ? s.first_name + ' ' + s.last_name : s.first_name;
+    }
+
+    function getStudentsWithEntriesToday() {
+        const todayKey = getTodayKey();
+        return students.filter(s => {
+            const dayArr = data.students[s.id] && data.students[s.id][todayKey];
+            return Array.isArray(dayArr) && dayArr.some(v => v !== null && v !== undefined);
+        });
+    }
+
+    function selectStudent(id) {
+        selectedStudentId = id || null;
+        if (studentSelect) studentSelect.value = id || '';
+        renderDayView();
+        renderWeekView();
+    }
+
+    // ---------- Empty State (individual mode, no student chosen) ----------
+    function renderEmptyState() {
+        emptyState.innerHTML = '';
+
+        const todayStudents = getStudentsWithEntriesToday();
+
+        const icon = document.createElement('div');
+        icon.className = 'empty-icon';
+        icon.textContent = '\u{1F464}';
+        emptyState.appendChild(icon);
+
+        if (todayStudents.length === 0) {
+            const p = document.createElement('p');
+            p.textContent = 'Selecteer een leerling om het gedragspatroon te bekijken.';
+            emptyState.appendChild(p);
+            return;
+        }
+
+        const title = document.createElement('p');
+        title.className = 'gp-empty-title';
+        title.textContent = 'Verder met een leerling van vandaag';
+        emptyState.appendChild(title);
+
+        const list = document.createElement('div');
+        list.className = 'gp-continue-list';
+        todayStudents.forEach(s => {
+            const btn = document.createElement('button');
+            btn.className = 'gp-continue-chip';
+            const check = document.createElement('span');
+            check.className = 'gp-continue-check';
+            check.textContent = '✓';
+            btn.appendChild(check);
+            btn.appendChild(document.createTextNode(studentName(s)));
+            btn.addEventListener('click', () => selectStudent(s.id));
+            list.appendChild(btn);
+        });
+        emptyState.appendChild(list);
+
+        const sub = document.createElement('p');
+        sub.className = 'gp-empty-sub';
+        sub.textContent = 'Of kies hierboven een andere leerling om opnieuw te beginnen.';
+        emptyState.appendChild(sub);
+    }
+
     // ---------- Day Navigation ----------
     btnPrevDay.addEventListener('click', () => { dayOffset--; closeNotePopup(); renderDayView(); });
     btnNextDay.addEventListener('click', () => { dayOffset++; closeNotePopup(); renderDayView(); });
@@ -329,7 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dayChart.style.display = showEmpty ? 'none' : '';
         xAxisLabels.style.display = showEmpty ? 'none' : '';
 
-        if (showEmpty) return;
+        if (showEmpty) { renderEmptyState(); return; }
 
         // Build columns
         chartColumns.innerHTML = '';
