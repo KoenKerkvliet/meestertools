@@ -67,37 +67,20 @@
 
                 <!-- Rechts: HTE-schema -->
                 <div class="p1000-right">
+                    <div class="p1000-modes" id="p1000Modes">
+                        <button class="p1000-mode active" data-mode="heel"><strong>Hele getallen</strong><span>naar 1000</span></button>
+                        <button class="p1000-mode" data-mode="dec2"><strong>2 decimalen</strong><span>naar 10</span></button>
+                        <button class="p1000-mode" data-mode="dec3"><strong>3 decimalen</strong><span>naar 1</span></button>
+                    </div>
+
                     <div class="p1000-board">
                         <div class="p1000-board-title">potje <span>duizend</span></div>
 
-                        <div class="p1000-schema">
-                            <div class="p1000-col-headers">
-                                <span class="h">H</span><span class="t">T</span><span class="e">E</span>
-                            </div>
-
-                            <div class="p1000-top" id="p1000Top">
-                                <div class="p1000-cell" data-row="0" data-place="0"></div>
-                                <div class="p1000-cell" data-row="0" data-place="1"></div>
-                                <div class="p1000-cell" data-row="0" data-place="2"></div>
-                                <div class="p1000-cell" data-row="1" data-place="0"></div>
-                                <div class="p1000-cell" data-row="1" data-place="1"></div>
-                                <div class="p1000-cell" data-row="1" data-place="2"></div>
-                            </div>
-
-                            <div class="p1000-plus">+</div>
-
-                            <div class="p1000-total-wrap">
-                                <span class="p1000-total-label">totaal:</span>
-                                <div class="p1000-total" id="p1000Total">
-                                    <div class="p1000-tcell" data-place="d"><span class="p1000-tlabel">D</span></div>
-                                    <div class="p1000-tcell" data-place="h"><span class="p1000-tlabel">H</span></div>
-                                    <div class="p1000-tcell" data-place="t"><span class="p1000-tlabel">T</span></div>
-                                    <div class="p1000-tcell" data-place="e"><span class="p1000-tlabel">E</span></div>
-                                </div>
-                            </div>
+                        <div class="p1000-schema" id="p1000Schema">
+                            <!-- Door JS gevuld op basis van de gekozen modus -->
                         </div>
 
-                        <div class="p1000-question">Wie komt het dichtst bij de 1000?</div>
+                        <div class="p1000-question" id="p1000Question">Wie komt het dichtst bij de 1000?</div>
                     </div>
 
                     <div class="p1000-result" id="p1000Result" style="display:none;"></div>
