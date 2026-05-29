@@ -78,11 +78,13 @@
                 <button class="modal-close" id="kprBtnCloseReward">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="kpr-reward-tabs">
+                <div class="kpr-reward-tabs" id="kprRewardTabs">
                     <button class="kpr-reward-tab active" data-tab="positief">&#128077; Positief</button>
                     <button class="kpr-reward-tab" data-tab="aandachtspunt">&#9888;&#65039; Aandachtspunten</button>
+                    <button class="kpr-reward-tab kpr-tab-single" data-tab="inwisselen">&#127873; Inwisselen</button>
+                    <button class="kpr-reward-tab kpr-tab-single" data-tab="logboek">&#128203; Logboek</button>
                 </div>
-                <div class="kpr-reward-grid" id="kprRewardGrid">
+                <div id="kprRewardGrid">
                     <!-- Gevuld door JS -->
                 </div>
             </div>
@@ -109,6 +111,7 @@
                 <div class="kpr-settings-tabs">
                     <button class="kpr-settings-tab active" data-tab="positief">&#128077; Positief</button>
                     <button class="kpr-settings-tab" data-tab="aandachtspunt">&#9888;&#65039; Aandachtspunten</button>
+                    <button class="kpr-settings-tab" data-tab="prijslijst">&#127873; Prijslijst</button>
                     <button class="kpr-settings-tab" data-tab="minutenspel">&#127922; Minutenspel</button>
                 </div>
 
@@ -118,6 +121,15 @@
                         <!-- Gevuld door JS -->
                     </div>
                     <button class="btn-add-reward" id="kprBtnAddReward">&plus; Nieuwe toevoegen</button>
+                </div>
+
+                <!-- Panel: prijslijst -->
+                <div class="kpr-settings-panel" id="kprPanelPrizes" style="display:none;">
+                    <p class="kpr-settings-sub">Stel de prijzen in die leerlingen kunnen inwisselen met hun gespaarde punten. Klik op een leerling &rarr; tab Inwisselen.</p>
+                    <div id="kprPrizesList" class="kpr-settings-list">
+                        <!-- Gevuld door JS -->
+                    </div>
+                    <button class="btn-add-reward" id="kprBtnAddPrize">&plus; Prijs toevoegen</button>
                 </div>
 
                 <!-- Panel: minutenspel (taakjes + bonus) -->
@@ -151,6 +163,35 @@
                         </select>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prijs bewerken modal -->
+    <div class="modal-overlay" id="kprPrizeEditModal">
+        <div class="modal kpr-edit-modal">
+            <div class="modal-header">
+                <h2 id="kprPrizeEditTitle">Prijs toevoegen</h2>
+                <button class="modal-close" id="kprBtnClosePrizeEdit">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Icoon</label>
+                    <div class="kpr-icon-picker" id="kprPrizeIconPicker"></div>
+                </div>
+                <div class="form-group">
+                    <label for="kprPrizeEditLabel">Naam prijs</label>
+                    <input type="text" id="kprPrizeEditLabel" placeholder="Bv. Vrij lezen, Sticker uitzoeken" maxlength="40">
+                </div>
+                <div class="form-group">
+                    <label for="kprPrizeEditCost">Kosten (punten)</label>
+                    <input type="number" id="kprPrizeEditCost" min="1" max="999" value="10">
+                </div>
+                <div class="kpr-edit-error" id="kprPrizeEditError" style="display:none;"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="kprBtnCancelPrizeEdit">Annuleren</button>
+                <button class="btn-primary" id="kprBtnSavePrizeEdit">Opslaan</button>
             </div>
         </div>
     </div>

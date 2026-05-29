@@ -316,12 +316,6 @@
     border-bottom-color: var(--primary);
 }
 
-.kpr-reward-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 10px;
-}
-
 .kpr-reward-card {
     background: white;
     border: 2px solid #E8E8F0;
@@ -1009,6 +1003,196 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-left: 8px;
+}
+
+/* ---------- Reward modal: kpr-reward-grid wrapper ---------- */
+.kpr-reward-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    padding: 4px 2px;
+}
+
+/* ---------- Inwisselen: spaarsaldo ---------- */
+.kpr-prize-balance {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-medium);
+    margin-bottom: 12px;
+}
+.kpr-prize-balance strong {
+    color: var(--primary);
+    font-size: 17px;
+}
+
+/* ---------- Prijskaartjes ---------- */
+.kpr-prize-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+}
+
+.kpr-prize-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 8px 12px;
+    background: white;
+    border: 2px solid #C8E6C9;
+    border-radius: var(--radius-lg, 16px);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    font-family: inherit;
+}
+.kpr-prize-card:hover:not([disabled]) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(107, 203, 119, 0.3);
+    border-color: #66BB6A;
+}
+.kpr-prize-icon {
+    font-size: 30px;
+    line-height: 1;
+}
+.kpr-prize-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-align: center;
+    line-height: 1.3;
+    word-break: break-word;
+}
+.kpr-prize-cost {
+    font-size: 12px;
+    font-weight: 800;
+    color: #2E7D32;
+    background: #E8F5E9;
+    border-radius: 999px;
+    padding: 2px 8px;
+}
+
+/* Te duur: greyed-out */
+.kpr-prize-unaffordable {
+    opacity: 0.38;
+    border-color: #E0E0EA;
+    cursor: not-allowed;
+}
+.kpr-prize-unaffordable .kpr-prize-cost {
+    color: var(--text-light);
+    background: #F3F4F8;
+}
+
+/* ---------- Bevestigingspaneel ---------- */
+.kpr-confirm-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 8px 4px;
+}
+.kpr-confirm-prize {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #F7F6FF;
+    border: 1px solid #DDD9FF;
+    border-radius: var(--radius-lg, 16px);
+    padding: 16px 20px;
+}
+.kpr-confirm-icon {
+    font-size: 40px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+.kpr-confirm-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+.kpr-confirm-cost {
+    font-size: 13px;
+    color: var(--primary);
+    font-weight: 700;
+}
+.kpr-confirm-msg {
+    font-size: 14px;
+    color: var(--text-medium);
+    margin: 0;
+    line-height: 1.5;
+}
+.kpr-confirm-btns {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+.kpr-btn-confirm-cancel {
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: 2px solid #E0E0EA;
+    background: white;
+    color: var(--text-medium);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.15s;
+}
+.kpr-btn-confirm-cancel:hover { border-color: var(--primary); color: var(--primary); }
+.kpr-btn-confirm-ok {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    background: var(--primary, #6C63FF);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.15s;
+}
+.kpr-btn-confirm-ok:hover { opacity: 0.88; }
+.kpr-btn-confirm-ok:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---------- Logboek ---------- */
+.kpr-logbook {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 320px;
+    overflow-y: auto;
+}
+.kpr-logbook-entry {
+    display: grid;
+    grid-template-columns: 32px 1fr auto auto;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: #FAFAFE;
+    border-radius: 10px;
+    border: 1px solid #EEF0F6;
+    font-size: 13px;
+}
+.kpr-logbook-icon  { font-size: 20px; text-align: center; }
+.kpr-logbook-label { font-weight: 600; color: var(--text-dark); }
+.kpr-logbook-cost  { font-weight: 800; color: #C62828; white-space: nowrap; }
+.kpr-logbook-date  { color: var(--text-light); font-size: 11px; white-space: nowrap; }
+.kpr-logbook-empty {
+    text-align: center;
+    padding: 32px 16px;
+    color: var(--text-medium);
+}
+.kpr-logbook-empty span { font-size: 40px; display: block; margin-bottom: 10px; }
+
+/* ---------- Prijslijst instellingen ---------- */
+.kpr-set-prize { border-left: 3px solid #C8E6C9; }
+.kpr-set-prize .kpr-set-pts {
+    color: #2E7D32;
+    background: #E8F5E9;
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 12px;
 }
 
 /* Bonus toast (verschijnt na taak-start) */

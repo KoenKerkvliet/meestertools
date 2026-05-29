@@ -37,6 +37,20 @@ document.addEventListener('DOMContentLoaded', () => {
     var bonusTypeWrap = document.getElementById('kprBonusTypeWrap');
     var bonusTypeSelect = document.getElementById('kprRewardBonusType');
 
+    // Prijslijst
+    var panelPrizes = document.getElementById('kprPanelPrizes');
+    var prizesList = document.getElementById('kprPrizesList');
+    var btnAddPrize = document.getElementById('kprBtnAddPrize');
+    var prizeEditModal = document.getElementById('kprPrizeEditModal');
+    var prizeEditTitle = document.getElementById('kprPrizeEditTitle');
+    var prizeIconPicker = document.getElementById('kprPrizeIconPicker');
+    var prizeEditLabel = document.getElementById('kprPrizeEditLabel');
+    var prizeEditCost = document.getElementById('kprPrizeEditCost');
+    var prizeEditError = document.getElementById('kprPrizeEditError');
+    var btnSavePrizeEdit = document.getElementById('kprBtnSavePrizeEdit');
+    var btnCancelPrizeEdit = document.getElementById('kprBtnCancelPrizeEdit');
+    var btnClosePrizeEdit = document.getElementById('kprBtnClosePrizeEdit');
+
     var toastEl = document.getElementById('kprToast');
     var toastText = document.getElementById('kprToastText');
 
@@ -98,6 +112,12 @@ document.addEventListener('DOMContentLoaded', () => {
     var msLog = [];                  // [{studentId, name, roundNumber}], chronologisch
     var bonusEnabled = false;        // setting: belonen niet-genoemde leerlingen?
     var bonusRewardTypeId = null;    // setting: welke positieve reward type
+
+    var prizes = [];                 // [{ id, icon, label, cost, sort_order }]
+    var redemptions = {};            // { student_id: [{prize_label, prize_icon, points_cost, redeemed_at}] }
+    var editingPrize = null;         // null of prize object
+    var redeemConfirming = null;     // prize dat we bevestigen, of null
+    var singleStudentId = null;      // student_id bij single-student modal, anders null
 
     // ---------- Helpers ----------
     function studentName(s) {
@@ -189,14 +209,17 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadPointTotals() {
         if (!students.length) { pointsByStudent = {}; return; }
         var ids = students.map(function (s) { return s.id; });
-        var { data } = await supabase
-            .from('klasseprestatie_points')
-            .select('student_id, points')
-            .in('student_id', ids);
+        var [ptsRes, redemRes] = await Promise.all([
+            supabase.from('klasseprestatie_points').select('student_id, points').in('student_id', ids),
+            supabase.from('klasseprestatie_redemptions').select('student_id, points_cost').in('student_id', ids)
+        ]);
         pointsByStudent = {};
         students.forEach(function (s) { pointsByStudent[s.id] = 0; });
-        (data || []).forEach(function (p) {
+        (ptsRes.data || []).forEach(function (p) {
             pointsByStudent[p.student_id] = (pointsByStudent[p.student_id] || 0) + p.points;
+        });
+        (redemRes.data || []).forEach(function (r) {
+            pointsByStudent[r.student_id] = (pointsByStudent[r.student_id] || 0) - r.points_cost;
         });
     }
 
@@ -210,6 +233,29 @@ document.addEventListener('DOMContentLoaded', () => {
             .in('student_id', ids)
             .eq('date', today());
         (data || []).forEach(function (r) { attendanceToday[r.student_id] = r.is_absent; });
+    }
+
+    async function loadPrizes() {
+        if (!currentUser) return;
+        var { data } = await supabase
+            .from('klasseprestatie_prizes')
+            .select('id, icon, label, cost, sort_order')
+            .eq('user_id', currentUser.id)
+            .eq('archived', false)
+            .order('sort_order')
+            .order('created_at');
+        prizes = data || [];
+    }
+
+    async function loadRedemptionsForStudent(studentId) {
+        if (!studentId || !currentUser) { redemptions[studentId] = []; return; }
+        var { data } = await supabase
+            .from('klasseprestatie_redemptions')
+            .select('id, prize_label, prize_icon, points_cost, redeemed_at')
+            .eq('student_id', studentId)
+            .eq('user_id', currentUser.id)
+            .order('redeemed_at', { ascending: false });
+        redemptions[studentId] = data || [];
     }
 
     async function loadSettings() {
@@ -914,12 +960,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function openRewardModal(studentIds) {
         pendingTargetStudentIds = studentIds;
-        if (studentIds.length === 1) {
-            var s = students.find(function (x) { return x.id === studentIds[0]; });
-            rewardTitle.textContent = 'Beloning voor ' + studentName(s);
+        redeemConfirming = null;
+        singleStudentId = studentIds.length === 1 ? studentIds[0] : null;
+
+        if (singleStudentId) {
+            var s = students.find(function (x) { return x.id === singleStudentId; });
+            rewardTitle.textContent = s ? studentName(s) : 'Beloning toekennen';
         } else {
             rewardTitle.textContent = 'Beloning voor ' + studentIds.length + ' leerlingen';
         }
+
+        // Toon single-only tabs alleen bij één leerling
+        document.querySelectorAll('.kpr-tab-single').forEach(function (t) {
+            t.style.display = singleStudentId ? '' : 'none';
+        });
+
         activeRewardTab = 'positief';
         renderRewardGrid();
         rewardModal.classList.add('active');
@@ -928,16 +983,23 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeRewardModal() {
         rewardModal.classList.remove('active');
         pendingTargetStudentIds = [];
+        redeemConfirming = null;
+        singleStudentId = null;
     }
 
     function renderRewardGrid() {
         rewardTabs.forEach(function (t) {
             t.classList.toggle('active', t.dataset.tab === activeRewardTab);
         });
+
+        if (activeRewardTab === 'inwisselen') { renderPrizeGrid(); return; }
+        if (activeRewardTab === 'logboek')    { renderLogbookContent(); return; }
+
+        // positief / aandachtspunt
         var filtered = rewardTypes.filter(function (r) { return r.type === activeRewardTab; });
-        var html = '';
+        var html = '<div class="kpr-reward-grid">';
         if (!filtered.length) {
-            html = '<p class="kpr-empty-msg">Geen ' + activeRewardTab + ' beloningen. Voeg toe via &#9881;&#65039; instellingen.</p>';
+            html += '<p class="kpr-empty-msg">Geen ' + activeRewardTab + ' beloningen. Voeg toe via &#9881;&#65039; instellingen.</p>';
         } else {
             filtered.forEach(function (r) {
                 var sign = r.type === 'positief' ? '+' : '-';
@@ -949,15 +1011,152 @@ document.addEventListener('DOMContentLoaded', () => {
                 '</button>';
             });
         }
+        html += '</div>';
         rewardGrid.innerHTML = html;
         rewardGrid.querySelectorAll('.kpr-reward-card').forEach(function (b) {
             b.addEventListener('click', function () { applyReward(b.dataset.rewardId); });
         });
     }
 
+    // ---- Prijzen inwisselen ----
+    function renderPrizeGrid() {
+        var studentId = singleStudentId;
+        if (!studentId) { rewardGrid.innerHTML = ''; return; }
+
+        if (redeemConfirming) { renderConfirmPanel(); return; }
+
+        var pts = pointsByStudent[studentId] || 0;
+        if (!prizes.length) {
+            rewardGrid.innerHTML = '<p class="kpr-empty-msg" style="padding:16px">Nog geen prijzen ingesteld. Voeg toe via &#9881;&#65039; Instellingen &rarr; Prijslijst.</p>';
+            return;
+        }
+
+        var html = '<div class="kpr-prize-balance">Spaarsaldo: <strong>' + pts + ' punt' + (pts === 1 ? '' : 'en') + '</strong></div>';
+        html += '<div class="kpr-prize-grid">';
+        prizes.forEach(function (p) {
+            var canAfford = pts >= p.cost;
+            var cls = 'kpr-prize-card' + (canAfford ? '' : ' kpr-prize-unaffordable');
+            html += '<button class="' + cls + '" data-prize-id="' + p.id + '"' + (canAfford ? '' : ' disabled') + '>' +
+                '<div class="kpr-prize-icon">' + escapeHtml(p.icon) + '</div>' +
+                '<div class="kpr-prize-label">' + escapeHtml(p.label) + '</div>' +
+                '<div class="kpr-prize-cost">' + p.cost + ' pt</div>' +
+            '</button>';
+        });
+        html += '</div>';
+        rewardGrid.innerHTML = html;
+
+        rewardGrid.querySelectorAll('.kpr-prize-card:not([disabled])').forEach(function (b) {
+            b.addEventListener('click', function () {
+                var prize = prizes.find(function (p) { return p.id === b.dataset.prizeId; });
+                if (prize) { redeemConfirming = prize; renderConfirmPanel(); }
+            });
+        });
+    }
+
+    function renderConfirmPanel() {
+        var prize = redeemConfirming;
+        var studentId = singleStudentId;
+        var s = students.find(function (x) { return x.id === studentId; });
+        var currentPts = pointsByStudent[studentId] || 0;
+        var afterPts = currentPts - prize.cost;
+        var naam = s ? s.first_name || studentName(s) : 'De leerling';
+
+        rewardGrid.innerHTML =
+            '<div class="kpr-confirm-panel">' +
+                '<div class="kpr-confirm-prize">' +
+                    '<span class="kpr-confirm-icon">' + escapeHtml(prize.icon) + '</span>' +
+                    '<div>' +
+                        '<div class="kpr-confirm-name">' + escapeHtml(prize.label) + '</div>' +
+                        '<div class="kpr-confirm-cost">' + prize.cost + ' punten</div>' +
+                    '</div>' +
+                '</div>' +
+                '<p class="kpr-confirm-msg">' + escapeHtml(naam) + ' heeft nu <strong>' + currentPts +
+                    '</strong> punt' + (currentPts === 1 ? '' : 'en') + '. Na inwisselen: <strong>' +
+                    afterPts + '</strong> punt' + (afterPts === 1 ? '' : 'en') + '.</p>' +
+                '<div class="kpr-confirm-btns">' +
+                    '<button class="kpr-btn-confirm-cancel" id="kprBtnRedeemCancel">&#8592; Terug</button>' +
+                    '<button class="kpr-btn-confirm-ok" id="kprBtnRedeemOk">&#127873; Inwisselen</button>' +
+                '</div>' +
+            '</div>';
+
+        document.getElementById('kprBtnRedeemCancel').addEventListener('click', function () {
+            redeemConfirming = null;
+            renderPrizeGrid();
+        });
+        document.getElementById('kprBtnRedeemOk').addEventListener('click', async function () {
+            this.disabled = true;
+            await redeemPrize(prize, studentId);
+        });
+    }
+
+    async function redeemPrize(prize, studentId) {
+        if (!currentUser) return;
+        var { error } = await supabase.from('klasseprestatie_redemptions').insert({
+            user_id: currentUser.id,
+            student_id: studentId,
+            prize_id: prize.id,
+            prize_label: prize.label,
+            prize_icon: prize.icon,
+            points_cost: prize.cost
+        });
+        if (error) {
+            showToast('Fout bij inwisselen: ' + error.message);
+            redeemConfirming = null;
+            renderPrizeGrid();
+            return;
+        }
+        // Lokale state bijwerken
+        pointsByStudent[studentId] = (pointsByStudent[studentId] || 0) - prize.cost;
+        if (!redemptions[studentId]) redemptions[studentId] = [];
+        redemptions[studentId].unshift({
+            prize_label: prize.label, prize_icon: prize.icon,
+            points_cost: prize.cost, redeemed_at: new Date().toISOString()
+        });
+        var s = students.find(function (x) { return x.id === studentId; });
+        showToast('&#127873; ' + (s ? s.first_name || studentName(s) : 'Leerling') +
+            ' heeft "' + prize.label + '" ingewisseld!');
+        closeRewardModal();
+        render();
+    }
+
+    // ---- Logboek per leerling ----
+    async function renderLogbookContent() {
+        var studentId = singleStudentId;
+        if (!studentId) { rewardGrid.innerHTML = ''; return; }
+
+        if (!redemptions[studentId]) {
+            rewardGrid.innerHTML = '<p class="kpr-empty-msg" style="padding:16px">Laden…</p>';
+            await loadRedemptionsForStudent(studentId);
+        }
+
+        var list = redemptions[studentId] || [];
+        var MONTHS_SHORT = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+
+        if (!list.length) {
+            rewardGrid.innerHTML =
+                '<div class="kpr-logbook-empty"><span>&#128203;</span><p>Nog geen prijzen ingewisseld.</p></div>';
+            return;
+        }
+
+        var html = '<ul class="kpr-logbook">';
+        list.forEach(function (r) {
+            var d = new Date(r.redeemed_at);
+            var dateStr = d.getDate() + ' ' + MONTHS_SHORT[d.getMonth()] + ' ' + d.getFullYear();
+            html += '<li class="kpr-logbook-entry">' +
+                '<span class="kpr-logbook-icon">' + escapeHtml(r.prize_icon) + '</span>' +
+                '<span class="kpr-logbook-label">' + escapeHtml(r.prize_label) + '</span>' +
+                '<span class="kpr-logbook-cost">&#8722;' + r.points_cost + ' pt</span>' +
+                '<span class="kpr-logbook-date">' + dateStr + '</span>' +
+            '</li>';
+        });
+        html += '</ul>';
+        rewardGrid.innerHTML = html;
+    }
+
     rewardTabs.forEach(function (t) {
         t.addEventListener('click', function () {
             activeRewardTab = t.dataset.tab;
+            redeemConfirming = null;
             renderRewardGrid();
         });
     });
@@ -1208,10 +1407,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Toont het juiste panel bij de actieve tab. Positief & aandachtspunt delen
     // het beloningen-panel (gefilterd); minutenspel heeft een eigen panel.
     function applySettingsTab() {
+        var isPrijzen = activeSettingsTab === 'prijslijst';
         var isMinuten = activeSettingsTab === 'minutenspel';
-        panelRewards.style.display = isMinuten ? 'none' : 'block';
+        panelRewards.style.display    = (!isPrijzen && !isMinuten) ? 'block' : 'none';
+        panelPrizes.style.display     = isPrijzen  ? 'block' : 'none';
         panelMinutenspel.style.display = isMinuten ? 'block' : 'none';
-        if (!isMinuten) renderSettingsList();
+        if (isPrijzen)        renderPrizesList();
+        else if (!isMinuten)  renderSettingsList();
     }
 
     function renderSettingsList() {
@@ -1335,6 +1537,116 @@ document.addEventListener('DOMContentLoaded', () => {
         renderSettingsList();
     }
 
+    // ---------- Prijslijst settings ----------
+    var PRIZE_ICONS = [
+        '🎁','🏆','🥇','🎖️','💎','🎪','🎨','🎮','📚','✏️','🎵','🍭',
+        '🍦','🎯','🚀','⭐','🌟','💡','🔑','🎭','🎬','🏅','🎊','🎉',
+        '🦁','🐸','🦊','🦄','🌈','⚽','🏀','🎲'
+    ];
+
+    function renderPrizesList() {
+        if (!prizesList) return;
+        if (!prizes.length) {
+            prizesList.innerHTML = '<p class="kpr-empty-msg">Nog geen prijzen. Voeg er een toe met de knop hieronder.</p>';
+            return;
+        }
+        var html = '';
+        prizes.forEach(function (p) {
+            html += '<div class="kpr-settings-item kpr-set-prize" data-id="' + p.id + '">' +
+                '<div class="kpr-set-icon">' + escapeHtml(p.icon) + '</div>' +
+                '<div class="kpr-set-label">' + escapeHtml(p.label) + '</div>' +
+                '<div class="kpr-set-pts">' + p.cost + ' pt</div>' +
+                '<button class="kpr-set-btn kpr-set-edit" data-id="' + p.id + '" title="Bewerken">&#9998;</button>' +
+                '<button class="kpr-set-btn kpr-set-delete" data-id="' + p.id + '" title="Verwijderen">&#128465;&#65039;</button>' +
+            '</div>';
+        });
+        prizesList.innerHTML = html;
+        prizesList.querySelectorAll('.kpr-set-edit').forEach(function (b) {
+            b.addEventListener('click', function () { openPrizeEditModal(b.dataset.id); });
+        });
+        prizesList.querySelectorAll('.kpr-set-delete').forEach(function (b) {
+            b.addEventListener('click', function () { deletePrize(b.dataset.id); });
+        });
+    }
+
+    if (btnAddPrize) btnAddPrize.addEventListener('click', function () { openPrizeEditModal(null); });
+
+    function openPrizeEditModal(prizeId) {
+        editingPrize = prizeId ? prizes.find(function (p) { return p.id === prizeId; }) || null : null;
+        prizeEditTitle.textContent = editingPrize ? 'Prijs bewerken' : 'Prijs toevoegen';
+        prizeEditLabel.value = editingPrize ? editingPrize.label : '';
+        prizeEditCost.value  = editingPrize ? editingPrize.cost  : 10;
+        prizeEditError.style.display = 'none';
+        renderPrizeIconPicker(editingPrize ? editingPrize.icon : '🎁');
+        prizeEditModal.classList.add('active');
+    }
+
+    function closePrizeEditModal() {
+        prizeEditModal.classList.remove('active');
+        editingPrize = null;
+    }
+
+    function renderPrizeIconPicker(selectedIcon) {
+        prizeIconPicker.innerHTML = '';
+        PRIZE_ICONS.forEach(function (icon) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'kpr-icon-btn' + (icon === selectedIcon ? ' active' : '');
+            btn.dataset.icon = icon;
+            btn.textContent = icon;
+            btn.addEventListener('click', function () {
+                prizeIconPicker.querySelectorAll('.kpr-icon-btn').forEach(function (b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+            });
+            prizeIconPicker.appendChild(btn);
+        });
+    }
+
+    if (btnClosePrizeEdit)  btnClosePrizeEdit.addEventListener('click', closePrizeEditModal);
+    if (btnCancelPrizeEdit) btnCancelPrizeEdit.addEventListener('click', closePrizeEditModal);
+    if (prizeEditModal) prizeEditModal.addEventListener('click', function (e) {
+        if (e.target === prizeEditModal) closePrizeEditModal();
+    });
+
+    if (btnSavePrizeEdit) btnSavePrizeEdit.addEventListener('click', async function () {
+        var selBtn = prizeIconPicker.querySelector('.kpr-icon-btn.active');
+        var icon  = selBtn ? selBtn.dataset.icon : '🎁';
+        var label = prizeEditLabel.value.trim();
+        var cost  = parseInt(prizeEditCost.value);
+
+        if (!label) {
+            prizeEditError.textContent = 'Vul een naam in.';
+            prizeEditError.style.display = 'block';
+            return;
+        }
+        if (!(cost >= 1 && cost <= 999)) {
+            prizeEditError.textContent = 'Kosten moeten tussen 1 en 999 zijn.';
+            prizeEditError.style.display = 'block';
+            return;
+        }
+
+        if (editingPrize) {
+            var { error } = await supabase.from('klasseprestatie_prizes')
+                .update({ icon: icon, label: label, cost: cost })
+                .eq('id', editingPrize.id);
+            if (error) { prizeEditError.textContent = error.message; prizeEditError.style.display = 'block'; return; }
+        } else {
+            var { error } = await supabase.from('klasseprestatie_prizes')
+                .insert({ user_id: currentUser.id, icon: icon, label: label, cost: cost, sort_order: prizes.length });
+            if (error) { prizeEditError.textContent = error.message; prizeEditError.style.display = 'block'; return; }
+        }
+        await loadPrizes();
+        renderPrizesList();
+        closePrizeEditModal();
+    });
+
+    async function deletePrize(prizeId) {
+        if (!confirm('Deze prijs verwijderen? Eerdere inwisselingen in het logboek blijven zichtbaar.')) return;
+        await supabase.from('klasseprestatie_prizes').update({ archived: true }).eq('id', prizeId);
+        await loadPrizes();
+        renderPrizesList();
+    }
+
     // ---------- Init ----------
     (async function init() {
         try {
@@ -1346,6 +1658,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!selectedGroupId && groups.length > 0) selectedGroupId = groups[0].id;
             await loadStudents();
             await loadRewardTypes();
+            await loadPrizes();
             await loadPointTotals();
             await loadAttendanceToday();
             render();
