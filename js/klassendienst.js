@@ -10,8 +10,9 @@
    - Schooljaar + vakanties komen uit tool_settings ('schooljaar').
    - Eigen instellingen (kinderen per week, taken) uit tool_settings
      ('klassendienst').
-   - Toont: deze week (wie + taken), sneak preview volgende week en een
-     jaaroverzicht dat als pdf te downloaden is.
+   - Taken bevatten een dag-veld { text, day } waarbij day 'all' of 1..5 is.
+   - Toont: deze week (wie + taken per dag), sneak preview volgende week en
+     een jaaroverzicht dat als pdf te downloaden is.
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -35,11 +36,27 @@ document.addEventListener('DOMContentLoaded', function () {
     var schooljaar = null;          // { activeYear, years: {..} }
     var students = [];              // gesorteerd op leerlingnummer
     var groupName = '';
+    var groupId = '';
     var schoolWeeks = [];           // [{ monday, friday, sunday, index, students }]
+    var selectedDay = 0;            // 0 = vandaag (auto), 1..5 = ma..vr
+    var checkState = {};            // { taskText: true } voor de huidige datum
 
     var DAYS = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'];
+    var DAY_NAMES = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'];
+    var WEEKDAYS = [
+        { code: 1, short: 'ma', name: 'maandag' },
+        { code: 2, short: 'di', name: 'dinsdag' },
+        { code: 3, short: 'wo', name: 'woensdag' },
+        { code: 4, short: 'do', name: 'donderdag' },
+        { code: 5, short: 'vr', name: 'vrijdag' }
+    ];
     var MONTHS = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
-    var DEFAULT_TASKS = ['Bord schoonmaken', 'Afval opruimen', 'Planten water geven'];
+    var DEFAULT_TASKS = [
+        { text: 'Bord schoonmaken', day: 'all' },
+        { text: 'Afval opruimen', day: 'all' },
+        { text: 'Planten water geven', day: 'all' }
+    ];
+    var MONSTER_COUNT = 36;
 
     // ---------- Helpers ----------
     function escapeHtml(str) {
@@ -98,6 +115,66 @@ document.addEventListener('DOMContentLoaded', function () {
         return startYear + '/' + (startYear + 1);
     }
 
+    function monsterForStudent(s) {
+        var key = String((s && s.id) || '');
+        var h = 0;
+        for (var i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+        var n = (h % MONSTER_COUNT) + 1;
+        return '../assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.png';
+    }
+
+    // Migreer oude string-taken naar { text, day }
+    function normalizeTask(t) {
+        if (t && typeof t === 'object') {
+            return { text: String(t.text || ''), day: normalizeDay(t.day) };
+        }
+        return { text: String(t || ''), day: 'all' };
+    }
+
+    function normalizeDay(d) {
+        if (d === 'all' || d == null || d === '') return 'all';
+        var n = parseInt(d, 10);
+        return (n >= 1 && n <= 5) ? n : 'all';
+    }
+
+    // Welke werkdag-code (1..5) is vandaag? Weekend → maandag (1)
+    function todayWeekdayCode() {
+        var d = new Date().getDay();
+        return (d >= 1 && d <= 5) ? d : 1;
+    }
+
+    // De dag die actief getoond wordt (tabkeuze of vandaag)
+    function activeDayCode() {
+        return selectedDay || todayWeekdayCode();
+    }
+
+    // ---------- Afvinklijst (per datum, lokaal) ----------
+    function checkStorageKey() {
+        var d = new Date();
+        var ymd = d.getFullYear() + '-' +
+            ('0' + (d.getMonth() + 1)).slice(-2) + '-' +
+            ('0' + d.getDate()).slice(-2);
+        return 'mt_kd_check_' + (groupId || 'x') + '_' + ymd;
+    }
+
+    function loadCheckState() {
+        checkState = {};
+        try {
+            var raw = localStorage.getItem(checkStorageKey());
+            var arr = raw ? JSON.parse(raw) : [];
+            if (Array.isArray(arr)) {
+                arr.forEach(function (k) { checkState[k] = true; });
+            }
+        } catch (e) { checkState = {}; }
+    }
+
+    function saveCheckState() {
+        try {
+            var arr = Object.keys(checkState).filter(function (k) { return checkState[k]; });
+            localStorage.setItem(checkStorageKey(), JSON.stringify(arr));
+        } catch (e) { /* stil falen */ }
+    }
+
     // ---------- Supabase ----------
     async function getSessionUser() {
         try {
@@ -116,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (res.data && res.data.settings) {
             var s = res.data.settings;
             if (typeof s.perWeek === 'number') settings.perWeek = s.perWeek;
-            if (Array.isArray(s.tasks)) settings.tasks = s.tasks;
+            if (Array.isArray(s.tasks)) settings.tasks = s.tasks.map(normalizeTask);
             if (typeof s.startOffset === 'number') settings.startOffset = s.startOffset;
         } else {
             settings.tasks = DEFAULT_TASKS.slice();
@@ -149,11 +226,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    async function loadStudents(groupId) {
+    async function loadStudents(gid) {
         var res = await supabase
             .from('students')
             .select('id, first_name, last_name, student_number')
-            .eq('group_id', groupId)
+            .eq('group_id', gid)
             .eq('archived', false)
             .order('student_number', { ascending: true });
         students = res.data || [];
@@ -244,6 +321,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Render ----------
     function render() {
+        loadCheckState();
+
         if (!window.MTActiveClass || !window.MTActiveClass.getId()) {
             container.innerHTML = noClassHtml();
             bindEmptyState();
@@ -272,12 +351,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var week = schoolWeeks[cur.index];
         var totalWeeks = schoolWeeks.length;
+        var dayCode = activeDayCode();
+        var todayCode = todayWeekdayCode();
+        var realToday = new Date().getDay();
+        var todayName = (realToday >= 1 && realToday <= 5) ? DAY_NAMES[realToday] : DAY_NAMES[todayCode];
 
         if (cur.vacationNow) {
             html += '<div class="kd-banner">&#127796; Het is nu vakantie. Hieronder zie je de eerstvolgende schoolweek met klassendienst.</div>';
         }
 
-        // Deze week hero
+        // ---- Hero ----
         html += '<section class="kd-hero">';
         html += '  <div class="kd-hero-top">';
         html += '    <span class="kd-week-pill">Week ' + (week.index + 1) + ' van ' + totalWeeks + '</span>';
@@ -287,13 +370,27 @@ document.addEventListener('DOMContentLoaded', function () {
         html += '  <div class="kd-hero-grid">';
         html += '    <div class="kd-duty-people">' + peopleCardsHtml(week.students, 'big') + '</div>';
         html += '    <div class="kd-tasks-panel">';
-        html += '      <h3>Taken</h3>';
-        html += taskListHtml();
+
+        // Dag-header met tabs
+        html += '      <div class="kd-day-header">';
+        html += '        <span class="kd-today-label">Vandaag: <strong>' + todayName + '</strong></span>';
+        html += '        <div class="kd-day-tabs">';
+        WEEKDAYS.forEach(function (wd) {
+            var isActive = (wd.code === dayCode);
+            var isToday = (wd.code === todayCode);
+            var cls = 'kd-day-tab' + (isActive ? ' active' : '') + (isToday ? ' is-today' : '');
+            html += '<button type="button" class="' + cls + '" data-day="' + wd.code + '">' + wd.short + '</button>';
+        });
+        html += '        </div>';
+        html += '      </div>';
+
+        // Taakoverzicht (verwisselbaar per tab)
+        html += '      <div id="kdTasksWrap">' + taskListHtml(dayCode) + '</div>';
         html += '    </div>';
         html += '  </div>';
         html += '</section>';
 
-        // Sneak preview volgende week
+        // ---- Sneak preview volgende week ----
         var next = schoolWeeks[cur.index + 1];
         if (next) {
             html += '<section class="kd-next">';
@@ -303,33 +400,100 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '</section>';
         }
 
-        // Jaaroverzicht
+        // ---- Jaaroverzicht ----
         html += jaaroverzichtHtml(week.index);
 
         container.innerHTML = html;
+        bindDayTabs();
+        bindTaskChecks();
         bindOverview();
     }
 
+    // ---- Personen met monster-avatar ----
     function peopleCardsHtml(list, size) {
         if (!list || !list.length) return '<p class="kd-empty-inline">Geen leerlingen</p>';
         return list.map(function (s) {
+            var src = monsterForStudent(s);
+            var inits = escapeHtml(initials(s));
+            // onerror: verberg img, toon de initialen-span
             return '<div class="kd-person kd-person-' + size + '">' +
-                '<span class="kd-avatar">' + escapeHtml(initials(s)) + '</span>' +
+                '<div class="kd-avatar">' +
+                  '<img src="' + src + '" alt="" class="kd-avatar-img" ' +
+                       'onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
+                  '<span class="kd-avatar-initials">' + inits + '</span>' +
+                '</div>' +
                 '<span class="kd-person-name">' + escapeHtml(studentName(s)) + '</span>' +
                 '<span class="kd-person-nr">nr. ' + escapeHtml(String(s.student_number)) + '</span>' +
                 '</div>';
         }).join('');
     }
 
-    function taskListHtml() {
+    // ---- Takenlijst gefilterd op dag, met afvinkbare knoppen ----
+    function taskListHtml(dayCode) {
         if (!settings.tasks || !settings.tasks.length) {
             return '<p class="kd-empty-inline">Nog geen taken ingesteld. Voeg taken toe via het tandwiel rechtsboven.</p>';
         }
-        return '<ul class="kd-task-list">' + settings.tasks.map(function (t) {
-            return '<li><span class="kd-task-check">&#10003;</span>' + escapeHtml(t) + '</li>';
+        var visible = settings.tasks.filter(function (t) {
+            return t.day === 'all' || t.day === dayCode;
+        });
+        if (!visible.length) {
+            var nm = WEEKDAYS.find(function (w) { return w.code === dayCode; });
+            return '<p class="kd-empty-inline">Geen taken voor ' + escapeHtml(nm ? nm.name : 'deze dag') + '. Voeg dagspecifieke taken toe via het tandwiel.</p>';
+        }
+        return '<ul class="kd-task-list">' + visible.map(function (t) {
+            var key = t.text;
+            var done = !!checkState[key];
+            var liCls = done ? ' class="kd-task-done"' : '';
+            var btnCls = 'kd-task-check' + (done ? ' done' : '');
+            var badge = (t.day === 'all')
+                ? '<span class="kd-task-badge">elke dag</span>'
+                : '';
+            return '<li' + liCls + '>' +
+                '<button type="button" class="' + btnCls + '" data-key="' + escapeHtml(key) + '" aria-label="Afvinken">&#10003;</button>' +
+                '<span class="kd-task-text">' + escapeHtml(t.text) + '</span>' +
+                badge +
+                '</li>';
         }).join('') + '</ul>';
     }
 
+    // ---- Dagtabs koppelen ----
+    function bindDayTabs() {
+        var tabs = container.querySelectorAll('.kd-day-tab');
+        tabs.forEach(function (tab) {
+            tab.addEventListener('click', function () {
+                selectedDay = parseInt(tab.dataset.day, 10);
+                tabs.forEach(function (t) { t.classList.toggle('active', t === tab); });
+                var wrap = document.getElementById('kdTasksWrap');
+                if (wrap) {
+                    wrap.innerHTML = taskListHtml(selectedDay);
+                    bindTaskChecks();
+                }
+            });
+        });
+    }
+
+    // ---- Afvinkknopjes koppelen ----
+    function bindTaskChecks() {
+        var wrap = document.getElementById('kdTasksWrap');
+        if (!wrap) return;
+        wrap.querySelectorAll('.kd-task-check').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var key = btn.dataset.key;
+                if (checkState[key]) {
+                    delete checkState[key];
+                } else {
+                    checkState[key] = true;
+                }
+                saveCheckState();
+                var li = btn.closest('li');
+                var isDone = !!checkState[key];
+                if (li) li.classList.toggle('kd-task-done', isDone);
+                btn.classList.toggle('done', isDone);
+            });
+        });
+    }
+
+    // ---- Jaaroverzicht ----
     function jaaroverzichtHtml(currentIndex) {
         var rows = schoolWeeks.map(function (w) {
             var names = w.students.map(studentName).join(', ') || '—';
@@ -426,12 +590,26 @@ document.addEventListener('DOMContentLoaded', function () {
     // ---------- Settings modal ----------
     function renderTasksEdit() {
         if (!settings.tasks.length) {
-            tasksEdit.innerHTML = '<p class="kd-empty-inline">Nog geen taken. Klik op "+ Taak".</p>';
+            tasksEdit.innerHTML = '<p class="kd-empty-inline">Nog geen taken. Klik op „+ Taak”.</p>';
             return;
         }
         tasksEdit.innerHTML = settings.tasks.map(function (t, i) {
+            var dayVal = (t.day === 'all' || t.day == null) ? 'all' : String(t.day);
+            var opts = [
+                { v: 'all', l: 'Alle dagen' },
+                { v: '1', l: 'Maandag' },
+                { v: '2', l: 'Dinsdag' },
+                { v: '3', l: 'Woensdag' },
+                { v: '4', l: 'Donderdag' },
+                { v: '5', l: 'Vrijdag' }
+            ].map(function (o) {
+                return '<option value="' + o.v + '"' + (dayVal === o.v ? ' selected' : '') + '>' + o.l + '</option>';
+            }).join('');
+
             return '<div class="kd-task-row">' +
-                '<input type="text" class="kd-task-input" data-index="' + i + '" value="' + escapeHtml(t) + '" placeholder="Taak">' +
+                '<input type="text" class="kd-task-input" data-index="' + i + '" ' +
+                    'value="' + escapeHtml(t.text) + '" placeholder="Taak omschrijving">' +
+                '<select class="kd-day-select" data-index="' + i + '">' + opts + '</select>' +
                 '<button type="button" class="btn-small btn-delete kd-task-del" data-index="' + i + '">&times;</button>' +
                 '</div>';
         }).join('');
@@ -446,9 +624,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function collectTasks() {
-        var inputs = tasksEdit.querySelectorAll('.kd-task-input');
+        var rows = tasksEdit.querySelectorAll('.kd-task-row');
         var out = [];
-        inputs.forEach(function (inp) { out.push(inp.value); });
+        rows.forEach(function (row) {
+            var inp = row.querySelector('.kd-task-input');
+            var sel = row.querySelector('.kd-day-select');
+            out.push({
+                text: inp ? inp.value : '',
+                day: normalizeDay(sel ? sel.value : 'all')
+            });
+        });
         settings.tasks = out;
     }
 
@@ -457,13 +642,14 @@ document.addEventListener('DOMContentLoaded', function () {
         renderTasksEdit();
         settingsModal.classList.add('active');
     }
+
     function closeSettings() {
         settingsModal.classList.remove('active');
     }
 
     if (addTaskBtn) addTaskBtn.addEventListener('click', function () {
         collectTasks();
-        settings.tasks.push('');
+        settings.tasks.push({ text: '', day: 'all' });
         renderTasksEdit();
         var inputs = tasksEdit.querySelectorAll('.kd-task-input');
         if (inputs.length) inputs[inputs.length - 1].focus();
@@ -480,12 +666,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (window.openInstellingen) window.openInstellingen('schooljaar');
     });
     document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && settingsModal.classList.contains('active')) closeSettings();
+        if (e.key === 'Escape' && settingsModal && settingsModal.classList.contains('active')) closeSettings();
     });
 
     if (btnSaveSettings) btnSaveSettings.addEventListener('click', async function () {
         collectTasks();
-        settings.tasks = settings.tasks.map(function (t) { return t.trim(); }).filter(function (t) { return t; });
+        settings.tasks = settings.tasks
+            .map(function (t) { return { text: (t.text || '').trim(), day: t.day }; })
+            .filter(function (t) { return t.text; });
         settings.perWeek = parseInt(perWeekSelect.value, 10) || 2;
         var user = await getSessionUser();
         if (user) await saveSettings(user);
@@ -506,7 +694,7 @@ document.addEventListener('DOMContentLoaded', function () {
             try { await window.MTActiveClass.ready; } catch (e) {}
         }
 
-        var groupId = window.MTActiveClass ? window.MTActiveClass.getId() : '';
+        groupId = window.MTActiveClass ? window.MTActiveClass.getId() : '';
         groupName = window.MTActiveClass ? window.MTActiveClass.getName() : '';
 
         if (groupId) {
