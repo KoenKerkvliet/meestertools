@@ -2,16 +2,19 @@
    MEESTERTOOLS - Tools register + Favorieten/Laatst gebruikt
 
    - Centrale lijst van alle losse tools (window.MTTools).
-   - Houdt bij welke tools je laatst gebruikt hebt (klikken op een
+   - Zet een sterretje op elke tool-kaart waarmee je de tool favoriet
+     maakt (favorieten worden gesynct naar je account).
+   - Houdt bij welke tools je laatst gebruikt hebt (klik op een
      tool-kaart) in localStorage, gesynct naar je account.
-   - Rendert op het dashboard een favorietenbalk + "Laatst gebruikt".
+   - Toont op het dashboard een compacte favorieten- en
+     "laatst gebruikt"-balk.
 
-   Wordt geladen op het dashboard en op de categoriepagina's, zodat
-   kliks op tool-kaarten overal geregistreerd worden.
+   Wordt geladen op het dashboard en op de categoriepagina's.
    ============================================ */
 
 (function () {
     var RECENT_KEY = 'mt_recent_tools';
+    var FAV_KEY = 'mt_favorites';
     var RECENT_MAX = 8;
 
     // ---------- Tool-register ----------
@@ -50,7 +53,6 @@
 
     function normalizeHref(href) {
         if (!href) return '';
-        // absolute of relative -> alleen het pad
         var path = href;
         try {
             var u = new URL(href, window.location.href);
@@ -65,26 +67,27 @@
         return byUrl[normalizeHref(href)] || null;
     }
 
-    // ---------- localStorage recent ----------
-    function readLocalRecent() {
+    // ---------- localStorage ----------
+    function readArr(key) {
         try {
-            var raw = localStorage.getItem(RECENT_KEY);
+            var raw = localStorage.getItem(key);
             var arr = raw ? JSON.parse(raw) : [];
             return Array.isArray(arr) ? arr.filter(function (id) { return byId[id]; }) : [];
         } catch (e) { return []; }
     }
-    function writeLocalRecent(arr) {
-        try { localStorage.setItem(RECENT_KEY, JSON.stringify(arr.slice(0, RECENT_MAX))); } catch (e) {}
+    function writeArr(key, arr, cap) {
+        try { localStorage.setItem(key, JSON.stringify(cap ? arr.slice(0, cap) : arr)); } catch (e) {}
     }
     function recordLocal(id) {
         if (!byId[id]) return;
-        var arr = readLocalRecent();
-        arr = arr.filter(function (x) { return x !== id; });
+        var arr = readArr(RECENT_KEY).filter(function (x) { return x !== id; });
         arr.unshift(id);
-        writeLocalRecent(arr);
+        writeArr(RECENT_KEY, arr, RECENT_MAX);
     }
 
     // ---------- DB prefs ----------
+    var state = { favorites: [], recent: [], user: null };
+
     async function getUser() {
         try {
             if (typeof supabase === 'undefined') return null;
@@ -109,15 +112,18 @@
         return prefs;
     }
 
-    async function savePrefs(user, prefs) {
-        await supabase
-            .from('tool_settings')
-            .upsert({
-                user_id: user.id,
-                tool_name: 'dashboard_prefs',
-                settings: { favorites: prefs.favorites, recent: prefs.recent },
-                updated_at: new Date().toISOString()
-            }, { onConflict: 'user_id,tool_name' });
+    async function savePrefs() {
+        if (!state.user) return;
+        try {
+            await supabase
+                .from('tool_settings')
+                .upsert({
+                    user_id: state.user.id,
+                    tool_name: 'dashboard_prefs',
+                    settings: { favorites: state.favorites, recent: state.recent },
+                    updated_at: new Date().toISOString()
+                }, { onConflict: 'user_id,tool_name' });
+        } catch (e) { /* stil falen */ }
     }
 
     // ---------- Publieke API ----------
@@ -128,7 +134,7 @@
         recordLocal: recordLocal
     };
 
-    // ---------- Klik-registratie (overal waar dit script geladen is) ----------
+    // ---------- Klik-registratie ----------
     document.addEventListener('click', function (e) {
         var a = e.target.closest ? e.target.closest('a[href]') : null;
         if (!a) return;
@@ -136,102 +142,115 @@
         if (tool) recordLocal(tool.id);
     });
 
-    // ---------- Dashboard render ----------
+    // ---------- Sterretje op tool-kaarten ----------
+    function toggleFavorite(id) {
+        if (!byId[id]) return;
+        var idx = state.favorites.indexOf(id);
+        if (idx === -1) state.favorites.unshift(id);
+        else state.favorites.splice(idx, 1);
+        writeArr(FAV_KEY, state.favorites);
+        decorateCards();
+        renderDashboard();
+        savePrefs();
+    }
+
+    function decorateCards() {
+        var cards = document.querySelectorAll('a.tool-card');
+        cards.forEach(function (a) {
+            var tool = findByHref(a.getAttribute('href'));
+            if (!tool) return;
+            var btn = a.querySelector('.mt-card-fav');
+            if (!btn) {
+                btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'mt-card-fav';
+                btn.setAttribute('aria-label', 'Favoriet');
+                a.appendChild(btn);
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleFavorite(tool.id);
+                });
+            }
+            var fav = state.favorites.indexOf(tool.id) !== -1;
+            btn.classList.toggle('active', fav);
+            btn.innerHTML = fav ? '&#9733;' : '&#9734;';
+            btn.title = fav ? 'Verwijder uit favorieten' : 'Voeg toe aan favorieten';
+        });
+    }
+
+    // ---------- Dashboard render (compact) ----------
     function escapeHtml(str) {
         var div = document.createElement('div');
         div.textContent = str == null ? '' : str;
         return div.innerHTML;
     }
 
-    var state = { favorites: [], recent: [], user: null };
+    function pillHtml(tool) {
+        return '<a class="mt-pill" href="' + tool.url + '">' +
+            '<span class="mt-pill-icon">' + tool.icon + '</span>' +
+            '<span class="mt-pill-name">' + escapeHtml(tool.name) + '</span>' +
+            '</a>';
+    }
 
-    function cardHtml(tool, isFav) {
-        return '<div class="mt-quick-card">' +
-            '<a class="mt-quick-link" href="' + tool.url + '">' +
-            '<span class="mt-quick-icon">' + tool.icon + '</span>' +
-            '<span class="mt-quick-name">' + escapeHtml(tool.name) + '</span>' +
-            '</a>' +
-            '<button class="mt-fav-btn' + (isFav ? ' active' : '') + '" data-id="' + tool.id + '" ' +
-            'title="' + (isFav ? 'Verwijder uit favorieten' : 'Voeg toe aan favorieten') + '" ' +
-            'aria-label="Favoriet">' + (isFav ? '&#9733;' : '&#9734;') + '</button>' +
+    function rowHtml(labelIcon, label, ids) {
+        return '<div class="mt-quick-row">' +
+            '<span class="mt-quick-label"><span class="mt-quick-label-icon">' + labelIcon + '</span>' + label + '</span>' +
+            '<div class="mt-pill-group">' + ids.map(function (id) { return pillHtml(byId[id]); }).join('') + '</div>' +
             '</div>';
     }
 
-    function render(mount) {
+    function renderDashboard() {
+        var mount = document.getElementById('dashboardExtras');
+        if (!mount) return;
+
         var favIds = state.favorites.filter(function (id) { return byId[id]; });
         var recentIds = state.recent.filter(function (id) { return favIds.indexOf(id) === -1; }).slice(0, 6);
 
         var html = '';
-        if (favIds.length) {
-            html += '<section class="mt-quick-section">' +
-                '<h2 class="mt-quick-title"><span class="mt-quick-title-icon">&#11088;</span> Favorieten</h2>' +
-                '<div class="mt-quick-grid">' +
-                favIds.map(function (id) { return cardHtml(byId[id], true); }).join('') +
-                '</div></section>';
-        }
-        if (recentIds.length) {
-            html += '<section class="mt-quick-section">' +
-                '<h2 class="mt-quick-title"><span class="mt-quick-title-icon">&#128339;</span> Laatst gebruikt</h2>' +
-                '<div class="mt-quick-grid">' +
-                recentIds.map(function (id) { return cardHtml(byId[id], false); }).join('') +
-                '</div></section>';
-        }
+        if (favIds.length) html += rowHtml('&#11088;', 'Favorieten', favIds);
+        if (recentIds.length) html += rowHtml('&#128339;', 'Laatst gebruikt', recentIds);
         mount.innerHTML = html;
-
-        mount.querySelectorAll('.mt-fav-btn').forEach(function (btn) {
-            btn.addEventListener('click', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                toggleFavorite(btn.dataset.id, mount);
-            });
-        });
     }
 
-    async function toggleFavorite(id, mount) {
-        if (!byId[id]) return;
-        var idx = state.favorites.indexOf(id);
-        if (idx === -1) state.favorites.unshift(id);
-        else state.favorites.splice(idx, 1);
-        render(mount);
-        if (state.user) {
-            try { await savePrefs(state.user, state); } catch (e) {}
-        }
-    }
+    // ---------- Init ----------
+    async function init() {
+        // 1) Direct met lokale data tonen (snel, geen flikkering)
+        state.favorites = readArr(FAV_KEY);
+        state.recent = readArr(RECENT_KEY);
+        decorateCards();
+        renderDashboard();
 
-    async function initDashboard() {
-        var mount = document.getElementById('dashboardExtras');
-        if (!mount) return;
-
+        // 2) Account-data ophalen en synchroniseren
         var user = await getUser();
         if (!user) return;
         state.user = user;
 
         var prefs = await loadPrefs(user);
 
-        // localStorage recent samenvoegen met opgeslagen recent (lokaal = recenter)
-        var local = readLocalRecent();
+        // Favorieten: account is leidend
+        state.favorites = prefs.favorites;
+        writeArr(FAV_KEY, state.favorites);
+
+        // Recent: lokaal + account samenvoegen (lokaal = recenter)
         var merged = [];
-        local.concat(prefs.recent).forEach(function (id) {
+        readArr(RECENT_KEY).concat(prefs.recent).forEach(function (id) {
             if (byId[id] && merged.indexOf(id) === -1) merged.push(id);
         });
         merged = merged.slice(0, RECENT_MAX);
-
-        state.favorites = prefs.favorites;
         state.recent = merged;
+        writeArr(RECENT_KEY, merged, RECENT_MAX);
 
-        // Sync terug
-        writeLocalRecent(merged);
-        var changed = JSON.stringify(merged) !== JSON.stringify(prefs.recent);
-        if (changed) {
-            try { await savePrefs(user, state); } catch (e) {}
-        }
+        decorateCards();
+        renderDashboard();
 
-        render(mount);
+        // Eventuele samengevoegde recent terugschrijven
+        if (JSON.stringify(merged) !== JSON.stringify(prefs.recent)) savePrefs();
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initDashboard);
+        document.addEventListener('DOMContentLoaded', init);
     } else {
-        initDashboard();
+        init();
     }
 })();
