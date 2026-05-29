@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var panelPrizes = document.getElementById('kprPanelPrizes');
     var prizesList = document.getElementById('kprPrizesList');
     var btnAddPrize = document.getElementById('kprBtnAddPrize');
+    var btnPrintPrizes = document.getElementById('kprBtnPrintPrizes');
     var prizeEditModal = document.getElementById('kprPrizeEditModal');
     var prizeEditTitle = document.getElementById('kprPrizeEditTitle');
     var prizeIconPicker = document.getElementById('kprPrizeIconPicker');
@@ -1569,7 +1570,270 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (btnAddPrize) btnAddPrize.addEventListener('click', function () { openPrizeEditModal(null); });
+    if (btnAddPrize)    btnAddPrize.addEventListener('click', function () { openPrizeEditModal(null); });
+    if (btnPrintPrizes) btnPrintPrizes.addEventListener('click', printPrizeList);
+
+    function printPrizeList() {
+        if (!prizes.length) { showToast('Voeg eerst prijzen toe aan de prijslijst.'); return; }
+
+        // Sorted low → high
+        var sorted = prizes.slice().sort(function (a, b) { return a.cost - b.cost; });
+
+        // Base URL zodat monster-afbeeldingen in het nieuwe venster werken
+        var base = window.location.href.split('?')[0].split('#')[0].replace(/[^/]+$/, '');
+
+        function monsterUrl(n) {
+            var num = n < 10 ? '0' + n : String(n);
+            return base + 'assets/avatars/monsters/monster-' + num + '.png';
+        }
+
+        // Drie decoratieve monsters
+        var mHeader = monsterUrl(7);
+        var mHeaderR = monsterUrl(15);
+        var mIntro   = monsterUrl(23);
+        var mFooter  = monsterUrl(1);
+
+        var prizeCardsHtml = sorted.map(function (p) {
+            return '<div class="prize-card">' +
+                '<div class="prize-icon">' + escapeHtml(p.icon) + '</div>' +
+                '<div class="prize-name">' + escapeHtml(p.label) + '</div>' +
+                '<div class="prize-cost">&#11088; ' + p.cost + ' punten</div>' +
+            '</div>';
+        }).join('');
+
+        var html = '<!DOCTYPE html>\n' +
+'<html lang="nl">\n' +
+'<head>\n' +
+'  <meta charset="UTF-8">\n' +
+'  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+'  <title>Prijslijst KlassePrestatie</title>\n' +
+'  <style>\n' +
+'    * { margin: 0; padding: 0; box-sizing: border-box; }\n' +
+'    body {\n' +
+'      font-family: "Segoe UI", system-ui, Arial, sans-serif;\n' +
+'      background: #EEEDF8;\n' +
+'      min-height: 100vh;\n' +
+'      display: flex;\n' +
+'      align-items: flex-start;\n' +
+'      justify-content: center;\n' +
+'      padding: 32px 16px 48px;\n' +
+'    }\n' +
+'    .page {\n' +
+'      background: white;\n' +
+'      width: 210mm;\n' +
+'      max-width: 100%;\n' +
+'      min-height: 297mm;\n' +
+'      border-radius: 24px;\n' +
+'      box-shadow: 0 12px 48px rgba(108,99,255,0.18);\n' +
+'      overflow: hidden;\n' +
+'      display: flex;\n' +
+'      flex-direction: column;\n' +
+'    }\n' +
+'\n' +
+'    /* ---- Header ---- */\n' +
+'    .header {\n' +
+'      background: linear-gradient(135deg, #6C63FF 0%, #9B87FF 55%, #FF6B6B 100%);\n' +
+'      padding: 30px 36px 26px;\n' +
+'      display: flex;\n' +
+'      align-items: center;\n' +
+'      gap: 20px;\n' +
+'      position: relative;\n' +
+'      overflow: hidden;\n' +
+'    }\n' +
+'    .header::before {\n' +
+'      content: "";\n' +
+'      position: absolute;\n' +
+'      top: -40px; right: -40px;\n' +
+'      width: 140px; height: 140px;\n' +
+'      border-radius: 50%;\n' +
+'      background: rgba(255,255,255,0.09);\n' +
+'    }\n' +
+'    .header::after {\n' +
+'      content: "";\n' +
+'      position: absolute;\n' +
+'      bottom: -25px; left: 38%;\n' +
+'      width: 90px; height: 90px;\n' +
+'      border-radius: 50%;\n' +
+'      background: rgba(255,255,255,0.06);\n' +
+'    }\n' +
+'    .header-monster {\n' +
+'      width: 86px;\n' +
+'      height: 86px;\n' +
+'      object-fit: contain;\n' +
+'      flex-shrink: 0;\n' +
+'      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.22));\n' +
+'      position: relative; z-index: 1;\n' +
+'    }\n' +
+'    .header-center {\n' +
+'      flex: 1;\n' +
+'      text-align: center;\n' +
+'      position: relative; z-index: 1;\n' +
+'    }\n' +
+'    .header-chip {\n' +
+'      display: inline-block;\n' +
+'      background: rgba(255,255,255,0.22);\n' +
+'      color: rgba(255,255,255,0.95);\n' +
+'      font-size: 10px;\n' +
+'      font-weight: 800;\n' +
+'      letter-spacing: 2px;\n' +
+'      text-transform: uppercase;\n' +
+'      padding: 4px 14px;\n' +
+'      border-radius: 999px;\n' +
+'      margin-bottom: 10px;\n' +
+'    }\n' +
+'    .header-title {\n' +
+'      font-size: 40px;\n' +
+'      font-weight: 900;\n' +
+'      color: white;\n' +
+'      line-height: 1.1;\n' +
+'      text-shadow: 0 2px 10px rgba(0,0,0,0.18);\n' +
+'    }\n' +
+'    .header-sub {\n' +
+'      font-size: 15px;\n' +
+'      color: rgba(255,255,255,0.88);\n' +
+'      margin-top: 6px;\n' +
+'      font-weight: 600;\n' +
+'      letter-spacing: 0.3px;\n' +
+'    }\n' +
+'\n' +
+'    /* ---- Body ---- */\n' +
+'    .body { flex: 1; padding: 28px 36px 24px; }\n' +
+'\n' +
+'    .intro {\n' +
+'      display: flex;\n' +
+'      align-items: center;\n' +
+'      gap: 16px;\n' +
+'      background: #F7F6FF;\n' +
+'      border: 1.5px solid #DDD9FF;\n' +
+'      border-radius: 16px;\n' +
+'      padding: 16px 20px;\n' +
+'      margin-bottom: 26px;\n' +
+'    }\n' +
+'    .intro-monster {\n' +
+'      width: 56px;\n' +
+'      height: 56px;\n' +
+'      object-fit: contain;\n' +
+'      flex-shrink: 0;\n' +
+'    }\n' +
+'    .intro-text { font-size: 13.5px; color: #5046AA; line-height: 1.6; }\n' +
+'    .intro-text strong { font-weight: 800; font-size: 14.5px; display: block; margin-bottom: 2px; color: #3D36A0; }\n' +
+'\n' +
+'    .section-label {\n' +
+'      font-size: 11px;\n' +
+'      font-weight: 800;\n' +
+'      letter-spacing: 1.8px;\n' +
+'      text-transform: uppercase;\n' +
+'      color: #A49FD8;\n' +
+'      margin-bottom: 14px;\n' +
+'    }\n' +
+'\n' +
+'    /* ---- Prijskaarten ---- */\n' +
+'    .prize-grid {\n' +
+'      display: grid;\n' +
+'      grid-template-columns: repeat(3, 1fr);\n' +
+'      gap: 14px;\n' +
+'    }\n' +
+'    .prize-card {\n' +
+'      background: white;\n' +
+'      border: 2px solid #E8E8F0;\n' +
+'      border-radius: 16px;\n' +
+'      padding: 18px 12px 16px;\n' +
+'      text-align: center;\n' +
+'      position: relative;\n' +
+'      overflow: hidden;\n' +
+'    }\n' +
+'    .prize-card::before {\n' +
+'      content: "";\n' +
+'      position: absolute;\n' +
+'      top: 0; left: 0; right: 0;\n' +
+'      height: 4px;\n' +
+'      background: linear-gradient(90deg, #6C63FF, #FF6B6B);\n' +
+'    }\n' +
+'    .prize-icon { font-size: 38px; line-height: 1; margin-bottom: 9px; }\n' +
+'    .prize-name {\n' +
+'      font-size: 13.5px;\n' +
+'      font-weight: 700;\n' +
+'      color: #2D2D3A;\n' +
+'      margin-bottom: 10px;\n' +
+'      line-height: 1.35;\n' +
+'    }\n' +
+'    .prize-cost {\n' +
+'      display: inline-flex;\n' +
+'      align-items: center;\n' +
+'      gap: 5px;\n' +
+'      background: linear-gradient(135deg, #6C63FF, #8B7BFF);\n' +
+'      color: white;\n' +
+'      font-size: 12.5px;\n' +
+'      font-weight: 800;\n' +
+'      padding: 5px 14px;\n' +
+'      border-radius: 999px;\n' +
+'    }\n' +
+'\n' +
+'    /* ---- Footer ---- */\n' +
+'    .footer {\n' +
+'      padding: 18px 36px;\n' +
+'      background: #F7F6FF;\n' +
+'      border-top: 2px solid #E8E8F0;\n' +
+'      display: flex;\n' +
+'      align-items: center;\n' +
+'      justify-content: space-between;\n' +
+'      gap: 12px;\n' +
+'    }\n' +
+'    .footer-monster { width: 46px; height: 46px; object-fit: contain; }\n' +
+'    .footer-brand { font-size: 12px; color: #9B93E0; font-weight: 700; letter-spacing: 0.4px; }\n' +
+'    .footer-stars { font-size: 18px; letter-spacing: 4px; }\n' +
+'\n' +
+'    @media print {\n' +
+'      body { background: white; padding: 0; }\n' +
+'      .page { box-shadow: none; border-radius: 0; width: 100%; }\n' +
+'    }\n' +
+'  </style>\n' +
+'</head>\n' +
+'<body>\n' +
+'  <div class="page">\n' +
+'\n' +
+'    <div class="header">\n' +
+'      <img class="header-monster" src="' + mHeader + '" alt="" onerror="this.style.display=\'none\'">\n' +
+'      <div class="header-center">\n' +
+'        <span class="header-chip">MeesterTools &#11088;</span>\n' +
+'        <div class="header-title">Prijslijst</div>\n' +
+'        <div class="header-sub">KlassePrestatie</div>\n' +
+'      </div>\n' +
+'      <img class="header-monster" src="' + mHeaderR + '" alt="" onerror="this.style.display=\'none\'">\n' +
+'    </div>\n' +
+'\n' +
+'    <div class="body">\n' +
+'      <div class="intro">\n' +
+'        <img class="intro-monster" src="' + mIntro + '" alt="" onerror="this.style.display=\'none\'">\n' +
+'        <div class="intro-text">\n' +
+'          <strong>Spaar punten &amp; koop een prijs! &#127881;</strong>\n' +
+'          Verdien punten door goed je best te doen in de klas.\n' +
+'          Heb je genoeg gespaard? Dan kun je ze inwisselen voor een van de prijzen hieronder!\n' +
+'        </div>\n' +
+'      </div>\n' +
+'\n' +
+'      <div class="section-label">Beschikbare prijzen &mdash; van goedkoop naar duur</div>\n' +
+'\n' +
+'      <div class="prize-grid">' + prizeCardsHtml + '</div>\n' +
+'    </div>\n' +
+'\n' +
+'    <div class="footer">\n' +
+'      <img class="footer-monster" src="' + mFooter + '" alt="" onerror="this.style.display=\'none\'">\n' +
+'      <span class="footer-brand">meestertools.nl</span>\n' +
+'      <span class="footer-stars">&#11088;&#11088;&#11088;</span>\n' +
+'    </div>\n' +
+'\n' +
+'  </div>\n' +
+'  <script>window.onload = function () { window.print(); };<\/script>\n' +
+'</body>\n' +
+'</html>';
+
+        var w = window.open('', '_blank', 'width=920,height=1100');
+        if (!w) { showToast('Pop-up geblokkeerd. Sta pop-ups toe voor deze pagina.'); return; }
+        w.document.open();
+        w.document.write(html);
+        w.document.close();
+    }
 
     function openPrizeEditModal(prizeId) {
         editingPrize = prizeId ? prizes.find(function (p) { return p.id === prizeId; }) || null : null;

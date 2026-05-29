@@ -1195,6 +1195,36 @@
     font-size: 12px;
 }
 
+/* Actie-footer onder de prijslijst (voeg toe + print) */
+.kpr-prizes-footer {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+.kpr-prizes-footer .btn-add-reward {
+    flex: 1;
+    width: auto;
+}
+.kpr-btn-print-prizes {
+    flex-shrink: 0;
+    padding: 12px 16px;
+    border: 2px solid #DDD9FF;
+    background: #F7F6FF;
+    color: var(--primary, #6C63FF);
+    border-radius: var(--radius-md, 12px);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+.kpr-btn-print-prizes:hover {
+    background: var(--primary, #6C63FF);
+    border-color: var(--primary, #6C63FF);
+    color: white;
+}
+
 /* Bonus toast (verschijnt na taak-start) */
 .kpr-toast {
     position: fixed;
