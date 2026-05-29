@@ -71,6 +71,17 @@
                     </div>
                     <div class="kd-tasks-edit" id="kdTasksEdit"></div>
                 </div>
+                <div class="form-group kd-link-group">
+                    <div class="kd-link-toggle-row">
+                        <input type="checkbox" id="kdLinkKP" class="kd-link-checkbox">
+                        <label for="kdLinkKP" class="kd-link-label">&#127942; Koppelen met Klasseprestatie</label>
+                    </div>
+                    <div id="kdLinkKPWrap" class="kd-link-detail">
+                        <label for="kdLinkKPReward">Beloning bij voltooide dag</label>
+                        <select id="kdLinkKPReward" class="kd-link-select"></select>
+                        <p class="kd-link-hint">Als alle taken van vandaag zijn afgevinkt, ontvangen de kinderen met klassendienst automatisch deze beloning in Klasseprestatie.</p>
+                    </div>
+                </div>
                 <p class="kd-settings-hint">
                     Tip: stel het schooljaar en de vakanties in via
                     <a href="#" id="kdOpenSchooljaar">Instellingen &rarr; Schooljaar</a>.
@@ -82,6 +93,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Toast notificatie -->
+    <div class="kd-toast" id="kdToast"></div>
 
     <footer id="app-footer-slot"></footer>
 

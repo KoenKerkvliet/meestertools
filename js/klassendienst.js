@@ -28,11 +28,15 @@ document.addEventListener('DOMContentLoaded', function () {
     var tasksEdit = document.getElementById('kdTasksEdit');
     var addTaskBtn = document.getElementById('kdAddTaskBtn');
     var openSchooljaarLink = document.getElementById('kdOpenSchooljaar');
+    var kdLinkCheckbox = document.getElementById('kdLinkKP');
+    var kdLinkWrap = document.getElementById('kdLinkKPWrap');
+    var kdLinkRewardSelect = document.getElementById('kdLinkKPReward');
+    var toastEl = document.getElementById('kdToast');
 
     if (!container) return;
 
     // ---------- State ----------
-    var settings = { perWeek: 2, tasks: [], startOffset: 0 };
+    var settings = { perWeek: 2, tasks: [], startOffset: 0, kdLink: { enabled: false, rewardTypeId: null } };
     var schooljaar = null;          // { activeYear, years: {..} }
     var students = [];              // gesorteerd op leerlingnummer
     var groupName = '';
@@ -40,6 +44,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var schoolWeeks = [];           // [{ monday, friday, sunday, index, students }]
     var selectedDay = 0;            // 0 = vandaag (auto), 1..5 = ma..vr
     var checkState = {};            // { taskText: true } voor de huidige datum
+    var currentUser = null;         // gecachede Supabase gebruiker
+    var klassePrestRewardTypes = []; // positieve reward types uit Klasseprestatie
 
     var DAYS = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'];
     var DAY_NAMES = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'];
@@ -173,6 +179,87 @@ document.addEventListener('DOMContentLoaded', function () {
             var arr = Object.keys(checkState).filter(function (k) { return checkState[k]; });
             localStorage.setItem(checkStorageKey(), JSON.stringify(arr));
         } catch (e) { /* stil falen */ }
+        checkAndAward();
+    }
+
+    // ---------- Koppeling Klasseprestatie ----------
+    function awardedKey() {
+        var d = new Date();
+        var ymd = d.getFullYear() + '-' +
+            ('0' + (d.getMonth() + 1)).slice(-2) + '-' +
+            ('0' + d.getDate()).slice(-2);
+        return 'mt_kd_awarded_' + (groupId || 'x') + '_' + ymd;
+    }
+
+    function wasAwardedToday() {
+        try { return !!localStorage.getItem(awardedKey()); } catch (e) { return false; }
+    }
+
+    function markAwardedToday() {
+        try { localStorage.setItem(awardedKey(), '1'); } catch (e) {}
+    }
+
+    function allTodayTasksDone() {
+        var code = todayWeekdayCode();
+        var todayTasks = settings.tasks.filter(function (t) {
+            return t.day === 'all' || t.day === code;
+        });
+        if (!todayTasks.length) return false;
+        return todayTasks.every(function (t) { return !!checkState[t.text]; });
+    }
+
+    async function checkAndAward() {
+        if (!settings.kdLink.enabled || !settings.kdLink.rewardTypeId) return;
+        if (wasAwardedToday()) return;
+        if (!allTodayTasksDone()) return;
+
+        // Haal de huidige dienstdoende leerlingen op
+        var cur = findCurrentWeek();
+        if (cur.index === -1 || cur.vacationNow) return;
+        var dutyStudents = schoolWeeks[cur.index] ? schoolWeeks[cur.index].students : [];
+        if (!dutyStudents.length) return;
+
+        // Vind het reward type
+        var rt = klassePrestRewardTypes.find(function (r) {
+            return r.id === settings.kdLink.rewardTypeId;
+        });
+        if (!rt) return;
+
+        await awardKlasseprestatiePoints(rt, dutyStudents);
+    }
+
+    async function awardKlasseprestatiePoints(rt, dutyStudents) {
+        if (!currentUser) return;
+        var signed = rt.type === 'positief' ? rt.points : -rt.points;
+        var rows = dutyStudents.map(function (s) {
+            return {
+                user_id: currentUser.id,
+                student_id: s.id,
+                reward_type_id: rt.id,
+                points: signed
+            };
+        });
+        var res = await supabase.from('klasseprestatie_points').insert(rows);
+        if (res.error) {
+            console.error('Klasseprestatie koppeling fout:', res.error);
+            return;
+        }
+        markAwardedToday();
+        var namen = dutyStudents.map(function (s) {
+            return s.first_name || studentName(s);
+        }).join(' & ');
+        showToast('&#127942; ' + namen + ' ' + (dutyStudents.length === 1 ? 'heeft' : 'hebben') +
+            ' "' + rt.icon + ' ' + rt.label + '" ontvangen in Klasseprestatie!');
+    }
+
+    function showToast(msg) {
+        if (!toastEl) return;
+        toastEl.innerHTML = msg;
+        toastEl.classList.add('visible');
+        clearTimeout(showToast._timer);
+        showToast._timer = setTimeout(function () {
+            toastEl.classList.remove('visible');
+        }, 5000);
     }
 
     // ---------- Supabase ----------
@@ -195,6 +282,12 @@ document.addEventListener('DOMContentLoaded', function () {
             if (typeof s.perWeek === 'number') settings.perWeek = s.perWeek;
             if (Array.isArray(s.tasks)) settings.tasks = s.tasks.map(normalizeTask);
             if (typeof s.startOffset === 'number') settings.startOffset = s.startOffset;
+            if (s.kdLink && typeof s.kdLink === 'object') {
+                settings.kdLink = {
+                    enabled: !!s.kdLink.enabled,
+                    rewardTypeId: s.kdLink.rewardTypeId || null
+                };
+            }
         } else {
             settings.tasks = DEFAULT_TASKS.slice();
         }
@@ -234,6 +327,20 @@ document.addEventListener('DOMContentLoaded', function () {
             .eq('archived', false)
             .order('student_number', { ascending: true });
         students = res.data || [];
+    }
+
+    async function loadKlasseprestatieRewardTypes() {
+        if (!currentUser) return;
+        try {
+            var res = await supabase
+                .from('klasseprestatie_reward_types')
+                .select('id, icon, label, points, type')
+                .eq('user_id', currentUser.id)
+                .eq('type', 'positief')
+                .eq('archived', false)
+                .order('sort_order');
+            klassePrestRewardTypes = res.data || [];
+        } catch (e) { klassePrestRewardTypes = []; }
     }
 
     // ---------- Schoolweken berekenen ----------
@@ -637,9 +744,37 @@ document.addEventListener('DOMContentLoaded', function () {
         settings.tasks = out;
     }
 
+    function renderKPLinkSettings() {
+        if (!kdLinkCheckbox || !kdLinkWrap || !kdLinkRewardSelect) return;
+        kdLinkCheckbox.checked = !!settings.kdLink.enabled;
+        kdLinkWrap.style.display = settings.kdLink.enabled ? 'block' : 'none';
+
+        kdLinkRewardSelect.innerHTML = '';
+        if (!klassePrestRewardTypes.length) {
+            var opt = document.createElement('option');
+            opt.value = '';
+            opt.textContent = 'Geen beloningen gevonden — voeg toe in Klasseprestatie';
+            kdLinkRewardSelect.appendChild(opt);
+        } else {
+            klassePrestRewardTypes.forEach(function (r) {
+                var opt = document.createElement('option');
+                opt.value = r.id;
+                opt.textContent = r.icon + ' ' + r.label + ' (+' + r.points + ')';
+                if (r.id === settings.kdLink.rewardTypeId) opt.selected = true;
+                kdLinkRewardSelect.appendChild(opt);
+            });
+            // Fallback: selecteer eerste als huidige rewardTypeId niet gevonden wordt
+            if (!klassePrestRewardTypes.find(function (r) { return r.id === settings.kdLink.rewardTypeId; })) {
+                settings.kdLink.rewardTypeId = klassePrestRewardTypes[0] ? klassePrestRewardTypes[0].id : null;
+                if (settings.kdLink.rewardTypeId) kdLinkRewardSelect.value = settings.kdLink.rewardTypeId;
+            }
+        }
+    }
+
     function openSettings() {
         perWeekSelect.value = String(settings.perWeek || 2);
         renderTasksEdit();
+        renderKPLinkSettings();
         settingsModal.classList.add('active');
     }
 
@@ -653,6 +788,15 @@ document.addEventListener('DOMContentLoaded', function () {
         renderTasksEdit();
         var inputs = tasksEdit.querySelectorAll('.kd-task-input');
         if (inputs.length) inputs[inputs.length - 1].focus();
+    });
+
+    if (kdLinkCheckbox) kdLinkCheckbox.addEventListener('change', function () {
+        settings.kdLink.enabled = kdLinkCheckbox.checked;
+        if (kdLinkWrap) kdLinkWrap.style.display = settings.kdLink.enabled ? 'block' : 'none';
+    });
+
+    if (kdLinkRewardSelect) kdLinkRewardSelect.addEventListener('change', function () {
+        settings.kdLink.rewardTypeId = kdLinkRewardSelect.value || null;
     });
 
     if (btnSettings) btnSettings.addEventListener('click', openSettings);
@@ -686,9 +830,11 @@ document.addEventListener('DOMContentLoaded', function () {
     async function init() {
         var user = await getSessionUser();
         if (!user) { container.innerHTML = noClassHtml(); return; }
+        currentUser = user;
 
         await loadSettings(user);
         await loadSchooljaar(user);
+        await loadKlasseprestatieRewardTypes();
 
         if (window.MTActiveClass && window.MTActiveClass.ready) {
             try { await window.MTActiveClass.ready; } catch (e) {}
