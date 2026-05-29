@@ -32,11 +32,11 @@ Het digitale platform voor de basisschool. Interactieve tools voor digibord, kla
 ├── klasseprestatie.html                # Klasprestatie
 ├── lesmateriaal.html                   # Lesmateriaal overview
 ├── ontspanning.html                    # Ontspanningstools
-├── seo.html                            # SEO overview
+├── groepsvorming.html                  # Groepsvorming overview (thema-hub)
 ├── digibord/                           # Digibordtools (timer, draairad, dobbelstenen, ...)
 ├── educatieve-games/                   # 24 game e.d.
 ├── lesmateriaal/                       # Werkbladen, vraag van de dag, woordenflitsen
-├── seo/                                # Check-in, gedragspatroon
+├── groepsvorming/                      # Check-in, gedragspatroon, sociogram
 ├── supabase/
 │   └── functions/
 │       ├── _shared/                    # Herbruikbare CORS + emailit helpers
