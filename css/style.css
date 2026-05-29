@@ -657,6 +657,49 @@ a {
     line-height: 1.5;
 }
 
+/* ---------- Uitgelichte tegels (dashboard, 2 x 50%) ---------- */
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.tool-card-feature {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    text-align: left;
+    padding: 28px 48px 28px 28px;
+}
+
+.tool-card-feature .feature-icon {
+    flex: 0 0 auto;
+    width: 64px;
+    height: 64px;
+    margin: 0;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+}
+
+.tool-card-feature .feature-text { min-width: 0; }
+
+.tool-card-feature h3 { font-size: 20px; margin-bottom: 6px; }
+
+.tool-card-feature p { font-size: 14px; }
+
+/* Eigen accentkleuren voor de twee hoofdtegels */
+.featured-grid .tool-card:nth-child(1)::before { background: var(--primary); }
+.featured-grid .tool-card:nth-child(2)::before { background: var(--accent-orange); }
+.featured-grid .tool-card:nth-child(1):hover { border-color: var(--primary); }
+.featured-grid .tool-card:nth-child(2):hover { border-color: var(--accent-orange); }
+
+.feature-groep .feature-icon { background: rgba(108, 99, 255, 0.12); }
+.feature-prestatie .feature-icon { background: rgba(255, 140, 66, 0.15); }
+
 /* ---------- FOOTER ---------- */
 .app-footer {
     margin-top: auto;
@@ -1819,6 +1862,10 @@ a {
 
 @media (max-width: 600px) {
     .tools-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .featured-grid {
         grid-template-columns: 1fr;
     }
 
