@@ -1772,3 +1772,99 @@ button:focus:not(:focus-visible),
 a:focus:not(:focus-visible) {
     outline: none;
 }
+
+/* ---------- Dashboard: favorieten & laatst gebruikt ---------- */
+.dashboard-extras {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.dashboard-extras:empty {
+    display: none;
+}
+
+.mt-quick-section {
+    margin-bottom: 28px;
+}
+
+.mt-quick-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark, #2D2D3A);
+    margin: 0 0 14px;
+}
+
+.mt-quick-title-icon {
+    font-size: 18px;
+}
+
+.mt-quick-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+}
+
+.mt-quick-card {
+    position: relative;
+    background: var(--bg-white, #fff);
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-md, 12px);
+    box-shadow: var(--shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.05));
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.mt-quick-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1));
+    border-color: #D6D3FF;
+}
+
+.mt-quick-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 40px 14px 14px;
+    text-decoration: none;
+    color: var(--text-dark, #2D2D3A);
+}
+
+.mt-quick-icon {
+    font-size: 24px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.mt-quick-name {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.mt-fav-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    color: #C7C7D6;
+    transition: color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+}
+
+.mt-fav-btn:hover {
+    background: var(--bg-light, #F3F4F8);
+    transform: scale(1.1);
+}
+
+.mt-fav-btn.active {
+    color: #F4B400;
+}

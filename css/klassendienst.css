@@ -1,0 +1,382 @@
+/* ============================================
+   KLASSENDIENST - Stylesheet
+   ============================================ */
+
+.kd-container {
+    max-width: 920px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.kd-loading {
+    text-align: center;
+    color: var(--text-medium);
+    padding: 60px 0;
+}
+
+/* ---------- Banner ---------- */
+.kd-banner {
+    background: #FFF7EC;
+    border: 1px solid #F4D7A8;
+    color: #8a5a00;
+    border-radius: var(--radius-md, 12px);
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* ---------- Deze week hero ---------- */
+.kd-hero {
+    background: linear-gradient(135deg, #6C63FF 0%, #8B7BFF 100%);
+    border-radius: var(--radius-xl, 20px);
+    padding: 28px;
+    color: #fff;
+    box-shadow: var(--shadow-md, 0 8px 24px rgba(108, 99, 255, 0.25));
+    margin-bottom: 24px;
+}
+
+.kd-hero-top {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.kd-week-pill {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.kd-hero-title {
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 800;
+    margin: 12px 0 4px;
+}
+
+.kd-hero-date {
+    font-size: 16px;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.kd-hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.kd-duty-people {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+}
+
+/* ---------- Personen ---------- */
+.kd-person {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+}
+
+.kd-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--primary);
+    font-weight: 800;
+}
+
+.kd-person-big .kd-avatar {
+    width: 84px;
+    height: 84px;
+    font-size: 30px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.kd-person-big .kd-person-name {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.kd-person-big .kd-person-nr {
+    font-size: 12px;
+    opacity: 0.85;
+}
+
+.kd-person-small .kd-avatar {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+    background: var(--bg-light, #F3F4F8);
+    color: var(--primary);
+}
+
+.kd-person-small .kd-person-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.kd-person-small .kd-person-nr {
+    font-size: 11px;
+    color: var(--text-light);
+}
+
+/* ---------- Taken panel ---------- */
+.kd-tasks-panel {
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-lg, 16px);
+    padding: 18px 20px;
+}
+
+.kd-tasks-panel h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 12px;
+}
+
+.kd-task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.kd-task-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.kd-task-check {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.28);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.kd-empty-inline {
+    font-size: 14px;
+    opacity: 0.85;
+    margin: 0;
+}
+
+/* ---------- Sneak preview volgende week ---------- */
+.kd-next {
+    background: var(--bg-white, #fff);
+    border: 2px dashed #D6D3FF;
+    border-radius: var(--radius-lg, 16px);
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.kd-next-head {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.kd-next-icon {
+    font-size: 20px;
+}
+
+.kd-next-date {
+    font-size: 14px;
+    color: var(--text-medium);
+    margin: 4px 0 16px;
+}
+
+.kd-next-people {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    justify-content: center;
+}
+
+/* ---------- Jaaroverzicht ---------- */
+.kd-overview {
+    background: var(--bg-white, #fff);
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-lg, 16px);
+    padding: 20px 24px;
+    box-shadow: var(--shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.05));
+}
+
+.kd-overview-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.kd-overview-head h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.kd-pdf-btn {
+    white-space: nowrap;
+}
+
+.kd-table-wrap {
+    overflow-x: auto;
+}
+
+.kd-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.kd-table th,
+.kd-table td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid #EEF0F6;
+}
+
+.kd-table th {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-light);
+    font-weight: 700;
+}
+
+.kd-table th:first-child,
+.kd-table td:first-child {
+    width: 56px;
+    text-align: center;
+    color: var(--text-medium);
+}
+
+.kd-table tbody tr:hover {
+    background: #FAFAFE;
+}
+
+.kd-row-current {
+    background: #EEF0FF !important;
+}
+
+.kd-row-current td {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* ---------- Lege staten ---------- */
+.kd-empty {
+    text-align: center;
+    padding: 60px 20px;
+    max-width: 460px;
+    margin: 0 auto;
+}
+
+.kd-empty-icon {
+    font-size: 56px;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.kd-empty h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0 0 8px;
+}
+
+.kd-empty p {
+    font-size: 15px;
+    color: var(--text-medium);
+    line-height: 1.5;
+    margin: 0 0 18px;
+}
+
+/* ---------- Instellingen modal ---------- */
+.kd-tasks-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.kd-tasks-edit {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.kd-task-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.kd-task-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #E0E0EA;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.kd-task-del {
+    flex-shrink: 0;
+    font-size: 18px;
+    line-height: 1;
+    padding: 4px 10px;
+}
+
+.kd-settings-hint {
+    font-size: 13px;
+    color: var(--text-medium);
+    line-height: 1.5;
+    margin: 16px 0 0;
+}
+
+.kd-settings-hint a {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+    .kd-hero {
+        padding: 20px;
+    }
+    .kd-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}

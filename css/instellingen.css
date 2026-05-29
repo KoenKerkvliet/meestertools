@@ -250,3 +250,68 @@
     border-radius: 8px;
     border: 1px solid #FFCCCC;
 }
+
+/* ---------- Schooljaar ---------- */
+.sj-hint {
+    font-size: 13px;
+    color: var(--text-medium);
+    line-height: 1.5;
+    margin: 4px 0 0;
+}
+
+.sj-vacation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 14px 0 16px;
+}
+
+.sj-vacation-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 12px;
+    background: var(--bg-light, #F3F4F8);
+    border-radius: 12px;
+}
+
+.sj-vacation-row .sj-vac-name {
+    flex: 1 1 180px;
+    min-width: 140px;
+    padding: 8px 12px;
+    border: 1px solid #E0E0EA;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.sj-vac-dates {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.sj-vac-dates label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-medium);
+}
+
+.sj-vac-dates input[type="date"] {
+    padding: 7px 10px;
+    border: 1px solid #E0E0EA;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.sj-vac-del {
+    margin-left: auto;
+}
+
+@media (max-width: 600px) {
+    .sj-vacation-row { align-items: stretch; }
+    .sj-vac-dates { flex-direction: column; gap: 8px; }
+    .sj-vac-del { margin-left: 0; }
+}

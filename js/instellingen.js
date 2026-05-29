@@ -12,6 +12,12 @@
     let activeGroupId = null;
     let showArchived = false;
 
+    // Schooljaar state
+    let schooljaarData = { activeYear: null, years: {} };
+    let sjActiveYear = null;
+    let vacations = [];
+    let schooljaarLoaded = false;
+
     // ---------- Open / Close ----------
     window.openInstellingen = function (section) {
         if (!overlayEl) {
@@ -59,6 +65,9 @@
                         </button>
                         <button class="instellingen-nav-item" data-section="mijnklas">
                             <span class="nav-icon">&#127891;</span> Mijn klas
+                        </button>
+                        <button class="instellingen-nav-item" data-section="schooljaar">
+                            <span class="nav-icon">&#128197;</span> Schooljaar
                         </button>
                     </div>
                     <div class="instellingen-content">
@@ -109,6 +118,27 @@
                                 <div class="inline-form-error" id="addGroupError"></div>
                             </div>
                             <div class="groepen-list" id="groepenList"></div>
+                        </div>
+                        <!-- Schooljaar Section -->
+                        <div class="instellingen-section" id="section-schooljaar">
+                            <h3>Schooljaar &amp; vakanties</h3>
+                            <div class="profiel-card">
+                                <h4>Actief schooljaar</h4>
+                                <div class="form-group">
+                                    <label for="schooljaarSelect">Schooljaar (loopt van 1 augustus t/m 31 juli)</label>
+                                    <select id="schooljaarSelect"></select>
+                                </div>
+                                <p class="sj-hint">Vul hieronder de vakanties van dit schooljaar in. Zo weet Meestertools welke weken schoolweken zijn &mdash; handig voor o.a. de Klassendienst.</p>
+                            </div>
+                            <div class="profiel-card">
+                                <div class="klas-toolbar">
+                                    <h4 style="margin:0">Vakanties</h4>
+                                    <button class="btn-add-small" id="addVacationBtn">+ Vakantie</button>
+                                </div>
+                                <div class="sj-vacation-list" id="vacationList"></div>
+                                <button class="btn-save" id="saveSchooljaarBtn">Opslaan</button>
+                                <div class="profiel-message" id="schooljaarMessage"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -180,6 +210,22 @@
         overlayEl.querySelector('#innerModalClose').addEventListener('click', () => {
             overlayEl.querySelector('#instellingenModal').classList.remove('active');
         });
+
+        // Schooljaar
+        overlayEl.querySelector('#schooljaarSelect').addEventListener('change', (e) => {
+            // huidige (niet-opgeslagen) vakanties bewaren bij het wisselen van jaar
+            if (sjActiveYear) schooljaarData.years[sjActiveYear] = { vacations: collectVacations() };
+            sjActiveYear = e.target.value;
+            vacations = (schooljaarData.years[sjActiveYear] && schooljaarData.years[sjActiveYear].vacations
+                ? schooljaarData.years[sjActiveYear].vacations.slice() : []);
+            renderVacations();
+        });
+        overlayEl.querySelector('#addVacationBtn').addEventListener('click', () => {
+            vacations = collectVacations();
+            vacations.push({ name: '', start: '', end: '' });
+            renderVacations();
+        });
+        overlayEl.querySelector('#saveSchooljaarBtn').addEventListener('click', saveSchooljaar);
     }
 
     // ---------- Switch Section ----------
@@ -196,7 +242,147 @@
 
         if (section === 'mijnklas') {
             loadGroups();
+        } else if (section === 'schooljaar') {
+            loadSchooljaar();
         }
+    }
+
+    // ---------- SCHOOLJAAR LOGIC ----------
+    function currentSchoolYearLabel() {
+        const now = new Date();
+        const y = now.getFullYear();
+        // Schooljaar start in augustus (maand index 7)
+        const startYear = now.getMonth() >= 7 ? y : y - 1;
+        return startYear + '/' + (startYear + 1);
+    }
+
+    function buildYearOptions(activeLabel) {
+        const sel = overlayEl.querySelector('#schooljaarSelect');
+        const baseStart = parseInt(currentSchoolYearLabel().split('/')[0], 10);
+        const labels = [];
+        for (let offset = -1; offset <= 3; offset++) {
+            const s = baseStart + offset;
+            labels.push(s + '/' + (s + 1));
+        }
+        // Zorg dat een eventueel opgeslagen jaar erbij staat
+        if (activeLabel && labels.indexOf(activeLabel) === -1) labels.push(activeLabel);
+        labels.sort();
+        sel.innerHTML = labels.map(l => `<option value="${l}">${l}</option>`).join('');
+        sel.value = activeLabel;
+    }
+
+    async function loadSchooljaar() {
+        if (schooljaarLoaded) {
+            renderVacations();
+            return;
+        }
+        const user = await getCurrentUser();
+        if (!user) return;
+
+        const { data } = await supabase
+            .from('tool_settings')
+            .select('settings')
+            .eq('user_id', user.id)
+            .eq('tool_name', 'schooljaar')
+            .maybeSingle();
+
+        if (data && data.settings) {
+            schooljaarData = data.settings;
+            if (!schooljaarData.years) schooljaarData.years = {};
+        } else {
+            schooljaarData = { activeYear: null, years: {} };
+        }
+
+        sjActiveYear = schooljaarData.activeYear || currentSchoolYearLabel();
+        schooljaarData.activeYear = sjActiveYear;
+        vacations = (schooljaarData.years[sjActiveYear] && schooljaarData.years[sjActiveYear].vacations
+            ? schooljaarData.years[sjActiveYear].vacations.slice() : []);
+
+        buildYearOptions(sjActiveYear);
+        renderVacations();
+        schooljaarLoaded = true;
+    }
+
+    function collectVacations() {
+        const rows = overlayEl.querySelectorAll('#vacationList .sj-vacation-row');
+        const out = [];
+        rows.forEach(row => {
+            out.push({
+                name: row.querySelector('.sj-vac-name').value.trim(),
+                start: row.querySelector('.sj-vac-start').value,
+                end: row.querySelector('.sj-vac-end').value
+            });
+        });
+        return out;
+    }
+
+    function renderVacations() {
+        const container = overlayEl.querySelector('#vacationList');
+        if (!vacations.length) {
+            container.innerHTML = '<div class="leerlingen-empty">Nog geen vakanties toegevoegd. Voeg de vakanties van dit schooljaar toe.</div>';
+            return;
+        }
+        container.innerHTML = vacations.map((v, i) => `
+            <div class="sj-vacation-row" data-index="${i}">
+                <input type="text" class="sj-vac-name" placeholder="Naam (bijv. Herfstvakantie)" value="${escapeHtml(v.name || '')}">
+                <div class="sj-vac-dates">
+                    <label>van <input type="date" class="sj-vac-start" value="${v.start || ''}"></label>
+                    <label>t/m <input type="date" class="sj-vac-end" value="${v.end || ''}"></label>
+                </div>
+                <button class="btn-small btn-delete sj-vac-del" data-index="${i}">Verwijderen</button>
+            </div>
+        `).join('');
+
+        container.querySelectorAll('.sj-vac-del').forEach(btn => {
+            btn.addEventListener('click', () => {
+                vacations = collectVacations();
+                vacations.splice(parseInt(btn.dataset.index, 10), 1);
+                renderVacations();
+            });
+        });
+    }
+
+    async function saveSchooljaar() {
+        const btn = overlayEl.querySelector('#saveSchooljaarBtn');
+        const msgEl = overlayEl.querySelector('#schooljaarMessage');
+        const user = await getCurrentUser();
+        if (!user) {
+            showMessage(msgEl, 'Je bent niet ingelogd.', 'error');
+            return;
+        }
+
+        // Verzamel en valideer
+        const cleaned = collectVacations().filter(v => v.name || v.start || v.end);
+        for (const v of cleaned) {
+            if (v.start && v.end && v.start > v.end) {
+                showMessage(msgEl, 'Een vakantie heeft een einddatum vóór de startdatum.', 'error');
+                return;
+            }
+        }
+
+        schooljaarData.activeYear = sjActiveYear;
+        schooljaarData.years[sjActiveYear] = { vacations: cleaned };
+
+        btn.disabled = true;
+        btn.textContent = 'Opslaan...';
+        try {
+            const { error } = await supabase
+                .from('tool_settings')
+                .upsert({
+                    user_id: user.id,
+                    tool_name: 'schooljaar',
+                    settings: schooljaarData,
+                    updated_at: new Date().toISOString()
+                }, { onConflict: 'user_id,tool_name' });
+            if (error) throw error;
+            vacations = cleaned.slice();
+            renderVacations();
+            showMessage(msgEl, 'Schooljaar opgeslagen!', 'success');
+        } catch (err) {
+            showMessage(msgEl, 'Fout: ' + err.message, 'error');
+        }
+        btn.disabled = false;
+        btn.textContent = 'Opslaan';
     }
 
     // ---------- PROFIEL LOGIC ----------
