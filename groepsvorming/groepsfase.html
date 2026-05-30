@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Groepsfase-tracker: houd bij in welke groepsfase (Tuckman) je klas zit en krijg passende werkvormen.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/groepsvorming/groepsfase">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/groepsvorming/groepsfase">
+    <meta property="og:title" content="Meestertools - Groepsfase-tracker">
+    <meta property="og:description" content="Houd bij in welke groepsfase je klas zit en krijg passende werkvormen voorgesteld.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Groepsfase-tracker">
+    <meta name="twitter:description" content="Houd bij in welke groepsfase je klas zit en krijg passende werkvormen voorgesteld.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Groepsfase-tracker</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/groepsfase.css">
+</head>
+<body>
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../groepsvorming" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Groepsfase-tracker</h1>
+                <p>Houd bij in welke fase je groep zit en krijg passende werkvormen.</p>
+            </div>
+        </div>
+
+        <div class="tool-page-body">
+            <!-- Klas-kiezer -->
+            <div class="gf-classbar">
+                <label for="gfGroupSelect">Klas</label>
+                <select id="gfGroupSelect">
+                    <option value="">Kies een klas...</option>
+                </select>
+            </div>
+
+            <!-- Geen klas gekozen -->
+            <div class="gf-empty" id="gfNoGroup">
+                <div class="gf-empty-icon">&#128106;</div>
+                <p>Kies hierboven een klas om de groepsfase bij te houden.<br>
+                Nog geen klas? Maak er een aan via <strong>Instellingen &rarr; Mijn klassen</strong>.</p>
+            </div>
+
+            <!-- Hoofdinhoud -->
+            <div id="gfMain" style="display:none;">
+                <h2 class="gf-section-title">Hoe zit je groep er nu bij?</h2>
+                <p class="gf-section-sub">Klik de fase die op dit moment past. Je krijgt er passende tips en werkvormen bij.</p>
+
+                <!-- Fasekiezer -->
+                <div class="gf-phases" id="gfPhases"></div>
+
+                <!-- Detailpaneel van gekozen fase -->
+                <div class="gf-detail" id="gfDetail" style="display:none;"></div>
+
+                <!-- Peilmoment vastleggen -->
+                <div class="gf-log-form" id="gfLogForm" style="display:none;">
+                    <div class="gf-log-row">
+                        <div class="gf-log-field">
+                            <label for="gfDate">Datum</label>
+                            <input type="date" id="gfDate">
+                        </div>
+                        <div class="gf-log-field gf-log-field-grow">
+                            <label for="gfNote">Notitie (optioneel)</label>
+                            <input type="text" id="gfNote" placeholder="Bijv. veel gedoe op het plein deze week">
+                        </div>
+                        <button class="btn-primary gf-log-btn" id="gfLogBtn">Vastleggen</button>
+                        <button class="gf-cancel-edit" id="gfCancelEdit" style="display:none;">Annuleren</button>
+                    </div>
+                </div>
+
+                <!-- Tijdlijn -->
+                <div class="gf-timeline-section">
+                    <h2 class="gf-section-title">Verloop dit schooljaar</h2>
+                    <div class="gf-timeline" id="gfTimeline"></div>
+                    <div class="gf-timeline-empty" id="gfTimelineEmpty">
+                        Nog geen peilmomenten vastgelegd. Kies hierboven een fase en leg je eerste peilmoment vast.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <script src="/js/template.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="/js/active-class.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/groepsfase.js"></script>
+</body>
+</html>
