@@ -46,6 +46,7 @@
         // Groepsvorming
         { id: 'groepsfase', name: 'Groepsfase-tracker', url: 'groepsvorming/groepsfase', icon: '&#128506;&#65039;' },
         { id: 'klimaatmonitor', name: 'Klimaat-monitor', url: 'groepsvorming/klimaatmonitor', icon: '&#10084;&#65039;' },
+        { id: 'sfeercijfer', name: 'Sfeercijfer', url: 'groepsvorming/sfeercijfer', icon: '&#127777;&#65039;' },
         { id: 'checkin', name: 'Check-in', url: 'groepsvorming/checkin', icon: '&#128522;' },
         { id: 'gedragspatroon', name: 'Gedragspatroon', url: 'groepsvorming/gedragspatroon', icon: '&#128202;' },
         { id: 'sociogram', name: 'Sociogram', url: 'groepsvorming/sociogram', icon: '&#129309;' },

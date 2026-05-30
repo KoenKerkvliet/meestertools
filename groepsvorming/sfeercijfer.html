@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sfeercijfer: volg het groepsklimaat over tijd met één cijfer per dag — door jou en/of via een klassikale ronde.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/groepsvorming/sfeercijfer">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/groepsvorming/sfeercijfer">
+    <meta property="og:title" content="Meestertools - Sfeercijfer">
+    <meta property="og:description" content="Volg het groepsklimaat over tijd met één cijfer per dag.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Sfeercijfer">
+    <meta name="twitter:description" content="Volg het groepsklimaat over tijd met één cijfer per dag.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Sfeercijfer</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/sfeercijfer.css">
+</head>
+<body>
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../groepsvorming" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Sfeercijfer</h1>
+                <p>Volg het groepsklimaat over tijd met &eacute;&eacute;n cijfer per dag.</p>
+            </div>
+        </div>
+
+        <div class="tool-page-body">
+            <!-- Klas -->
+            <div class="sf-classbar">
+                <div class="sf-classbar-field">
+                    <label for="sfGroupSelect">Klas</label>
+                    <select id="sfGroupSelect">
+                        <option value="">Kies een klas...</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Geen klas -->
+            <div class="sf-empty" id="sfNoGroup">
+                <div class="sf-empty-icon">&#127777;&#65039;</div>
+                <p>Kies hierboven een klas om de sfeer te volgen.<br>
+                Nog geen klas? Maak er een aan via <strong>Instellingen &rarr; Mijn klas</strong>.</p>
+            </div>
+
+            <!-- Hoofdinhoud -->
+            <div id="sfMain" style="display:none;">
+                <!-- Vandaag -->
+                <section class="sf-today">
+                    <div class="sf-today-head">
+                        <h2 class="sf-section-title">Vandaag</h2>
+                        <span class="sf-today-date" id="sfTodayDate"></span>
+                    </div>
+                    <div class="sf-today-grid">
+                        <!-- Mijn cijfer -->
+                        <div class="sf-panel">
+                            <h3 class="sf-panel-title">Mijn cijfer</h3>
+                            <p class="sf-panel-sub">Jouw blik op de sfeer in de groep vandaag.</p>
+                            <div class="sf-scale" id="sfTeacherScale"></div>
+                            <textarea class="sf-note" id="sfNote" placeholder="Notitie (optioneel): wat speelde er vandaag? Bijv. 'ruzie op het plein'."></textarea>
+                        </div>
+                        <!-- Klassikale ronde -->
+                        <div class="sf-panel">
+                            <h3 class="sf-panel-title">Klassikale ronde</h3>
+                            <p class="sf-panel-sub">Laat leerlingen &eacute;&eacute;n voor &eacute;&eacute;n een cijfer kiezen &mdash; de tool rekent het gemiddelde uit.</p>
+                            <div class="sf-round-result" id="sfRoundResult"></div>
+                            <div class="sf-scale sf-scale-round" id="sfRoundScale"></div>
+                            <div class="sf-round-actions">
+                                <button class="sf-link-btn" id="sfRoundClear">&#8634; Ronde wissen</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Verloop -->
+                <section class="sf-trend">
+                    <div class="sf-trend-head">
+                        <h2 class="sf-section-title">Verloop</h2>
+                        <div class="sf-period" id="sfPeriod">
+                            <button type="button" data-days="30" class="active">30 dagen</button>
+                            <button type="button" data-days="90">90 dagen</button>
+                            <button type="button" data-days="schooljaar">Schooljaar</button>
+                            <button type="button" data-days="all">Alles</button>
+                        </div>
+                    </div>
+                    <div class="sf-legend">
+                        <span class="sf-legend-item"><span class="sf-legend-line sf-legend-teacher"></span> Mijn cijfer</span>
+                        <span class="sf-legend-item"><span class="sf-legend-line sf-legend-class"></span> Klasgemiddelde</span>
+                    </div>
+                    <div class="sf-chart-wrap">
+                        <svg id="sfChart" viewBox="0 0 820 340" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Grafiek van het sfeercijfer over tijd"></svg>
+                        <div class="sf-tooltip" id="sfTooltip"></div>
+                    </div>
+                    <div class="sf-chart-empty" id="sfChartEmpty" style="display:none;">
+                        Nog te weinig gegevens voor een grafiek. Geef een paar dagen een cijfer en het verloop verschijnt vanzelf.
+                    </div>
+                </section>
+
+                <!-- Logboek -->
+                <section class="sf-log-section">
+                    <h2 class="sf-section-title">Logboek</h2>
+                    <div class="sf-log" id="sfLog"></div>
+                    <div class="sf-log-empty" id="sfLogEmpty" style="display:none;">
+                        Nog geen sfeercijfers gelogd voor deze klas.
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <script src="/js/template.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="/js/active-class.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/sfeercijfer.js"></script>
+</body>
+</html>
