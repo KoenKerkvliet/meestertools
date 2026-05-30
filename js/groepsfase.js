@@ -124,14 +124,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const timelineEl = document.getElementById('gfTimeline');
     const timelineEmpty = document.getElementById('gfTimelineEmpty');
 
+    // Lesideeën
+    const settingsBtn = document.getElementById('gfSettingsBtn');
+    const ideasSection = document.getElementById('gfIdeasSection');
+    const ideasEl = document.getElementById('gfIdeas');
+    const ideasEmpty = document.getElementById('gfIdeasEmpty');
+    const ideasAddBtn = document.getElementById('gfIdeasAddBtn');
+    const modal = document.getElementById('gfModal');
+    const modalClose = document.getElementById('gfModalClose');
+    const modalList = document.getElementById('gfModalList');
+    const ideaForm = document.getElementById('gfIdeaForm');
+    const ideaFormTitle = document.getElementById('gfIdeaFormTitle');
+    const ideaPhaseSel = document.getElementById('gfIdeaPhase');
+    const ideaTitleInput = document.getElementById('gfIdeaTitle');
+    const ideaDescInput = document.getElementById('gfIdeaDesc');
+    const ideaFileInput = document.getElementById('gfIdeaFile');
+    const fileCurrent = document.getElementById('gfFileCurrent');
+    const ideaSaveBtn = document.getElementById('gfIdeaSave');
+    const ideaCancelBtn = document.getElementById('gfIdeaCancel');
+    const ideaMsg = document.getElementById('gfIdeaMsg');
+
+    const BUCKET = 'groepsfase';
+    const MAX_FILE_BYTES = 10 * 1024 * 1024;
+
     if (!phasesEl) return;
 
     // ---------- State ----------
     let groups = [];
     let entriesByGroup = {};   // { groupId: [ {id, date, phase, note} ] }
+    let ideas = [];            // [ {id, phase, title, desc, file: {path, name}|null} ]
     let selectedGroupId = '';
     let selectedPhaseId = null;
     let editingId = null;
+    let editingIdeaId = null;
+    let removeExistingFile = false;
 
     // ---------- Helpers ----------
     const MONTHS = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
@@ -189,6 +215,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data && data.settings && data.settings.entries && typeof data.settings.entries === 'object') {
             entriesByGroup = data.settings.entries;
         }
+        if (data && data.settings && Array.isArray(data.settings.ideas)) {
+            ideas = data.settings.ideas;
+        }
     }
 
     async function saveSettings() {
@@ -199,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .upsert({
                 user_id: user.id,
                 tool_name: TOOL_NAME,
-                settings: { entries: entriesByGroup },
+                settings: { entries: entriesByGroup, ideas: ideas },
                 updated_at: new Date().toISOString()
             }, { onConflict: 'user_id,tool_name' });
     }
@@ -323,9 +352,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function renderIdeas() {
+        if (!selectedPhaseId) { ideasSection.style.display = 'none'; return; }
+        ideasSection.style.display = '';
+        const p = PHASE_BY_ID[selectedPhaseId];
+        ideasSection.style.setProperty('--phase-color', p.color);
+        const list = ideas.filter(i => i.phase === selectedPhaseId);
+        ideasEl.innerHTML = '';
+        if (!list.length) { ideasEmpty.style.display = ''; return; }
+        ideasEmpty.style.display = 'none';
+        list.forEach(idea => {
+            const card = document.createElement('div');
+            card.className = 'gf-idea-card';
+            card.style.setProperty('--phase-color', p.color);
+            let html = '<div class="gf-idea-card-title">' + escapeHtml(idea.title) + '</div>';
+            if (idea.desc) html += '<p class="gf-idea-card-desc">' + escapeHtml(idea.desc) + '</p>';
+            if (idea.file && idea.file.path) {
+                html += '<span class="gf-idea-file" role="button" tabindex="0">\u{1F4CE} ' +
+                    escapeHtml(idea.file.name || 'Document') + '</span>';
+            }
+            card.innerHTML = html;
+            const fileLink = card.querySelector('.gf-idea-file');
+            if (fileLink) fileLink.addEventListener('click', () => openFile(idea.file.path));
+            ideasEl.appendChild(card);
+        });
+    }
+
     function renderAll() {
         renderPhases();
         renderDetail();
+        renderIdeas();
         renderForm();
         renderTimeline();
     }
@@ -335,6 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedPhaseId = id;
         renderPhases();
         renderDetail();
+        renderIdeas();
         renderForm();
     }
 
@@ -409,7 +466,202 @@ document.addEventListener('DOMContentLoaded', () => {
         renderAll();
     }
 
+    // ---------- Lesideeën ----------
+    async function openFile(path) {
+        if (!path) return;
+        try {
+            const { data, error } = await supabase.storage.from(BUCKET).createSignedUrl(path, 120);
+            if (error || !data) throw error || new Error('Geen url');
+            window.open(data.signedUrl, '_blank', 'noopener');
+        } catch (e) {
+            alert('Kon het document niet openen. Probeer het later opnieuw.');
+        }
+    }
+
+    function setIdeaMsg(text, type) {
+        ideaMsg.textContent = text || '';
+        ideaMsg.className = 'gf-idea-msg' + (type ? ' ' + type : '');
+        if (type === 'success') {
+            setTimeout(() => {
+                if (ideaMsg.textContent === text) { ideaMsg.textContent = ''; ideaMsg.className = 'gf-idea-msg'; }
+            }, 4000);
+        }
+    }
+
+    function populatePhaseSelect() {
+        ideaPhaseSel.innerHTML = PHASES.map(p =>
+            '<option value="' + p.id + '">' + escapeHtml(p.name + ' (' + p.tuckman + ')') + '</option>'
+        ).join('');
+    }
+
+    function resetIdeaForm() {
+        editingIdeaId = null;
+        removeExistingFile = false;
+        ideaTitleInput.value = '';
+        ideaDescInput.value = '';
+        ideaFileInput.value = '';
+        fileCurrent.style.display = 'none';
+        fileCurrent.innerHTML = '';
+        ideaFormTitle.textContent = 'Nieuw lesidee';
+        ideaSaveBtn.textContent = 'Lesidee opslaan';
+        ideaCancelBtn.style.display = 'none';
+        setIdeaMsg('', '');
+    }
+
+    function renderModalList() {
+        if (!ideas.length) {
+            modalList.innerHTML = '<div class="gf-modal-empty">Je hebt nog geen lesideeën. Voeg hieronder je eerste idee toe &mdash; je kunt het elk jaar opnieuw gebruiken.</div>';
+            return;
+        }
+        let html = '<div class="gf-modal-list-title">Jouw lesideeën</div>';
+        PHASES.forEach(p => {
+            ideas.filter(i => i.phase === p.id).forEach(idea => {
+                html +=
+                    '<div class="gf-modal-item">' +
+                        '<div class="gf-modal-item-body">' +
+                            '<div class="gf-modal-item-title">' + escapeHtml(idea.title) + '</div>' +
+                            '<div class="gf-modal-item-meta">' + p.emoji + ' ' + escapeHtml(p.name) +
+                                (idea.file ? ' &middot; \u{1F4CE} bestand' : '') + '</div>' +
+                        '</div>' +
+                        '<div class="gf-modal-item-actions">' +
+                            '<button class="gf-icon-btn" data-edit="' + idea.id + '" title="Bewerken">✎</button>' +
+                            '<button class="gf-icon-btn gf-del" data-del="' + idea.id + '" title="Verwijderen">\u{1F5D1}</button>' +
+                        '</div>' +
+                    '</div>';
+            });
+        });
+        modalList.innerHTML = html;
+        modalList.querySelectorAll('[data-edit]').forEach(b =>
+            b.addEventListener('click', () => startEditIdea(b.getAttribute('data-edit'))));
+        modalList.querySelectorAll('[data-del]').forEach(b =>
+            b.addEventListener('click', () => deleteIdea(b.getAttribute('data-del'))));
+    }
+
+    function startEditIdea(id) {
+        const idea = ideas.find(i => i.id === id);
+        if (!idea) return;
+        editingIdeaId = id;
+        removeExistingFile = false;
+        ideaPhaseSel.value = idea.phase;
+        ideaTitleInput.value = idea.title || '';
+        ideaDescInput.value = idea.desc || '';
+        ideaFileInput.value = '';
+        if (idea.file && idea.file.path) {
+            fileCurrent.style.display = '';
+            fileCurrent.innerHTML = '\u{1F4CE} ' + escapeHtml(idea.file.name || 'Document') +
+                ' <button type="button" class="gf-file-remove" id="gfFileRemoveBtn">verwijderen</button>';
+            const rm = document.getElementById('gfFileRemoveBtn');
+            if (rm) rm.addEventListener('click', () => {
+                removeExistingFile = true;
+                fileCurrent.style.display = 'none';
+                fileCurrent.innerHTML = '';
+            });
+        } else {
+            fileCurrent.style.display = 'none';
+            fileCurrent.innerHTML = '';
+        }
+        ideaFormTitle.textContent = 'Lesidee bewerken';
+        ideaSaveBtn.textContent = 'Wijzigingen opslaan';
+        ideaCancelBtn.style.display = '';
+        setIdeaMsg('', '');
+        ideaForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    async function saveIdea(e) {
+        e.preventDefault();
+        const title = ideaTitleInput.value.trim();
+        if (!title) { setIdeaMsg('Geef je lesidee een titel.', 'error'); return; }
+        const user = await getSessionUser();
+        if (!user) { setIdeaMsg('Je bent niet ingelogd.', 'error'); return; }
+
+        const picked = ideaFileInput.files && ideaFileInput.files[0] ? ideaFileInput.files[0] : null;
+        if (picked && picked.size > MAX_FILE_BYTES) {
+            setIdeaMsg('Het bestand is groter dan 10 MB.', 'error');
+            return;
+        }
+
+        ideaSaveBtn.disabled = true;
+        ideaSaveBtn.textContent = 'Opslaan...';
+        setIdeaMsg('', '');
+
+        try {
+            const phase = ideaPhaseSel.value;
+            const desc = ideaDescInput.value.trim();
+            const id = editingIdeaId || newId();
+            const existing = editingIdeaId ? ideas.find(i => i.id === id) : null;
+            let fileMeta = existing && existing.file ? existing.file : null;
+
+            // Oud bestand weg als het expliciet verwijderd of vervangen wordt.
+            if ((removeExistingFile || picked) && fileMeta && fileMeta.path) {
+                await supabase.storage.from(BUCKET).remove([fileMeta.path]);
+                fileMeta = null;
+            }
+            // Nieuw bestand uploaden.
+            if (picked) {
+                const safeName = picked.name.replace(/[^\w.\-]+/g, '_');
+                const path = user.id + '/' + id + '/' + safeName;
+                const up = await supabase.storage.from(BUCKET).upload(path, picked, { upsert: true });
+                if (up.error) throw up.error;
+                fileMeta = { path: path, name: picked.name };
+            }
+
+            const record = { id: id, phase: phase, title: title, desc: desc, file: fileMeta };
+            if (existing) Object.assign(existing, record);
+            else ideas.push(record);
+
+            await saveSettings();
+            renderModalList();
+            renderIdeas();
+            resetIdeaForm();
+            ideaPhaseSel.value = phase; // blijf handig op dezelfde fase staan
+            setIdeaMsg('Lesidee opgeslagen!', 'success');
+        } catch (err) {
+            setIdeaMsg('Fout bij opslaan: ' + (err && err.message ? err.message : err), 'error');
+        } finally {
+            ideaSaveBtn.disabled = false;
+            ideaSaveBtn.textContent = editingIdeaId ? 'Wijzigingen opslaan' : 'Lesidee opslaan';
+        }
+    }
+
+    async function deleteIdea(id) {
+        const idea = ideas.find(i => i.id === id);
+        if (!idea) return;
+        if (!confirm('Dit lesidee verwijderen?')) return;
+        if (idea.file && idea.file.path) {
+            try { await supabase.storage.from(BUCKET).remove([idea.file.path]); } catch (e) {}
+        }
+        ideas = ideas.filter(i => i.id !== id);
+        if (editingIdeaId === id) resetIdeaForm();
+        await saveSettings();
+        renderModalList();
+        renderIdeas();
+    }
+
+    function openModal(prefillPhase) {
+        populatePhaseSelect();
+        resetIdeaForm();
+        if (prefillPhase) ideaPhaseSel.value = prefillPhase;
+        renderModalList();
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
     // ---------- Events ----------
+    settingsBtn.addEventListener('click', () => openModal(selectedPhaseId));
+    ideasAddBtn.addEventListener('click', () => { openModal(selectedPhaseId); setTimeout(() => ideaTitleInput.focus(), 50); });
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+    });
+    ideaForm.addEventListener('submit', saveIdea);
+    ideaCancelBtn.addEventListener('click', resetIdeaForm);
+
     groupSelect.addEventListener('change', () => {
         const id = groupSelect.value;
         applyGroup(id);

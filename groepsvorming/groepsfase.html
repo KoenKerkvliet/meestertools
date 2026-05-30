@@ -37,6 +37,7 @@
                 <h1>Groepsfase-tracker</h1>
                 <p>Houd bij in welke fase je groep zit en krijg passende werkvormen.</p>
             </div>
+            <button class="tool-settings-btn" id="gfSettingsBtn" title="Lesideeën beheren">&#9881;&#65039;</button>
         </div>
 
         <div class="tool-page-body">
@@ -66,6 +67,18 @@
                 <!-- Detailpaneel van gekozen fase -->
                 <div class="gf-detail" id="gfDetail" style="display:none;"></div>
 
+                <!-- Lesideeën bij deze fase -->
+                <div class="gf-ideas-section" id="gfIdeasSection" style="display:none;">
+                    <div class="gf-ideas-head">
+                        <h2 class="gf-section-title">Lesideeën bij deze fase</h2>
+                        <button class="gf-ideas-add" id="gfIdeasAddBtn" title="Lesidee toevoegen">+ Lesidee</button>
+                    </div>
+                    <div class="gf-ideas" id="gfIdeas"></div>
+                    <div class="gf-ideas-empty" id="gfIdeasEmpty">
+                        Nog geen lesideeën voor deze fase. Voeg er een toe &mdash; je kunt 'm elk schooljaar opnieuw gebruiken.
+                    </div>
+                </div>
+
                 <!-- Peilmoment vastleggen -->
                 <div class="gf-log-form" id="gfLogForm" style="display:none;">
                     <div class="gf-log-row">
@@ -93,6 +106,50 @@
             </div>
         </div>
     </main>
+
+    <!-- Lesideeën-beheer modal -->
+    <div class="modal-overlay" id="gfModal">
+        <div class="modal gf-modal">
+            <div class="modal-header">
+                <h2 id="gfModalTitle">Lesideeën</h2>
+                <button class="modal-close" id="gfModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Lijst van bestaande lesideeën -->
+                <div id="gfModalList"></div>
+
+                <!-- Formulier nieuw/bewerken -->
+                <form class="gf-idea-form" id="gfIdeaForm">
+                    <h3 class="gf-idea-form-title" id="gfIdeaFormTitle">Nieuw lesidee</h3>
+                    <div class="form-group">
+                        <label for="gfIdeaPhase">Bij welke fase hoort dit?</label>
+                        <select id="gfIdeaPhase"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="gfIdeaTitle">Titel</label>
+                        <input type="text" id="gfIdeaTitle" placeholder="Bijv. Kennismakingsbingo" maxlength="120">
+                    </div>
+                    <div class="form-group">
+                        <label for="gfIdeaDesc">Omschrijving</label>
+                        <textarea id="gfIdeaDesc" rows="4" placeholder="Hoe pak je deze les aan? Wat heb je nodig?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="gfIdeaFile">Document (optioneel)</label>
+                        <div class="gf-file-row">
+                            <input type="file" id="gfIdeaFile" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.png,.jpg,.jpeg">
+                            <div class="gf-file-current" id="gfFileCurrent" style="display:none;"></div>
+                        </div>
+                        <p class="gf-file-hint">Max. 10 MB. Handig om je werkblad of uitleg te bewaren voor volgend jaar.</p>
+                    </div>
+                    <div class="gf-idea-form-actions">
+                        <button type="button" class="gf-cancel-edit" id="gfIdeaCancel" style="display:none;">Annuleren</button>
+                        <button type="submit" class="btn-primary" id="gfIdeaSave">Lesidee opslaan</button>
+                    </div>
+                    <div class="gf-idea-msg" id="gfIdeaMsg"></div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <footer id="app-footer-slot"></footer>
 

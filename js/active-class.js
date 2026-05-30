@@ -81,6 +81,11 @@
                     if (list[i].id === active) return active;
                 }
             }
+            // Geen (geldige) actieve klas, maar precies één klas -> kies die automatisch.
+            if (list.length === 1 && list[0] && list[0].id) {
+                setId(list[0].id, list[0].name);
+                return list[0].id;
+            }
             return currentId || '';
         }
     };
@@ -160,6 +165,12 @@
         if (active && !lookupName(active)) {
             // groep bestaat niet meer (of is gearchiveerd) -> stilletjes wissen
             try { localStorage.removeItem(KEY); localStorage.removeItem(KEY_NAME); } catch (e) {}
+        }
+
+        // Precies één klas? Maak die automatisch de actieve klas, zodat je niet
+        // apart hoeft te kiezen.
+        if (!getId() && groups.length === 1) {
+            setId(groups[0].id, groups[0].name);
         }
 
         if (groups.length) buildWidget(header);

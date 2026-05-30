@@ -180,6 +180,20 @@
     border-radius: 6px;
 }
 
+.sociogram-mode {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0 0 28px;
+    padding-top: 12px;
+    border-top: 1px dashed #E6E8F0;
+}
+.sociogram-mode .radio-option {
+    align-items: flex-start;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
 .form-warning a {
     color: var(--primary);
     font-weight: 600;

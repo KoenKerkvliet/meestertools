@@ -17,12 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const useSociogramCheckbox = document.getElementById('useSociogramCheckbox');
     const sociogramWarning = document.getElementById('sociogramWarning');
     const sociogramHint = document.getElementById('sociogramHint');
+    const sociogramModeGroup = document.getElementById('sociogramModeGroup');
 
     // State
     let selectedGroupId = null;
     let splitMethod = 'numGroups';
     let splitCount = 2;
     let useSociogram = false;
+    let sociogramMode = 'samen'; // 'samen' = vrienden bij elkaar | 'mix' = vrienden uit elkaar
     let groups = [];
     let students = [];          // [{id, first_name, last_name}, ...]
     let sociogramConstraints = null; // { mutualNegativeIds: Set<'a:b'>, mutualPositiveIds: Set<'a:b'>, sessionInfo: {...} } | null
@@ -51,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.settings.splitMethod) splitMethod = data.settings.splitMethod;
             if (data.settings.splitCount) splitCount = data.settings.splitCount;
             if (data.settings.useSociogram) useSociogram = data.settings.useSociogram;
+            if (data.settings.sociogramMode) sociogramMode = data.settings.sociogramMode;
         }
 
         // Load user's groups
@@ -185,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .upsert({
                 user_id: user.id,
                 tool_name: TOOL_NAME,
-                settings: { selectedGroupId, splitMethod, splitCount, useSociogram },
+                settings: { selectedGroupId, splitMethod, splitCount, useSociogram, sociogramMode },
                 updated_at: new Date().toISOString()
             }, { onConflict: 'user_id,tool_name' });
     }
@@ -288,7 +291,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     var key = a < b ? a + ':' + b : b + ':' + a;
                     if (sociogramConstraints.mutualNeg.has(key)) cost += 1000;
                     else if (sociogramConstraints.oneWayNeg.has(key)) cost += 10;
-                    if (sociogramConstraints.mutualPos.has(key)) cost -= 1;
+                    if (sociogramConstraints.mutualPos.has(key)) {
+                        // 'samen': vrienden bij elkaar belonen (lagere cost).
+                        // 'mix': vrienden in zelfde groep juist bestraffen, zodat ze
+                        // over verschillende groepjes verdeeld worden.
+                        cost += (sociogramMode === 'mix') ? 8 : -1;
+                    }
                 }
             }
         }
@@ -420,7 +428,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Bouw tooltip text (multi-line via \n in data-tooltip)
             var tooltipLines = ['Sociogram toegepast: ' + sessionLabel];
-            tooltipLines.push('✓ ' + stats.mutualPos + ' wederzijds positieve band' + (stats.mutualPos === 1 ? '' : 'en') + ' samen geplaatst');
+            if (sociogramMode === 'mix') {
+                var totalPos = sociogramConstraints.mutualPos.size;
+                var separated = totalPos - stats.mutualPos;
+                tooltipLines.push('✓ ' + separated + ' van ' + totalPos + ' vriendenpaar' + (totalPos === 1 ? '' : 'paren') + ' uit elkaar gehaald');
+            } else {
+                tooltipLines.push('✓ ' + stats.mutualPos + ' wederzijds positieve band' + (stats.mutualPos === 1 ? '' : 'en') + ' samen geplaatst');
+            }
             if (stats.mutualNeg === 0) {
                 tooltipLines.push('✓ 0 wederzijds-negatieve paren in zelfde groep');
             } else {
@@ -485,8 +499,12 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSplitLabel();
         splitCountSelect.value = splitCount;
 
-        // Sociogram checkbox + warning
+        // Sociogram checkbox + warning + modus
         useSociogramCheckbox.checked = useSociogram;
+        var modeRadios = document.querySelectorAll('input[name="sociogramMode"]');
+        for (var m = 0; m < modeRadios.length; m++) {
+            modeRadios[m].checked = modeRadios[m].value === sociogramMode;
+        }
         updateSociogramHint();
     }
 
@@ -497,6 +515,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             sociogramWarning.style.display = 'block';
             sociogramHint.style.display = 'none';
+        }
+        // Modus-keuze alleen tonen als er een sociogram is én de optie aan staat.
+        if (sociogramModeGroup) {
+            sociogramModeGroup.style.display =
+                (sociogramConstraints && useSociogramCheckbox.checked) ? 'block' : 'none';
         }
     }
 
@@ -534,6 +557,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Sociogram-checkbox aan/uit → modus-keuze tonen of verbergen
+    useSociogramCheckbox.addEventListener('change', updateSociogramHint);
+
     // Group dropdown change → reload sociogram preview voor de gekozen groep
     selectGroup.addEventListener('change', async function () {
         var pendingGroupId = selectGroup.value;
@@ -556,9 +582,11 @@ document.addEventListener('DOMContentLoaded', () => {
         var newSplitMethod = checkedRadio ? checkedRadio.value : 'numGroups';
         var newSplitCount = parseInt(splitCountSelect.value) || 2;
 
+        var checkedMode = document.querySelector('input[name="sociogramMode"]:checked');
         splitMethod = newSplitMethod;
         splitCount = newSplitCount;
         useSociogram = useSociogramCheckbox.checked;
+        sociogramMode = checkedMode ? checkedMode.value : 'samen';
 
         if (newGroupId !== selectedGroupId) {
             selectedGroupId = newGroupId;
