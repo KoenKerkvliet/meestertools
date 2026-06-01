@@ -995,6 +995,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (activeRewardTab === 'inwisselen') { renderPrizeGrid(); return; }
         if (activeRewardTab === 'logboek')    { renderLogbookContent(); return; }
+        if (activeRewardTab === 'aanpassen')  { renderAdjustPanel(); return; }
 
         // positief / aandachtspunt
         var filtered = rewardTypes.filter(function (r) { return r.type === activeRewardTab; });
@@ -1215,6 +1216,120 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 600);
         });
     }
+
+    // ---------- Handmatig punten aanpassen + scores wissen ----------
+    // Punten-rijen vereisen een reward_type_id. Voor handmatige aanpassingen
+    // gebruiken we één gearchiveerd (en dus onzichtbaar) reward-type per gebruiker;
+    // het echte aantal staat in de punten-rij zelf.
+    var ADJUST_LABEL = 'Handmatig aangepast';
+    var adjustRewardTypeId = null;
+    async function getAdjustRewardTypeId() {
+        if (adjustRewardTypeId) return adjustRewardTypeId;
+        var sel = await supabase.from('klasseprestatie_reward_types')
+            .select('id').eq('user_id', currentUser.id).eq('label', ADJUST_LABEL).limit(1).maybeSingle();
+        if (sel.data && sel.data.id) { adjustRewardTypeId = sel.data.id; return adjustRewardTypeId; }
+        var ins = await supabase.from('klasseprestatie_reward_types')
+            .insert({ user_id: currentUser.id, type: 'positief', icon: '✏️', label: ADJUST_LABEL, points: 1, archived: true, sort_order: 999 })
+            .select('id').single();
+        if (ins.error) { console.error('adjust reward type:', ins.error.message); return null; }
+        adjustRewardTypeId = ins.data ? ins.data.id : null;
+        return adjustRewardTypeId;
+    }
+
+    async function adjustPoints(studentIds, amount) {
+        if (!currentUser || !amount) return;
+        var rtId = await getAdjustRewardTypeId();
+        if (!rtId) { showToast('Kon punten niet aanpassen.'); return; }
+        var rows = studentIds.map(function (sid) {
+            return { user_id: currentUser.id, student_id: sid, reward_type_id: rtId, points: amount };
+        });
+        var { error } = await supabase.from('klasseprestatie_points').insert(rows);
+        if (error) { showToast('Opslaan mislukt: ' + error.message); return; }
+        studentIds.forEach(function (sid) {
+            pointsByStudent[sid] = (pointsByStudent[sid] || 0) + amount;
+        });
+        var s = students.find(function (x) { return x.id === studentIds[0]; });
+        var naam = s ? (s.first_name || studentName(s)) : 'Leerling';
+        showToast((amount > 0 ? '➕ ' : '➖ ') + naam + ': ' + (amount > 0 ? '+' : '') + amount + ' punten');
+        closeRewardModal();
+        render();
+        flashCards(studentIds, amount > 0);
+    }
+
+    async function clearStudentScore(studentId) {
+        var s = students.find(function (x) { return x.id === studentId; });
+        var naam = s ? (s.first_name || studentName(s)) : 'deze leerling';
+        if (!confirm('Alle punten én inwissel-geschiedenis van ' + naam + ' wissen? Het saldo gaat naar 0. Dit kan niet ongedaan worden gemaakt.')) return;
+        var res = await Promise.all([
+            supabase.from('klasseprestatie_points').delete().eq('user_id', currentUser.id).eq('student_id', studentId),
+            supabase.from('klasseprestatie_redemptions').delete().eq('user_id', currentUser.id).eq('student_id', studentId)
+        ]);
+        if (res.some(function (r) { return r && r.error; })) { showToast('Wissen mislukt.'); return; }
+        pointsByStudent[studentId] = 0;
+        redemptions[studentId] = [];
+        showToast('\u{1F9F9} Punten van ' + naam + ' gewist.');
+        closeRewardModal();
+        render();
+    }
+
+    async function clearClassScores() {
+        if (!students.length) { showToast('Geen leerlingen in deze klas.'); return; }
+        var g = groups.find(function (x) { return x.id === selectedGroupId; });
+        var groupName = g ? g.name : 'deze klas';
+        if (!confirm('Weet je het zeker? Alle punten én inwissel-geschiedenis van ALLE leerlingen in ' + groupName + ' worden gewist. Dit kan niet ongedaan worden gemaakt.')) return;
+        var ids = students.map(function (s) { return s.id; });
+        var res = await Promise.all([
+            supabase.from('klasseprestatie_points').delete().eq('user_id', currentUser.id).in('student_id', ids),
+            supabase.from('klasseprestatie_redemptions').delete().eq('user_id', currentUser.id).in('student_id', ids)
+        ]);
+        if (res.some(function (r) { return r && r.error; })) { showToast('Wissen mislukt.'); return; }
+        students.forEach(function (s) { pointsByStudent[s.id] = 0; redemptions[s.id] = []; });
+        showToast('\u{1F9F9} Alle scores van ' + groupName + ' gewist.');
+        if (settingsModal) settingsModal.classList.remove('active');
+        render();
+    }
+
+    function renderAdjustPanel() {
+        var studentId = singleStudentId;
+        if (!studentId) { rewardGrid.innerHTML = ''; return; }
+        var s = students.find(function (x) { return x.id === studentId; });
+        var naam = s ? (s.first_name || studentName(s)) : 'leerling';
+        var pts = pointsByStudent[studentId] || 0;
+
+        rewardGrid.innerHTML =
+            '<div class="kpr-adjust">' +
+                '<div class="kpr-adjust-balance">Huidig saldo: <strong>' + pts + ' punt' + (pts === 1 ? '' : 'en') + '</strong></div>' +
+                '<p class="kpr-adjust-hint">Tel een aantal punten op of trek ze af — handig om punten over te nemen uit een ander systeem.</p>' +
+                '<div class="kpr-adjust-row">' +
+                    '<input type="number" id="kprAdjustInput" class="kpr-adjust-input" min="1" max="100000" placeholder="bijv. 113" inputmode="numeric">' +
+                    '<button class="kpr-adjust-btn kpr-adjust-plus" id="kprAdjustPlus">&plus; Toevoegen</button>' +
+                    '<button class="kpr-adjust-btn kpr-adjust-minus" id="kprAdjustMinus">&minus; Aftrekken</button>' +
+                '</div>' +
+                '<div class="kpr-adjust-danger">' +
+                    '<button class="kpr-btn-danger" id="kprAdjustClear">&#128465;&#65039; Wis alle punten van ' + escapeHtml(naam) + '</button>' +
+                '</div>' +
+            '</div>';
+
+        var input = document.getElementById('kprAdjustInput');
+        input.focus();
+        function readAmount() {
+            var n = parseInt(input.value, 10);
+            if (!n || n <= 0) { input.focus(); return 0; }
+            return n;
+        }
+        document.getElementById('kprAdjustPlus').addEventListener('click', function () {
+            var n = readAmount(); if (n) adjustPoints([studentId], n);
+        });
+        document.getElementById('kprAdjustMinus').addEventListener('click', function () {
+            var n = readAmount(); if (n) adjustPoints([studentId], -n);
+        });
+        document.getElementById('kprAdjustClear').addEventListener('click', function () {
+            clearStudentScore(studentId);
+        });
+    }
+
+    var btnClearClass = document.getElementById('kprBtnClearClass');
+    if (btnClearClass) btnClearClass.addEventListener('click', clearClassScores);
 
     // ---------- Toolbar modus-knoppen (eenmalig gewired) ----------
     function updateToolbarState() {

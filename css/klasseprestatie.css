@@ -1253,3 +1253,36 @@
 }
 
 .kpr-toast-icon { font-size: 18px; }
+
+/* ---------- Handmatig punten aanpassen (reward-modal tab) ---------- */
+.kpr-adjust { padding: 8px 4px 4px; }
+.kpr-adjust-balance {
+    font-size: 16px; color: var(--text-dark, #2D3436);
+    background: var(--bg-light, #F1F0FA); border-radius: 12px;
+    padding: 12px 16px; text-align: center;
+}
+.kpr-adjust-hint { font-size: 13px; color: var(--text-medium, #636E72); margin: 12px 2px 14px; line-height: 1.5; }
+.kpr-adjust-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.kpr-adjust-input {
+    flex: 1 1 110px; min-width: 0; padding: 12px 14px; font-size: 18px; font-weight: 700;
+    text-align: center; border: 2px solid var(--border, #E8E8F0); border-radius: 12px;
+    color: var(--text-dark, #2D3436);
+}
+.kpr-adjust-input:focus { outline: none; border-color: var(--primary, #6C63FF); }
+.kpr-adjust-btn {
+    border: none; border-radius: 12px; padding: 12px 18px; font-size: 15px; font-weight: 700;
+    cursor: pointer; white-space: nowrap;
+}
+.kpr-adjust-plus { background: #DFF5E3; color: #1E7B3A; }
+.kpr-adjust-plus:hover { background: #C9EDD0; }
+.kpr-adjust-minus { background: #FCE7E7; color: #C0392B; }
+.kpr-adjust-minus:hover { background: #F6D6D6; }
+.kpr-adjust-danger { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--border, #E8E8F0); }
+
+/* ---------- Gevarenzone (instellingen) + wis-knop ---------- */
+.kpr-danger-zone { margin-top: 4px; }
+.kpr-btn-danger {
+    width: 100%; border: 1px solid #F0C2C2; background: #FCE7E7; color: #C0392B;
+    border-radius: 12px; padding: 12px 16px; font-size: 14px; font-weight: 700; cursor: pointer;
+}
+.kpr-btn-danger:hover { background: #F6D6D6; }
