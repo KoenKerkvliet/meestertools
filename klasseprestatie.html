@@ -43,6 +43,13 @@
                 <button class="kpr-tool-btn" id="kprBtnAttendance" title="Aanwezigheid bijhouden"><span class="kpr-tool-ic">&#128100;</span><span class="kpr-tool-lbl">Aanwezig</span></button>
                 <button class="kpr-tool-btn" id="kprBtnSelect" title="Leerlingen selecteren"><span class="kpr-tool-ic">&#9745;&#65039;</span><span class="kpr-tool-lbl">Selecteer</span></button>
                 <button class="kpr-tool-btn" id="kprBtnMinutenspel" title="Minutenspel"><span class="kpr-tool-ic">&#127922;</span><span class="kpr-tool-lbl">Minutenspel</span></button>
+                <div class="kpr-tools-dd" id="kprToolsDd">
+                    <button class="kpr-tool-btn" id="kprBtnTools" title="Extra tools" aria-haspopup="true" aria-expanded="false"><span class="kpr-tool-ic">&#129520;</span><span class="kpr-tool-lbl">Tools</span></button>
+                    <div class="kpr-tools-menu" id="kprToolsMenu" hidden>
+                        <button type="button" class="kpr-tools-menu-item" data-tool="timer"><span>&#9201;&#65039;</span> Timer</button>
+                        <button type="button" class="kpr-tools-menu-item" data-tool="stoplicht"><span>&#128678;</span> Stoplicht</button>
+                    </div>
+                </div>
                 <button class="tool-settings-btn" id="kprBtnSettings" title="Instellingen">&#9881;&#65039;</button>
             </div>
         </div>
@@ -51,6 +58,10 @@
             <div id="kprContainer" class="kpr-container">
                 <!-- Wordt door JS gevuld -->
             </div>
+
+            <!-- Tools-balk (timer, stoplicht) — staat los van render() zodat
+                 de timer blijft lopen als de leerlingen opnieuw getekend worden. -->
+            <div id="kprToolsTray" class="kpr-tools-tray" hidden></div>
 
             <!-- Task reveal popup (fullscreen overlay tijdens taskRevealed phase) -->
             <div id="kprTaskOverlay" class="kpr-task-overlay" style="display:none;">
@@ -245,6 +256,38 @@
         </div>
     </div>
 
+    <!-- Timer instellen -->
+    <div class="modal-overlay" id="kprTimerModal">
+        <div class="modal kpr-timer-modal">
+            <div class="modal-header">
+                <h2>&#9201;&#65039; Timer instellen</h2>
+                <button class="modal-close" id="kprTimerClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="kpr-timer-presets" id="kprTimerPresets">
+                    <button type="button" data-sec="60">1 min</button>
+                    <button type="button" data-sec="120">2 min</button>
+                    <button type="button" data-sec="300">5 min</button>
+                    <button type="button" data-sec="600">10 min</button>
+                    <button type="button" data-sec="900">15 min</button>
+                </div>
+                <div class="kpr-timer-inputs">
+                    <label>Minuten
+                        <input type="number" id="kprTimerMin" min="0" max="180" value="5" inputmode="numeric">
+                    </label>
+                    <span class="kpr-timer-colon">:</span>
+                    <label>Seconden
+                        <input type="number" id="kprTimerSec" min="0" max="59" value="0" inputmode="numeric">
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="kprTimerCancel">Annuleren</button>
+                <button class="btn-primary" id="kprTimerStart">&#9654; Start</button>
+            </div>
+        </div>
+    </div>
+
     <footer id="app-footer-slot"></footer>
 
     <script src="/js/template.js"></script>
@@ -255,5 +298,6 @@
     <script src="/js/active-class.js"></script>
     <script src="js/instellingen.js"></script>
     <script src="js/klasseprestatie.js"></script>
+    <script src="js/kpr-tools.js"></script>
 </body>
 </html>
