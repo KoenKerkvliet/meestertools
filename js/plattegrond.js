@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var students = [];
     var selectedGroupId = '';
     var store = { byGroup: {} };
-    var layout = { type: 'rijen', seatsPerRow: 5, tableSeats: 4, grid: emptyGrid() };
+    var layout = { type: 'rijen', rows: 0, seatsPerRow: 5, tableSeats: 4, grid: emptyGrid() }; // rows 0 = automatisch
     var placement = [];          // [studentId|null, ...] per seat-index
     var selected = null;         // { kind:'pool', id } | { kind:'seat', index }
     var monsterByStudentId = {};
@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var typeSeg = document.getElementById('pgTypeSeg');
     var setRijen = document.getElementById('pgSetRijen');
     var setGrid = document.getElementById('pgSetGrid');
+    var rowsInput = document.getElementById('pgRows');
     var seatsPerRowInput = document.getElementById('pgSeatsPerRow');
     var tableSeatsInput = document.getElementById('pgTableSeats');
     var gridEditor = document.getElementById('pgGridEditor');
@@ -162,13 +163,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     function restoreForGroup() {
-        layout = { type: 'rijen', seatsPerRow: 5, tableSeats: 4, grid: emptyGrid() };
+        layout = { type: 'rijen', rows: 0, seatsPerRow: 5, tableSeats: 4, grid: emptyGrid() };
         placement = [];
         var g = store.byGroup ? store.byGroup[selectedGroupId] : null;
         if (g && g.layout) {
             var L = g.layout;
             layout.type = (L.type === 'groepjes' || L.type === 'mix') ? L.type : 'rijen';
-            layout.seatsPerRow = clampInt(L.seatsPerRow, 2, 8, 5);
+            layout.rows = L.rows ? clampInt(L.rows, 1, 12, 0) : 0;   // 0 = automatisch
+            layout.seatsPerRow = clampInt(L.seatsPerRow, 1, 10, 5);
             layout.tableSeats = clampInt(L.tableSeats, 2, 6, 4);
             layout.grid = (Array.isArray(L.grid) && L.grid.length === 4) ? L.grid.map(function (row) {
                 return [0, 1, 2, 3].map(function (c) {
@@ -202,9 +204,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // ---------- Seat-berekening ----------
     function computeSeats() {
         if (layout.type === 'rijen') {
-            var spr = clampInt(layout.seatsPerRow, 2, 8, 5);
+            var spr = clampInt(layout.seatsPerRow, 1, 10, 5);
             var n = students.length;
-            var rows = Math.max(1, Math.ceil(Math.max(n, 1) / spr));
+            var autoRows = Math.max(1, Math.ceil(Math.max(n, 1) / spr));
+            var rows = layout.rows ? clampInt(layout.rows, 1, 12, autoRows) : autoRows;
             return { kind: 'rows', rows: rows, cols: spr, seatCount: rows * spr };
         }
         var cells = [], idx = 0;
@@ -381,7 +384,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Instellingen ----------
     function openSettings() {
-        editLayout = { type: layout.type, seatsPerRow: layout.seatsPerRow, tableSeats: layout.tableSeats, grid: cloneGrid(layout.grid) };
+        editLayout = { type: layout.type, rows: layout.rows, seatsPerRow: layout.seatsPerRow, tableSeats: layout.tableSeats, grid: cloneGrid(layout.grid) };
+        // Toon het effectieve aantal rijen (ook als het op 'automatisch' stond)
+        var spr = clampInt(layout.seatsPerRow, 1, 10, 5);
+        var autoRows = Math.max(1, Math.ceil(Math.max(students.length, 1) / spr));
+        rowsInput.value = layout.rows ? clampInt(layout.rows, 1, 12, autoRows) : autoRows;
         seatsPerRowInput.value = editLayout.seatsPerRow;
         tableSeatsInput.value = editLayout.tableSeats;
         setSegActive(editLayout.type);
@@ -431,9 +438,10 @@ document.addEventListener('DOMContentLoaded', function () {
         renderGridEditor();
     });
     function saveSettings() {
-        editLayout.seatsPerRow = clampInt(seatsPerRowInput.value, 2, 8, 5);
+        editLayout.rows = clampInt(rowsInput.value, 1, 12, 4);
+        editLayout.seatsPerRow = clampInt(seatsPerRowInput.value, 1, 10, 5);
         editLayout.tableSeats = clampInt(tableSeatsInput.value, 2, 6, 4);
-        layout = { type: editLayout.type, seatsPerRow: editLayout.seatsPerRow, tableSeats: editLayout.tableSeats, grid: cloneGrid(editLayout.grid) };
+        layout = { type: editLayout.type, rows: editLayout.rows, seatsPerRow: editLayout.seatsPerRow, tableSeats: editLayout.tableSeats, grid: cloneGrid(editLayout.grid) };
         ensurePlacementSize();
         selected = null;
         persist();
@@ -469,7 +477,7 @@ document.addEventListener('DOMContentLoaded', function () {
             'h1{font-size:22px;color:#6C63FF;}' +
             '.sub{color:#777;font-size:12px;margin:2px 0 14px;}' +
             '.pg-front{background:#EEEDF8;color:#6C63FF;text-align:center;font-weight:700;font-size:13px;border-radius:8px;padding:6px;margin-bottom:14px;}' +
-            '.pg-rows{display:flex;flex-direction:column;gap:10px;}' +
+            '.pg-rows{display:flex;flex-direction:column;gap:22px;}' +
             '.pg-row{display:flex;gap:10px;justify-content:center;}' +
             '.pg-grid-room{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}' +
             '.pg-cell-empty{min-height:10px;}' +
@@ -486,8 +494,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var html = '<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8">' +
             '<title>Plattegrond' + (groupName ? ' — ' + escapeHtml(groupName) : '') + '</title><style>' + css + '</style></head><body>' +
             '<h1>Plattegrond</h1><div class="sub">' + (groupName ? escapeHtml(groupName) + ' · ' : '') + 'Meestertools</div>' +
-            '<div class="pg-front">Voorkant · digibord</div>' +
             room +
+            '<div class="pg-front" style="margin:14px 0 0;">Voorkant · digibord</div>' +
             '<script>window.onload=function(){setTimeout(function(){window.print();},400);};<\/script>' +
             '</body></html>';
         var w = window.open('', '_blank');

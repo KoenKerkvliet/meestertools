@@ -73,8 +73,8 @@
 
                 <!-- Plattegrond -->
                 <section class="pg-room-section">
-                    <div class="pg-front">&#128421;&#65039; Voorkant &middot; digibord</div>
                     <div class="pg-room" id="pgRoom"></div>
+                    <div class="pg-front pg-front-bottom">&#128421;&#65039; Voorkant &middot; digibord</div>
                 </section>
             </div>
         </div>
@@ -99,9 +99,17 @@
 
                 <!-- Rijen-instellingen -->
                 <div class="pg-set-block" id="pgSetRijen">
-                    <label class="pg-field-label" for="pgSeatsPerRow">Hoeveel naast elkaar in een rij</label>
-                    <input type="number" id="pgSeatsPerRow" class="pg-num" min="2" max="8" value="5">
-                    <p class="pg-set-hint">Het aantal rijen past zich automatisch aan je klas aan.</p>
+                    <div class="pg-rijen-fields">
+                        <div>
+                            <label class="pg-field-label" for="pgRows">Aantal rijen</label>
+                            <input type="number" id="pgRows" class="pg-num" min="1" max="12" value="4">
+                        </div>
+                        <div>
+                            <label class="pg-field-label" for="pgSeatsPerRow">Kinderen per rij</label>
+                            <input type="number" id="pgSeatsPerRow" class="pg-num" min="1" max="10" value="3">
+                        </div>
+                    </div>
+                    <p class="pg-set-hint">Tussen de rijen komt automatisch een looppad. Kinderen die niet passen blijven bij &lsquo;nog niet geplaatst&rsquo;.</p>
                 </div>
 
                 <!-- Groepjes / mix -->
@@ -122,8 +130,8 @@
     <!-- Presenteer-overlay -->
     <div class="pg-present" id="pgPresent" style="display:none;">
         <button class="pg-present-close" id="pgPresentClose" title="Sluiten">&#10005;</button>
-        <div class="pg-present-front">&#128421;&#65039; Voorkant &middot; digibord</div>
         <div class="pg-present-room" id="pgPresentRoom"></div>
+        <div class="pg-present-front pg-present-front-bottom">&#128421;&#65039; Voorkant &middot; digibord</div>
     </div>
 
     <!-- Toast -->
