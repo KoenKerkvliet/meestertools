@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var students = [];
     var selectedGroupId = '';
     var store = { byGroup: {} };
-    var layout = { type: 'rijen', rows: 0, seatsPerRow: 5, tableSeats: 4, grid: emptyGrid() }; // rows 0 = automatisch
+    var layout = { type: 'rijen', columns: 3, perDesk: 2, rowsPerColumn: 5, tableSeats: 4, grid: emptyGrid() };
     var placement = [];          // [studentId|null, ...] per seat-index
     var selected = null;         // { kind:'pool', id } | { kind:'seat', index }
     var monsterByStudentId = {};
@@ -53,8 +53,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var typeSeg = document.getElementById('pgTypeSeg');
     var setRijen = document.getElementById('pgSetRijen');
     var setGrid = document.getElementById('pgSetGrid');
-    var rowsInput = document.getElementById('pgRows');
-    var seatsPerRowInput = document.getElementById('pgSeatsPerRow');
+    var columnsInput = document.getElementById('pgColumns');
+    var perDeskInput = document.getElementById('pgPerDesk');
+    var rowsPerColInput = document.getElementById('pgRowsPerCol');
     var tableSeatsInput = document.getElementById('pgTableSeats');
     var gridEditor = document.getElementById('pgGridEditor');
     var gridHint = document.getElementById('pgGridHint');
@@ -163,14 +164,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     function restoreForGroup() {
-        layout = { type: 'rijen', rows: 0, seatsPerRow: 5, tableSeats: 4, grid: emptyGrid() };
+        layout = { type: 'rijen', columns: 3, perDesk: 2, rowsPerColumn: 5, tableSeats: 4, grid: emptyGrid() };
         placement = [];
         var g = store.byGroup ? store.byGroup[selectedGroupId] : null;
         if (g && g.layout) {
             var L = g.layout;
             layout.type = (L.type === 'groepjes' || L.type === 'mix') ? L.type : 'rijen';
-            layout.rows = L.rows ? clampInt(L.rows, 1, 12, 0) : 0;   // 0 = automatisch
-            layout.seatsPerRow = clampInt(L.seatsPerRow, 1, 10, 5);
+            layout.columns = clampInt(L.columns, 1, 8, 3);
+            layout.perDesk = clampInt(L.perDesk, 1, 4, 2);
+            layout.rowsPerColumn = clampInt(L.rowsPerColumn, 1, 8, 5);
             layout.tableSeats = clampInt(L.tableSeats, 2, 6, 4);
             layout.grid = (Array.isArray(L.grid) && L.grid.length === 4) ? L.grid.map(function (row) {
                 return [0, 1, 2, 3].map(function (c) {
@@ -204,11 +206,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // ---------- Seat-berekening ----------
     function computeSeats() {
         if (layout.type === 'rijen') {
-            var spr = clampInt(layout.seatsPerRow, 1, 10, 5);
-            var n = students.length;
-            var autoRows = Math.max(1, Math.ceil(Math.max(n, 1) / spr));
-            var rows = layout.rows ? clampInt(layout.rows, 1, 12, autoRows) : autoRows;
-            return { kind: 'rows', rows: rows, cols: spr, seatCount: rows * spr };
+            var cols = clampInt(layout.columns, 1, 8, 3);
+            var perDesk = clampInt(layout.perDesk, 1, 4, 2);
+            var rpc = clampInt(layout.rowsPerColumn, 1, 8, 5);
+            return { kind: 'columns', columns: cols, perDesk: perDesk, rowsPerColumn: rpc, seatCount: cols * rpc * perDesk };
         }
         var cells = [], idx = 0;
         for (var r = 0; r < 4; r++) {
@@ -314,12 +315,15 @@ document.addEventListener('DOMContentLoaded', function () {
         if (info.seatCount === 0) {
             return '<div class="pg-room-empty">Nog geen plekken. Open <strong>Opstelling</strong> en plaats tafels in het grid.</div>';
         }
-        if (info.kind === 'rows') {
-            var html = '<div class="pg-rows">';
-            for (var r = 0; r < info.rows; r++) {
-                html += '<div class="pg-row">';
-                for (var c = 0; c < info.cols; c++) {
-                    html += seatHtml(r * info.cols + c, opts);
+        if (info.kind === 'columns') {
+            var html = '<div class="pg-cols">';
+            var idx = 0;
+            for (var col = 0; col < info.columns; col++) {
+                html += '<div class="pg-col">';
+                for (var row = 0; row < info.rowsPerColumn; row++) {
+                    html += '<div class="pg-desk">';
+                    for (var d = 0; d < info.perDesk; d++) { html += seatHtml(idx, opts); idx++; }
+                    html += '</div>';
                 }
                 html += '</div>';
             }
@@ -384,12 +388,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Instellingen ----------
     function openSettings() {
-        editLayout = { type: layout.type, rows: layout.rows, seatsPerRow: layout.seatsPerRow, tableSeats: layout.tableSeats, grid: cloneGrid(layout.grid) };
-        // Toon het effectieve aantal rijen (ook als het op 'automatisch' stond)
-        var spr = clampInt(layout.seatsPerRow, 1, 10, 5);
-        var autoRows = Math.max(1, Math.ceil(Math.max(students.length, 1) / spr));
-        rowsInput.value = layout.rows ? clampInt(layout.rows, 1, 12, autoRows) : autoRows;
-        seatsPerRowInput.value = editLayout.seatsPerRow;
+        editLayout = { type: layout.type, columns: layout.columns, perDesk: layout.perDesk, rowsPerColumn: layout.rowsPerColumn, tableSeats: layout.tableSeats, grid: cloneGrid(layout.grid) };
+        columnsInput.value = clampInt(layout.columns, 1, 8, 3);
+        perDeskInput.value = clampInt(layout.perDesk, 1, 4, 2);
+        rowsPerColInput.value = clampInt(layout.rowsPerColumn, 1, 8, 5);
         tableSeatsInput.value = editLayout.tableSeats;
         setSegActive(editLayout.type);
         renderGridEditor();
@@ -438,10 +440,11 @@ document.addEventListener('DOMContentLoaded', function () {
         renderGridEditor();
     });
     function saveSettings() {
-        editLayout.rows = clampInt(rowsInput.value, 1, 12, 4);
-        editLayout.seatsPerRow = clampInt(seatsPerRowInput.value, 1, 10, 5);
+        editLayout.columns = clampInt(columnsInput.value, 1, 8, 3);
+        editLayout.perDesk = clampInt(perDeskInput.value, 1, 4, 2);
+        editLayout.rowsPerColumn = clampInt(rowsPerColInput.value, 1, 8, 5);
         editLayout.tableSeats = clampInt(tableSeatsInput.value, 2, 6, 4);
-        layout = { type: editLayout.type, rows: editLayout.rows, seatsPerRow: editLayout.seatsPerRow, tableSeats: editLayout.tableSeats, grid: cloneGrid(editLayout.grid) };
+        layout = { type: editLayout.type, columns: editLayout.columns, perDesk: editLayout.perDesk, rowsPerColumn: editLayout.rowsPerColumn, tableSeats: editLayout.tableSeats, grid: cloneGrid(editLayout.grid) };
         ensurePlacementSize();
         selected = null;
         persist();
@@ -477,8 +480,9 @@ document.addEventListener('DOMContentLoaded', function () {
             'h1{font-size:22px;color:#6C63FF;}' +
             '.sub{color:#777;font-size:12px;margin:2px 0 14px;}' +
             '.pg-front{background:#EEEDF8;color:#6C63FF;text-align:center;font-weight:700;font-size:13px;border-radius:8px;padding:6px;margin-bottom:14px;}' +
-            '.pg-rows{display:flex;flex-direction:column;gap:22px;}' +
-            '.pg-row{display:flex;gap:10px;justify-content:center;}' +
+            '.pg-cols{display:flex;gap:24px;justify-content:center;align-items:flex-start;}' +
+            '.pg-col{display:flex;flex-direction:column;gap:10px;}' +
+            '.pg-desk{display:flex;gap:6px;}' +
             '.pg-grid-room{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}' +
             '.pg-cell-empty{min-height:10px;}' +
             '.pg-table{display:grid;grid-template-columns:1fr 1fr;gap:6px;border:1px solid #E5E3F2;border-radius:12px;padding:8px;background:#FAFAFE;}' +
