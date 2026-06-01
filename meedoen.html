@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Doe mee met een activiteit van je juf of meester. Vul de code in en doe mee.">
+    <meta name="theme-color" content="#6C63FF">
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meedoen - Meestertools</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #6C63FF; }
+        html, body { height: 100%; }
+        body {
+            font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+            background: linear-gradient(160deg, #6C63FF 0%, #8B7FFF 50%, #FF7AA8 130%);
+            min-height: 100%;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 28px 16px 48px;
+            color: #2D3436;
+        }
+        .md-wrap { width: 100%; max-width: 460px; }
+        .md-brand {
+            text-align: center; color: #fff; font-weight: 800; font-size: 22px;
+            letter-spacing: -.01em; margin-bottom: 18px;
+        }
+        .md-brand .logo { font-size: 24px; }
+        .md-card {
+            background: #fff; border-radius: 22px; padding: 28px 24px 26px;
+            box-shadow: 0 18px 50px rgba(0,0,0,.22);
+        }
+        .md-screen { display: none; }
+        .md-screen.active { display: block; }
+
+        h1 { font-size: 24px; line-height: 1.2; margin-bottom: 8px; }
+        .md-lead { color: #636E72; font-size: 15px; line-height: 1.5; margin-bottom: 22px; }
+
+        label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 7px; }
+        .md-input, .md-textarea {
+            width: 100%; border: 2px solid #E3E1F2; border-radius: 14px;
+            padding: 14px 16px; font-size: 17px; font-family: inherit; color: #2D3436;
+            outline: none; transition: border-color .15s ease;
+            -webkit-appearance: none;
+        }
+        .md-input:focus, .md-textarea:focus { border-color: var(--primary); }
+        .md-code-input {
+            text-align: center; font-size: 30px; font-weight: 800;
+            letter-spacing: .25em; text-transform: uppercase;
+        }
+        .md-textarea { min-height: 120px; resize: vertical; line-height: 1.45; }
+        .md-field { margin-bottom: 18px; }
+        .md-counter { text-align: right; font-size: 12px; color: #9A96B8; margin-top: 5px; }
+
+        .md-btn {
+            width: 100%; border: none; border-radius: 14px; cursor: pointer;
+            background: var(--primary); color: #fff; font-size: 18px; font-weight: 700;
+            padding: 16px; font-family: inherit;
+            transition: transform .08s ease, box-shadow .15s ease, opacity .15s ease;
+        }
+        .md-btn:hover:not(:disabled) { box-shadow: 0 8px 22px rgba(108,99,255,.4); }
+        .md-btn:active { transform: translateY(1px); }
+        .md-btn:disabled { opacity: .5; cursor: not-allowed; }
+        .md-btn-soft { background: #F1F0FA; color: #5A52D5; margin-top: 12px; }
+
+        .md-error {
+            background: #FCE7E7; color: #C0392B; border-radius: 12px;
+            padding: 12px 14px; font-size: 14px; margin-bottom: 16px; display: none;
+        }
+        .md-error.show { display: block; }
+
+        .md-big-emoji { font-size: 54px; text-align: center; margin-bottom: 10px; }
+        .md-focus {
+            background: #F4F2FF; border-radius: 14px; padding: 14px 16px;
+            text-align: center; font-size: 16px; margin: 18px 0 6px; color: #4A4470;
+        }
+        .md-focus strong { color: var(--primary); }
+        .md-success {
+            background: #DFF5E3; color: #1E7B3A; border-radius: 12px;
+            padding: 12px 14px; font-size: 15px; margin-bottom: 16px; display: none;
+        }
+        .md-success.show { display: block; }
+        .md-sentcount { text-align: center; color: #636E72; font-size: 14px; margin-top: 14px; }
+        .md-spin { text-align: center; color: #8B86A8; font-size: 14px; margin-top: 14px; }
+        .md-foot { text-align: center; color: rgba(255,255,255,.85); font-size: 12px; margin-top: 18px; }
+    </style>
+</head>
+<body>
+    <div class="md-wrap">
+        <div class="md-brand"><span class="logo">&#127891;</span> Meestertools</div>
+
+        <div class="md-card">
+            <!-- 1. Aanmelden -->
+            <section class="md-screen active" id="screenJoin">
+                <h1>Doe je mee?</h1>
+                <p class="md-lead">Vul de code in die op het bord staat en je voornaam.</p>
+                <div class="md-error" id="joinError"></div>
+                <div class="md-field">
+                    <label for="codeInput">Code van het bord</label>
+                    <input class="md-input md-code-input" id="codeInput" type="text" inputmode="latin"
+                           autocomplete="off" autocapitalize="characters" maxlength="8" placeholder="ABCDE">
+                </div>
+                <div class="md-field">
+                    <label for="nameInput">Je voornaam</label>
+                    <input class="md-input" id="nameInput" type="text" autocomplete="off"
+                           maxlength="30" placeholder="Bijv. Sophie">
+                </div>
+                <button class="md-btn" id="joinBtn">Doe mee &rarr;</button>
+            </section>
+
+            <!-- 2. Wachten (lobby) -->
+            <section class="md-screen" id="screenWait">
+                <div class="md-big-emoji">&#127881;</div>
+                <h1 id="waitHi">Je doet mee!</h1>
+                <p class="md-lead">Even geduld &mdash; zodra de juf of meester begint, kun je een compliment schrijven.</p>
+                <div class="md-focus" id="waitFocus"></div>
+                <div class="md-spin">Wachten op de start&hellip;</div>
+            </section>
+
+            <!-- 3. Schrijven (collecting) -->
+            <section class="md-screen" id="screenWrite">
+                <h1>Schrijf een compliment &#128156;</h1>
+                <div class="md-focus" id="writeFocus"></div>
+                <div class="md-success" id="writeSuccess"></div>
+                <div class="md-error" id="writeError"></div>
+                <div class="md-field">
+                    <label for="textInput">Jouw compliment</label>
+                    <textarea class="md-textarea" id="textInput" maxlength="280"
+                              placeholder="Bijv. Je helpt altijd als iemand het moeilijk heeft."></textarea>
+                    <div class="md-counter"><span id="charCount">0</span>/280</div>
+                </div>
+                <button class="md-btn" id="sendBtn">Versturen</button>
+                <div class="md-sentcount" id="sentCount"></div>
+            </section>
+
+            <!-- 4. Afgesloten -->
+            <section class="md-screen" id="screenClosed">
+                <div class="md-big-emoji">&#128075;</div>
+                <h1>Bedankt!</h1>
+                <p class="md-lead">De complimentenmuur is gesloten. Wat fijn dat je hebt meegedaan!</p>
+            </section>
+        </div>
+
+        <p class="md-foot">Meestertools</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/meedoen.js"></script>
+</body>
+</html>

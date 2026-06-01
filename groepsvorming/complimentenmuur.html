@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complimentenmuur: de klas geeft live complimenten aan een leerling. Kinderen melden zich aan met een code, jij keurt goed en presenteert of print een mooi blad.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/groepsvorming/complimentenmuur">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/groepsvorming/complimentenmuur">
+    <meta property="og:title" content="Meestertools - Complimentenmuur">
+    <meta property="og:description" content="De klas geeft live complimenten aan een leerling. Aanmelden met een code, jij keurt goed en print een mooi blad.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Complimentenmuur">
+    <meta name="twitter:description" content="De klas geeft live complimenten aan een leerling.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Complimentenmuur</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/complimentenmuur.css">
+</head>
+<body>
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../groepsvorming" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Complimentenmuur</h1>
+                <p>De klas geeft live complimenten aan &eacute;&eacute;n leerling. Jij keurt goed, presenteert en print een mooi blad.</p>
+            </div>
+        </div>
+
+        <div class="tool-page-body">
+            <!-- Klas -->
+            <div class="cm-classbar">
+                <div class="cm-classbar-field">
+                    <label for="cmGroupSelect">Klas</label>
+                    <select id="cmGroupSelect">
+                        <option value="">Kies een klas...</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Geen klas -->
+            <div class="cm-empty" id="cmNoGroup">
+                <div class="cm-empty-icon">&#128140;</div>
+                <p>Kies hierboven een klas om een complimentenmuur te starten.<br>
+                Nog geen klas? Maak er een aan via <strong>Instellingen &rarr; Mijn klas</strong>.</p>
+            </div>
+
+            <!-- Hoofdinhoud -->
+            <div id="cmMain" style="display:none;">
+
+                <!-- ============ SETUP ============ -->
+                <section id="cmSetup" class="cm-setup">
+                    <div class="cm-card cm-setup-card">
+                        <h2 class="cm-h2">Nieuwe complimentenmuur</h2>
+                        <p class="cm-sub">Kies het kind dat deze keer in het zonnetje staat. De rest van de klas schrijft complimenten voor dit kind.</p>
+
+                        <label class="cm-field-label" for="cmFocusSelect">Wie staat in het zonnetje?</label>
+                        <div class="cm-focus-row">
+                            <div class="cm-focus-preview" id="cmFocusPreview" aria-hidden="true"></div>
+                            <select id="cmFocusSelect" class="cm-select-lg">
+                                <option value="">Kies een leerling...</option>
+                            </select>
+                        </div>
+
+                        <div class="cm-options">
+                            <label class="cm-switch">
+                                <input type="checkbox" id="cmOptModeration" checked>
+                                <span class="cm-switch-track"></span>
+                                <span class="cm-switch-text">
+                                    <strong>Eerst goedkeuren</strong>
+                                    <small>Complimenten komen eerst in jouw wachtrij; pas na jouw akkoord op het bord.</small>
+                                </span>
+                            </label>
+                            <label class="cm-switch">
+                                <input type="checkbox" id="cmOptAuthor" checked>
+                                <span class="cm-switch-track"></span>
+                                <span class="cm-switch-text">
+                                    <strong>Naam van afzender tonen</strong>
+                                    <small>Op het bord staat &lsquo;van &hellip;&rsquo;. Uit = anoniem op het bord (jij ziet wel wie).</small>
+                                </span>
+                            </label>
+                        </div>
+
+                        <button class="cm-btn cm-btn-primary cm-btn-lg" id="cmStartSessionBtn" disabled>
+                            &#128640; Start sessie
+                        </button>
+                    </div>
+
+                    <!-- Eerdere muren (heropenen / opnieuw printen) -->
+                    <div class="cm-history" id="cmHistory" style="display:none;">
+                        <h3 class="cm-h3">Eerdere complimentenmuren</h3>
+                        <div class="cm-history-list" id="cmHistoryList"></div>
+                    </div>
+                </section>
+
+                <!-- ============ LIVE SESSIE ============ -->
+                <section id="cmSession" class="cm-session" style="display:none;">
+                    <div class="cm-session-bar">
+                        <div class="cm-focus-chip">
+                            <img class="cm-focus-chip-monster" id="cmFocusChipMonster" alt="">
+                            <div class="cm-focus-chip-text">
+                                <span class="cm-focus-chip-label">Complimenten voor</span>
+                                <strong id="cmFocusChipName">&hellip;</strong>
+                            </div>
+                        </div>
+                        <span class="cm-status-pill" id="cmStatusPill">Lobby</span>
+                        <div class="cm-session-actions">
+                            <button class="cm-btn cm-btn-ghost" id="cmPresentBtn" title="Toon op het bord">&#128250; Presenteren</button>
+                            <button class="cm-btn cm-btn-ghost" id="cmPrintBtn" title="Print een mooi blad">&#128424;&#65039; Printen</button>
+                            <button class="cm-btn cm-btn-danger-soft" id="cmCloseBtn">Sessie sluiten</button>
+                            <button class="cm-btn cm-btn-primary" id="cmNewBtn" style="display:none;">&#10010; Nieuwe sessie</button>
+                        </div>
+                    </div>
+
+                    <!-- Meedoen-blok: code + QR voor op het digibord -->
+                    <div class="cm-joinbox" id="cmJoinBox">
+                        <div class="cm-joinbox-left">
+                            <p class="cm-join-lead">Ga op je device naar</p>
+                            <p class="cm-join-url" id="cmJoinUrl">meestertools.nl/meedoen</p>
+                            <p class="cm-join-lead">en vul de code in:</p>
+                            <div class="cm-code-big" id="cmCodeBig">&middot;&middot;&middot;&middot;&middot;</div>
+                        </div>
+                        <div class="cm-joinbox-right">
+                            <div class="cm-qr" id="cmQr"></div>
+                            <span class="cm-qr-hint">of scan de QR-code</span>
+                        </div>
+                    </div>
+
+                    <!-- LOBBY -->
+                    <div class="cm-lobby" id="cmLobby">
+                        <div class="cm-lobby-head">
+                            <h3 class="cm-h3">Aangemeld <span class="cm-count" id="cmParticipantCount">0</span></h3>
+                            <button class="cm-btn cm-btn-primary cm-btn-lg" id="cmStartCollectBtn" disabled>
+                                Start invullen &rarr;
+                            </button>
+                        </div>
+                        <p class="cm-lobby-hint" id="cmLobbyHint">Wachten tot de eerste kinderen zich aanmelden&hellip;</p>
+                        <div class="cm-participants" id="cmParticipants"></div>
+                    </div>
+
+                    <!-- BORD (verzamelen + gesloten) -->
+                    <div class="cm-board" id="cmBoard" style="display:none;">
+                        <div class="cm-queue" id="cmQueueWrap" style="display:none;">
+                            <h3 class="cm-h3">Wachtrij <span class="cm-count cm-count-amber" id="cmQueueCount">0</span></h3>
+                            <p class="cm-queue-hint">Tik op &#10003; om op het bord te zetten, of op &#10005; om weg te laten.</p>
+                            <div class="cm-queue-list" id="cmQueue"></div>
+                            <div class="cm-queue-empty" id="cmQueueEmpty">Geen complimenten in de wachtrij.</div>
+                        </div>
+                        <div class="cm-wall-wrap">
+                            <h3 class="cm-h3">Op het bord <span class="cm-count cm-count-green" id="cmWallCount">0</span></h3>
+                            <div class="cm-wall" id="cmWall"></div>
+                            <div class="cm-wall-empty" id="cmWallEmpty">Nog geen complimenten op het bord.</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <!-- Presenteer-overlay (fullscreen voor op het digibord) -->
+    <div class="cm-present" id="cmPresent" style="display:none;">
+        <button class="cm-present-close" id="cmPresentClose" title="Sluiten">&#10005;</button>
+        <div class="cm-present-head">
+            <img class="cm-present-monster" id="cmPresentMonster" alt="">
+            <h2 id="cmPresentTitle">Complimenten</h2>
+        </div>
+        <div class="cm-present-wall" id="cmPresentWall"></div>
+    </div>
+
+    <script src="/js/template.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="/js/active-class.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+    <script src="../js/complimentenmuur.js"></script>
+</body>
+</html>

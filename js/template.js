@@ -50,6 +50,7 @@
         { id: 'checkin', name: 'Check-in', url: 'groepsvorming/checkin', icon: '&#128522;' },
         { id: 'gedragspatroon', name: 'Gedragspatroon', url: 'groepsvorming/gedragspatroon', icon: '&#128202;' },
         { id: 'sociogram', name: 'Sociogram', url: 'groepsvorming/sociogram', icon: '&#129309;' },
+        { id: 'complimentenmuur', name: 'Complimentenmuur', url: 'groepsvorming/complimentenmuur', icon: '&#128140;' },
         // Organisatie
         { id: 'klassendienst', name: 'Klassendienst', url: 'organisatie/klassendienst', icon: '&#129529;' }
     ];
