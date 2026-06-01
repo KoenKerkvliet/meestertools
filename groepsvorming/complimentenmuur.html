@@ -117,10 +117,12 @@
                         </div>
                         <span class="cm-status-pill" id="cmStatusPill">Lobby</span>
                         <div class="cm-session-actions">
+                            <button class="cm-btn cm-btn-ghost" id="cmCheckBtn" title="Wie heeft al ingevuld?">&#128203; Wie deed mee?</button>
                             <button class="cm-btn cm-btn-ghost" id="cmPresentBtn" title="Toon op het bord">&#128250; Presenteren</button>
                             <button class="cm-btn cm-btn-ghost" id="cmPrintBtn" title="Print een mooi blad">&#128424;&#65039; Printen</button>
                             <button class="cm-btn cm-btn-danger-soft" id="cmCloseBtn">Sessie sluiten</button>
                             <button class="cm-btn cm-btn-primary" id="cmNewBtn" style="display:none;">&#10010; Nieuwe sessie</button>
+                            <button class="cm-btn cm-btn-danger-soft" id="cmDeleteBtn" style="display:none;" title="Verwijder deze muur definitief">&#128465;&#65039; Verwijderen</button>
                         </div>
                     </div>
 
@@ -179,6 +181,30 @@
             <h2 id="cmPresentTitle">Complimenten</h2>
         </div>
         <div class="cm-present-wall" id="cmPresentWall"></div>
+    </div>
+
+    <!-- Popup: wie heeft al ingevuld? -->
+    <div class="cm-modal" id="cmCheckModal" style="display:none;">
+        <div class="cm-modal-card">
+            <button class="cm-modal-close" id="cmCheckClose" title="Sluiten">&#10005;</button>
+            <h2 class="cm-h2">Wie heeft al ingevuld?</h2>
+            <p class="cm-modal-sub" id="cmCheckSummary"></p>
+            <div class="cm-check-cols">
+                <div class="cm-check-col">
+                    <h3 class="cm-h3">&#10003; Ingevuld <span class="cm-count cm-count-green" id="cmCheckDoneCount">0</span></h3>
+                    <div class="cm-check-list" id="cmCheckDone"></div>
+                </div>
+                <div class="cm-check-col">
+                    <h3 class="cm-h3">Nog niet <span class="cm-count cm-count-amber" id="cmCheckTodoCount">0</span></h3>
+                    <div class="cm-check-list" id="cmCheckTodo"></div>
+                </div>
+            </div>
+            <div class="cm-check-unmatched" id="cmCheckUnmatched" style="display:none;">
+                <h4 class="cm-check-unmatched-title">Niet op de naamlijst</h4>
+                <p class="cm-modal-hint">Deze ingestuurde namen passen bij geen leerling &mdash; misschien een bijnaam of typfout.</p>
+                <div class="cm-check-list" id="cmCheckUnmatchedList"></div>
+            </div>
+        </div>
     </div>
 
     <script src="/js/template.js"></script>

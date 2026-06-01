@@ -50,10 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const focusChipMonster = document.getElementById('cmFocusChipMonster');
     const focusChipName = document.getElementById('cmFocusChipName');
     const statusPill = document.getElementById('cmStatusPill');
+    const checkBtn = document.getElementById('cmCheckBtn');
     const presentBtn = document.getElementById('cmPresentBtn');
     const printBtn = document.getElementById('cmPrintBtn');
     const closeBtn = document.getElementById('cmCloseBtn');
     const newBtn = document.getElementById('cmNewBtn');
+    const deleteBtn = document.getElementById('cmDeleteBtn');
 
     const joinBox = document.getElementById('cmJoinBox');
     const joinUrlEl = document.getElementById('cmJoinUrl');
@@ -80,6 +82,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const presentMonster = document.getElementById('cmPresentMonster');
     const presentTitle = document.getElementById('cmPresentTitle');
     const presentWall = document.getElementById('cmPresentWall');
+
+    const checkModal = document.getElementById('cmCheckModal');
+    const checkClose = document.getElementById('cmCheckClose');
+    const checkSummary = document.getElementById('cmCheckSummary');
+    const checkDone = document.getElementById('cmCheckDone');
+    const checkDoneCount = document.getElementById('cmCheckDoneCount');
+    const checkTodo = document.getElementById('cmCheckTodo');
+    const checkTodoCount = document.getElementById('cmCheckTodoCount');
+    const checkUnmatched = document.getElementById('cmCheckUnmatched');
+    const checkUnmatchedList = document.getElementById('cmCheckUnmatchedList');
+    let checkOpen = false;
 
     // ---------- Helpers ----------
     function escapeHtml(str) {
@@ -273,6 +286,18 @@ document.addEventListener('DOMContentLoaded', () => {
         showSetup();
         loadHistory();
     }
+    async function deleteSession(id, name) {
+        if (!confirm('Complimentenmuur' + (name ? ' voor ' + name : '') + ' definitief verwijderen? Alle complimenten gaan ook weg. Dit kan niet ongedaan worden gemaakt.')) return false;
+        const { error } = await supabase.from('compliment_sessions').delete().eq('id', id);
+        if (error) { toast('Verwijderen lukte niet.'); return false; }
+        toast('Complimentenmuur verwijderd.');
+        return true;
+    }
+    async function deleteCurrent() {
+        if (!session) return;
+        const ok = await deleteSession(session.id, session.focus_student_name);
+        if (ok) newSession();
+    }
 
     // ---------- Moderatie ----------
     async function setStatus(id, status) {
@@ -345,6 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
         boardEl.style.display = st === 'lobby' ? 'none' : '';
         closeBtn.style.display = isClosed ? 'none' : '';
         newBtn.style.display = isClosed ? '' : 'none';
+        deleteBtn.style.display = isClosed ? '' : 'none';
 
         // Wachtrij alleen tonen bij moderatie én tijdens verzamelen
         queueWrap.style.display = (session && session.moderation && st === 'collecting') ? '' : 'none';
@@ -397,6 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
         wallEl.innerHTML = appr.map(c => noteHtml(c, { removable: true })).join('');
 
         if (presentOpen) renderPresent();
+        if (checkOpen) renderCheck();
     }
     function renderPresent() {
         const appr = approved();
@@ -416,10 +443,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     '<div class="cm-hi-meta">' + d + '</div>' +
                 '</div>' +
                 '<button class="cm-btn cm-btn-ghost" data-open="' + s.id + '">Bekijk</button>' +
+                '<button class="cm-btn cm-btn-danger-soft cm-hi-del" data-del="' + s.id + '" title="Verwijderen">&#128465;&#65039;</button>' +
             '</div>';
         }).join('');
         historyList.querySelectorAll('[data-open]').forEach(b => {
             b.addEventListener('click', () => openHistory(b.getAttribute('data-open')));
+        });
+        historyList.querySelectorAll('[data-del]').forEach(b => {
+            b.addEventListener('click', async () => {
+                const id = b.getAttribute('data-del');
+                const item = list.find(x => x.id === id);
+                const ok = await deleteSession(id, item ? item.focus_student_name : '');
+                if (ok) loadHistory();
+            });
         });
     }
     async function openHistory(id) {
@@ -443,6 +479,53 @@ document.addEventListener('DOMContentLoaded', () => {
         presentEl.style.display = 'none';
         document.body.classList.remove('cm-presenting');
     }
+
+    // ---------- Wie heeft ingevuld? ----------
+    function normName(s) { return String(s == null ? '' : s).trim().toLowerCase(); }
+    function renderCheck() {
+        // Genormaliseerde ingestuurde namen -> originele schrijfwijze (eerste voorkomen)
+        const submittedMap = {};
+        compliments.forEach(c => {
+            const n = normName(c.author_name);
+            if (n && !submittedMap[n]) submittedMap[n] = c.author_name;
+        });
+        const focusId = session ? session.focus_student_id : '';
+        const roster = students.filter(s => s.id !== focusId); // focus-kind schrijft niet over zichzelf
+
+        const done = [], todo = [];
+        roster.forEach(s => {
+            const fn = normName(s.first_name);
+            if (fn && submittedMap[fn]) done.push(s); else todo.push(s);
+        });
+
+        // Bekende namen = klassenlijst + focus-kind, zodat een terechte naam niet als 'onbekend' telt
+        const known = new Set(roster.map(s => normName(s.first_name)));
+        if (session && session.focus_student_name) known.add(normName(session.focus_student_name));
+        const unmatched = Object.keys(submittedMap).filter(n => !known.has(n)).map(n => submittedMap[n]);
+
+        checkSummary.textContent = roster.length
+            ? done.length + ' van de ' + roster.length + ' kinderen hebben minstens één compliment ingestuurd.'
+            : 'Deze klas heeft nog geen leerlingen. Voeg ze toe via Instellingen → Mijn klas.';
+
+        checkDoneCount.textContent = done.length;
+        checkTodoCount.textContent = todo.length;
+        checkDone.innerHTML = done.length
+            ? done.map(s => '<span class="cm-name-pill is-done">' + escapeHtml(studentName(s)) + '</span>').join('')
+            : '<div class="cm-check-empty">Nog niemand.</div>';
+        checkTodo.innerHTML = todo.length
+            ? todo.map(s => '<span class="cm-name-pill is-todo">' + escapeHtml(studentName(s)) + '</span>').join('')
+            : '<div class="cm-check-empty">Iedereen heeft ingevuld! 🎉</div>';
+
+        if (unmatched.length) {
+            checkUnmatched.style.display = '';
+            checkUnmatchedList.innerHTML = unmatched
+                .map(n => '<span class="cm-name-pill is-unmatched">' + escapeHtml(n) + '</span>').join('');
+        } else {
+            checkUnmatched.style.display = 'none';
+        }
+    }
+    function openCheck() { checkOpen = true; renderCheck(); checkModal.style.display = ''; }
+    function closeCheck() { checkOpen = false; checkModal.style.display = 'none'; }
 
     // ---------- Printen ----------
     function printSheet() {
@@ -544,7 +627,15 @@ document.addEventListener('DOMContentLoaded', () => {
         presentBtn.addEventListener('click', openPresent);
         presentClose.addEventListener('click', closePresent);
         printBtn.addEventListener('click', printSheet);
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && presentOpen) closePresent(); });
+        deleteBtn.addEventListener('click', deleteCurrent);
+        checkBtn.addEventListener('click', openCheck);
+        checkClose.addEventListener('click', closeCheck);
+        checkModal.addEventListener('click', (e) => { if (e.target === checkModal) closeCheck(); });
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Escape') return;
+            if (presentOpen) closePresent();
+            else if (checkOpen) closeCheck();
+        });
 
         // Goedkeuren/afwijzen + van het bord halen (event-delegatie)
         queueEl.addEventListener('click', (e) => {
