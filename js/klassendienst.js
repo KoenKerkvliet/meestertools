@@ -41,6 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var chooseSub = document.getElementById('kdChooseSub');
     var chooseCount = document.getElementById('kdChooseCount');
 
+    var settingsChooseBtn = document.getElementById('kdSettingsChooseBtn');
+    var settingsResetBtn = document.getElementById('kdSettingsResetBtn');
+    var settingsManualStatus = document.getElementById('kdSettingsManualStatus');
+
     if (!container) return;
 
     // ---------- State ----------
@@ -538,14 +542,8 @@ document.addEventListener('DOMContentLoaded', function () {
         html += '    <span class="kd-week-pill">Week ' + (week.index + 1) + ' van ' + totalWeeks + '</span>';
         html += '    <h2 class="kd-hero-title">' + (cur.vacationNow ? 'Eerstvolgende klassendienst' : 'Deze week klassendienst') + '</h2>';
         html += '    <p class="kd-hero-date">' + escapeHtml(fmtRange(week.monday, week.friday)) + '</p>';
-        html += '    <div class="kd-hero-actions">';
-        html += '      <button type="button" class="kd-choose-btn" id="kdChooseBtn">&#9999;&#65039; Zelf het groepje kiezen</button>';
         if (manualPlanActive()) {
-            html += '      <button type="button" class="kd-reset-btn" id="kdResetPlan">&#8634; Automatische rotatie</button>';
-        }
-        html += '    </div>';
-        if (manualPlanActive()) {
-            html += '    <p class="kd-manual-note">&#9998; Je hebt het groepje vanaf deze week zelf ingesteld.</p>';
+            html += '    <p class="kd-manual-note">&#9998; Groepje handmatig ingesteld &middot; aan te passen via &#9881;&#65039;</p>';
         }
         html += '  </div>';
         html += '  <div class="kd-hero-grid">';
@@ -588,19 +586,11 @@ document.addEventListener('DOMContentLoaded', function () {
         bindDayTabs();
         bindTaskChecks();
         bindOverview();
-        bindHeroActions();
     }
 
     function manualPlanActive() {
         var p = settings.manualPlan;
         return !!(p && p.year === activeYearLabel() && Array.isArray(p.order) && p.order.length);
-    }
-
-    function bindHeroActions() {
-        var b = document.getElementById('kdChooseBtn');
-        if (b) b.addEventListener('click', openChooseModal);
-        var r = document.getElementById('kdResetPlan');
-        if (r) r.addEventListener('click', clearManualPlan);
     }
 
     // ---- Personen met monster-avatar ----
@@ -858,10 +848,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function renderManualStatus() {
+        if (settingsManualStatus) {
+            settingsManualStatus.textContent = manualPlanActive()
+                ? '✏️ Je hebt het groepje handmatig ingesteld. De rotatie loopt vanaf die week verder op leerlingnummer.'
+                : 'De klassendienst roteert automatisch op leerlingnummer.';
+        }
+        if (settingsResetBtn) settingsResetBtn.style.display = manualPlanActive() ? '' : 'none';
+    }
+
     function openSettings() {
         perWeekSelect.value = String(settings.perWeek || 2);
         renderTasksEdit();
         renderKPLinkSettings();
+        renderManualStatus();
         settingsModal.classList.add('active');
     }
 
@@ -1000,6 +1000,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (user) await saveSettings(user);
         buildSchoolWeeks();
         render();
+        renderManualStatus();
         showToast('&#8634; Automatische rotatie hersteld.');
     }
 
@@ -1009,6 +1010,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (chooseModal) chooseModal.addEventListener('click', function (e) {
         if (e.target === chooseModal) closeChooseModal();
     });
+
+    // Vanuit de instellingen: groepje kiezen / automatische rotatie herstellen
+    if (settingsChooseBtn) settingsChooseBtn.addEventListener('click', function () {
+        closeSettings();
+        openChooseModal();
+    });
+    if (settingsResetBtn) settingsResetBtn.addEventListener('click', clearManualPlan);
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && chooseModal && chooseModal.classList.contains('active')) closeChooseModal();
     });

@@ -684,3 +684,13 @@
     border-radius: 10px; padding: 10px 18px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
 }
 .kd-choose-cancel:hover { background: #E7E5F6; }
+
+/* Instellingen: groepje zelf kiezen */
+.kd-settings-status { font-size: 13px; color: var(--text-medium, #636E72); margin: 0 0 10px; line-height: 1.5; }
+.kd-settings-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.kd-pick-btn { font-size: 14px; padding: 9px 16px; }
+.kd-reset-inline {
+    background: var(--bg-light, #F1F0FA); color: var(--text-dark, #2D3436); border: none;
+    border-radius: 10px; padding: 9px 16px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+}
+.kd-reset-inline:hover { background: #E7E5F6; }
