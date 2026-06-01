@@ -545,18 +545,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const html = '<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8">' +
             '<title>Complimenten voor ' + escapeHtml(name) + '</title><style>' +
-            '*{margin:0;padding:0;box-sizing:border-box;}' +
+            // print-color-adjust:exact dwingt de browser om achtergrondkleuren
+            // mee te printen (anders wordt de PDF kleurloos).
+            '*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust:exact;}' +
+            'html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}' +
             'body{font-family:"Segoe UI",system-ui,Arial,sans-serif;background:#EEEDF8;padding:24px 14px 48px;}' +
             '.page{background:#fff;width:210mm;max-width:100%;min-height:297mm;margin:0 auto;border-radius:20px;overflow:hidden;box-shadow:0 12px 48px rgba(108,99,255,.18);}' +
-            '.head{background:linear-gradient(135deg,#6C63FF 0%,#9B87FF 55%,#FF7AA8 110%);color:#fff;padding:34px 36px 30px;text-align:center;}' +
+            '.head{background:#6C63FF;background:linear-gradient(135deg,#6C63FF 0%,#9B87FF 55%,#FF7AA8 110%);color:#fff;padding:34px 36px 30px;text-align:center;}' +
             '.head img{width:104px;height:104px;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,.22));}' +
             '.head .lead{font-size:16px;opacity:.92;margin-top:8px;letter-spacing:.04em;text-transform:uppercase;}' +
             '.head h1{font-size:40px;margin-top:2px;}' +
-            '.notes{padding:30px 30px 16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;}' +
-            '.p-note{border-radius:14px;padding:18px 18px 16px;box-shadow:0 3px 8px rgba(0,0,0,.08);}' +
+            '.notes{padding:30px 30px 16px;display:grid;grid-template-columns:1fr 1fr;gap:18px;}' +
+            '.p-note{border-radius:14px;padding:18px 18px 16px;border:1px solid rgba(0,0,0,.08);box-shadow:0 3px 8px rgba(0,0,0,.08);break-inside:avoid;min-height:96px;display:flex;flex-direction:column;justify-content:center;}' +
             '.p-text{font-size:17px;line-height:1.45;color:#333;}' +
             '.p-author{margin-top:10px;font-size:13px;font-weight:700;color:rgba(0,0,0,.55);}' +
             '.foot{text-align:center;color:#9A96B8;font-size:12px;padding:14px 0 26px;}' +
+            '@page{margin:12mm;}' +
             '@media print{body{background:#fff;padding:0;}.page{box-shadow:none;border-radius:0;width:auto;min-height:auto;}}' +
             '</style></head><body><div class="page">' +
             '<div class="head"><img src="' + monsterAbs + '" alt=""><div class="lead">Complimenten voor</div><h1>' + escapeHtml(name) + '</h1></div>' +
