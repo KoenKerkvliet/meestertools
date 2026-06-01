@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var students = [];
     var selectedGroupId = '';
     var store = { byGroup: {} };
-    var layout = { type: 'rijen', columns: 3, perDesk: 2, rowsPerColumn: 5, tableSeats: 4, grid: emptyGrid() };
+    var layout = { type: 'rijen', columns: 3, perDesk: 2, rowsPerColumn: 5, tableSeats: 4, grid: emptyGrid(), removed: [] };
     var placement = [];          // [studentId|null, ...] per seat-index
     var selected = null;         // { kind:'pool', id } | { kind:'seat', index }
     var monsterByStudentId = {};
@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var btnFill = document.getElementById('pgBtnFill');
     var btnShuffle = document.getElementById('pgBtnShuffle');
     var btnClearSeats = document.getElementById('pgBtnClearSeats');
+    var btnRestoreSeats = document.getElementById('pgBtnRestoreSeats');
     var btnSettings = document.getElementById('pgBtnSettings');
     var btnSettings2 = document.getElementById('pgBtnSettings2');
     var btnPresent = document.getElementById('pgBtnPresent');
@@ -164,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     function restoreForGroup() {
-        layout = { type: 'rijen', columns: 3, perDesk: 2, rowsPerColumn: 5, tableSeats: 4, grid: emptyGrid() };
+        layout = { type: 'rijen', columns: 3, perDesk: 2, rowsPerColumn: 5, tableSeats: 4, grid: emptyGrid(), removed: [] };
         placement = [];
         var g = store.byGroup ? store.byGroup[selectedGroupId] : null;
         if (g && g.layout) {
@@ -174,6 +175,7 @@ document.addEventListener('DOMContentLoaded', function () {
             layout.perDesk = clampInt(L.perDesk, 1, 4, 2);
             layout.rowsPerColumn = clampInt(L.rowsPerColumn, 1, 8, 5);
             layout.tableSeats = clampInt(L.tableSeats, 2, 6, 4);
+            layout.removed = Array.isArray(L.removed) ? L.removed.filter(function (i) { return typeof i === 'number'; }) : [];
             layout.grid = (Array.isArray(L.grid) && L.grid.length === 4) ? L.grid.map(function (row) {
                 return [0, 1, 2, 3].map(function (c) {
                     var v = row && row[c];
@@ -182,6 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }) : emptyGrid();
         }
         var sc = computeSeats().seatCount;
+        layout.removed = (layout.removed || []).filter(function (i) { return i < sc; });
         var prev = (g && Array.isArray(g.placement)) ? g.placement : [];
         var valid = {};
         students.forEach(function (s) { valid[s.id] = true; });
@@ -225,6 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return { kind: 'grid', cells: cells, seatCount: idx };
     }
 
+    function isRemoved(i) { return layout.removed && layout.removed.indexOf(i) !== -1; }
     function placedCount() {
         return placement.filter(function (x) { return !!x; }).length;
     }
@@ -242,9 +246,24 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     function autoFill(order) {
         ensurePlacementSize();
-        var sc = placement.length;
-        for (var i = 0; i < sc; i++) placement[i] = order[i] ? order[i].id : null;
+        var sc = placement.length, oi = 0;
+        for (var i = 0; i < sc; i++) {
+            if (isRemoved(i)) { placement[i] = null; continue; }
+            placement[i] = order[oi] ? order[oi].id : null;
+            oi++;
+        }
         selected = null;
+        persist(); render();
+    }
+    function removeSeat(index) {
+        if (placement[index]) return; // alleen lege plekken verwijderen
+        if (!layout.removed) layout.removed = [];
+        if (layout.removed.indexOf(index) === -1) layout.removed.push(index);
+        selected = null;
+        persist(); render();
+    }
+    function restoreSeats() {
+        layout.removed = [];
         persist(); render();
     }
     function fillInOrder() {
@@ -306,7 +325,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 '</div>';
         }
         var plus = opts.interactive ? '<span class="pg-seat-plus">+</span>' : '';
-        return '<div class="pg-seat is-empty"' + dataAttr + '>' + plus + '</div>';
+        var rm = opts.interactive ? '<button class="pg-seat-remove" data-removeseat="' + index + '" title="Lege plek verwijderen">&times;</button>' : '';
+        return '<div class="pg-seat is-empty"' + dataAttr + '>' + rm + plus + '</div>';
     }
 
     function roomHtml(opts) {
@@ -319,13 +339,16 @@ document.addEventListener('DOMContentLoaded', function () {
             var html = '<div class="pg-cols">';
             var idx = 0;
             for (var col = 0; col < info.columns; col++) {
-                html += '<div class="pg-col">';
+                var colHtml = '';
                 for (var row = 0; row < info.rowsPerColumn; row++) {
-                    html += '<div class="pg-desk">';
-                    for (var d = 0; d < info.perDesk; d++) { html += seatHtml(idx, opts); idx++; }
-                    html += '</div>';
+                    var deskHtml = '';
+                    for (var d = 0; d < info.perDesk; d++) {
+                        if (!isRemoved(idx)) deskHtml += seatHtml(idx, opts);
+                        idx++;
+                    }
+                    if (deskHtml) colHtml += '<div class="pg-desk">' + deskHtml + '</div>';
                 }
-                html += '</div>';
+                html += '<div class="pg-col">' + colHtml + '</div>';
             }
             html += '</div>';
             return html;
@@ -339,8 +362,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 var cell = byPos[rr + '-' + cc];
                 if (!cell) { g += '<div class="pg-cell-empty"></div>'; continue; }
                 var seatsHtml = '';
-                for (var i = 0; i < cell.seats; i++) seatsHtml += seatHtml(cell.start + i, opts);
-                g += '<div class="pg-table pg-table-' + cell.type + '">' + seatsHtml + '</div>';
+                for (var i = 0; i < cell.seats; i++) {
+                    if (!isRemoved(cell.start + i)) seatsHtml += seatHtml(cell.start + i, opts);
+                }
+                if (seatsHtml) g += '<div class="pg-table pg-table-' + cell.type + '">' + seatsHtml + '</div>';
+                else g += '<div class="pg-cell-empty"></div>';
             }
         }
         g += '</div>';
@@ -363,8 +389,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         ensurePlacementSize();
         var info = computeSeats();
+        var removedCount = (layout.removed || []).filter(function (i) { return i < info.seatCount; }).length;
+        var avail = info.seatCount - removedCount;
 
-        statusEl.textContent = placedCount() + ' van ' + students.length + ' geplaatst · ' + info.seatCount + ' plekken';
+        statusEl.textContent = placedCount() + ' van ' + students.length + ' geplaatst · ' + avail + ' plekken';
+        btnRestoreSeats.style.display = removedCount ? '' : 'none';
 
         if (selected) {
             var who = selected.kind === 'pool' ? firstName(studentById(selected.id)) : firstName(studentById(placement[selected.index]));
@@ -444,7 +473,14 @@ document.addEventListener('DOMContentLoaded', function () {
         editLayout.perDesk = clampInt(perDeskInput.value, 1, 4, 2);
         editLayout.rowsPerColumn = clampInt(rowsPerColInput.value, 1, 8, 5);
         editLayout.tableSeats = clampInt(tableSeatsInput.value, 2, 6, 4);
-        layout = { type: editLayout.type, columns: editLayout.columns, perDesk: editLayout.perDesk, rowsPerColumn: editLayout.rowsPerColumn, tableSeats: editLayout.tableSeats, grid: cloneGrid(editLayout.grid) };
+        var prevType = layout.type;
+        var prevCount = computeSeats().seatCount;
+        var keepRemoved = (layout.removed || []).slice();
+        layout = { type: editLayout.type, columns: editLayout.columns, perDesk: editLayout.perDesk, rowsPerColumn: editLayout.rowsPerColumn, tableSeats: editLayout.tableSeats, grid: cloneGrid(editLayout.grid), removed: keepRemoved };
+        var newCount = computeSeats().seatCount;
+        // Bij gewijzigde afmetingen kloppen de verwijder-posities niet meer -> resetten
+        if (layout.type !== prevType || newCount !== prevCount) layout.removed = [];
+        else layout.removed = keepRemoved.filter(function (i) { return i < newCount; });
         ensurePlacementSize();
         selected = null;
         persist();
@@ -509,6 +545,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Events ----------
     main.addEventListener('click', function (e) {
+        var rmBtn = e.target.closest('[data-removeseat]');
+        if (rmBtn) { e.stopPropagation(); removeSeat(parseInt(rmBtn.getAttribute('data-removeseat'), 10)); return; }
         var seat = e.target.closest('[data-seat]');
         if (seat) { clickSeat(parseInt(seat.getAttribute('data-seat'), 10)); return; }
         var chip = e.target.closest('[data-pick]');
@@ -520,6 +558,7 @@ document.addEventListener('DOMContentLoaded', function () {
     btnFill.addEventListener('click', fillInOrder);
     btnShuffle.addEventListener('click', shuffleFill);
     btnClearSeats.addEventListener('click', clearSeats);
+    btnRestoreSeats.addEventListener('click', restoreSeats);
     btnSettings.addEventListener('click', openSettings);
     btnSettings2.addEventListener('click', openSettings);
     settingsClose.addEventListener('click', closeSettings);
