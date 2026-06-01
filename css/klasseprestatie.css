@@ -4,7 +4,7 @@
 
 .kpr-container {
     width: 100%;
-    padding-bottom: 24px;
+    padding-bottom: 10px;
 }
 /* Extra ruimte onderaan zodra de zwevende actiebalk zichtbaar is */
 .kpr-container.kpr-has-actionbar {
@@ -80,7 +80,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 14px;
 }
 
 .kpr-student-card {
@@ -1310,16 +1310,15 @@
 
 /* ---- Tools-balk onder de leerlingen ---- */
 .kpr-tools-tray {
-    display: flex; flex-wrap: wrap; gap: 16px;
-    margin-top: 22px; padding-top: 20px;
-    border-top: 1px dashed var(--border, #E8E8F0);
+    display: flex; flex-wrap: wrap; gap: 14px;
+    margin-top: 4px;
 }
 .kpr-tool-card {
     position: relative;
     background: var(--bg-white, #fff);
     border: 1px solid var(--border, #E8E8F0);
-    border-radius: 16px; box-shadow: var(--shadow-sm, 0 2px 8px rgba(0,0,0,.06));
-    padding: 16px 18px 18px; min-width: 220px;
+    border-radius: 14px; box-shadow: var(--shadow-sm, 0 2px 8px rgba(0,0,0,.06));
+    padding: 10px 16px 12px; min-width: 210px;
 }
 .kpr-tool-card-close {
     position: absolute; top: 8px; right: 8px;
@@ -1329,33 +1328,33 @@
 }
 .kpr-tool-card-close:hover { background: #E7E5F6; }
 .kpr-tool-card-title {
-    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em;
-    color: var(--text-medium, #636E72); margin-bottom: 10px;
+    font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em;
+    color: var(--text-medium, #636E72); margin-bottom: 6px;
 }
 .kpr-attn { animation: kprAttn .6s ease; }
 @keyframes kprAttn { 0%,100% { transform: none; } 30% { transform: scale(1.04); } }
 
 /* ---- Timer ---- */
-.kpr-timer-card { text-align: center; min-width: 240px; }
+.kpr-timer-card { text-align: center; min-width: 220px; }
 .kpr-timer-display {
-    font-size: 56px; font-weight: 800; line-height: 1; letter-spacing: .02em;
+    font-size: 40px; font-weight: 800; line-height: 1; letter-spacing: .02em;
     font-variant-numeric: tabular-nums;
     font-family: "Segoe UI", system-ui, sans-serif; color: var(--text-dark, #2D3436);
-    margin: 2px 0 12px;
+    margin: 0 0 8px;
 }
-.kpr-timer-bar { height: 6px; background: var(--bg-light, #F1F0FA); border-radius: 999px; overflow: hidden; }
+.kpr-timer-bar { height: 5px; background: var(--bg-light, #F1F0FA); border-radius: 999px; overflow: hidden; }
 .kpr-timer-bar-fill { height: 100%; width: 100%; background: var(--primary, #6C63FF); border-radius: 999px; transition: width 1s linear; }
-.kpr-timer-controls { display: flex; gap: 8px; justify-content: center; margin-top: 14px; }
+.kpr-timer-controls { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
 .kpr-timer-ctrl {
     border: none; background: var(--bg-light, #F1F0FA); color: var(--text-dark, #2D3436);
-    border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
+    border-radius: 999px; padding: 6px 12px; font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit;
 }
 .kpr-timer-ctrl:hover { background: #E7E5F6; }
 .kpr-timer-card.is-paused .kpr-timer-display { opacity: .55; }
 .kpr-timer-card.is-done .kpr-timer-display { color: #C0392B; animation: kprPulse 1s ease-in-out infinite; }
 .kpr-timer-card.is-done .kpr-timer-bar-fill { background: #C0392B; }
 @keyframes kprPulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
-.kpr-timer-done { color: #C0392B; font-weight: 700; font-size: 15px; margin-top: 12px; }
+.kpr-timer-done { color: #C0392B; font-weight: 700; font-size: 14px; margin-top: 8px; }
 
 /* ---- Timer instel-popup ---- */
 .kpr-timer-presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
@@ -1375,18 +1374,18 @@
 .kpr-timer-colon { font-size: 28px; font-weight: 800; color: var(--text-medium, #636E72); padding-bottom: 8px; }
 
 /* ---- Stoplicht ---- */
-.kpr-stoplicht-card { min-width: 240px; }
-.kpr-stop-lamps { display: flex; gap: 10px; justify-content: space-between; }
+.kpr-stoplicht-card { min-width: 220px; }
+.kpr-stop-lamps { display: flex; gap: 8px; justify-content: space-between; }
 .kpr-stop-lamp {
-    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;
-    border: none; background: none; cursor: pointer; font-family: inherit; padding: 6px 4px;
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+    border: none; background: none; cursor: pointer; font-family: inherit; padding: 4px 2px;
     border-radius: 12px; transition: background .15s;
 }
 .kpr-stop-lamp:hover { background: var(--bg-light, #F1F0FA); }
 .kpr-stop-dot {
-    width: 40px; height: 40px; border-radius: 50%;
+    width: 30px; height: 30px; border-radius: 50%;
     background: #D8D8E0; transition: background .15s, box-shadow .15s, transform .1s;
 }
-.kpr-stop-label { font-size: 12.5px; font-weight: 600; color: var(--text-medium, #636E72); }
+.kpr-stop-label { font-size: 11.5px; font-weight: 600; color: var(--text-medium, #636E72); }
 .kpr-stop-lamp.active .kpr-stop-dot { background: var(--lamp); box-shadow: 0 0 14px var(--lamp); transform: scale(1.08); }
 .kpr-stop-lamp.active .kpr-stop-label { color: var(--text-dark, #2D3436); font-weight: 700; }
