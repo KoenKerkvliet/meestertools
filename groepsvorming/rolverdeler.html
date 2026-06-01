@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rolverdeler: maak groepjes en verdeel rollen zoals voorzitter, tijdbewaker en schrijver. Willekeurig of handmatig, met een mooi overzicht voor op het bord.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/groepsvorming/rolverdeler">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/groepsvorming/rolverdeler">
+    <meta property="og:title" content="Meestertools - Rolverdeler">
+    <meta property="og:description" content="Maak groepjes en verdeel rollen zoals voorzitter, tijdbewaker en schrijver.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Rolverdeler">
+    <meta name="twitter:description" content="Maak groepjes en verdeel rollen.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Rolverdeler</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/rolverdeler.css">
+</head>
+<body>
+    <div class="mt-page-loader" id="mtPageLoader"><div class="mt-spinner"></div></div>
+
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../groepsvorming" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Rolverdeler</h1>
+                <p>Maak groepjes en verdeel rollen zoals voorzitter, tijdbewaker en schrijver.</p>
+            </div>
+            <button class="tool-settings-btn" id="rvBtnSettings" title="Rollen beheren">&#9881;&#65039;</button>
+        </div>
+
+        <div class="tool-page-body">
+            <!-- Geen klas -->
+            <div class="rv-empty" id="rvNoGroup">
+                <div class="rv-empty-icon">&#127919;</div>
+                <p>Kies rechtsboven een actieve klas om groepjes te maken en rollen te verdelen.<br>
+                Nog geen klas? Maak er een aan via <strong>Instellingen &rarr; Mijn klas</strong>.</p>
+            </div>
+
+            <div id="rvMain" style="display:none;">
+                <!-- Bedieningsbalk -->
+                <div class="rv-toolbar">
+                    <div class="rv-tb-group">
+                        <label class="rv-tb-label">Willekeurig verdelen</label>
+                        <div class="rv-tb-row">
+                            <select id="rvSplitMethod" class="rv-select">
+                                <option value="count">in ... groepjes</option>
+                                <option value="size">groepjes van ...</option>
+                            </select>
+                            <input type="number" id="rvSplitNumber" class="rv-num" min="2" max="20" value="4">
+                            <button class="rv-btn rv-btn-primary" id="rvBtnRandom">&#127922; Verdeel</button>
+                        </div>
+                    </div>
+                    <div class="rv-tb-actions">
+                        <button class="rv-btn rv-btn-ghost" id="rvBtnAddGroup">&#10010; Leeg groepje</button>
+                        <button class="rv-btn rv-btn-ghost" id="rvBtnAssignRoles">&#127919; Rollen verdelen</button>
+                        <button class="rv-btn rv-btn-ghost" id="rvBtnClear">&#8634; Wissen</button>
+                        <span class="rv-tb-divider"></span>
+                        <button class="rv-btn rv-btn-ghost" id="rvBtnSaveSet">&#128190; Opslaan</button>
+                        <select id="rvSetSelect" class="rv-select rv-set-select" title="Opgeslagen indeling laden">
+                            <option value="">Opgeslagen sets&hellip;</option>
+                        </select>
+                        <button class="rv-btn rv-btn-ghost" id="rvBtnDeleteSet" title="Deze set verwijderen" style="display:none;">&#128465;&#65039;</button>
+                        <span class="rv-tb-divider"></span>
+                        <button class="rv-btn rv-btn-ghost" id="rvBtnPresent">&#128250; Presenteren</button>
+                        <button class="rv-btn rv-btn-ghost" id="rvBtnPrint">&#128424;&#65039; Printen</button>
+                    </div>
+                </div>
+
+                <!-- Hint bij verplaatsen -->
+                <p class="rv-hint" id="rvHint">Tip: tik op een kind en daarna op een groepje om het te verplaatsen. Tik nogmaals om te annuleren.</p>
+
+                <!-- Nog niet ingedeeld -->
+                <section class="rv-pool-section">
+                    <h3 class="rv-section-title">Nog niet ingedeeld <span class="rv-count" id="rvPoolCount">0</span></h3>
+                    <div class="rv-pool" id="rvPool" data-drop="pool"></div>
+                </section>
+
+                <!-- Groepjes -->
+                <section class="rv-groups-section">
+                    <div class="rv-groups" id="rvGroups"></div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <!-- Instellingen: rollen beheren -->
+    <div class="modal-overlay" id="rvSettingsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Rollen beheren</h2>
+                <button class="modal-close" id="rvSettingsClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="rv-settings-sub">Stel de rollen in die je over de groepjes wilt verdelen. Sleep niet nodig &mdash; voeg toe, bewerk of verwijder.</p>
+                <div class="rv-roles-edit" id="rvRolesEdit"></div>
+                <button class="rv-btn rv-btn-ghost rv-add-role" id="rvBtnAddRole">&#10010; Rol toevoegen</button>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="rvSettingsSave">Klaar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Set opslaan -->
+    <div class="modal-overlay" id="rvSaveModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Indeling opslaan</h2>
+                <button class="modal-close" id="rvSaveClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label class="rv-field-label" for="rvSaveName">Naam van de indeling</label>
+                <input type="text" id="rvSaveName" class="rv-text" maxlength="40" placeholder="Bijv. Vaste groepjes blok 2">
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="rvSaveCancel">Annuleren</button>
+                <button class="btn-primary" id="rvSaveConfirm">Opslaan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Presenteer-overlay -->
+    <div class="rv-present" id="rvPresent" style="display:none;">
+        <button class="rv-present-close" id="rvPresentClose" title="Sluiten">&#10005;</button>
+        <h2 class="rv-present-title">Groepjes &amp; rollen</h2>
+        <div class="rv-present-groups" id="rvPresentGroups"></div>
+    </div>
+
+    <!-- Toast -->
+    <div class="rv-toast" id="rvToast"></div>
+
+    <script src="/js/template.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="/js/active-class.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/rolverdeler.js"></script>
+</body>
+</html>
