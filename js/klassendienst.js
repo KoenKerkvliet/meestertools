@@ -33,10 +33,18 @@ document.addEventListener('DOMContentLoaded', function () {
     var kdLinkRewardSelect = document.getElementById('kdLinkKPReward');
     var toastEl = document.getElementById('kdToast');
 
+    var chooseModal = document.getElementById('kdChooseModal');
+    var chooseClose = document.getElementById('kdChooseClose');
+    var chooseCancel = document.getElementById('kdChooseCancel');
+    var chooseConfirm = document.getElementById('kdChooseConfirm');
+    var chooseGrid = document.getElementById('kdChooseGrid');
+    var chooseSub = document.getElementById('kdChooseSub');
+    var chooseCount = document.getElementById('kdChooseCount');
+
     if (!container) return;
 
     // ---------- State ----------
-    var settings = { perWeek: 2, tasks: [], startOffset: 0, kdLink: { enabled: false, rewardTypeId: null } };
+    var settings = { perWeek: 2, tasks: [], startOffset: 0, kdLink: { enabled: false, rewardTypeId: null }, manualPlan: null };
     var schooljaar = null;          // { activeYear, years: {..} }
     var students = [];              // gesorteerd op leerlingnummer
     var groupName = '';
@@ -98,6 +106,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function fmtDay(d) {
         return DAYS[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()];
+    }
+
+    function ymd(d) {
+        return d.getFullYear() + '-' +
+            ('0' + (d.getMonth() + 1)).slice(-2) + '-' +
+            ('0' + d.getDate()).slice(-2);
     }
 
     function fmtRange(monday, friday) {
@@ -311,6 +325,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     rewardTypeId: s.kdLink.rewardTypeId || null
                 };
             }
+            if (s.manualPlan && typeof s.manualPlan === 'object' && Array.isArray(s.manualPlan.order)) {
+                settings.manualPlan = s.manualPlan;
+            }
         } else {
             settings.tasks = DEFAULT_TASKS.slice();
         }
@@ -415,18 +432,42 @@ document.addEventListener('DOMContentLoaded', function () {
             m = addDays(m, 7);
         }
 
-        // Rotatie op leerlingnummer toewijzen
-        var n = students.length;
+        // Toewijzing: standaard rotatie op leerlingnummer. Is er een handmatig
+        // gekozen groepje (manualPlan) voor dit schooljaar, dan zet dat groepje
+        // op de ankerweek en loopt de rotatie daarvandaan verder op nummer.
         var per = Math.max(1, settings.perWeek || 1);
-        var offset = settings.startOffset || 0;
+        var order = students;              // standaard: op leerlingnummer (al gesorteerd)
+        var anchorIdx = -1;
+
+        var plan = settings.manualPlan;
+        if (plan && plan.year === activeYearLabel() && Array.isArray(plan.order) && plan.anchorMonday) {
+            // Volgorde: gekozen kinderen eerst, dan de rest op nummer.
+            // Vertrokken leerlingen vallen weg; nieuwe leerlingen sluiten achteraan aan.
+            var byId = {};
+            students.forEach(function (s) { byId[s.id] = s; });
+            var built = [], inPlan = {};
+            plan.order.forEach(function (id) {
+                if (byId[id]) { built.push(byId[id]); inPlan[id] = true; }
+            });
+            students.forEach(function (s) { if (!inPlan[s.id]) built.push(s); });
+            if (built.length) order = built;
+            // Ankerweek op datum vinden
+            for (var a = 0; a < weeks.length; a++) {
+                if (ymd(weeks[a].monday) === plan.anchorMonday) { anchorIdx = a; break; }
+            }
+        }
+
+        var n = order.length;
+        var base = anchorIdx >= 0 ? anchorIdx : 0;
+        var offset = anchorIdx >= 0 ? 0 : (settings.startOffset || 0);
         weeks.forEach(function (w, i) {
             w.index = i;
             w.students = [];
             if (n > 0) {
                 for (var k = 0; k < per; k++) {
-                    var idx = (i * per + offset + k) % n;
+                    var idx = ((i - base) * per + offset + k) % n;
                     if (idx < 0) idx += n;
-                    w.students.push(students[idx]);
+                    w.students.push(order[idx]);
                 }
             }
         });
@@ -497,6 +538,15 @@ document.addEventListener('DOMContentLoaded', function () {
         html += '    <span class="kd-week-pill">Week ' + (week.index + 1) + ' van ' + totalWeeks + '</span>';
         html += '    <h2 class="kd-hero-title">' + (cur.vacationNow ? 'Eerstvolgende klassendienst' : 'Deze week klassendienst') + '</h2>';
         html += '    <p class="kd-hero-date">' + escapeHtml(fmtRange(week.monday, week.friday)) + '</p>';
+        html += '    <div class="kd-hero-actions">';
+        html += '      <button type="button" class="kd-choose-btn" id="kdChooseBtn">&#9999;&#65039; Zelf het groepje kiezen</button>';
+        if (manualPlanActive()) {
+            html += '      <button type="button" class="kd-reset-btn" id="kdResetPlan">&#8634; Automatische rotatie</button>';
+        }
+        html += '    </div>';
+        if (manualPlanActive()) {
+            html += '    <p class="kd-manual-note">&#9998; Je hebt het groepje vanaf deze week zelf ingesteld.</p>';
+        }
         html += '  </div>';
         html += '  <div class="kd-hero-grid">';
         html += '    <div class="kd-duty-people">' + peopleCardsHtml(week.students, 'big') + '</div>';
@@ -538,6 +588,19 @@ document.addEventListener('DOMContentLoaded', function () {
         bindDayTabs();
         bindTaskChecks();
         bindOverview();
+        bindHeroActions();
+    }
+
+    function manualPlanActive() {
+        var p = settings.manualPlan;
+        return !!(p && p.year === activeYearLabel() && Array.isArray(p.order) && p.order.length);
+    }
+
+    function bindHeroActions() {
+        var b = document.getElementById('kdChooseBtn');
+        if (b) b.addEventListener('click', openChooseModal);
+        var r = document.getElementById('kdResetPlan');
+        if (r) r.addEventListener('click', clearManualPlan);
     }
 
     // ---- Personen met monster-avatar ----
@@ -848,6 +911,106 @@ document.addEventListener('DOMContentLoaded', function () {
         closeSettings();
         buildSchoolWeeks();
         render();
+    });
+
+    // ---------- Zelf het groepje kiezen ----------
+    var chooseSelected = [];
+
+    function openChooseModal() {
+        if (!chooseModal) return;
+        var cur = findCurrentWeek();
+        if (cur.index === -1) { showToast('Het schooljaar is afgelopen — stel eerst een nieuw schooljaar in.'); return; }
+        var per = Math.max(1, settings.perWeek || 1);
+        // Voorselecteren: het groepje van de huidige (getoonde) week
+        var curStudents = (schoolWeeks[cur.index] && schoolWeeks[cur.index].students) || [];
+        chooseSelected = curStudents.map(function (s) { return s.id; }).slice(0, per);
+        renderChooseGrid();
+        chooseModal.classList.add('active');
+    }
+
+    function closeChooseModal() {
+        if (chooseModal) chooseModal.classList.remove('active');
+    }
+
+    function renderChooseGrid() {
+        var per = Math.max(1, settings.perWeek || 1);
+        if (chooseSub) {
+            chooseSub.textContent = 'Selecteer ' + per + ' ' + (per === 1 ? 'kind' : 'kinderen') +
+                ' voor deze week. Daarna loopt de rotatie verder op leerlingnummer.';
+        }
+        if (chooseCount) {
+            chooseCount.textContent = chooseSelected.length + ' / ' + per + ' gekozen';
+            chooseCount.classList.toggle('is-complete', chooseSelected.length === per);
+        }
+        chooseGrid.innerHTML = students.map(function (s) {
+            var sel = chooseSelected.indexOf(s.id) !== -1;
+            return '<button type="button" class="kd-choose-chip' + (sel ? ' selected' : '') + '" data-id="' + s.id + '">' +
+                '<img src="' + monsterForStudent(s) + '" alt="" class="kd-choose-monster" ' +
+                    'onerror="this.style.visibility=\'hidden\'">' +
+                '<span class="kd-choose-name">' + escapeHtml(s.first_name || studentName(s)) + '</span>' +
+                '<span class="kd-choose-nr">nr. ' + escapeHtml(String(s.student_number)) + '</span>' +
+                '</button>';
+        }).join('');
+        chooseGrid.querySelectorAll('.kd-choose-chip').forEach(function (b) {
+            b.addEventListener('click', function () { toggleChoose(b.dataset.id); });
+        });
+        if (chooseConfirm) chooseConfirm.disabled = chooseSelected.length !== per;
+    }
+
+    function toggleChoose(id) {
+        var per = Math.max(1, settings.perWeek || 1);
+        var i = chooseSelected.indexOf(id);
+        if (i !== -1) {
+            chooseSelected.splice(i, 1);
+        } else {
+            // Bij de max aangekomen? Vervang de oudste keuze, zo wissel je makkelijk.
+            if (chooseSelected.length >= per) chooseSelected.shift();
+            chooseSelected.push(id);
+        }
+        renderChooseGrid();
+    }
+
+    async function confirmChoose() {
+        var per = Math.max(1, settings.perWeek || 1);
+        if (chooseSelected.length !== per) return;
+        var cur = findCurrentWeek();
+        if (cur.index === -1) { showToast('Het schooljaar is afgelopen.'); return; }
+        var anchorMonday = ymd(schoolWeeks[cur.index].monday);
+
+        // Gekozen kinderen eerst (op nummer), daarna de rest op nummer.
+        var chosenSet = {};
+        chooseSelected.forEach(function (id) { chosenSet[id] = true; });
+        var chosen = students.filter(function (s) { return chosenSet[s.id]; });
+        var rest = students.filter(function (s) { return !chosenSet[s.id]; });
+        var order = chosen.concat(rest).map(function (s) { return s.id; });
+
+        settings.manualPlan = { year: activeYearLabel(), anchorMonday: anchorMonday, order: order };
+        var user = await getSessionUser();
+        if (user) await saveSettings(user);
+        closeChooseModal();
+        buildSchoolWeeks();
+        render();
+        showToast('&#9998; Nieuw voorstel gemaakt vanaf deze week.');
+    }
+
+    async function clearManualPlan() {
+        if (!confirm('Terug naar de automatische rotatie op leerlingnummer? Je handmatig gekozen groepje vervalt.')) return;
+        settings.manualPlan = null;
+        var user = await getSessionUser();
+        if (user) await saveSettings(user);
+        buildSchoolWeeks();
+        render();
+        showToast('&#8634; Automatische rotatie hersteld.');
+    }
+
+    if (chooseClose) chooseClose.addEventListener('click', closeChooseModal);
+    if (chooseCancel) chooseCancel.addEventListener('click', closeChooseModal);
+    if (chooseConfirm) chooseConfirm.addEventListener('click', confirmChoose);
+    if (chooseModal) chooseModal.addEventListener('click', function (e) {
+        if (e.target === chooseModal) closeChooseModal();
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && chooseModal && chooseModal.classList.contains('active')) closeChooseModal();
     });
 
     // ---------- Init ----------

@@ -94,6 +94,25 @@
         </div>
     </div>
 
+    <!-- Zelf het groepje kiezen -->
+    <div class="modal-overlay" id="kdChooseModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Kies zelf het groepje</h2>
+                <button class="modal-close" id="kdChooseClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="kd-choose-sub" id="kdChooseSub">Selecteer de kinderen voor deze week.</p>
+                <div class="kd-choose-count" id="kdChooseCount"></div>
+                <div class="kd-choose-grid" id="kdChooseGrid"></div>
+            </div>
+            <div class="modal-footer kd-choose-footer">
+                <button class="kd-choose-cancel" id="kdChooseCancel">Annuleren</button>
+                <button class="btn-primary" id="kdChooseConfirm" disabled>Gebruik dit groepje</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast notificatie -->
     <div class="kd-toast" id="kdToast"></div>
 
