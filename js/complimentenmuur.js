@@ -111,10 +111,26 @@ document.addEventListener('DOMContentLoaded', () => {
         return h;
     }
     const MONSTER_COUNT = 36;
+    let monsterByStudentId = {}; // {student_id: 1..36}, uniek binnen de klas
+    // Wijs elk kind in de klas een UNIEK monstertje toe. Zelfde algoritme als
+    // Klasseprestatie/Klassendienst, zodat een leerling overal hetzelfde
+    // (en binnen de klas niet-dubbele) monstertje houdt.
+    function assignMonsters(list) {
+        const map = {}, used = {};
+        (list || []).slice().sort((a, b) => {
+            const ai = String(a.id), bi = String(b.id);
+            return ai < bi ? -1 : ai > bi ? 1 : 0;
+        }).forEach(s => {
+            let n = hashStr(s.id) % MONSTER_COUNT, tries = 0;
+            while (used[n] && tries < MONSTER_COUNT) { n = (n + 1) % MONSTER_COUNT; tries++; }
+            used[n] = true;
+            map[s.id] = n + 1;
+        });
+        return map;
+    }
     function monsterForStudent(s) {
-        // Zelfde deterministische keuze als Klasseprestatie/Klassendienst,
-        // zodat een leerling overal hetzelfde monstertje houdt.
-        const n = (hashStr((s && s.id) || '') % MONSTER_COUNT) + 1;
+        const id = (s && s.id) || '';
+        const n = monsterByStudentId[id] || ((hashStr(id) % MONSTER_COUNT) + 1);
         return 'assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.png';
     }
     async function getUser() {
@@ -149,11 +165,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     async function loadStudents() {
         students = [];
+        monsterByStudentId = {};
         if (!selectedGroupId) return;
         const { data } = await supabase
             .from('students').select('id, first_name, last_name, student_number')
             .eq('group_id', selectedGroupId).eq('archived', false).order('student_number');
         students = data || [];
+        monsterByStudentId = assignMonsters(students);
     }
     async function loadOpenSession() {
         session = null;
