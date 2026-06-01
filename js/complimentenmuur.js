@@ -409,13 +409,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const h = hashStr(c.id);
         const color = NOTE_COLORS[h % NOTE_COLORS.length];
         const rot = (h % 5) - 2; // -2..2 graden
-        const author = (session && session.show_author && c.author_name)
-            ? '<div class="cm-note-author">van ' + escapeHtml(c.author_name) + '</div>' : '';
+        // Op het bord en bij presenteren blijven complimenten altijd anoniem.
+        // De afzender zie je alleen in de beoordeel-wachtrij.
         const remove = opts.removable
             ? '<button class="cm-note-remove" data-id="' + c.id + '" title="Van het bord halen">&#10005;</button>' : '';
         return '<div class="cm-note" style="background:' + color + ';--rot:' + rot + 'deg;">' +
             remove +
-            '<div class="cm-note-text">' + escapeHtml(c.text) + '</div>' + author +
+            '<div class="cm-note-text">' + escapeHtml(c.text) + '</div>' +
             '</div>';
     }
     function renderBoard() {
