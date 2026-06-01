@@ -29,6 +29,7 @@
         { id: 'geluidsmeter', name: 'Geluidsmeter', url: 'digibord/geluidsmeter', icon: '&#128266;' },
         { id: 'groepjesmaker', name: 'Groepjesmaker', url: 'digibord/groepjesmaker', icon: '&#128101;' },
         { id: 'namenkiezer', name: 'Namenkiezer', url: 'digibord/namenkiezer', icon: '&#9997;&#65039;' },
+        { id: 'plattegrond', name: 'Plattegrond', url: 'digibord/plattegrond', icon: '&#128205;' },
         { id: 'podium', name: 'Podium', url: 'digibord/podium', icon: '&#127942;' },
         { id: 'stoplicht', name: 'Stoplicht', url: 'digibord/stoplicht', icon: '&#128678;' },
         { id: 'timetimer', name: 'Time Timer', url: 'digibord/timetimer', icon: '&#9202;' },

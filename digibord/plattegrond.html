@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Plattegrond: maak een klasopstelling met rijen, groepstafels of een mix, en zet je leerlingen op hun plek. Voor op het digibord.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/digibord/plattegrond">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/digibord/plattegrond">
+    <meta property="og:title" content="Meestertools - Plattegrond">
+    <meta property="og:description" content="Maak een klasopstelling met rijen, groepstafels of een mix en zet je leerlingen op hun plek.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Plattegrond">
+    <meta name="twitter:description" content="Maak een klasopstelling en zet je leerlingen op hun plek.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Plattegrond</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/plattegrond.css">
+</head>
+<body>
+    <div class="mt-page-loader" id="mtPageLoader"><div class="mt-spinner"></div></div>
+
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../digibordtools" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Plattegrond</h1>
+                <p>Maak een klasopstelling en zet je leerlingen op hun plek.</p>
+            </div>
+            <button class="tool-settings-btn" id="pgBtnSettings" title="Opstelling instellen">&#9881;&#65039;</button>
+        </div>
+
+        <div class="tool-page-body">
+            <!-- Geen klas -->
+            <div class="pg-empty" id="pgNoGroup">
+                <div class="pg-empty-icon">&#128205;</div>
+                <p>Kies rechtsboven een actieve klas om een plattegrond te maken.<br>
+                Nog geen klas? Maak er een aan via <strong>Instellingen &rarr; Mijn klas</strong>.</p>
+            </div>
+
+            <div id="pgMain" style="display:none;">
+                <!-- Bedieningsbalk -->
+                <div class="pg-toolbar">
+                    <div class="pg-tb-actions">
+                        <button class="pg-btn pg-btn-primary" id="pgBtnFill">&#129516; Vul op volgorde</button>
+                        <button class="pg-btn pg-btn-ghost" id="pgBtnShuffle">&#127922; Husselen</button>
+                        <button class="pg-btn pg-btn-ghost" id="pgBtnClearSeats">&#8634; Plekken leegmaken</button>
+                        <span class="pg-tb-divider"></span>
+                        <button class="pg-btn pg-btn-ghost" id="pgBtnSettings2">&#9881;&#65039; Opstelling</button>
+                        <button class="pg-btn pg-btn-ghost" id="pgBtnPresent">&#128250; Presenteren</button>
+                        <button class="pg-btn pg-btn-ghost" id="pgBtnPrint">&#128424;&#65039; Printen</button>
+                    </div>
+                    <div class="pg-status" id="pgStatus"></div>
+                </div>
+
+                <p class="pg-hint" id="pgHint">Tip: tik op een leerling en daarna op een plek om hem/haar te zetten. Tik op twee plekken om ze te wisselen.</p>
+
+                <!-- Nog niet geplaatst -->
+                <section class="pg-pool-section" id="pgPoolSection">
+                    <h3 class="pg-section-title">Nog niet geplaatst <span class="pg-count" id="pgPoolCount">0</span></h3>
+                    <div class="pg-pool" id="pgPool"></div>
+                </section>
+
+                <!-- Plattegrond -->
+                <section class="pg-room-section">
+                    <div class="pg-front">&#128421;&#65039; Voorkant &middot; digibord</div>
+                    <div class="pg-room" id="pgRoom"></div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <!-- Instellingen: opstelling -->
+    <div class="modal-overlay" id="pgSettingsModal">
+        <div class="modal pg-settings-modal">
+            <div class="modal-header">
+                <h2>Opstelling instellen</h2>
+                <button class="modal-close" id="pgSettingsClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label class="pg-field-label">Layout</label>
+                <div class="pg-seg" id="pgTypeSeg">
+                    <button type="button" data-type="rijen" class="active">&#9776; Rijen</button>
+                    <button type="button" data-type="groepjes">&#9783; Groepjes</button>
+                    <button type="button" data-type="mix">&#9784; Mix</button>
+                </div>
+
+                <!-- Rijen-instellingen -->
+                <div class="pg-set-block" id="pgSetRijen">
+                    <label class="pg-field-label" for="pgSeatsPerRow">Hoeveel naast elkaar in een rij</label>
+                    <input type="number" id="pgSeatsPerRow" class="pg-num" min="2" max="8" value="5">
+                    <p class="pg-set-hint">Het aantal rijen past zich automatisch aan je klas aan.</p>
+                </div>
+
+                <!-- Groepjes / mix -->
+                <div class="pg-set-block" id="pgSetGrid" style="display:none;">
+                    <label class="pg-field-label" for="pgTableSeats">Leerlingen per groepstafel</label>
+                    <input type="number" id="pgTableSeats" class="pg-num" min="2" max="6" value="4">
+                    <label class="pg-field-label pg-grid-label">Plaats de tafels (4&times;4)</label>
+                    <p class="pg-set-hint" id="pgGridHint"></p>
+                    <div class="pg-grid-editor" id="pgGridEditor"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="pgSettingsSave">Toepassen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Presenteer-overlay -->
+    <div class="pg-present" id="pgPresent" style="display:none;">
+        <button class="pg-present-close" id="pgPresentClose" title="Sluiten">&#10005;</button>
+        <div class="pg-present-front">&#128421;&#65039; Voorkant &middot; digibord</div>
+        <div class="pg-present-room" id="pgPresentRoom"></div>
+    </div>
+
+    <!-- Toast -->
+    <div class="pg-toast" id="pgToast"></div>
+
+    <script src="/js/template.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="/js/active-class.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/plattegrond.js"></script>
+</body>
+</html>
