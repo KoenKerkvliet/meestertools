@@ -135,13 +135,16 @@
 }
 .rv-present-close:hover { background: rgba(255,255,255,.3); }
 .rv-present-title { text-align: center; font-size: 34px; margin-bottom: 28px; }
-.rv-present-groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; max-width: 1400px; margin: 0 auto; }
+.rv-present-groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; max-width: 1500px; margin: 0 auto; }
 .rv-pr-group { background: rgba(255,255,255,.12); border-radius: 16px; padding: 16px 18px; }
-.rv-pr-group-title { font-size: 20px; font-weight: 800; margin-bottom: 12px; }
-.rv-pr-member { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
-.rv-pr-monster { width: 40px; height: 40px; object-fit: contain; flex-shrink: 0; }
-.rv-pr-name { font-size: 17px; font-weight: 600; }
-.rv-pr-role { margin-left: auto; background: rgba(255,255,255,.92); color: #3F37A8; border-radius: 999px; padding: 4px 12px; font-size: 13px; font-weight: 700; }
+.rv-pr-group-title { font-size: 19px; font-weight: 800; margin-bottom: 10px; }
+.rv-pr-member { display: flex; align-items: center; gap: 10px; padding: 5px 0; }
+.rv-pr-monster { width: 38px; height: 38px; object-fit: contain; flex-shrink: 0; }
+.rv-pr-name { font-size: 16px; font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rv-pr-role {
+    flex-shrink: 0; background: rgba(255,255,255,.92); color: #3F37A8;
+    border-radius: 999px; padding: 4px 11px; font-size: 12.5px; font-weight: 700; white-space: nowrap;
+}
 .rv-pr-norole { background: rgba(255,255,255,.18); color: rgba(255,255,255,.85); }
 .rv-present-empty { text-align: center; color: rgba(255,255,255,.85); font-size: 18px; margin-top: 40px; }
 body.rv-presenting { overflow: hidden; }
