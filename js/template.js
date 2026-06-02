@@ -1,6 +1,6 @@
 /* ============================================
    MEESTERTOOLS - Template Injector
-   Versie: v1.3.0
+   Versie: v1.4.0
 
    Inject reusable header and footer into every page that has
    <header id="app-header-slot"></header> and
@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.3.0';
+    const VERSION = 'v1.4.0';
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [
@@ -58,6 +58,7 @@
         { id: 'routines', name: 'Routines', url: 'groepsvorming/routines', icon: '&#128203;' },
         // Organisatie
         { id: 'klassendienst', name: 'Klassendienst', url: 'organisatie/klassendienst', icon: '&#129529;' },
+        { id: 'huiswerk', name: 'Huiswerk', url: 'organisatie/huiswerk', icon: '&#128218;' },
         { id: 'plattegrond', name: 'Plattegrond', url: 'organisatie/plattegrond', icon: '&#128205;' }
     ];
     window.MT_ALL_TOOLS = MT_ALL_TOOLS;

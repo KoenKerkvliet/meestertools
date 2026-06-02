@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Huiswerk: houd bij wie het huiswerk niet heeft gemaakt. Na drie keer draait de leerling aan de prijzenknop voor een klusje. Met logboek.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/organisatie/huiswerk">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/organisatie/huiswerk">
+    <meta property="og:title" content="Meestertools - Huiswerk">
+    <meta property="og:description" content="Houd bij wie het huiswerk vergeet en draai na drie keer aan de prijzenknop.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Huiswerk">
+    <meta name="twitter:description" content="Houd bij wie het huiswerk vergeet.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Huiswerk</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/huiswerk.css">
+</head>
+<body>
+    <div class="mt-page-loader" id="mtPageLoader"><div class="mt-spinner"></div></div>
+
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../organisatie" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Huiswerk</h1>
+                <p>Houd bij wie het huiswerk vergeet &mdash; na drie keer is het prijs.</p>
+            </div>
+            <button class="tool-settings-btn" id="hwBtnSettings" title="Instellingen">&#9881;&#65039;</button>
+        </div>
+
+        <div class="tool-page-body">
+            <!-- Geen klas -->
+            <div class="hw-empty" id="hwNoGroup" style="display:none;">
+                <div class="hw-empty-icon">&#128218;</div>
+                <p>Kies rechtsboven een actieve klas om het huiswerk bij te houden.<br>
+                Nog geen klas? Maak er een aan via <strong>Instellingen &rarr; Mijn klas</strong>.</p>
+            </div>
+
+            <div id="hwMain" style="display:none;">
+                <div class="hw-actionbar">
+                    <p class="hw-status" id="hwStatus"></p>
+                    <div class="hw-actions">
+                        <button class="hw-btn hw-btn-ghost" id="hwBtnLog">&#128203; Logboek</button>
+                        <button class="hw-btn hw-btn-cancel" id="hwBtnCancel" style="display:none;">Annuleren</button>
+                        <button class="hw-btn hw-btn-primary" id="hwBtnCheck">&#9989; Controleren</button>
+                    </div>
+                </div>
+
+                <div class="hw-grid" id="hwGrid"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <!-- Prijzen-overlay -->
+    <div class="hw-prize" id="hwPrize" style="display:none;">
+        <button class="hw-prize-close" id="hwPrizeClose" title="Sluiten">&#10005;</button>
+        <div class="hw-prize-inner">
+            <div class="hw-queue" id="hwQueue"></div>
+            <p class="hw-prize-sub" id="hwPrizeSub">Aan de beurt</p>
+            <h2 class="hw-prize-name" id="hwPrizeName">&hellip;</h2>
+            <div class="hw-reel" id="hwReel">&#127873;</div>
+            <button class="hw-spin-btn" id="hwSpin">&#127873; Kies je prijs</button>
+            <button class="hw-next-btn" id="hwNext" style="display:none;">Volgende &rarr;</button>
+        </div>
+    </div>
+
+    <!-- Logboek -->
+    <div class="modal-overlay" id="hwLogModal">
+        <div class="modal hw-log-modal">
+            <div class="modal-header">
+                <h2>Logboek</h2>
+                <button class="modal-close" id="hwLogClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="hw-log-list" id="hwLogList"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="hwLogClear">Logboek wissen</button>
+                <button class="btn-primary" id="hwLogDone">Klaar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instellingen -->
+    <div class="modal-overlay" id="hwSettingsModal">
+        <div class="modal hw-settings-modal">
+            <div class="modal-header">
+                <h2>Instellingen Huiswerk</h2>
+                <button class="modal-close" id="hwSettingsClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3 class="hw-set-heading">&#127873; Prijzen &amp; klusjes</h3>
+                <p class="hw-set-sub">Deze verschijnen op de prijzenknop. Sleep met de greep <span class="hw-grip-inline">&#8942;&#8942;</span> om te sorteren.</p>
+                <div class="hw-edit-list" id="hwPrizeList"></div>
+                <div class="hw-add-row">
+                    <input type="text" id="hwNewPrize" class="hw-text" maxlength="60" placeholder="Nieuwe prijs/klusje, bv. het bord schoonmaken">
+                    <button class="hw-btn hw-btn-primary" id="hwAddPrize">&#10010; Toevoegen</button>
+                </div>
+
+                <hr class="settings-divider">
+
+                <h3 class="hw-set-heading">&#128290; Prijs na hoeveel keer?</h3>
+                <p class="hw-set-sub">Zoveel keer huiswerk vergeten = prijs draaien.</p>
+                <input type="number" id="hwThreshold" class="hw-num" min="1" max="10" value="3">
+
+                <hr class="settings-divider">
+
+                <h3 class="hw-set-heading">&#9888;&#65039; Nieuwe periode</h3>
+                <p class="hw-set-sub">Zet alle tellers van deze klas weer op 0. Het logboek blijft staan.</p>
+                <button class="hw-btn-danger" id="hwResetCounts">&#8634; Tellers op 0</button>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="hwSettingsDone">Klaar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="hw-toast" id="hwToast"></div>
+
+    <script src="/js/template.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="/js/active-class.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/huiswerk.js"></script>
+</body>
+</html>
