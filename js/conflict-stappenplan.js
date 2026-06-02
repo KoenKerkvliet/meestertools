@@ -132,6 +132,7 @@
     // ---------- Init ----------
     document.addEventListener('DOMContentLoaded', function () {
         renderOverview();
+        if (window.hidePageLoader) window.hidePageLoader();
 
         $('csStart').addEventListener('click', openPresent);
         $('csPresentClose').addEventListener('click', closePresent);
