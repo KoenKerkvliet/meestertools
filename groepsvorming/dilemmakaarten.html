@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dilemmakaarten: bespreek lastige sociale situaties op het bord en oefen samen met keuzes maken. Met bespreekkaarten en stellingen om over te stemmen, plus je eigen kaarten.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/groepsvorming/dilemmakaarten">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/groepsvorming/dilemmakaarten">
+    <meta property="og:title" content="Meestertools - Dilemmakaarten">
+    <meta property="og:description" content="Bespreek lastige situaties op het bord en oefen samen met keuzes maken.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Dilemmakaarten">
+    <meta name="twitter:description" content="Bespreek lastige situaties en oefen samen met keuzes maken.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Dilemmakaarten</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/dilemmakaarten.css">
+</head>
+<body>
+    <div class="mt-page-loader" id="mtPageLoader"><div class="mt-spinner"></div></div>
+
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../groepsvorming" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Dilemmakaarten</h1>
+                <p>Bespreek lastige situaties op het bord en oefen samen met keuzes maken.</p>
+            </div>
+            <button class="dk-present-btn" id="dkPresent">&#128250; Op het bord</button>
+        </div>
+
+        <div class="tool-page-body">
+            <!-- Bedieningsbalk -->
+            <div class="dk-toolbar">
+                <div class="dk-cats" id="dkCats"></div>
+                <div class="dk-toolbar-actions">
+                    <button class="dk-btn dk-btn-ghost" id="dkShuffle">&#128256; Schud</button>
+                    <button class="dk-btn dk-btn-ghost" id="dkManage">&#9881;&#65039; Eigen kaarten</button>
+                </div>
+            </div>
+
+            <!-- Kaartviewer (verhuist naar de presenteer-overlay tijdens 'Op het bord') -->
+            <div class="dk-stage-home" id="dkStageHome">
+                <div class="dk-viewer" id="dkViewer">
+                    <div class="dk-card" id="dkCard"></div>
+                    <div class="dk-nav">
+                        <button class="dk-nav-btn" id="dkPrev" title="Vorige kaart">&larr; Vorige</button>
+                        <span class="dk-progress" id="dkProgress">0 / 0</span>
+                        <button class="dk-nav-btn dk-nav-next" id="dkNext" title="Volgende kaart">Volgende &rarr;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <!-- Presenteer-overlay: de kaartviewer wordt hierin geplaatst -->
+    <div class="dk-present" id="dkPresentOverlay" style="display:none;">
+        <button class="dk-present-close" id="dkPresentClose" title="Sluiten (Esc)">&#10005;</button>
+        <div class="dk-present-slot" id="dkPresentSlot"></div>
+    </div>
+
+    <!-- Eigen kaarten beheren -->
+    <div class="modal-overlay" id="dkManageModal">
+        <div class="modal dk-manage-modal">
+            <div class="modal-header">
+                <h2>Eigen kaarten</h2>
+                <button class="modal-close" id="dkManageClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="dk-manage-sub">Voeg je eigen bespreekkaart of stelling toe. Je eigen kaarten worden bij je account bewaard en verschijnen tussen de andere kaarten.</p>
+
+                <form class="dk-form" id="dkForm">
+                    <input type="hidden" id="dkEditId" value="">
+
+                    <label class="dk-field-label">Soort kaart</label>
+                    <div class="dk-seg" id="dkTypeSeg">
+                        <button type="button" class="dk-seg-btn is-active" data-type="bespreken">Bespreken</button>
+                        <button type="button" class="dk-seg-btn" data-type="stelling">Stelling</button>
+                    </div>
+
+                    <label class="dk-field-label" for="dkCat">Categorie</label>
+                    <select id="dkCat" class="dk-select"></select>
+
+                    <label class="dk-field-label" for="dkText" id="dkTextLabel">Situatie &amp; vraag</label>
+                    <textarea id="dkText" class="dk-textarea" rows="3" maxlength="280" placeholder="Bijv. Je ziet dat een klasgenoot buiten de groep wordt gelaten. Wat doe je?"></textarea>
+
+                    <div id="dkPromptsWrap">
+                        <label class="dk-field-label" for="dkPrompts">Doorpraat-vragen <span class="dk-optional">(optioneel, &eacute;&eacute;n per regel)</span></label>
+                        <textarea id="dkPrompts" class="dk-textarea" rows="2" maxlength="280" placeholder="Hoe voelt diegene zich denk je?&#10;Wat zou je kunnen doen?"></textarea>
+                    </div>
+
+                    <div class="dk-form-actions">
+                        <button type="button" class="btn-cancel" id="dkFormCancel" style="display:none;">Annuleren</button>
+                        <button type="submit" class="btn-primary" id="dkFormSubmit">Kaart toevoegen</button>
+                    </div>
+                </form>
+
+                <h3 class="dk-list-title">Mijn kaarten <span class="dk-count" id="dkMyCount">0</span></h3>
+                <div class="dk-my-list" id="dkMyList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="dk-toast" id="dkToast"></div>
+
+    <script src="/js/template.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/dilemmakaarten.js"></script>
+</body>
+</html>

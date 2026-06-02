@@ -1,0 +1,407 @@
+/* ============================================
+   MEESTERTOOLS - Dilemmakaarten
+   Versie: v1.0.0
+   ============================================ */
+
+/* ---------- Accent-kleuren per categorie ---------- */
+.dk-accent-blue   { --dk: var(--accent-blue, #45B7D1); }
+.dk-accent-green  { --dk: var(--accent-green, #6BCB77); }
+.dk-accent-orange { --dk: var(--accent-orange, #FF8C42); }
+.dk-accent-purple { --dk: var(--primary, #6C63FF); }
+.dk-accent-cyan   { --dk: var(--accent-cyan, #4ECDC4); }
+.dk-accent-red    { --dk: var(--secondary, #FF6B6B); }
+
+.dk-cat-blue   { --dk: var(--accent-blue, #45B7D1); }
+.dk-cat-green  { --dk: var(--accent-green, #6BCB77); }
+.dk-cat-orange { --dk: var(--accent-orange, #FF8C42); }
+.dk-cat-purple { --dk: var(--primary, #6C63FF); }
+.dk-cat-cyan   { --dk: var(--accent-cyan, #4ECDC4); }
+.dk-cat-red    { --dk: var(--secondary, #FF6B6B); }
+
+/* ---------- Presenteerknop in de header ---------- */
+.dk-present-btn {
+    flex-shrink: 0;
+    border: none;
+    cursor: pointer;
+    background: var(--primary, #6C63FF);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 12px 20px;
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm, 0 2px 8px rgba(108,99,255,.1));
+    transition: var(--transition, all .3s ease);
+}
+.dk-present-btn:hover { background: var(--primary-dark, #5A52D5); transform: translateY(-1px); }
+
+/* ---------- Bedieningsbalk ---------- */
+.dk-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+.dk-cats { display: flex; flex-wrap: wrap; gap: 8px; }
+.dk-cat {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 2px solid #E8E8F0;
+    background: var(--bg-white, #fff);
+    color: var(--text-medium, #636E72);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .15s ease;
+}
+.dk-cat:hover { border-color: var(--dk, var(--primary)); color: var(--text-dark, #2D3436); }
+.dk-cat.is-active {
+    background: var(--dk, var(--primary, #6C63FF));
+    border-color: var(--dk, var(--primary, #6C63FF));
+    color: #fff;
+}
+.dk-cat-icon { font-size: 15px; }
+
+.dk-toolbar-actions { display: flex; gap: 8px; }
+.dk-btn {
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 9px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all .15s ease;
+}
+.dk-btn-ghost { background: #EFEFFA; color: var(--primary-dark, #5A52D5); }
+.dk-btn-ghost:hover { background: #E4E4F7; }
+
+/* ---------- Kaartviewer ---------- */
+.dk-stage-home { display: flex; }
+.dk-viewer { width: 100%; }
+.dk-card {
+    background: var(--bg-white, #fff);
+    border-radius: var(--radius-xl, 24px);
+    border-top: 10px solid var(--dk, var(--primary, #6C63FF));
+    box-shadow: var(--shadow-md, 0 4px 16px rgba(108,99,255,.15));
+    padding: 34px 38px;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+}
+.dk-card-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.dk-type {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    border-radius: 999px;
+    padding: 4px 12px;
+}
+.dk-type-bespreken { background: rgba(108,99,255,.12); color: var(--primary-dark, #5A52D5); }
+.dk-type-stelling  { background: rgba(255,140,66,.16); color: #C25A12; }
+.dk-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--dk, var(--text-medium));
+    background: color-mix(in srgb, var(--dk, #6C63FF) 12%, transparent);
+    border-radius: 999px;
+    padding: 4px 12px;
+}
+.dk-chip-icon { font-size: 15px; }
+.dk-card-text {
+    font-size: 28px;
+    line-height: 1.4;
+    font-weight: 700;
+    color: var(--text-dark, #2D3436);
+    flex: 1;
+}
+
+/* doorpraat-vragen */
+.dk-reveal {
+    align-self: flex-start;
+    margin-top: 22px;
+    border: none;
+    cursor: pointer;
+    background: color-mix(in srgb, var(--dk, #6C63FF) 12%, transparent);
+    color: var(--dk, var(--primary-dark));
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 9px 16px;
+}
+.dk-prompts {
+    list-style: none;
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.dk-prompts li {
+    font-size: 17px;
+    color: var(--text-medium, #636E72);
+    padding-left: 22px;
+    position: relative;
+}
+.dk-prompts li::before {
+    content: '\2192';
+    position: absolute;
+    left: 0;
+    color: var(--dk, var(--primary));
+    font-weight: 800;
+}
+
+/* stemmen */
+.dk-vote { margin-top: 24px; }
+.dk-vote-btns { display: flex; gap: 14px; }
+.dk-vote-btn {
+    flex: 1;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--radius-md, 12px);
+    padding: 16px;
+    font-size: 19px;
+    font-weight: 800;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform .12s ease, filter .12s ease;
+}
+.dk-vote-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.dk-vote-btn:active { transform: translateY(0); }
+.dk-vote-eens { background: var(--accent-green, #6BCB77); }
+.dk-vote-oneens { background: var(--secondary, #FF6B6B); }
+.dk-vote-num {
+    background: rgba(255,255,255,.28);
+    border-radius: 999px;
+    min-width: 30px;
+    padding: 1px 8px;
+    font-size: 16px;
+}
+.dk-bar {
+    display: flex;
+    height: 14px;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 16px;
+    background: #ECECF3;
+}
+.dk-bar-eens { background: var(--accent-green, #6BCB77); transition: width .3s ease; }
+.dk-bar-oneens { background: var(--secondary, #FF6B6B); transition: width .3s ease; }
+.dk-vote-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--text-medium, #636E72);
+}
+.dk-vote-reset {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--primary, #6C63FF);
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.dk-empty {
+    text-align: center;
+    color: var(--text-medium, #636E72);
+    font-size: 16px;
+    margin: auto;
+    max-width: 420px;
+}
+
+/* ---------- Navigatie ---------- */
+.dk-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 22px;
+}
+.dk-nav-btn {
+    border: none;
+    cursor: pointer;
+    background: #EFEFFA;
+    color: var(--primary-dark, #5A52D5);
+    font-size: 16px;
+    font-weight: 700;
+    padding: 12px 24px;
+    border-radius: 999px;
+    transition: background .15s ease;
+}
+.dk-nav-btn:hover:not(:disabled) { background: #E4E4F7; }
+.dk-nav-btn:disabled { opacity: .4; cursor: default; }
+.dk-nav-next { background: var(--primary, #6C63FF); color: #fff; }
+.dk-nav-next:hover:not(:disabled) { background: var(--primary-dark, #5A52D5); }
+.dk-progress { font-size: 14px; font-weight: 700; color: var(--text-medium, #636E72); min-width: 56px; text-align: center; }
+
+/* ---------- Presenteren (fullscreen) ---------- */
+.dk-present {
+    position: fixed;
+    inset: 0;
+    z-index: 4000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background: radial-gradient(circle at 30% 0%, #7A70FF 0%, #5B51D6 45%, #3F37A8 100%);
+}
+body.dk-presenting { overflow: hidden; }
+.dk-present-slot { width: 100%; max-width: 860px; }
+.dk-present-close {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    z-index: 4010;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: rgba(255,255,255,.18);
+    color: #fff;
+    font-size: 20px;
+}
+.dk-present-close:hover { background: rgba(255,255,255,.3); }
+
+/* Grotere kaart tijdens presenteren */
+.dk-presenting .dk-card { padding: 48px 56px; min-height: 340px; box-shadow: 0 24px 60px rgba(0,0,0,.28); }
+.dk-presenting .dk-card-text { font-size: 38px; }
+.dk-presenting .dk-prompts li { font-size: 21px; }
+.dk-presenting .dk-nav-btn { background: rgba(255,255,255,.2); color: #fff; }
+.dk-presenting .dk-nav-btn:hover:not(:disabled) { background: rgba(255,255,255,.34); }
+.dk-presenting .dk-nav-next { background: #fff; color: #3F37A8; }
+.dk-presenting .dk-progress { color: rgba(255,255,255,.9); }
+
+/* ---------- Eigen kaarten beheren ---------- */
+.dk-manage-modal { max-width: 560px; }
+.dk-manage-sub { font-size: 14px; color: var(--text-medium, #636E72); margin-bottom: 18px; }
+.dk-form { display: flex; flex-direction: column; }
+.dk-field-label { font-size: 13px; font-weight: 700; color: var(--text-dark, #2D3436); margin: 14px 0 6px; }
+.dk-field-label:first-of-type { margin-top: 0; }
+.dk-optional { font-weight: 500; color: var(--text-light, #B2BEC3); }
+.dk-seg {
+    display: inline-flex;
+    background: var(--bg-light, #F8F9FE);
+    border-radius: 999px;
+    padding: 4px;
+    align-self: flex-start;
+    gap: 4px;
+}
+.dk-seg-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-medium, #636E72);
+}
+.dk-seg-btn.is-active { background: var(--primary, #6C63FF); color: #fff; }
+.dk-select, .dk-textarea {
+    width: 100%;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-sm, 8px);
+    padding: 10px 12px;
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--text-dark, #2D3436);
+    background: var(--bg-white, #fff);
+}
+.dk-textarea { resize: vertical; }
+.dk-select:focus, .dk-textarea:focus { outline: none; border-color: var(--primary, #6C63FF); }
+.dk-form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+
+.dk-list-title {
+    font-size: 15px;
+    margin: 26px 0 12px;
+    padding-top: 18px;
+    border-top: 1px solid #F0F0F5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.dk-count {
+    background: var(--bg-light, #F8F9FE);
+    color: var(--text-medium, #636E72);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 9px;
+}
+.dk-my-empty { font-size: 14px; color: var(--text-light, #B2BEC3); }
+.dk-my-list { display: flex; flex-direction: column; gap: 10px; }
+.dk-my-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    justify-content: space-between;
+    background: var(--bg-light, #F8F9FE);
+    border-radius: var(--radius-md, 12px);
+    padding: 12px 14px;
+}
+.dk-my-info { min-width: 0; }
+.dk-my-cat { font-size: 12.5px; font-weight: 600; color: var(--text-medium, #636E72); }
+.dk-my-text { font-size: 14.5px; color: var(--text-dark, #2D3436); margin-top: 5px; }
+.dk-my-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.dk-icon-btn {
+    border: none;
+    cursor: pointer;
+    background: var(--bg-white, #fff);
+    border-radius: var(--radius-sm, 8px);
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
+}
+.dk-icon-btn:hover { background: #EFEFFA; }
+.dk-icon-del:hover { background: #FFECEC; }
+
+/* ---------- Toast ---------- */
+.dk-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--text-dark, #2D3436);
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-size: 14.5px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0,0,0,.2);
+    opacity: 0;
+    pointer-events: none;
+    transition: all .25s ease;
+    z-index: 5000;
+}
+.dk-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+    .dk-card { padding: 24px 22px; min-height: 220px; }
+    .dk-card-text { font-size: 22px; }
+    .dk-present { padding: 18px; }
+    .dk-presenting .dk-card { padding: 28px 22px; min-height: 240px; }
+    .dk-presenting .dk-card-text { font-size: 26px; }
+    .dk-vote-btns { flex-direction: column; }
+    .dk-nav { gap: 12px; }
+    .dk-nav-btn { padding: 11px 16px; font-size: 15px; }
+    .dk-present-btn { font-size: 14px; padding: 10px 16px; }
+}
