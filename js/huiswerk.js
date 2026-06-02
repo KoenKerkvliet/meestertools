@@ -183,8 +183,9 @@ document.addEventListener('DOMContentLoaded', function () {
         var c = countFor(s.id);
         var isPrize = c >= settings.threshold;
         var sel = selected[s.id];
+        var lvl = c === 1 ? ' hw-c-green' : (c === 2 ? ' hw-c-orange' : ' hw-c-red');
         var badge = (c > 0)
-            ? '<span class="hw-count' + (isPrize ? ' is-prize' : '') + '">' + (isPrize ? '&#127873; ' : '') + c + '</span>'
+            ? '<span class="hw-count' + lvl + '">' + c + '</span>'
             : '';
         return '<button type="button" class="hw-card' +
             (sel ? ' is-selected' : '') +
@@ -360,7 +361,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var s = queue[qIndex];
         var g = gd();
         g.log.unshift({ t: new Date().toISOString(), name: studentName(s), type: 'prijs', prize: prize });
-        g.counts[s.id] = 0;          // teller reset na de prijs (nieuwe ronde)
+        // Teller blijft staan: ook bij de 4e, 5e keer enz. is het opnieuw prijs.
         persist();
         spinning = false;
         nextBtn.style.display = '';
