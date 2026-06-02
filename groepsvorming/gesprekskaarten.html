@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gesprekskaarten: gespreksstarters voor in de kring om het gesprek op gang te brengen. Filter op thema en diepte, trek een kaart en kies wie begint.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/groepsvorming/gesprekskaarten">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/groepsvorming/gesprekskaarten">
+    <meta property="og:title" content="Meestertools - Gesprekskaarten">
+    <meta property="og:description" content="Gespreksstarters voor in de kring om het gesprek op gang te brengen.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Gesprekskaarten">
+    <meta name="twitter:description" content="Gespreksstarters voor in de kring.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Gesprekskaarten</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/gesprekskaarten.css">
+</head>
+<body>
+    <div class="mt-page-loader" id="mtPageLoader"><div class="mt-spinner"></div></div>
+
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../groepsvorming" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Gesprekskaarten</h1>
+                <p>Gespreksstarters voor in de kring om het gesprek op gang te brengen.</p>
+            </div>
+            <button class="gk-present-btn" id="gkPresent">&#128250; Op het bord</button>
+        </div>
+
+        <div class="tool-page-body">
+            <!-- Filters -->
+            <div class="gk-toolbar">
+                <div class="gk-filters">
+                    <div class="gk-niveaus" id="gkNiveaus"></div>
+                    <div class="gk-themes" id="gkThemes"></div>
+                </div>
+                <button class="gk-btn gk-btn-ghost" id="gkManage">&#9881;&#65039; Eigen kaarten</button>
+            </div>
+
+            <!-- Kaartviewer (verhuist naar de presenteer-overlay tijdens 'Op het bord') -->
+            <div class="gk-stage-home" id="gkStageHome">
+                <div class="gk-viewer" id="gkViewer">
+                    <div class="gk-card" id="gkCard"></div>
+
+                    <!-- Subtiele 'wie begint?' (alleen zichtbaar met actieve klas) -->
+                    <div class="gk-turnbar" id="gkTurnBar" style="display:none;">
+                        <button class="gk-turn-btn" id="gkTurnBtn">&#128100; Kies wie begint</button>
+                        <div class="gk-turn-result" id="gkTurnResult" style="display:none;">
+                            <span class="gk-turn-name" id="gkTurnName"></span>
+                            <span class="gk-turn-suffix">mag beginnen</span>
+                            <button class="gk-turn-next" id="gkTurnNext" title="Geef door">&#8634; Volgende</button>
+                            <button class="gk-turn-hide" id="gkTurnHide" title="Verberg">&times;</button>
+                        </div>
+                    </div>
+
+                    <div class="gk-nav">
+                        <button class="gk-nav-btn" id="gkPrev" title="Vorige kaart">&larr;</button>
+                        <button class="gk-draw" id="gkDraw">&#127884; Trek een kaart</button>
+                        <button class="gk-nav-btn" id="gkNext" title="Volgende kaart">&rarr;</button>
+                    </div>
+                    <p class="gk-progress" id="gkProgress">0 / 0</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <!-- Presenteer-overlay: de kaartviewer wordt hierin geplaatst -->
+    <div class="gk-present" id="gkPresentOverlay" style="display:none;">
+        <button class="gk-present-close" id="gkPresentClose" title="Sluiten (Esc)">&#10005;</button>
+        <div class="gk-present-slot" id="gkPresentSlot"></div>
+    </div>
+
+    <!-- Eigen kaarten beheren -->
+    <div class="modal-overlay" id="gkManageModal">
+        <div class="modal gk-manage-modal">
+            <div class="modal-header">
+                <h2>Eigen gesprekskaarten</h2>
+                <button class="modal-close" id="gkManageClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="gk-manage-sub">Voeg je eigen gespreksstarter toe. Je eigen kaarten worden bij je account bewaard en verschijnen tussen de andere kaarten.</p>
+
+                <form class="gk-form" id="gkForm">
+                    <input type="hidden" id="gkEditId" value="">
+
+                    <label class="gk-field-label" for="gkText">De vraag</label>
+                    <textarea id="gkText" class="gk-textarea" rows="2" maxlength="200" placeholder="Bijv. Waar word jij blij van?"></textarea>
+
+                    <div class="gk-form-row">
+                        <div class="gk-form-col">
+                            <label class="gk-field-label" for="gkTheme">Thema</label>
+                            <select id="gkTheme" class="gk-select"></select>
+                        </div>
+                        <div class="gk-form-col">
+                            <label class="gk-field-label" for="gkNiveau">Diepte</label>
+                            <select id="gkNiveau" class="gk-select"></select>
+                        </div>
+                    </div>
+
+                    <div class="gk-form-actions">
+                        <button type="button" class="btn-cancel" id="gkFormCancel" style="display:none;">Annuleren</button>
+                        <button type="submit" class="btn-primary" id="gkFormSubmit">Kaart toevoegen</button>
+                    </div>
+                </form>
+
+                <h3 class="gk-list-title">Mijn kaarten <span class="gk-count" id="gkMyCount">0</span></h3>
+                <div class="gk-my-list" id="gkMyList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="gk-toast" id="gkToast"></div>
+
+    <script src="/js/template.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="/js/active-class.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/gesprekskaarten.js"></script>
+</body>
+</html>
