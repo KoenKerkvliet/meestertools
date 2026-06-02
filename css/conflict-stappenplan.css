@@ -1,0 +1,227 @@
+/* ============================================
+   MEESTERTOOLS - Conflict-stappenplan
+   Versie: v1.0.0
+   ============================================ */
+
+/* ---------- Accent-kleuren per stap ---------- */
+.cs-accent-red    { --cs: var(--secondary, #FF6B6B); }
+.cs-accent-orange { --cs: var(--accent-orange, #FF8C42); }
+.cs-accent-blue   { --cs: var(--accent-blue, #45B7D1); }
+.cs-accent-pink   { --cs: var(--accent-pink, #FF6B9D); }
+.cs-accent-green  { --cs: var(--accent-green, #6BCB77); }
+
+/* ---------- Startknop in de header ---------- */
+.cs-start-btn {
+    flex-shrink: 0;
+    border: none;
+    cursor: pointer;
+    background: var(--primary, #6C63FF);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 12px 20px;
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm, 0 2px 8px rgba(108,99,255,.1));
+    transition: var(--transition, all .3s ease);
+}
+.cs-start-btn:hover { background: var(--primary-dark, #5A52D5); transform: translateY(-1px); }
+
+/* ---------- Intro ---------- */
+.cs-intro {
+    max-width: 760px;
+    color: var(--text-medium, #636E72);
+    font-size: 16px;
+    margin-bottom: 28px;
+}
+
+/* ---------- Stappen-overzicht ---------- */
+.cs-steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 860px;
+}
+.cs-step {
+    display: flex;
+    gap: 18px;
+    background: var(--bg-white, #fff);
+    border-radius: var(--radius-lg, 16px);
+    padding: 22px 24px;
+    box-shadow: var(--shadow-sm, 0 2px 8px rgba(108,99,255,.1));
+    border-left: 6px solid var(--cs);
+}
+.cs-step-num {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--cs);
+    color: #fff;
+    font-size: 22px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cs-step-body { min-width: 0; }
+.cs-step-title {
+    font-size: 20px;
+    color: var(--text-dark, #2D3436);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+.cs-step-icon { font-size: 24px; }
+.cs-step-desc { color: var(--text-medium, #636E72); font-size: 15.5px; margin-bottom: 12px; }
+.cs-step-tip {
+    font-size: 14.5px;
+    color: var(--text-dark, #2D3436);
+    background: color-mix(in srgb, var(--cs) 12%, transparent);
+    border-radius: var(--radius-sm, 8px);
+    padding: 10px 14px;
+}
+.cs-tip-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--cs);
+    margin-right: 8px;
+}
+
+/* ---------- Presenteren ---------- */
+.cs-present {
+    position: fixed;
+    inset: 0;
+    z-index: 4000;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 40px 28px;
+    background: radial-gradient(circle at 30% 0%, #7A70FF 0%, #5B51D6 45%, #3F37A8 100%);
+}
+body.cs-presenting { overflow: hidden; }
+.cs-present-close {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    z-index: 4010;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: rgba(255,255,255,.18);
+    color: #fff;
+    font-size: 20px;
+}
+.cs-present-close:hover { background: rgba(255,255,255,.3); }
+
+.cs-stage {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+}
+.cs-stage-card {
+    width: 100%;
+    max-width: 760px;
+    background: var(--bg-white, #fff);
+    border-radius: var(--radius-xl, 24px);
+    padding: 40px 44px;
+    box-shadow: 0 24px 60px rgba(0,0,0,.28);
+    border-top: 10px solid var(--cs);
+    text-align: center;
+}
+.cs-stage-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+.cs-stage-num {
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--cs);
+}
+.cs-stage-icon { font-size: 64px; line-height: 1; }
+.cs-stage-title {
+    font-size: 40px;
+    color: var(--text-dark, #2D3436);
+    margin-bottom: 16px;
+}
+.cs-stage-desc {
+    font-size: 23px;
+    line-height: 1.5;
+    color: var(--text-medium, #636E72);
+    margin-bottom: 24px;
+}
+.cs-stage-tip {
+    font-size: 18px;
+    color: var(--text-dark, #2D3436);
+    background: color-mix(in srgb, var(--cs) 14%, transparent);
+    border-radius: var(--radius-md, 12px);
+    padding: 16px 20px;
+    text-align: left;
+}
+.cs-stage-tip .cs-tip-label { font-size: 13px; }
+
+/* ---------- Navigatie ---------- */
+.cs-nav {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 24px;
+}
+.cs-nav-btn {
+    border: none;
+    cursor: pointer;
+    background: rgba(255,255,255,.2);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    padding: 13px 26px;
+    border-radius: 999px;
+    transition: background .2s ease;
+}
+.cs-nav-btn:hover:not(:disabled) { background: rgba(255,255,255,.34); }
+.cs-nav-btn:disabled { opacity: .35; cursor: default; }
+.cs-nav-next { background: #fff; color: #3F37A8; }
+.cs-nav-next:hover:not(:disabled) { background: #fff; transform: translateY(-1px); }
+.cs-nav-done { background: var(--accent-green, #6BCB77); color: #fff; }
+.cs-nav-done:hover { background: #5bb867; }
+
+.cs-dots { display: flex; gap: 12px; }
+.cs-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.65);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: all .2s ease;
+}
+.cs-dot:hover { background: rgba(255,255,255,.4); }
+.cs-dot.is-active { background: #fff; border-color: #fff; transform: scale(1.15); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+    .cs-present { padding: 24px 18px 20px; }
+    .cs-stage-card { padding: 28px 22px; }
+    .cs-stage-icon { font-size: 48px; }
+    .cs-stage-title { font-size: 30px; }
+    .cs-stage-desc { font-size: 19px; }
+    .cs-stage-tip { font-size: 16px; }
+    .cs-nav { gap: 12px; }
+    .cs-nav-btn { padding: 11px 18px; font-size: 15px; }
+    .cs-start-btn { font-size: 14px; padding: 10px 16px; }
+}

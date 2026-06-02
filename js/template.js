@@ -52,6 +52,7 @@
         { id: 'sociogram', name: 'Sociogram', url: 'groepsvorming/sociogram', icon: '&#129309;' },
         { id: 'complimentenmuur', name: 'Complimentenmuur', url: 'groepsvorming/complimentenmuur', icon: '&#128140;' },
         { id: 'rolverdeler', name: 'Rolverdeler', url: 'groepsvorming/rolverdeler', icon: '&#127917;' },
+        { id: 'conflict-stappenplan', name: 'Conflict-stappenplan', url: 'groepsvorming/conflict-stappenplan', icon: '&#129309;' },
         // Organisatie
         { id: 'klassendienst', name: 'Klassendienst', url: 'organisatie/klassendienst', icon: '&#129529;' },
         { id: 'plattegrond', name: 'Plattegrond', url: 'organisatie/plattegrond', icon: '&#128205;' }
