@@ -70,38 +70,41 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px 16px;
+    align-items: start;
 }
 .rt-item {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 13px;
-    width: 100%;
-    text-align: left;
     border: 1.5px solid #ECECF3;
     background: var(--bg-white, #fff);
     border-radius: var(--radius-md, 12px);
-    padding: 13px 16px;
-    cursor: pointer;
-    font: inherit;
+    overflow: hidden;
     transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
 }
 .rt-item:hover { border-color: var(--primary-light, #8B83FF); box-shadow: var(--shadow-sm, 0 2px 8px rgba(108,99,255,.1)); }
 
+/* Het hokje: enige plek om af te vinken */
 .rt-check {
     flex-shrink: 0;
+    align-self: center;
+    margin: 0 0 0 16px;
     width: 24px;
     height: 24px;
+    padding: 0;
     border-radius: 7px;
     border: 2px solid #CBD0DE;
     background: var(--bg-light, #F8F9FE);
     position: relative;
+    cursor: pointer;
     transition: background .15s ease, border-color .15s ease;
 }
+.rt-check:hover { border-color: var(--accent-green, #6BCB77); }
 .rt-check::after {
     content: '';
     position: absolute;
-    left: 8px;
-    top: 4px;
+    left: 7px;
+    top: 3px;
     width: 6px;
     height: 11px;
     border: solid #fff;
@@ -109,6 +112,23 @@
     transform: rotate(45deg) scale(0);
     transition: transform .18s cubic-bezier(.4,1.4,.6,1);
 }
+
+/* De balk naast het hokje: klik = uitvouwen (indien uitleg) */
+.rt-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 16px;
+    text-align: left;
+    background: none;
+    border: none;
+    font: inherit;
+    color: inherit;
+}
+.rt-main-btn { cursor: pointer; }
+
 .rt-label {
     flex: 1;
     min-width: 0;
@@ -127,6 +147,31 @@
     font-size: 12.5px;
     font-weight: 700;
 }
+.rt-count.is-zero { display: none; }
+.rt-chev {
+    flex-shrink: 0;
+    color: var(--text-light, #B2BEC3);
+    font-size: 13px;
+    transition: transform .2s ease;
+}
+.rt-item.is-open .rt-chev { transform: rotate(180deg); }
+
+/* Uitvouwbare uitleg */
+.rt-desc {
+    flex-basis: 100%;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .25s ease;
+}
+.rt-item.is-open .rt-desc { max-height: 480px; }
+.rt-desc-inner {
+    padding: 10px 16px 14px 56px;
+    font-size: 14px;
+    color: var(--text-medium, #636E72);
+    line-height: 1.5;
+    border-top: 1px solid #F0F0F5;
+}
 
 /* aangevinkt vandaag */
 .rt-item.is-checked {
@@ -140,6 +185,7 @@
 .rt-item.is-checked .rt-check::after { transform: rotate(45deg) scale(1); }
 .rt-item.is-checked .rt-label { color: #2C7A3D; font-weight: 600; }
 .rt-item.is-checked .rt-count { background: #DBF0DF; color: #2C7A3D; }
+.rt-item.is-checked .rt-desc-inner { border-top-color: #D6EBDA; }
 
 /* ---------- Lege staat ---------- */
 .rt-empty {
@@ -192,14 +238,24 @@
 }
 .rt-edit-row {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
+    gap: 7px;
     background: var(--bg-light, #F8F9FE);
     border: 1.5px solid transparent;
     border-radius: var(--radius-sm, 8px);
-    padding: 6px 8px;
+    padding: 8px;
 }
 .rt-edit-row.rt-dragging { opacity: .5; border-color: var(--primary, #6C63FF); }
+.rt-edit-main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.rt-edit-desc {
+    width: 100%;
+    resize: vertical;
+    min-height: 36px;
+}
 .rt-grip {
     flex-shrink: 0;
     cursor: grab;
@@ -240,7 +296,6 @@
 }
 .rt-edit-del:hover { background: #FFECEC; }
 
-.rt-add-row { display: flex; gap: 8px; }
 .rt-text {
     border: 1.5px solid #E8E8F0;
     border-radius: var(--radius-sm, 8px);
@@ -250,8 +305,18 @@
     color: var(--text-dark, #2D3436);
     background: var(--bg-white, #fff);
 }
-.rt-add-row .rt-text { flex: 1; min-width: 0; }
-.rt-add-row .rt-text:focus { outline: none; border-color: var(--primary, #6C63FF); }
+.rt-text:focus { outline: none; border-color: var(--primary, #6C63FF); }
+
+.rt-add {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-top: 1px solid #F0F0F5;
+    padding-top: 14px;
+}
+.rt-add .rt-text { width: 100%; }
+.rt-add-desc { resize: vertical; min-height: 38px; }
+.rt-add .rt-btn-primary { align-self: flex-end; }
 
 .rt-btn {
     border: none;

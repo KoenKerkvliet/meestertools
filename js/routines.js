@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var settingsDone = $('rtSettingsDone');
     var editList = $('rtEditList');
     var newItemInput = $('rtNewItem');
+    var newDescInput = $('rtNewDesc');
     var addBtn = $('rtAddBtn');
     var sortAzBtn = $('rtSortAz');
 
@@ -90,12 +91,12 @@ document.addEventListener('DOMContentLoaded', function () {
         var settings = (res.data && res.data.settings) ? res.data.settings : null;
         if (settings && Array.isArray(settings.items)) {
             items = settings.items.map(function (it) {
-                return { id: it.id || uid(), label: String(it.label || ''), count: it.count || 0, checkedOn: it.checkedOn || '' };
+                return { id: it.id || uid(), label: String(it.label || ''), desc: it.desc || '', count: it.count || 0, checkedOn: it.checkedOn || '' };
             });
         } else {
             // Eerste keer: standaardlijst opbouwen
             items = DEFAULTS.map(function (label) {
-                return { id: uid(), label: label, count: 0, checkedOn: '' };
+                return { id: uid(), label: label, desc: '', count: 0, checkedOn: '' };
             });
         }
         loaded = true;
@@ -114,15 +115,27 @@ document.addEventListener('DOMContentLoaded', function () {
     // ---------- Checklist renderen ----------
     function itemHtml(it) {
         var checked = isCheckedToday(it);
-        var badge = (it.count > 0)
-            ? '<span class="rt-count" title="' + it.count + ' keer uitgelegd">' + it.count + '</span>'
+        var hasDesc = !!(it.desc && it.desc.trim());
+        var badge = '<span class="rt-count' + (it.count > 0 ? '' : ' is-zero') + '" title="' + it.count + ' keer uitgelegd">' + it.count + '</span>';
+        var chev = hasDesc ? '<span class="rt-chev" aria-hidden="true">&#9662;</span>' : '';
+        var desc = hasDesc
+            ? '<div class="rt-desc"><div class="rt-desc-inner">' + esc(it.desc).replace(/\n/g, '<br>') + '</div></div>'
             : '';
-        return '<button type="button" class="rt-item' + (checked ? ' is-checked' : '') + '" ' +
-            'data-id="' + it.id + '" aria-pressed="' + (checked ? 'true' : 'false') + '">' +
-                '<span class="rt-check"></span>' +
-                '<span class="rt-label">' + esc(it.label) + '</span>' +
-                badge +
-            '</button>';
+
+        var mainOpen = hasDesc
+            ? '<button type="button" class="rt-main rt-main-btn" aria-expanded="false">'
+            : '<span class="rt-main">';
+        var mainClose = hasDesc ? '</button>' : '</span>';
+
+        return '<div class="rt-item' + (checked ? ' is-checked' : '') + (hasDesc ? ' has-desc' : '') + '" data-id="' + it.id + '">' +
+                '<button type="button" class="rt-check" aria-pressed="' + (checked ? 'true' : 'false') + '" ' +
+                    'aria-label="Afvinken" title="' + (checked ? 'Uitvinken' : 'Afvinken') + '"></button>' +
+                mainOpen +
+                    '<span class="rt-label">' + esc(it.label) + '</span>' +
+                    badge + chev +
+                mainClose +
+                desc +
+            '</div>';
     }
 
     function renderList() {
@@ -161,53 +174,64 @@ document.addEventListener('DOMContentLoaded', function () {
         if (el) {
             var checked = isCheckedToday(it);
             el.classList.toggle('is-checked', checked);
-            el.setAttribute('aria-pressed', checked ? 'true' : 'false');
+            var cb = el.querySelector('.rt-check');
+            if (cb) { cb.setAttribute('aria-pressed', checked ? 'true' : 'false'); cb.title = checked ? 'Uitvinken' : 'Afvinken'; }
             var badge = el.querySelector('.rt-count');
-            if (it.count > 0) {
-                if (!badge) {
-                    badge = document.createElement('span');
-                    badge.className = 'rt-count';
-                    el.appendChild(badge);
-                }
+            if (badge) {
                 badge.textContent = it.count;
                 badge.title = it.count + ' keer uitgelegd';
-            } else if (badge) {
-                badge.remove();
+                badge.classList.toggle('is-zero', !(it.count > 0));
             }
         }
         updateProgress();
         persist();
     }
 
+    function toggleExpand(el) {
+        var open = el.classList.toggle('is-open');
+        var main = el.querySelector('.rt-main-btn');
+        if (main) main.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
     listEl.addEventListener('click', function (e) {
-        var btn = e.target.closest('.rt-item');
-        if (btn) toggle(btn.getAttribute('data-id'));
+        var item = e.target.closest('.rt-item');
+        if (!item) return;
+        if (e.target.closest('.rt-check')) {
+            toggle(item.getAttribute('data-id'));
+        } else if (e.target.closest('.rt-main-btn')) {
+            toggleExpand(item);
+        }
     });
 
     // ---------- Instellingen: beheren ----------
     function editRowHtml(it) {
         var badge = (it.count > 0) ? '<span class="rt-edit-count" title="' + it.count + ' keer uitgelegd">' + it.count + '&times;</span>' : '';
         return '<div class="rt-edit-row" data-id="' + it.id + '">' +
-            '<span class="rt-grip" draggable="true" title="Sleep om te sorteren">&#8942;&#8942;</span>' +
-            '<input type="text" class="rt-edit-input rt-text" maxlength="60" value="' + esc(it.label) + '">' +
-            badge +
-            '<button type="button" class="rt-edit-del" title="Verwijderen">&#128465;&#65039;</button>' +
+            '<div class="rt-edit-main">' +
+                '<span class="rt-grip" draggable="true" title="Sleep om te sorteren">&#8942;&#8942;</span>' +
+                '<input type="text" class="rt-edit-input rt-text" maxlength="60" value="' + esc(it.label) + '" placeholder="Routine">' +
+                badge +
+                '<button type="button" class="rt-edit-del" title="Verwijderen">&#128465;&#65039;</button>' +
+            '</div>' +
+            '<textarea class="rt-edit-desc rt-text" rows="2" maxlength="500" ' +
+                'placeholder="Uitleg (optioneel) — verschijnt als je in de lijst op de balk klikt">' + esc(it.desc || '') + '</textarea>' +
         '</div>';
     }
     function renderEditList() {
         editList.innerHTML = items.map(editRowHtml).join('');
     }
 
-    // label aanpassen
+    // label of uitleg aanpassen
     editList.addEventListener('input', function (e) {
-        var input = e.target.closest('.rt-edit-input');
-        if (!input) return;
-        var row = input.closest('.rt-edit-row');
+        var row = e.target.closest('.rt-edit-row');
+        if (!row) return;
         var it = items.find(function (x) { return x.id === row.getAttribute('data-id'); });
-        if (it) it.label = input.value;
+        if (!it) return;
+        if (e.target.classList.contains('rt-edit-input')) it.label = e.target.value;
+        else if (e.target.classList.contains('rt-edit-desc')) it.desc = e.target.value;
     });
     editList.addEventListener('change', function (e) {
-        if (e.target.closest('.rt-edit-input')) persist();
+        if (e.target.classList.contains('rt-edit-input') || e.target.classList.contains('rt-edit-desc')) persist();
     });
     // verwijderen
     editList.addEventListener('click', function (e) {
@@ -220,12 +244,14 @@ document.addEventListener('DOMContentLoaded', function () {
         persist();
     });
 
-    // toevoegen
+    // toevoegen (routine + optionele uitleg)
     function addItem() {
         var label = newItemInput.value.trim();
         if (!label) { newItemInput.focus(); return; }
-        items.push({ id: uid(), label: label, count: 0, checkedOn: '' });
+        var desc = newDescInput ? newDescInput.value.trim() : '';
+        items.push({ id: uid(), label: label, desc: desc, count: 0, checkedOn: '' });
         newItemInput.value = '';
+        if (newDescInput) newDescInput.value = '';
         renderEditList();
         persist();
         newItemInput.focus();
@@ -315,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (currentUser) {
             await loadStore();
         } else {
-            items = DEFAULTS.map(function (label) { return { id: uid(), label: label, count: 0, checkedOn: '' }; });
+            items = DEFAULTS.map(function (label) { return { id: uid(), label: label, desc: '', count: 0, checkedOn: '' }; });
         }
         renderList();
         if (window.hidePageLoader) window.hidePageLoader();
