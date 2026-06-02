@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Routines: een persoonlijke checklist om bij te houden welke klasroutines je de eerste dagen al hebt uitgelegd. Elke dag weer leeg, met een teller hoe vaak je elke routine al deed.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/groepsvorming/routines">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/groepsvorming/routines">
+    <meta property="og:title" content="Meestertools - Routines">
+    <meta property="og:description" content="Een persoonlijke checklist om bij te houden welke klasroutines je al hebt uitgelegd.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Routines">
+    <meta name="twitter:description" content="Een persoonlijke checklist voor je klasroutines.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Routines</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/routines.css">
+</head>
+<body>
+    <div class="mt-page-loader" id="mtPageLoader"><div class="mt-spinner"></div></div>
+
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../groepsvorming" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Routines</h1>
+                <p>Vink af welke klasroutines je hebt uitgelegd &mdash; elke dag weer schoon.</p>
+            </div>
+            <button class="tool-settings-btn" id="rtBtnSettings" title="Routines beheren">&#9881;&#65039;</button>
+        </div>
+
+        <div class="tool-page-body">
+            <div id="rtMain">
+                <div class="rt-topbar">
+                    <div class="rt-today">
+                        <span class="rt-today-label">Vandaag</span>
+                        <span class="rt-date" id="rtDate"></span>
+                    </div>
+                    <div class="rt-progress">
+                        <div class="rt-progress-track"><div class="rt-progress-fill" id="rtProgressFill"></div></div>
+                        <span class="rt-progress-text" id="rtProgressText">0 van 0 vandaag uitgelegd</span>
+                    </div>
+                </div>
+
+                <p class="rt-hint">De vinkjes beginnen elke dag weer leeg. Het getal erachter laat zien hoe vaak je die routine al hebt uitgelegd.</p>
+
+                <div class="rt-list" id="rtList"></div>
+
+                <div class="rt-empty" id="rtEmpty" style="display:none;">
+                    <div class="rt-empty-icon">&#128203;</div>
+                    <p>Je lijst is leeg. Voeg routines toe via de knop <strong>&#9881;&#65039; rechtsboven</strong>.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <!-- Routines beheren -->
+    <div class="modal-overlay" id="rtSettingsModal">
+        <div class="modal rt-settings-modal">
+            <div class="modal-header">
+                <h2>Routines beheren</h2>
+                <button class="modal-close" id="rtSettingsClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="rt-manage-head">
+                    <p class="rt-manage-sub">Sleep met de greep <span class="rt-grip-inline">&#8942;&#8942;</span> om te sorteren. Pas teksten aan, voeg toe of verwijder.</p>
+                    <button class="rt-btn rt-btn-ghost" id="rtSortAz" title="Sorteer op alfabet">A&ndash;Z</button>
+                </div>
+
+                <div class="rt-edit-list" id="rtEditList"></div>
+
+                <div class="rt-add-row">
+                    <input type="text" id="rtNewItem" class="rt-text" maxlength="60" placeholder="Nieuwe routine, bijv. agenda noteren">
+                    <button class="rt-btn rt-btn-primary" id="rtAddBtn">&#10010; Toevoegen</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="rtSettingsDone">Klaar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="rt-toast" id="rtToast"></div>
+
+    <script src="/js/template.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/routines.js"></script>
+</body>
+</html>
