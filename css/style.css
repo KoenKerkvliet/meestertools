@@ -719,6 +719,18 @@ a {
     margin-bottom: 24px;
 }
 
+/* Subtiele scheidingslijn tussen de hoofdtegels en de overige categorieën */
+.dashboard-divider {
+    border: 0;
+    height: 1px;
+    margin: 12px 0 32px;
+    background: linear-gradient(to right,
+        transparent,
+        rgba(108, 99, 255, 0.18) 20%,
+        rgba(108, 99, 255, 0.18) 80%,
+        transparent);
+}
+
 .tool-card-feature {
     display: flex;
     align-items: center;
