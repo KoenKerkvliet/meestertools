@@ -29,7 +29,6 @@
         { id: 'geluidsmeter', name: 'Geluidsmeter', url: 'digibord/geluidsmeter', icon: '&#128266;' },
         { id: 'groepjesmaker', name: 'Groepjesmaker', url: 'digibord/groepjesmaker', icon: '&#128101;' },
         { id: 'namenkiezer', name: 'Namenkiezer', url: 'digibord/namenkiezer', icon: '&#9997;&#65039;' },
-        { id: 'plattegrond', name: 'Plattegrond', url: 'digibord/plattegrond', icon: '&#128205;' },
         { id: 'podium', name: 'Podium', url: 'digibord/podium', icon: '&#127942;' },
         { id: 'stoplicht', name: 'Stoplicht', url: 'digibord/stoplicht', icon: '&#128678;' },
         { id: 'timetimer', name: 'Time Timer', url: 'digibord/timetimer', icon: '&#9202;' },
@@ -54,7 +53,8 @@
         { id: 'complimentenmuur', name: 'Complimentenmuur', url: 'groepsvorming/complimentenmuur', icon: '&#128140;' },
         { id: 'rolverdeler', name: 'Rolverdeler', url: 'groepsvorming/rolverdeler', icon: '&#127917;' },
         // Organisatie
-        { id: 'klassendienst', name: 'Klassendienst', url: 'organisatie/klassendienst', icon: '&#129529;' }
+        { id: 'klassendienst', name: 'Klassendienst', url: 'organisatie/klassendienst', icon: '&#129529;' },
+        { id: 'plattegrond', name: 'Plattegrond', url: 'organisatie/plattegrond', icon: '&#128205;' }
     ];
     window.MT_ALL_TOOLS = MT_ALL_TOOLS;
 
