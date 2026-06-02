@@ -1,0 +1,188 @@
+/* ============================================
+   MEESTERTOOLS - Lingo
+   Versie: v1.0.0
+   ============================================ */
+
+.lingo-wrap {
+    max-width: 560px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ---------- Topbalk ---------- */
+.lingo-topbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+.lingo-chip {
+    background: var(--bg-light, #F1F1F8);
+    color: var(--text-medium, #636E72);
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-size: 14px;
+    font-weight: 700;
+}
+.lingo-btn {
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 11px 20px;
+    font-size: 14.5px;
+    font-weight: 700;
+    transition: all .15s ease;
+}
+.lingo-btn-primary { background: var(--primary, #6C63FF); color: #fff; }
+.lingo-btn-primary:hover { background: var(--primary-dark, #5A52D5); transform: translateY(-1px); }
+
+/* ---------- Bord ---------- */
+.lingo-board {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 14px;
+}
+.lingo-row {
+    display: grid;
+    gap: 8px;
+}
+.lingo-tile {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    border: 2px solid #E3E3EE;
+    background: var(--bg-white, #fff);
+    font-size: clamp(22px, 7vw, 34px);
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-dark, #2D3436);
+    user-select: none;
+}
+.lingo-tile.is-filled { border-color: var(--primary-light, #8B83FF); }
+.lingo-tile.is-cursor { border-color: var(--primary, #6C63FF); box-shadow: 0 0 0 3px rgba(108,99,255,.16); }
+.lingo-tile.lingo-given {
+    background: #F3F2FF;
+    border-color: var(--primary-light, #8B83FF);
+    color: var(--primary-dark, #5A52D5);
+}
+.lingo-tile.lingo-future {
+    background: var(--bg-light, #F8F9FE);
+    border-color: #ECECF3;
+    color: var(--text-light, #C7CBD6);
+}
+
+/* resultaat-kleuren */
+.lingo-correct { background: #4CAF50 !important; border-color: #43A047 !important; color: #fff !important; }
+.lingo-present { background: #F0A92E !important; border-color: #E09A1E !important; color: #fff !important; }
+.lingo-absent  { background: #9AA3B2 !important; border-color: #8B95A6 !important; color: #fff !important; }
+
+.lingo-tile.is-revealed { animation: lingoFlip .5s ease both; }
+@keyframes lingoFlip {
+    0%   { transform: rotateX(0); }
+    45%  { transform: rotateX(90deg); }
+    55%  { transform: rotateX(90deg); }
+    100% { transform: rotateX(0); }
+}
+
+.lingo-row.lingo-shake { animation: lingoShake .4s ease; }
+@keyframes lingoShake {
+    10%, 90% { transform: translateX(-2px); }
+    20%, 80% { transform: translateX(4px); }
+    30%, 50%, 70% { transform: translateX(-7px); }
+    40%, 60% { transform: translateX(7px); }
+}
+
+/* ---------- Bericht ---------- */
+.lingo-message {
+    min-height: 26px;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 14px;
+}
+.lingo-msg-win { color: #2C7A3D; }
+.lingo-msg-lose { color: var(--secondary, #FF6B6B); }
+.lingo-msg-warn { color: var(--accent-orange, #FF8C42); }
+
+/* ---------- Toetsenbord ---------- */
+.lingo-keyboard {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+.lingo-kb-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+.lingo-key {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 44px;
+    height: 50px;
+    border: none;
+    border-radius: 9px;
+    background: #E7E8EF;
+    color: var(--text-dark, #2D3436);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .12s ease, transform .08s ease, color .12s ease;
+}
+.lingo-key:hover { background: #DBDCE6; }
+.lingo-key:active { transform: translateY(1px); }
+.lingo-key-wide { flex: 1.6 1 auto; max-width: 72px; font-size: 13px; }
+.lingo-key.lingo-correct { background: #4CAF50; color: #fff; }
+.lingo-key.lingo-present { background: #F0A92E; color: #fff; }
+.lingo-key.lingo-absent  { background: #9AA3B2; color: #fff; }
+
+/* ---------- Instellingen ---------- */
+.lingo-field-label { display: block; font-size: 13px; font-weight: 700; color: var(--text-dark, #2D3436); margin-bottom: 8px; }
+.lingo-seg {
+    display: inline-flex;
+    background: var(--bg-light, #F8F9FE);
+    border-radius: 999px;
+    padding: 4px;
+    gap: 4px;
+}
+.lingo-seg-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 9px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-medium, #636E72);
+}
+.lingo-seg-btn.is-active { background: var(--primary, #6C63FF); color: #fff; }
+
+.lingo-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid #F0F0F5;
+}
+.lingo-legend-item { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--text-medium, #636E72); }
+.lingo-swatch { width: 18px; height: 18px; border-radius: 5px; }
+.lingo-swatch.lingo-correct { background: #4CAF50; }
+.lingo-swatch.lingo-present { background: #F0A92E; }
+.lingo-swatch.lingo-absent  { background: #9AA3B2; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+    .lingo-key { height: 46px; font-size: 15px; }
+    .lingo-tile { border-radius: 10px; }
+}
