@@ -92,6 +92,7 @@
         writeFav(state.favorites);
         decorateCards();
         renderDashboard();
+        if (window.renderHeaderFavs) window.renderHeaderFavs();
         saveFavorites();
     }
 
@@ -163,6 +164,7 @@
         writeFav(state.favorites);
         decorateCards();
         renderDashboard();
+        if (window.renderHeaderFavs) window.renderHeaderFavs();
     }
 
     if (document.readyState === 'loading') {

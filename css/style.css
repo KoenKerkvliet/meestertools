@@ -322,28 +322,60 @@ a {
     -webkit-text-fill-color: initial;
 }
 
-/* ---------- Zoekbalk (header) ---------- */
+/* ---------- Zoekbalk (header, als icoon rechts) ---------- */
 .header-search {
     position: relative;
-    flex: 1 1 280px;
-    max-width: 380px;
-    margin-left: 28px;
+    margin-left: auto;
+    flex-shrink: 0;
 }
 
-.header-search-icon {
+.header-search-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid #E8E8F0;
+    background: var(--bg-light, #F3F4F8);
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.header-search-btn:hover {
+    border-color: var(--primary);
+    background: #F3F2FF;
+}
+
+.header-search.open .header-search-btn {
+    border-color: var(--primary);
+    background: #F3F2FF;
+}
+
+.header-search-panel {
+    display: none;
     position: absolute;
-    left: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 14px;
-    opacity: 0.5;
-    pointer-events: none;
+    top: 50px;
+    right: 0;
+    width: 320px;
+    background: var(--bg-white, #fff);
+    border: 1px solid #E8E8F0;
+    border-radius: 14px;
+    box-shadow: var(--shadow-lg, 0 12px 32px rgba(0, 0, 0, 0.14));
+    padding: 10px;
+    z-index: 200;
+}
+
+.header-search.open .header-search-panel {
+    display: block;
 }
 
 .header-search-input {
     width: 100%;
     height: 40px;
-    padding: 0 16px 0 38px;
+    padding: 0 16px;
     border: 1.5px solid #E8E8F0;
     border-radius: 999px;
     background: var(--bg-light, #F3F4F8);
@@ -364,17 +396,8 @@ a {
 
 .header-search-results {
     display: none;
-    position: absolute;
-    top: 48px;
-    left: 0;
-    right: 0;
-    background: var(--bg-white, #fff);
-    border: 1px solid #E8E8F0;
-    border-radius: 14px;
-    box-shadow: var(--shadow-lg, 0 12px 32px rgba(0, 0, 0, 0.14));
-    padding: 6px;
-    z-index: 200;
-    max-height: 340px;
+    margin-top: 6px;
+    max-height: 320px;
     overflow-y: auto;
 }
 
@@ -411,8 +434,39 @@ a {
     text-align: center;
 }
 
-@media (max-width: 768px) {
-    .header-search {
+/* ---------- Favorieten in de header ---------- */
+.header-favs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 22px;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.header-fav-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 15px;
+    background: var(--bg-light, #F3F4F8);
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-dark, #2D3436);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.header-fav-pill:hover {
+    border-color: var(--primary);
+    background: #F3F2FF;
+    color: var(--primary-dark, #5A52D5);
+}
+
+@media (max-width: 900px) {
+    .header-favs {
         display: none;
     }
 }
@@ -422,7 +476,7 @@ a {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-left: auto;
+    margin-left: 14px;
     margin-right: 16px;
     padding: 6px 12px;
     background: var(--bg-light, #F3F4F8);

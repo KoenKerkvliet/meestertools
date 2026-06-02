@@ -67,10 +67,13 @@
         <span class="logo-icon">&#127891;</span>
         Meestertools
     </a>
+    <div class="header-favs" id="headerFavs"></div>
     <div class="header-search" id="headerSearch">
-        <span class="header-search-icon">&#128269;</span>
-        <input type="text" class="header-search-input" id="headerSearchInput" placeholder="Zoek een tool..." autocomplete="off" aria-label="Zoek een tool">
-        <div class="header-search-results" id="headerSearchResults"></div>
+        <button type="button" class="header-search-btn" id="headerSearchBtn" title="Zoek een tool" aria-label="Zoek een tool">&#128269;</button>
+        <div class="header-search-panel" id="headerSearchPanel">
+            <input type="text" class="header-search-input" id="headerSearchInput" placeholder="Zoek een tool..." autocomplete="off" aria-label="Zoek een tool">
+            <div class="header-search-results" id="headerSearchResults"></div>
+        </div>
     </div>
     <div class="header-profile">
         <button class="profile-btn" id="profileBtn" title="Profiel">?</button>
@@ -106,14 +109,54 @@
         return div.innerHTML;
     }
 
+    // ---------- Favorieten in de header ----------
+    function renderHeaderFavs() {
+        var mount = document.getElementById('headerFavs');
+        if (!mount) return;
+        var ids = [];
+        try {
+            var raw = localStorage.getItem('mt_favorites');
+            ids = raw ? JSON.parse(raw) : [];
+        } catch (e) { ids = []; }
+        if (!Array.isArray(ids)) ids = [];
+
+        var byId = {};
+        MT_ALL_TOOLS.forEach(function (t) { byId[t.id] = t; });
+
+        var tools = ids.map(function (id) { return byId[id]; })
+            .filter(Boolean)
+            .slice(0, 5);
+
+        mount.innerHTML = tools.map(function (t) {
+            return '<a class="header-fav-pill" href="/' + t.url + '" title="' + escapeHtml(t.name) + '">' +
+                escapeHtml(t.name) + '</a>';
+        }).join('');
+    }
+    window.renderHeaderFavs = renderHeaderFavs;
+
     // ---------- Zoekbalk ----------
     function setupSearch() {
         var box = document.getElementById('headerSearch');
         if (!box) return;
+        var btn = document.getElementById('headerSearchBtn');
         var input = document.getElementById('headerSearchInput');
         var results = document.getElementById('headerSearchResults');
         var matches = [];
         var activeIdx = -1;
+
+        function openPanel() {
+            box.classList.add('open');
+            setTimeout(function () { input.focus(); }, 0);
+        }
+        function closePanel() {
+            box.classList.remove('open');
+            input.value = '';
+            close();
+        }
+        function togglePanel() {
+            if (box.classList.contains('open')) closePanel();
+            else openPanel();
+        }
 
         function close() {
             results.classList.remove('open');
@@ -151,6 +194,11 @@
             results.classList.add('open');
         }
 
+        btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            togglePanel();
+        });
+
         input.addEventListener('input', function () { search(input.value); });
         input.addEventListener('focus', function () { if (input.value.trim()) search(input.value); });
         input.addEventListener('keydown', function (e) {
@@ -164,14 +212,13 @@
                 e.preventDefault();
                 if (matches.length) { activeIdx = Math.max(0, activeIdx - 1); highlight(); }
             } else if (e.key === 'Escape') {
-                input.value = '';
-                close();
-                input.blur();
+                closePanel();
+                btn.focus();
             }
         });
 
         document.addEventListener('click', function (e) {
-            if (!box.contains(e.target)) close();
+            if (!box.contains(e.target)) closePanel();
         });
     }
 
@@ -180,6 +227,7 @@
         if (headerSlot) {
             headerSlot.outerHTML = headerHtml;
             setupSearch();
+            renderHeaderFavs();
         }
         const footerSlot = document.getElementById('app-footer-slot');
         if (footerSlot) {
