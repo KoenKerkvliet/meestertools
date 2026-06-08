@@ -44,6 +44,8 @@
                 <!-- Timer Display -->
                 <div class="timer-display">
                     <svg class="timer-svg" id="timerSvg" viewBox="0 0 320 320">
+                        <!-- Stemniveau rand-ring (rood/oranje/groen) -->
+                        <circle id="timerLevelRing" cx="160" cy="160" r="156" fill="none" stroke="none" stroke-width="6"/>
                         <!-- Outer ring -->
                         <circle cx="160" cy="160" r="150" fill="none" stroke="#E8E8F0" stroke-width="3"/>
                         <!-- Colored remaining-time wedge -->
@@ -67,6 +69,16 @@
 
                 <!-- Side panel: presets + controls naast de timer (desktop), eronder op kleinere schermen -->
                 <div class="timer-side">
+                    <!-- Stemniveau: kleurt de rand van de timer -->
+                    <div class="timer-levels" id="timerLevels">
+                        <span class="timer-levels-label">Stemniveau</span>
+                        <div class="timer-levels-btns">
+                            <button class="level-btn level-red" data-level="red">Stil werken</button>
+                            <button class="level-btn level-orange" data-level="orange">Fluisteren</button>
+                            <button class="level-btn level-green" data-level="green">Praten</button>
+                        </div>
+                    </div>
+
                     <!-- Time Presets (dynamically rendered from settings) -->
                     <div class="timer-presets" id="timerPresets"></div>
 

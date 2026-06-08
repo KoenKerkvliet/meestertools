@@ -53,6 +53,75 @@
     letter-spacing: 3px;
 }
 
+/* ---------- Stemniveau (rand-kleur) ---------- */
+.timer-levels {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.timer-levels-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-light);
+    text-align: center;
+}
+
+.timer-levels-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.level-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    background: var(--bg-white);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+    text-align: left;
+}
+
+/* Gekleurde stip voor de knop */
+.level-btn::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--level-color);
+}
+
+.level-red    { --level-color: #FF6B6B; }
+.level-orange { --level-color: #FF8C42; }
+.level-green  { --level-color: #6BCB77; }
+
+.level-btn:hover {
+    border-color: var(--level-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.level-btn.active {
+    border-color: var(--level-color);
+    background: var(--level-color);
+    color: white;
+}
+
+.level-btn.active::before {
+    background: white;
+}
+
 /* ---------- Time Presets ---------- */
 .timer-presets {
     display: flex;

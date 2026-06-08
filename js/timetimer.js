@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Elements
     const timerSvg = document.getElementById('timerSvg');
     const wedge = document.getElementById('timerWedge');
+    const levelRing = document.getElementById('timerLevelRing');
+    const levelButtons = document.querySelectorAll('.level-btn');
     const hand = document.getElementById('timerHand');
     const dragHandle = document.getElementById('timerDragHandle');
     const markersGroup = document.getElementById('timerMarkers');
@@ -44,6 +46,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let audioCtx = null;
     let presets = [];
     let editPresets = [];
+    let currentLevel = null;
+
+    // Stemniveau-kleuren voor de rand-ring
+    const LEVEL_COLORS = {
+        red: '#FF6B6B',
+        orange: '#FF8C42',
+        green: '#6BCB77'
+    };
 
     // ---------- Supabase Settings ----------
     async function getSessionUser() {
@@ -65,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data && data.settings) {
             presets = data.settings.presets || [];
             renderPresetButtons();
+            setLevel(data.settings.level || null);
         }
     }
 
@@ -77,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .upsert({
                 user_id: user.id,
                 tool_name: TOOL_NAME,
-                settings: { presets },
+                settings: { presets, level: currentLevel },
                 updated_at: new Date().toISOString()
             }, { onConflict: 'user_id,tool_name' });
     }
@@ -100,6 +111,23 @@ document.addEventListener('DOMContentLoaded', () => {
             presetsContainer.appendChild(btn);
         });
     }
+
+    // ---------- Stemniveau (rand-kleur) ----------
+    function setLevel(level) {
+        currentLevel = level && LEVEL_COLORS[level] ? level : null;
+        levelRing.setAttribute('stroke', currentLevel ? LEVEL_COLORS[currentLevel] : 'none');
+        levelButtons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.level === currentLevel);
+        });
+    }
+
+    levelButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Nogmaals op het actieve niveau klikken zet de rand uit
+            setLevel(btn.dataset.level === currentLevel ? null : btn.dataset.level);
+            saveSettings();
+        });
+    });
 
     // ---------- Draw Clock Face ----------
     function drawMarkers() {
