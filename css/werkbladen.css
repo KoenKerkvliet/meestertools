@@ -543,19 +543,15 @@
     flex: 1;
 }
 
+/* Geen kader om de som: de PDF heeft dat ook niet (preview = print) */
 .wb-ld-cell {
     display: flex;
     flex-direction: column;
-    border: 1px solid #E8E8F0;
-    border-radius: 4px;
-    padding: 8px;
-    min-height: 80px;
 }
 
 .wb-ld-notation {
     font-family: 'Courier New', Courier, monospace;
     font-size: 12px;
-    font-weight: 600;
     color: var(--text-dark);
     white-space: nowrap;
     margin-bottom: 4px;
@@ -566,12 +562,10 @@
     font-weight: 700;
 }
 
-.wb-ld-notation .wb-ld-blank {
-    color: var(--text-light);
-}
-
+/* Lege kladruimte onder de som, zoals de witruimte in de PDF */
 .wb-ld-work {
     flex: 1;
+    min-height: 70px;
     margin-top: 4px;
 }
 

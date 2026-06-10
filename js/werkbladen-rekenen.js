@@ -1102,7 +1102,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     html += '</span>';
                 }
             } else {
-                html += '<span class="wb-ld-blank">___</span>';
+                html += '<span class="wb-preview-line" style="width:4ch"></span>';
             }
             html += '</div>';
 
@@ -1911,12 +1911,13 @@ document.addEventListener('DOMContentLoaded', function () {
         return sums;
     }
 
+    // Zelfde tekens als de PDF (opSymbolPdfFrac): preview = print
     function opSymbolHtml(op) {
         switch (op) {
             case '+': return '+';
-            case '-': return '&minus;';
-            case '*': return '&times;';
-            case '/': return '&divide;';
+            case '-': return '-';
+            case '*': return 'x';
+            case '/': return ':';
             default: return op;
         }
     }
