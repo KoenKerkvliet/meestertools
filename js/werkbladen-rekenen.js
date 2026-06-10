@@ -750,12 +750,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ---------- Op Symbol ----------
+    // Zelfde tekens als de PDF (opSymbolPdf): de preview moet er
+    // exact zo uitzien als de print, dus x en : in plaats van \u00D7 en \u00F7.
     function opSymbol(op) {
         switch (op) {
             case '+': return '+';
-            case '-': return '\u2212';
-            case '*': return '\u00D7';
-            case '/': return '\u00F7';
+            case '-': return '-';
+            case '*': return 'x';
+            case '/': return ':';
         }
         return op;
     }
@@ -840,9 +842,7 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '<div class="wb-preview-date">' + dateDisplay + '</div>';
         }
 
-        // Separator
-        html += '<div class="wb-preview-separator"></div>';
-
+        // Geen separator-lijn: de PDF heeft die ook niet (preview = print)
         return html;
     }
 
@@ -860,7 +860,7 @@ document.addEventListener('DOMContentLoaded', function () {
         html += '<div class="wb-preview-page">';
         html += buildHeaderHtml(settings, false);
         html += renderSumsGrid(previewSums, false);
-        html += '<div class="wb-preview-footer">Meester Tools</div>';
+        html += '<div class="wb-preview-footer wb-preview-footer-plain">Meester Tools</div>';
         html += '</div>';
 
         // Answer sheet: only first page
@@ -868,7 +868,7 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '<div class="wb-preview-page">';
             html += buildHeaderHtml(settings, true);
             html += renderSumsGrid(previewSums, true);
-            html += '<div class="wb-preview-footer">Meester Tools</div>';
+            html += '<div class="wb-preview-footer wb-preview-footer-plain">Meester Tools</div>';
             html += '</div>';
         }
 
@@ -922,7 +922,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (showAnswers) {
                         html += '<span class="wb-preview-answer">' + formatNum(s.answer) + '</span>';
                     } else {
-                        html += '<span class="wb-preview-line">___</span>';
+                        html += '<span class="wb-preview-line"></span>';
                     }
                     html += '</div>';
                 }
@@ -1066,7 +1066,7 @@ document.addEventListener('DOMContentLoaded', function () {
         html += '<div class="wb-preview-page">';
         html += buildHeaderHtml(settings, false);
         html += renderLdGrid(previewDivs, false);
-        html += '<div class="wb-preview-footer">Meester Tools</div>';
+        html += '<div class="wb-preview-footer wb-preview-footer-plain">Meester Tools</div>';
         html += '</div>';
 
         // Answer sheet: only first page
@@ -1074,7 +1074,7 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '<div class="wb-preview-page">';
             html += buildHeaderHtml(settings, true);
             html += renderLdGrid(previewDivs, true);
-            html += '<div class="wb-preview-footer">Meester Tools</div>';
+            html += '<div class="wb-preview-footer wb-preview-footer-plain">Meester Tools</div>';
             html += '</div>';
         }
 
@@ -1405,7 +1405,7 @@ document.addEventListener('DOMContentLoaded', function () {
         html += '<div class="wb-preview-page">';
         html += buildHeaderHtml(settings, false);
         html += renderCfGrid(previewSums, false);
-        html += '<div class="wb-preview-footer">Meester Tools</div>';
+        html += '<div class="wb-preview-footer wb-preview-footer-plain">Meester Tools</div>';
         html += '</div>';
 
         // Answer sheet: only first page
@@ -1413,7 +1413,7 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '<div class="wb-preview-page">';
             html += buildHeaderHtml(settings, true);
             html += renderCfGrid(previewSums, true);
-            html += '<div class="wb-preview-footer">Meester Tools</div>';
+            html += '<div class="wb-preview-footer wb-preview-footer-plain">Meester Tools</div>';
             html += '</div>';
         }
 
@@ -1954,7 +1954,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Helper: render helen answer as "2 1/3" (whole + fraction)
     function renderHelenAnswer(helen, restNum, restDen, isBlank) {
         if (isBlank) {
-            return '<span class="wb-preview-line">___</span>';
+            return '<span class="wb-preview-line"></span>';
         }
         if (restNum === 0) {
             return '<span>' + helen + '</span>';
@@ -2026,14 +2026,14 @@ document.addEventListener('DOMContentLoaded', function () {
         html += '<div class="wb-preview-page">';
         html += buildHeaderHtml(settings, false);
         html += renderFracSumGrid(previewSums, false);
-        html += '<div class="wb-preview-footer">Meester Tools</div>';
+        html += '<div class="wb-preview-footer wb-preview-footer-plain">Meester Tools</div>';
         html += '</div>';
 
         if (settings.answerSheet) {
             html += '<div class="wb-preview-page">';
             html += buildHeaderHtml(settings, true);
             html += renderFracSumGrid(previewSums, true);
-            html += '<div class="wb-preview-footer">Meester Tools</div>';
+            html += '<div class="wb-preview-footer wb-preview-footer-plain">Meester Tools</div>';
             html += '</div>';
         }
 
@@ -2367,14 +2367,14 @@ document.addEventListener('DOMContentLoaded', function () {
         html += '<div class="wb-preview-page">';
         html += buildHeaderHtml(settings, false);
         html += renderMetricGrid(previewSums, false, settings);
-        html += '<div class="wb-preview-footer">Meester Tools</div>';
+        html += '<div class="wb-preview-footer wb-preview-footer-plain">Meester Tools</div>';
         html += '</div>';
 
         if (settings.answerSheet) {
             html += '<div class="wb-preview-page">';
             html += buildHeaderHtml(settings, true);
             html += renderMetricGrid(previewSums, true, settings);
-            html += '<div class="wb-preview-footer">Meester Tools</div>';
+            html += '<div class="wb-preview-footer wb-preview-footer-plain">Meester Tools</div>';
             html += '</div>';
         }
 
@@ -2418,7 +2418,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (showAnswers) {
                         html += '<span class="wb-preview-answer">' + escapeHtml(formatMetricDisplay(s.answer)) + '</span>';
                     } else {
-                        html += '<span class="wb-preview-line">___</span>';
+                        html += '<span class="wb-preview-line"></span>';
                     }
                     html += '<span class="wb-preview-op">' + escapeHtml(cat.labels[s.toUnit] || s.toUnit) + '</span>';
                     html += '</div>';
@@ -2654,14 +2654,14 @@ document.addEventListener('DOMContentLoaded', function () {
         html += '<div class="wb-preview-page">';
         html += buildHeaderHtml(settings, false);
         html += renderConvGrid(previewSums, false);
-        html += '<div class="wb-preview-footer">Meester Tools</div>';
+        html += '<div class="wb-preview-footer wb-preview-footer-plain">Meester Tools</div>';
         html += '</div>';
 
         if (settings.answerSheet) {
             html += '<div class="wb-preview-page">';
             html += buildHeaderHtml(settings, true);
             html += renderConvGrid(previewSums, true);
-            html += '<div class="wb-preview-footer">Meester Tools</div>';
+            html += '<div class="wb-preview-footer wb-preview-footer-plain">Meester Tools</div>';
             html += '</div>';
         }
 
@@ -2715,7 +2715,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (showAnswers || s.given === 1) {
                         html += '<span class="wb-preview-b">' + escapeHtml(s.procent) + '%</span>';
                     } else {
-                        html += '<span class="wb-preview-line">___%</span>';
+                        html += '<span class="wb-preview-b"><span class="wb-preview-line" style="width:3ch"></span>%</span>';
                     }
                     html += '<span class="wb-preview-eq">=</span>';
 
@@ -2723,7 +2723,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (showAnswers || s.given === 2) {
                         html += '<span class="wb-preview-answer">' + escapeHtml(s.komma) + '</span>';
                     } else {
-                        html += '<span class="wb-preview-line">___</span>';
+                        html += '<span class="wb-preview-line"></span>';
                     }
 
                     html += '</div>';

@@ -400,6 +400,8 @@
     flex-direction: column;
     overflow: hidden;
     position: relative;
+    /* Zelfde letter als de PDF (jsPDF helvetica): preview = print */
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 .wb-preview-page .wb-preview-blocks {
@@ -451,6 +453,12 @@
     border-top: 1px solid #E8E8F0;
 }
 
+/* Rekenen: PDF heeft geen lijn boven de footer (preview = print) */
+.wb-preview-footer-plain {
+    border-top: none;
+    padding-top: 0;
+}
+
 .wb-preview-blocks {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -474,9 +482,9 @@
     align-items: baseline;
     gap: 0 4px;
     padding: 3px 0;
-    border-bottom: 1px solid #F0F0F4;
+    /* Geen border en zelfde letter als de PDF (helvetica): preview = print */
     font-size: 13px;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: Helvetica, Arial, sans-serif;
     line-height: 1.4;
 }
 
@@ -509,8 +517,11 @@
     font-weight: 700;
 }
 
+/* Invulplek: dun lijntje op de schrijflijn, net als in de PDF */
 .wb-preview-line {
-    color: var(--text-light);
+    display: inline-block;
+    width: 100%;
+    border-bottom: 1px solid #C8C8D2;
 }
 
 .wb-preview-divider {
