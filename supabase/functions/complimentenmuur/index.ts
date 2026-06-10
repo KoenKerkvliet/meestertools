@@ -19,6 +19,10 @@ import { corsHeaders } from '../_shared/cors.ts'
 const NAME_MAX = 30
 const TEXT_MAX = 280
 const MAX_PER_PARTICIPANT = 25
+// Cap op deelnemers per sessie: zonder deze rem kan iemand die de code kent
+// onbeperkt opnieuw joinen en zo de limiet per deelnemer omzeilen.
+// Ruim boven een klas (incl. opnieuw aanmelden na tab sluiten).
+const MAX_PARTICIPANTS = 60
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -72,6 +76,15 @@ serve(async (req) => {
       }
       const name = cleanText(body?.name, NAME_MAX)
       if (!name) return json({ ok: false, error: 'Vul je voornaam in.' }, 400)
+
+      const { count: pCount } = await admin
+        .from('compliment_participants')
+        .select('id', { count: 'exact', head: true })
+        .eq('session_id', session.id)
+
+      if ((pCount || 0) >= MAX_PARTICIPANTS) {
+        return json({ ok: false, error: 'Deze muur zit vol. Vraag je juf of meester om hulp.' }, 429)
+      }
 
       const { data: p, error: pErr } = await admin
         .from('compliment_participants')

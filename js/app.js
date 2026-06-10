@@ -200,8 +200,8 @@ document.addEventListener('DOMContentLoaded', () => {
             errorEl.style.display = 'none';
             successEl.style.display = 'none';
 
-            if (newPassword.length < 6) {
-                errorEl.textContent = 'Wachtwoord moet minimaal 6 tekens zijn.';
+            if (newPassword.length < 8) {
+                errorEl.textContent = 'Wachtwoord moet minimaal 8 tekens zijn.';
                 errorEl.style.display = 'block';
                 return;
             }

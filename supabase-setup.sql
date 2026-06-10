@@ -32,7 +32,7 @@ BEGIN
     NEW.updated_at = now();
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SET search_path = public, pg_temp;
 
 CREATE TRIGGER on_schools_updated
     BEFORE UPDATE ON public.schools
@@ -58,7 +58,7 @@ BEGIN
     );
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, pg_temp;
 
 CREATE TRIGGER on_auth_user_created
     AFTER INSERT ON auth.users
@@ -74,7 +74,7 @@ BEGIN
         WHERE id = auth.uid() AND role = 'super_admin'
     );
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER STABLE;
+$$ LANGUAGE plpgsql SECURITY DEFINER STABLE SET search_path = public, pg_temp;
 
 -- ---------- 6. RLS inschakelen ----------
 ALTER TABLE public.schools ENABLE ROW LEVEL SECURITY;

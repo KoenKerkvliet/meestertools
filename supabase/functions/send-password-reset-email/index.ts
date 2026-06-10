@@ -3,27 +3,64 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { corsHeaders } from '../_shared/cors.ts'
 import { sendEmail } from '../_shared/emailit.ts'
 
+// redirectTo komt uit de request body en mag alleen naar onze eigen site
+// wijzen — anders kan iemand voor elk adres een echte Meestertools-mail
+// laten sturen waarvan de herstellink naar een vreemde site leidt.
+// Bij een afwijkende waarde vallen we stilletjes terug op de default,
+// zodat de flow nooit breekt.
+const ALLOWED_ORIGINS = ['https://meestertools.nl', 'https://www.meestertools.nl']
+const DEFAULT_REDIRECT = 'https://meestertools.nl/wachtwoord-resetten'
+
+// Throttle: max 1 mail per minuut en 5 per uur per adres (mailbombing/quota).
+const COOLDOWN_SECONDS = 60
+const MAX_PER_HOUR = 5
+
+function safeRedirect(raw: unknown): string {
+  try {
+    const url = new URL(String(raw || ''))
+    if (ALLOWED_ORIGINS.includes(url.origin)) return url.href
+  } catch (_) { /* geen geldige URL: gebruik default */ }
+  return DEFAULT_REDIRECT
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
 
   try {
-    const { email, redirectTo } = await req.json()
+    const { email: rawEmail, redirectTo } = await req.json()
 
-    if (!email || typeof email !== 'string') {
+    if (!rawEmail || typeof rawEmail !== 'string') {
       return json({ success: false, error: 'Geldig e-mailadres ontbreekt.' }, 400)
     }
+    const email = rawEmail.trim().toLowerCase()
 
     const admin = createClient(
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     )
 
+    // Throttle-check. Bij overschrijding doen we alsof het gelukt is:
+    // de gebruiker ziet dezelfde melding en we lekken niets.
+    const { data: recent } = await admin
+      .from('password_reset_log')
+      .select('sent_at')
+      .eq('email', email)
+      .gte('sent_at', new Date(Date.now() - 3600_000).toISOString())
+      .order('sent_at', { ascending: false })
+
+    if (recent && recent.length > 0) {
+      const lastSent = new Date(recent[0].sent_at).getTime()
+      if (recent.length >= MAX_PER_HOUR || Date.now() - lastSent < COOLDOWN_SECONDS * 1000) {
+        return json({ success: true })
+      }
+    }
+
     const { data, error } = await admin.auth.admin.generateLink({
       type: 'recovery',
       email,
-      options: { redirectTo },
+      options: { redirectTo: safeRedirect(redirectTo) },
     })
 
     // Belangrijk: ook bij "user niet gevonden" geven we success terug.
@@ -37,6 +74,12 @@ serve(async (req) => {
     }
 
     const actionLink = data.properties.action_link
+
+    // Registreer de verzending voor de throttle en ruim oude rijen op.
+    await admin.from('password_reset_log').insert({ email })
+    await admin.from('password_reset_log')
+      .delete()
+      .lt('sent_at', new Date(Date.now() - 24 * 3600_000).toISOString())
 
     await sendEmail({
       to: email,
