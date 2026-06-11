@@ -933,3 +933,57 @@
 .sg-pl-good .sg-pl-quality     { color: #558B2F; }
 .sg-pl-mixed .sg-pl-quality    { color: #E65100; font-weight: 700; }
 .sg-pl-critical .sg-pl-quality { color: #C62828; font-weight: 700; }
+
+/* ---------- Werkbladen ---------- */
+.sg-werkblad {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    background: var(--bg-light);
+    border: 1px dashed #C9CEDB;
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    margin-bottom: 18px;
+}
+
+.sg-werkblad-text {
+    flex: 1 1 260px;
+}
+
+.sg-werkblad-text strong {
+    display: block;
+    font-size: 14px;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.sg-werkblad-text span {
+    font-size: 13px;
+    color: var(--text-medium);
+    line-height: 1.5;
+}
+
+.sg-werkblad-btn {
+    padding: 10px 18px;
+    background: var(--bg-white);
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+.sg-werkblad-btn:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+.sg-werkblad-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

@@ -1036,6 +1036,288 @@ document.addEventListener('DOMContentLoaded', () => {
         renderWelcome();
     });
 
+    // ---------- WERKBLADEN (PDF per leerling) ----------
+    // Voorgestructureerd A4 (staand) om het sociogram op papier af te nemen:
+    // naam + monstertje bovenaan, een uitlegblok en twee invulvakken
+    // (3 positieve en 3 negatieve keuzes). Eén pagina per leerling.
+    var btnWerkblad = document.getElementById('sgBtnWerkblad');
+
+    var WB = { w: 1240, h: 1754 };  // A4 staand op ~150 dpi
+    var WB_M = 70;                  // paginamarge
+    var MONSTER_COUNT = 36;
+
+    // Zelfde monster-toewijzing als in Klassendienst/Klasseprestatie/
+    // Complimentenmuur/Naamkaarten, zodat elk kind overal hetzelfde
+    // monstertje heeft.
+    function monsterHash(key) {
+        key = String(key || '');
+        var h = 0;
+        for (var i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+        return h;
+    }
+
+    function assignMonsters(list) {
+        var map = {}, used = {};
+        var sorted = (list || []).slice().sort(function (a, b) {
+            var ai = String(a.id), bi = String(b.id);
+            return ai < bi ? -1 : ai > bi ? 1 : 0;
+        });
+        sorted.forEach(function (s) {
+            var n = monsterHash(s.id) % MONSTER_COUNT, tries = 0;
+            while (used[n] && tries < MONSTER_COUNT) { n = (n + 1) % MONSTER_COUNT; tries++; }
+            used[n] = true;
+            map[s.id] = n + 1;
+        });
+        return map;
+    }
+
+    var wbImgCache = {};
+    function wbLoadImage(src) {
+        if (!wbImgCache[src]) {
+            wbImgCache[src] = new Promise(function (resolve) {
+                var img = new Image();
+                img.onload = function () { resolve(img); };
+                img.onerror = function () { resolve(null); };
+                img.src = src;
+            });
+        }
+        return wbImgCache[src];
+    }
+
+    function wbRoundRect(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+        ctx.closePath();
+    }
+
+    function wbWrapText(ctx, text, maxWidth) {
+        var words = text.split(' '), lines = [], line = '';
+        words.forEach(function (w) {
+            var test = line ? line + ' ' + w : w;
+            if (ctx.measureText(test).width > maxWidth && line) {
+                lines.push(line);
+                line = w;
+            } else {
+                line = test;
+            }
+        });
+        if (line) lines.push(line);
+        return lines;
+    }
+
+    // Tekent één invulvak (titel + 3 genummerde schrijflijnen),
+    // geeft de hoogte van het vak terug.
+    function wbDrawSection(ctx, y, opts) {
+        var x = WB_M, w = WB.w - WB_M * 2;
+        var pad = 34, rowH = 110, titleH = 60;
+        var h = pad + titleH + rowH * 3 + pad - 30;
+
+        ctx.fillStyle = opts.bg;
+        wbRoundRect(ctx, x, y, w, h, 20);
+        ctx.fill();
+        ctx.strokeStyle = opts.border;
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Titel met emoji
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.font = '38px Arial, sans-serif';
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillText(opts.emoji, x + pad, y + pad + 22);
+        ctx.font = 'bold 36px Arial, sans-serif';
+        ctx.fillStyle = opts.titleColor;
+        ctx.fillText(opts.title, x + pad + 58, y + pad + 22);
+
+        // 3 schrijflijnen met nummerrondjes
+        for (var i = 0; i < 3; i++) {
+            var rowY = y + pad + titleH + rowH * i + rowH / 2;
+
+            ctx.beginPath();
+            ctx.arc(x + pad + 24, rowY, 26, 0, Math.PI * 2);
+            ctx.fillStyle = opts.titleColor;
+            ctx.fill();
+            ctx.font = 'bold 30px Arial, sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.fillText(String(i + 1), x + pad + 24, rowY + 1);
+
+            ctx.beginPath();
+            ctx.moveTo(x + pad + 74, rowY + 28);
+            ctx.lineTo(x + w - pad, rowY + 28);
+            ctx.strokeStyle = '#9AA0AC';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.textAlign = 'left';
+        }
+
+        return h;
+    }
+
+    function wbPaint(ctx, student, monsterImg, type, datum) {
+        var W = WB.w, H = WB.h;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, W, H);
+
+        var y = WB_M;
+
+        // ---- Kop: monstertje + naam ----
+        var nameX = WB_M;
+        if (monsterImg) {
+            ctx.drawImage(monsterImg, WB_M, y, 150, 150);
+            nameX = WB_M + 185;
+        }
+
+        var name = studentName(student);
+        var fontSize = 76;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.font = 'bold ' + fontSize + 'px Arial, sans-serif';
+        while (ctx.measureText(name).width > W - WB_M - nameX && fontSize > 30) {
+            fontSize -= 4;
+            ctx.font = 'bold ' + fontSize + 'px Arial, sans-serif';
+        }
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillText(name, nameX, y + 58);
+
+        ctx.font = '30px Arial, sans-serif';
+        ctx.fillStyle = '#636E72';
+        var sub = 'Sociogram · ' + typeLabel(type) + (datum ? ' · ' + formatDate(datum) : '');
+        ctx.fillText(sub, nameX, y + 122);
+
+        y += 180;
+        ctx.beginPath();
+        ctx.moveTo(WB_M, y);
+        ctx.lineTo(W - WB_M, y);
+        ctx.strokeStyle = '#E8E8F0';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        y += 36;
+
+        // ---- Uitlegblok ----
+        var werkwoord = type === 'spelen' ? 'speelt' : 'samenwerkt';
+        var infoTekst = 'Schrijf in elk vak drie namen van kinderen uit je eigen klas. ' +
+            'Kies eerst drie kinderen met wie jij graag ' + werkwoord + ', en daarna drie kinderen ' +
+            'met wie je dat liever niet doet. Er is geen goed of fout: vul in wat jij vindt. ' +
+            'Alleen je juf of meester ziet je antwoorden.';
+
+        var pad = 34;
+        var infoW = W - WB_M * 2;
+        ctx.font = '29px Arial, sans-serif';
+        var infoLines = wbWrapText(ctx, infoTekst, infoW - pad * 2);
+        var infoH = pad + 48 + 14 + infoLines.length * 42 + pad - 14;
+
+        ctx.fillStyle = '#F3F2FF';
+        wbRoundRect(ctx, WB_M, y, infoW, infoH, 20);
+        ctx.fill();
+        ctx.strokeStyle = '#D8D5FF';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        ctx.font = '34px Arial, sans-serif';
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillText('\u{1F4A1}', WB_M + pad, y + pad + 18);
+        ctx.font = 'bold 32px Arial, sans-serif';
+        ctx.fillStyle = '#5A52D5';
+        ctx.fillText('Zo werkt het', WB_M + pad + 52, y + pad + 18);
+
+        ctx.font = '29px Arial, sans-serif';
+        ctx.fillStyle = '#444444';
+        infoLines.forEach(function (line, i) {
+            ctx.fillText(line, WB_M + pad, y + pad + 48 + 14 + i * 42 + 14);
+        });
+
+        y += infoH + 40;
+
+        // ---- Vak 1: positief ----
+        var posTitle = type === 'spelen'
+            ? 'Met deze kinderen speel ik graag'
+            : 'Met deze kinderen werk ik graag samen';
+        var posH = wbDrawSection(ctx, y, {
+            emoji: '\u{1F60A}',
+            title: posTitle,
+            titleColor: '#2E7D32',
+            bg: '#F0FBF2',
+            border: '#BDE8C8'
+        });
+        y += posH + 36;
+
+        // ---- Vak 2: negatief ----
+        var negTitle = type === 'spelen'
+            ? 'Met deze kinderen speel ik liever niet'
+            : 'Met deze kinderen werk ik liever niet samen';
+        wbDrawSection(ctx, y, {
+            emoji: '\u{1F615}',
+            title: negTitle,
+            titleColor: '#D63031',
+            bg: '#FFF4F0',
+            border: '#FFD2C8'
+        });
+
+        // ---- Voettekst ----
+        ctx.font = '22px Arial, sans-serif';
+        ctx.fillStyle = '#B2BEC3';
+        ctx.textAlign = 'center';
+        ctx.fillText('Meestertools · Sociogram werkblad', W / 2, H - 44);
+        ctx.textAlign = 'left';
+    }
+
+    async function generateWerkbladen() {
+        if (!window.jspdf) return showError(setupError, 'PDF-bibliotheek is nog niet geladen. Probeer het zo nog eens.');
+
+        var groupId = groupSelect.value;
+        var type = (document.querySelector('input[name="sgType"]:checked') || {}).value;
+        var datum = dateInput.value;
+
+        if (!groupId) return showError(setupError, 'Kies eerst een klas.');
+        if (!type) return showError(setupError, 'Kies "Samen werken" of "Samen spelen".');
+
+        var wbStudents = await loadStudents(groupId);
+        if (!wbStudents.length) return showError(setupError, 'Deze klas heeft nog geen leerlingen.');
+
+        var monsterMap = assignMonsters(wbStudents);
+
+        btnWerkblad.disabled = true;
+        btnWerkblad.textContent = 'Bezig met maken...';
+
+        try {
+            var jsPDF = window.jspdf.jsPDF;
+            var doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
+            var pageW = doc.internal.pageSize.getWidth();
+            var pageH = doc.internal.pageSize.getHeight();
+
+            var work = document.createElement('canvas');
+            work.width = WB.w;
+            work.height = WB.h;
+            var wctx = work.getContext('2d');
+
+            for (var i = 0; i < wbStudents.length; i++) {
+                var s = wbStudents[i];
+                var n = monsterMap[s.id];
+                var src = '../assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.png';
+                var monsterImg = await wbLoadImage(src);
+                wbPaint(wctx, s, monsterImg, type, datum);
+                if (i > 0) doc.addPage('a4', 'portrait');
+                doc.addImage(work.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, pageW, pageH);
+            }
+
+            var groupName = groups.find(function (g) { return g.id === groupId; })?.name || 'klas';
+            doc.save('sociogram-werkbladen-' + type + '-' + groupName.replace(/\s+/g, '-').toLowerCase() + '.pdf');
+        } catch (err) {
+            console.error('Werkbladen genereren mislukt:', err);
+            showError(setupError, 'Werkbladen maken is niet gelukt. Probeer het opnieuw.');
+        }
+
+        btnWerkblad.disabled = false;
+        btnWerkblad.textContent = 'Download werkbladen (PDF)';
+    }
+
+    if (btnWerkblad) btnWerkblad.addEventListener('click', generateWerkbladen);
+
     // ---------- Init ----------
     renderWelcome();
 });

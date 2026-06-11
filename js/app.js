@@ -293,6 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add admin link if super_admin
             if (profile.role === 'super_admin') {
                 addAdminLink();
+                checkNieuweAanmeldingen(user);
             }
 
             // If admin page, verify super_admin access
@@ -325,6 +326,92 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Insert before logout
         logoutItem.parentNode.insertBefore(adminItem, logoutItem);
+    }
+
+    // ---------- Melding nieuwe aanmeldingen (alleen super admin) ----------
+    // Toont bovenaan het scherm een banner zodra er profielen zijn aangemaakt
+    // na profiles.signups_seen_until. Een bezoek aan /beheer (of wegklikken)
+    // markeert alles als gezien — op al je apparaten.
+    async function checkNieuweAanmeldingen(user) {
+        try {
+            const { data: me } = await supabase
+                .from('profiles')
+                .select('signups_seen_until')
+                .eq('id', user.id)
+                .single();
+            const seenUntil = me?.signups_seen_until || '1970-01-01T00:00:00Z';
+
+            // Op de beheerpagina zie je de aanmeldingen zelf: markeer als gezien.
+            if (isAdminPage) {
+                await supabase
+                    .from('profiles')
+                    .update({ signups_seen_until: new Date().toISOString() })
+                    .eq('id', user.id);
+                return;
+            }
+
+            const { data: nieuw } = await supabase
+                .from('profiles')
+                .select('id, full_name, created_at')
+                .gt('created_at', seenUntil)
+                .neq('id', user.id)
+                .order('created_at', { ascending: false });
+
+            if (nieuw && nieuw.length > 0) {
+                showSignupBanner(nieuw, user);
+            }
+        } catch (err) {
+            // De melding is een extraatje; fouten mogen de pagina niet breken.
+            console.error('Check nieuwe aanmeldingen mislukt:', err);
+        }
+    }
+
+    function showSignupBanner(nieuw, user) {
+        if (document.getElementById('signupBanner')) return;
+
+        const count = nieuw.length;
+        const banner = document.createElement('div');
+        banner.className = 'signup-banner';
+        banner.id = 'signupBanner';
+
+        const icon = document.createElement('span');
+        icon.className = 'signup-banner-icon';
+        icon.textContent = '\u{1F389}'; // 🎉
+
+        const text = document.createElement('span');
+        text.className = 'signup-banner-text';
+        if (count === 1) {
+            text.textContent = 'Nieuwe aanmelding op Meestertools: ' + (nieuw[0].full_name || 'naam onbekend');
+        } else {
+            text.textContent = count + ' nieuwe aanmeldingen op Meestertools';
+        }
+
+        const link = document.createElement('a');
+        link.className = 'signup-banner-link';
+        link.href = getBasePath() + 'beheer';
+        link.textContent = 'Bekijk in beheer';
+        // /beheer markeert de aanmeldingen zelf als gezien.
+
+        const dismiss = document.createElement('button');
+        dismiss.className = 'signup-banner-dismiss';
+        dismiss.title = 'Melding sluiten';
+        dismiss.innerHTML = '&times;';
+        dismiss.addEventListener('click', async () => {
+            banner.classList.add('hiding');
+            setTimeout(() => banner.remove(), 250);
+            try {
+                await supabase
+                    .from('profiles')
+                    .update({ signups_seen_until: new Date().toISOString() })
+                    .eq('id', user.id);
+            } catch (err) { /* dan komt de melding nog een keer terug */ }
+        });
+
+        banner.appendChild(icon);
+        banner.appendChild(text);
+        banner.appendChild(link);
+        banner.appendChild(dismiss);
+        document.body.prepend(banner);
     }
 
     // ---------- Profile Dropdown ----------
