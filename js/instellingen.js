@@ -84,6 +84,15 @@
                                     <label>E-mailadres</label>
                                     <input type="email" id="profielEmail" disabled style="opacity:0.6;cursor:not-allowed">
                                 </div>
+                                <div class="form-group">
+                                    <label for="profielSchool">School</label>
+                                    <input type="text" id="profielSchool" placeholder="Naam van je school" list="schoolSuggesties" autocomplete="off">
+                                    <datalist id="schoolSuggesties"></datalist>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profielPlaats">Plaats van de school</label>
+                                    <input type="text" id="profielPlaats" placeholder="Bijv. Zwolle">
+                                </div>
                                 <button class="btn-save" id="saveProfielBtn">Opslaan</button>
                                 <div class="profiel-message" id="profielMessage"></div>
                             </div>
@@ -395,7 +404,62 @@
 
         nameInput.value = user.user_metadata?.full_name || '';
         emailInput.value = user.email || '';
+
+        // School-gegevens + suggesties van bestaande scholen
+        try {
+            const [profRes, schoolsRes] = await Promise.all([
+                supabase.from('profiles').select('school_id, schools(name, city)').eq('id', user.id).single(),
+                supabase.from('schools').select('name, city').eq('archived', false).order('name')
+            ]);
+
+            if (profRes.data?.schools) {
+                overlayEl.querySelector('#profielSchool').value = profRes.data.schools.name || '';
+                overlayEl.querySelector('#profielPlaats').value = profRes.data.schools.city || '';
+            }
+
+            const datalist = overlayEl.querySelector('#schoolSuggesties');
+            datalist.innerHTML = (schoolsRes.data || []).map(s =>
+                `<option value="${escapeHtml(s.name)}">${escapeHtml(s.city || '')}</option>`
+            ).join('');
+        } catch (err) {
+            console.error('School-gegevens laden mislukt:', err);
+        }
     }
+
+    // Zoek een bestaande school op naam (+ plaats) of maak hem aan.
+    // Geeft het school-id terug, of null als er geen naam is ingevuld.
+    async function resolveSchoolId(schoolName, schoolCity) {
+        if (!schoolName) return null;
+
+        // % en _ zijn wildcards in ilike; letterlijk maken
+        const pattern = schoolName.replace(/[%_]/g, '\\$&');
+        const { data: matches, error: findError } = await supabase
+            .from('schools')
+            .select('id, city')
+            .ilike('name', pattern);
+        if (findError) throw findError;
+
+        let match = null;
+        if (matches && matches.length) {
+            if (schoolCity) {
+                // Zelfde naam in een andere plaats is een andere school
+                match = matches.find(s => (s.city || '').toLowerCase() === schoolCity.toLowerCase()) || null;
+            } else {
+                match = matches[0];
+            }
+        }
+        if (match) return match.id;
+
+        const { data: created, error: insertError } = await supabase
+            .from('schools')
+            .insert({ name: schoolName, city: schoolCity || null })
+            .select('id')
+            .single();
+        if (insertError) throw insertError;
+        return created.id;
+    }
+    // Ook gebruikt door de school-popup op het dashboard
+    window._resolveSchoolId = resolveSchoolId;
 
     async function saveProfiel() {
         const btn = overlayEl.querySelector('#saveProfielBtn');
@@ -417,11 +481,17 @@
             });
             if (authError) throw authError;
 
+            // School koppelen: bestaande school zoeken, anders aanmaken.
+            // Leeg veld = koppeling verwijderen.
+            const schoolName = overlayEl.querySelector('#profielSchool').value.trim();
+            const schoolCity = overlayEl.querySelector('#profielPlaats').value.trim();
+            const schoolId = await resolveSchoolId(schoolName, schoolCity);
+
             // Update profiles table
             const { data: { user } } = await supabase.auth.getUser();
             const { error: profileError } = await supabase
                 .from('profiles')
-                .update({ full_name: name })
+                .update({ full_name: name, school_id: schoolId })
                 .eq('id', user.id);
             if (profileError) throw profileError;
 
