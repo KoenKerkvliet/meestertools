@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Escape rooms: digitale escape rooms voor in de klas. Beantwoord vragen, speel sleutels vrij en kraak de finale.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/educatieve-games/escaperooms">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/educatieve-games/escaperooms">
+    <meta property="og:title" content="Meestertools - Escape rooms">
+    <meta property="og:description" content="Digitale escape rooms voor in de klas. Beantwoord vragen, speel sleutels vrij en kraak de finale.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Escape rooms">
+    <meta name="twitter:description" content="Digitale escape rooms voor in de klas.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Escape rooms</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/escaperooms.css">
+</head>
+<body>
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../educatieve-games" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Escape rooms</h1>
+                <p>Beantwoord vragen, speel sleutels vrij en kraak de finale voordat de tijd om is.</p>
+            </div>
+            <div style="width:38px;"></div>
+        </div>
+
+        <div class="tool-page-body">
+            <!-- Filters -->
+            <div class="er-filters">
+                <div class="er-filter">
+                    <label for="erFilterCategory">Categorie</label>
+                    <select id="erFilterCategory">
+                        <option value="">Alle categorie&euml;n</option>
+                    </select>
+                </div>
+                <div class="er-filter">
+                    <label>Geschikt voor</label>
+                    <div class="er-chip-row" id="erFilterGroup">
+                        <button class="er-chip active" data-group="">Alle groepen</button>
+                        <button class="er-chip" data-group="3-4">Groep 3-4</button>
+                        <button class="er-chip" data-group="5-6">Groep 5-6</button>
+                        <button class="er-chip" data-group="7-8">Groep 7-8</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room cards -->
+            <div class="er-grid" id="erGrid">
+                <p class="er-loading">Escape rooms laden...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <script src="/js/template.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="/js/active-class.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/escaperooms.js"></script>
+</body>
+</html>

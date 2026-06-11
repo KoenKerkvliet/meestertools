@@ -44,6 +44,7 @@
             <button class="admin-tab" data-tab="words">Woorden Flitsen</button>
             <button class="admin-tab" data-tab="spelling">Spelling</button>
             <button class="admin-tab" data-tab="game24">24 Game</button>
+            <button class="admin-tab" data-tab="escaperooms">Escape rooms</button>
         </div>
 
         <!-- Schools Tab -->
@@ -301,6 +302,40 @@
                 </div>
             </div>
         </div>
+
+        <!-- Escape rooms Tab -->
+        <div class="admin-tab-panel" id="tab-escaperooms">
+            <div class="admin-toolbar">
+                <input type="text" class="search-input" id="searchEscaperooms" placeholder="Zoek escape room...">
+                <button class="btn-primary" id="addEscaperoomBtn">+ Escape room toevoegen</button>
+            </div>
+
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Titel</th>
+                            <th>Categorie</th>
+                            <th>Geschikt voor</th>
+                            <th>Vragen</th>
+                            <th>Review</th>
+                            <th>Status</th>
+                            <th>Acties</th>
+                        </tr>
+                    </thead>
+                    <tbody id="escaperoomsTableBody">
+                        <tr>
+                            <td colspan="7">
+                                <div class="admin-empty">
+                                    <span class="empty-icon">&#128477;&#65039;</span>
+                                    <p>Escape rooms worden geladen...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 
     <!-- Word Edit Modal -->
@@ -423,6 +458,65 @@
             <div class="modal-footer">
                 <button class="btn-cancel" id="cancelUserModal">Annuleren</button>
                 <button class="btn-primary" id="saveUserBtn">Opslaan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Escape room Modal -->
+    <div class="modal-overlay" id="escaperoomModal">
+        <div class="modal" style="max-width:760px;">
+            <div class="modal-header">
+                <h2 id="escaperoomModalTitle">Escape room toevoegen</h2>
+                <button class="modal-close" id="closeEscaperoomModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="escaperoomForm">
+                    <input type="hidden" id="erFormId">
+                    <div class="form-group">
+                        <label for="erFormTitle">Titel *</label>
+                        <input type="text" id="erFormTitle" placeholder="Bijv. De verdwenen schat" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="erFormDescription">Korte beschrijving</label>
+                        <textarea id="erFormDescription" rows="2" placeholder="Korte tekst op de card en in de room" style="width:100%;padding:12px 14px;border:2px solid #E8E8F0;border-radius:8px;font-size:14px;font-family:inherit;outline:none;resize:vertical;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="erFormImage">Afbeelding (URL)</label>
+                        <input type="text" id="erFormImage" placeholder="https://... (liggende afbeelding werkt het mooist)">
+                    </div>
+                    <div class="form-group" style="display:flex;gap:14px;flex-wrap:wrap;">
+                        <div style="flex:1;min-width:180px;">
+                            <label for="erFormCategory">Categorie</label>
+                            <input type="text" id="erFormCategory" placeholder="Bijv. Rekenen" list="erCategorieSuggesties">
+                            <datalist id="erCategorieSuggesties"></datalist>
+                        </div>
+                        <div style="flex:1;min-width:180px;">
+                            <label for="erFormSuitable">Geschikt voor</label>
+                            <select id="erFormSuitable">
+                                <option value="">Kies een groep...</option>
+                                <option value="3-4">Groep 3-4</option>
+                                <option value="5-6">Groep 5-6</option>
+                                <option value="7-8">Groep 7-8</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="filter-toggle" style="display:flex;align-items:center;gap:8px;">
+                            <input type="checkbox" id="erFormPublished">
+                            Gepubliceerd (zichtbaar voor leerkrachten)
+                        </label>
+                    </div>
+                    <h3 style="font-size:15px;font-weight:700;margin:20px 0 4px;">Vragen &amp; antwoorden</h3>
+                    <p style="font-size:13px;color:var(--text-medium);margin-bottom:12px;">
+                        Vraag 1 en 2 zijn meteen speelbaar; de rest zit op slot. Vraag 14 is de finale.
+                        Lege vragen worden overgeslagen.
+                    </p>
+                    <div id="erFormQuestions"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="cancelEscaperoomModal">Annuleren</button>
+                <button class="btn-primary" id="saveEscaperoomBtn">Opslaan</button>
             </div>
         </div>
     </div>

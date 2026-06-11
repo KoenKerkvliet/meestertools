@@ -1,0 +1,511 @@
+/* ============================================
+   ESCAPE ROOMS - Stylesheet (hub + speelpagina)
+   ============================================ */
+
+/* ---------- Hub: filters ---------- */
+.er-filters {
+    display: flex;
+    align-items: flex-end;
+    gap: 28px;
+    flex-wrap: wrap;
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 18px 22px;
+    margin-bottom: 24px;
+}
+
+.er-filter label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-medium);
+    margin-bottom: 6px;
+}
+
+.er-filter select {
+    padding: 10px 14px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: inherit;
+    background: var(--bg-white);
+    outline: none;
+    min-width: 200px;
+}
+
+.er-filter select:focus {
+    border-color: var(--primary);
+}
+
+.er-chip-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.er-chip {
+    padding: 9px 16px;
+    border: 2px solid #E8E8F0;
+    border-radius: 50px;
+    background: var(--bg-white);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-medium);
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.er-chip:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.er-chip.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+/* ---------- Hub: room cards ---------- */
+.er-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.er-loading,
+.er-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-light);
+    padding: 48px 20px;
+    font-size: 15px;
+}
+
+.er-empty-icon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 12px;
+    opacity: 0.6;
+}
+
+.er-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition);
+}
+
+.er-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.er-card-image {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.er-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.er-card-placeholder {
+    font-size: 56px;
+}
+
+.er-card-badges {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.er-badge {
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.er-badge-cat {
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--primary);
+}
+
+.er-badge-group {
+    background: var(--primary);
+    color: #fff;
+}
+
+.er-card-body {
+    padding: 16px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.er-card-body h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.er-card-body p {
+    font-size: 13px;
+    color: var(--text-medium);
+    line-height: 1.5;
+    flex: 1;
+}
+
+.er-stars {
+    color: #F5B941;
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+.er-stars-empty {
+    color: #C9CEDB;
+}
+
+.er-stars-count {
+    font-size: 12px;
+    color: var(--text-light);
+    letter-spacing: 0;
+    margin-left: 4px;
+    font-weight: 600;
+}
+
+/* ---------- Speelpagina: hero ---------- */
+.er-hero {
+    position: relative;
+    width: 100%;
+    min-height: 260px;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-md);
+}
+
+.er-hero-overlay {
+    width: 100%;
+    padding: 48px 32px 26px;
+    background: linear-gradient(transparent, rgba(20, 16, 48, 0.82));
+    color: #fff;
+}
+
+.er-hero-overlay h2 {
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.er-hero-overlay p {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.92);
+    max-width: 720px;
+    line-height: 1.5;
+}
+
+.er-hero-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* ---------- Speelpagina: statusbalk ---------- */
+.er-statusbar {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    background: var(--bg-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: 14px 20px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-dark);
+    position: sticky;
+    top: 72px;
+    z-index: 50;
+}
+
+.er-status-keys strong,
+.er-status-progress strong {
+    color: var(--primary);
+}
+
+/* ---------- Speelpagina: grid + kaarten ---------- */
+.er-play-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.er-play-card {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 200px;
+    transition: var(--transition);
+}
+
+.er-card-label {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--primary);
+}
+
+.er-q-text {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-dark);
+    flex: 1;
+}
+
+.er-q-answer {
+    display: flex;
+    gap: 8px;
+}
+
+.er-q-answer input {
+    flex: 1;
+    min-width: 0;
+    padding: 11px 14px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+}
+
+.er-q-answer input:focus {
+    border-color: var(--primary);
+}
+
+.er-btn {
+    padding: 10px 16px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.er-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.er-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.er-btn-secondary {
+    background: var(--bg-light);
+    color: var(--text-medium);
+}
+
+.er-q-feedback {
+    font-size: 13px;
+    font-weight: 600;
+    color: #D63031;
+    min-height: 18px;
+}
+
+/* Fout antwoord: korte schud-animatie */
+.er-play-card.er-wrong {
+    animation: erShake 0.35s ease;
+    box-shadow: 0 0 0 3px rgba(214, 48, 49, 0.35);
+}
+
+@keyframes erShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-7px); }
+    75% { transform: translateX(7px); }
+}
+
+/* Goed beantwoord */
+.er-play-card.er-answered {
+    background: #F0FBF2;
+    box-shadow: inset 0 0 0 2px #BDE8C8;
+}
+
+.er-q-done {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2E7D32;
+}
+
+/* Gelockte kaart: gefaded en niet leesbaar */
+.er-play-card.er-locked {
+    background: var(--bg-light);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.er-play-card.er-locked .er-card-label {
+    opacity: 0.45;
+}
+
+.er-locked-icon {
+    font-size: 40px;
+    opacity: 0.45;
+}
+
+.er-locked-text {
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+/* Finale-kaart */
+.er-play-card.er-finale {
+    box-shadow: inset 0 0 0 2px #F5B941, var(--shadow-sm);
+}
+
+.er-play-card.er-finale .er-card-label {
+    color: #C98A00;
+}
+
+.er-play-card.er-finale.er-answered {
+    background: #FFF9E8;
+    box-shadow: inset 0 0 0 2px #F5B941;
+}
+
+/* Timer-kaart */
+.er-timer-card {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #1E1B3A;
+}
+
+.er-timer-card .er-card-label {
+    color: #B8B3F0;
+}
+
+.er-timer-display {
+    font-size: 52px;
+    font-weight: 800;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 2px;
+}
+
+.er-timer-controls {
+    display: flex;
+    gap: 10px;
+}
+
+/* ---------- Victory overlay ---------- */
+.er-victory-modal {
+    text-align: center;
+    padding: 40px 36px 32px;
+    max-width: 440px;
+}
+
+.er-victory-confetti {
+    font-size: 56px;
+    margin-bottom: 8px;
+}
+
+.er-victory-modal h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.er-victory-modal > p {
+    font-size: 15px;
+    color: var(--text-medium);
+    margin-bottom: 20px;
+}
+
+.er-victory-review {
+    background: var(--bg-light);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 22px;
+}
+
+.er-victory-review p {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.er-review-stars button {
+    background: none;
+    border: none;
+    font-size: 32px;
+    color: #F5B941;
+    cursor: pointer;
+    padding: 0 4px;
+    transition: transform 0.15s ease;
+}
+
+.er-review-stars button:hover {
+    transform: scale(1.2);
+}
+
+.er-review-thanks {
+    color: #2E7D32 !important;
+    margin-top: 6px;
+}
+
+.er-victory-back {
+    display: inline-block;
+    text-decoration: none;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .er-play-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+    .er-play-grid { grid-template-columns: 1fr; }
+    .er-statusbar { top: 64px; }
+    .er-hero-overlay h2 { font-size: 24px; }
+}

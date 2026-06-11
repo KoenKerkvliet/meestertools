@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Speel een digitale escape room: beantwoord vragen, speel sleutels vrij en kraak de finale.">
+    <meta name="theme-color" content="#6C63FF">
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Escape room spelen</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/instellingen.css">
+    <link rel="stylesheet" href="../../css/escaperooms.css">
+</head>
+<body>
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../escaperooms" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1 id="erPageTitle">Escape room</h1>
+                <p>Beantwoord vragen, verdien sleutels en open de finale.</p>
+            </div>
+            <div style="width:38px;"></div>
+        </div>
+
+        <div class="tool-page-body">
+            <!-- Hero: afbeelding met titel/omschrijving-overlay -->
+            <section class="er-hero" id="erHero">
+                <div class="er-hero-overlay">
+                    <h2 id="erHeroTitle">Laden...</h2>
+                    <p id="erHeroDesc"></p>
+                    <div class="er-hero-meta" id="erHeroMeta"></div>
+                </div>
+            </section>
+
+            <!-- Statusbalk -->
+            <div class="er-statusbar" id="erStatusbar" style="display:none;">
+                <span class="er-status-keys">&#128477;&#65039; Sleutels: <strong id="erKeyCount">0</strong></span>
+                <span class="er-status-progress">&#9989; Beantwoord: <strong id="erAnswerCount">0</strong>/<span id="erTotalCount">14</span></span>
+            </div>
+
+            <!-- 3-koloms grid met vraag-, timer- en gelockte kaarten -->
+            <div class="er-play-grid" id="erPlayGrid"></div>
+
+            <div id="erPlayError" class="form-error" style="display:none;"></div>
+        </div>
+    </main>
+
+    <!-- Victory overlay -->
+    <div class="modal-overlay" id="erVictory">
+        <div class="modal er-victory-modal">
+            <div class="er-victory-confetti">&#127881;</div>
+            <h2>Room uitgespeeld!</h2>
+            <p id="erVictoryTime"></p>
+            <div class="er-victory-review">
+                <p>Wat vond je van deze escape room?</p>
+                <div class="er-review-stars" id="erReviewStars">
+                    <button data-star="1">&#9734;</button><button data-star="2">&#9734;</button><button data-star="3">&#9734;</button><button data-star="4">&#9734;</button><button data-star="5">&#9734;</button>
+                </div>
+                <p class="er-review-thanks" id="erReviewThanks" style="display:none;">Bedankt voor je review!</p>
+            </div>
+            <a href="../escaperooms" class="btn-primary er-victory-back">Terug naar overzicht</a>
+        </div>
+    </div>
+
+    <footer id="app-footer-slot"></footer>
+
+    <script src="/js/template.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../../js/supabase-config.js"></script>
+    <script src="../../js/app.js"></script>
+    <script src="/js/active-class.js"></script>
+    <script src="../../js/instellingen.js"></script>
+    <script src="../../js/escaperoom-spelen.js"></script>
+</body>
+</html>

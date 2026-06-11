@@ -1339,11 +1339,225 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ---------- ESCAPE ROOMS ----------
+    const ER_MAX_QUESTIONS = 14;
+    let allEscaperooms = [];
+    let erQuestionCounts = {};   // { room_id: aantal }
+    let erRatings = {};          // { room_id: { avg, count } }
+
+    async function loadEscaperooms() {
+        const [roomsRes, qRes, rvRes] = await Promise.all([
+            supabase.from('escaperooms').select('*').order('created_at', { ascending: false }),
+            supabase.from('escaperoom_questions').select('room_id'),
+            supabase.from('escaperoom_reviews').select('room_id, rating')
+        ]);
+
+        allEscaperooms = roomsRes.data || [];
+
+        erQuestionCounts = {};
+        (qRes.data || []).forEach(q => {
+            erQuestionCounts[q.room_id] = (erQuestionCounts[q.room_id] || 0) + 1;
+        });
+
+        erRatings = {};
+        (rvRes.data || []).forEach(rv => {
+            if (!erRatings[rv.room_id]) erRatings[rv.room_id] = { sum: 0, count: 0 };
+            erRatings[rv.room_id].sum += rv.rating;
+            erRatings[rv.room_id].count++;
+        });
+        Object.keys(erRatings).forEach(id => {
+            erRatings[id].avg = erRatings[id].sum / erRatings[id].count;
+        });
+
+        renderEscaperooms();
+    }
+
+    function renderEscaperooms() {
+        const tbody = document.getElementById('escaperoomsTableBody');
+        if (!tbody) return;
+        const search = document.getElementById('searchEscaperooms')?.value?.toLowerCase() || '';
+
+        const filtered = allEscaperooms.filter(r =>
+            (r.title || '').toLowerCase().includes(search) ||
+            (r.category || '').toLowerCase().includes(search)
+        );
+
+        if (!filtered.length) {
+            tbody.innerHTML = `
+                <tr><td colspan="7">
+                    <div class="admin-empty">
+                        <span class="empty-icon">&#128477;&#65039;</span>
+                        <p>${allEscaperooms.length ? 'Geen escape rooms gevonden' : 'Nog geen escape rooms. Maak de eerste aan!'}</p>
+                    </div>
+                </td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(r => {
+            const rating = erRatings[r.id];
+            return `
+            <tr>
+                <td><strong>${escapeHtml(r.title)}</strong></td>
+                <td>${escapeHtml(r.category || '-')}</td>
+                <td>${r.suitable_for ? 'Groep ' + r.suitable_for : '-'}</td>
+                <td>${erQuestionCounts[r.id] || 0}/${ER_MAX_QUESTIONS}</td>
+                <td>${rating ? '&#9733; ' + rating.avg.toFixed(1) + ' (' + rating.count + ')' : '-'}</td>
+                <td>
+                    <span class="badge ${r.published ? 'badge-active' : 'badge-archived'}">
+                        ${r.published ? 'Gepubliceerd' : 'Concept'}
+                    </span>
+                </td>
+                <td class="actions">
+                    <button class="btn-small btn-edit" onclick="editEscaperoom('${r.id}')">Bewerken</button>
+                    <button class="btn-small btn-delete" onclick="deleteEscaperoom('${r.id}', '${escapeHtml(r.title)}')">Verwijderen</button>
+                </td>
+            </tr>`;
+        }).join('');
+    }
+
+    document.getElementById('searchEscaperooms')?.addEventListener('input', renderEscaperooms);
+
+    function buildErQuestionRows() {
+        const wrap = document.getElementById('erFormQuestions');
+        let html = '';
+        for (let i = 1; i <= ER_MAX_QUESTIONS; i++) {
+            const finale = i === ER_MAX_QUESTIONS;
+            html += `
+                <div class="form-group" style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;">
+                    <span style="flex:0 0 64px;padding-top:12px;font-size:13px;font-weight:700;color:${finale ? '#C98A00' : 'var(--text-medium)'};">
+                        ${finale ? '&#127942; Finale' : 'Vraag ' + i}
+                    </span>
+                    <input type="text" id="erQ${i}" placeholder="Vraag" style="flex:2;min-width:0;">
+                    <input type="text" id="erA${i}" placeholder="Antwoord" style="flex:1;min-width:0;">
+                </div>`;
+        }
+        wrap.innerHTML = html;
+    }
+
+    function fillErCategorySuggestions() {
+        const datalist = document.getElementById('erCategorieSuggesties');
+        if (!datalist) return;
+        const cats = [...new Set(allEscaperooms.map(r => r.category).filter(Boolean))].sort();
+        datalist.innerHTML = cats.map(c => `<option value="${escapeHtml(c)}"></option>`).join('');
+    }
+
+    document.getElementById('addEscaperoomBtn')?.addEventListener('click', () => {
+        document.getElementById('escaperoomModalTitle').textContent = 'Escape room toevoegen';
+        document.getElementById('escaperoomForm').reset();
+        document.getElementById('erFormId').value = '';
+        buildErQuestionRows();
+        fillErCategorySuggestions();
+        openModal('escaperoomModal');
+    });
+
+    window.editEscaperoom = async function (id) {
+        const room = allEscaperooms.find(r => r.id === id);
+        if (!room) return;
+
+        document.getElementById('escaperoomModalTitle').textContent = 'Escape room bewerken';
+        document.getElementById('escaperoomForm').reset();
+        document.getElementById('erFormId').value = room.id;
+        document.getElementById('erFormTitle').value = room.title || '';
+        document.getElementById('erFormDescription').value = room.description || '';
+        document.getElementById('erFormImage').value = room.image_url || '';
+        document.getElementById('erFormCategory').value = room.category || '';
+        document.getElementById('erFormSuitable').value = room.suitable_for || '';
+        document.getElementById('erFormPublished').checked = !!room.published;
+        buildErQuestionRows();
+        fillErCategorySuggestions();
+
+        const { data: qs } = await supabase
+            .from('escaperoom_questions')
+            .select('position, question, answer')
+            .eq('room_id', id)
+            .order('position');
+        (qs || []).forEach(q => {
+            const qEl = document.getElementById('erQ' + q.position);
+            const aEl = document.getElementById('erA' + q.position);
+            if (qEl) qEl.value = q.question;
+            if (aEl) aEl.value = q.answer;
+        });
+
+        openModal('escaperoomModal');
+    };
+
+    document.getElementById('saveEscaperoomBtn')?.addEventListener('click', async () => {
+        const id = document.getElementById('erFormId').value;
+        const title = document.getElementById('erFormTitle').value.trim();
+        if (!title) {
+            alert('Vul een titel in.');
+            return;
+        }
+
+        const roomData = {
+            title: title,
+            description: document.getElementById('erFormDescription').value.trim() || null,
+            image_url: document.getElementById('erFormImage').value.trim() || null,
+            category: document.getElementById('erFormCategory').value.trim() || null,
+            suitable_for: document.getElementById('erFormSuitable').value || null,
+            published: document.getElementById('erFormPublished').checked,
+            updated_at: new Date().toISOString()
+        };
+
+        // Vragen verzamelen: alleen rijen waar vraag én antwoord zijn ingevuld
+        const questions = [];
+        for (let i = 1; i <= ER_MAX_QUESTIONS; i++) {
+            const q = document.getElementById('erQ' + i).value.trim();
+            const a = document.getElementById('erA' + i).value.trim();
+            if (q && a) questions.push({ position: i, question: q, answer: a });
+        }
+
+        const btn = document.getElementById('saveEscaperoomBtn');
+        btn.disabled = true;
+
+        try {
+            let roomId = id;
+            if (id) {
+                const { error } = await supabase.from('escaperooms').update(roomData).eq('id', id);
+                if (error) throw error;
+            } else {
+                const { data, error } = await supabase.from('escaperooms').insert(roomData).select('id').single();
+                if (error) throw error;
+                roomId = data.id;
+            }
+
+            // Vragen synchroniseren: oude weg, nieuwe erin
+            const { error: delError } = await supabase.from('escaperoom_questions').delete().eq('room_id', roomId);
+            if (delError) throw delError;
+            if (questions.length) {
+                const { error: insError } = await supabase
+                    .from('escaperoom_questions')
+                    .insert(questions.map(q => ({ ...q, room_id: roomId })));
+                if (insError) throw insError;
+            }
+
+            closeModal('escaperoomModal');
+            await loadEscaperooms();
+        } catch (err) {
+            alert('Opslaan mislukt: ' + err.message);
+        }
+        btn.disabled = false;
+    });
+
+    window.deleteEscaperoom = function (id, title) {
+        showConfirm('Escape room verwijderen', `Weet je zeker dat je "${title}" permanent wilt verwijderen, inclusief alle vragen en reviews? Dit kan niet ongedaan worden gemaakt.`, async () => {
+            const { error } = await supabase.from('escaperooms').delete().eq('id', id);
+            if (error) {
+                alert('Fout bij verwijderen: ' + error.message);
+                return;
+            }
+            await loadEscaperooms();
+        });
+    };
+
+    document.getElementById('closeEscaperoomModal')?.addEventListener('click', () => closeModal('escaperoomModal'));
+    document.getElementById('cancelEscaperoomModal')?.addEventListener('click', () => closeModal('escaperoomModal'));
+
     // ---------- Initial Load ----------
     async function initAdminData() {
         if (window.userRole !== 'super_admin') return;
         try {
-            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets(), loadSpellingSentences()]);
+            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets(), loadSpellingSentences(), loadEscaperooms()]);
         } catch (e) {
             console.error('Error during initial load:', e);
         }
