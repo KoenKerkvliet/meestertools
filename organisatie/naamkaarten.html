@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Naamkaarten: print voor elke leerling een omvouwbaar naamkaartje. A4 liggend met vouwlijn in het midden, de naam aan twee kanten leesbaar en optioneel het monstertje van de leerling.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/organisatie/naamkaarten">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/organisatie/naamkaarten">
+    <meta property="og:title" content="Meestertools - Naamkaarten">
+    <meta property="og:description" content="Print voor elke leerling een omvouwbaar naamkaartje voor op tafel.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Naamkaarten">
+    <meta name="twitter:description" content="Print voor elke leerling een omvouwbaar naamkaartje voor op tafel.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Naamkaarten</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/naamkaarten.css">
+</head>
+<body>
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../organisatie" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Naamkaarten</h1>
+                <p>Print omvouwbare naamkaartjes voor op de tafels &mdash; vouw over de stippellijn en klaar.</p>
+            </div>
+            <div style="width:38px;"></div>
+        </div>
+
+        <div class="tool-page-body">
+            <div class="nc-layout">
+                <!-- Bedieningspaneel -->
+                <div class="nc-controls">
+                    <div class="form-group">
+                        <label for="ncSelectGroup">Klas</label>
+                        <select id="ncSelectGroup">
+                            <option value="">Laden...</option>
+                        </select>
+                        <p class="nc-info" id="ncStudentInfo"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ncNameMode">Naam op het kaartje</label>
+                        <select id="ncNameMode">
+                            <option value="first">Voornaam</option>
+                            <option value="full">Voornaam + achternaam</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ncStyle">Letterstijl</label>
+                        <select id="ncStyle">
+                            <option value="solid">Volle zwarte letters</option>
+                            <option value="open">Open letters (zelf inkleuren)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="nc-toggle">
+                            <input type="checkbox" id="ncMonster" checked>
+                            Monstertje van de leerling erbij
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ncSize">Lettergrootte <span id="ncSizeVal">100%</span></label>
+                        <input type="range" id="ncSize" min="50" max="160" value="100" step="5">
+                    </div>
+
+                    <button class="btn-primary nc-download-btn" id="ncDownloadBtn" disabled>
+                        &#128196; Download alle naamkaarten (PDF)
+                    </button>
+                    <p class="nc-hint" id="ncHint">Kies een klas met leerlingen om te beginnen.</p>
+
+                    <div class="nc-uitleg">
+                        <strong>Zo werkt het</strong>
+                        <ol>
+                            <li>Print de PDF (A4, liggend).</li>
+                            <li>Vouw het blad over de stippellijn.</li>
+                            <li>Zet het kaartje als een tentje op tafel &mdash; de naam is aan twee kanten leesbaar.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Voorbeeld -->
+                <div class="nc-preview">
+                    <div class="nc-preview-stage" id="ncPreviewStage">
+                        <canvas id="ncPreviewCanvas" class="nc-canvas"></canvas>
+                        <div class="nc-preview-empty" id="ncPreviewEmpty">
+                            <span class="nc-preview-empty-icon">&#128219;</span>
+                            <p>Hier zie je een voorbeeld zodra je een klas met leerlingen hebt gekozen.</p>
+                        </div>
+                    </div>
+                    <div class="nc-preview-nav" id="ncPreviewNav" style="display:none;">
+                        <button class="nc-nav-btn" id="ncPrevName" title="Vorige naam">&larr;</button>
+                        <span class="nc-preview-name" id="ncPreviewLabel"></span>
+                        <button class="nc-nav-btn" id="ncNextName" title="Volgende naam">&rarr;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+    <script src="/js/template.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="/js/active-class.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/naamkaarten.js"></script>
+</body>
+</html>

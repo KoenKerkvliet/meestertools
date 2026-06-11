@@ -26,42 +26,104 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-card">
-            <div class="login-logo">
-                <span class="logo-icon">&#127891;</span>
-                <h1>Meestertools</h1>
-                <p>Het digitale platform voor de basisschool</p>
+    <div class="login-container login-split-page">
+        <div class="login-split">
+            <!-- Links: over Meestertools -->
+            <div class="login-info">
+                <div class="login-info-brand">
+                    <span class="login-info-icon">&#127891;</span>
+                    <h1>Meestertools</h1>
+                    <p class="login-info-tagline">Het digitale platform voor de basisschool</p>
+                </div>
+
+                <div class="login-usp-list">
+                    <div class="login-usp">
+                        <span class="login-usp-icon">&#129520;</span>
+                        <div>
+                            <strong><span id="lgToolCount">30</span>+ tools, alles op &eacute;&eacute;n plek</strong>
+                            <span>Voor digibord, groepsvorming, organisatie, lesmateriaal en meer.</span>
+                        </div>
+                    </div>
+                    <div class="login-usp">
+                        <span class="login-usp-icon">&#128104;&#8205;&#127979;</span>
+                        <div>
+                            <strong>Door een meester, voor de klas</strong>
+                            <span>Gemaakt door een leerkracht die zelf elke dag voor de groep staat.</span>
+                        </div>
+                    </div>
+                    <div class="login-usp">
+                        <span class="login-usp-icon">&#127891;</span>
+                        <div>
+                            <strong>E&eacute;n keer je klas instellen</strong>
+                            <span>Voer je leerlingen &eacute;&eacute;n keer in en elke tool gebruikt ze automatisch.</span>
+                        </div>
+                    </div>
+                    <div class="login-usp">
+                        <span class="login-usp-icon">&#128424;&#65039;</span>
+                        <div>
+                            <strong>Printklaar in een paar klikken</strong>
+                            <span>Werkbladen, naamkaarten en kleurplaten rollen als kant-en-klare PDF uit de tool.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="login-monsters">
+                    <img src="assets/avatars/monsters/monster-03.png" alt="">
+                    <img src="assets/avatars/monsters/monster-08.png" alt="">
+                    <img src="assets/avatars/monsters/monster-14.png" alt="">
+                    <img src="assets/avatars/monsters/monster-22.png" alt="">
+                    <span>Elke leerling krijgt z'n eigen monstertje</span>
+                </div>
             </div>
 
-            <div id="loginError" class="form-error" style="display:none;"></div>
+            <!-- Rechts: inloggen -->
+            <div class="login-formside">
+                <div class="login-card">
+                    <div class="login-logo">
+                        <span class="logo-icon">&#127891;</span>
+                        <h1>Welkom terug!</h1>
+                        <p>Log in om verder te gaan</p>
+                    </div>
 
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="email">E-mailadres</label>
-                    <input type="email" id="email" placeholder="juf@basisschool.nl" required>
+                    <div id="loginError" class="form-error" style="display:none;"></div>
+
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="email">E-mailadres</label>
+                            <input type="email" id="email" placeholder="juf@basisschool.nl" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Wachtwoord</label>
+                            <input type="password" id="password" placeholder="Voer je wachtwoord in" required>
+                        </div>
+
+                        <div class="form-options">
+                            <label>
+                                <input type="checkbox"> Onthoud mij
+                            </label>
+                            <a href="wachtwoord-vergeten">Wachtwoord vergeten?</a>
+                        </div>
+
+                        <button type="submit" class="btn-login" id="loginBtn">Inloggen</button>
+                    </form>
+
+                    <div class="login-footer">
+                        Nog geen account? <a href="registreer">Registreer hier</a>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="password">Wachtwoord</label>
-                    <input type="password" id="password" placeholder="Voer je wachtwoord in" required>
-                </div>
-
-                <div class="form-options">
-                    <label>
-                        <input type="checkbox"> Onthoud mij
-                    </label>
-                    <a href="wachtwoord-vergeten">Wachtwoord vergeten?</a>
-                </div>
-
-                <button type="submit" class="btn-login" id="loginBtn">Inloggen</button>
-            </form>
-
-            <div class="login-footer">
-                Nog geen account? <a href="registreer">Registreer hier</a>
             </div>
         </div>
     </div>
+
+    <script src="/js/template.js"></script>
+    <script>
+        // Toon het actuele aantal tools uit de centrale tool-lijst
+        (function () {
+            var el = document.getElementById('lgToolCount');
+            if (el && window.MT_ALL_TOOLS) el.textContent = window.MT_ALL_TOOLS.length;
+        })();
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
     <script src="js/supabase-config.js"></script>

@@ -69,6 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         allUsers = data || [];
         renderUsers();
+        // De schollentabel toont gebruikers-per-school; opnieuw renderen nu
+        // de gebruikers binnen zijn (scholen en gebruikers laden parallel).
+        renderSchools();
     }
 
     // ---------- Render Schools ----------

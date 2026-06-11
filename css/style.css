@@ -291,6 +291,148 @@ a {
     font-weight: 600;
 }
 
+/* ---------- LOGIN 50/50 SPLIT ---------- */
+.login-split-page {
+    padding: 0;
+    align-items: stretch;
+}
+
+.login-split {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+/* Links: info over de tool (op de animerende gradient van de container) */
+.login-info {
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 36px;
+    padding: 64px 7%;
+    color: #fff;
+}
+
+.login-info-brand .login-info-icon {
+    font-size: 52px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.login-info-brand h1 {
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+}
+
+.login-info-tagline {
+    margin-top: 6px;
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 500;
+}
+
+.login-usp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-width: 480px;
+}
+
+.login-usp {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.login-usp-icon {
+    flex: 0 0 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 14px;
+    backdrop-filter: blur(4px);
+}
+
+.login-usp strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.login-usp div span {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.5;
+}
+
+.login-monsters {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 50px;
+    padding: 8px 20px 8px 12px;
+    width: fit-content;
+}
+
+.login-monsters img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.login-monsters span {
+    margin-left: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+/* Rechts: het inlogformulier op een rustige achtergrond */
+.login-formside {
+    flex: 1 1 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    background: var(--bg-light);
+}
+
+/* Responsive: onder elkaar, formulier eerst */
+@media (max-width: 900px) {
+    .login-split {
+        flex-direction: column;
+    }
+
+    .login-formside {
+        order: 1;
+        padding: 40px 20px 32px;
+    }
+
+    .login-info {
+        order: 2;
+        padding: 40px 24px 56px;
+        gap: 28px;
+    }
+
+    .login-info-brand h1 {
+        font-size: 30px;
+    }
+}
+
 /* ---------- HEADER ---------- */
 .app-header {
     background: var(--bg-white);
