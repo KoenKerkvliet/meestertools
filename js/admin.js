@@ -1462,6 +1462,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('erFormImage').value = room.image_url || '';
         document.getElementById('erFormCategory').value = room.category || '';
         document.getElementById('erFormSuitable').value = room.suitable_for || '';
+        document.getElementById('erFormTimeLimit').value = room.time_limit_minutes || '';
         document.getElementById('erFormPublished').checked = !!room.published;
         buildErQuestionRows();
         fillErCategorySuggestions();
@@ -1489,12 +1490,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const timeLimit = parseInt(document.getElementById('erFormTimeLimit').value, 10);
         const roomData = {
             title: title,
             description: document.getElementById('erFormDescription').value.trim() || null,
             image_url: document.getElementById('erFormImage').value.trim() || null,
             category: document.getElementById('erFormCategory').value.trim() || null,
             suitable_for: document.getElementById('erFormSuitable').value || null,
+            time_limit_minutes: (timeLimit >= 1 && timeLimit <= 240) ? timeLimit : null,
             published: document.getElementById('erFormPublished').checked,
             updated_at: new Date().toISOString()
         };

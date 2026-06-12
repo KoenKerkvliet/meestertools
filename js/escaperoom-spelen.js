@@ -8,8 +8,12 @@
      daarna 12 gelockte vraagkaarten (waarvan de laatste de finale is).
 
    Spelregels:
-   - Vraag 1 en 2 zijn meteen speelbaar.
-   - Een goed antwoord levert een sleutel op (🗝️).
+   - Vragen zijn pas speelbaar zodra de timer loopt (geen stiekem
+     voorlezen); pauzeren zet de vragen ook weer op slot.
+   - Met een tijdslimiet (instelbaar per room) telt de timer af;
+     op 00:00 is het spel voorbij. Zonder limiet is het een stopwatch.
+   - Een goed antwoord levert een sleutel op (🗝️) die met een animatie
+     naar de sleutelteller vliegt.
    - Met een sleutel open je een gelockte kaart en komt de vraag vrij.
    - De finale gaat pas open als alle andere vragen beantwoord zijn.
    - Finale goed beantwoord = room uitgespeeld (+ review van 1-5 sterren).
@@ -44,8 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Timer
     let timerInterval = null;
-    let timerSeconds = 0;
+    let timerSeconds = 0;      // resterend (aftellen) of verstreken (stopwatch)
     let timerRunning = false;
+    let timerStarted = false;  // ooit gestart sinds laatste reset
+    let timeLimitSec = null;   // null = stopwatch, anders aftellen vanaf dit aantal
 
     function escapeHtml(str) {
         const div = document.createElement('div');
@@ -70,47 +76,90 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- Timer ----------
     function timerText() {
-        const m = Math.floor(timerSeconds / 60);
-        const s = timerSeconds % 60;
+        const t = Math.max(0, timerSeconds);
+        const m = Math.floor(t / 60);
+        const s = t % 60;
         return (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+    }
+
+    // Verstreken speeltijd (voor de victory-tekst)
+    function elapsedText() {
+        const elapsed = timeLimitSec !== null ? timeLimitSec - Math.max(0, timerSeconds) : timerSeconds;
+        const m = Math.floor(elapsed / 60);
+        const s = elapsed % 60;
+        return (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+    }
+
+    function updateTimerDisplay() {
+        const d = document.getElementById('erTimerDisplay');
+        if (!d) return;
+        d.textContent = timerText();
+        d.classList.toggle('er-timer-low', timeLimitSec !== null && timerSeconds <= 60);
+    }
+
+    function tick() {
+        if (timeLimitSec !== null) {
+            timerSeconds--;
+            updateTimerDisplay();
+            if (timerSeconds <= 0) timesUp();
+        } else {
+            timerSeconds++;
+            updateTimerDisplay();
+        }
+    }
+
+    function startTimer() {
+        if (timerRunning) return;
+        timerRunning = true;
+        timerStarted = true;
+        timerInterval = setInterval(tick, 1000);
+        refreshGrid();
+    }
+
+    function pauseTimer() {
+        timerRunning = false;
+        clearInterval(timerInterval);
+        refreshGrid();
+    }
+
+    function stopTimer() {
+        timerRunning = false;
+        timerStarted = false;
+        clearInterval(timerInterval);
+        timerSeconds = timeLimitSec !== null ? timeLimitSec : 0;
+        refreshGrid();
+    }
+
+    function timesUp() {
+        timerRunning = false;
+        clearInterval(timerInterval);
+        timerSeconds = 0;
+        updateTimerDisplay();
+        document.getElementById('erTimesUp').classList.add('active');
     }
 
     function renderTimerCard(card) {
         card.innerHTML =
-            '<div class="er-card-label">&#9201;&#65039; Timer</div>' +
+            '<div class="er-card-label">&#9201;&#65039; Timer' +
+                (timeLimitSec !== null ? ' &middot; ' + Math.round(timeLimitSec / 60) + ' min' : '') +
+            '</div>' +
             '<div class="er-timer-display" id="erTimerDisplay">' + timerText() + '</div>' +
             '<div class="er-timer-controls">' +
             (timerRunning
                 ? '<button class="er-btn er-btn-secondary" id="erTimerPause">&#9208;&#65039; Pauze</button>' +
                   '<button class="er-btn er-btn-secondary" id="erTimerStop">&#9209;&#65039; Stop</button>'
-                : '<button class="er-btn" id="erTimerStart">&#9654;&#65039; Start</button>' +
-                  (timerSeconds > 0 ? '<button class="er-btn er-btn-secondary" id="erTimerStop">&#9209;&#65039; Stop</button>' : '')) +
-            '</div>';
+                : '<button class="er-btn" id="erTimerStart">&#9654;&#65039; ' + (timerStarted ? 'Verder' : 'Start') + '</button>' +
+                  (timerStarted ? '<button class="er-btn er-btn-secondary" id="erTimerStop">&#9209;&#65039; Stop</button>' : '')) +
+            '</div>' +
+            (!timerStarted ? '<div class="er-timer-hint">De vragen gaan open zodra de timer loopt.</div>' : '');
 
+        updateTimerDisplay();
         const startBtn = card.querySelector('#erTimerStart');
         const pauseBtn = card.querySelector('#erTimerPause');
         const stopBtn = card.querySelector('#erTimerStop');
-
-        if (startBtn) startBtn.addEventListener('click', () => {
-            timerRunning = true;
-            timerInterval = setInterval(() => {
-                timerSeconds++;
-                const d = document.getElementById('erTimerDisplay');
-                if (d) d.textContent = timerText();
-            }, 1000);
-            renderTimerCard(card);
-        });
-        if (pauseBtn) pauseBtn.addEventListener('click', () => {
-            timerRunning = false;
-            clearInterval(timerInterval);
-            renderTimerCard(card);
-        });
-        if (stopBtn) stopBtn.addEventListener('click', () => {
-            timerRunning = false;
-            clearInterval(timerInterval);
-            timerSeconds = 0;
-            renderTimerCard(card);
-        });
+        if (startBtn) startBtn.addEventListener('click', startTimer);
+        if (pauseBtn) pauseBtn.addEventListener('click', pauseTimer);
+        if (stopBtn) stopBtn.addEventListener('click', stopTimer);
     }
 
     // ---------- Vraagkaarten ----------
@@ -136,6 +185,19 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Timer loopt niet: alle onbeantwoorde vragen (ook 1 en 2) zijn
+        // gefaded, zodat niemand alvast kan meelezen of nadenken.
+        if (!timerRunning && unlocked.has(pos)) {
+            card.classList.add('er-locked');
+            card.innerHTML =
+                '<div class="er-card-label">' + (isFinale(pos) ? '&#127942; Finale' : 'Vraag ' + pos) + '</div>' +
+                '<div class="er-locked-icon">&#9203;</div>' +
+                '<div class="er-locked-text">' +
+                    (timerStarted ? 'De timer staat stil — druk op verder.' : 'Start de timer om te beginnen!') +
+                '</div>';
+            return;
+        }
+
         if (!unlocked.has(pos)) {
             card.classList.add('er-locked');
             const finaleGate = isFinale(pos) && !othersAnswered();
@@ -147,12 +209,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         ? 'Beantwoord eerst alle andere vragen.'
                         : 'Deze kaart zit op slot.') +
                 '</div>' +
-                '<button class="er-btn er-unlock-btn"' + ((keys < 1 || finaleGate) ? ' disabled' : '') + '>' +
+                '<button class="er-btn er-unlock-btn"' + ((keys < 1 || finaleGate || !timerRunning) ? ' disabled' : '') + '>' +
                     '&#128477;&#65039; Open met sleutel' +
                 '</button>';
 
             card.querySelector('.er-unlock-btn').addEventListener('click', () => {
-                if (keys < 1 || (isFinale(pos) && !othersAnswered())) return;
+                if (keys < 1 || !timerRunning || (isFinale(pos) && !othersAnswered())) return;
                 keys--;
                 unlocked.add(pos);
                 updateStatus();
@@ -183,7 +245,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateStatus();
                 renderQuestionCard(card, q);
                 refreshLockedCards();
-                if (isFinale(pos)) showVictory();
+                if (isFinale(pos)) {
+                    showVictory();
+                } else {
+                    flyKey(card);
+                }
             } else {
                 feedback.textContent = 'Helaas, probeer het nog eens!';
                 card.classList.add('er-wrong');
@@ -203,14 +269,64 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Alle kaarten opnieuw opbouwen (na start/pauze/stop van de timer)
+    function refreshGrid() {
+        grid.querySelectorAll('.er-play-card').forEach(card => {
+            if (card.classList.contains('er-timer-card')) {
+                renderTimerCard(card);
+            } else {
+                const pos = parseInt(card.dataset.position, 10);
+                const q = questions.find(x => x.position === pos);
+                if (q) renderQuestionCard(card, q);
+            }
+        });
+    }
+
+    // ---------- Sleutel-animatie ----------
+    // Bij een goed antwoord vliegt een sleutel van de kaart naar de
+    // sleutelteller in de statusbalk en vervaagt daar.
+    function flyKey(fromCard) {
+        const target = document.querySelector('.er-status-keys');
+        if (!target || !fromCard) return;
+        const from = fromCard.getBoundingClientRect();
+        const to = target.getBoundingClientRect();
+
+        const key = document.createElement('div');
+        key.className = 'er-key-fly';
+        key.textContent = '\u{1F5DD}️';
+        key.style.left = (from.left + from.width / 2 - 20) + 'px';
+        key.style.top = (from.top + from.height / 2 - 20) + 'px';
+        document.body.appendChild(key);
+
+        const dx = (to.left + to.width / 2) - (from.left + from.width / 2);
+        const dy = (to.top + to.height / 2) - (from.top + from.height / 2);
+
+        // Twee frames wachten zodat de starttoestand gerenderd is
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                key.style.transform = 'translate(' + dx + 'px, ' + dy + 'px) scale(0.4) rotate(360deg)';
+                key.style.opacity = '0';
+            });
+        });
+
+        setTimeout(() => {
+            key.remove();
+            const counter = document.querySelector('.er-status-keys');
+            if (counter) {
+                counter.classList.add('er-key-pulse');
+                setTimeout(() => counter.classList.remove('er-key-pulse'), 450);
+            }
+        }, 800);
+    }
+
     // ---------- Victory ----------
     function showVictory() {
         if (timerRunning) {
             clearInterval(timerInterval);
             timerRunning = false;
         }
-        victoryTime.textContent = timerSeconds > 0
-            ? 'Jullie tijd: ' + timerText()
+        victoryTime.textContent = timerStarted
+            ? 'Jullie tijd: ' + elapsedText()
             : 'Alle vragen goed beantwoord — knap gedaan!';
         victory.classList.add('active');
     }
@@ -275,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const [roomRes, qRes] = await Promise.all([
                 supabase.from('escaperooms')
-                    .select('id, title, description, image_url, category, suitable_for')
+                    .select('id, title, description, image_url, category, suitable_for, time_limit_minutes')
                     .eq('id', roomId)
                     .single(),
                 supabase.from('escaperoom_questions')
@@ -296,7 +412,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             finalePos = Math.max.apply(null, questions.map(q => q.position));
 
-            // Vraag 1 en 2 zijn meteen open
+            // Tijdslimiet: timer telt af; zonder limiet is het een stopwatch
+            if (room.time_limit_minutes > 0) {
+                timeLimitSec = room.time_limit_minutes * 60;
+                timerSeconds = timeLimitSec;
+            }
+
+            // Vraag 1 en 2 zijn vrij (geen sleutel nodig), maar pas
+            // leesbaar zodra de timer loopt
             unlocked.add(1);
             unlocked.add(2);
 
