@@ -1424,6 +1424,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const answerInput = document.getElementById('erA' + i);
         answerInput.disabled = type === 'schuifpuzzel';
         answerInput.placeholder = type === 'schuifpuzzel' ? 'Niet nodig (puzzel oplossen = goed)' : 'Antwoord';
+        // Een schuifpuzzel heeft geen antwoord; oude waarde leegmaken
+        // zodat er geen verwarrend 'spook-antwoord' blijft staan
+        if (type === 'schuifpuzzel') answerInput.value = '';
 
         if (type === 'meerkeuze') {
             extras.style.display = '';
