@@ -300,6 +300,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isAdminPage && profile.role !== 'super_admin') {
                 window.location.href = getBasePath() + 'dashboard';
             }
+
+            // Tools "under construction" mogen alleen door super admins geopend worden
+            if (profile.role !== 'super_admin' &&
+                typeof window.MT_UC_TOOL_FOR_PATH === 'function' &&
+                window.MT_UC_TOOL_FOR_PATH(window.location.pathname)) {
+                window.location.href = getBasePath() + 'dashboard';
+            }
         }
     }
 

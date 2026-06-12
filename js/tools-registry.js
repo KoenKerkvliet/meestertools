@@ -101,6 +101,19 @@
         cards.forEach(function (a) {
             var tool = findByHref(a.getAttribute('href'));
             if (!tool) return;
+
+            // Under construction: badge + gedimde kaart (super admin ziet
+            // hem via body.mt-uc-admin weer gewoon; klik-blokkade zit in template.js)
+            if (tool.uc) {
+                a.classList.add('uc-card');
+                if (!a.querySelector('.uc-badge')) {
+                    var ucBadge = document.createElement('span');
+                    ucBadge.className = 'uc-badge';
+                    ucBadge.textContent = 'Under construction';
+                    a.appendChild(ucBadge);
+                }
+            }
+
             var btn = a.querySelector('.mt-card-fav');
             if (!btn) {
                 btn = document.createElement('button');

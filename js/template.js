@@ -1,6 +1,6 @@
 /* ============================================
    MEESTERTOOLS - Template Injector
-   Versie: v1.9.0
+   Versie: v1.9.1
 
    Inject reusable header and footer into every page that has
    <header id="app-header-slot"></header> and
@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.9.0';
+    const VERSION = 'v1.9.1';
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [
@@ -35,8 +35,8 @@
         // Educatieve games
         { id: '24game', name: '24 Game', url: 'educatieve-games/24game', icon: '&#127922;' },
         { id: 'potje1000', name: 'Potje 1000', url: 'educatieve-games/potje1000', icon: '&#127919;' },
-        { id: 'lingo', name: 'Lingo', url: 'educatieve-games/lingo', icon: '&#128221;' },
-        { id: 'escaperooms', name: 'Escape rooms', url: 'educatieve-games/escaperooms', icon: '&#128477;&#65039;' },
+        { id: 'lingo', name: 'Lingo', url: 'educatieve-games/lingo', icon: '&#128221;', uc: true },
+        { id: 'escaperooms', name: 'Escape rooms', url: 'educatieve-games/escaperooms', icon: '&#128477;&#65039;', uc: true },
         // Klasseprestatie
         { id: 'klasseprestatie', name: 'Klasseprestatie', url: 'klasseprestatie', icon: '&#127942;' },
         // Lesmateriaal
@@ -65,6 +65,46 @@
         { id: 'naamkaarten', name: 'Naamkaarten', url: 'organisatie/naamkaarten', icon: '&#128219;' }
     ];
     window.MT_ALL_TOOLS = MT_ALL_TOOLS;
+
+    // ---------- Under construction ----------
+    // Tools met uc:true zijn alleen toegankelijk voor super admins.
+    // Kaarten en zoekresultaten tonen een badge; voor andere gebruikers
+    // is klikken geblokkeerd en stuurt de toolpagina zelf terug (app.js).
+    function normalizePath(href) {
+        if (!href) return '';
+        var path = href;
+        try { path = new URL(href, window.location.href).pathname; } catch (e) {}
+        return path.split('?')[0].split('#')[0].replace(/^\/+/, '').replace(/\.html$/, '').replace(/\/+$/, '');
+    }
+
+    function ucToolForHref(href) {
+        var path = normalizePath(href);
+        if (!path) return null;
+        for (var i = 0; i < MT_ALL_TOOLS.length; i++) {
+            var t = MT_ALL_TOOLS[i];
+            if (t.uc && (path === t.url || path.indexOf(t.url + '/') === 0)) return t;
+        }
+        return null;
+    }
+    window.MT_UC_TOOL_FOR_PATH = ucToolForHref;
+
+    // Body-class waarmee CSS de kaarten voor super admins weer activeert
+    window.addEventListener('userRoleReady', function (e) {
+        if (e.detail && e.detail.role === 'super_admin') {
+            document.body.classList.add('mt-uc-admin');
+        }
+    });
+
+    // Globale klik-blokkade: vangt tool-kaarten, zoekresultaten en
+    // favorieten-pills in één keer af.
+    document.addEventListener('click', function (e) {
+        var a = e.target && e.target.closest ? e.target.closest('a') : null;
+        if (!a) return;
+        if (!ucToolForHref(a.getAttribute('href'))) return;
+        if (window.userRole === 'super_admin') return;
+        e.preventDefault();
+        e.stopPropagation();
+    }, true);
 
     const headerHtml = `
 <header class="app-header">
@@ -176,7 +216,9 @@
         }
 
         function go(tool) {
-            if (tool) window.location.href = '/' + tool.url;
+            if (!tool) return;
+            if (tool.uc && window.userRole !== 'super_admin') return;
+            window.location.href = '/' + tool.url;
         }
 
         function search(q) {
@@ -194,7 +236,8 @@
             results.innerHTML = matches.map(function (t) {
                 return '<a class="hs-item" href="/' + t.url + '">' +
                     '<span class="hs-item-icon">' + t.icon + '</span>' +
-                    escapeHtml(t.name) + '</a>';
+                    escapeHtml(t.name) +
+                    (t.uc ? '<span class="hs-uc">Under construction</span>' : '') + '</a>';
             }).join('');
             results.classList.add('open');
         }
