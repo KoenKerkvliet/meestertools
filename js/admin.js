@@ -1340,7 +1340,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---------- ESCAPE ROOMS ----------
-    const ER_MAX_QUESTIONS = 14;
+    const ER_MAX_QUESTIONS = 15; // 14 normale vragen + finale (positie 15)
     let allEscaperooms = [];
     let erQuestionCounts = {};   // { room_id: aantal }
     let erRatings = {};          // { room_id: { avg, count } }
@@ -1400,7 +1400,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><strong>${escapeHtml(r.title)}</strong></td>
                 <td>${escapeHtml(r.category || '-')}</td>
                 <td>${r.suitable_for ? 'Groep ' + r.suitable_for : '-'}</td>
-                <td>${erQuestionCounts[r.id] || 0}/${ER_MAX_QUESTIONS}</td>
+                <td>${erQuestionCounts[r.id] || 0}/${ER_MAX_QUESTIONS}${r.time_limit_minutes ? ' &middot; ' + r.time_limit_minutes + ' min' : ''}</td>
                 <td>${rating ? '&#9733; ' + rating.avg.toFixed(1) + ' (' + rating.count + ')' : '-'}</td>
                 <td>
                     <span class="badge ${r.published ? 'badge-active' : 'badge-archived'}">

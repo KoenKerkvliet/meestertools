@@ -1,21 +1,24 @@
 /* ============================================
    ESCAPE ROOMS - Speelpagina (room-template)
-   Versie: v0.0.1
+   Versie: v0.0.3
 
    Elke room heeft dezelfde opbouw:
    - Hero met afbeelding en titel/omschrijving-overlay.
    - 3x5 grid: kaart 1 = vraag 1, kaart 2 = timer, kaart 3 = vraag 2,
-     daarna 12 gelockte vraagkaarten (waarvan de laatste de finale is).
+     daarna de overige normale vragen (gelockt).
+   - Daaronder de FINALE als sectie over de volle breedte.
 
    Spelregels:
    - Vragen zijn pas speelbaar zodra de timer loopt (geen stiekem
      voorlezen); pauzeren zet de vragen ook weer op slot.
    - Met een tijdslimiet (instelbaar per room) telt de timer af;
      op 00:00 is het spel voorbij. Zonder limiet is het een stopwatch.
-   - Een goed antwoord levert een sleutel op (🗝️) die met een animatie
-     naar de sleutelteller vliegt.
-   - Met een sleutel open je een gelockte kaart en komt de vraag vrij.
-   - De finale gaat pas open als alle andere vragen beantwoord zijn.
+   - Een goed antwoord op een normale vraag levert een ZILVEREN sleutel
+     op (🗝️) waarmee je een gelockte normale kaart opent. De economie
+     klopt precies: de eerste (aantal gelockte kaarten) goede antwoorden
+     geven zilver, daarna is zilver niet meer nodig.
+   - De laatste twee goede antwoorden leveren elk een GOUDEN sleutel
+     op (🔑); met 2 gouden sleutels open je de finale.
    - Finale goed beantwoord = room uitgespeeld (+ review van 1-5 sterren).
    ============================================ */
 
@@ -30,28 +33,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const pageTitle = document.getElementById('erPageTitle');
     const statusbar = document.getElementById('erStatusbar');
     const keyCountEl = document.getElementById('erKeyCount');
+    const goldCountEl = document.getElementById('erGoldCount');
     const answerCountEl = document.getElementById('erAnswerCount');
     const totalCountEl = document.getElementById('erTotalCount');
-    const playError = document.getElementById('erPlayError');
+    const finaleSection = document.getElementById('erFinaleSection');
     const victory = document.getElementById('erVictory');
     const victoryTime = document.getElementById('erVictoryTime');
     const reviewStars = document.getElementById('erReviewStars');
     const reviewThanks = document.getElementById('erReviewThanks');
 
+    const GOLD_NEEDED = 2;
+
     // ---------- State ----------
     let room = null;
-    let questions = [];          // gesorteerd op position
-    let finalePos = null;        // hoogste position = finale
-    let keys = 0;
-    const unlocked = new Set();  // posities die open zijn
-    const answered = new Set();  // posities die goed beantwoord zijn
+    let normals = [];            // normale vragen (gesorteerd op position)
+    let finale = null;           // de finalevraag (hoogste position)
+    let silverKeys = 0;
+    let goldKeys = 0;
+    let silverGranted = 0;       // totaal uitgereikte zilveren sleutels
+    let finaleUnlocked = false;
+    const unlocked = new Set();  // posities van normale vragen die open zijn
+    const answered = new Set();  // posities die goed beantwoord zijn (incl. finale)
 
     // Timer
     let timerInterval = null;
-    let timerSeconds = 0;      // resterend (aftellen) of verstreken (stopwatch)
+    let timerSeconds = 0;        // resterend (aftellen) of verstreken (stopwatch)
     let timerRunning = false;
-    let timerStarted = false;  // ooit gestart sinds laatste reset
-    let timeLimitSec = null;   // null = stopwatch, anders aftellen vanaf dit aantal
+    let timerStarted = false;
+    let timeLimitSec = null;
 
     function escapeHtml(str) {
         const div = document.createElement('div');
@@ -67,11 +76,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return g ? 'Groep ' + g : '';
     }
 
+    // Zoveel zilveren sleutels zijn er in totaal nodig (= gelockte kaarten);
+    // daarna leveren goede antwoorden goud op.
+    function silverNeededTotal() {
+        return Math.max(0, normals.length - 2);
+    }
+
     // ---------- Status ----------
     function updateStatus() {
-        keyCountEl.textContent = keys;
+        keyCountEl.textContent = silverKeys;
+        goldCountEl.textContent = goldKeys;
         answerCountEl.textContent = answered.size;
-        totalCountEl.textContent = questions.length;
+        totalCountEl.textContent = normals.length + (finale ? 1 : 0);
     }
 
     // ---------- Timer ----------
@@ -82,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
     }
 
-    // Verstreken speeltijd (voor de victory-tekst)
     function elapsedText() {
         const elapsed = timeLimitSec !== null ? timeLimitSec - Math.max(0, timerSeconds) : timerSeconds;
         const m = Math.floor(elapsed / 60);
@@ -113,13 +128,13 @@ document.addEventListener('DOMContentLoaded', () => {
         timerRunning = true;
         timerStarted = true;
         timerInterval = setInterval(tick, 1000);
-        refreshGrid();
+        refreshAll();
     }
 
     function pauseTimer() {
         timerRunning = false;
         clearInterval(timerInterval);
-        refreshGrid();
+        refreshAll();
     }
 
     function stopTimer() {
@@ -127,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         timerStarted = false;
         clearInterval(timerInterval);
         timerSeconds = timeLimitSec !== null ? timeLimitSec : 0;
-        refreshGrid();
+        refreshAll();
     }
 
     function timesUp() {
@@ -162,35 +177,73 @@ document.addEventListener('DOMContentLoaded', () => {
         if (stopBtn) stopBtn.addEventListener('click', stopTimer);
     }
 
-    // ---------- Vraagkaarten ----------
-    function isFinale(pos) {
-        return pos === finalePos;
+    // ---------- Sleutels ----------
+    // Goed antwoord op een normale vraag: zilver zolang er zilver nodig is,
+    // daarna goud (de laatste twee antwoorden).
+    function grantKey(fromEl) {
+        if (silverGranted < silverNeededTotal()) {
+            silverGranted++;
+            silverKeys++;
+            flyKey(fromEl, 'silver');
+        } else {
+            goldKeys++;
+            flyKey(fromEl, 'gold');
+        }
+        updateStatus();
     }
 
-    function othersAnswered() {
-        return questions.every(q => isFinale(q.position) || answered.has(q.position));
+    // Sleutel-animatie: vliegt van de kaart naar de juiste teller in de
+    // statusbalk en vervaagt daar.
+    function flyKey(fromEl, type) {
+        const target = document.querySelector(type === 'gold' ? '.er-status-gold' : '.er-status-keys');
+        if (!target || !fromEl) return;
+        const from = fromEl.getBoundingClientRect();
+        const to = target.getBoundingClientRect();
+
+        const key = document.createElement('div');
+        key.className = 'er-key-fly' + (type === 'gold' ? ' er-key-gold' : '');
+        key.textContent = type === 'gold' ? '\u{1F511}' : '\u{1F5DD}️';
+        key.style.left = (from.left + from.width / 2 - 20) + 'px';
+        key.style.top = (from.top + from.height / 2 - 20) + 'px';
+        document.body.appendChild(key);
+
+        const dx = (to.left + to.width / 2) - (from.left + from.width / 2);
+        const dy = (to.top + to.height / 2) - (from.top + from.height / 2);
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                key.style.transform = 'translate(' + dx + 'px, ' + dy + 'px) scale(0.4) rotate(360deg)';
+                key.style.opacity = '0';
+            });
+        });
+
+        setTimeout(() => {
+            key.remove();
+            target.classList.add('er-key-pulse');
+            setTimeout(() => target.classList.remove('er-key-pulse'), 450);
+        }, 800);
     }
 
+    // ---------- Normale vraagkaarten ----------
     function renderQuestionCard(card, q) {
         const pos = q.position;
         card.dataset.position = pos;
-        card.className = 'er-play-card' + (isFinale(pos) ? ' er-finale' : '');
+        card.className = 'er-play-card';
 
         if (answered.has(pos)) {
             card.classList.add('er-answered');
             card.innerHTML =
-                '<div class="er-card-label">' + (isFinale(pos) ? '&#127942; Finale' : 'Vraag ' + pos) + '</div>' +
+                '<div class="er-card-label">Vraag ' + pos + '</div>' +
                 '<div class="er-q-text">' + escapeHtml(q.question) + '</div>' +
                 '<div class="er-q-done">&#9989; Goed beantwoord!</div>';
             return;
         }
 
-        // Timer loopt niet: alle onbeantwoorde vragen (ook 1 en 2) zijn
-        // gefaded, zodat niemand alvast kan meelezen of nadenken.
+        // Timer loopt niet: onbeantwoorde open vragen zijn gefaded
         if (!timerRunning && unlocked.has(pos)) {
             card.classList.add('er-locked');
             card.innerHTML =
-                '<div class="er-card-label">' + (isFinale(pos) ? '&#127942; Finale' : 'Vraag ' + pos) + '</div>' +
+                '<div class="er-card-label">Vraag ' + pos + '</div>' +
                 '<div class="er-locked-icon">&#9203;</div>' +
                 '<div class="er-locked-text">' +
                     (timerStarted ? 'De timer staat stil — druk op verder.' : 'Start de timer om te beginnen!') +
@@ -200,22 +253,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!unlocked.has(pos)) {
             card.classList.add('er-locked');
-            const finaleGate = isFinale(pos) && !othersAnswered();
             card.innerHTML =
-                '<div class="er-card-label">' + (isFinale(pos) ? '&#127942; Finale' : 'Vraag ' + pos) + '</div>' +
-                '<div class="er-locked-icon">' + (isFinale(pos) ? '&#127942;' : '&#128274;') + '</div>' +
-                '<div class="er-locked-text">' +
-                    (finaleGate
-                        ? 'Beantwoord eerst alle andere vragen.'
-                        : 'Deze kaart zit op slot.') +
-                '</div>' +
-                '<button class="er-btn er-unlock-btn"' + ((keys < 1 || finaleGate || !timerRunning) ? ' disabled' : '') + '>' +
-                    '&#128477;&#65039; Open met sleutel' +
+                '<div class="er-card-label">Vraag ' + pos + '</div>' +
+                '<div class="er-locked-icon">&#128274;</div>' +
+                '<div class="er-locked-text">Deze kaart zit op slot.</div>' +
+                '<button class="er-btn er-unlock-btn"' + ((silverKeys < 1 || !timerRunning) ? ' disabled' : '') + '>' +
+                    '&#128477;&#65039; Open met zilveren sleutel' +
                 '</button>';
 
             card.querySelector('.er-unlock-btn').addEventListener('click', () => {
-                if (keys < 1 || !timerRunning || (isFinale(pos) && !othersAnswered())) return;
-                keys--;
+                if (silverKeys < 1 || !timerRunning) return;
+                silverKeys--;
                 unlocked.add(pos);
                 updateStatus();
                 renderQuestionCard(card, q);
@@ -226,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Open vraag: tekst + antwoordveld + controleknop
         card.innerHTML =
-            '<div class="er-card-label">' + (isFinale(pos) ? '&#127942; Finale' : 'Vraag ' + pos) + '</div>' +
+            '<div class="er-card-label">Vraag ' + pos + '</div>' +
             '<div class="er-q-text">' + escapeHtml(q.question) + '</div>' +
             '<div class="er-q-answer">' +
                 '<input type="text" placeholder="Jouw antwoord..." autocomplete="off">' +
@@ -241,15 +289,10 @@ document.addEventListener('DOMContentLoaded', () => {
         function check() {
             if (normalize(input.value) === normalize(q.answer)) {
                 answered.add(pos);
-                if (!isFinale(pos)) keys++;
-                updateStatus();
                 renderQuestionCard(card, q);
+                grantKey(card);
                 refreshLockedCards();
-                if (isFinale(pos)) {
-                    showVictory();
-                } else {
-                    flyKey(card);
-                }
+                renderFinaleSection();
             } else {
                 feedback.textContent = 'Helaas, probeer het nog eens!';
                 card.classList.add('er-wrong');
@@ -260,63 +303,120 @@ document.addEventListener('DOMContentLoaded', () => {
         input.addEventListener('keydown', (e) => { if (e.key === 'Enter') check(); });
     }
 
-    // Unlock-knoppen en finale-tekst bijwerken zonder open vragen te verstoren
     function refreshLockedCards() {
         grid.querySelectorAll('.er-play-card.er-locked').forEach(card => {
             const pos = parseInt(card.dataset.position, 10);
-            const q = questions.find(x => x.position === pos);
+            const q = normals.find(x => x.position === pos);
             if (q && !unlocked.has(pos) && !answered.has(pos)) renderQuestionCard(card, q);
         });
     }
 
-    // Alle kaarten opnieuw opbouwen (na start/pauze/stop van de timer)
-    function refreshGrid() {
+    // Alles opnieuw opbouwen (na start/pauze/stop van de timer)
+    function refreshAll() {
         grid.querySelectorAll('.er-play-card').forEach(card => {
             if (card.classList.contains('er-timer-card')) {
                 renderTimerCard(card);
             } else {
                 const pos = parseInt(card.dataset.position, 10);
-                const q = questions.find(x => x.position === pos);
+                const q = normals.find(x => x.position === pos);
                 if (q) renderQuestionCard(card, q);
             }
         });
+        renderFinaleSection();
     }
 
-    // ---------- Sleutel-animatie ----------
-    // Bij een goed antwoord vliegt een sleutel van de kaart naar de
-    // sleutelteller in de statusbalk en vervaagt daar.
-    function flyKey(fromCard) {
-        const target = document.querySelector('.er-status-keys');
-        if (!target || !fromCard) return;
-        const from = fromCard.getBoundingClientRect();
-        const to = target.getBoundingClientRect();
+    // ---------- Finale (volle breedte) ----------
+    function goldSlotsHtml() {
+        let html = '<div class="er-finale-slots">';
+        for (let i = 1; i <= GOLD_NEEDED; i++) {
+            html += '<span class="er-finale-slot' + (goldKeys >= i ? ' filled' : '') + '">\u{1F511}</span>';
+        }
+        html += '</div>';
+        return html;
+    }
 
-        const key = document.createElement('div');
-        key.className = 'er-key-fly';
-        key.textContent = '\u{1F5DD}️';
-        key.style.left = (from.left + from.width / 2 - 20) + 'px';
-        key.style.top = (from.top + from.height / 2 - 20) + 'px';
-        document.body.appendChild(key);
+    function renderFinaleSection() {
+        if (!finale) { finaleSection.style.display = 'none'; return; }
+        finaleSection.style.display = '';
 
-        const dx = (to.left + to.width / 2) - (from.left + from.width / 2);
-        const dy = (to.top + to.height / 2) - (from.top + from.height / 2);
+        if (answered.has(finale.position)) {
+            finaleSection.className = 'er-finale-section er-finale-done';
+            finaleSection.innerHTML =
+                '<div class="er-finale-label">&#127942; DE FINALE</div>' +
+                '<div class="er-finale-q">' + escapeHtml(finale.question) + '</div>' +
+                '<div class="er-finale-done-text">&#127881; Gekraakt — de room is uitgespeeld!</div>';
+            return;
+        }
 
-        // Twee frames wachten zodat de starttoestand gerenderd is
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                key.style.transform = 'translate(' + dx + 'px, ' + dy + 'px) scale(0.4) rotate(360deg)';
-                key.style.opacity = '0';
+        if (!finaleUnlocked) {
+            const canOpen = goldKeys >= GOLD_NEEDED && timerRunning;
+            finaleSection.className = 'er-finale-section er-finale-locked';
+            finaleSection.innerHTML =
+                '<div class="er-finale-label">&#127942; DE FINALE</div>' +
+                '<div class="er-finale-locked-row">' +
+                    '<span class="er-finale-lock">&#128274;</span>' +
+                    '<div class="er-finale-locked-text">' +
+                        '<strong>De grote finale zit op slot.</strong>' +
+                        '<span>De laatste twee goede antwoorden leveren gouden sleutels op &mdash; verzamel er ' + GOLD_NEEDED + ' om de finale te openen.</span>' +
+                    '</div>' +
+                    goldSlotsHtml() +
+                    '<button class="er-btn er-finale-open-btn"' + (canOpen ? '' : ' disabled') + '>&#128273; Open de finale</button>' +
+                '</div>';
+
+            finaleSection.querySelector('.er-finale-open-btn').addEventListener('click', () => {
+                if (goldKeys < GOLD_NEEDED || !timerRunning) return;
+                goldKeys -= GOLD_NEEDED;
+                finaleUnlocked = true;
+                updateStatus();
+                renderFinaleSection();
+                const inp = finaleSection.querySelector('input');
+                if (inp) inp.focus();
             });
-        });
+            return;
+        }
 
-        setTimeout(() => {
-            key.remove();
-            const counter = document.querySelector('.er-status-keys');
-            if (counter) {
-                counter.classList.add('er-key-pulse');
-                setTimeout(() => counter.classList.remove('er-key-pulse'), 450);
+        // Finale open, timer moet wel lopen
+        if (!timerRunning) {
+            finaleSection.className = 'er-finale-section er-finale-locked';
+            finaleSection.innerHTML =
+                '<div class="er-finale-label">&#127942; DE FINALE</div>' +
+                '<div class="er-finale-locked-row">' +
+                    '<span class="er-finale-lock">&#9203;</span>' +
+                    '<div class="er-finale-locked-text"><strong>' +
+                        (timerStarted ? 'De timer staat stil — druk op verder.' : 'Start de timer om te beginnen!') +
+                    '</strong></div>' +
+                '</div>';
+            return;
+        }
+
+        finaleSection.className = 'er-finale-section er-finale-open';
+        finaleSection.innerHTML =
+            '<div class="er-finale-label">&#127942; DE FINALE</div>' +
+            '<div class="er-finale-q">' + escapeHtml(finale.question) + '</div>' +
+            '<div class="er-q-answer er-finale-answer">' +
+                '<input type="text" placeholder="Jullie antwoord op de finale..." autocomplete="off">' +
+                '<button class="er-btn">Kraak de finale</button>' +
+            '</div>' +
+            '<div class="er-q-feedback"></div>';
+
+        const input = finaleSection.querySelector('input');
+        const btn = finaleSection.querySelector('.er-q-answer .er-btn');
+        const feedback = finaleSection.querySelector('.er-q-feedback');
+
+        function check() {
+            if (normalize(input.value) === normalize(finale.answer)) {
+                answered.add(finale.position);
+                updateStatus();
+                renderFinaleSection();
+                showVictory();
+            } else {
+                feedback.textContent = 'Helaas, probeer het nog eens!';
+                finaleSection.classList.add('er-wrong');
+                setTimeout(() => finaleSection.classList.remove('er-wrong'), 600);
             }
-        }, 800);
+        }
+        btn.addEventListener('click', check);
+        input.addEventListener('keydown', (e) => { if (e.key === 'Enter') check(); });
     }
 
     // ---------- Victory ----------
@@ -357,14 +457,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function buildGrid() {
         grid.innerHTML = '';
 
-        // Posities in gridvolgorde: vraag 1, timer, vraag 2, dan de rest
+        // Gridvolgorde: vraag 1, timer, vraag 2, dan de rest (zonder finale)
         const cells = [];
-        const q1 = questions.find(q => q.position === 1);
-        const q2 = questions.find(q => q.position === 2);
+        const q1 = normals.find(q => q.position === 1);
+        const q2 = normals.find(q => q.position === 2);
         if (q1) cells.push({ type: 'q', q: q1 });
         cells.push({ type: 'timer' });
         if (q2) cells.push({ type: 'q', q: q2 });
-        questions.filter(q => q.position > 2).forEach(q => cells.push({ type: 'q', q: q }));
+        normals.filter(q => q.position > 2).forEach(q => cells.push({ type: 'q', q: q }));
 
         cells.forEach(cell => {
             const card = document.createElement('div');
@@ -377,6 +477,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             grid.appendChild(card);
         });
+
+        renderFinaleSection();
     }
 
     // ---------- Laden ----------
@@ -402,7 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!roomRes.data) throw new Error('Room niet gevonden');
             room = roomRes.data;
-            questions = qRes.data || [];
+            const questions = qRes.data || [];
 
             if (!questions.length) {
                 heroTitle.textContent = room.title;
@@ -410,7 +512,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            finalePos = Math.max.apply(null, questions.map(q => q.position));
+            // Hoogste positie = finale; de rest zijn normale vragen
+            const finalePos = Math.max.apply(null, questions.map(q => q.position));
+            finale = questions.find(q => q.position === finalePos) || null;
+            normals = questions.filter(q => q.position !== finalePos);
 
             // Tijdslimiet: timer telt af; zonder limiet is het een stopwatch
             if (room.time_limit_minutes > 0) {
