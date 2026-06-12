@@ -9,6 +9,9 @@
    - text (open vraag): antwoord typen
    - cijferslot: draaiwielen 0-9, start op 0000...
    - letterslot: draaiwielen A-Z, start op AAAA...
+   - draaislot: kluis-draaiknop; pijl een tel stil op een cijfer =
+     cijfer ingevoerd. Code compleet = automatische controle.
+   - datum / datum_jaar: dag + maand (+ jaartal) kiezen
    - meerkeuze: knoppen; fout gekozen = kaart 1 minuut op slot (straf)
    - schuifpuzzel: afbeelding in 3x3/4x4 tegels schuiven (in een popup);
      oplossen = goed antwoord. Gehusseld met geldige zetten, dus altijd
@@ -331,6 +334,231 @@ document.addEventListener('DOMContentLoaded', () => {
         return String(q.answer).trim().toUpperCase();
     }
 
+    // ---------- Kluis-draaislot ----------
+    // Draai de knop (slepen) of klik een cijfer aan; staat de pijl
+    // ~0,9 sec stil op een cijfer, dan wordt het ingevoerd. Hetzelfde
+    // cijfer nog eens? Even wegdraaien en terug. Code compleet =
+    // automatische controle via onFull.
+    const DIAL_DWELL_MS = 900;
+
+    function dialTick() { playNotes([1567.98], 0.07); }
+
+    function dialHtml(len) {
+        let nums = '';
+        for (let d = 0; d <= 9; d++) {
+            nums += '<div class="er-dial-num" data-num="' + d + '" style="--a:' + (d * 36) + 'deg">' + d + '</div>';
+        }
+        let slots = '';
+        for (let i = 0; i < len; i++) slots += '<span class="er-dial-slot">&ndash;</span>';
+        return '<div class="er-dial-wrap">' +
+            '<div class="er-dial">' + nums + '<div class="er-dial-knob"></div></div>' +
+            '<div class="er-dial-row">' +
+                '<div class="er-dial-display">' + slots + '</div>' +
+                '<button type="button" class="er-btn er-btn-secondary er-dial-clear">Wis</button>' +
+            '</div>' +
+            '<div class="er-dial-hint">Draai de knop en houd de pijl even stil op een cijfer om het in te voeren.</div>' +
+        '</div>';
+    }
+
+    function wireDial(root, len, onFull) {
+        const dial = root.querySelector('.er-dial');
+        const knob = root.querySelector('.er-dial-knob');
+        const nums = dial.querySelectorAll('.er-dial-num');
+        const slots = root.querySelectorAll('.er-dial-slot');
+
+        let rot = 0;               // opgetelde rotatie van de knop (graden)
+        let entered = [];
+        let started = false;       // dwell pas na de eerste aanraking
+        let lastRegistered = null; // herbewapenen: eerst naar een ander cijfer
+        let downAngle = null;
+        let lastAngle = 0;
+        let movedTotal = 0;
+        let dwellInterval = null;
+        let restTimeout = null;
+        let locked = false;        // tijdens de controle even bevriezen
+
+        function digitAt(r) {
+            return ((Math.round(r / 36) % 10) + 10) % 10;
+        }
+
+        function numEl(d) {
+            return dial.querySelector('.er-dial-num[data-num="' + d + '"]');
+        }
+
+        function setKnob(animate) {
+            knob.style.transition = animate ? 'transform 0.25s ease' : 'none';
+            knob.style.transform = 'rotate(' + rot + 'deg)';
+        }
+
+        function highlight() {
+            const d = digitAt(rot);
+            nums.forEach(n => n.classList.toggle('er-dial-active', parseInt(n.dataset.num, 10) === d));
+        }
+
+        function updateDisplay() {
+            slots.forEach((s, i) => {
+                s.textContent = entered[i] != null ? entered[i] : '–';
+                s.classList.toggle('filled', entered[i] != null);
+            });
+        }
+
+        function clearDwell() {
+            if (dwellInterval) clearInterval(dwellInterval);
+            if (restTimeout) clearTimeout(restTimeout);
+            dwellInterval = restTimeout = null;
+            nums.forEach(n => {
+                n.classList.remove('er-dial-charging');
+                n.style.removeProperty('--p');
+            });
+        }
+
+        function register(d) {
+            clearDwell();
+            lastRegistered = d;
+            entered.push(String(d));
+            updateDisplay();
+            dialTick();
+            if (entered.length >= len) {
+                locked = true;
+                setTimeout(() => {
+                    const ok = onFull(entered.join(''));
+                    locked = false;
+                    if (!ok) {
+                        entered = [];
+                        updateDisplay();
+                    }
+                }, 300);
+            }
+        }
+
+        function startDwell() {
+            clearDwell();
+            if (!started || locked || downAngle !== null) return;
+            if (entered.length >= len) return;
+            const d = digitAt(rot);
+            if (d === lastRegistered) return; // eerst even wegdraaien
+            const el = numEl(d);
+            el.classList.add('er-dial-charging');
+            const t0 = performance.now();
+            dwellInterval = setInterval(() => {
+                const p = (performance.now() - t0) / DIAL_DWELL_MS;
+                if (p >= 1) {
+                    register(d);
+                } else {
+                    el.style.setProperty('--p', String(Math.round(p * 100)));
+                }
+            }, 50);
+        }
+
+        function onRest() {
+            highlight();
+            if (digitAt(rot) !== lastRegistered) lastRegistered = null;
+            startDwell();
+        }
+
+        function pointerAngle(e) {
+            const r = dial.getBoundingClientRect();
+            const dx = e.clientX - (r.left + r.width / 2);
+            const dy = e.clientY - (r.top + r.height / 2);
+            return Math.atan2(dx, -dy) * 180 / Math.PI; // 0 = boven, met de klok mee
+        }
+
+        function rotateToDigit(d) {
+            const diff = (((d * 36 - rot) % 360) + 540) % 360 - 180;
+            rot += diff;
+            setKnob(true);
+            restTimeout = setTimeout(onRest, 280);
+        }
+
+        dial.addEventListener('pointerdown', (e) => {
+            if (locked) return;
+            e.preventDefault();
+            try { dial.setPointerCapture(e.pointerId); } catch (err) { /* niet kritisch */ }
+            started = true;
+            downAngle = lastAngle = pointerAngle(e);
+            movedTotal = 0;
+            clearDwell();
+        });
+
+        dial.addEventListener('pointermove', (e) => {
+            if (downAngle === null) return;
+            const a = pointerAngle(e);
+            let delta = a - lastAngle;
+            if (delta > 180) delta -= 360;
+            if (delta < -180) delta += 360;
+            lastAngle = a;
+            movedTotal += Math.abs(delta);
+            rot += delta;
+            setKnob(false);
+            highlight();
+        });
+
+        const endDrag = (e) => {
+            if (downAngle === null) return;
+            downAngle = null;
+            const clickedNum = movedTotal < 8 && e.target && e.target.closest && e.target.closest('.er-dial-num');
+            if (clickedNum) {
+                rotateToDigit(parseInt(clickedNum.dataset.num, 10));
+            } else {
+                rot = Math.round(rot / 36) * 36;
+                setKnob(true);
+                restTimeout = setTimeout(onRest, 280);
+            }
+        };
+        dial.addEventListener('pointerup', endDrag);
+        dial.addEventListener('pointercancel', endDrag);
+
+        root.querySelector('.er-dial-clear').addEventListener('click', () => {
+            if (locked) return;
+            entered = [];
+            // Niet meteen opnieuw laden op het cijfer waar de pijl nog
+            // op staat; eerst wegdraaien voelt natuurlijker
+            lastRegistered = digitAt(rot);
+            clearDwell();
+            updateDisplay();
+        });
+
+        highlight();
+        updateDisplay();
+    }
+
+    // ---------- Datum (dag + maand, optioneel jaartal) ----------
+    const MONTHS_NL = ['januari', 'februari', 'maart', 'april', 'mei', 'juni',
+        'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
+
+    function isDateType(t) {
+        return t === 'datum' || t === 'datum_jaar';
+    }
+
+    function pad2(n) {
+        return (n < 10 ? '0' : '') + n;
+    }
+
+    function dateHtml(type, btnLabel, extraClass) {
+        let days = '<option value="">Dag</option>';
+        for (let d = 1; d <= 31; d++) days += '<option value="' + d + '">' + d + '</option>';
+        let months = '<option value="">Maand</option>';
+        MONTHS_NL.forEach((m, i) => { months += '<option value="' + (i + 1) + '">' + m + '</option>'; });
+        return '<div class="er-q-answer er-date-row' + (extraClass ? ' ' + extraClass : '') + '">' +
+            '<select class="er-date-day">' + days + '</select>' +
+            '<select class="er-date-month">' + months + '</select>' +
+            (type === 'datum_jaar' ? '<input type="number" class="er-date-year" placeholder="Jaar" min="1" max="2999" autocomplete="off">' : '') +
+            '<button class="er-btn">' + btnLabel + '</button>' +
+        '</div>';
+    }
+
+    function dateValue(container, type) {
+        const d = parseInt(container.querySelector('.er-date-day').value, 10);
+        const m = parseInt(container.querySelector('.er-date-month').value, 10);
+        if (!d || !m) return '';
+        if (type === 'datum_jaar') {
+            const y = parseInt(container.querySelector('.er-date-year').value, 10);
+            if (!y) return '';
+            return pad2(d) + '-' + pad2(m) + '-' + y;
+        }
+        return pad2(d) + '-' + pad2(m);
+    }
+
     // ---------- Meerkeuze ----------
     function choicesFor(q) {
         if (!choiceCache[q.position]) {
@@ -466,6 +694,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- Antwoord-controle ----------
     function isCorrect(q, container) {
         if (isLockType(q.question_type)) return lockValue(container) === lockAnswer(q);
+        if (isDateType(q.question_type)) return dateValue(container, q.question_type) === String(q.answer).trim();
         const input = container.querySelector('input');
         return normalize(input ? input.value : '') === normalize(q.answer);
     }
@@ -542,7 +771,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Speelbare vraag: weergave per vraagtype
         const type = q.question_type || 'text';
         const label = '<div class="er-card-label">Vraag ' + pos +
-            (isLockType(type) ? ' &middot; &#128272;' : type === 'meerkeuze' ? ' &middot; A/B/C' : type === 'schuifpuzzel' ? ' &middot; &#129513;' : '') +
+            (isLockType(type) || type === 'draaislot' ? ' &middot; &#128272;'
+                : isDateType(type) ? ' &middot; &#128197;'
+                : type === 'meerkeuze' ? ' &middot; A/B/C'
+                : type === 'schuifpuzzel' ? ' &middot; &#129513;' : '') +
             '</div>';
         const qtext = '<div class="er-q-text">' + escapeHtml(q.question) + '</div>';
 
@@ -578,11 +810,34 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        if (type === 'draaislot') {
+            card.innerHTML = label + qtext + dialHtml(lockAnswer(q).length) +
+                '<div class="er-q-feedback"></div>';
+            const feedback = card.querySelector('.er-q-feedback');
+            wireDial(card, lockAnswer(q).length, (val) => {
+                if (val === lockAnswer(q)) {
+                    answered.add(pos);
+                    renderQuestionCard(card, q);
+                    grantKey(card);
+                    refreshLockedCards();
+                    renderFinaleSection();
+                    return true;
+                }
+                feedback.textContent = 'Helaas, probeer het nog eens!';
+                card.classList.add('er-wrong');
+                setTimeout(() => card.classList.remove('er-wrong'), 600);
+                return false;
+            });
+            return;
+        }
+
         const isLock = isLockType(type);
         card.innerHTML = label + qtext +
             (isLock
                 ? lockHtml(lockAnswer(q).length, type) +
                   '<div class="er-q-answer er-q-lock-row"><button class="er-btn">Controleer</button></div>'
+                : isDateType(type)
+                ? dateHtml(type, 'Controleer')
                 : '<div class="er-q-answer">' +
                       '<input type="text" placeholder="Jouw antwoord..." autocomplete="off">' +
                       '<button class="er-btn">Controleer</button>' +
@@ -696,13 +951,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         finaleSection.className = 'er-finale-section er-finale-open';
-        const isLock = isLockType(finale.question_type);
+        const ftype = finale.question_type || 'text';
+
+        if (ftype === 'draaislot') {
+            finaleSection.innerHTML =
+                '<div class="er-finale-label">&#127942; DE FINALE</div>' +
+                '<div class="er-finale-q">' + escapeHtml(finale.question) + '</div>' +
+                dialHtml(lockAnswer(finale).length) +
+                '<div class="er-q-feedback"></div>';
+            const dialFeedback = finaleSection.querySelector('.er-q-feedback');
+            wireDial(finaleSection, lockAnswer(finale).length, (val) => {
+                if (val === lockAnswer(finale)) {
+                    answered.add(finale.position);
+                    updateStatus();
+                    renderFinaleSection();
+                    showVictory();
+                    return true;
+                }
+                dialFeedback.textContent = 'Helaas, probeer het nog eens!';
+                finaleSection.classList.add('er-wrong');
+                setTimeout(() => finaleSection.classList.remove('er-wrong'), 600);
+                return false;
+            });
+            return;
+        }
+
+        const isLock = isLockType(ftype);
         finaleSection.innerHTML =
             '<div class="er-finale-label">&#127942; DE FINALE</div>' +
             '<div class="er-finale-q">' + escapeHtml(finale.question) + '</div>' +
             (isLock
-                ? lockHtml(lockAnswer(finale).length, finale.question_type) +
+                ? lockHtml(lockAnswer(finale).length, ftype) +
                   '<div class="er-q-answer er-finale-answer er-q-lock-row"><button class="er-btn">Kraak de finale</button></div>'
+                : isDateType(ftype)
+                ? dateHtml(ftype, 'Kraak de finale', 'er-finale-answer')
                 : '<div class="er-q-answer er-finale-answer">' +
                       '<input type="text" placeholder="Jullie antwoord op de finale..." autocomplete="off">' +
                       '<button class="er-btn">Kraak de finale</button>' +

@@ -1,6 +1,6 @@
 /* ============================================
    MEESTERTOOLS - Template Injector
-   Versie: v1.11.2
+   Versie: v1.12.0
 
    Inject reusable header and footer into every page that has
    <header id="app-header-slot"></header> and
@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.11.2';
+    const VERSION = 'v1.12.0';
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [

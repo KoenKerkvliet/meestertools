@@ -710,6 +710,177 @@
     justify-content: flex-start;
 }
 
+/* ---------- Kluis-draaislot ---------- */
+/* Cijfers 0-9 in een cirkel met in het midden een draaiknop. De pijl
+   even stil op een cijfer = invoeren (groene laadring loopt vol). */
+.er-dial-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 4px 0 6px;
+}
+
+.er-dial {
+    --er-dial-r: 76px;
+    position: relative;
+    width: 192px;
+    height: 192px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #2A2647, #1E1B3A 70%);
+    box-shadow: inset 0 0 0 2px #34304F, inset 0 0 24px rgba(0, 0, 0, 0.5), 0 3px 8px rgba(0, 0, 0, 0.25);
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: grab;
+}
+
+.er-dial:active {
+    cursor: grabbing;
+}
+
+.er-dial-num {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 32px;
+    height: 32px;
+    margin: -16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(var(--a)) translateY(calc(-1 * var(--er-dial-r))) rotate(calc(-1 * var(--a)));
+    border-radius: 50%;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    font-weight: 800;
+    color: #7BE495;
+    text-shadow: 0 0 8px rgba(123, 228, 149, 0.7);
+    cursor: pointer;
+}
+
+.er-dial-num.er-dial-active {
+    color: #C9FFD9;
+    text-shadow: 0 0 12px rgba(123, 228, 149, 1);
+}
+
+/* Laadring: vult met de klok mee terwijl de pijl stilstaat */
+.er-dial-num.er-dial-charging {
+    background: conic-gradient(rgba(123, 228, 149, 0.5) calc(var(--p, 0) * 1%), rgba(123, 228, 149, 0.12) 0);
+}
+
+.er-dial-knob {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 96px;
+    height: 96px;
+    margin: -48px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 32%, #6A6590, #3A3560 60%, #2A2647);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+}
+
+.er-dial-knob::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 6px;
+    margin-left: -7px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 13px solid #F5B941;
+    filter: drop-shadow(0 0 4px rgba(245, 185, 65, 0.7));
+}
+
+.er-dial-knob::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 26px;
+    height: 26px;
+    margin: -13px;
+    border-radius: 50%;
+    background: #2A2647;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.6);
+}
+
+.er-dial-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.er-dial-display {
+    display: flex;
+    gap: 4px;
+}
+
+.er-dial-slot {
+    width: 30px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0D0B1E;
+    border-radius: 6px;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.7), inset 0 0 0 2px #34304F;
+    font-family: 'Courier New', monospace;
+    font-size: 22px;
+    font-weight: 800;
+    color: #4A4670;
+    user-select: none;
+}
+
+.er-dial-slot.filled {
+    color: #F5B941;
+    text-shadow: 0 0 8px rgba(245, 185, 65, 0.8);
+}
+
+.er-dial-hint {
+    font-size: 12px;
+    color: var(--text-light);
+    text-align: center;
+    max-width: 280px;
+}
+
+.er-finale-section .er-dial-hint {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* ---------- Datum (dag + maand, optioneel jaartal) ---------- */
+.er-date-row {
+    flex-wrap: wrap;
+}
+
+.er-date-row select {
+    flex: 1;
+    min-width: 0;
+    padding: 11px 10px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    background: var(--bg-white);
+    color: var(--text-dark);
+    cursor: pointer;
+}
+
+.er-date-row select:focus {
+    border-color: var(--primary);
+}
+
+.er-date-row .er-date-year {
+    flex: 0 1 86px;
+}
+
+.er-finale-answer.er-date-row select {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: #F5B941;
+}
+
 /* ---------- Meerkeuze ---------- */
 .er-mc-options {
     display: flex;

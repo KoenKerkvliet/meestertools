@@ -1417,16 +1417,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('searchEscaperooms')?.addEventListener('input', renderEscaperooms);
 
-    // Extra velden per vraagtype (meerkeuze: foute opties; puzzel: afbeelding + formaat)
+    const ER_MONTHS_NL = ['januari', 'februari', 'maart', 'april', 'mei', 'juni',
+        'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
+
+    function erIsDateType(t) {
+        return t === 'datum' || t === 'datum_jaar';
+    }
+
+    // Extra velden per vraagtype (meerkeuze: foute opties; puzzel: afbeelding
+    // + formaat; datum: dag/maand-pickers, eventueel met jaartal)
     function renderErExtras(i) {
         const type = document.getElementById('erT' + i).value;
         const extras = document.getElementById('erX' + i);
         const answerInput = document.getElementById('erA' + i);
-        answerInput.disabled = type === 'schuifpuzzel';
-        answerInput.placeholder = type === 'schuifpuzzel' ? 'Niet nodig (puzzel oplossen = goed)' : 'Antwoord';
-        // Een schuifpuzzel heeft geen antwoord; oude waarde leegmaken
-        // zodat er geen verwarrend 'spook-antwoord' blijft staan
-        if (type === 'schuifpuzzel') answerInput.value = '';
+        const noAnswerField = type === 'schuifpuzzel' || erIsDateType(type);
+        answerInput.disabled = noAnswerField;
+        answerInput.placeholder = type === 'schuifpuzzel' ? 'Niet nodig (puzzel oplossen = goed)'
+            : erIsDateType(type) ? 'Kies hieronder de datum'
+            : type === 'cijferslot' || type === 'draaislot' ? 'Cijfercode (max 6 cijfers)'
+            : 'Antwoord';
+        // Schuifpuzzel en datum hebben geen los antwoordveld; oude waarde
+        // leegmaken zodat er geen verwarrend 'spook-antwoord' blijft staan
+        if (noAnswerField) answerInput.value = '';
+
+        if (erIsDateType(type)) {
+            extras.style.display = '';
+            let days = '<option value="">Dag</option>';
+            for (let d = 1; d <= 31; d++) days += '<option value="' + d + '">' + d + '</option>';
+            let months = '<option value="">Maand</option>';
+            ER_MONTHS_NL.forEach((m, idx) => { months += '<option value="' + (idx + 1) + '">' + m + '</option>'; });
+            extras.innerHTML =
+                '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
+                    '<select id="erDd' + i + '" style="flex:0 0 90px;">' + days + '</select>' +
+                    '<select id="erDm' + i + '" style="flex:0 0 130px;">' + months + '</select>' +
+                    (type === 'datum_jaar' ? '<input type="number" id="erDy' + i + '" placeholder="Jaartal" min="1" max="2999" style="flex:0 0 100px;">' : '') +
+                '</div>' +
+                '<p style="font-size:12px;color:var(--text-light);margin:4px 0 0;">Spelers kiezen het antwoord met dezelfde dag/maand' + (type === 'datum_jaar' ? '/jaartal' : '') + '-velden.</p>';
+            return;
+        }
 
         if (type === 'meerkeuze') {
             extras.style.display = '';
@@ -1463,11 +1491,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let html = '';
         for (let i = 1; i <= ER_MAX_QUESTIONS; i++) {
             const finale = i === ER_MAX_QUESTIONS;
-            // De finale is altijd een kraak-vraag: open vraag of draaislot
+            // De finale is altijd een kraak-vraag (geen meerkeuze of puzzel)
             const typeOptions =
                 '<option value="text">Open vraag</option>' +
                 '<option value="cijferslot">Cijferslot</option>' +
                 '<option value="letterslot">Letterslot</option>' +
+                '<option value="draaislot">Kluis-draaislot</option>' +
+                '<option value="datum">Datum (dag + maand)</option>' +
+                '<option value="datum_jaar">Datum (met jaartal)</option>' +
                 (finale ? '' :
                     '<option value="meerkeuze">Meerkeuze</option>' +
                     '<option value="schuifpuzzel">Schuifpuzzel</option>');
@@ -1477,7 +1508,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span style="flex:0 0 64px;padding-top:12px;font-size:13px;font-weight:700;color:${finale ? '#C98A00' : 'var(--text-medium)'};">
                             ${finale ? '&#127942; Finale' : 'Vraag ' + i}
                         </span>
-                        <select id="erT${i}" title="Vraagtype" style="flex:0 0 122px;">${typeOptions}</select>
+                        <select id="erT${i}" title="Vraagtype" style="flex:0 0 152px;">${typeOptions}</select>
                         <input type="text" id="erQ${i}" placeholder="Vraag" style="flex:2;min-width:0;">
                         <input type="text" id="erA${i}" placeholder="Antwoord" style="flex:1;min-width:0;">
                     </div>
@@ -1526,7 +1557,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const { data: qs } = await supabase
             .from('escaperoom_questions')
-            .select('position, question, answer, question_type, options, image_url, puzzle_size')
+            .select('position, question, answer, question_type, options, image_url, puzzle_size, puzzle_level')
             .eq('room_id', id)
             .order('position');
         (qs || []).forEach(q => {
@@ -1550,6 +1581,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (imgEl) imgEl.value = q.image_url || '';
                 if (sizeEl) sizeEl.value = String(q.puzzle_size || 3);
                 if (lvlEl) lvlEl.value = String(q.puzzle_level || 2);
+            }
+            if (erIsDateType(q.question_type)) {
+                // Antwoord is opgeslagen als DD-MM of DD-MM-JJJJ
+                const parts = String(q.answer || '').split('-');
+                const ddEl = document.getElementById('erDd' + i);
+                const dmEl = document.getElementById('erDm' + i);
+                const dyEl = document.getElementById('erDy' + i);
+                if (ddEl && parts[0]) ddEl.value = String(parseInt(parts[0], 10));
+                if (dmEl && parts[1]) dmEl.value = String(parseInt(parts[1], 10));
+                if (dyEl && parts[2]) dyEl.value = String(parseInt(parts[2], 10));
             }
         });
 
@@ -1601,10 +1642,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 continue;
             }
 
+            if (erIsDateType(t)) {
+                const dd = parseInt(document.getElementById('erDd' + i)?.value, 10) || 0;
+                const mm = parseInt(document.getElementById('erDm' + i)?.value, 10) || 0;
+                const yy = t === 'datum_jaar' ? (parseInt(document.getElementById('erDy' + i)?.value, 10) || 0) : null;
+                if (!q && !dd && !mm && !yy) continue;
+                if (!q || !dd || !mm || (t === 'datum_jaar' && !(yy >= 1 && yy <= 2999))) {
+                    alert(rowName + ': een datumvraag heeft een vraag én een volledige datum nodig' + (t === 'datum_jaar' ? ' (inclusief jaartal)' : '') + '.');
+                    return;
+                }
+                // Bestaat de dag wel in die maand? Zonder jaartal mag 29 februari.
+                const leap = yy ? (yy % 4 === 0 && (yy % 100 !== 0 || yy % 400 === 0)) : true;
+                const daysInMonth = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][mm - 1];
+                if (dd > daysInMonth) {
+                    alert(rowName + ': ' + dd + ' ' + ER_MONTHS_NL[mm - 1] + ' bestaat niet, kies een geldige datum.');
+                    return;
+                }
+                const p2 = (n) => (n < 10 ? '0' : '') + n;
+                entry.answer = p2(dd) + '-' + p2(mm) + (yy ? '-' + yy : '');
+                questions.push(entry);
+                continue;
+            }
+
             if (!q || !a) continue;
 
-            if (t === 'cijferslot' && !/^\d{1,6}$/.test(a)) {
-                alert(rowName + ': een cijferslot-antwoord mag alleen uit cijfers bestaan (maximaal 6).');
+            if ((t === 'cijferslot' || t === 'draaislot') && !/^\d{1,6}$/.test(a)) {
+                alert(rowName + ': de cijfercode mag alleen uit cijfers bestaan (maximaal 6).');
                 return;
             }
             if (t === 'letterslot') {
