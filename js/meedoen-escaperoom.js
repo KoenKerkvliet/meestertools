@@ -1,101 +1,160 @@
 /* ============================================
-   ESCAPE ROOMS - Speelpagina (room-template)
-   Versie: v0.0.4
+   MEEDOEN ESCAPE ROOM - publieke teamkant
+   Versie: v1.13.0
 
-   Opbouw: hero, 3x5 grid (vraag 1, timer, vraag 2, rest gelockt)
-   en de finale als volle-breedte sectie.
+   Teams (alleen of als groepje rond één device) spelen een escape
+   room-sessie die de leerkracht host. Geen account nodig: alle acties
+   lopen via de Edge Function 'escaperoom-sessie' (service-role).
 
-   Vraagtypes:
-   - text (open vraag): antwoord typen
-   - cijferslot: draaiwielen 0-9, start op 0000...
-   - letterslot: draaiwielen A-Z, start op AAAA...
-   - draaislot: kluis-draaiknop; pijl een tel stil op een cijfer =
-     cijfer ingevoerd. Code compleet = automatische controle.
-   - datum / datum_jaar: dag + maand (+ jaartal) kiezen
-   - meerkeuze: knoppen; fout gekozen = kaart 1 minuut op slot (straf)
-   - schuifpuzzel: afbeelding in 3x3/4x4 tegels schuiven (in een popup);
-     oplossen = goed antwoord. Gehusseld met geldige zetten, dus altijd
-     oplosbaar; het lege vak start rechtsboven.
+   Belangrijk verschil met de leerkracht-speelpagina: de ANTWOORDEN
+   komen nooit naar deze browser. Vragen komen zonder antwoord binnen
+   (sloten kennen alleen de lengte) en elke controle gebeurt server-side.
 
-   Spelregels:
-   - Vragen zijn pas speelbaar zodra de timer loopt; pauze zet ze weer
-     op slot. Met tijdslimiet telt de timer af; 00:00 = spel voorbij.
-   - Eerste 12 goede antwoorden geven zilver (precies genoeg voor de
-     gelockte kaarten), de laatste twee goud; finale opent met 2 goud.
-   - Goed antwoord: sleutel-animatie + pingeltje; uitspelen = confetti.
-   - Het kleurthema van de room (standaard/halloween/kerst/ruimte)
-     kleurt hero, timerkaart en finale mee.
+   De leerkracht beheert de tijd: de timer start centraal en telt hier
+   alleen mee (met server-klokcorrectie). De pagina pollt de status
+   zodat het scherm meebeweegt (lobby -> spelen -> gestopt).
    ============================================ */
 
-document.addEventListener('DOMContentLoaded', () => {
-    const grid = document.getElementById('erPlayGrid');
-    if (!grid) return;
+(function () {
+    const POLL_MS = 2500;
+    const GOLD_NEEDED = 2;
+    const COOLDOWN_MS = 60000;
+    const STORE_KEY = 'mt_meedoen_er';
 
-    const hero = document.getElementById('erHero');
+    // ---------- State ----------
+    let code = '';
+    let teamId = null;
+    let teamName = '';
+    let status = '';
+    let questions = null;      // [{position, question, question_type, answer_len, options, ...}]
+    let normals = [];
+    let finale = null;
+    let answered = new Set();
+    let unlocked = new Set();  // betaalde unlocks (posities > 2)
+    let finaleUnlocked = false;
+    let finished = false;
+    let prevSilverGranted = 0; // voor de sleutel-animatie (zilver of goud?)
+    const cooldowns = {};
+    const puzzles = {};
+    let currentPuzzle = null;
+    let busy = false;
+    let pollTimer = null;
+
+    // Timer (leerkracht beheert; wij tellen alleen mee)
+    let timeLimitMin = null;
+    let startedAtMs = null;
+    let serverOffsetMs = 0;    // serverNow - clientNow
+    let clockTimer = null;
+    let timeUpShown = false;
+
+    // ---------- DOM ----------
+    const screens = {
+        join: document.getElementById('screenJoin'),
+        lobby: document.getElementById('screenLobby'),
+        closed: document.getElementById('screenClosed')
+    };
+    const joinCard = document.getElementById('erJoinCard');
+    const gameEl = document.getElementById('erGame');
+    const codeInput = document.getElementById('codeInput');
+    const nameInput = document.getElementById('nameInput');
+    const joinBtn = document.getElementById('joinBtn');
+    const joinError = document.getElementById('joinError');
+    const lobbyHi = document.getElementById('lobbyHi');
+    const lobbyRoom = document.getElementById('lobbyRoom');
+
     const heroTitle = document.getElementById('erHeroTitle');
-    const heroDesc = document.getElementById('erHeroDesc');
-    const heroMeta = document.getElementById('erHeroMeta');
-    const pageTitle = document.getElementById('erPageTitle');
+    const heroTeam = document.getElementById('erHeroTeam');
     const statusbar = document.getElementById('erStatusbar');
     const keyCountEl = document.getElementById('erKeyCount');
     const goldCountEl = document.getElementById('erGoldCount');
     const answerCountEl = document.getElementById('erAnswerCount');
     const totalCountEl = document.getElementById('erTotalCount');
+    const grid = document.getElementById('erPlayGrid');
     const finaleSection = document.getElementById('erFinaleSection');
     const victory = document.getElementById('erVictory');
     const victoryTime = document.getElementById('erVictoryTime');
-    const reviewStars = document.getElementById('erReviewStars');
-    const reviewThanks = document.getElementById('erReviewThanks');
+    const timesUpEl = document.getElementById('erTimesUp');
+    const stoppedEl = document.getElementById('erStopped');
     const puzzleModal = document.getElementById('erPuzzleModal');
     const puzzleTitle = document.getElementById('erPuzzleTitle');
     const puzzleBoard = document.getElementById('erPuzzleBoard');
     const puzzleStatus = document.getElementById('erPuzzleStatus');
 
-    const GOLD_NEEDED = 2;
-    const COOLDOWN_MS = 60000; // strafminuut bij foute meerkeuze-gok
-
-    // ---------- State ----------
-    let room = null;
-    let normals = [];
-    let finale = null;
-    let silverKeys = 0;
-    let goldKeys = 0;
-    let silverGranted = 0;
-    let finaleUnlocked = false;
-    const unlocked = new Set();
-    const answered = new Set();
-    const cooldowns = {};     // pos -> timestamp (ms) tot wanneer op slot
-    const choiceCache = {};   // pos -> gehusselde meerkeuze-opties
-    const puzzles = {};       // pos -> { size, board } schuifpuzzel-state
-    let currentPuzzle = null; // { q, card } van de open puzzel-popup
-
-    // Timer
-    let timerInterval = null;
-    let timerSeconds = 0;
-    let timerRunning = false;
-    let timerStarted = false;
-    let timeLimitSec = null;
-
+    // ---------- Helpers ----------
     function escapeHtml(str) {
         const div = document.createElement('div');
         div.textContent = str == null ? '' : String(str);
         return div.innerHTML;
     }
+    function attrUrl(url) { return String(url || '').replace(/"/g, '%22'); }
+    function showErr(el, msg) { el.textContent = msg; el.classList.add('show'); }
+    function hideErr(el) { el.classList.remove('show'); }
+    function showScreen(key) {
+        joinCard.style.display = '';
+        gameEl.style.display = 'none';
+        Object.keys(screens).forEach(k => screens[k].classList.toggle('active', k === key));
+    }
+    function showGame() {
+        joinCard.style.display = 'none';
+        gameEl.style.display = '';
+    }
+    function save() {
+        try { sessionStorage.setItem(STORE_KEY, JSON.stringify({ code, teamId, teamName })); } catch (e) {}
+    }
+    function restore() {
+        try { return JSON.parse(sessionStorage.getItem(STORE_KEY) || 'null'); } catch (e) { return null; }
+    }
+    function clearStore() { try { sessionStorage.removeItem(STORE_KEY); } catch (e) {} }
 
-    function attrUrl(url) {
-        return String(url || '').replace(/"/g, '%22');
+    async function call(action, extra) {
+        const body = Object.assign({ action: action, code: code, teamId: teamId }, extra || {});
+        const { data, error } = await supabase.functions.invoke('escaperoom-sessie', { body: body });
+        if (error) {
+            let parsed = null;
+            try { if (error.context && error.context.json) parsed = await error.context.json(); } catch (e) {}
+            return parsed || { ok: false, error: 'Er ging iets mis. Probeer het opnieuw.' };
+        }
+        return data || { ok: false, error: 'Er ging iets mis.' };
     }
 
-    function normalize(s) {
-        return String(s || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    function syncSessionInfo(res) {
+        if (res.timeLimitMinutes !== undefined) timeLimitMin = res.timeLimitMinutes;
+        if (res.startedAtMs !== undefined) startedAtMs = res.startedAtMs;
+        if (res.nowMs) serverOffsetMs = res.nowMs - Date.now();
+        if (res.roomTitle) {
+            heroTitle.textContent = res.roomTitle;
+            document.title = 'Meestertools - ' + res.roomTitle;
+        }
+        if (res.theme && res.theme !== 'standaard') {
+            document.body.classList.add('er-theme-' + res.theme);
+        }
     }
 
-    function groupLabel(g) {
-        return g ? 'Groep ' + g : '';
+    function syncTeamState(res) {
+        if (Array.isArray(res.answered)) answered = new Set(res.answered);
+        if (Array.isArray(res.unlocked)) unlocked = new Set(res.unlocked);
+        if (res.finaleUnlocked !== undefined) finaleUnlocked = !!res.finaleUnlocked;
+        if (res.finished !== undefined) finished = !!res.finished;
     }
 
-    function silverNeededTotal() {
-        return Math.max(0, normals.length - 2);
+    // ---------- Sleutels (zelfde regels als de leerkracht-pagina, afgeleid) ----------
+    function silverNeededTotal() { return Math.max(0, normals.length - 2); }
+    function answeredNormals() {
+        let n = 0;
+        normals.forEach(q => { if (answered.has(q.position)) n++; });
+        return n;
+    }
+    function silverGranted() { return Math.min(answeredNormals(), silverNeededTotal()); }
+    function goldGranted() { return Math.max(0, answeredNormals() - silverNeededTotal()); }
+    function silverKeys() { return silverGranted() - unlocked.size; }
+    function goldKeys() { return goldGranted() - (finaleUnlocked ? GOLD_NEEDED : 0); }
+    function isUnlocked(pos) { return pos <= 2 || unlocked.has(pos); }
+
+    function updateStatus() {
+        keyCountEl.textContent = silverKeys();
+        goldCountEl.textContent = goldKeys();
+        answerCountEl.textContent = answered.size;
+        totalCountEl.textContent = normals.length + (finale ? 1 : 0);
     }
 
     // ---------- Geluid ----------
@@ -121,148 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function pling() { playNotes([880, 1318.5], 0.15); }
     function victoryChime() { playNotes([523.25, 659.25, 783.99, 1046.5], 0.18); }
-
-    // ---------- Status ----------
-    function updateStatus() {
-        keyCountEl.textContent = silverKeys;
-        goldCountEl.textContent = goldKeys;
-        answerCountEl.textContent = answered.size;
-        totalCountEl.textContent = normals.length + (finale ? 1 : 0);
-    }
-
-    // ---------- Timer ----------
-    function timerText() {
-        const t = Math.max(0, timerSeconds);
-        const m = Math.floor(t / 60);
-        const s = t % 60;
-        return (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
-    }
-
-    function elapsedText() {
-        const elapsed = timeLimitSec !== null ? timeLimitSec - Math.max(0, timerSeconds) : timerSeconds;
-        const m = Math.floor(elapsed / 60);
-        const s = elapsed % 60;
-        return (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
-    }
-
-    function updateTimerDisplay() {
-        const d = document.getElementById('erTimerDisplay');
-        if (!d) return;
-        d.textContent = timerText();
-        d.classList.toggle('er-timer-low', timeLimitSec !== null && timerSeconds <= 60);
-    }
-
-    function tick() {
-        if (timeLimitSec !== null) {
-            timerSeconds--;
-            updateTimerDisplay();
-            if (timerSeconds <= 0) timesUp();
-        } else {
-            timerSeconds++;
-            updateTimerDisplay();
-        }
-    }
-
-    function startTimer() {
-        if (timerRunning) return;
-        timerRunning = true;
-        timerStarted = true;
-        timerInterval = setInterval(tick, 1000);
-        refreshAll();
-    }
-
-    function pauseTimer() {
-        timerRunning = false;
-        clearInterval(timerInterval);
-        closePuzzle();
-        refreshAll();
-    }
-
-    function stopTimer() {
-        timerRunning = false;
-        timerStarted = false;
-        clearInterval(timerInterval);
-        timerSeconds = timeLimitSec !== null ? timeLimitSec : 0;
-        closePuzzle();
-        refreshAll();
-    }
-
-    function timesUp() {
-        timerRunning = false;
-        clearInterval(timerInterval);
-        timerSeconds = 0;
-        updateTimerDisplay();
-        closePuzzle();
-        document.getElementById('erTimesUp').classList.add('active');
-    }
-
-    function renderTimerCard(card) {
-        card.innerHTML =
-            '<div class="er-card-label">&#9201;&#65039; Timer' +
-                (timeLimitSec !== null ? ' &middot; ' + Math.round(timeLimitSec / 60) + ' min' : '') +
-            '</div>' +
-            '<div class="er-timer-display" id="erTimerDisplay">' + timerText() + '</div>' +
-            '<div class="er-timer-controls">' +
-            (timerRunning
-                ? '<button class="er-btn er-btn-secondary" id="erTimerPause">&#9208;&#65039; Pauze</button>' +
-                  '<button class="er-btn er-btn-secondary" id="erTimerStop">&#9209;&#65039; Stop</button>'
-                : '<button class="er-btn" id="erTimerStart">&#9654;&#65039; ' + (timerStarted ? 'Verder' : 'Start') + '</button>' +
-                  (timerStarted ? '<button class="er-btn er-btn-secondary" id="erTimerStop">&#9209;&#65039; Stop</button>' : '')) +
-            '</div>' +
-            (!timerStarted ? '<div class="er-timer-hint">De vragen gaan open zodra de timer loopt.</div>' : '');
-
-        updateTimerDisplay();
-        const startBtn = card.querySelector('#erTimerStart');
-        const pauseBtn = card.querySelector('#erTimerPause');
-        const stopBtn = card.querySelector('#erTimerStop');
-        if (startBtn) startBtn.addEventListener('click', startTimer);
-        if (pauseBtn) pauseBtn.addEventListener('click', pauseTimer);
-        if (stopBtn) stopBtn.addEventListener('click', stopTimer);
-    }
-
-    // ---------- Sleutels ----------
-    function grantKey(fromEl) {
-        if (silverGranted < silverNeededTotal()) {
-            silverGranted++;
-            silverKeys++;
-            flyKey(fromEl, 'silver');
-        } else {
-            goldKeys++;
-            flyKey(fromEl, 'gold');
-        }
-        pling();
-        updateStatus();
-    }
-
-    function flyKey(fromEl, type) {
-        const target = document.querySelector(type === 'gold' ? '.er-status-gold' : '.er-status-keys');
-        if (!target || !fromEl) return;
-        const from = fromEl.getBoundingClientRect();
-        const to = target.getBoundingClientRect();
-
-        const key = document.createElement('div');
-        key.className = 'er-key-fly' + (type === 'gold' ? ' er-key-gold' : '');
-        key.textContent = type === 'gold' ? '\u{1F511}' : '\u{1F5DD}️';
-        key.style.left = (from.left + from.width / 2 - 20) + 'px';
-        key.style.top = (from.top + from.height / 2 - 20) + 'px';
-        document.body.appendChild(key);
-
-        const dx = (to.left + to.width / 2) - (from.left + from.width / 2);
-        const dy = (to.top + to.height / 2) - (from.top + from.height / 2);
-
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                key.style.transform = 'translate(' + dx + 'px, ' + dy + 'px) scale(0.4) rotate(360deg)';
-                key.style.opacity = '0';
-            });
-        });
-
-        setTimeout(() => {
-            key.remove();
-            target.classList.add('er-key-pulse');
-            setTimeout(() => target.classList.remove('er-key-pulse'), 450);
-        }, 800);
-    }
+    function dialTick() { playNotes([1567.98], 0.07); }
 
     // ---------- Confetti ----------
     function launchConfetti() {
@@ -282,6 +200,114 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         document.body.appendChild(wrap);
         setTimeout(() => wrap.remove(), 6000);
+    }
+
+    // ---------- Sleutel-animatie ----------
+    function grantKeyAnim(fromEl) {
+        const type = silverGranted() > prevSilverGranted ? 'silver' : 'gold';
+        prevSilverGranted = silverGranted();
+        const target = document.querySelector(type === 'gold' ? '.er-status-gold' : '.er-status-keys');
+        pling();
+        updateStatus();
+        if (!target || !fromEl) return;
+        const from = fromEl.getBoundingClientRect();
+        const to = target.getBoundingClientRect();
+        const key = document.createElement('div');
+        key.className = 'er-key-fly' + (type === 'gold' ? ' er-key-gold' : '');
+        key.textContent = type === 'gold' ? '\u{1F511}' : '\u{1F5DD}️';
+        key.style.left = (from.left + from.width / 2 - 20) + 'px';
+        key.style.top = (from.top + from.height / 2 - 20) + 'px';
+        document.body.appendChild(key);
+        const dx = (to.left + to.width / 2) - (from.left + from.width / 2);
+        const dy = (to.top + to.height / 2) - (from.top + from.height / 2);
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                key.style.transform = 'translate(' + dx + 'px, ' + dy + 'px) scale(0.4) rotate(360deg)';
+                key.style.opacity = '0';
+            });
+        });
+        setTimeout(() => {
+            key.remove();
+            target.classList.add('er-key-pulse');
+            setTimeout(() => target.classList.remove('er-key-pulse'), 450);
+        }, 800);
+    }
+
+    // ---------- Timer (meeloop-klok) ----------
+    function serverNow() { return Date.now() + serverOffsetMs; }
+    function fmt(t) {
+        const m = Math.floor(t / 60);
+        const s = t % 60;
+        return (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+    }
+    function remainingSec() {
+        if (!startedAtMs || !timeLimitMin) return null;
+        return Math.max(0, Math.round((startedAtMs + timeLimitMin * 60000 - serverNow()) / 1000));
+    }
+    function elapsedSec() {
+        if (!startedAtMs) return 0;
+        return Math.max(0, Math.round((serverNow() - startedAtMs) / 1000));
+    }
+    function updateClock() {
+        const d = document.getElementById('erTimerDisplay');
+        if (!d) return;
+        if (timeLimitMin) {
+            const rem = remainingSec();
+            d.textContent = fmt(rem);
+            d.classList.toggle('er-timer-low', rem <= 60);
+            if (rem <= 0) onTimeUp();
+        } else {
+            d.textContent = fmt(elapsedSec());
+        }
+    }
+    function startClock() {
+        stopClock();
+        clockTimer = setInterval(updateClock, 1000);
+        updateClock();
+    }
+    function stopClock() { if (clockTimer) { clearInterval(clockTimer); clockTimer = null; } }
+
+    function onTimeUp() {
+        if (timeUpShown || finished) return;
+        timeUpShown = true;
+        stopClock();
+        closePuzzle();
+        timesUpEl.classList.add('active');
+    }
+    function onStopped() {
+        stopPolling();
+        stopClock();
+        closePuzzle();
+        if (!finished && !timeUpShown) stoppedEl.classList.add('active');
+    }
+
+    // ---------- Polling ----------
+    function startPolling() {
+        stopPolling();
+        pollTimer = setInterval(async () => {
+            const res = await call('status');
+            if (!res || !res.ok || !res.exists) return;
+            syncSessionInfo(res);
+            if (res.status === 'closed') { status = 'closed'; onStopped(); return; }
+            if (res.status === 'playing' && status !== 'playing') {
+                status = 'playing';
+                await enterGame();
+            }
+            if (res.timeUp) onTimeUp();
+        }, POLL_MS);
+    }
+    function stopPolling() { if (pollTimer) { clearInterval(pollTimer); pollTimer = null; } }
+
+    // ---------- Server-check ----------
+    async function serverCheck(q, answer) {
+        const res = await call('check', { position: q.position, answer: answer });
+        if (!res.ok) {
+            if (res.timeUp) { onTimeUp(); return null; }
+            if (res.status === 'closed') { onStopped(); return null; }
+            return null;
+        }
+        if (res.correct) syncTeamState(res);
+        return !!res.correct;
     }
 
     // ---------- Draaisloten (cijfers en letters) ----------
@@ -330,18 +356,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return t === 'cijferslot' || t === 'letterslot';
     }
 
-    function lockAnswer(q) {
-        return String(q.answer).trim().toUpperCase();
-    }
-
     // ---------- Kluis-draaislot ----------
-    // Draai de knop (slepen) of klik een cijfer aan; staat de pijl
-    // ~0,9 sec stil op een cijfer, dan wordt het ingevoerd. Hetzelfde
-    // cijfer nog eens? Even wegdraaien en terug. Code compleet =
-    // automatische controle via onFull.
     const DIAL_DWELL_MS = 900;
-
-    function dialTick() { playNotes([1567.98], 0.07); }
 
     function dialHtml(len) {
         let nums = '';
@@ -360,48 +376,41 @@ document.addEventListener('DOMContentLoaded', () => {
         '</div>';
     }
 
+    // onFull mag een Promise teruggeven (server-check); het slot blijft
+    // bevroren tot de uitkomst binnen is.
     function wireDial(root, len, onFull) {
         const dial = root.querySelector('.er-dial');
         const knob = root.querySelector('.er-dial-knob');
         const nums = dial.querySelectorAll('.er-dial-num');
         const slots = root.querySelectorAll('.er-dial-slot');
 
-        let rot = 0;               // opgetelde rotatie van de knop (graden)
+        let rot = 0;
         let entered = [];
-        let started = false;       // dwell pas na de eerste aanraking
-        let lastRegistered = null; // herbewapenen: eerst naar een ander cijfer
+        let started = false;
+        let lastRegistered = null;
         let downAngle = null;
         let lastAngle = 0;
         let movedTotal = 0;
         let dwellInterval = null;
         let restTimeout = null;
-        let locked = false;        // tijdens de controle even bevriezen
+        let locked = false;
 
-        function digitAt(r) {
-            return ((Math.round(r / 36) % 10) + 10) % 10;
-        }
-
-        function numEl(d) {
-            return dial.querySelector('.er-dial-num[data-num="' + d + '"]');
-        }
-
+        function digitAt(r) { return ((Math.round(r / 36) % 10) + 10) % 10; }
+        function numEl(d) { return dial.querySelector('.er-dial-num[data-num="' + d + '"]'); }
         function setKnob(animate) {
             knob.style.transition = animate ? 'transform 0.25s ease' : 'none';
             knob.style.transform = 'rotate(' + rot + 'deg)';
         }
-
         function highlight() {
             const d = digitAt(rot);
             nums.forEach(n => n.classList.toggle('er-dial-active', parseInt(n.dataset.num, 10) === d));
         }
-
         function updateDisplay() {
             slots.forEach((s, i) => {
                 s.textContent = entered[i] != null ? entered[i] : '–';
                 s.classList.toggle('filled', entered[i] != null);
             });
         }
-
         function clearDwell() {
             if (dwellInterval) clearInterval(dwellInterval);
             if (restTimeout) clearTimeout(restTimeout);
@@ -411,7 +420,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 n.style.removeProperty('--p');
             });
         }
-
         function register(d) {
             clearDwell();
             lastRegistered = d;
@@ -421,22 +429,22 @@ document.addEventListener('DOMContentLoaded', () => {
             if (entered.length >= len) {
                 locked = true;
                 setTimeout(() => {
-                    const ok = onFull(entered.join(''));
-                    locked = false;
-                    if (!ok) {
-                        entered = [];
-                        updateDisplay();
-                    }
+                    Promise.resolve(onFull(entered.join(''))).then(ok => {
+                        locked = false;
+                        if (!ok) {
+                            entered = [];
+                            updateDisplay();
+                        }
+                    });
                 }, 300);
             }
         }
-
         function startDwell() {
             clearDwell();
             if (!started || locked || downAngle !== null) return;
             if (entered.length >= len) return;
             const d = digitAt(rot);
-            if (d === lastRegistered) return; // eerst even wegdraaien
+            if (d === lastRegistered) return;
             const el = numEl(d);
             el.classList.add('er-dial-charging');
             const t0 = performance.now();
@@ -449,20 +457,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }, 50);
         }
-
         function onRest() {
             highlight();
             if (digitAt(rot) !== lastRegistered) lastRegistered = null;
             startDwell();
         }
-
         function pointerAngle(e) {
             const r = dial.getBoundingClientRect();
             const dx = e.clientX - (r.left + r.width / 2);
             const dy = e.clientY - (r.top + r.height / 2);
-            return Math.atan2(dx, -dy) * 180 / Math.PI; // 0 = boven, met de klok mee
+            return Math.atan2(dx, -dy) * 180 / Math.PI;
         }
-
         function rotateToDigit(d) {
             const diff = (((d * 36 - rot) % 360) + 540) % 360 - 180;
             rot += diff;
@@ -479,7 +484,6 @@ document.addEventListener('DOMContentLoaded', () => {
             movedTotal = 0;
             clearDwell();
         });
-
         dial.addEventListener('pointermove', (e) => {
             if (downAngle === null) return;
             const a = pointerAngle(e);
@@ -492,7 +496,6 @@ document.addEventListener('DOMContentLoaded', () => {
             setKnob(false);
             highlight();
         });
-
         const endDrag = (e) => {
             if (downAngle === null) return;
             downAngle = null;
@@ -511,8 +514,6 @@ document.addEventListener('DOMContentLoaded', () => {
         root.querySelector('.er-dial-clear').addEventListener('click', () => {
             if (locked) return;
             entered = [];
-            // Niet meteen opnieuw laden op het cijfer waar de pijl nog
-            // op staat; eerst wegdraaien voelt natuurlijker
             lastRegistered = digitAt(rot);
             clearDwell();
             updateDisplay();
@@ -522,17 +523,12 @@ document.addEventListener('DOMContentLoaded', () => {
         updateDisplay();
     }
 
-    // ---------- Datum (dag + maand, optioneel jaartal) ----------
+    // ---------- Datum ----------
     const MONTHS_NL = ['januari', 'februari', 'maart', 'april', 'mei', 'juni',
         'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
 
-    function isDateType(t) {
-        return t === 'datum' || t === 'datum_jaar';
-    }
-
-    function pad2(n) {
-        return (n < 10 ? '0' : '') + n;
-    }
+    function isDateType(t) { return t === 'datum' || t === 'datum_jaar'; }
+    function pad2(n) { return (n < 10 ? '0' : '') + n; }
 
     function dateHtml(type, btnLabel, extraClass) {
         let days = '<option value="">Dag</option>';
@@ -559,19 +555,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return pad2(d) + '-' + pad2(m);
     }
 
-    // ---------- Meerkeuze ----------
-    function choicesFor(q) {
-        if (!choiceCache[q.position]) {
-            const all = [String(q.answer)].concat(Array.isArray(q.options) ? q.options.map(String) : []);
-            for (let i = all.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                const tmp = all[i]; all[i] = all[j]; all[j] = tmp;
-            }
-            choiceCache[q.position] = all;
-        }
-        return choiceCache[q.position];
-    }
-
     // ---------- Schuifpuzzel ----------
     function puzzleNeighbors(idx, size) {
         const r = Math.floor(idx / size), c = idx % size, out = [];
@@ -582,9 +565,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return out;
     }
 
-    // board[cel] = tegel-id; tegel (size-1) is het lege vak (rechtsboven
-    // in de opgeloste stand). Husselen met geldige zetten = altijd oplosbaar.
-    // Niveau bepaalt het aantal schuifzetten: 1 = 3, 2 = 5, 3 = 8.
     const PUZZLE_LEVEL_MOVES = { 1: 3, 2: 5, 3: 8 };
 
     function newPuzzleBoard(size, level) {
@@ -604,7 +584,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 prev = emptyCell;
                 emptyCell = pick;
             }
-            // Leeg vak terug naar rechtsboven (ook met geldige zetten)
             while (Math.floor(emptyCell / size) > 0) {
                 const up = emptyCell - size;
                 board[emptyCell] = board[up]; board[up] = size - 1; emptyCell = up;
@@ -613,7 +592,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const right = emptyCell + 1;
                 board[emptyCell] = board[right]; board[right] = size - 1; emptyCell = right;
             }
-        } while (board.every((v, i) => v === i)); // per ongeluk al opgelost? opnieuw
+        } while (board.every((v, i) => v === i));
         return board;
     }
 
@@ -671,35 +650,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function onPuzzleSolved() {
+    async function onPuzzleSolved() {
         if (!currentPuzzle) return;
         const q = currentPuzzle.q;
         const card = currentPuzzle.card;
         puzzleStatus.textContent = 'Opgelost! \u{1F389}';
         puzzleBoard.classList.add('er-puzzle-win');
+        const ok = await serverCheck(q, '');
         setTimeout(() => {
             puzzleBoard.classList.remove('er-puzzle-win');
             closePuzzle();
-            answered.add(q.position);
-            renderQuestionCard(card, q);
-            grantKey(card);
-            refreshLockedCards();
-            renderFinaleSection();
+            if (ok) onCorrect(q, card);
         }, 900);
     }
 
     document.getElementById('erPuzzleClose')?.addEventListener('click', closePuzzle);
     puzzleModal?.addEventListener('click', (e) => { if (e.target === puzzleModal) closePuzzle(); });
 
-    // ---------- Antwoord-controle ----------
-    function isCorrect(q, container) {
-        if (isLockType(q.question_type)) return lockValue(container) === lockAnswer(q);
-        if (isDateType(q.question_type)) return dateValue(container, q.question_type) === String(q.answer).trim();
-        const input = container.querySelector('input');
-        return normalize(input ? input.value : '') === normalize(q.answer);
+    // ---------- Goed antwoord verwerken ----------
+    function onCorrect(q, card) {
+        answered.add(q.position);
+        renderQuestionCard(card, q);
+        grantKeyAnim(card);
+        refreshLockedCards();
+        renderFinaleSection();
     }
 
-    // ---------- Normale vraagkaarten ----------
+    // ---------- Vraagkaarten ----------
     function renderQuestionCard(card, q) {
         const pos = q.position;
         card.dataset.position = pos;
@@ -714,31 +691,23 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (!timerRunning && unlocked.has(pos)) {
-            card.classList.add('er-locked');
-            card.innerHTML =
-                '<div class="er-card-label">Vraag ' + pos + '</div>' +
-                '<div class="er-locked-icon">&#9203;</div>' +
-                '<div class="er-locked-text">' +
-                    (timerStarted ? 'De timer staat stil — druk op verder.' : 'Start de timer om te beginnen!') +
-                '</div>';
-            return;
-        }
-
-        if (!unlocked.has(pos)) {
+        if (!isUnlocked(pos)) {
             card.classList.add('er-locked');
             card.innerHTML =
                 '<div class="er-card-label">Vraag ' + pos + '</div>' +
                 '<div class="er-locked-icon">&#128274;</div>' +
                 '<div class="er-locked-text">Deze kaart zit op slot.</div>' +
-                '<button class="er-btn er-unlock-btn"' + ((silverKeys < 1 || !timerRunning) ? ' disabled' : '') + '>' +
+                '<button class="er-btn er-unlock-btn"' + (silverKeys() < 1 ? ' disabled' : '') + '>' +
                     '&#128477;&#65039; Open met zilveren sleutel' +
                 '</button>';
 
-            card.querySelector('.er-unlock-btn').addEventListener('click', () => {
-                if (silverKeys < 1 || !timerRunning) return;
-                silverKeys--;
-                unlocked.add(pos);
+            card.querySelector('.er-unlock-btn').addEventListener('click', async () => {
+                if (silverKeys() < 1 || busy) return;
+                busy = true;
+                const res = await call('unlock', { position: pos });
+                busy = false;
+                if (!res.ok) { if (res.timeUp) onTimeUp(); return; }
+                syncTeamState(res);
                 updateStatus();
                 renderQuestionCard(card, q);
                 refreshLockedCards();
@@ -746,7 +715,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Strafminuut na een foute meerkeuze-gok
         if (cooldowns[pos] && cooldowns[pos] > Date.now()) {
             card.classList.add('er-locked', 'er-cooldown');
             card.innerHTML =
@@ -768,7 +736,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Speelbare vraag: weergave per vraagtype
         const type = q.question_type || 'text';
         const label = '<div class="er-card-label">Vraag ' + pos +
             (isLockType(type) || type === 'draaislot' ? ' &middot; &#128272;'
@@ -781,17 +748,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (type === 'meerkeuze') {
             card.innerHTML = label + qtext +
                 '<div class="er-mc-options">' +
-                choicesFor(q).map(c => '<button class="er-mc-btn">' + escapeHtml(c) + '</button>').join('') +
+                (q.options || []).map(c => '<button class="er-mc-btn">' + escapeHtml(c) + '</button>').join('') +
                 '</div>' +
                 '<div class="er-q-feedback"></div>';
             card.querySelectorAll('.er-mc-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    if (normalize(btn.textContent) === normalize(q.answer)) {
-                        answered.add(pos);
-                        renderQuestionCard(card, q);
-                        grantKey(card);
-                        refreshLockedCards();
-                        renderFinaleSection();
+                btn.addEventListener('click', async () => {
+                    if (busy) return;
+                    busy = true;
+                    const ok = await serverCheck(q, btn.textContent);
+                    busy = false;
+                    if (ok === null) return;
+                    if (ok) {
+                        onCorrect(q, card);
                     } else {
                         cooldowns[pos] = Date.now() + COOLDOWN_MS;
                         card.classList.add('er-wrong');
@@ -811,18 +779,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (type === 'draaislot') {
-            card.innerHTML = label + qtext + dialHtml(lockAnswer(q).length) +
+            card.innerHTML = label + qtext + dialHtml(q.answer_len || 4) +
                 '<div class="er-q-feedback"></div>';
             const feedback = card.querySelector('.er-q-feedback');
-            wireDial(card, lockAnswer(q).length, (val) => {
-                if (val === lockAnswer(q)) {
-                    answered.add(pos);
-                    renderQuestionCard(card, q);
-                    grantKey(card);
-                    refreshLockedCards();
-                    renderFinaleSection();
-                    return true;
-                }
+            wireDial(card, q.answer_len || 4, async (val) => {
+                const ok = await serverCheck(q, val);
+                if (ok === null) return false;
+                if (ok) { onCorrect(q, card); return true; }
                 feedback.textContent = 'Helaas, probeer het nog eens!';
                 card.classList.add('er-wrong');
                 setTimeout(() => card.classList.remove('er-wrong'), 600);
@@ -834,28 +797,34 @@ document.addEventListener('DOMContentLoaded', () => {
         const isLock = isLockType(type);
         card.innerHTML = label + qtext +
             (isLock
-                ? lockHtml(lockAnswer(q).length, type) +
+                ? lockHtml(q.answer_len || 4, type) +
                   '<div class="er-q-answer er-q-lock-row"><button class="er-btn">Controleer</button></div>'
                 : isDateType(type)
                 ? dateHtml(type, 'Controleer')
                 : '<div class="er-q-answer">' +
-                      '<input type="text" placeholder="Jouw antwoord..." autocomplete="off">' +
+                      '<input type="text" placeholder="Jullie antwoord..." autocomplete="off">' +
                       '<button class="er-btn">Controleer</button>' +
                   '</div>') +
             '<div class="er-q-feedback"></div>';
 
         if (isLock) wireLock(card);
-        const input = card.querySelector('input');
+        const input = card.querySelector('input[type="text"]');
         const checkBtn = card.querySelector('.er-q-answer .er-btn');
         const feedback = card.querySelector('.er-q-feedback');
 
-        function check() {
-            if (isCorrect(q, card)) {
-                answered.add(pos);
-                renderQuestionCard(card, q);
-                grantKey(card);
-                refreshLockedCards();
-                renderFinaleSection();
+        async function check() {
+            if (busy) return;
+            const value = isLock ? lockValue(card)
+                : isDateType(type) ? dateValue(card, type)
+                : (input ? input.value : '');
+            busy = true;
+            checkBtn.disabled = true;
+            const ok = await serverCheck(q, value);
+            busy = false;
+            checkBtn.disabled = false;
+            if (ok === null) return;
+            if (ok) {
+                onCorrect(q, card);
             } else {
                 feedback.textContent = 'Helaas, probeer het nog eens!';
                 card.classList.add('er-wrong');
@@ -870,28 +839,15 @@ document.addEventListener('DOMContentLoaded', () => {
         grid.querySelectorAll('.er-play-card.er-locked:not(.er-cooldown)').forEach(card => {
             const pos = parseInt(card.dataset.position, 10);
             const q = normals.find(x => x.position === pos);
-            if (q && !unlocked.has(pos) && !answered.has(pos)) renderQuestionCard(card, q);
+            if (q && !isUnlocked(pos) && !answered.has(pos)) renderQuestionCard(card, q);
         });
     }
 
-    function refreshAll() {
-        grid.querySelectorAll('.er-play-card').forEach(card => {
-            if (card.classList.contains('er-timer-card')) {
-                renderTimerCard(card);
-            } else {
-                const pos = parseInt(card.dataset.position, 10);
-                const q = normals.find(x => x.position === pos);
-                if (q) renderQuestionCard(card, q);
-            }
-        });
-        renderFinaleSection();
-    }
-
-    // ---------- Finale (volle breedte) ----------
+    // ---------- Finale ----------
     function goldSlotsHtml() {
         let html = '<div class="er-finale-slots">';
         for (let i = 1; i <= GOLD_NEEDED; i++) {
-            html += '<span class="er-finale-slot' + (goldKeys >= i ? ' filled' : '') + '">\u{1F511}</span>';
+            html += '<span class="er-finale-slot' + (goldKeys() >= i ? ' filled' : '') + '">\u{1F511}</span>';
         }
         html += '</div>';
         return html;
@@ -911,7 +867,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (!finaleUnlocked) {
-            const canOpen = goldKeys >= GOLD_NEEDED && timerRunning;
+            const canOpen = goldKeys() >= GOLD_NEEDED;
             finaleSection.className = 'er-finale-section er-finale-locked';
             finaleSection.innerHTML =
                 '<div class="er-finale-label">&#127942; DE FINALE</div>' +
@@ -925,28 +881,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     '<button class="er-btn er-finale-open-btn"' + (canOpen ? '' : ' disabled') + '>&#128273; Open de finale</button>' +
                 '</div>';
 
-            finaleSection.querySelector('.er-finale-open-btn').addEventListener('click', () => {
-                if (goldKeys < GOLD_NEEDED || !timerRunning) return;
-                goldKeys -= GOLD_NEEDED;
-                finaleUnlocked = true;
+            finaleSection.querySelector('.er-finale-open-btn').addEventListener('click', async () => {
+                if (goldKeys() < GOLD_NEEDED || busy) return;
+                busy = true;
+                const res = await call('unlock', { position: 'finale' });
+                busy = false;
+                if (!res.ok) { if (res.timeUp) onTimeUp(); return; }
+                syncTeamState(res);
                 updateStatus();
                 renderFinaleSection();
-                const inp = finaleSection.querySelector('input');
-                if (inp) inp.focus();
             });
-            return;
-        }
-
-        if (!timerRunning) {
-            finaleSection.className = 'er-finale-section er-finale-locked';
-            finaleSection.innerHTML =
-                '<div class="er-finale-label">&#127942; DE FINALE</div>' +
-                '<div class="er-finale-locked-row">' +
-                    '<span class="er-finale-lock">&#9203;</span>' +
-                    '<div class="er-finale-locked-text"><strong>' +
-                        (timerStarted ? 'De timer staat stil — druk op verder.' : 'Start de timer om te beginnen!') +
-                    '</strong></div>' +
-                '</div>';
             return;
         }
 
@@ -957,17 +901,13 @@ document.addEventListener('DOMContentLoaded', () => {
             finaleSection.innerHTML =
                 '<div class="er-finale-label">&#127942; DE FINALE</div>' +
                 '<div class="er-finale-q">' + escapeHtml(finale.question) + '</div>' +
-                dialHtml(lockAnswer(finale).length) +
+                dialHtml(finale.answer_len || 4) +
                 '<div class="er-q-feedback"></div>';
             const dialFeedback = finaleSection.querySelector('.er-q-feedback');
-            wireDial(finaleSection, lockAnswer(finale).length, (val) => {
-                if (val === lockAnswer(finale)) {
-                    answered.add(finale.position);
-                    updateStatus();
-                    renderFinaleSection();
-                    showVictory();
-                    return true;
-                }
+            wireDial(finaleSection, finale.answer_len || 4, async (val) => {
+                const ok = await serverCheck(finale, val);
+                if (ok === null) return false;
+                if (ok) { onFinaleCracked(); return true; }
                 dialFeedback.textContent = 'Helaas, probeer het nog eens!';
                 finaleSection.classList.add('er-wrong');
                 setTimeout(() => finaleSection.classList.remove('er-wrong'), 600);
@@ -981,7 +921,7 @@ document.addEventListener('DOMContentLoaded', () => {
             '<div class="er-finale-label">&#127942; DE FINALE</div>' +
             '<div class="er-finale-q">' + escapeHtml(finale.question) + '</div>' +
             (isLock
-                ? lockHtml(lockAnswer(finale).length, ftype) +
+                ? lockHtml(finale.answer_len || 4, ftype) +
                   '<div class="er-q-answer er-finale-answer er-q-lock-row"><button class="er-btn">Kraak de finale</button></div>'
                 : isDateType(ftype)
                 ? dateHtml(ftype, 'Kraak de finale', 'er-finale-answer')
@@ -992,16 +932,23 @@ document.addEventListener('DOMContentLoaded', () => {
             '<div class="er-q-feedback"></div>';
 
         if (isLock) wireLock(finaleSection);
-        const input = finaleSection.querySelector('input');
+        const input = finaleSection.querySelector('input[type="text"]');
         const btn = finaleSection.querySelector('.er-q-answer .er-btn');
         const feedback = finaleSection.querySelector('.er-q-feedback');
 
-        function check() {
-            if (isCorrect(finale, finaleSection)) {
-                answered.add(finale.position);
-                updateStatus();
-                renderFinaleSection();
-                showVictory();
+        async function check() {
+            if (busy) return;
+            const value = isLock ? lockValue(finaleSection)
+                : isDateType(ftype) ? dateValue(finaleSection, ftype)
+                : (input ? input.value : '');
+            busy = true;
+            btn.disabled = true;
+            const ok = await serverCheck(finale, value);
+            busy = false;
+            btn.disabled = false;
+            if (ok === null) return;
+            if (ok) {
+                onFinaleCracked();
             } else {
                 feedback.textContent = 'Helaas, probeer het nog eens!';
                 finaleSection.classList.add('er-wrong');
@@ -1012,46 +959,33 @@ document.addEventListener('DOMContentLoaded', () => {
         if (input) input.addEventListener('keydown', (e) => { if (e.key === 'Enter') check(); });
     }
 
-    // ---------- Victory ----------
-    function showVictory() {
-        if (timerRunning) {
-            clearInterval(timerInterval);
-            timerRunning = false;
-        }
-        victoryTime.textContent = timerStarted
-            ? 'Jullie tijd: ' + elapsedText()
+    function onFinaleCracked() {
+        answered.add(finale.position);
+        finished = true;
+        stopClock();
+        updateStatus();
+        renderFinaleSection();
+        victoryTime.textContent = startedAtMs
+            ? 'Jullie tijd: ' + fmt(elapsedSec())
             : 'Alle vragen goed beantwoord — knap gedaan!';
         victory.classList.add('active');
         launchConfetti();
         victoryChime();
     }
 
-    reviewStars.addEventListener('click', async (e) => {
-        const btn = e.target.closest('button[data-star]');
-        if (!btn) return;
-        const rating = parseInt(btn.dataset.star, 10);
-
-        reviewStars.querySelectorAll('button').forEach(b => {
-            b.innerHTML = parseInt(b.dataset.star, 10) <= rating ? '&#9733;' : '&#9734;';
-            b.classList.toggle('filled', parseInt(b.dataset.star, 10) <= rating);
-        });
-
-        try {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session || !room) return;
-            await supabase
-                .from('escaperoom_reviews')
-                .upsert({ room_id: room.id, user_id: session.user.id, rating: rating }, { onConflict: 'room_id,user_id' });
-            reviewThanks.style.display = 'block';
-        } catch (err) {
-            console.error('Review opslaan mislukt:', err);
-        }
-    });
-
     // ---------- Grid opbouwen ----------
+    function renderTimerCard(card) {
+        card.innerHTML =
+            '<div class="er-card-label">&#9201;&#65039; Timer' +
+                (timeLimitMin ? ' &middot; ' + timeLimitMin + ' min' : '') +
+            '</div>' +
+            '<div class="er-timer-display" id="erTimerDisplay">--:--</div>' +
+            '<div class="er-timer-hint">De juf of meester beheert de tijd.</div>';
+        updateClock();
+    }
+
     function buildGrid() {
         grid.innerHTML = '';
-
         const cells = [];
         const q1 = normals.find(q => q.position === 1);
         const q2 = normals.find(q => q.position === 2);
@@ -1075,81 +1009,111 @@ document.addEventListener('DOMContentLoaded', () => {
         renderFinaleSection();
     }
 
-    // ---------- Laden ----------
-    async function load() {
-        const roomId = new URLSearchParams(window.location.search).get('room');
-        if (!roomId) {
-            heroTitle.textContent = 'Geen room gekozen';
-            heroDesc.textContent = 'Ga terug naar het overzicht en kies een escape room.';
-            return;
-        }
+    // ---------- Spel binnengaan (vragen ophalen) ----------
+    async function enterGame() {
+        const res = await call('questions');
+        if (!res.ok) return;
+        syncSessionInfo(res);
+        syncTeamState(res);
+        if (!res.questions) return; // nog niet aan het spelen
 
-        try {
-            const [roomRes, qRes] = await Promise.all([
-                supabase.from('escaperooms')
-                    .select('id, title, description, image_url, category, suitable_for, time_limit_minutes, theme')
-                    .eq('id', roomId)
-                    .single(),
-                supabase.from('escaperoom_questions')
-                    .select('id, position, question, answer, question_type, options, image_url, puzzle_size, puzzle_level')
-                    .eq('room_id', roomId)
-                    .order('position')
-            ]);
+        questions = res.questions;
+        const finalePos = Math.max.apply(null, questions.map(q => q.position));
+        finale = questions.find(q => q.position === finalePos) || null;
+        normals = questions.filter(q => q.position !== finalePos);
+        prevSilverGranted = silverGranted();
 
-            if (!roomRes.data) throw new Error('Room niet gevonden');
-            room = roomRes.data;
-            const questions = qRes.data || [];
+        heroTeam.textContent = 'Team: ' + teamName;
+        statusbar.style.display = '';
+        updateStatus();
+        showGame();
+        buildGrid();
+        startClock();
 
-            if (!questions.length) {
-                heroTitle.textContent = room.title;
-                heroDesc.textContent = 'Deze room heeft nog geen vragen.';
-                return;
-            }
-
-            // Kleurthema van de room
-            if (room.theme && room.theme !== 'standaard') {
-                document.body.classList.add('er-theme-' + room.theme);
-            }
-
-            const finalePos = Math.max.apply(null, questions.map(q => q.position));
-            finale = questions.find(q => q.position === finalePos) || null;
-            normals = questions.filter(q => q.position !== finalePos);
-
-            if (room.time_limit_minutes > 0) {
-                timeLimitSec = room.time_limit_minutes * 60;
-                timerSeconds = timeLimitSec;
-            }
-
-            unlocked.add(1);
-            unlocked.add(2);
-
-            pageTitle.textContent = room.title;
-            document.title = 'Meestertools - ' + room.title;
-            heroTitle.textContent = room.title;
-            heroDesc.textContent = room.description || '';
-            heroMeta.innerHTML =
-                (room.category ? '<span class="er-badge er-badge-cat">' + escapeHtml(room.category) + '</span>' : '') +
-                (room.suitable_for ? '<span class="er-badge er-badge-group">' + groupLabel(room.suitable_for) + '</span>' : '');
-            if (room.image_url) {
-                hero.style.backgroundImage = 'url("' + attrUrl(room.image_url) + '")';
-            }
-
-            // Link naar klassikaal spelen (host-pagina) voor deze room
-            const hostLink = document.getElementById('erHostLink');
-            if (hostLink) {
-                hostLink.href = 'klassikaal?room=' + encodeURIComponent(room.id);
-                hostLink.style.display = '';
-            }
-
-            statusbar.style.display = '';
-            updateStatus();
-            buildGrid();
-        } catch (err) {
-            console.error('Escape room laden mislukt:', err);
-            heroTitle.textContent = 'Room niet gevonden';
-            heroDesc.textContent = 'Deze escape room bestaat niet (meer) of is niet gepubliceerd.';
+        if (res.timeUp && !finished) onTimeUp();
+        if (finished) {
+            victoryTime.textContent = 'Jullie hebben de room al uitgespeeld!';
+            victory.classList.add('active');
         }
     }
 
-    load();
-});
+    // ---------- Aanmelden ----------
+    async function doJoin() {
+        if (busy) return;
+        hideErr(joinError);
+        code = (codeInput.value || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+        teamName = (nameInput.value || '').trim();
+        if (code.length < 4) { showErr(joinError, 'Vul de code van het bord in.'); return; }
+        if (!teamName) { showErr(joinError, 'Vul een teamnaam in.'); return; }
+
+        busy = true; joinBtn.disabled = true; joinBtn.textContent = 'Even kijken…';
+        const res = await call('join', { teamName: teamName });
+        busy = false; joinBtn.disabled = false; joinBtn.innerHTML = 'Doe mee &rarr;';
+
+        if (!res.ok) { showErr(joinError, res.error || 'Er ging iets mis.'); return; }
+        if (!res.exists) { showErr(joinError, 'Deze code klopt niet. Kijk nog eens op het bord.'); return; }
+        if (res.status === 'closed') { showScreen('closed'); return; }
+        if (!res.teamId) { showErr(joinError, 'Aanmelden lukte niet. Probeer opnieuw.'); return; }
+
+        teamId = res.teamId;
+        syncSessionInfo(res);
+        save();
+        status = res.status;
+        startPolling();
+
+        if (res.status === 'playing') {
+            await enterGame();
+        } else {
+            lobbyHi.textContent = 'Jullie doen mee, ' + teamName + '!';
+            lobbyRoom.textContent = res.roomTitle ? 'Escape room: ' + res.roomTitle : '';
+            showScreen('lobby');
+        }
+    }
+
+    // ---------- Init ----------
+    function init() {
+        const params = new URLSearchParams(location.search);
+        const urlCode = (params.get('code') || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+        const urlName = (params.get('naam') || '').trim();
+        if (urlCode) codeInput.value = urlCode;
+        if (urlName) nameInput.value = urlName;
+
+        codeInput.addEventListener('input', () => {
+            codeInput.value = codeInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        });
+        joinBtn.addEventListener('click', doJoin);
+        nameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') doJoin(); });
+
+        // Eerder aangemeld in deze sessie? (refresh)
+        const saved = restore();
+        if (saved && saved.teamId && (!urlCode || urlCode === saved.code)) {
+            code = saved.code; teamId = saved.teamId; teamName = saved.teamName || '';
+            call('status').then(async res => {
+                if (res && res.ok && res.exists && res.status !== 'closed') {
+                    syncSessionInfo(res);
+                    status = res.status;
+                    startPolling();
+                    if (res.status === 'playing') {
+                        await enterGame();
+                    } else {
+                        lobbyHi.textContent = 'Jullie doen mee, ' + teamName + '!';
+                        lobbyRoom.textContent = res.roomTitle ? 'Escape room: ' + res.roomTitle : '';
+                        showScreen('lobby');
+                    }
+                } else if (res && res.exists && res.status === 'closed') {
+                    showScreen('closed');
+                    clearStore();
+                } else {
+                    clearStore();
+                }
+            });
+        } else if (urlCode && urlName) {
+            // Doorgestuurd vanaf /meedoen: meteen aanmelden
+            doJoin();
+        } else if (urlCode) {
+            nameInput.focus();
+        }
+    }
+
+    init();
+})();

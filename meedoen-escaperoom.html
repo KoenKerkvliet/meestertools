@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Speel mee met de escape room van je juf of meester. Vul de code in en kraak de finale!">
+    <meta name="theme-color" content="#6C63FF">
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Escape room spelen - Meestertools</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/instellingen.css">
+    <link rel="stylesheet" href="css/escaperooms.css">
+    <style>
+        /* Join/lobby-kaart in de stijl van /meedoen */
+        body { background: var(--bg-light, #F7F7FB); }
+        .mde-join-wrap {
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 28px 16px 48px;
+            background: linear-gradient(160deg, #6C63FF 0%, #8B7FFF 50%, #FF7AA8 130%);
+        }
+        .mde-card-col { width: 100%; max-width: 460px; }
+        .mde-brand {
+            text-align: center; color: #fff; font-weight: 800; font-size: 22px;
+            margin-bottom: 18px;
+        }
+        .mde-card {
+            background: #fff; border-radius: 22px; padding: 28px 24px 26px;
+            box-shadow: 0 18px 50px rgba(0,0,0,.22);
+            font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+        }
+        .mde-screen { display: none; }
+        .mde-screen.active { display: block; }
+        .mde-card h1 { font-size: 24px; line-height: 1.2; margin: 0 0 8px; }
+        .mde-lead { color: #636E72; font-size: 15px; line-height: 1.5; margin: 0 0 22px; }
+        .mde-field { margin-bottom: 18px; }
+        .mde-field label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 7px; }
+        .mde-input {
+            width: 100%; border: 2px solid #E3E1F2; border-radius: 14px;
+            padding: 14px 16px; font-size: 17px; font-family: inherit; color: #2D3436;
+            outline: none; box-sizing: border-box; -webkit-appearance: none;
+        }
+        .mde-input:focus { border-color: #6C63FF; }
+        .mde-code-input {
+            text-align: center; font-size: 30px; font-weight: 800;
+            letter-spacing: .25em; text-transform: uppercase;
+        }
+        .mde-btn {
+            width: 100%; border: none; border-radius: 14px; cursor: pointer;
+            background: #6C63FF; color: #fff; font-size: 18px; font-weight: 700;
+            padding: 16px; font-family: inherit;
+        }
+        .mde-btn:disabled { opacity: .5; cursor: not-allowed; }
+        .mde-error {
+            background: #FCE7E7; color: #C0392B; border-radius: 12px;
+            padding: 12px 14px; font-size: 14px; margin-bottom: 16px; display: none;
+        }
+        .mde-error.show { display: block; }
+        .mde-big-emoji { font-size: 54px; text-align: center; margin-bottom: 10px; }
+        .mde-spin { text-align: center; color: #8B86A8; font-size: 14px; margin-top: 14px; }
+        .mde-room {
+            background: #F4F2FF; border-radius: 14px; padding: 14px 16px;
+            text-align: center; font-size: 16px; margin-top: 16px; color: #4A4470; font-weight: 700;
+        }
+        .mde-room:empty { display: none; }
+
+        /* Spel-weergave: compacte kop met teamnaam */
+        .mde-game-head {
+            display: flex; align-items: baseline; justify-content: space-between;
+            gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+        }
+        .mde-game-head h1 { margin: 0; font-size: 26px; }
+        .mde-team {
+            font-size: 14px; font-weight: 700; color: var(--primary, #6C63FF);
+            background: rgba(108, 99, 255, 0.1); padding: 6px 14px; border-radius: 999px;
+        }
+        body[class*="er-theme-"] .mde-team { color: var(--er-accent, #6C63FF); background: rgba(0,0,0,0.06); }
+    </style>
+</head>
+<body>
+    <!-- Aanmelden / lobby / gesloten -->
+    <div class="mde-join-wrap" id="erJoinCard">
+        <div class="mde-card-col">
+            <div class="mde-brand">&#127891; Meestertools</div>
+            <div class="mde-card">
+                <section class="mde-screen active" id="screenJoin">
+                    <h1>Escape room &#128477;&#65039;</h1>
+                    <p class="mde-lead">Vul de code van het bord in en kies een teamnaam. Speel je alleen? Dan is je voornaam je teamnaam.</p>
+                    <div class="mde-error" id="joinError"></div>
+                    <div class="mde-field">
+                        <label for="codeInput">Code van het bord</label>
+                        <input class="mde-input mde-code-input" id="codeInput" type="text" inputmode="latin"
+                               autocomplete="off" autocapitalize="characters" maxlength="8" placeholder="ABCDE">
+                    </div>
+                    <div class="mde-field">
+                        <label for="nameInput">Teamnaam</label>
+                        <input class="mde-input" id="nameInput" type="text" autocomplete="off"
+                               maxlength="24" placeholder="Bijv. De Speurneuzen">
+                    </div>
+                    <button class="mde-btn" id="joinBtn">Doe mee &rarr;</button>
+                </section>
+
+                <section class="mde-screen" id="screenLobby">
+                    <div class="mde-big-emoji">&#128477;&#65039;</div>
+                    <h1 id="lobbyHi">Jullie doen mee!</h1>
+                    <p class="mde-lead">Even geduld &mdash; zodra de juf of meester op start drukt, begint het spel vanzelf.</p>
+                    <div class="mde-room" id="lobbyRoom"></div>
+                    <div class="mde-spin">Wachten op de start&hellip;</div>
+                </section>
+
+                <section class="mde-screen" id="screenClosed">
+                    <div class="mde-big-emoji">&#128075;</div>
+                    <h1>De sessie is gesloten</h1>
+                    <p class="mde-lead">Deze escape room-sessie is afgelopen. Bedankt voor het meespelen!</p>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Het spel -->
+    <main class="tool-page-content" id="erGame" style="display:none;">
+        <div class="tool-page-body">
+            <div class="mde-game-head">
+                <h1 id="erHeroTitle">Escape room</h1>
+                <span class="mde-team" id="erHeroTeam"></span>
+            </div>
+
+            <div class="er-statusbar" id="erStatusbar" style="display:none;">
+                <span class="er-status-keys">&#128477;&#65039; Zilver: <strong id="erKeyCount">0</strong></span>
+                <span class="er-status-gold">&#128273; Goud: <strong id="erGoldCount">0</strong>/2</span>
+                <span class="er-status-progress">&#9989; Beantwoord: <strong id="erAnswerCount">0</strong>/<span id="erTotalCount">15</span></span>
+            </div>
+
+            <div class="er-play-grid" id="erPlayGrid"></div>
+
+            <section class="er-finale-section" id="erFinaleSection" style="display:none;"></section>
+        </div>
+    </main>
+
+    <!-- Schuifpuzzel popup -->
+    <div class="modal-overlay" id="erPuzzleModal">
+        <div class="modal er-puzzle-modal">
+            <div class="modal-header">
+                <h2 id="erPuzzleTitle">Schuifpuzzel</h2>
+                <button class="modal-close" id="erPuzzleClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="er-puzzle-hint">Klik op een vakje naast het lege vak om te schuiven. Maak de afbeelding compleet!</p>
+                <div class="er-puzzle-board" id="erPuzzleBoard"></div>
+                <p class="er-puzzle-status" id="erPuzzleStatus"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tijd-is-om overlay -->
+    <div class="modal-overlay" id="erTimesUp">
+        <div class="modal er-victory-modal er-timesup-modal">
+            <div class="er-victory-confetti">&#9200;</div>
+            <h2>De tijd is om!</h2>
+            <p>Helaas, de poort blijft dicht... Goed geprobeerd!</p>
+        </div>
+    </div>
+
+    <!-- Sessie gestopt overlay -->
+    <div class="modal-overlay" id="erStopped">
+        <div class="modal er-victory-modal er-timesup-modal">
+            <div class="er-victory-confetti">&#128075;</div>
+            <h2>De sessie is gestopt</h2>
+            <p>De juf of meester heeft de escape room afgesloten. Bedankt voor het meespelen!</p>
+        </div>
+    </div>
+
+    <!-- Victory overlay -->
+    <div class="modal-overlay" id="erVictory">
+        <div class="modal er-victory-modal">
+            <div class="er-victory-confetti">&#127881;</div>
+            <h2>Room uitgespeeld!</h2>
+            <p id="erVictoryTime"></p>
+            <p>Vertel het snel aan de juf of meester &mdash; jullie staan op het bord! &#127942;</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/meedoen-escaperoom.js"></script>
+</body>
+</html>

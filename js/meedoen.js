@@ -65,8 +65,12 @@
     function clearStore() { try { sessionStorage.removeItem(STORE_KEY); } catch (e) {} }
 
     async function call(action, extra) {
+        return callOther('complimentenmuur', action, extra);
+    }
+
+    async function callOther(fn, action, extra) {
         const body = Object.assign({ action: action, code: code }, extra || {});
-        const { data, error } = await supabase.functions.invoke('complimentenmuur', { body: body });
+        const { data, error } = await supabase.functions.invoke(fn, { body: body });
         if (error) {
             // Edge Function-fouten (4xx/5xx) komen ook hier binnen; probeer body te lezen
             let parsed = null;
@@ -124,6 +128,17 @@
 
         busy = true; joinBtn.disabled = true; joinBtn.textContent = 'Even kijken…';
         const res = await call('join', { name: name });
+
+        if (res.ok && !res.exists) {
+            // Geen complimentenmuur met deze code — misschien een escape
+            // room-sessie? Dan doorsturen naar de escape room-spelpagina.
+            const er = await callOther('escaperoom-sessie', 'status');
+            if (er && er.ok && er.exists) {
+                window.location.href = 'meedoen-escaperoom?code=' + encodeURIComponent(code) +
+                    '&naam=' + encodeURIComponent(name);
+                return;
+            }
+        }
         busy = false; joinBtn.disabled = false; joinBtn.innerHTML = 'Doe mee &rarr;';
 
         if (!res.ok) { showErr(joinError, res.error || 'Er ging iets mis.'); return; }
