@@ -224,6 +224,63 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 800);
     }
 
+    // ---------- Confetti (bij uitspelen) ----------
+    function launchConfetti() {
+        const colors = ['#6C63FF', '#FF6B6B', '#F5B941', '#7BE495', '#4FC3F7', '#FF8AC2'];
+        const wrap = document.createElement('div');
+        wrap.className = 'er-confetti';
+        for (let i = 0; i < 130; i++) {
+            const p = document.createElement('span');
+            p.style.left = (Math.random() * 100) + 'vw';
+            p.style.background = colors[i % colors.length];
+            p.style.width = (6 + Math.random() * 7) + 'px';
+            p.style.height = (8 + Math.random() * 8) + 'px';
+            p.style.animationDuration = (2.4 + Math.random() * 2.2) + 's';
+            p.style.animationDelay = (Math.random() * 0.9) + 's';
+            if (Math.random() < 0.4) p.style.borderRadius = '50%';
+            wrap.appendChild(p);
+        }
+        document.body.appendChild(wrap);
+        setTimeout(() => wrap.remove(), 6000);
+    }
+
+    // ---------- Cijferslot ----------
+    // Eén kolom per cijfer van het antwoord, start op 0, draaien met
+    // pijltjes (boven +1, onder -1, met doorloop 9 -> 0).
+    function lockHtml(len) {
+        let html = '<div class="er-lock">';
+        for (let i = 0; i < len; i++) {
+            html += '<div class="er-lock-col">' +
+                '<button type="button" class="er-lock-up" aria-label="Cijfer hoger">&#9650;</button>' +
+                '<div class="er-lock-digit">0</div>' +
+                '<button type="button" class="er-lock-down" aria-label="Cijfer lager">&#9660;</button>' +
+            '</div>';
+        }
+        html += '</div>';
+        return html;
+    }
+
+    function wireLock(container) {
+        container.querySelectorAll('.er-lock-col').forEach(col => {
+            const digitEl = col.querySelector('.er-lock-digit');
+            const step = (d) => {
+                digitEl.textContent = (parseInt(digitEl.textContent, 10) + d + 10) % 10;
+                digitEl.classList.remove('er-lock-tick');
+                void digitEl.offsetWidth; // animatie opnieuw laten afspelen
+                digitEl.classList.add('er-lock-tick');
+            };
+            col.querySelector('.er-lock-up').addEventListener('click', () => step(1));
+            col.querySelector('.er-lock-down').addEventListener('click', () => step(-1));
+        });
+    }
+
+    function lockValue(container) {
+        return Array.prototype.map.call(
+            container.querySelectorAll('.er-lock-digit'),
+            d => d.textContent
+        ).join('');
+    }
+
     // ---------- Normale vraagkaarten ----------
     function renderQuestionCard(card, q) {
         const pos = q.position;
@@ -272,22 +329,28 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Open vraag: tekst + antwoordveld + controleknop
+        // Speelbare vraag: weergave hangt af van het vraagtype
+        const isLock = q.question_type === 'cijferslot';
         card.innerHTML =
-            '<div class="er-card-label">Vraag ' + pos + '</div>' +
+            '<div class="er-card-label">Vraag ' + pos + (isLock ? ' &middot; &#128272;' : '') + '</div>' +
             '<div class="er-q-text">' + escapeHtml(q.question) + '</div>' +
-            '<div class="er-q-answer">' +
-                '<input type="text" placeholder="Jouw antwoord..." autocomplete="off">' +
-                '<button class="er-btn">Controleer</button>' +
-            '</div>' +
+            (isLock
+                ? lockHtml(String(q.answer).trim().length) +
+                  '<div class="er-q-answer er-q-lock-row"><button class="er-btn">Controleer</button></div>'
+                : '<div class="er-q-answer">' +
+                      '<input type="text" placeholder="Jouw antwoord..." autocomplete="off">' +
+                      '<button class="er-btn">Controleer</button>' +
+                  '</div>') +
             '<div class="er-q-feedback"></div>';
 
+        if (isLock) wireLock(card);
         const input = card.querySelector('input');
         const checkBtn = card.querySelector('.er-q-answer .er-btn');
         const feedback = card.querySelector('.er-q-feedback');
 
         function check() {
-            if (normalize(input.value) === normalize(q.answer)) {
+            const given = isLock ? lockValue(card) : normalize(input.value);
+            if (given === (isLock ? String(q.answer).trim() : normalize(q.answer))) {
                 answered.add(pos);
                 renderQuestionCard(card, q);
                 grantKey(card);
@@ -300,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         checkBtn.addEventListener('click', check);
-        input.addEventListener('keydown', (e) => { if (e.key === 'Enter') check(); });
+        if (input) input.addEventListener('keydown', (e) => { if (e.key === 'Enter') check(); });
     }
 
     function refreshLockedCards() {
@@ -390,21 +453,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         finaleSection.className = 'er-finale-section er-finale-open';
+        const isLock = finale.question_type === 'cijferslot';
         finaleSection.innerHTML =
             '<div class="er-finale-label">&#127942; DE FINALE</div>' +
             '<div class="er-finale-q">' + escapeHtml(finale.question) + '</div>' +
-            '<div class="er-q-answer er-finale-answer">' +
-                '<input type="text" placeholder="Jullie antwoord op de finale..." autocomplete="off">' +
-                '<button class="er-btn">Kraak de finale</button>' +
-            '</div>' +
+            (isLock
+                ? lockHtml(String(finale.answer).trim().length) +
+                  '<div class="er-q-answer er-finale-answer er-q-lock-row"><button class="er-btn">Kraak de finale</button></div>'
+                : '<div class="er-q-answer er-finale-answer">' +
+                      '<input type="text" placeholder="Jullie antwoord op de finale..." autocomplete="off">' +
+                      '<button class="er-btn">Kraak de finale</button>' +
+                  '</div>') +
             '<div class="er-q-feedback"></div>';
 
+        if (isLock) wireLock(finaleSection);
         const input = finaleSection.querySelector('input');
         const btn = finaleSection.querySelector('.er-q-answer .er-btn');
         const feedback = finaleSection.querySelector('.er-q-feedback');
 
         function check() {
-            if (normalize(input.value) === normalize(finale.answer)) {
+            const given = isLock ? lockValue(finaleSection) : normalize(input.value);
+            if (given === (isLock ? String(finale.answer).trim() : normalize(finale.answer))) {
                 answered.add(finale.position);
                 updateStatus();
                 renderFinaleSection();
@@ -416,7 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         btn.addEventListener('click', check);
-        input.addEventListener('keydown', (e) => { if (e.key === 'Enter') check(); });
+        if (input) input.addEventListener('keydown', (e) => { if (e.key === 'Enter') check(); });
     }
 
     // ---------- Victory ----------
@@ -429,6 +498,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ? 'Jullie tijd: ' + elapsedText()
             : 'Alle vragen goed beantwoord — knap gedaan!';
         victory.classList.add('active');
+        launchConfetti();
     }
 
     reviewStars.addEventListener('click', async (e) => {

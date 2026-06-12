@@ -1427,6 +1427,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span style="flex:0 0 64px;padding-top:12px;font-size:13px;font-weight:700;color:${finale ? '#C98A00' : 'var(--text-medium)'};">
                         ${finale ? '&#127942; Finale' : 'Vraag ' + i}
                     </span>
+                    <select id="erT${i}" title="Vraagtype" style="flex:0 0 122px;">
+                        <option value="text">Open vraag</option>
+                        <option value="cijferslot">Cijferslot</option>
+                    </select>
                     <input type="text" id="erQ${i}" placeholder="Vraag" style="flex:2;min-width:0;">
                     <input type="text" id="erA${i}" placeholder="Antwoord" style="flex:1;min-width:0;">
                 </div>`;
@@ -1469,14 +1473,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const { data: qs } = await supabase
             .from('escaperoom_questions')
-            .select('position, question, answer')
+            .select('position, question, answer, question_type')
             .eq('room_id', id)
             .order('position');
         (qs || []).forEach(q => {
             const qEl = document.getElementById('erQ' + q.position);
             const aEl = document.getElementById('erA' + q.position);
+            const tEl = document.getElementById('erT' + q.position);
             if (qEl) qEl.value = q.question;
             if (aEl) aEl.value = q.answer;
+            if (tEl) tEl.value = q.question_type || 'text';
         });
 
         openModal('escaperoomModal');
@@ -1507,7 +1513,13 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 1; i <= ER_MAX_QUESTIONS; i++) {
             const q = document.getElementById('erQ' + i).value.trim();
             const a = document.getElementById('erA' + i).value.trim();
-            if (q && a) questions.push({ position: i, question: q, answer: a });
+            const t = document.getElementById('erT' + i).value || 'text';
+            if (!q || !a) continue;
+            if (t === 'cijferslot' && !/^\d{1,6}$/.test(a)) {
+                alert((i === ER_MAX_QUESTIONS ? 'Finale' : 'Vraag ' + i) + ': een cijferslot-antwoord mag alleen uit cijfers bestaan (maximaal 6).');
+                return;
+            }
+            questions.push({ position: i, question: q, answer: a, question_type: t });
         }
 
         const btn = document.getElementById('saveEscaperoomBtn');
