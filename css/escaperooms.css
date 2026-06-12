@@ -680,6 +680,133 @@
     justify-content: flex-start;
 }
 
+/* ---------- Meerkeuze ---------- */
+.er-mc-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.er-mc-btn {
+    padding: 11px 14px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-sm);
+    background: var(--bg-white);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+    text-align: left;
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.er-mc-btn:hover {
+    border-color: var(--er-accent, var(--primary));
+    background: var(--bg-light);
+}
+
+/* Strafminuut na foute gok */
+.er-play-card.er-cooldown {
+    background: #FFF0F0;
+    box-shadow: inset 0 0 0 2px #FFCCCC;
+}
+
+.er-play-card.er-cooldown .er-locked-icon {
+    opacity: 1;
+}
+
+.er-cooldown-left {
+    color: #D63031;
+}
+
+/* ---------- Schuifpuzzel ---------- */
+.er-puzzle-thumb {
+    width: 100%;
+    max-height: 110px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    filter: blur(2px) grayscale(0.4);
+    opacity: 0.8;
+}
+
+.er-puzzle-modal {
+    max-width: 580px;
+}
+
+.er-puzzle-hint {
+    font-size: 13px;
+    color: var(--text-medium);
+    margin-bottom: 14px;
+}
+
+.er-puzzle-board {
+    display: grid;
+    gap: 4px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #1E1B3A;
+    border-radius: var(--radius-md);
+    padding: 6px;
+    transition: box-shadow 0.3s ease;
+}
+
+.er-puzzle-board.er-puzzle-win {
+    box-shadow: 0 0 0 4px #7BE495, 0 0 24px rgba(123, 228, 149, 0.6);
+}
+
+.er-puzzle-tile {
+    border-radius: 6px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    transition: transform 0.1s ease;
+}
+
+.er-puzzle-tile:hover {
+    transform: scale(0.97);
+}
+
+.er-puzzle-empty {
+    border-radius: 6px;
+    border: 2px dashed rgba(255, 255, 255, 0.25);
+}
+
+.er-puzzle-status {
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #2E7D32;
+    text-align: center;
+    min-height: 20px;
+}
+
+/* ---------- Kleurthema's per room ---------- */
+body.er-theme-halloween { --er-accent: #E65100; --er-dark1: #2B1606; --er-dark2: #5A2E06; }
+body.er-theme-kerst { --er-accent: #C62828; --er-dark1: #0F2415; --er-dark2: #1E4428; }
+body.er-theme-ruimte { --er-accent: #4FC3F7; --er-dark1: #0B1026; --er-dark2: #283593; }
+
+.er-hero {
+    background: linear-gradient(135deg, var(--er-dark2, var(--primary)), var(--er-dark1, var(--primary-light)));
+}
+
+body[class*="er-theme-"] .er-timer-card,
+body[class*="er-theme-"] .er-finale-section {
+    background: linear-gradient(135deg, var(--er-dark1), var(--er-dark2));
+}
+
+body[class*="er-theme-"] .er-card-label {
+    color: var(--er-accent);
+}
+
+body[class*="er-theme-"] .er-btn:not(.er-btn-secondary):not(.er-finale-open-btn) {
+    background: linear-gradient(135deg, var(--er-accent), var(--er-dark2));
+}
+
+body[class*="er-theme-"] .er-status-keys strong,
+body[class*="er-theme-"] .er-status-progress strong {
+    color: var(--er-accent);
+}
+
 /* ---------- Confetti ---------- */
 .er-confetti {
     position: fixed;

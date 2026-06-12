@@ -1417,25 +1417,69 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('searchEscaperooms')?.addEventListener('input', renderEscaperooms);
 
+    // Extra velden per vraagtype (meerkeuze: foute opties; puzzel: afbeelding + formaat)
+    function renderErExtras(i) {
+        const type = document.getElementById('erT' + i).value;
+        const extras = document.getElementById('erX' + i);
+        const answerInput = document.getElementById('erA' + i);
+        answerInput.disabled = type === 'schuifpuzzel';
+        answerInput.placeholder = type === 'schuifpuzzel' ? 'Niet nodig (puzzel oplossen = goed)' : 'Antwoord';
+
+        if (type === 'meerkeuze') {
+            extras.style.display = '';
+            extras.innerHTML =
+                '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
+                    '<input type="text" id="erW' + i + '1" placeholder="Foute optie 1" style="flex:1;min-width:120px;">' +
+                    '<input type="text" id="erW' + i + '2" placeholder="Foute optie 2" style="flex:1;min-width:120px;">' +
+                    '<input type="text" id="erW' + i + '3" placeholder="Foute optie 3" style="flex:1;min-width:120px;">' +
+                '</div>' +
+                '<p style="font-size:12px;color:var(--text-light);margin:4px 0 0;">Het veld Antwoord is de juiste optie; de volgorde wordt voor spelers gehusseld.</p>';
+        } else if (type === 'schuifpuzzel') {
+            extras.style.display = '';
+            extras.innerHTML =
+                '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
+                    '<input type="text" id="erImg' + i + '" placeholder="Afbeeldings-URL (https://...)" style="flex:2;min-width:200px;">' +
+                    '<select id="erSize' + i + '" style="flex:0 0 110px;">' +
+                        '<option value="3">3 x 3</option>' +
+                        '<option value="4">4 x 4</option>' +
+                    '</select>' +
+                '</div>';
+        } else {
+            extras.style.display = 'none';
+            extras.innerHTML = '';
+        }
+    }
+
     function buildErQuestionRows() {
         const wrap = document.getElementById('erFormQuestions');
         let html = '';
         for (let i = 1; i <= ER_MAX_QUESTIONS; i++) {
             const finale = i === ER_MAX_QUESTIONS;
+            // De finale is altijd een kraak-vraag: open vraag of draaislot
+            const typeOptions =
+                '<option value="text">Open vraag</option>' +
+                '<option value="cijferslot">Cijferslot</option>' +
+                '<option value="letterslot">Letterslot</option>' +
+                (finale ? '' :
+                    '<option value="meerkeuze">Meerkeuze</option>' +
+                    '<option value="schuifpuzzel">Schuifpuzzel</option>');
             html += `
-                <div class="form-group" style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;">
-                    <span style="flex:0 0 64px;padding-top:12px;font-size:13px;font-weight:700;color:${finale ? '#C98A00' : 'var(--text-medium)'};">
-                        ${finale ? '&#127942; Finale' : 'Vraag ' + i}
-                    </span>
-                    <select id="erT${i}" title="Vraagtype" style="flex:0 0 122px;">
-                        <option value="text">Open vraag</option>
-                        <option value="cijferslot">Cijferslot</option>
-                    </select>
-                    <input type="text" id="erQ${i}" placeholder="Vraag" style="flex:2;min-width:0;">
-                    <input type="text" id="erA${i}" placeholder="Antwoord" style="flex:1;min-width:0;">
+                <div class="form-group" style="margin-bottom:12px;">
+                    <div style="display:flex;gap:10px;align-items:flex-start;">
+                        <span style="flex:0 0 64px;padding-top:12px;font-size:13px;font-weight:700;color:${finale ? '#C98A00' : 'var(--text-medium)'};">
+                            ${finale ? '&#127942; Finale' : 'Vraag ' + i}
+                        </span>
+                        <select id="erT${i}" title="Vraagtype" style="flex:0 0 122px;">${typeOptions}</select>
+                        <input type="text" id="erQ${i}" placeholder="Vraag" style="flex:2;min-width:0;">
+                        <input type="text" id="erA${i}" placeholder="Antwoord" style="flex:1;min-width:0;">
+                    </div>
+                    <div id="erX${i}" style="display:none;margin:8px 0 0 74px;"></div>
                 </div>`;
         }
         wrap.innerHTML = html;
+        for (let i = 1; i <= ER_MAX_QUESTIONS; i++) {
+            document.getElementById('erT' + i).addEventListener('change', () => renderErExtras(i));
+        }
     }
 
     function fillErCategorySuggestions() {
@@ -1467,22 +1511,36 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('erFormCategory').value = room.category || '';
         document.getElementById('erFormSuitable').value = room.suitable_for || '';
         document.getElementById('erFormTimeLimit').value = room.time_limit_minutes || '';
+        document.getElementById('erFormTheme').value = room.theme || 'standaard';
         document.getElementById('erFormPublished').checked = !!room.published;
         buildErQuestionRows();
         fillErCategorySuggestions();
 
         const { data: qs } = await supabase
             .from('escaperoom_questions')
-            .select('position, question, answer, question_type')
+            .select('position, question, answer, question_type, options, image_url, puzzle_size')
             .eq('room_id', id)
             .order('position');
         (qs || []).forEach(q => {
-            const qEl = document.getElementById('erQ' + q.position);
-            const aEl = document.getElementById('erA' + q.position);
-            const tEl = document.getElementById('erT' + q.position);
+            const i = q.position;
+            const qEl = document.getElementById('erQ' + i);
+            const aEl = document.getElementById('erA' + i);
+            const tEl = document.getElementById('erT' + i);
             if (qEl) qEl.value = q.question;
             if (aEl) aEl.value = q.answer;
-            if (tEl) tEl.value = q.question_type || 'text';
+            if (tEl) { tEl.value = q.question_type || 'text'; renderErExtras(i); }
+            if (q.question_type === 'meerkeuze' && Array.isArray(q.options)) {
+                q.options.forEach((w, idx) => {
+                    const wEl = document.getElementById('erW' + i + (idx + 1));
+                    if (wEl) wEl.value = w;
+                });
+            }
+            if (q.question_type === 'schuifpuzzel') {
+                const imgEl = document.getElementById('erImg' + i);
+                const sizeEl = document.getElementById('erSize' + i);
+                if (imgEl) imgEl.value = q.image_url || '';
+                if (sizeEl) sizeEl.value = String(q.puzzle_size || 3);
+            }
         });
 
         openModal('escaperoomModal');
@@ -1504,22 +1562,57 @@ document.addEventListener('DOMContentLoaded', () => {
             category: document.getElementById('erFormCategory').value.trim() || null,
             suitable_for: document.getElementById('erFormSuitable').value || null,
             time_limit_minutes: (timeLimit >= 1 && timeLimit <= 240) ? timeLimit : null,
+            theme: document.getElementById('erFormTheme').value || 'standaard',
             published: document.getElementById('erFormPublished').checked,
             updated_at: new Date().toISOString()
         };
 
-        // Vragen verzamelen: alleen rijen waar vraag én antwoord zijn ingevuld
+        // Vragen verzamelen: alleen ingevulde rijen (vraag + antwoord, behalve
+        // bij de schuifpuzzel: daar telt de afbeelding als 'antwoord')
         const questions = [];
         for (let i = 1; i <= ER_MAX_QUESTIONS; i++) {
+            const rowName = i === ER_MAX_QUESTIONS ? 'Finale' : 'Vraag ' + i;
             const q = document.getElementById('erQ' + i).value.trim();
             const a = document.getElementById('erA' + i).value.trim();
             const t = document.getElementById('erT' + i).value || 'text';
+
+            const entry = { position: i, question: q, answer: a, question_type: t, options: null, image_url: null, puzzle_size: null };
+
+            if (t === 'schuifpuzzel') {
+                const img = (document.getElementById('erImg' + i)?.value || '').trim();
+                if (!q && !img) continue;
+                if (!q || !img) { alert(rowName + ': een schuifpuzzel heeft een vraag/opdracht én een afbeeldings-URL nodig.'); return; }
+                entry.answer = '';
+                entry.image_url = img;
+                entry.puzzle_size = parseInt(document.getElementById('erSize' + i)?.value, 10) === 4 ? 4 : 3;
+                questions.push(entry);
+                continue;
+            }
+
             if (!q || !a) continue;
+
             if (t === 'cijferslot' && !/^\d{1,6}$/.test(a)) {
-                alert((i === ER_MAX_QUESTIONS ? 'Finale' : 'Vraag ' + i) + ': een cijferslot-antwoord mag alleen uit cijfers bestaan (maximaal 6).');
+                alert(rowName + ': een cijferslot-antwoord mag alleen uit cijfers bestaan (maximaal 6).');
                 return;
             }
-            questions.push({ position: i, question: q, answer: a, question_type: t });
+            if (t === 'letterslot') {
+                if (!/^[a-zA-Z]{1,8}$/.test(a)) {
+                    alert(rowName + ': een letterslot-antwoord mag alleen uit letters bestaan (maximaal 8, geen spaties of leestekens).');
+                    return;
+                }
+                entry.answer = a.toUpperCase();
+            }
+            if (t === 'meerkeuze') {
+                const wrongs = [1, 2, 3]
+                    .map(n => (document.getElementById('erW' + i + n)?.value || '').trim())
+                    .filter(Boolean);
+                if (wrongs.length < 2) {
+                    alert(rowName + ': vul bij meerkeuze minstens 2 foute opties in.');
+                    return;
+                }
+                entry.options = wrongs;
+            }
+            questions.push(entry);
         }
 
         const btn = document.getElementById('saveEscaperoomBtn');
