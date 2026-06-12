@@ -1446,6 +1446,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         '<option value="3">3 x 3</option>' +
                         '<option value="4">4 x 4</option>' +
                     '</select>' +
+                    '<select id="erLvl' + i + '" title="Niveau" style="flex:0 0 200px;">' +
+                        '<option value="1">Niveau 1 (3 schuifzetten)</option>' +
+                        '<option value="2" selected>Niveau 2 (5 schuifzetten)</option>' +
+                        '<option value="3">Niveau 3 (8 schuifzetten)</option>' +
+                    '</select>' +
                 '</div>';
         } else {
             extras.style.display = 'none';
@@ -1541,8 +1546,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (q.question_type === 'schuifpuzzel') {
                 const imgEl = document.getElementById('erImg' + i);
                 const sizeEl = document.getElementById('erSize' + i);
+                const lvlEl = document.getElementById('erLvl' + i);
                 if (imgEl) imgEl.value = q.image_url || '';
                 if (sizeEl) sizeEl.value = String(q.puzzle_size || 3);
+                if (lvlEl) lvlEl.value = String(q.puzzle_level || 2);
             }
         });
 
@@ -1579,7 +1586,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const a = document.getElementById('erA' + i).value.trim();
             const t = document.getElementById('erT' + i).value || 'text';
 
-            const entry = { position: i, question: q, answer: a, question_type: t, options: null, image_url: null, puzzle_size: null };
+            const entry = { position: i, question: q, answer: a, question_type: t, options: null, image_url: null, puzzle_size: null, puzzle_level: null };
 
             if (t === 'schuifpuzzel') {
                 const img = (document.getElementById('erImg' + i)?.value || '').trim();
@@ -1588,6 +1595,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 entry.answer = '';
                 entry.image_url = img;
                 entry.puzzle_size = parseInt(document.getElementById('erSize' + i)?.value, 10) === 4 ? 4 : 3;
+                const lvl = parseInt(document.getElementById('erLvl' + i)?.value, 10);
+                entry.puzzle_level = (lvl >= 1 && lvl <= 3) ? lvl : 2;
                 questions.push(entry);
                 continue;
             }

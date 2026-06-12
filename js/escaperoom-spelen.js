@@ -356,7 +356,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // board[cel] = tegel-id; tegel (size-1) is het lege vak (rechtsboven
     // in de opgeloste stand). Husselen met geldige zetten = altijd oplosbaar.
-    function newPuzzleBoard(size) {
+    // Niveau bepaalt het aantal schuifzetten: 1 = 3, 2 = 5, 3 = 8.
+    const PUZZLE_LEVEL_MOVES = { 1: 3, 2: 5, 3: 8 };
+
+    function newPuzzleBoard(size, level) {
         const n = size * size;
         let board, emptyCell;
         do {
@@ -364,7 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let i = 0; i < n; i++) board.push(i);
             emptyCell = size - 1;
             let prev = -1;
-            const moves = size === 4 ? 180 : 90;
+            const moves = PUZZLE_LEVEL_MOVES[level] || PUZZLE_LEVEL_MOVES[2];
             for (let m = 0; m < moves; m++) {
                 const nb = puzzleNeighbors(emptyCell, size).filter(x => x !== prev);
                 const pick = nb[Math.floor(Math.random() * nb.length)];
@@ -392,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function openPuzzle(q, card) {
         const size = q.puzzle_size === 4 ? 4 : 3;
-        if (!puzzles[q.position]) puzzles[q.position] = { size: size, board: newPuzzleBoard(size) };
+        if (!puzzles[q.position]) puzzles[q.position] = { size: size, board: newPuzzleBoard(size, q.puzzle_level || 2) };
         currentPuzzle = { q: q, card: card };
         puzzleTitle.textContent = q.question;
         puzzleStatus.textContent = '';
@@ -806,7 +809,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     .eq('id', roomId)
                     .single(),
                 supabase.from('escaperoom_questions')
-                    .select('id, position, question, answer, question_type, options, image_url, puzzle_size')
+                    .select('id, position, question, answer, question_type, options, image_url, puzzle_size, puzzle_level')
                     .eq('room_id', roomId)
                     .order('position')
             ]);
