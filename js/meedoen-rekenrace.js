@@ -261,22 +261,35 @@
             return;
         }
         current = MTRekenrace.generateSum(blockId);
-        playSum.textContent = current.prompt;
-        // Langere opdrachten (fase 4: maten/breuken/procenten) kleiner tonen.
-        const len = current.prompt.length;
-        playSum.style.fontSize = len > 22 ? '28px' : len > 14 ? '36px' : '54px';
+        if (current.html) {
+            // Grafieken: een mini-staafgrafiek + leesvraag.
+            playSum.innerHTML = current.html;
+            playSum.style.fontSize = '';
+        } else {
+            playSum.textContent = current.prompt;
+            // Langere opdrachten (fase 4: maten/breuken/procenten) kleiner tonen.
+            const len = current.prompt.length;
+            playSum.style.fontSize = len > 22 ? '28px' : len > 14 ? '36px' : '54px';
+        }
         answerInput.value = '';
         answerInput.className = 'md-answer';
         sumShownAt = Date.now();
         answerInput.focus();
     }
 
+    function sanitizeAnswer(v) {
+        v = String(v || '').replace(/[^0-9,]/g, '');
+        const i = v.indexOf(',');
+        if (i !== -1) v = v.slice(0, i + 1) + v.slice(i + 1).replace(/,/g, ''); // max één komma
+        return v;
+    }
+
     function submitAnswer() {
         if (!playing || locking || !current) return;
-        const raw = (answerInput.value || '').trim();
-        if (raw === '') return; // niets ingevuld -> negeer Enter
-        const val = parseInt(raw, 10);
-        const ok = Number.isFinite(val) && val === current.answer;
+        const raw = (answerInput.value || '').trim().replace(',', '.');
+        if (raw === '' || raw === '.') return; // niets ingevuld -> negeer
+        const val = parseFloat(raw);
+        const ok = isFinite(val) && Math.round(val * 1000) === Math.round(current.answer * 1000);
 
         answered++;
         totalMs += Math.max(0, Date.now() - sumShownAt);
@@ -426,9 +439,18 @@
         nameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') doJoin(); });
         answerInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submitAnswer(); } });
         endBackBtn.addEventListener('click', () => { showWall(); });
-        // alleen cijfers (en evt. minteken) toelaten
-        answerInput.addEventListener('input', () => {
-            answerInput.value = answerInput.value.replace(/[^0-9-]/g, '');
+        // alleen cijfers + één komma
+        answerInput.addEventListener('input', () => { answerInput.value = sanitizeAnswer(answerInput.value); });
+        // Knoppenbalk (cijfers, komma, wissen, klaar)
+        const keypad = document.getElementById('mdKeypad');
+        keypad.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            const act = btn.getAttribute('data-act');
+            if (act === 'enter') { submitAnswer(); return; }
+            if (act === 'back') { answerInput.value = sanitizeAnswer(answerInput.value.slice(0, -1)); answerInput.focus(); return; }
+            const key = btn.getAttribute('data-key');
+            if (key != null) { answerInput.value = sanitizeAnswer(answerInput.value + key); answerInput.focus(); }
         });
 
         // Eerder aangemeld in deze sessie? (refresh)

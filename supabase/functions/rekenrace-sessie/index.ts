@@ -47,8 +47,10 @@ const ACTIVE_BLOCKS = new Set([
   '2_opt_hte', '2_opt_te', '2_tafels', '2_delen', '2_aftr_te', '2_aftr_hte',
   // FASE 3
   '3_optellen', '3_aftrekken', '3_vermenigvuldigen', '3_delen',
-  // FASE 4 (Grafieken bewust niet: vraagt een echte grafiek)
-  '4_lengte', '4_inhoud', '4_omtrek', '4_breuken', '4_procenten', '4_komma',
+  // FASE 4
+  '4_lengte', '4_inhoud', '4_omtrek', '4_breuken', '4_procenten', '4_komma', '4_grafieken',
+  // Getalbegrip
+  '1a_gb10', '1a_gb20', '1b_gb100', '2_gb1000', '3_gb10000', '3_gb100000',
 ])
 
 serve(async (req) => {

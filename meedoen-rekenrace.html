@@ -78,6 +78,17 @@
         .md-answer.is-good { border-color: #2ecc71; background: #F0FBF3; }
         .md-answer.is-bad { border-color: #e74c3c; background: #FDF1F0; }
         .md-enter-hint { text-align: center; color: #9A96B8; font-size: 13px; margin-top: 12px; }
+        .md-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+        .md-key {
+            border: none; border-radius: 12px; background: #F1F0FA; color: #2D3436;
+            font-size: 22px; font-weight: 700; padding: 15px 0; cursor: pointer; font-family: inherit;
+            transition: background .12s ease, transform .06s ease; -webkit-user-select: none; user-select: none;
+        }
+        .md-key:hover { background: #E7E5F6; }
+        .md-key:active { transform: translateY(1px); }
+        .md-key-act { background: #FDEBE4; color: #C0392B; font-size: 20px; }
+        .md-key-enter { grid-column: 1 / -1; background: var(--primary); color: #fff; font-size: 18px; }
+        .md-key-enter:hover { background: #5a52d5; }
 
         /* Einde */
         .md-result-grid { display: flex; gap: 12px; margin: 18px 0 6px; }
@@ -163,9 +174,24 @@
                     <span class="md-meter" id="playMeter">2:00</span>
                 </div>
                 <div class="md-sum" id="playSum">5 + 2</div>
-                <input class="md-answer" id="answerInput" type="text" inputmode="numeric" pattern="[0-9-]*"
+                <input class="md-answer" id="answerInput" type="text" inputmode="none" pattern="[0-9,]*"
                        autocomplete="off" autocorrect="off" placeholder="?">
-                <p class="md-enter-hint">Typ je antwoord en druk op <strong>Enter</strong> &crarr;</p>
+                <div class="md-keypad" id="mdKeypad">
+                    <button type="button" class="md-key" data-key="7">7</button>
+                    <button type="button" class="md-key" data-key="8">8</button>
+                    <button type="button" class="md-key" data-key="9">9</button>
+                    <button type="button" class="md-key" data-key="4">4</button>
+                    <button type="button" class="md-key" data-key="5">5</button>
+                    <button type="button" class="md-key" data-key="6">6</button>
+                    <button type="button" class="md-key" data-key="1">1</button>
+                    <button type="button" class="md-key" data-key="2">2</button>
+                    <button type="button" class="md-key" data-key="3">3</button>
+                    <button type="button" class="md-key" data-key=",">,</button>
+                    <button type="button" class="md-key" data-key="0">0</button>
+                    <button type="button" class="md-key md-key-act" data-act="back" aria-label="Wissen">&#9003;</button>
+                    <button type="button" class="md-key md-key-enter" data-act="enter">Klaar &#10003;</button>
+                </div>
+                <p class="md-enter-hint">Tik je antwoord of typ het &mdash; <strong>Enter</strong> of <strong>Klaar</strong> levert in &crarr;</p>
             </section>
 
             <!-- 4. Klaar -->

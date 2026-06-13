@@ -24,7 +24,7 @@
                     { id: '4_lengte', label: 'Lengtematen', kind: 'thema', active: true },
                     { id: '4_inhoud', label: 'Inhoud / Gewicht', kind: 'thema', active: true },
                     { id: '4_omtrek', label: 'Omtrek / Opp.', kind: 'thema', active: true },
-                    { id: '4_grafieken', label: 'Grafieken', kind: 'thema', active: false }
+                    { id: '4_grafieken', label: 'Grafieken', kind: 'thema', active: true }
                 ],
                 [
                     { id: '4_breuken', label: 'Breuken', kind: 'thema', active: true },
@@ -43,8 +43,8 @@
                     { id: '3_aftrekken', label: 'Aftrekken', kind: 'auto', active: true }
                 ],
                 [
-                    { id: '3_gb10000', label: 'Getalbegrip tot 10.000', kind: 'getalbegrip', active: false },
-                    { id: '3_gb100000', label: 'Getalbegrip tot 100.000', kind: 'getalbegrip', active: false }
+                    { id: '3_gb10000', label: 'Getalbegrip tot 10.000', kind: 'getalbegrip', active: true },
+                    { id: '3_gb100000', label: 'Getalbegrip tot 100.000', kind: 'getalbegrip', active: true }
                 ]
             ]
         },
@@ -60,7 +60,7 @@
                     { id: '2_aftr_hte', label: '563 − 230', kind: 'auto', active: true }
                 ],
                 [
-                    { id: '2_gb1000', label: 'Getalbegrip tot 1000', kind: 'getalbegrip', active: false }
+                    { id: '2_gb1000', label: 'Getalbegrip tot 1000', kind: 'getalbegrip', active: true }
                 ]
             ]
         },
@@ -77,7 +77,7 @@
                 [
                     { id: '1b_plus10', label: '+10', kind: 'auto', active: true },
                     { id: '1b_plus1', label: '+1', kind: 'auto', active: true },
-                    { id: '1b_gb100', label: 'Getalbegrip tot 100', kind: 'getalbegrip', active: false },
+                    { id: '1b_gb100', label: 'Getalbegrip tot 100', kind: 'getalbegrip', active: true },
                     { id: '1b_min1', label: '−1', kind: 'auto', active: true },
                     { id: '1b_min10', label: '−10', kind: 'auto', active: true }
                 ]
@@ -96,8 +96,8 @@
                     { id: '1a_aftr_t10', label: '5 − 2', kind: 'auto', active: true }
                 ],
                 [
-                    { id: '1a_gb10', label: 'Getalbegrip tot 10', kind: 'getalbegrip', active: false },
-                    { id: '1a_gb20', label: 'Getalbegrip tot 20', kind: 'getalbegrip', active: false }
+                    { id: '1a_gb10', label: 'Getalbegrip tot 10', kind: 'getalbegrip', active: true },
+                    { id: '1a_gb20', label: 'Getalbegrip tot 20', kind: 'getalbegrip', active: true }
                 ]
             ]
         }
@@ -113,6 +113,60 @@
     const MINUS = '−'; // echte min-teken voor nette weergave
 
     function ri(min, max) { return min + Math.floor(Math.random() * (max - min + 1)); }
+    function fmtNum(n) { try { return n.toLocaleString('nl-NL'); } catch (e) { return String(n); } }
+
+    // Getalbegrip: opvolger/voorganger/tussen/aanvullen (kleine ranges) en
+    // +eenheid / -eenheid / afronden / aanvullen-tot-volgende (grote ranges).
+    function makeGB(max, unit, roundName) {
+        return function () {
+            if (unit < 10) {
+                const t = ri(1, 4);
+                if (t === 1) { const n = ri(0, max - 1); return { prompt: 'Welk getal komt ná ' + n + '?', answer: n + 1 }; }
+                if (t === 2) { const n = ri(1, max); return { prompt: 'Welk getal komt vóór ' + n + '?', answer: n - 1 }; }
+                if (t === 3) { const n = ri(1, max - 1); return { prompt: 'Welk getal zit tussen ' + (n - 1) + ' en ' + (n + 1) + '?', answer: n }; }
+                const n = ri(0, max); return { prompt: n + ' + … = ' + max, answer: max - n };
+            }
+            const t = ri(1, 6);
+            if (t === 1) { const n = ri(0, max - 1); return { prompt: 'Welk getal komt ná ' + fmtNum(n) + '?', answer: n + 1 }; }
+            if (t === 2) { const n = ri(1, max); return { prompt: 'Welk getal komt vóór ' + fmtNum(n) + '?', answer: n - 1 }; }
+            if (t === 3) { const n = ri(unit, max - unit); return { prompt: fmtNum(n) + ' + ' + fmtNum(unit) + ' = ?', answer: n + unit }; }
+            if (t === 4) { const n = ri(unit * 2, max); return { prompt: fmtNum(n) + ' ' + MINUS + ' ' + fmtNum(unit) + ' = ?', answer: n - unit }; }
+            if (t === 5) { const base = ri(1, Math.floor(max / unit) - 1); const n = base * unit + ri(1, unit - 1); return { prompt: 'Rond ' + fmtNum(n) + ' af op ' + roundName + ': ?', answer: Math.round(n / unit) * unit }; }
+            const n = ri(1, max - 1); const next = Math.ceil((n + 1) / unit) * unit;
+            return { prompt: 'Hoeveel erbij van ' + fmtNum(n) + ' tot ' + fmtNum(next) + '?', answer: next - n };
+        };
+    }
+
+    // Grafieken: een mini-staafgrafiek (SVG) + een leesvraag. generateSum geeft
+    // hier een 'html'-veld terug; de speelpagina toont dat i.p.v. platte tekst.
+    function makeGraph() {
+        const labels = ['A', 'B', 'C', 'D'];
+        const colors = ['#6C63FF', '#34C759', '#FF9F40', '#FF7AA8'];
+        const vals = labels.map(() => ri(1, 10));
+        const W = 360, H = 200, padL = 30, padB = 26, padT = 12;
+        const plotH = H - padB - padT, plotW = W - padL - 10;
+        const maxY = 10, unitH = plotH / maxY, gap = plotW / labels.length, bw = gap * 0.55;
+        let g = '';
+        for (let y = 0; y <= maxY; y++) {
+            const yy = padT + plotH - y * unitH;
+            g += '<line x1="' + padL + '" y1="' + yy + '" x2="' + (W - 6) + '" y2="' + yy + '" stroke="#E8E6F4" stroke-width="1"/>';
+            if (y % 2 === 0) g += '<text x="' + (padL - 6) + '" y="' + (yy + 4) + '" font-size="11" fill="#9A96B8" text-anchor="end">' + y + '</text>';
+        }
+        labels.forEach(function (lb, i) {
+            const x = padL + gap * i + (gap - bw) / 2;
+            const bh = vals[i] * unitH, yy = padT + plotH - bh;
+            g += '<rect x="' + x + '" y="' + yy + '" width="' + bw + '" height="' + bh + '" rx="3" fill="' + colors[i] + '"/>';
+            g += '<text x="' + (x + bw / 2) + '" y="' + (padT + plotH + 16) + '" font-size="13" fill="#2D3436" text-anchor="middle" font-weight="700">' + lb + '</text>';
+        });
+        const svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="max-width:360px;height:auto;">' + g + '</svg>';
+        const t = ri(1, 3);
+        let q, ans;
+        if (t === 1) { const i = ri(0, 3); q = 'Hoeveel is staaf ' + labels[i] + '?'; ans = vals[i]; }
+        else if (t === 2) { let i = ri(0, 3), j = ri(0, 3); while (j === i) j = ri(0, 3); q = 'Hoeveel zijn ' + labels[i] + ' en ' + labels[j] + ' samen?'; ans = vals[i] + vals[j]; }
+        else { let i = ri(0, 3), j = ri(0, 3); while (j === i) j = ri(0, 3); if (vals[i] < vals[j]) { const k = i; i = j; j = k; } q = 'Hoeveel meer is ' + labels[i] + ' dan ' + labels[j] + '?'; ans = vals[i] - vals[j]; }
+        const html = '<div style="font-size:18px;font-weight:700;margin-bottom:8px;color:#2D3436;">' + q + '</div>' + svg;
+        return { prompt: q, answer: ans, html: html };
+    }
 
     const GENERATORS = {
         // 5 + 2  -> optellen tot 10
@@ -307,12 +361,26 @@
             const N = base * ri(2, 20);
             return { prompt: pct + '% van ' + N, answer: Math.round(N * pct / 100) };
         },
+        // Kommagetallen -> echte decimale antwoorden (knoppenbalk met komma).
         '4_komma': function () {
-            const type = ri(1, 3);
-            if (type === 1) { const a = ri(1, 9), b = ri(0, 9); return { prompt: a + ',5 + ' + b + ',5', answer: a + b + 1 }; }
-            if (type === 2) { const n = ri(1, 9); return { prompt: '0,' + n + ' × 10', answer: n }; }
-            const e = ri(1, 9) * 2; return { prompt: e + ' × 0,5', answer: e / 2 };
-        }
+            function ft(t) { return Math.floor(t / 10) + ',' + (t % 10); } // tienden -> "2,3"
+            const type = ri(1, 4);
+            if (type === 1) { const a = ri(1, 18), b = ri(1, 18); return { prompt: ft(a) + ' + ' + ft(b), answer: (a + b) / 10 }; }
+            if (type === 2) { const a = ri(6, 30), b = ri(1, a - 1); return { prompt: ft(a) + ' ' + MINUS + ' ' + ft(b), answer: (a - b) / 10 }; }
+            if (type === 3) { const n = ri(1, 9); return { prompt: n + ' × 0,5', answer: n / 2 }; }
+            const a = ri(11, 99); return { prompt: ft(a) + ' × 10', answer: a };
+        },
+
+        // ---------- Getalbegrip ----------
+        '1a_gb10': makeGB(10, 0, ''),
+        '1a_gb20': makeGB(20, 0, ''),
+        '1b_gb100': makeGB(100, 10, 'tientallen'),
+        '2_gb1000': makeGB(1000, 100, 'honderdtallen'),
+        '3_gb10000': makeGB(10000, 1000, 'duizendtallen'),
+        '3_gb100000': makeGB(100000, 10000, 'tienduizendtallen'),
+
+        // ---------- Grafieken ----------
+        '4_grafieken': makeGraph
     };
 
     function generateSum(blockId) {
