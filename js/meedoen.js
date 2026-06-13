@@ -138,6 +138,13 @@
                     '&naam=' + encodeURIComponent(name);
                 return;
             }
+            // Of een rekenrace? Dan door naar de rekenrace-speelpagina.
+            const rr = await callOther('rekenrace-sessie', 'status');
+            if (rr && rr.ok && rr.exists) {
+                window.location.href = 'meedoen-rekenrace?code=' + encodeURIComponent(code) +
+                    '&naam=' + encodeURIComponent(name);
+                return;
+            }
         }
         busy = false; joinBtn.disabled = false; joinBtn.innerHTML = 'Doe mee &rarr;';
 

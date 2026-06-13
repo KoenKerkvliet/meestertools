@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Doe mee met de Rekenrace van je juf of meester.">
+    <meta name="theme-color" content="#6C63FF">
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Rekenrace - Meestertools</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #6C63FF; }
+        html, body { height: 100%; }
+        body {
+            font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+            background: linear-gradient(160deg, #6C63FF 0%, #8B7FFF 50%, #FF7AA8 130%);
+            min-height: 100%; display: flex; align-items: flex-start; justify-content: center;
+            padding: 28px 16px 48px; color: #2D3436;
+        }
+        .md-wrap { width: 100%; max-width: 460px; }
+        .md-brand { text-align: center; color: #fff; font-weight: 800; font-size: 22px; margin-bottom: 18px; }
+        .md-card { background: #fff; border-radius: 22px; padding: 28px 24px 26px; box-shadow: 0 18px 50px rgba(0,0,0,.22); }
+        .md-screen { display: none; }
+        .md-screen.active { display: block; }
+
+        h1 { font-size: 24px; line-height: 1.2; margin-bottom: 8px; }
+        .md-lead { color: #636E72; font-size: 15px; line-height: 1.5; margin-bottom: 22px; }
+
+        label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 7px; }
+        .md-input {
+            width: 100%; border: 2px solid #E3E1F2; border-radius: 14px; padding: 14px 16px;
+            font-size: 17px; font-family: inherit; color: #2D3436; outline: none;
+            transition: border-color .15s ease; -webkit-appearance: none;
+        }
+        .md-input:focus { border-color: var(--primary); }
+        .md-code-input { text-align: center; font-size: 30px; font-weight: 800; letter-spacing: .25em; text-transform: uppercase; }
+        .md-field { margin-bottom: 18px; }
+
+        .md-btn {
+            width: 100%; border: none; border-radius: 14px; cursor: pointer;
+            background: var(--primary); color: #fff; font-size: 18px; font-weight: 700; padding: 16px; font-family: inherit;
+            transition: transform .08s ease, box-shadow .15s ease, opacity .15s ease;
+        }
+        .md-btn:hover:not(:disabled) { box-shadow: 0 8px 22px rgba(108,99,255,.4); }
+        .md-btn:active { transform: translateY(1px); }
+        .md-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+        .md-error { background: #FCE7E7; color: #C0392B; border-radius: 12px; padding: 12px 14px; font-size: 14px; margin-bottom: 16px; display: none; }
+        .md-error.show { display: block; }
+        .md-foot { text-align: center; color: rgba(255,255,255,.85); font-size: 12px; margin-top: 18px; }
+
+        /* Monster + welkom */
+        .md-monster { width: 110px; height: 110px; object-fit: contain; display: block; margin: 0 auto 6px; filter: drop-shadow(0 6px 12px rgba(0,0,0,.18)); }
+        .md-hi { text-align: center; }
+        .md-block-pill {
+            display: inline-block; background: #F4F2FF; color: #5A52D5; font-weight: 800;
+            border-radius: 999px; padding: 8px 18px; font-size: 18px; margin: 6px 0 4px;
+        }
+        .md-spin { text-align: center; color: #8B86A8; font-size: 14px; margin-top: 14px; }
+
+        /* Spel */
+        .md-play-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+        .md-play-who { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; }
+        .md-play-who img { width: 36px; height: 36px; border-radius: 50%; object-fit: contain; background: #F4F2FF; }
+        .md-meter { font-weight: 800; font-size: 18px; color: var(--primary); background: #F4F2FF; border-radius: 999px; padding: 6px 14px; }
+        .md-meter.is-low { color: #C0392B; background: #FCE7E7; }
+        .md-sum {
+            text-align: center; font-size: 54px; font-weight: 800; color: #2D3436;
+            padding: 26px 10px; line-height: 1.1; letter-spacing: .01em;
+        }
+        .md-answer {
+            width: 100%; border: 3px solid #E3E1F2; border-radius: 16px; padding: 16px;
+            font-size: 36px; font-weight: 800; text-align: center; font-family: inherit; color: #2D3436; outline: none;
+        }
+        .md-answer:focus { border-color: var(--primary); }
+        .md-answer.is-good { border-color: #2ecc71; background: #F0FBF3; }
+        .md-answer.is-bad { border-color: #e74c3c; background: #FDF1F0; }
+        .md-enter-hint { text-align: center; color: #9A96B8; font-size: 13px; margin-top: 12px; }
+
+        /* Einde */
+        .md-result-grid { display: flex; gap: 12px; margin: 18px 0 6px; }
+        .md-result {
+            flex: 1; background: #F4F2FF; border-radius: 16px; padding: 16px 10px; text-align: center;
+        }
+        .md-result-big { font-size: 30px; font-weight: 800; color: var(--primary); line-height: 1; }
+        .md-result-label { font-size: 12.5px; color: #636E72; margin-top: 6px; }
+        .md-result.is-acc .md-result-big { color: #1E7B3A; }
+    </style>
+</head>
+<body>
+    <div class="md-wrap">
+        <div class="md-brand"><span>&#129518;</span> Rekenrace</div>
+
+        <div class="md-card">
+            <!-- 1. Aanmelden -->
+            <section class="md-screen active" id="screenJoin">
+                <h1>Doe je mee?</h1>
+                <p class="md-lead">Vul de code in die op het bord staat en je voornaam.</p>
+                <div class="md-error" id="joinError"></div>
+                <div class="md-field">
+                    <label for="codeInput">Code van het bord</label>
+                    <input class="md-input md-code-input" id="codeInput" type="text" inputmode="latin"
+                           autocomplete="off" autocapitalize="characters" maxlength="8" placeholder="ABCDE">
+                </div>
+                <div class="md-field">
+                    <label for="nameInput">Je voornaam</label>
+                    <input class="md-input" id="nameInput" type="text" autocomplete="off" maxlength="30" placeholder="Bijv. Sophie">
+                </div>
+                <button class="md-btn" id="joinBtn">Doe mee &rarr;</button>
+            </section>
+
+            <!-- 2. Welkom / lobby -->
+            <section class="md-screen" id="screenWelcome">
+                <img class="md-monster" id="welcomeMonster" src="" alt="">
+                <div class="md-hi">
+                    <h1 id="welcomeHi">Hoi!</h1>
+                    <p class="md-lead" id="welcomeLead">Klaar voor de rekenrace? Wacht tot de juf of meester start.</p>
+                    <span class="md-block-pill" id="welcomeBlock">5 + 2</span>
+                    <div class="md-spin">Wachten op de start&hellip;</div>
+                </div>
+            </section>
+
+            <!-- 3. Spelen -->
+            <section class="md-screen" id="screenPlay">
+                <div class="md-play-top">
+                    <span class="md-play-who"><img id="playMonster" src="" alt=""><span id="playName">Jij</span></span>
+                    <span class="md-meter" id="playMeter">2:00</span>
+                </div>
+                <div class="md-sum" id="playSum">5 + 2</div>
+                <input class="md-answer" id="answerInput" type="text" inputmode="numeric" pattern="[0-9-]*"
+                       autocomplete="off" autocorrect="off" placeholder="?">
+                <p class="md-enter-hint">Typ je antwoord en druk op <strong>Enter</strong> &crarr;</p>
+            </section>
+
+            <!-- 4. Klaar -->
+            <section class="md-screen" id="screenEnd">
+                <img class="md-monster" id="endMonster" src="" alt="">
+                <div class="md-hi">
+                    <h1 id="endTitle">Goed gedaan!</h1>
+                    <p class="md-lead" id="endLead"></p>
+                </div>
+                <div class="md-result-grid">
+                    <div class="md-result">
+                        <div class="md-result-big" id="endSpeed">—</div>
+                        <div class="md-result-label">sommen per minuut</div>
+                    </div>
+                    <div class="md-result is-acc">
+                        <div class="md-result-big" id="endAcc">—</div>
+                        <div class="md-result-label" id="endAccLabel">goed</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. Afgesloten -->
+            <section class="md-screen" id="screenClosed">
+                <div style="text-align:center;font-size:54px;margin-bottom:10px;">&#128075;</div>
+                <h1 style="text-align:center;">Tot ziens!</h1>
+                <p class="md-lead" style="text-align:center;">De rekenrace is afgelopen. Wat goed dat je hebt meegedaan!</p>
+            </section>
+        </div>
+
+        <p class="md-foot">Meestertools &middot; Rekenrace</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/rekenrace-blocks.js"></script>
+    <script src="js/meedoen-rekenrace.js"></script>
+</body>
+</html>
