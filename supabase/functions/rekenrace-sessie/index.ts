@@ -9,20 +9,30 @@ import { corsHeaders } from '../_shared/cors.ts'
  * functie met de service-role key, net als bij de complimentenmuur. De
  * rekensommen zijn niet geheim (iedereen kan ze uitrekenen), dus die worden
  * client-side gegenereerd én nagekeken voor 0 netwerklatentie. Deze functie
- * doet alleen het "veilige" werk:
+ * doet het "veilige" werk:
  *   - join: voornaam matchen aan de klas + vast monstertje teruggeven
- *   - progress: geaggregeerde stats wegschrijven (live dashboard)
+ *   - progress: geaggregeerde stats wegschrijven (live dashboard) + bij het
+ *               afronden de blijvende rekenmuur van het kind bijwerken
+ *   - mywall: het persoonlijke rekenmuurtje van het kind teruggeven
  *
  * Acties (POST body { action, code, ... }):
- *   - status   { code }                          -> sessiestatus + blok + tijd
- *   - join     { code, name }                    -> deelnemer + match + monster
+ *   - status   { code }
+ *   - join     { code, name }
  *   - progress { code, participantId, answered, correct, totalMs, finished }
+ *   - mywall   { code, participantId }
  */
 
 const NAME_MAX = 30
 const MAX_PARTICIPANTS = 60
 const MONSTER_COUNT = 36
-const ANSWER_CAP = 100000 // bovengrens tegen onzin-waarden
+const ANSWER_CAP = 100000
+
+// Norm voor "beheerst" (groen). Bron van waarheid; client spiegelt dit alleen
+// voor het directe eindscherm-label.
+const NORM_ACCURACY = 90       // % goed
+const NORM_SEC_PER_SUM = 4     // gemiddeld seconden per som
+const MIN_GREEN = 8            // minimaal aantal sommen voor groen
+const MIN_VERDICT = 4          // minder -> geen oordeel (muur ongewijzigd)
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -43,7 +53,7 @@ serve(async (req) => {
 
     const { data: session, error: sErr } = await admin
       .from('rekenrace_sessions')
-      .select('id, group_id, status, block_id, block_label, mode, duration_seconds, target_count, started_at')
+      .select('id, user_id, group_id, status, purpose, block_id, block_label, mode, duration_seconds, target_count, started_at')
       .eq('code', code)
       .maybeSingle()
 
@@ -64,6 +74,7 @@ serve(async (req) => {
     const pub = {
       exists: true,
       status: session.status,
+      purpose: session.purpose || 'race',
       blockId: session.block_id,
       blockLabel: session.block_label,
       mode: session.mode,
@@ -106,18 +117,16 @@ serve(async (req) => {
 
       const monsterMap = assignMonsters(roster || [])
       const norm = normName(name)
-      const match = (roster || []).find((s: any) => normName(s.first_name) === norm) || null
+      const match = (roster || []).find((s) => normName(s.first_name) === norm) || null
 
-      let studentId: string | null = null
+      let studentId = null
       let displayName = titleCase(name)
-      let monster: string
+      let monster
       if (match) {
         studentId = match.id
         displayName = match.first_name || displayName
         monster = monsterPath(monsterMap[match.id] || ((hashStr(match.id) % MONSTER_COUNT) + 1))
       } else {
-        // Geen match: toch een monstertje, op naam-hash. Leerkracht ziet
-        // dit als "niet herkend" (student_id null).
         monster = monsterPath((hashStr(norm) % MONSTER_COUNT) + 1)
       }
 
@@ -140,6 +149,30 @@ serve(async (req) => {
       return json({ ok: true, participantId: p.id, displayName, monster, matched: !!match, ...pub })
     }
 
+    // ---------------- mywall ----------------
+    if (action === 'mywall') {
+      const participantId = String(body?.participantId || '')
+      if (!participantId) return json({ ok: false, error: 'Meld je eerst aan.' }, 400)
+
+      const { data: participant } = await admin
+        .from('rekenrace_participants')
+        .select('id, session_id, student_id')
+        .eq('id', participantId)
+        .maybeSingle()
+
+      if (!participant || participant.session_id !== session.id) {
+        return json({ ok: false, error: 'Meld je opnieuw aan.' }, 403)
+      }
+      if (!participant.student_id) {
+        return json({ ok: true, matched: false, wall: [], ...pub })
+      }
+      const { data: wall } = await admin
+        .from('rekenmuur_mastery')
+        .select('block_id, status, regressed, best_per_min, best_accuracy, last_per_min, last_accuracy, last_answered')
+        .eq('student_id', participant.student_id)
+      return json({ ok: true, matched: true, wall: wall || [], ...pub })
+    }
+
     // ---------------- progress ----------------
     if (action === 'progress') {
       const participantId = String(body?.participantId || '')
@@ -147,7 +180,7 @@ serve(async (req) => {
 
       const { data: participant, error: pvErr } = await admin
         .from('rekenrace_participants')
-        .select('id, session_id, answered_count, correct_count, finished')
+        .select('id, session_id, student_id, answered_count, correct_count, finished')
         .eq('id', participantId)
         .maybeSingle()
 
@@ -155,20 +188,20 @@ serve(async (req) => {
         return json({ ok: false, error: 'Meld je opnieuw aan.' }, 403)
       }
 
-      // Monotoon + geplafonneerd: stats kunnen alleen vooruit, nooit boven cap.
       const answered = clampInt(body?.answered, participant.answered_count || 0, ANSWER_CAP)
       let correct = clampInt(body?.correct, participant.correct_count || 0, ANSWER_CAP)
       if (correct > answered) correct = answered
       const totalMs = clampInt(body?.totalMs, 0, ANSWER_CAP * 60000)
       const finished = !!body?.finished || !!participant.finished
 
-      const patch: Record<string, unknown> = {
+      const patch = {
         answered_count: answered,
         correct_count: correct,
         total_ms: totalMs,
         finished,
       }
-      if (finished && !participant.finished) patch.finished_at = new Date().toISOString()
+      const firstFinish = finished && !participant.finished
+      if (firstFinish) patch.finished_at = new Date().toISOString()
 
       const { error: uErr } = await admin
         .from('rekenrace_participants')
@@ -179,26 +212,88 @@ serve(async (req) => {
         console.error('progress update error:', uErr.message)
         return json({ ok: false, error: 'Opslaan lukte niet.' }, 500)
       }
-      return json({ ok: true, status: session.status, timeUp })
+
+      // Blijvende rekenmuur bijwerken bij de eerste keer afronden van een echte race.
+      let mastery = null
+      if (firstFinish && (session.purpose || 'race') === 'race' && participant.student_id && session.block_id) {
+        const verdict = computeVerdict(answered, correct, totalMs)
+        if (verdict) mastery = await upsertMastery(admin, session, participant.student_id, verdict)
+      }
+      return json({ ok: true, status: session.status, timeUp, mastery })
     }
 
     return json({ ok: false, error: 'Onbekende actie.' }, 400)
   } catch (err) {
     console.error('rekenrace-sessie error:', err)
-    return json({ ok: false, error: (err as Error).message || 'Onbekende fout.' }, 500)
+    return json({ ok: false, error: err.message || 'Onbekende fout.' }, 500)
   }
 })
 
+// ---------- Beheersing (rekenmuur) ----------
+function computeVerdict(answered, correct, totalMs) {
+  if (!answered || answered < MIN_VERDICT) return null
+  const accuracy = Math.round((correct / answered) * 100)
+  const avgSec = totalMs > 0 ? (totalMs / answered / 1000) : 999
+  const perMin = totalMs > 0 ? Math.round(answered / (totalMs / 60000)) : 0
+  const green = answered >= MIN_GREEN && accuracy >= NORM_ACCURACY && avgSec <= NORM_SEC_PER_SUM
+  return { status: green ? 'green' : 'orange', accuracy, perMin, answered }
+}
+
+async function upsertMastery(admin, session, studentId, v) {
+  const { data: existing } = await admin
+    .from('rekenmuur_mastery')
+    .select('status, achieved_at, best_per_min, best_accuracy, attempts')
+    .eq('student_id', studentId)
+    .eq('block_id', session.block_id)
+    .maybeSingle()
+
+  const nowIso = new Date().toISOString()
+  let status, regressed, achievedAt
+  if (existing && existing.status === 'green') {
+    // Sticky-green: blijft groen, maar zet een seintje als deze race terugzakte.
+    status = 'green'
+    regressed = v.status !== 'green'
+    achievedAt = existing.achieved_at
+  } else {
+    status = v.status
+    regressed = false
+    achievedAt = v.status === 'green' ? nowIso : (existing ? existing.achieved_at : null)
+  }
+
+  const row = {
+    user_id: session.user_id,
+    group_id: session.group_id,
+    student_id: studentId,
+    block_id: session.block_id,
+    status,
+    regressed,
+    achieved_at: achievedAt,
+    best_per_min: Math.max(existing ? existing.best_per_min : 0, v.perMin),
+    best_accuracy: Math.max(existing ? existing.best_accuracy : 0, v.accuracy),
+    last_per_min: v.perMin,
+    last_accuracy: v.accuracy,
+    last_answered: v.answered,
+    last_played_at: nowIso,
+    attempts: (existing ? existing.attempts : 0) + 1,
+    updated_at: nowIso,
+  }
+  const { error } = await admin
+    .from('rekenmuur_mastery')
+    .upsert(row, { onConflict: 'student_id,block_id' })
+  if (error) { console.error('mastery upsert error:', error.message); return null }
+  return { blockId: session.block_id, status, regressed }
+}
+
 // ---------- Monstertjes (zelfde algoritme als de tools client-side) ----------
-function hashStr(key: string): number {
+function hashStr(key) {
   let h = 0
   key = String(key || '')
   for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0
   return h
 }
-function assignMonsters(list: Array<{ id: string }>): Record<string, number> {
-  const map: Record<string, number> = {}
-  const used: Record<number, boolean> = {}
+function assignMonsters(list) {
+  const map = {}
+  const used = {}
   ;(list || []).slice().sort((a, b) => {
     const ai = String(a.id), bi = String(b.id)
     return ai < bi ? -1 : ai > bi ? 1 : 0
@@ -210,26 +305,26 @@ function assignMonsters(list: Array<{ id: string }>): Record<string, number> {
   })
   return map
 }
-function monsterPath(n: number): string {
+function monsterPath(n) {
   const nn = n < 10 ? '0' + n : String(n)
   return 'assets/avatars/monsters/monster-' + nn + '.png'
 }
 
 // ---------- Tekst ----------
-function normName(s: unknown): string {
+function normName(s) {
   return String(s == null ? '' : s).trim().toLowerCase()
 }
-function titleCase(s: string): string {
+function titleCase(s) {
   const t = String(s || '').trim()
   return t ? t.charAt(0).toUpperCase() + t.slice(1) : t
 }
-function normalizeCode(raw: unknown): string {
+function normalizeCode(raw) {
   return String(raw || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8)
 }
-function cleanText(raw: unknown, max: number): string {
+function cleanText(raw, max) {
   return String(raw || '').replace(/\s+/g, ' ').trim().slice(0, max)
 }
-function clampInt(raw: unknown, min: number, max: number): number {
+function clampInt(raw, min, max) {
   let n = parseInt(String(raw), 10)
   if (!Number.isFinite(n)) n = min
   if (n < min) n = min
@@ -237,7 +332,7 @@ function clampInt(raw: unknown, min: number, max: number): number {
   return n
 }
 
-function json(body: unknown, status = 200) {
+function json(body, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
     headers: { ...corsHeaders, 'Content-Type': 'application/json' },

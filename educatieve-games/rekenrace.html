@@ -58,6 +58,15 @@
             <!-- Hoofdinhoud -->
             <div id="rrMain" style="display:none;">
 
+                <!-- Sub-navigatie -->
+                <div class="rr-tabs" id="rrTabs">
+                    <button type="button" class="rr-tab is-active" data-tab="race">&#128640; Nieuwe race</button>
+                    <button type="button" class="rr-tab" data-tab="overview">&#129521; Rekenmuren</button>
+                </div>
+
+                <!-- ============ TAB: RACE ============ -->
+                <div id="rrRaceTab">
+
                 <!-- ============ SETUP ============ -->
                 <section id="rrSetup" class="rr-setup">
                     <div class="rr-card">
@@ -166,6 +175,61 @@
                         <div class="rr-dash-empty" id="rrDashEmpty">Nog niemand bezig&hellip;</div>
                     </div>
                 </section>
+
+                </div><!-- /rrRaceTab -->
+
+                <!-- ============ TAB: REKENMUREN ============ -->
+                <div id="rrOverviewTab" style="display:none;">
+                    <div class="rr-over-bar">
+                        <div class="rr-segment" id="rrOverSeg">
+                            <button type="button" class="rr-seg-btn is-active" data-over="kids">&#128106; Per kind</button>
+                            <button type="button" class="rr-seg-btn" data-over="block">&#129521; Per steentje</button>
+                        </div>
+                        <div class="rr-session-actions">
+                            <button class="rr-btn rr-btn-primary" id="rrViewBtn">&#128241; Muur laten bekijken</button>
+                        </div>
+                    </div>
+
+                    <!-- Bekijk-modus: code + QR zodat kinderen hun muur openen -->
+                    <div class="rr-joinbox" id="rrViewBox" style="display:none;">
+                        <div class="rr-joinbox-left">
+                            <p class="rr-join-lead">Ga op je device naar</p>
+                            <p class="rr-join-url" id="rrViewUrl">meestertools.nl/meedoen</p>
+                            <p class="rr-join-lead">en vul de code in om je eigen muurtje te zien:</p>
+                            <div class="rr-code-big" id="rrViewCode">&middot;&middot;&middot;&middot;&middot;</div>
+                            <button class="rr-btn rr-btn-danger-soft" id="rrViewStopBtn" style="margin-top:14px;">Stop bekijken</button>
+                        </div>
+                        <div class="rr-joinbox-right">
+                            <div class="rr-qr" id="rrViewQr"></div>
+                            <span class="rr-qr-hint">of scan de QR-code</span>
+                        </div>
+                    </div>
+
+                    <!-- Per kind -->
+                    <div id="rrOverKidsWrap">
+                        <div class="rr-over-kids" id="rrOverKids"></div>
+                        <div class="rr-over-empty" id="rrOverKidsEmpty" style="display:none;">Nog geen resultaten. Speel eerst een race; daarna kleuren de steentjes van de kinderen in.</div>
+                    </div>
+
+                    <!-- Per steentje -->
+                    <div id="rrOverBlockWrap" style="display:none;">
+                        <div class="rr-over-blocksel" id="rrOverBlockSel"></div>
+                        <div class="rr-over-cols">
+                            <div class="rr-over-col">
+                                <h4>&#129001; Beheerst <span class="rr-count rr-count-green" id="rrColGreenCount">0</span></h4>
+                                <div class="rr-over-names" id="rrColGreen"></div>
+                            </div>
+                            <div class="rr-over-col">
+                                <h4>&#128992; Oefenen <span class="rr-count" id="rrColOrangeCount">0</span></h4>
+                                <div class="rr-over-names" id="rrColOrange"></div>
+                            </div>
+                            <div class="rr-over-col">
+                                <h4>&#11036; Nog niet <span class="rr-count" id="rrColNoneCount">0</span></h4>
+                                <div class="rr-over-names" id="rrColNone"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

@@ -27,6 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let channel = null;
     let timerInt = null;
 
+    // overzicht / rekenmuren
+    let overTab = 'kids';
+    let overBlockId = '';
+    let masteryByStudent = {};   // { student_id: { block_id: {status, regressed, ...} } }
+    let masteryChannel = null;
+    let viewSession = null;      // bekijk-modus sessie (purpose='view')
+
     // ---------- DOM ----------
     const groupSelect = document.getElementById('rrGroupSelect');
     const noGroup = document.getElementById('rrNoGroup');
@@ -70,6 +77,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const rankEl = document.getElementById('rrRank');
     const dashEmpty = document.getElementById('rrDashEmpty');
 
+    // overzicht
+    const tabsEl = document.getElementById('rrTabs');
+    const raceTab = document.getElementById('rrRaceTab');
+    const overviewTab = document.getElementById('rrOverviewTab');
+    const overSeg = document.getElementById('rrOverSeg');
+    const overKidsWrap = document.getElementById('rrOverKidsWrap');
+    const overKids = document.getElementById('rrOverKids');
+    const overKidsEmpty = document.getElementById('rrOverKidsEmpty');
+    const overBlockWrap = document.getElementById('rrOverBlockWrap');
+    const overBlockSel = document.getElementById('rrOverBlockSel');
+    const colGreen = document.getElementById('rrColGreen');
+    const colOrange = document.getElementById('rrColOrange');
+    const colNone = document.getElementById('rrColNone');
+    const colGreenCount = document.getElementById('rrColGreenCount');
+    const colOrangeCount = document.getElementById('rrColOrangeCount');
+    const colNoneCount = document.getElementById('rrColNoneCount');
+
+    const viewBtn = document.getElementById('rrViewBtn');
+    const viewBox = document.getElementById('rrViewBox');
+    const viewUrl = document.getElementById('rrViewUrl');
+    const viewCode = document.getElementById('rrViewCode');
+    const viewQr = document.getElementById('rrViewQr');
+    const viewStopBtn = document.getElementById('rrViewStopBtn');
+
     // ---------- Helpers ----------
     function escapeHtml(str) {
         const d = document.createElement('div');
@@ -104,6 +135,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return null;
     }
+    function playableBlocks() {
+        const out = [];
+        (window.MT_REKENRACE_BLOCKS || []).forEach(f => f.rows.forEach(r => r.forEach(c => { if (c.active) out.push(c); })));
+        return out;
+    }
+    // Monstertjes — zelfde algoritme als de andere tools (uniek binnen de klas).
+    const MONSTER_COUNT = 36;
+    let monsterByStudentId = {};
+    function hashStr(key) {
+        let h = 0; key = String(key || '');
+        for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+        return h;
+    }
+    function assignMonsters(list) {
+        const map = {}, used = {};
+        (list || []).slice().sort((a, b) => {
+            const ai = String(a.id), bi = String(b.id);
+            return ai < bi ? -1 : ai > bi ? 1 : 0;
+        }).forEach(s => {
+            let n = hashStr(s.id) % MONSTER_COUNT, tries = 0;
+            while (used[n] && tries < MONSTER_COUNT) { n = (n + 1) % MONSTER_COUNT; tries++; }
+            used[n] = true; map[s.id] = n + 1;
+        });
+        return map;
+    }
+    function monsterForStudent(s) {
+        const id = (s && s.id) || '';
+        const n = monsterByStudentId[id] || ((hashStr(id) % MONSTER_COUNT) + 1);
+        return 'assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.png';
+    }
 
     // ---------- Data loading ----------
     async function loadGroups() {
@@ -119,12 +180,13 @@ document.addEventListener('DOMContentLoaded', () => {
             .from('students').select('id, first_name, last_name, student_number')
             .eq('group_id', selectedGroupId).eq('archived', false).order('student_number');
         students = data || [];
+        monsterByStudentId = assignMonsters(students);
     }
     async function loadOpenSession() {
         session = null;
         const { data } = await supabase
             .from('rekenrace_sessions').select('*')
-            .eq('group_id', selectedGroupId).in('status', ['lobby', 'playing'])
+            .eq('group_id', selectedGroupId).eq('purpose', 'race').in('status', ['lobby', 'playing'])
             .order('created_at', { ascending: false }).limit(1).maybeSingle();
         session = data || null;
     }
@@ -405,10 +467,136 @@ document.addEventListener('DOMContentLoaded', () => {
         timerInt = setInterval(tick, 500);
     }
 
+    // ---------- Klasoverzicht (rekenmuren) ----------
+    async function loadMastery() {
+        masteryByStudent = {};
+        if (!selectedGroupId) return;
+        const { data } = await supabase
+            .from('rekenmuur_mastery')
+            .select('student_id, block_id, status, regressed, best_per_min, best_accuracy, last_per_min, last_accuracy, last_answered')
+            .eq('group_id', selectedGroupId);
+        (data || []).forEach(r => {
+            (masteryByStudent[r.student_id] = masteryByStudent[r.student_id] || {})[r.block_id] = {
+                status: r.status, regressed: r.regressed,
+                best_per_min: r.best_per_min, best_accuracy: r.best_accuracy,
+                last_per_min: r.last_per_min, last_accuracy: r.last_accuracy, last_answered: r.last_answered
+            };
+        });
+    }
+    function detachMasteryRealtime() {
+        if (masteryChannel) { try { supabase.removeChannel(masteryChannel); } catch (e) {} masteryChannel = null; }
+    }
+    function attachMasteryRealtime() {
+        detachMasteryRealtime();
+        if (!selectedGroupId) return;
+        masteryChannel = supabase.channel('rrm-' + selectedGroupId)
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'rekenmuur_mastery', filter: 'group_id=eq.' + selectedGroupId },
+                async () => { await loadMastery(); renderOverview(); })
+            .subscribe();
+    }
+    async function switchTab(tab) {
+        tabsEl.querySelectorAll('.rr-tab').forEach(b => b.classList.toggle('is-active', b.getAttribute('data-tab') === tab));
+        raceTab.style.display = tab === 'race' ? '' : 'none';
+        overviewTab.style.display = tab === 'overview' ? '' : 'none';
+        if (tab === 'overview') { await loadMastery(); attachMasteryRealtime(); renderOverview(); }
+        else detachMasteryRealtime();
+    }
+    function renderOverview() {
+        overKidsWrap.style.display = overTab === 'kids' ? '' : 'none';
+        overBlockWrap.style.display = overTab === 'block' ? '' : 'none';
+        if (overTab === 'kids') renderOverKids(); else renderOverBlock();
+    }
+    function renderOverKids() {
+        if (!students.length) {
+            overKids.innerHTML = '';
+            overKidsEmpty.textContent = 'Deze klas heeft nog geen leerlingen. Voeg ze toe via Instellingen → Mijn klas.';
+            overKidsEmpty.style.display = '';
+            return;
+        }
+        const anyMastery = Object.keys(masteryByStudent).length > 0;
+        overKidsEmpty.textContent = 'Nog geen resultaten. Speel eerst een race; daarna kleuren de steentjes van de kinderen in.';
+        overKidsEmpty.style.display = anyMastery ? 'none' : '';
+        overKids.innerHTML = students.map(s => {
+            const map = masteryByStudent[s.id] || {};
+            const greenN = Object.keys(map).filter(k => map[k].status === 'green').length;
+            return '<div class="rr-kid-card">' +
+                '<div class="rr-kid-head">' +
+                    '<img src="' + BASE + monsterForStudent(s) + '" alt="">' +
+                    '<span class="rr-kid-name">' + escapeHtml(s.first_name || '?') + '</span>' +
+                    '<span class="rr-kid-sub">' + greenN + ' groen</span>' +
+                '</div>' +
+                '<div class="rr-wall rr-wall-mini">' + MTRekenrace.wallHtml(map, { hideFaseLabel: true }) + '</div>' +
+            '</div>';
+        }).join('');
+    }
+    function renderOverBlock() {
+        const blocks = playableBlocks();
+        if (!overBlockId && blocks.length) overBlockId = blocks[0].id;
+        overBlockSel.innerHTML = blocks.map(c =>
+            '<button type="button" class="rr-over-blockbtn' + (c.id === overBlockId ? ' is-active' : '') + '" data-block="' + c.id + '">' +
+            escapeHtml(c.label) + '</button>').join('');
+
+        const green = [], orange = [], none = [];
+        students.forEach(s => {
+            const v = (masteryByStudent[s.id] || {})[overBlockId];
+            if (v && v.status === 'green') green.push({ s, v });
+            else if (v && v.status === 'orange') orange.push({ s, v });
+            else none.push({ s, v: null });
+        });
+        function pills(arr) {
+            if (!arr.length) return '<span class="rr-over-empty">Niemand</span>';
+            return arr.map(o => '<span class="rr-name-pill">' +
+                '<img src="' + BASE + monsterForStudent(o.s) + '" alt="">' +
+                escapeHtml(o.s.first_name || '?') +
+                (o.v && o.v.regressed ? ' <span class="rr-name-flag" title="Laatste keer minder">!</span>' : '') +
+                '</span>').join('');
+        }
+        colGreen.innerHTML = pills(green); colOrange.innerHTML = pills(orange); colNone.innerHTML = pills(none);
+        colGreenCount.textContent = green.length; colOrangeCount.textContent = orange.length; colNoneCount.textContent = none.length;
+    }
+
+    // ---------- Bekijk-modus (kind ziet eigen muur op device) ----------
+    async function startViewSession() {
+        let created = null, lastErr = null;
+        for (let attempt = 0; attempt < 6 && !created; attempt++) {
+            const { data, error } = await supabase.from('rekenrace_sessions').insert({
+                user_id: currentUser.id, group_id: selectedGroupId, code: genCode(5),
+                block_id: '', block_label: '', mode: 'tijd', status: 'lobby', purpose: 'view'
+            }).select().single();
+            if (!error) { created = data; break; }
+            lastErr = error;
+            if (error.code !== '23505') break;
+        }
+        if (!created) { console.error('view session error:', lastErr); toast('Bekijk-modus starten lukte niet.'); return; }
+        viewSession = created;
+        const url = location.origin + '/meedoen?code=' + viewSession.code;
+        viewUrl.textContent = location.host + '/meedoen';
+        viewCode.textContent = viewSession.code;
+        viewQr.innerHTML = '';
+        if (typeof qrcode !== 'undefined') {
+            try { const qr = qrcode(0, 'M'); qr.addData(url); qr.make(); viewQr.innerHTML = qr.createImgTag(5, 8); } catch (e) {}
+        }
+        viewBox.style.display = '';
+        viewBtn.style.display = 'none';
+    }
+    async function stopViewSession() {
+        if (viewSession) {
+            try { await supabase.from('rekenrace_sessions').update({ status: 'closed', closed_at: new Date().toISOString() }).eq('id', viewSession.id); } catch (e) {}
+            viewSession = null;
+        }
+        viewBox.style.display = 'none';
+        viewBtn.style.display = '';
+    }
+
     // ---------- Klaswissel ----------
     async function onGroupChange() {
         detachRealtime(); stopTimer();
+        detachMasteryRealtime();
+        if (viewSession) await stopViewSession();
         session = null; participants = []; selectedBlockId = '';
+        // terug naar de race-tab bij een klaswissel
+        tabsEl.querySelectorAll('.rr-tab').forEach(b => b.classList.toggle('is-active', b.getAttribute('data-tab') === 'race'));
+        raceTab.style.display = ''; overviewTab.style.display = 'none';
 
         if (!selectedGroupId) {
             noGroup.style.display = '';
@@ -473,6 +661,25 @@ document.addEventListener('DOMContentLoaded', () => {
             cfg.targetCount = parseInt(btn.getAttribute('data-count'), 10);
             countChips.querySelectorAll('.rr-choice').forEach(b => b.classList.toggle('is-active', b === btn));
         });
+        tabsEl.addEventListener('click', (e) => {
+            const btn = e.target.closest('.rr-tab');
+            if (btn) switchTab(btn.getAttribute('data-tab'));
+        });
+        overSeg.addEventListener('click', (e) => {
+            const btn = e.target.closest('.rr-seg-btn');
+            if (!btn) return;
+            overTab = btn.getAttribute('data-over');
+            overSeg.querySelectorAll('.rr-seg-btn').forEach(b => b.classList.toggle('is-active', b === btn));
+            renderOverview();
+        });
+        overBlockSel.addEventListener('click', (e) => {
+            const btn = e.target.closest('.rr-over-blockbtn');
+            if (!btn) return;
+            overBlockId = btn.getAttribute('data-block');
+            renderOverBlock();
+        });
+        viewBtn.addEventListener('click', startViewSession);
+        viewStopBtn.addEventListener('click', stopViewSession);
         startSessionBtn.addEventListener('click', createSession);
         startRaceBtn.addEventListener('click', startRace);
         closeBtn.addEventListener('click', closeSession);

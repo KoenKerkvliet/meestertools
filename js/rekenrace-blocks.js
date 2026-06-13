@@ -168,11 +168,64 @@
         return gen();
     }
 
+    // ---------- Beheersings-norm (spiegelt de Edge Function) ----------
+    // Bron van waarheid is de Edge Function; dit is alleen voor het directe
+    // eindscherm-label. De echte muur komt altijd van 'mywall'.
+    const NORM = { accuracy: 90, secPerSum: 4, minGreen: 8, minVerdict: 4 };
+    function verdictFor(s) {
+        const a = (s && s.answered) || 0;
+        if (a < NORM.minVerdict) return null;
+        const acc = Math.round(((s.correct || 0) / a) * 100);
+        const avgSec = s.totalMs > 0 ? (s.totalMs / a / 1000) : 999;
+        const green = a >= NORM.minGreen && acc >= NORM.accuracy && avgSec <= NORM.secPerSum;
+        return { status: green ? 'green' : 'orange', accuracy: acc };
+    }
+
+    // ---------- Gedeelde wall-renderer (read-only, ingekleurd) ----------
+    // statusByBlockId: { blockId: { status:'green'|'orange', regressed:bool } } (of 'green'/'orange' string)
+    // opts: { highlight: blockId, hideFaseLabel: bool }
+    function wallHtml(statusByBlockId, opts) {
+        opts = opts || {};
+        const map = statusByBlockId || {};
+        function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+        function entry(id) {
+            const v = map[id];
+            if (!v) return null;
+            return typeof v === 'string' ? { status: v, regressed: false } : v;
+        }
+        return BLOCKS.map(function (f) {
+            const rows = f.rows.map(function (row) {
+                return '<div class="rr-wall-row">' + row.map(function (c) {
+                    const cls = ['rr-cell', 'rr-cell-' + c.kind, 'rr-cell-view'];
+                    if (c.active) {
+                        const e = entry(c.id);
+                        if (e && e.status === 'green') cls.push('is-green');
+                        else if (e && e.status === 'orange') cls.push('is-orange');
+                        else cls.push('is-grey');
+                        if (e && e.regressed) cls.push('is-regressed');
+                    } else {
+                        cls.push('is-locked');
+                    }
+                    if (opts.highlight && c.id === opts.highlight) cls.push('is-highlight');
+                    const seintje = (c.active && entry(c.id) && entry(c.id).regressed)
+                        ? '<span class="rr-cell-flag" title="Laatste keer minder">!</span>' : '';
+                    return '<div class="' + cls.join(' ') + '">' +
+                        '<span class="rr-cell-label">' + esc(c.label) + '</span>' + seintje + '</div>';
+                }).join('') + '</div>';
+            }).join('');
+            const lbl = opts.hideFaseLabel ? '' : '<div class="rr-fase-label">' + esc(f.label) + '</div>';
+            return '<div class="rr-fase">' + lbl + '<div class="rr-fase-rows">' + rows + '</div></div>';
+        }).join('');
+    }
+
     window.MT_REKENRACE_BLOCKS = BLOCKS;
     window.MTRekenrace = {
         blocks: BLOCKS,
         getBlock: getBlock,
         generateSum: generateSum,
-        hasGenerator: function (id) { return !!GENERATORS[id]; }
+        hasGenerator: function (id) { return !!GENERATORS[id]; },
+        NORM: NORM,
+        verdictFor: verdictFor,
+        wallHtml: wallHtml
     };
 })();

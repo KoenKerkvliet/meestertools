@@ -86,6 +86,37 @@
         .md-result-big { font-size: 30px; font-weight: 800; color: var(--primary); line-height: 1; }
         .md-result-label { font-size: 12.5px; color: #636E72; margin-top: 6px; }
         .md-result.is-acc .md-result-big { color: #1E7B3A; }
+
+        /* Mini-rekenmuur (eindscherm + bekijk-modus) */
+        .md-wall-title { text-align: center; font-size: 15px; font-weight: 700; color: #4A4470; margin: 20px 0 10px; }
+        .md-wall { display: flex; flex-direction: column; gap: 5px; }
+        .md-wall .rr-fase { display: flex; gap: 5px; align-items: stretch; }
+        .md-wall .rr-fase-label {
+            flex-shrink: 0; width: 38px; border-radius: 8px; background: #F08C1E; color: #fff;
+            font-weight: 800; font-size: 9px; display: flex; align-items: center; justify-content: center; text-align: center;
+        }
+        .md-wall .rr-fase-rows { flex: 1; display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+        .md-wall .rr-wall-row { display: flex; gap: 5px; }
+        .md-wall .rr-cell {
+            flex: 1; min-width: 0; min-height: 34px; border-radius: 8px; border: 2px solid transparent;
+            display: flex; align-items: center; justify-content: center; position: relative;
+            font-size: 11px; font-weight: 700; padding: 3px 4px; text-align: center; line-height: 1.05;
+            background: #fff; color: #8a8aa0;
+        }
+        .md-wall .rr-cell.is-locked { background: #F3F2FA; color: #C2C0D4; }
+        .md-wall .rr-cell.is-grey { background: #EFEEF6; color: #9A96B8; border-color: #E2E0EE; }
+        .md-wall .rr-cell.is-green { background: #34C759; color: #fff; border-color: #28a347; }
+        .md-wall .rr-cell.is-orange { background: #FF9F40; color: #fff; border-color: #e98b2c; }
+        .md-wall .rr-cell.is-highlight { box-shadow: 0 0 0 3px #6C63FF; }
+        .md-wall .rr-cell-flag {
+            position: absolute; top: -5px; right: -5px; width: 16px; height: 16px; border-radius: 50%;
+            background: #fff; color: #e98b2c; border: 1.5px solid #e98b2c;
+            font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center;
+        }
+        .md-wall-legend { display: flex; justify-content: center; gap: 14px; margin-top: 12px; font-size: 12px; color: #636E72; }
+        .md-wall-legend span { display: inline-flex; align-items: center; gap: 5px; }
+        .md-wall-legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+        .md-leg-green i { background: #34C759; } .md-leg-orange i { background: #FF9F40; } .md-leg-grey i { background: #EFEEF6; border: 1px solid #E2E0EE; }
     </style>
 </head>
 <body>
@@ -150,6 +181,31 @@
                         <div class="md-result-label" id="endAccLabel">goed</div>
                     </div>
                 </div>
+                <div id="endWallWrap" style="display:none;">
+                    <div class="md-wall-title" id="endWallTitle">Jouw rekenmuurtje</div>
+                    <div class="md-wall" id="endWall"></div>
+                    <div class="md-wall-legend">
+                        <span class="md-leg-green"><i></i> beheers je</span>
+                        <span class="md-leg-orange"><i></i> oefenen</span>
+                        <span class="md-leg-grey"><i></i> nog niet</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bekijk-modus: alleen de muur -->
+            <section class="md-screen" id="screenWall">
+                <img class="md-monster" id="wallMonster" src="" alt="">
+                <div class="md-hi">
+                    <h1 id="wallTitle">Jouw rekenmuurtje</h1>
+                    <p class="md-lead" id="wallLead">Dit zijn de steentjes die je al beheerst.</p>
+                </div>
+                <div class="md-wall" id="viewWall"></div>
+                <div class="md-wall-legend">
+                    <span class="md-leg-green"><i></i> beheers je</span>
+                    <span class="md-leg-orange"><i></i> oefenen</span>
+                    <span class="md-leg-grey"><i></i> nog niet</span>
+                </div>
+                <div class="md-error" id="wallError" style="margin-top:16px;"></div>
             </section>
 
             <!-- 5. Afgesloten -->

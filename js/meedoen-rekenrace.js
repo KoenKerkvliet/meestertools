@@ -24,6 +24,7 @@
     let busy = false;
 
     // sessie-config
+    let purpose = 'race';
     let blockId = '';
     let blockLabel = '';
     let mode = 'tijd';
@@ -50,6 +51,7 @@
         welcome: document.getElementById('screenWelcome'),
         play: document.getElementById('screenPlay'),
         end: document.getElementById('screenEnd'),
+        wall: document.getElementById('screenWall'),
         closed: document.getElementById('screenClosed')
     };
     const codeInput = document.getElementById('codeInput');
@@ -73,6 +75,15 @@
     const endSpeed = document.getElementById('endSpeed');
     const endAcc = document.getElementById('endAcc');
     const endAccLabel = document.getElementById('endAccLabel');
+    const endWallWrap = document.getElementById('endWallWrap');
+    const endWall = document.getElementById('endWall');
+    const endWallTitle = document.getElementById('endWallTitle');
+
+    const wallMonster = document.getElementById('wallMonster');
+    const wallTitle = document.getElementById('wallTitle');
+    const wallLead = document.getElementById('wallLead');
+    const viewWall = document.getElementById('viewWall');
+    const wallError = document.getElementById('wallError');
 
     const STORE_KEY = 'mt_meedoen_rekenrace';
 
@@ -105,6 +116,7 @@
 
     function applyPub(res) {
         if (!res) return;
+        if (res.purpose) purpose = res.purpose;
         if (res.blockId) blockId = res.blockId;
         if (res.blockLabel != null) blockLabel = res.blockLabel;
         if (res.mode) mode = res.mode;
@@ -116,14 +128,16 @@
 
     // ---------- Routing op status ----------
     function routeByStatus(st) {
-        const prev = status;
         status = st;
         if (st === 'closed') {
             stopPolling();
             if (playing) { endGame(true); }
+            else if (purpose === 'view') showScreen('closed');
             else showScreen('closed');
             return;
         }
+        // Bekijk-modus: geen race, meteen het eigen muurtje tonen.
+        if (purpose === 'view') { showWall(); return; }
         if (st === 'playing') {
             if (!playing) startGame();
             return;
@@ -131,6 +145,28 @@
         // lobby
         renderWelcome();
         showScreen('welcome');
+    }
+
+    // ---------- Rekenmuur (gedeelde renderer) ----------
+    function wallMap(wallArr) {
+        const m = {};
+        (wallArr || []).forEach(w => { m[w.block_id] = { status: w.status, regressed: w.regressed }; });
+        return m;
+    }
+    async function showWall() {
+        wallMonster.src = monsterUrl(monster);
+        wallTitle.textContent = (displayName || name) ? ('Rekenmuurtje van ' + (displayName || name)) : 'Jouw rekenmuurtje';
+        wallError.classList.remove('show');
+        showScreen('wall');
+        const res = await call('mywall', { participantId });
+        if (!res || !res.ok) { wallError.textContent = 'Kon je muurtje niet laden.'; wallError.classList.add('show'); return; }
+        if (!res.matched) {
+            viewWall.innerHTML = '';
+            wallLead.textContent = 'We konden je naam niet koppelen aan de klas, dus er is nog geen muurtje.';
+            return;
+        }
+        wallLead.textContent = 'Groen = beheers je al, oranje = blijven oefenen.';
+        viewWall.innerHTML = MTRekenrace.wallHtml(wallMap(res.wall), {});
     }
 
     function renderWelcome() {
@@ -277,14 +313,22 @@
         call('progress', { participantId, answered, correct, totalMs, finished: !!finished });
     }
 
-    function endGame(closedByTeacher) {
+    async function endGame(closedByTeacher) {
         if (!playing) {
             if (closedByTeacher) showScreen('closed');
             return;
         }
         playing = false;
         stopGameTimer();
-        maybePushProgress(true);
+
+        // Laatste voortgang afwachten zodat de muur server-side bijgewerkt is
+        // vóór we 'mywall' opvragen. Geeft ook het oordeel voor deze race terug.
+        let mastery = null;
+        try {
+            const r = await call('progress', { participantId, answered, correct, totalMs, finished: true });
+            if (r && r.ok) mastery = r.mastery || null;
+        } catch (e) {}
+        lastPushAnswered = answered;
 
         const minutes = totalMs > 0 ? (totalMs / 60000) : 0;
         const perMin = (answered > 0 && minutes > 0) ? Math.round(answered / minutes) : 0;
@@ -299,6 +343,25 @@
         endAcc.textContent = correct + '/' + answered;
         endAccLabel.textContent = pct + '% goed';
         showScreen('end');
+
+        renderEndWall(mastery);
+    }
+
+    async function renderEndWall(mastery) {
+        endWallWrap.style.display = 'none';
+        const res = await call('mywall', { participantId });
+        if (!res || !res.ok || !res.matched) return;
+        endWall.innerHTML = MTRekenrace.wallHtml(wallMap(res.wall), { highlight: blockId });
+        let t = 'Jouw rekenmuurtje';
+        if (mastery) {
+            if (mastery.status === 'green') {
+                t = mastery.regressed ? 'Nog steeds groen — blijf oefenen 🟢' : 'Je steentje werd groen! 🟢';
+            } else {
+                t = 'Lekker geoefend — blijf oefenen 🟠';
+            }
+        }
+        endWallTitle.textContent = t;
+        endWallWrap.style.display = '';
     }
 
     function praise(pct, n) {

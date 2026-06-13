@@ -190,6 +190,63 @@
 .rr-rank-stat small { font-size: 11px; color: var(--text-medium); text-transform: uppercase; letter-spacing: .03em; }
 .rr-rank-stat-bad strong { color: #C0392B; }
 
+/* ---------- Sub-navigatie (race / rekenmuren) ---------- */
+.rr-tabs { display: inline-flex; background: var(--bg-light, #F1F0FA); border-radius: 999px; padding: 4px; gap: 4px; margin-bottom: 22px; }
+.rr-tab {
+    border: none; background: transparent; cursor: pointer; border-radius: 999px;
+    padding: 10px 22px; font-size: 15px; font-weight: 700; color: var(--text-medium); font-family: inherit;
+}
+.rr-tab.is-active { background: #fff; color: var(--text-dark); box-shadow: 0 2px 6px rgba(0,0,0,.1); }
+
+/* ---------- Klasoverzicht ---------- */
+.rr-over-bar { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+.rr-over-bar .rr-session-actions { margin-left: auto; }
+
+/* Ingekleurde (read-only) steentjes — gedeelde wallHtml-output */
+.rr-cell-view { cursor: default; box-shadow: none; color: var(--text-medium); background: #fff; border-color: #E6E4F2; }
+.rr-cell-view.is-locked { opacity: .5; }
+.rr-cell-view.is-grey { background: #EFEEF6; color: #9A96B8; border-color: #E2E0EE; }
+.rr-cell-view.is-green { background: #34C759; color: #fff; border-color: #28a347; }
+.rr-cell-view.is-orange { background: #FF9F40; color: #fff; border-color: #e98b2c; }
+.rr-cell-view.is-highlight { box-shadow: 0 0 0 3px var(--primary, #6C63FF); }
+.rr-cell-flag {
+    position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; border-radius: 50%;
+    background: #fff; color: #e98b2c; border: 2px solid #e98b2c; font-size: 12px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+}
+
+/* Compacte muur (per-kind kaarten) */
+.rr-wall-mini { gap: 4px; }
+.rr-wall-mini .rr-fase { gap: 4px; }
+.rr-wall-mini .rr-fase-rows { gap: 4px; }
+.rr-wall-mini .rr-wall-row { gap: 4px; }
+.rr-wall-mini .rr-cell { min-height: 26px; font-size: 10px; padding: 2px 3px; border-width: 1.5px; border-radius: 7px; }
+
+.rr-over-kids { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.rr-kid-card { background: var(--bg-white, #fff); border: 1px solid #ECEAF6; border-radius: 14px; box-shadow: var(--shadow-sm); padding: 14px; }
+.rr-kid-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.rr-kid-head img { width: 34px; height: 34px; border-radius: 50%; object-fit: contain; background: #F4F2FF; }
+.rr-kid-name { font-size: 15px; font-weight: 700; color: var(--text-dark); }
+.rr-kid-sub { font-size: 12px; color: var(--text-medium); margin-left: auto; }
+
+/* Per steentje */
+.rr-over-blocksel { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.rr-over-blockbtn {
+    border: 1px solid var(--border, #E8E8F0); background: #fff; cursor: pointer;
+    border-radius: 999px; padding: 8px 16px; font-size: 14px; font-weight: 700; color: var(--text-dark); font-family: inherit;
+}
+.rr-over-blockbtn.is-active { background: var(--primary, #6C63FF); border-color: var(--primary, #6C63FF); color: #fff; }
+.rr-over-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.rr-over-col { background: var(--bg-light, #F7F6FC); border-radius: 14px; padding: 14px; }
+.rr-over-col h4 { margin: 0 0 10px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+.rr-over-names { display: flex; flex-wrap: wrap; gap: 8px; }
+.rr-name-pill { display: inline-flex; align-items: center; gap: 7px; background: #fff; border-radius: 999px; padding: 5px 12px 5px 5px; font-size: 14px; font-weight: 600; color: var(--text-dark); }
+.rr-name-pill img { width: 26px; height: 26px; border-radius: 50%; object-fit: contain; background: #F4F2FF; }
+.rr-name-pill .rr-name-flag { color: #e98b2c; font-weight: 800; }
+.rr-over-empty { color: var(--text-medium); font-size: 13px; }
+
+@media (max-width: 640px) { .rr-over-cols { grid-template-columns: 1fr; } }
+
 @media (max-width: 560px) {
     .rr-fase-label { width: 54px; font-size: 11px; }
     .rr-cell { font-size: 13px; min-height: 46px; }
