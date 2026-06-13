@@ -21,15 +21,15 @@
             fase: '4', label: 'FASE 4',
             rows: [
                 [
-                    { id: '4_lengte', label: 'Lengtematen', kind: 'thema', active: false },
-                    { id: '4_inhoud', label: 'Inhoud / Gewicht', kind: 'thema', active: false },
-                    { id: '4_omtrek', label: 'Omtrek / Opp.', kind: 'thema', active: false },
+                    { id: '4_lengte', label: 'Lengtematen', kind: 'thema', active: true },
+                    { id: '4_inhoud', label: 'Inhoud / Gewicht', kind: 'thema', active: true },
+                    { id: '4_omtrek', label: 'Omtrek / Opp.', kind: 'thema', active: true },
                     { id: '4_grafieken', label: 'Grafieken', kind: 'thema', active: false }
                 ],
                 [
-                    { id: '4_breuken', label: 'Breuken', kind: 'thema', active: false },
-                    { id: '4_procenten', label: 'Procenten', kind: 'thema', active: false },
-                    { id: '4_komma', label: 'Kommagetallen', kind: 'thema', active: false }
+                    { id: '4_breuken', label: 'Breuken', kind: 'thema', active: true },
+                    { id: '4_procenten', label: 'Procenten', kind: 'thema', active: true },
+                    { id: '4_komma', label: 'Kommagetallen', kind: 'thema', active: true }
                 ]
             ]
         },
@@ -37,10 +37,10 @@
             fase: '3', label: 'FASE 3',
             rows: [
                 [
-                    { id: '3_optellen', label: 'Optellen', kind: 'auto', active: false },
-                    { id: '3_vermenigvuldigen', label: 'Vermenigvuldigen', kind: 'auto', active: false },
-                    { id: '3_delen', label: 'Delen', kind: 'auto', active: false },
-                    { id: '3_aftrekken', label: 'Aftrekken', kind: 'auto', active: false }
+                    { id: '3_optellen', label: 'Optellen', kind: 'auto', active: true },
+                    { id: '3_vermenigvuldigen', label: 'Vermenigvuldigen', kind: 'auto', active: true },
+                    { id: '3_delen', label: 'Delen', kind: 'auto', active: true },
+                    { id: '3_aftrekken', label: 'Aftrekken', kind: 'auto', active: true }
                 ],
                 [
                     { id: '3_gb10000', label: 'Getalbegrip tot 10.000', kind: 'getalbegrip', active: false },
@@ -52,12 +52,12 @@
             fase: '2', label: 'FASE 2',
             rows: [
                 [
-                    { id: '2_opt_hte', label: '563 + 230', kind: 'auto', active: false },
-                    { id: '2_opt_te', label: '56 + 28', kind: 'auto', active: false },
-                    { id: '2_tafels', label: '7 × 8', kind: 'auto', active: false },
-                    { id: '2_delen', label: '12 : 4', kind: 'auto', active: false },
-                    { id: '2_aftr_te', label: '56 − 28', kind: 'auto', active: false },
-                    { id: '2_aftr_hte', label: '563 − 230', kind: 'auto', active: false }
+                    { id: '2_opt_hte', label: '563 + 230', kind: 'auto', active: true },
+                    { id: '2_opt_te', label: '56 + 28', kind: 'auto', active: true },
+                    { id: '2_tafels', label: '7 × 8', kind: 'auto', active: true },
+                    { id: '2_delen', label: '12 : 4', kind: 'auto', active: true },
+                    { id: '2_aftr_te', label: '56 − 28', kind: 'auto', active: true },
+                    { id: '2_aftr_hte', label: '563 − 230', kind: 'auto', active: true }
                 ],
                 [
                     { id: '2_gb1000', label: 'Getalbegrip tot 1000', kind: 'getalbegrip', active: false }
@@ -68,18 +68,18 @@
             fase: '1B', label: 'FASE 1B',
             rows: [
                 [
-                    { id: '1b_opt_tiental', label: '56 + 20', kind: 'auto', active: false },
-                    { id: '1b_opt_eenheden', label: '56 + 8', kind: 'auto', active: false },
-                    { id: '1b_tafels', label: '3 × 4', kind: 'auto', active: false },
-                    { id: '1b_aftr_eenheden', label: '56 − 8', kind: 'auto', active: false },
-                    { id: '1b_aftr_tiental', label: '56 − 20', kind: 'auto', active: false }
+                    { id: '1b_opt_tiental', label: '56 + 20', kind: 'auto', active: true },
+                    { id: '1b_opt_eenheden', label: '56 + 8', kind: 'auto', active: true },
+                    { id: '1b_tafels', label: '3 × 4', kind: 'auto', active: true },
+                    { id: '1b_aftr_eenheden', label: '56 − 8', kind: 'auto', active: true },
+                    { id: '1b_aftr_tiental', label: '56 − 20', kind: 'auto', active: true }
                 ],
                 [
-                    { id: '1b_plus10', label: '+10', kind: 'auto', active: false },
-                    { id: '1b_plus1', label: '+1', kind: 'auto', active: false },
+                    { id: '1b_plus10', label: '+10', kind: 'auto', active: true },
+                    { id: '1b_plus1', label: '+1', kind: 'auto', active: true },
                     { id: '1b_gb100', label: 'Getalbegrip tot 100', kind: 'getalbegrip', active: false },
-                    { id: '1b_min1', label: '−1', kind: 'auto', active: false },
-                    { id: '1b_min10', label: '−10', kind: 'auto', active: false }
+                    { id: '1b_min1', label: '−1', kind: 'auto', active: true },
+                    { id: '1b_min10', label: '−10', kind: 'auto', active: true }
                 ]
             ]
         },
@@ -159,6 +159,159 @@
             const a = ri(2, 10);
             const b = ri(1, a);
             return { prompt: a + ' ' + MINUS + ' ' + b, answer: a - b };
+        },
+
+        // ---------- FASE 1B (tot 100) ----------
+        // 56 + 20 -> TE + heel tiental
+        '1b_opt_tiental': function () {
+            const t = ri(2, 7), u = ri(1, 9);
+            const a = t * 10 + u;
+            const b = ri(1, 9 - t) * 10;
+            return { prompt: a + ' + ' + b, answer: a + b };
+        },
+        // 56 + 8 -> TE + eenheden, met overbrugging
+        '1b_opt_eenheden': function () {
+            const t = ri(1, 8);
+            let u, b;
+            do { u = ri(2, 9); b = ri(2, 9); } while (u + b <= 10 || u + b > 18);
+            const a = t * 10 + u;
+            return { prompt: a + ' + ' + b, answer: a + b };
+        },
+        // 3 x 4 -> kleine tafels (1, 2, 3, 4, 5, 10)
+        '1b_tafels': function () {
+            const set = [1, 2, 3, 4, 5, 10];
+            const a = set[ri(0, set.length - 1)];
+            const b = ri(1, 10);
+            return { prompt: a + ' × ' + b, answer: a * b };
+        },
+        // 56 - 8 -> TE - eenheden, met lenen
+        '1b_aftr_eenheden': function () {
+            const t = ri(1, 8), u = ri(0, 8);
+            const b = ri(u + 1, 9);
+            const a = t * 10 + u;
+            return { prompt: a + ' ' + MINUS + ' ' + b, answer: a - b };
+        },
+        // 56 - 20 -> TE - heel tiental
+        '1b_aftr_tiental': function () {
+            const t = ri(2, 8), u = ri(1, 9);
+            const a = t * 10 + u;
+            const b = ri(1, t - 1) * 10;
+            return { prompt: a + ' ' + MINUS + ' ' + b, answer: a - b };
+        },
+        // Buurgetallen (+10 / +1 / -1 / -10)
+        '1b_plus10': function () { const a = ri(1, 89); return { prompt: a + ' + 10', answer: a + 10 }; },
+        '1b_plus1': function () { const a = ri(1, 98); return { prompt: a + ' + 1', answer: a + 1 }; },
+        '1b_min1': function () { const a = ri(2, 99); return { prompt: a + ' ' + MINUS + ' 1', answer: a - 1 }; },
+        '1b_min10': function () { const a = ri(11, 99); return { prompt: a + ' ' + MINUS + ' 10', answer: a - 10 }; },
+
+        // ---------- FASE 2 (tot 1000) ----------
+        // 563 + 230 -> HTE + HTE zonder overbrugging
+        '2_opt_hte': function () {
+            const ah = ri(1, 8), bh = ri(1, 9 - ah);
+            const at = ri(0, 8), bt = ri(0, 9 - at);
+            const au = ri(0, 9), bu = ri(0, 9 - au);
+            const a = ah * 100 + at * 10 + au;
+            const b = bh * 100 + bt * 10 + bu;
+            return { prompt: a + ' + ' + b, answer: a + b };
+        },
+        // 56 + 28 -> TE + TE met overbrugging
+        '2_opt_te': function () {
+            let t1, u1, t2, u2, a, b;
+            do {
+                t1 = ri(1, 7); u1 = ri(2, 9);
+                t2 = ri(1, 7); u2 = ri(2, 9);
+                a = t1 * 10 + u1; b = t2 * 10 + u2;
+            } while (u1 + u2 <= 10 || a + b > 99);
+            return { prompt: a + ' + ' + b, answer: a + b };
+        },
+        // 7 x 8 -> alle tafels
+        '2_tafels': function () {
+            const a = ri(1, 10), b = ri(1, 10);
+            return { prompt: a + ' × ' + b, answer: a * b };
+        },
+        // 12 : 4 -> deeltafels
+        '2_delen': function () {
+            const b = ri(2, 10), q = ri(1, 10);
+            const a = b * q;
+            return { prompt: a + ' : ' + b, answer: q };
+        },
+        // 56 - 28 -> TE - TE met lenen
+        '2_aftr_te': function () {
+            const t1 = ri(2, 9), u1 = ri(0, 8);
+            const u2 = ri(u1 + 1, 9);
+            const t2 = ri(1, t1 - 1);
+            const a = t1 * 10 + u1, b = t2 * 10 + u2;
+            return { prompt: a + ' ' + MINUS + ' ' + b, answer: a - b };
+        },
+        // 563 - 230 -> HTE - HTE zonder lenen
+        '2_aftr_hte': function () {
+            const ah = ri(2, 9), bh = ri(1, ah - 1);
+            const at = ri(0, 9), bt = ri(0, at);
+            const au = ri(0, 9), bu = ri(0, au);
+            const a = ah * 100 + at * 10 + au;
+            const b = bh * 100 + bt * 10 + bu;
+            return { prompt: a + ' ' + MINUS + ' ' + b, answer: a - b };
+        },
+
+        // ---------- FASE 3 (vlot rekenen, grotere getallen) ----------
+        '3_optellen': function () {
+            const a = ri(100, 899), b = ri(100, 899);
+            return { prompt: a + ' + ' + b, answer: a + b };
+        },
+        '3_aftrekken': function () {
+            const a = ri(300, 999), b = ri(100, a - 100);
+            return { prompt: a + ' ' + MINUS + ' ' + b, answer: a - b };
+        },
+        '3_vermenigvuldigen': function () {
+            const a = ri(11, 99), b = ri(2, 9);
+            return { prompt: a + ' × ' + b, answer: a * b };
+        },
+        '3_delen': function () {
+            const b = ri(2, 9), q = ri(11, 49);
+            const a = b * q;
+            return { prompt: a + ' : ' + b, answer: q };
+        },
+
+        // ---------- FASE 4 (maten, breuken, procenten, kommagetallen) ----------
+        // Antwoorden zijn altijd hele getallen (past bij het cijfertoetsenbord).
+        '4_lengte': function () {
+            const pairs = [['km', 'm', 1000], ['m', 'cm', 100], ['cm', 'mm', 10], ['m', 'dm', 10], ['dm', 'cm', 10], ['m', 'mm', 1000]];
+            const p = pairs[ri(0, pairs.length - 1)];
+            const v = ri(2, 9);
+            return { prompt: v + ' ' + p[0] + ' = … ' + p[1], answer: v * p[2] };
+        },
+        '4_inhoud': function () {
+            const pairs = [['kg', 'g', 1000], ['l', 'ml', 1000], ['l', 'dl', 10], ['kg', 'hg', 10], ['ton', 'kg', 1000], ['l', 'cl', 100]];
+            const p = pairs[ri(0, pairs.length - 1)];
+            const v = ri(2, 9);
+            return { prompt: v + ' ' + p[0] + ' = … ' + p[1], answer: v * p[2] };
+        },
+        '4_omtrek': function () {
+            const type = ri(1, 4);
+            if (type === 1) { const z = ri(2, 12); return { prompt: 'Omtrek vierkant, zijde ' + z, answer: 4 * z }; }
+            if (type === 2) { const z = ri(2, 12); return { prompt: 'Opp. vierkant, zijde ' + z, answer: z * z }; }
+            if (type === 3) { const l = ri(2, 12), b = ri(2, 12); return { prompt: 'Opp. rechthoek ' + l + ' × ' + b, answer: l * b }; }
+            const l = ri(2, 12), b = ri(2, 12); return { prompt: 'Omtrek rechthoek ' + l + ' bij ' + b, answer: 2 * (l + b) };
+        },
+        '4_breuken': function () {
+            const fr = [[1, 2], [1, 3], [1, 4], [1, 5], [2, 3], [3, 4], [2, 5], [3, 5]];
+            const f = fr[ri(0, fr.length - 1)];
+            const m = ri(2, 8);
+            const N = f[1] * m;
+            return { prompt: f[0] + '/' + f[1] + ' van ' + N, answer: f[0] * m };
+        },
+        '4_procenten': function () {
+            const pcts = [10, 20, 25, 50, 75];
+            const pct = pcts[ri(0, pcts.length - 1)];
+            const base = pct === 10 ? 10 : pct === 20 ? 5 : pct === 50 ? 2 : 4; // veelvoud zodat het uitkomt
+            const N = base * ri(2, 20);
+            return { prompt: pct + '% van ' + N, answer: Math.round(N * pct / 100) };
+        },
+        '4_komma': function () {
+            const type = ri(1, 3);
+            if (type === 1) { const a = ri(1, 9), b = ri(0, 9); return { prompt: a + ',5 + ' + b + ',5', answer: a + b + 1 }; }
+            if (type === 2) { const n = ri(1, 9); return { prompt: '0,' + n + ' × 10', answer: n }; }
+            const e = ri(1, 9) * 2; return { prompt: e + ' × 0,5', answer: e / 2 };
         }
     };
 

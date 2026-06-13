@@ -262,6 +262,9 @@
         }
         current = MTRekenrace.generateSum(blockId);
         playSum.textContent = current.prompt;
+        // Langere opdrachten (fase 4: maten/breuken/procenten) kleiner tonen.
+        const len = current.prompt.length;
+        playSum.style.fontSize = len > 22 ? '28px' : len > 14 ? '36px' : '54px';
         answerInput.value = '';
         answerInput.className = 'md-answer';
         sumShownAt = Date.now();

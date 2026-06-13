@@ -37,8 +37,18 @@ const MIN_VERDICT = 4          // minder -> geen oordeel (muur ongewijzigd)
 // Speelbare steentjes (spiegelt de active:true-cellen in js/rekenrace-blocks.js).
 // Nodig voor solo-oefenen: alleen een geldig steentje mag de muur bijwerken.
 const ACTIVE_BLOCKS = new Set([
+  // FASE 1A
   '1a_opt_t10', '1a_opt_t20_zonder', '1a_opt_t20_met', '1a_splitsen',
   '1a_aftr_t20_met', '1a_aftr_t20_zonder', '1a_aftr_t10',
+  // FASE 1B
+  '1b_opt_tiental', '1b_opt_eenheden', '1b_tafels', '1b_aftr_eenheden', '1b_aftr_tiental',
+  '1b_plus10', '1b_plus1', '1b_min1', '1b_min10',
+  // FASE 2
+  '2_opt_hte', '2_opt_te', '2_tafels', '2_delen', '2_aftr_te', '2_aftr_hte',
+  // FASE 3
+  '3_optellen', '3_aftrekken', '3_vermenigvuldigen', '3_delen',
+  // FASE 4 (Grafieken bewust niet: vraagt een echte grafiek)
+  '4_lengte', '4_inhoud', '4_omtrek', '4_breuken', '4_procenten', '4_komma',
 ])
 
 serve(async (req) => {
