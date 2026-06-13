@@ -102,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewCopyBtn = document.getElementById('rrViewCopyBtn');
     const viewHideBtn = document.getElementById('rrViewHideBtn');
     const viewNewBtn = document.getElementById('rrViewNewBtn');
+    const rewardToggle = document.getElementById('rrRewardToggle');
     let viewLinkUrl = '';
 
     // ---------- Helpers ----------
@@ -631,6 +632,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // ---------- Belonen aan/uit (klasseprestatiepunten) ----------
+    async function loadRewardSetting() {
+        try {
+            const { data } = await supabase.from('tool_settings').select('settings')
+                .eq('user_id', currentUser.id).eq('tool_name', 'rekenrace').maybeSingle();
+            rewardToggle.checked = !(data && data.settings && data.settings.awardPoints === false);
+        } catch (e) { rewardToggle.checked = true; }
+    }
+    async function saveRewardSetting() {
+        try {
+            const { data } = await supabase.from('tool_settings').select('settings')
+                .eq('user_id', currentUser.id).eq('tool_name', 'rekenrace').maybeSingle();
+            const settings = Object.assign({}, (data && data.settings) || {}, { awardPoints: rewardToggle.checked });
+            await supabase.from('tool_settings').upsert({
+                user_id: currentUser.id, tool_name: 'rekenrace', settings: settings, updated_at: new Date().toISOString()
+            }, { onConflict: 'user_id,tool_name' });
+            toast(rewardToggle.checked ? 'Belonen staat aan.' : 'Belonen staat uit.');
+        } catch (e) { toast('Opslaan lukte niet.'); }
+    }
+
     // ---------- Klaswissel ----------
     async function onGroupChange() {
         detachRealtime(); stopTimer();
@@ -726,6 +747,7 @@ document.addEventListener('DOMContentLoaded', () => {
         viewCopyBtn.addEventListener('click', copyViewLink);
         viewHideBtn.addEventListener('click', hideViewLink);
         viewNewBtn.addEventListener('click', newViewLink);
+        rewardToggle.addEventListener('change', saveRewardSetting);
         startSessionBtn.addEventListener('click', createSession);
         startRaceBtn.addEventListener('click', startRace);
         closeBtn.addEventListener('click', closeSession);
@@ -733,6 +755,7 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteBtn.addEventListener('click', deleteCurrent);
 
         await onGroupChange();
+        loadRewardSetting();
 
         if (window.hidePageLoader) window.hidePageLoader();
     }
