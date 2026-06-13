@@ -99,7 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewUrl = document.getElementById('rrViewUrl');
     const viewCode = document.getElementById('rrViewCode');
     const viewQr = document.getElementById('rrViewQr');
-    const viewStopBtn = document.getElementById('rrViewStopBtn');
+    const viewCopyBtn = document.getElementById('rrViewCopyBtn');
+    const viewHideBtn = document.getElementById('rrViewHideBtn');
+    const viewNewBtn = document.getElementById('rrViewNewBtn');
+    let viewLinkUrl = '';
 
     // ---------- Helpers ----------
     function escapeHtml(str) {
@@ -555,8 +558,8 @@ document.addEventListener('DOMContentLoaded', () => {
         colGreenCount.textContent = green.length; colOrangeCount.textContent = orange.length; colNoneCount.textContent = none.length;
     }
 
-    // ---------- Bekijk-modus (kind ziet eigen muur op device) ----------
-    async function startViewSession() {
+    // ---------- Vaste rekenmuur-link (kinderen zien/oefenen hun eigen muur) ----------
+    async function createViewSession() {
         let created = null, lastErr = null;
         for (let attempt = 0; attempt < 6 && !created; attempt++) {
             const { data, error } = await supabase.from('rekenrace_sessions').insert({
@@ -567,32 +570,73 @@ document.addEventListener('DOMContentLoaded', () => {
             lastErr = error;
             if (error.code !== '23505') break;
         }
-        if (!created) { console.error('view session error:', lastErr); toast('Bekijk-modus starten lukte niet.'); return; }
-        viewSession = created;
-        const url = location.origin + '/meedoen?code=' + viewSession.code;
-        viewUrl.textContent = location.host + '/meedoen';
+        if (!created) console.error('view session error:', lastErr);
+        return created;
+    }
+    // Hergebruik een bestaande (open) klas-link, of maak er één. Persistent.
+    async function ensureViewLink() {
+        if (!viewSession) {
+            const { data } = await supabase.from('rekenrace_sessions').select('*')
+                .eq('group_id', selectedGroupId).eq('purpose', 'view').neq('status', 'closed')
+                .order('created_at', { ascending: false }).limit(1).maybeSingle();
+            viewSession = data || await createViewSession();
+        }
+        return viewSession;
+    }
+    function renderViewBox() {
+        if (!viewSession) return;
+        viewLinkUrl = location.origin + '/meedoen?code=' + viewSession.code;
+        viewUrl.textContent = location.host + '/meedoen?code=' + viewSession.code;
         viewCode.textContent = viewSession.code;
         viewQr.innerHTML = '';
         if (typeof qrcode !== 'undefined') {
-            try { const qr = qrcode(0, 'M'); qr.addData(url); qr.make(); viewQr.innerHTML = qr.createImgTag(5, 8); } catch (e) {}
+            try { const qr = qrcode(0, 'M'); qr.addData(viewLinkUrl); qr.make(); viewQr.innerHTML = qr.createImgTag(5, 8); } catch (e) {}
         }
         viewBox.style.display = '';
         viewBtn.style.display = 'none';
     }
-    async function stopViewSession() {
+    async function showViewLink() {
+        viewBtn.disabled = true;
+        await ensureViewLink();
+        viewBtn.disabled = false;
+        if (!viewSession) { toast('Link maken lukte niet. Probeer opnieuw.'); return; }
+        renderViewBox();
+    }
+    function hideViewLink() {
+        viewBox.style.display = 'none';
+        viewBtn.style.display = '';
+    }
+    async function newViewLink() {
+        if (!confirm('Een nieuwe link maken? De oude link werkt daarna niet meer.')) return;
         if (viewSession) {
             try { await supabase.from('rekenrace_sessions').update({ status: 'closed', closed_at: new Date().toISOString() }).eq('id', viewSession.id); } catch (e) {}
             viewSession = null;
         }
-        viewBox.style.display = 'none';
-        viewBtn.style.display = '';
+        viewSession = await createViewSession();
+        if (!viewSession) { toast('Nieuwe link maken lukte niet.'); return; }
+        renderViewBox();
+        toast('Nieuwe link gemaakt.');
+    }
+    function copyViewLink() {
+        if (!viewLinkUrl) return;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(viewLinkUrl).then(() => toast('Link gekopieerd!'), () => toast('Kopiëren lukte niet.'));
+        } else {
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = viewLinkUrl; document.body.appendChild(ta); ta.select();
+                document.execCommand('copy'); document.body.removeChild(ta);
+                toast('Link gekopieerd!');
+            } catch (e) { toast('Kopiëren lukte niet.'); }
+        }
     }
 
     // ---------- Klaswissel ----------
     async function onGroupChange() {
         detachRealtime(); stopTimer();
         detachMasteryRealtime();
-        if (viewSession) await stopViewSession();
+        // De klas-link blijft bestaan (persistent); alleen de weergave resetten.
+        viewSession = null; hideViewLink();
         session = null; participants = []; selectedBlockId = '';
         // terug naar de race-tab bij een klaswissel
         tabsEl.querySelectorAll('.rr-tab').forEach(b => b.classList.toggle('is-active', b.getAttribute('data-tab') === 'race'));
@@ -678,8 +722,10 @@ document.addEventListener('DOMContentLoaded', () => {
             overBlockId = btn.getAttribute('data-block');
             renderOverBlock();
         });
-        viewBtn.addEventListener('click', startViewSession);
-        viewStopBtn.addEventListener('click', stopViewSession);
+        viewBtn.addEventListener('click', showViewLink);
+        viewCopyBtn.addEventListener('click', copyViewLink);
+        viewHideBtn.addEventListener('click', hideViewLink);
+        viewNewBtn.addEventListener('click', newViewLink);
         startSessionBtn.addEventListener('click', createSession);
         startRaceBtn.addEventListener('click', startRace);
         closeBtn.addEventListener('click', closeSession);

@@ -203,13 +203,15 @@
                         else if (e && e.status === 'orange') cls.push('is-orange');
                         else cls.push('is-grey');
                         if (e && e.regressed) cls.push('is-regressed');
+                        if (opts.clickable) cls.push('is-clickable');
                     } else {
                         cls.push('is-locked');
                     }
                     if (opts.highlight && c.id === opts.highlight) cls.push('is-highlight');
                     const seintje = (c.active && entry(c.id) && entry(c.id).regressed)
                         ? '<span class="rr-cell-flag" title="Laatste keer minder">!</span>' : '';
-                    return '<div class="' + cls.join(' ') + '">' +
+                    const data = c.active ? ' data-block="' + c.id + '"' : '';
+                    return '<div class="' + cls.join(' ') + '"' + data + '>' +
                         '<span class="rr-cell-label">' + esc(c.label) + '</span>' + seintje + '</div>';
                 }).join('') + '</div>';
             }).join('');

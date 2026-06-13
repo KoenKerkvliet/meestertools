@@ -18,7 +18,8 @@
             min-height: 100%; display: flex; align-items: flex-start; justify-content: center;
             padding: 28px 16px 48px; color: #2D3436;
         }
-        .md-wrap { width: 100%; max-width: 460px; }
+        .md-wrap { width: 100%; max-width: 460px; transition: max-width .2s ease; }
+        .md-wrap.is-wide { max-width: 760px; }
         .md-brand { text-align: center; color: #fff; font-weight: 800; font-size: 22px; margin-bottom: 18px; }
         .md-card { background: #fff; border-radius: 22px; padding: 28px 24px 26px; box-shadow: 0 18px 50px rgba(0,0,0,.22); }
         .md-screen { display: none; }
@@ -108,6 +109,9 @@
         .md-wall .rr-cell.is-green { background: #34C759; color: #fff; border-color: #28a347; }
         .md-wall .rr-cell.is-orange { background: #FF9F40; color: #fff; border-color: #e98b2c; }
         .md-wall .rr-cell.is-highlight { box-shadow: 0 0 0 3px #6C63FF; }
+        .md-wall .rr-cell.is-clickable { cursor: pointer; }
+        .md-wall .rr-cell.is-clickable:hover { transform: translateY(-2px); box-shadow: 0 5px 12px rgba(0,0,0,.18); }
+        .md-wall .rr-cell.is-clickable:active { transform: translateY(0); }
         .md-wall .rr-cell-flag {
             position: absolute; top: -5px; right: -5px; width: 16px; height: 16px; border-radius: 50%;
             background: #fff; color: #e98b2c; border: 1.5px solid #e98b2c;
@@ -190,6 +194,7 @@
                         <span class="md-leg-grey"><i></i> nog niet</span>
                     </div>
                 </div>
+                <button class="md-btn" id="endBackBtn" style="display:none;margin-top:18px;">&larr; Terug naar mijn muur</button>
             </section>
 
             <!-- Bekijk-modus: alleen de muur -->

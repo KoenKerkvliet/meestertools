@@ -34,6 +34,13 @@ const NORM_SEC_PER_SUM = 4     // gemiddeld seconden per som
 const MIN_GREEN = 8            // minimaal aantal sommen voor groen
 const MIN_VERDICT = 4          // minder -> geen oordeel (muur ongewijzigd)
 
+// Speelbare steentjes (spiegelt de active:true-cellen in js/rekenrace-blocks.js).
+// Nodig voor solo-oefenen: alleen een geldig steentje mag de muur bijwerken.
+const ACTIVE_BLOCKS = new Set([
+  '1a_opt_t10', '1a_opt_t20_zonder', '1a_opt_t20_met', '1a_splitsen',
+  '1a_aftr_t20_met', '1a_aftr_t20_zonder', '1a_aftr_t10',
+])
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
@@ -97,15 +104,7 @@ serve(async (req) => {
       }
       const name = cleanText(body?.name, NAME_MAX)
       if (!name) return json({ ok: false, error: 'Vul je voornaam in.' }, 400)
-
-      const { count: pCount } = await admin
-        .from('rekenrace_participants')
-        .select('id', { count: 'exact', head: true })
-        .eq('session_id', session.id)
-
-      if ((pCount || 0) >= MAX_PARTICIPANTS) {
-        return json({ ok: false, error: 'Deze race zit vol. Vraag je juf of meester om hulp.' }, 429)
-      }
+      const isView = (session.purpose || 'race') === 'view'
 
       // Voornaam matchen aan de klas waarvoor de sessie is gestart.
       const { data: roster } = await admin
@@ -128,6 +127,33 @@ serve(async (req) => {
         monster = monsterPath(monsterMap[match.id] || ((hashStr(match.id) % MONSTER_COUNT) + 1))
       } else {
         monster = monsterPath((hashStr(norm) % MONSTER_COUNT) + 1)
+      }
+
+      // Bekijk-modus = permanente klas-link: geen cap, en deelnemer hergebruiken
+      // (op student_id, anders op naam) zodat de tabel niet onbeperkt groeit.
+      if (isView) {
+        let existing = null
+        if (studentId) {
+          const r = await admin.from('rekenrace_participants')
+            .select('id').eq('session_id', session.id).eq('student_id', studentId).limit(1).maybeSingle()
+          existing = r.data || null
+        }
+        if (!existing) {
+          const r = await admin.from('rekenrace_participants')
+            .select('id, name').eq('session_id', session.id)
+          existing = (r.data || []).find((p) => normName(p.name) === norm) || null
+        }
+        if (existing) {
+          return json({ ok: true, participantId: existing.id, displayName, monster, matched: !!match, ...pub })
+        }
+      } else {
+        const { count: pCount } = await admin
+          .from('rekenrace_participants')
+          .select('id', { count: 'exact', head: true })
+          .eq('session_id', session.id)
+        if ((pCount || 0) >= MAX_PARTICIPANTS) {
+          return json({ ok: false, error: 'Deze race zit vol. Vraag je juf of meester om hulp.' }, 429)
+        }
       }
 
       const { data: p, error: pErr } = await admin
@@ -171,6 +197,51 @@ serve(async (req) => {
         .select('block_id, status, regressed, best_per_min, best_accuracy, last_per_min, last_accuracy, last_answered')
         .eq('student_id', participant.student_id)
       return json({ ok: true, matched: true, wall: wall || [], ...pub })
+    }
+
+    // ---------------- solofinish (zelf oefenen vanuit het muurtje) ----------------
+    if (action === 'solofinish') {
+      const participantId = String(body?.participantId || '')
+      if (!participantId) return json({ ok: false, error: 'Meld je eerst aan.' }, 400)
+      if ((session.purpose || 'race') !== 'view') {
+        return json({ ok: false, error: 'Solo-oefenen kan alleen via de rekenmuur-link.' }, 400)
+      }
+      const blockId = String(body?.blockId || '')
+      if (!ACTIVE_BLOCKS.has(blockId)) return json({ ok: false, error: 'Onbekend steentje.' }, 400)
+
+      const { data: participant } = await admin
+        .from('rekenrace_participants')
+        .select('id, session_id, student_id')
+        .eq('id', participantId)
+        .maybeSingle()
+
+      if (!participant || participant.session_id !== session.id) {
+        return json({ ok: false, error: 'Meld je opnieuw aan.' }, 403)
+      }
+      if (!participant.student_id) {
+        return json({ ok: true, matched: false, wall: [], ...pub })
+      }
+
+      const answered = clampInt(body?.answered, 0, ANSWER_CAP)
+      let correct = clampInt(body?.correct, 0, ANSWER_CAP)
+      if (correct > answered) correct = answered
+      const totalMs = clampInt(body?.totalMs, 0, ANSWER_CAP * 60000)
+
+      let mastery = null
+      const verdict = computeVerdict(answered, correct, totalMs)
+      if (verdict) {
+        mastery = await upsertMastery(
+          admin,
+          { user_id: session.user_id, group_id: session.group_id, block_id: blockId },
+          participant.student_id,
+          verdict
+        )
+      }
+      const { data: wall } = await admin
+        .from('rekenmuur_mastery')
+        .select('block_id, status, regressed, best_per_min, best_accuracy, last_per_min, last_accuracy, last_answered')
+        .eq('student_id', participant.student_id)
+      return json({ ok: true, matched: true, mastery, wall: wall || [], ...pub })
     }
 
     // ---------------- progress ----------------

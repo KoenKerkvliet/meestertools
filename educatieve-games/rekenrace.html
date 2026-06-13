@@ -186,18 +186,21 @@
                             <button type="button" class="rr-seg-btn" data-over="block">&#129521; Per steentje</button>
                         </div>
                         <div class="rr-session-actions">
-                            <button class="rr-btn rr-btn-primary" id="rrViewBtn">&#128241; Muur laten bekijken</button>
+                            <button class="rr-btn rr-btn-primary" id="rrViewBtn">&#128241; Rekenmuur-link delen</button>
                         </div>
                     </div>
 
-                    <!-- Bekijk-modus: code + QR zodat kinderen hun muur openen -->
+                    <!-- Vaste rekenmuur-link voor de klas: kinderen openen altijd hun eigen muurtje -->
                     <div class="rr-joinbox" id="rrViewBox" style="display:none;">
                         <div class="rr-joinbox-left">
-                            <p class="rr-join-lead">Ga op je device naar</p>
+                            <p class="rr-join-lead">Vaste rekenmuur-link voor je klas &mdash; deel hem op het bord of als bookmark. Kinderen vullen hun voornaam in en zien hun eigen muurtje, en kunnen er zelf aan werken.</p>
                             <p class="rr-join-url" id="rrViewUrl">meestertools.nl/meedoen</p>
-                            <p class="rr-join-lead">en vul de code in om je eigen muurtje te zien:</p>
                             <div class="rr-code-big" id="rrViewCode">&middot;&middot;&middot;&middot;&middot;</div>
-                            <button class="rr-btn rr-btn-danger-soft" id="rrViewStopBtn" style="margin-top:14px;">Stop bekijken</button>
+                            <div class="rr-view-actions">
+                                <button class="rr-btn rr-btn-light" id="rrViewCopyBtn">&#128203; Kopieer link</button>
+                                <button class="rr-btn rr-btn-light" id="rrViewHideBtn">Verbergen</button>
+                                <button class="rr-btn rr-btn-light" id="rrViewNewBtn">Nieuwe link</button>
+                            </div>
                         </div>
                         <div class="rr-joinbox-right">
                             <div class="rr-qr" id="rrViewQr"></div>

@@ -198,6 +198,11 @@
 }
 .rr-tab.is-active { background: #fff; color: var(--text-dark); box-shadow: 0 2px 6px rgba(0,0,0,.1); }
 
+/* Vaste rekenmuur-link: knoppen op de paarse kaart */
+.rr-view-actions { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.rr-btn-light { background: rgba(255,255,255,.18); color: #fff; }
+.rr-btn-light:hover { background: rgba(255,255,255,.30); }
+
 /* ---------- Klasoverzicht ---------- */
 .rr-over-bar { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
 .rr-over-bar .rr-session-actions { margin-left: auto; }

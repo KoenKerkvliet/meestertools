@@ -35,6 +35,8 @@
 
     // spel
     let playing = false;
+    let soloMode = false;      // zelf oefenen vanuit het muurtje (bekijk-modus)
+    let soloBlockId = '';
     let current = null;        // { prompt, answer }
     let sumShownAt = 0;
     let answered = 0;
@@ -78,6 +80,7 @@
     const endWallWrap = document.getElementById('endWallWrap');
     const endWall = document.getElementById('endWall');
     const endWallTitle = document.getElementById('endWallTitle');
+    const endBackBtn = document.getElementById('endBackBtn');
 
     const wallMonster = document.getElementById('wallMonster');
     const wallTitle = document.getElementById('wallTitle');
@@ -87,9 +90,13 @@
 
     const STORE_KEY = 'mt_meedoen_rekenrace';
 
+    const wrapEl = document.querySelector('.md-wrap');
+
     // ---------- Helpers ----------
     function showScreen(key) {
         Object.keys(screens).forEach(k => screens[k].classList.toggle('active', k === key));
+        // Muur-schermen krijgen meer breedte zodat de steentjes goed leesbaar zijn.
+        if (wrapEl) wrapEl.classList.toggle('is-wide', key === 'end' || key === 'wall');
     }
     function showErr(msg) { joinError.textContent = msg; joinError.classList.add('show'); }
     function hideErr() { joinError.classList.remove('show'); }
@@ -154,6 +161,7 @@
         return m;
     }
     async function showWall() {
+        soloMode = false;
         wallMonster.src = monsterUrl(monster);
         wallTitle.textContent = (displayName || name) ? ('Rekenmuurtje van ' + (displayName || name)) : 'Jouw rekenmuurtje';
         wallError.classList.remove('show');
@@ -165,8 +173,26 @@
             wallLead.textContent = 'We konden je naam niet koppelen aan de klas, dus er is nog geen muurtje.';
             return;
         }
-        wallLead.textContent = 'Groen = beheers je al, oranje = blijven oefenen.';
-        viewWall.innerHTML = MTRekenrace.wallHtml(wallMap(res.wall), {});
+        wallLead.textContent = 'Tik op een steentje om eraan te werken. Groen = beheers je al.';
+        viewWall.innerHTML = MTRekenrace.wallHtml(wallMap(res.wall), { clickable: true });
+        viewWall.onclick = (e) => {
+            const cell = e.target.closest('.rr-cell.is-clickable');
+            if (cell) { const id = cell.getAttribute('data-block'); if (id) startSolo(id); }
+        };
+    }
+
+    // ---------- Solo-oefenen (vanuit het muurtje) ----------
+    function startSolo(id) {
+        if (!window.MTRekenrace || !MTRekenrace.hasGenerator(id)) return;
+        soloMode = true;
+        soloBlockId = id;
+        blockId = id;
+        mode = 'tijd';
+        durationSeconds = 120;        // 2 minuten
+        targetCount = 0;
+        startedAtMs = Date.now();     // puur client-side getimed
+        serverOffset = 0;
+        startGame();
     }
 
     function renderWelcome() {
@@ -320,13 +346,19 @@
         }
         playing = false;
         stopGameTimer();
+        const wasSolo = soloMode;
 
-        // Laatste voortgang afwachten zodat de muur server-side bijgewerkt is
-        // vóór we 'mywall' opvragen. Geeft ook het oordeel voor deze race terug.
-        let mastery = null;
+        // Laatste resultaat wegschrijven zodat de muur server-side bijgewerkt is
+        // vóór we hem (her)tonen. Solo gebruikt 'solofinish', een race 'progress'.
+        let mastery = null, freshWall = null;
         try {
-            const r = await call('progress', { participantId, answered, correct, totalMs, finished: true });
-            if (r && r.ok) mastery = r.mastery || null;
+            if (wasSolo) {
+                const r = await call('solofinish', { participantId, blockId: soloBlockId, answered, correct, totalMs });
+                if (r && r.ok) { mastery = r.mastery || null; if (r.matched) freshWall = r.wall || []; }
+            } else {
+                const r = await call('progress', { participantId, answered, correct, totalMs, finished: true });
+                if (r && r.ok) mastery = r.mastery || null;
+            }
         } catch (e) {}
         lastPushAnswered = answered;
 
@@ -342,16 +374,20 @@
         endSpeed.textContent = perMin || '0';
         endAcc.textContent = correct + '/' + answered;
         endAccLabel.textContent = pct + '% goed';
+        endBackBtn.style.display = wasSolo ? '' : 'none';
         showScreen('end');
 
-        renderEndWall(mastery);
+        renderEndWall(mastery, freshWall, wasSolo ? soloBlockId : blockId);
     }
 
-    async function renderEndWall(mastery) {
+    async function renderEndWall(mastery, wall, highlightBlock) {
         endWallWrap.style.display = 'none';
-        const res = await call('mywall', { participantId });
-        if (!res || !res.ok || !res.matched) return;
-        endWall.innerHTML = MTRekenrace.wallHtml(wallMap(res.wall), { highlight: blockId });
+        if (!wall) {
+            const res = await call('mywall', { participantId });
+            if (!res || !res.ok || !res.matched) return;
+            wall = res.wall;
+        }
+        endWall.innerHTML = MTRekenrace.wallHtml(wallMap(wall), { highlight: highlightBlock });
         let t = 'Jouw rekenmuurtje';
         if (mastery) {
             if (mastery.status === 'green') {
@@ -386,6 +422,7 @@
         joinBtn.addEventListener('click', doJoin);
         nameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') doJoin(); });
         answerInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submitAnswer(); } });
+        endBackBtn.addEventListener('click', () => { showWall(); });
         // alleen cijfers (en evt. minteken) toelaten
         answerInput.addEventListener('input', () => {
             answerInput.value = answerInput.value.replace(/[^0-9-]/g, '');
