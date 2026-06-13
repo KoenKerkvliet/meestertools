@@ -981,6 +981,69 @@
     min-height: 20px;
 }
 
+/* ---------- Find it (zoek de verschillen) ---------- */
+.er-findit-modal {
+    max-width: 960px;
+    width: 95vw;
+}
+
+/* Twee helften altijd naast elkaar (ook op smalle schermen).
+   De stage krijgt de vaste 16:9-verhouding; de helften vullen elk de
+   halve breedte en de volle hoogte (dus elk 8:9). */
+.er-findit-stage {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+.er-findit-half {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    height: 100%;
+    background-color: #1E1B3A;
+    background-repeat: no-repeat;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    cursor: crosshair;
+    touch-action: manipulation;
+    user-select: none;
+}
+
+/* Onthuld kader, absoluut binnen de helft → schaalt altijd mee */
+.er-fi-box {
+    position: absolute;
+    box-sizing: border-box;
+    border: 3px solid #FFD54A;
+    border-radius: 4px;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.35), 0 0 14px rgba(255, 213, 74, 0.85);
+    pointer-events: none;
+    animation: erFiReveal 0.35s ease;
+}
+
+@keyframes erFiReveal {
+    from { transform: scale(1.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.er-fi-miss {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    color: #FF5252;
+    font-size: 26px;
+    font-weight: 900;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+    animation: erFiMiss 0.6s ease forwards;
+}
+
+@keyframes erFiMiss {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+    30% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+}
+
 /* ---------- Kleurthema's per room ---------- */
 body.er-theme-halloween { --er-accent: #E65100; --er-dark1: #2B1606; --er-dark2: #5A2E06; }
 body.er-theme-kerst { --er-accent: #C62828; --er-dark1: #0F2415; --er-dark2: #1E4428; }

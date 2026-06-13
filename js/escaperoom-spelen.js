@@ -1,6 +1,6 @@
 /* ============================================
    ESCAPE ROOMS - Speelpagina (room-template)
-   Versie: v0.0.4
+   Versie: v0.0.5
 
    Opbouw: hero, 3x5 grid (vraag 1, timer, vraag 2, rest gelockt)
    en de finale als volle-breedte sectie.
@@ -16,6 +16,10 @@
    - schuifpuzzel: afbeelding in 3x3/4x4 tegels schuiven (in een popup);
      oplossen = goed antwoord. Gehusseld met geldige zetten, dus altijd
      oplosbaar; het lege vak start rechtsboven.
+   - findit: zoek de verschillen. Eén 16:9-afbeelding met links/rechts
+     (bijna) hetzelfde beeld; in een grote popup klik je de verschillen
+     aan. Kaders zijn half-relatief (0..1) opgeslagen en gelden in beide
+     helften; alle gevonden = goed antwoord.
 
    Spelregels:
    - Vragen zijn pas speelbaar zodra de timer loopt; pauze zet ze weer
@@ -50,6 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const puzzleTitle = document.getElementById('erPuzzleTitle');
     const puzzleBoard = document.getElementById('erPuzzleBoard');
     const puzzleStatus = document.getElementById('erPuzzleStatus');
+    const finditModal = document.getElementById('erFindItModal');
+    const finditTitle = document.getElementById('erFindItTitle');
+    const finditLeft = document.getElementById('erFindItLeft');
+    const finditRight = document.getElementById('erFindItRight');
+    const finditStatus = document.getElementById('erFindItStatus');
 
     const GOLD_NEEDED = 2;
     const COOLDOWN_MS = 60000; // strafminuut bij foute meerkeuze-gok
@@ -68,6 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const choiceCache = {};   // pos -> gehusselde meerkeuze-opties
     const puzzles = {};       // pos -> { size, board } schuifpuzzel-state
     let currentPuzzle = null; // { q, card } van de open puzzel-popup
+    const findits = {};       // pos -> { found:Set } Find it-voortgang
+    let currentFindit = null; // { q, card } van de open Find it-popup
 
     // Timer
     let timerInterval = null;
@@ -691,6 +702,106 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('erPuzzleClose')?.addEventListener('click', closePuzzle);
     puzzleModal?.addEventListener('click', (e) => { if (e.target === puzzleModal) closePuzzle(); });
 
+    // ---------- Find it (zoek de verschillen) ----------
+    function finditBoxes(q) {
+        return Array.isArray(q.findit_boxes) ? q.findit_boxes : [];
+    }
+
+    function openFindIt(q, card) {
+        if (!findits[q.position]) findits[q.position] = { found: new Set() };
+        currentFindit = { q: q, card: card };
+        if (finditTitle) finditTitle.textContent = q.question;
+        renderFinditHalves();
+        updateFinditStatus();
+        finditModal.classList.add('active');
+    }
+
+    function closeFindIt() {
+        currentFindit = null;
+        finditModal.classList.remove('active');
+    }
+
+    function renderFinditHalves() {
+        if (!currentFindit) return;
+        const q = currentFindit.q;
+        const st = findits[q.position];
+        [[finditLeft, '0%'], [finditRight, '100%']].forEach(([el, posX]) => {
+            if (!el) return;
+            // Eén afbeelding, twee uitsnedes: helft toont links (0%) of rechts (100%)
+            el.style.backgroundImage = 'url("' + attrUrl(q.image_url) + '")';
+            el.style.backgroundSize = '200% 100%';
+            el.style.backgroundPosition = posX + ' 0';
+            el.innerHTML = '';
+            finditBoxes(q).forEach((b, idx) => {
+                if (!st.found.has(idx)) return;
+                // Kaders zijn half-relatief (0..1) en gelden 1-op-1 in elke helft
+                const box = document.createElement('div');
+                box.className = 'er-fi-box';
+                box.style.left = (b.x * 100) + '%';
+                box.style.top = (b.y * 100) + '%';
+                box.style.width = (b.w * 100) + '%';
+                box.style.height = (b.h * 100) + '%';
+                el.appendChild(box);
+            });
+        });
+    }
+
+    function updateFinditStatus() {
+        if (!currentFindit || !finditStatus) return;
+        const q = currentFindit.q;
+        finditStatus.textContent = findits[q.position].found.size + ' / ' + finditBoxes(q).length + ' gevonden';
+    }
+
+    function finditClick(e, side) {
+        if (!currentFindit) return;
+        const q = currentFindit.q;
+        const st = findits[q.position];
+        const el = side === 'left' ? finditLeft : finditRight;
+        const r = el.getBoundingClientRect();
+        const fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
+        const boxes = finditBoxes(q);
+        let hitIdx = -1;
+        for (let k = 0; k < boxes.length; k++) {
+            if (st.found.has(k)) continue;
+            const b = boxes[k];
+            if (fx >= b.x && fx <= b.x + b.w && fy >= b.y && fy <= b.y + b.h) { hitIdx = k; break; }
+        }
+        if (hitIdx >= 0) {
+            st.found.add(hitIdx);
+            renderFinditHalves();
+            updateFinditStatus();
+            if (st.found.size >= boxes.length) onFinditSolved();
+        } else {
+            const dot = document.createElement('div');
+            dot.className = 'er-fi-miss';
+            dot.style.left = (fx * 100) + '%';
+            dot.style.top = (fy * 100) + '%';
+            dot.textContent = '✗';
+            el.appendChild(dot);
+            setTimeout(() => dot.remove(), 600);
+        }
+    }
+
+    function onFinditSolved() {
+        if (!currentFindit) return;
+        const q = currentFindit.q;
+        const card = currentFindit.card;
+        if (finditStatus) finditStatus.textContent = 'Alle verschillen gevonden! \u{1F389}';
+        setTimeout(() => {
+            closeFindIt();
+            answered.add(q.position);
+            renderQuestionCard(card, q);
+            grantKey(card);
+            refreshLockedCards();
+            renderFinaleSection();
+        }, 900);
+    }
+
+    document.getElementById('erFindItClose')?.addEventListener('click', closeFindIt);
+    finditModal?.addEventListener('click', (e) => { if (e.target === finditModal) closeFindIt(); });
+    finditLeft?.addEventListener('click', (e) => finditClick(e, 'left'));
+    finditRight?.addEventListener('click', (e) => finditClick(e, 'right'));
+
     // ---------- Antwoord-controle ----------
     function isCorrect(q, container) {
         if (isLockType(q.question_type)) return lockValue(container) === lockAnswer(q);
@@ -774,7 +885,8 @@ document.addEventListener('DOMContentLoaded', () => {
             (isLockType(type) || type === 'draaislot' ? ' &middot; &#128272;'
                 : isDateType(type) ? ' &middot; &#128197;'
                 : type === 'meerkeuze' ? ' &middot; A/B/C'
-                : type === 'schuifpuzzel' ? ' &middot; &#129513;' : '') +
+                : type === 'schuifpuzzel' ? ' &middot; &#129513;'
+                : type === 'findit' ? ' &middot; &#128269;' : '') +
             '</div>';
         const qtext = '<div class="er-q-text">' + escapeHtml(q.question) + '</div>';
 
@@ -807,6 +919,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 (q.image_url ? '<img class="er-puzzle-thumb" src="' + attrUrl(q.image_url) + '" alt="">' : '') +
                 '<div class="er-q-answer"><button class="er-btn">&#129513; Speel de schuifpuzzel</button></div>';
             card.querySelector('.er-btn').addEventListener('click', () => openPuzzle(q, card));
+            return;
+        }
+
+        if (type === 'findit') {
+            card.innerHTML = label + qtext +
+                (q.image_url ? '<img class="er-puzzle-thumb" src="' + attrUrl(q.image_url) + '" alt="">' : '') +
+                '<div class="er-q-answer"><button class="er-btn">&#128269; Zoek de verschillen</button></div>';
+            card.querySelector('.er-btn').addEventListener('click', () => openFindIt(q, card));
             return;
         }
 
@@ -1091,7 +1211,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     .eq('id', roomId)
                     .single(),
                 supabase.from('escaperoom_questions')
-                    .select('id, position, question, answer, question_type, options, image_url, puzzle_size, puzzle_level')
+                    .select('id, position, question, answer, question_type, options, image_url, puzzle_size, puzzle_level, findit_boxes')
                     .eq('room_id', roomId)
                     .order('position')
             ]);

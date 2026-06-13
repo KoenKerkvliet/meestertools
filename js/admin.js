@@ -1,6 +1,6 @@
 /* ============================================
    MEESTERTOOLS - Admin Panel JavaScript
-   Versie: v0.0.2
+   Versie: v0.0.3
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1344,6 +1344,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let allEscaperooms = [];
     let erQuestionCounts = {};   // { room_id: aantal }
     let erRatings = {};          // { room_id: { avg, count } }
+    // Find it-state per vraagrij: { imageUrl, boxes:[{x,y,w,h}] } met x/y/w/h
+    // half-relatief (0..1) binnen één afbeeldingshelft.
+    const erFindit = {};
+    const erClamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
     async function loadEscaperooms() {
         const [roomsRes, qRes, rvRes] = await Promise.all([
@@ -1430,9 +1434,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const type = document.getElementById('erT' + i).value;
         const extras = document.getElementById('erX' + i);
         const answerInput = document.getElementById('erA' + i);
-        const noAnswerField = type === 'schuifpuzzel' || erIsDateType(type);
+        const noAnswerField = type === 'schuifpuzzel' || type === 'findit' || erIsDateType(type);
         answerInput.disabled = noAnswerField;
         answerInput.placeholder = type === 'schuifpuzzel' ? 'Niet nodig (puzzel oplossen = goed)'
+            : type === 'findit' ? 'Niet nodig (verschillen zoeken = goed)'
             : erIsDateType(type) ? 'Kies hieronder de datum'
             : type === 'cijferslot' || type === 'draaislot' ? 'Cijfercode (max 6 cijfers)'
             : 'Antwoord';
@@ -1480,13 +1485,211 @@ document.addEventListener('DOMContentLoaded', () => {
                         '<option value="3">Niveau 3 (8 schuifzetten)</option>' +
                     '</select>' +
                 '</div>';
+        } else if (type === 'findit') {
+            extras.style.display = '';
+            extras.innerHTML =
+                '<input type="file" id="erFiFile' + i + '" accept="image/*" style="display:none;">' +
+                '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">' +
+                    '<button type="button" class="btn-small btn-edit" id="erFiUpload' + i + '">Afbeelding uploaden</button>' +
+                    '<button type="button" class="btn-small" id="erFiEdit' + i + '" disabled>Bewerk verschillen</button>' +
+                    '<span id="erFiInfo' + i + '" style="font-size:12px;color:var(--text-light);"></span>' +
+                '</div>' +
+                '<div id="erFiPrev' + i + '" style="margin-top:6px;"></div>' +
+                '<p style="font-size:12px;color:var(--text-light);margin:4px 0 0;">Upload één liggende 16:9-afbeelding met links en rechts dezelfde foto. Teken in de editor 5 kaders op de verschillen (links tekenen komt automatisch ook rechts te staan).</p>';
+            if (!erFindit[i]) erFindit[i] = { imageUrl: '', boxes: [] };
+            document.getElementById('erFiUpload' + i).addEventListener('click', () => document.getElementById('erFiFile' + i).click());
+            document.getElementById('erFiFile' + i).addEventListener('change', (e) => handleFinditUpload(i, e.target.files[0]));
+            document.getElementById('erFiEdit' + i).addEventListener('click', () => openFinditEditor(i));
+            updateFinditRow(i);
         } else {
             extras.style.display = 'none';
             extras.innerHTML = '';
         }
     }
 
+    // ---------- Find it (zoek de verschillen) ----------
+    function updateFinditRow(i) {
+        const st = erFindit[i] || { imageUrl: '', boxes: [] };
+        const info = document.getElementById('erFiInfo' + i);
+        const prev = document.getElementById('erFiPrev' + i);
+        const editBtn = document.getElementById('erFiEdit' + i);
+        if (editBtn) editBtn.disabled = !st.imageUrl;
+        if (info) info.textContent = st.imageUrl
+            ? (st.boxes.length + ' kader' + (st.boxes.length === 1 ? '' : 's') + ' getekend')
+            : 'Nog geen afbeelding';
+        if (prev) prev.innerHTML = st.imageUrl
+            ? '<img src="' + escapeHtml(st.imageUrl) + '" alt="" style="max-height:70px;border-radius:6px;border:1px solid #E8E8F0;">'
+            : '';
+    }
+
+    async function handleFinditUpload(i, file) {
+        if (!file) return;
+        const info = document.getElementById('erFiInfo' + i);
+        if (info) info.textContent = 'Uploaden...';
+        try {
+            const fid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.round(Math.random() * 1e6);
+            const safe = file.name.replace(/[^\w.\-]+/g, '_');
+            const path = 'findit/' + fid + '/' + safe;
+            const up = await supabase.storage.from('escaperoom').upload(path, file, { upsert: true });
+            if (up.error) throw up.error;
+            const { data } = supabase.storage.from('escaperoom').getPublicUrl(path);
+            if (!erFindit[i]) erFindit[i] = { imageUrl: '', boxes: [] };
+            erFindit[i].imageUrl = data.publicUrl;
+            updateFinditRow(i);
+        } catch (err) {
+            alert('Uploaden mislukt: ' + (err && err.message ? err.message : err));
+            if (info) info.textContent = 'Upload mislukt';
+        }
+    }
+
+    // Editor-state (kader tekenen/slepen/verschalen in groot popup)
+    let fieIndex = null;
+    let fieBoxes = [];
+    let fieSel = -1;
+    let fieDrag = null;
+    const fieStage = document.getElementById('findItEditorStage');
+
+    function openFinditEditor(i) {
+        const st = erFindit[i];
+        if (!st || !st.imageUrl) return;
+        fieIndex = i;
+        fieBoxes = (st.boxes || []).map(b => ({ x: b.x, y: b.y, w: b.w, h: b.h }));
+        fieSel = -1;
+        if (fieStage) fieStage.style.backgroundImage = 'url("' + st.imageUrl + '")';
+        renderFinditEditor();
+        openModal('findItEditorModal');
+    }
+
+    function renderFinditEditor() {
+        if (!fieStage) return;
+        fieStage.querySelectorAll('.fie-box').forEach(el => el.remove());
+        fieBoxes.forEach((b, idx) => {
+            const sel = idx === fieSel;
+            const L = document.createElement('div');
+            L.className = 'fie-box' + (sel ? ' selected' : '');
+            L.style.left = (b.x * 50) + '%';
+            L.style.top = (b.y * 100) + '%';
+            L.style.width = (b.w * 50) + '%';
+            L.style.height = (b.h * 100) + '%';
+            if (sel) { const h = document.createElement('div'); h.className = 'fie-handle'; L.appendChild(h); }
+            const R = document.createElement('div');
+            R.className = 'fie-box mirror' + (sel ? ' selected' : '');
+            R.style.left = (50 + b.x * 50) + '%';
+            R.style.top = (b.y * 100) + '%';
+            R.style.width = (b.w * 50) + '%';
+            R.style.height = (b.h * 100) + '%';
+            fieStage.appendChild(L);
+            fieStage.appendChild(R);
+        });
+        const cnt = document.getElementById('findItEditorCount');
+        if (cnt) cnt.textContent = fieBoxes.length + ' kader' + (fieBoxes.length === 1 ? '' : 's') + ' getekend';
+        const del = document.getElementById('findItEditorDelete');
+        if (del) del.disabled = fieSel < 0;
+    }
+
+    function fiePoint(e) {
+        const r = fieStage.getBoundingClientRect();
+        return { fx: (e.clientX - r.left) / r.width, fy: (e.clientY - r.top) / r.height, r: r };
+    }
+    function fieHitHandle(fx, fy, r) {
+        if (fieSel < 0) return false;
+        const b = fieBoxes[fieSel];
+        const px = b.x * 0.5 + b.w * 0.5, py = b.y + b.h;
+        return Math.abs(fx - px) <= 14 / r.width && Math.abs(fy - py) <= 14 / r.height;
+    }
+    function fieHitBox(fx, fy) {
+        for (let k = fieBoxes.length - 1; k >= 0; k--) {
+            const b = fieBoxes[k];
+            const x0 = b.x * 0.5, x1 = x0 + b.w * 0.5;
+            if (fx >= x0 && fx <= x1 && fy >= b.y && fy <= b.y + b.h) return k;
+        }
+        return -1;
+    }
+    function fiePointerDown(e) {
+        if (!fieStage) return;
+        const p = fiePoint(e);
+        e.preventDefault();
+        if (fieHitHandle(p.fx, p.fy, p.r)) {
+            fieDrag = { mode: 'resize', idx: fieSel };
+            bindFieMove(); return;
+        }
+        const hit = fieHitBox(p.fx, p.fy);
+        if (hit >= 0) {
+            fieSel = hit;
+            const b = fieBoxes[hit];
+            fieDrag = { mode: 'move', idx: hit, offx: p.fx - b.x * 0.5, offy: p.fy - b.y };
+            renderFinditEditor(); bindFieMove(); return;
+        }
+        if (p.fx <= 0.5) {
+            const hx = erClamp(p.fx * 2, 0, 1), hy = erClamp(p.fy, 0, 1);
+            fieBoxes.push({ x: hx, y: hy, w: 0, h: 0 });
+            fieSel = fieBoxes.length - 1;
+            fieDrag = { mode: 'draw', idx: fieSel, startx: hx, starty: hy };
+            renderFinditEditor(); bindFieMove(); return;
+        }
+        fieSel = -1;
+        renderFinditEditor();
+    }
+    function fiePointerMove(e) {
+        if (!fieDrag) return;
+        const p = fiePoint(e);
+        const b = fieBoxes[fieDrag.idx];
+        if (fieDrag.mode === 'draw') {
+            const hx = erClamp(p.fx * 2, 0, 1), hy = erClamp(p.fy, 0, 1);
+            b.x = Math.min(fieDrag.startx, hx); b.w = Math.abs(hx - fieDrag.startx);
+            b.y = Math.min(fieDrag.starty, hy); b.h = Math.abs(hy - fieDrag.starty);
+        } else if (fieDrag.mode === 'move') {
+            b.x = erClamp((p.fx - fieDrag.offx) * 2, 0, 1 - b.w);
+            b.y = erClamp(p.fy - fieDrag.offy, 0, 1 - b.h);
+        } else if (fieDrag.mode === 'resize') {
+            const hx = erClamp(p.fx * 2, 0, 1), hy = erClamp(p.fy, 0, 1);
+            b.w = erClamp(hx - b.x, 0.02, 1 - b.x);
+            b.h = erClamp(hy - b.y, 0.02, 1 - b.y);
+        }
+        renderFinditEditor();
+    }
+    function fiePointerUp() {
+        if (fieDrag && fieDrag.mode === 'draw') {
+            const b = fieBoxes[fieDrag.idx];
+            if (b.w < 0.04 || b.h < 0.04) { fieBoxes.splice(fieDrag.idx, 1); fieSel = -1; }
+        }
+        fieDrag = null;
+        unbindFieMove();
+        renderFinditEditor();
+    }
+    function bindFieMove() {
+        document.addEventListener('pointermove', fiePointerMove);
+        document.addEventListener('pointerup', fiePointerUp);
+    }
+    function unbindFieMove() {
+        document.removeEventListener('pointermove', fiePointerMove);
+        document.removeEventListener('pointerup', fiePointerUp);
+    }
+    if (fieStage) fieStage.addEventListener('pointerdown', fiePointerDown);
+
+    document.getElementById('findItEditorDelete')?.addEventListener('click', () => {
+        if (fieSel >= 0) { fieBoxes.splice(fieSel, 1); fieSel = -1; renderFinditEditor(); }
+    });
+    document.getElementById('findItEditorDone')?.addEventListener('click', () => {
+        if (fieIndex != null) {
+            if (!erFindit[fieIndex]) erFindit[fieIndex] = { imageUrl: '', boxes: [] };
+            erFindit[fieIndex].boxes = fieBoxes.map(b => ({ x: b.x, y: b.y, w: b.w, h: b.h }));
+            updateFinditRow(fieIndex);
+        }
+        closeModal('findItEditorModal');
+    });
+    document.getElementById('closeFindItEditor')?.addEventListener('click', () => closeModal('findItEditorModal'));
+    document.addEventListener('keydown', (e) => {
+        if ((e.key === 'Delete' || e.key === 'Backspace') &&
+            document.getElementById('findItEditorModal')?.classList.contains('active') &&
+            fieSel >= 0) {
+            e.preventDefault();
+            fieBoxes.splice(fieSel, 1); fieSel = -1; renderFinditEditor();
+        }
+    });
+
     function buildErQuestionRows() {
+        Object.keys(erFindit).forEach(k => delete erFindit[k]);
         const wrap = document.getElementById('erFormQuestions');
         let html = '';
         for (let i = 1; i <= ER_MAX_QUESTIONS; i++) {
@@ -1501,7 +1704,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 '<option value="datum_jaar">Datum (met jaartal)</option>' +
                 (finale ? '' :
                     '<option value="meerkeuze">Meerkeuze</option>' +
-                    '<option value="schuifpuzzel">Schuifpuzzel</option>');
+                    '<option value="schuifpuzzel">Schuifpuzzel</option>' +
+                    '<option value="findit">Find it (zoek de verschillen)</option>');
             html += `
                 <div class="form-group" style="margin-bottom:12px;">
                     <div style="display:flex;gap:10px;align-items:flex-start;">
@@ -1557,7 +1761,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const { data: qs } = await supabase
             .from('escaperoom_questions')
-            .select('position, question, answer, question_type, options, image_url, puzzle_size, puzzle_level')
+            .select('position, question, answer, question_type, options, image_url, puzzle_size, puzzle_level, findit_boxes')
             .eq('room_id', id)
             .order('position');
         (qs || []).forEach(q => {
@@ -1581,6 +1785,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (imgEl) imgEl.value = q.image_url || '';
                 if (sizeEl) sizeEl.value = String(q.puzzle_size || 3);
                 if (lvlEl) lvlEl.value = String(q.puzzle_level || 2);
+            }
+            if (q.question_type === 'findit') {
+                erFindit[i] = {
+                    imageUrl: q.image_url || '',
+                    boxes: Array.isArray(q.findit_boxes) ? q.findit_boxes.map(b => ({ x: b.x, y: b.y, w: b.w, h: b.h })) : []
+                };
+                updateFinditRow(i);
             }
             if (erIsDateType(q.question_type)) {
                 // Antwoord is opgeslagen als DD-MM of DD-MM-JJJJ
@@ -1627,7 +1838,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const a = document.getElementById('erA' + i).value.trim();
             const t = document.getElementById('erT' + i).value || 'text';
 
-            const entry = { position: i, question: q, answer: a, question_type: t, options: null, image_url: null, puzzle_size: null, puzzle_level: null };
+            const entry = { position: i, question: q, answer: a, question_type: t, options: null, image_url: null, puzzle_size: null, puzzle_level: null, findit_boxes: null };
 
             if (t === 'schuifpuzzel') {
                 const img = (document.getElementById('erImg' + i)?.value || '').trim();
@@ -1638,6 +1849,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 entry.puzzle_size = parseInt(document.getElementById('erSize' + i)?.value, 10) === 4 ? 4 : 3;
                 const lvl = parseInt(document.getElementById('erLvl' + i)?.value, 10);
                 entry.puzzle_level = (lvl >= 1 && lvl <= 3) ? lvl : 2;
+                questions.push(entry);
+                continue;
+            }
+
+            if (t === 'findit') {
+                const st = erFindit[i] || { imageUrl: '', boxes: [] };
+                if (!q && !st.imageUrl) continue;
+                if (!q || !st.imageUrl) { alert(rowName + ': een Find it-vraag heeft een vraag/opdracht én een afbeelding nodig.'); return; }
+                if (!st.boxes || !st.boxes.length) { alert(rowName + ': teken minstens één kader op de verschillen (advies: 5).'); return; }
+                entry.answer = '';
+                entry.image_url = st.imageUrl;
+                entry.findit_boxes = st.boxes;
                 questions.push(entry);
                 continue;
             }

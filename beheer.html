@@ -535,6 +535,37 @@
         </div>
     </div>
 
+    <!-- Find it kader-editor Modal -->
+    <div class="modal-overlay" id="findItEditorModal">
+        <div class="modal" style="max-width:1100px;width:95vw;">
+            <div class="modal-header">
+                <h2>Verschillen markeren</h2>
+                <button class="modal-close" id="closeFindItEditor">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:13px;color:var(--text-medium);margin:0 0 10px;">
+                    Sleep op de <strong>linkerhelft</strong> om een kader te tekenen &mdash; het komt automatisch ook
+                    op de rechterhelft. Klik een kader aan om het te selecteren: sleep om te verplaatsen, sleep het
+                    hoekje om te verschalen, of gebruik <em>Verwijderen</em> (of Delete-toets).
+                </p>
+                <div class="fie-stage-wrap">
+                    <div class="fie-stage" id="findItEditorStage">
+                        <div class="fie-divider"></div>
+                        <span class="fie-zone-label fie-zone-left">Links &mdash; teken hier</span>
+                        <span class="fie-zone-label fie-zone-right">Rechts &mdash; spiegel</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="justify-content:space-between;">
+                <span id="findItEditorCount" style="font-size:13px;color:var(--text-medium);">0 kaders getekend</span>
+                <span style="display:flex;gap:10px;">
+                    <button class="btn-cancel btn-delete" id="findItEditorDelete" disabled>Verwijderen</button>
+                    <button class="btn-primary" id="findItEditorDone">Klaar</button>
+                </span>
+            </div>
+        </div>
+    </div>
+
     <!-- Confirm Modal -->
     <div class="modal-overlay" id="confirmModal">
         <div class="modal" style="max-width:400px;">
