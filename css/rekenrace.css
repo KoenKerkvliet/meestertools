@@ -207,12 +207,28 @@
 .rr-over-bar { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
 .rr-over-bar .rr-session-actions { margin-left: auto; }
 
+/* Legenda: rand = snelheid, vulkleur = % goed */
+.rr-over-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin-bottom: 18px; font-size: 13px; color: var(--text-medium); }
+.rr-over-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.rr-leg-title { font-weight: 700; color: var(--text-dark); }
+.rr-leg-sep { color: #C9C6DE; }
+.rr-leg-b i { width: 14px; height: 14px; border-radius: 3px; display: inline-block; background: #fff; border: 3px solid #ccc; box-sizing: border-box; }
+.rr-leg-b.snel i { border-color: #1E7B3A; } .rr-leg-b.midden i { border-color: #D98200; } .rr-leg-b.traag i { border-color: #C0392B; }
+.rr-leg-f i { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
+.rr-leg-f.hoog i { background: #DCF5E2; } .rr-leg-f.midden i { background: #FFEBCC; } .rr-leg-f.laag i { background: #FBE0E0; }
+
 /* Ingekleurde (read-only) steentjes — gedeelde wallHtml-output */
-.rr-cell-view { cursor: default; box-shadow: none; color: var(--text-medium); background: #fff; border-color: #E6E4F2; }
+.rr-cell-view { cursor: default; box-shadow: none; color: var(--text-medium); background: #fff; border-color: #E6E4F2; border-width: 3px; }
 .rr-cell-view.is-locked { opacity: .5; }
-.rr-cell-view.is-grey { background: #EFEEF6; color: #9A96B8; border-color: #E2E0EE; }
-.rr-cell-view.is-green { background: #34C759; color: #fff; border-color: #28a347; }
-.rr-cell-view.is-orange { background: #FF9F40; color: #fff; border-color: #e98b2c; }
+.rr-cell-view.is-grey { background: #EFEEF6; color: #9A96B8; border-color: #D9D6E8; }
+/* Vulkleur = accuratesse (% goed) */
+.rr-cell-view.rr-acc-hoog { background: #DCF5E2; color: #225C36; }
+.rr-cell-view.rr-acc-midden { background: #FFEBCC; color: #7A4E12; }
+.rr-cell-view.rr-acc-laag { background: #FBE0E0; color: #8A2B22; }
+/* Rand = snelheid (diepere kleur dan de vulling, zo blijft groen-op-groen zichtbaar) */
+.rr-cell-view.rr-spd-snel { border-color: #1E7B3A; }
+.rr-cell-view.rr-spd-midden { border-color: #D98200; }
+.rr-cell-view.rr-spd-traag { border-color: #C0392B; }
 .rr-cell-view.is-highlight { box-shadow: 0 0 0 3px var(--primary, #6C63FF); }
 .rr-cell-flag {
     position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; border-radius: 50%;
@@ -225,7 +241,7 @@
 .rr-wall-mini .rr-fase { gap: 4px; }
 .rr-wall-mini .rr-fase-rows { gap: 4px; }
 .rr-wall-mini .rr-wall-row { gap: 4px; }
-.rr-wall-mini .rr-cell { min-height: 26px; font-size: 10px; padding: 2px 3px; border-width: 1.5px; border-radius: 7px; }
+.rr-wall-mini .rr-cell { min-height: 26px; font-size: 10px; padding: 2px 3px; border-width: 2px; border-radius: 7px; }
 
 .rr-over-kids { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
 .rr-kid-card { background: var(--bg-white, #fff); border: 1px solid #ECEAF6; border-radius: 14px; box-shadow: var(--shadow-sm); padding: 14px; }

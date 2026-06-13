@@ -110,15 +110,21 @@
         .md-wall .rr-fase-rows { flex: 1; display: flex; flex-direction: column; gap: 5px; min-width: 0; }
         .md-wall .rr-wall-row { display: flex; gap: 5px; }
         .md-wall .rr-cell {
-            flex: 1; min-width: 0; min-height: 34px; border-radius: 8px; border: 2px solid transparent;
+            flex: 1; min-width: 0; min-height: 34px; border-radius: 8px; border: 3px solid transparent;
             display: flex; align-items: center; justify-content: center; position: relative;
             font-size: 11px; font-weight: 700; padding: 3px 4px; text-align: center; line-height: 1.05;
             background: #fff; color: #8a8aa0;
         }
         .md-wall .rr-cell.is-locked { background: #F3F2FA; color: #C2C0D4; }
-        .md-wall .rr-cell.is-grey { background: #EFEEF6; color: #9A96B8; border-color: #E2E0EE; }
-        .md-wall .rr-cell.is-green { background: #34C759; color: #fff; border-color: #28a347; }
-        .md-wall .rr-cell.is-orange { background: #FF9F40; color: #fff; border-color: #e98b2c; }
+        .md-wall .rr-cell.is-grey { background: #EFEEF6; color: #9A96B8; border-color: #D9D6E8; }
+        /* Vulkleur = accuratesse */
+        .md-wall .rr-cell.rr-acc-hoog { background: #DCF5E2; color: #225C36; }
+        .md-wall .rr-cell.rr-acc-midden { background: #FFEBCC; color: #7A4E12; }
+        .md-wall .rr-cell.rr-acc-laag { background: #FBE0E0; color: #8A2B22; }
+        /* Rand = snelheid (diepere kleur dan de vulling) */
+        .md-wall .rr-cell.rr-spd-snel { border-color: #1E7B3A; }
+        .md-wall .rr-cell.rr-spd-midden { border-color: #D98200; }
+        .md-wall .rr-cell.rr-spd-traag { border-color: #C0392B; }
         .md-wall .rr-cell.is-highlight { box-shadow: 0 0 0 3px #6C63FF; }
         .md-wall .rr-cell.is-clickable { cursor: pointer; }
         .md-wall .rr-cell.is-clickable:hover { transform: translateY(-2px); box-shadow: 0 5px 12px rgba(0,0,0,.18); }
@@ -128,10 +134,13 @@
             background: #fff; color: #e98b2c; border: 1.5px solid #e98b2c;
             font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center;
         }
-        .md-wall-legend { display: flex; justify-content: center; gap: 14px; margin-top: 12px; font-size: 12px; color: #636E72; }
+        .md-wall-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 12px; margin-top: 10px; font-size: 12px; color: #636E72; }
         .md-wall-legend span { display: inline-flex; align-items: center; gap: 5px; }
-        .md-wall-legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
-        .md-leg-green i { background: #34C759; } .md-leg-orange i { background: #FF9F40; } .md-leg-grey i { background: #EFEEF6; border: 1px solid #E2E0EE; }
+        .md-leg-title { font-weight: 700; color: #4A4470; }
+        .md-leg-b i { width: 13px; height: 13px; border-radius: 3px; display: inline-block; background: #fff; border: 3px solid #ccc; box-sizing: border-box; }
+        .md-leg-b.snel i { border-color: #1E7B3A; } .md-leg-b.midden i { border-color: #D98200; } .md-leg-b.traag i { border-color: #C0392B; }
+        .md-leg-f i { width: 13px; height: 13px; border-radius: 3px; display: inline-block; }
+        .md-leg-f.hoog i { background: #DCF5E2; } .md-leg-f.midden i { background: #FFEBCC; } .md-leg-f.laag i { background: #FBE0E0; }
     </style>
 </head>
 <body>
@@ -215,9 +224,16 @@
                     <div class="md-wall-title" id="endWallTitle">Jouw rekenmuurtje</div>
                     <div class="md-wall" id="endWall"></div>
                     <div class="md-wall-legend">
-                        <span class="md-leg-green"><i></i> beheers je</span>
-                        <span class="md-leg-orange"><i></i> oefenen</span>
-                        <span class="md-leg-grey"><i></i> nog niet</span>
+                        <span class="md-leg-title">Rand = snelheid:</span>
+                        <span class="md-leg-b snel"><i></i>snel</span>
+                        <span class="md-leg-b midden"><i></i>bijna</span>
+                        <span class="md-leg-b traag"><i></i>nog traag</span>
+                    </div>
+                    <div class="md-wall-legend">
+                        <span class="md-leg-title">Vulkleur = goed:</span>
+                        <span class="md-leg-f hoog"><i></i>top</span>
+                        <span class="md-leg-f midden"><i></i>bijna</span>
+                        <span class="md-leg-f laag"><i></i>nog veel fout</span>
                     </div>
                 </div>
                 <button class="md-btn" id="endBackBtn" style="display:none;margin-top:18px;">&larr; Terug naar mijn muur</button>
@@ -232,9 +248,16 @@
                 </div>
                 <div class="md-wall" id="viewWall"></div>
                 <div class="md-wall-legend">
-                    <span class="md-leg-green"><i></i> beheers je</span>
-                    <span class="md-leg-orange"><i></i> oefenen</span>
-                    <span class="md-leg-grey"><i></i> nog niet</span>
+                    <span class="md-leg-title">Rand = snelheid:</span>
+                    <span class="md-leg-b snel"><i></i>snel</span>
+                    <span class="md-leg-b midden"><i></i>bijna</span>
+                    <span class="md-leg-b traag"><i></i>nog traag</span>
+                </div>
+                <div class="md-wall-legend">
+                    <span class="md-leg-title">Vulkleur = goed:</span>
+                    <span class="md-leg-f hoog"><i></i>top</span>
+                    <span class="md-leg-f midden"><i></i>bijna</span>
+                    <span class="md-leg-f laag"><i></i>nog veel fout</span>
                 </div>
                 <div class="md-error" id="wallError" style="margin-top:16px;"></div>
             </section>

@@ -402,34 +402,46 @@
         return { status: green ? 'green' : 'orange', accuracy: acc };
     }
 
+    // ---------- Twee assen: snelheid -> rand, accuratesse -> vulkleur ----------
+    // Snelheid (gemiddeld sec/som, afgeleid uit best_per_min: 60/bpm):
+    //   <= 4 sec (bpm >= 15) -> 'snel' (donkergroene rand)
+    //   <= 6 sec (bpm >= 10) -> 'midden' (oranje rand)
+    //   anders               -> 'traag' (donkerrode rand)
+    function speedTier(bpm) { bpm = bpm || 0; if (bpm >= 15) return 'snel'; if (bpm >= 10) return 'midden'; return 'traag'; }
+    // Accuratesse (% goed):
+    //   >= 90 -> 'hoog' (lichtgroene vulling)
+    //   >= 80 -> 'midden' (lichtoranje vulling)
+    //   anders -> 'laag' (lichtrode vulling)
+    function accTier(acc) { acc = acc || 0; if (acc >= 90) return 'hoog'; if (acc >= 80) return 'midden'; return 'laag'; }
+    function isMastered(e) { return !!e && speedTier(e.best_per_min) === 'snel' && accTier(e.best_accuracy) === 'hoog'; }
+
     // ---------- Gedeelde wall-renderer (read-only, ingekleurd) ----------
-    // statusByBlockId: { blockId: { status:'green'|'orange', regressed:bool } } (of 'green'/'orange' string)
-    // opts: { highlight: blockId, hideFaseLabel: bool }
+    // statusByBlockId: { blockId: { best_per_min, best_accuracy, regressed } }
+    // opts: { highlight: blockId, hideFaseLabel: bool, clickable: bool }
     function wallHtml(statusByBlockId, opts) {
         opts = opts || {};
         const map = statusByBlockId || {};
         function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-        function entry(id) {
-            const v = map[id];
-            if (!v) return null;
-            return typeof v === 'string' ? { status: v, regressed: false } : v;
-        }
+        function entry(id) { return map[id] || null; }
         return BLOCKS.map(function (f) {
             const rows = f.rows.map(function (row) {
                 return '<div class="rr-wall-row">' + row.map(function (c) {
                     const cls = ['rr-cell', 'rr-cell-' + c.kind, 'rr-cell-view'];
+                    const e = c.active ? entry(c.id) : null;
                     if (c.active) {
-                        const e = entry(c.id);
-                        if (e && e.status === 'green') cls.push('is-green');
-                        else if (e && e.status === 'orange') cls.push('is-orange');
-                        else cls.push('is-grey');
-                        if (e && e.regressed) cls.push('is-regressed');
+                        if (e) {
+                            cls.push('rr-spd-' + speedTier(e.best_per_min)); // rand = snelheid
+                            cls.push('rr-acc-' + accTier(e.best_accuracy));   // vulling = accuratesse
+                            if (e.regressed) cls.push('is-regressed');
+                        } else {
+                            cls.push('is-grey'); // nog niet gedaan
+                        }
                         if (opts.clickable) cls.push('is-clickable');
                     } else {
                         cls.push('is-locked');
                     }
                     if (opts.highlight && c.id === opts.highlight) cls.push('is-highlight');
-                    const seintje = (c.active && entry(c.id) && entry(c.id).regressed)
+                    const seintje = (e && e.regressed)
                         ? '<span class="rr-cell-flag" title="Laatste keer minder">!</span>' : '';
                     const data = c.active ? ' data-block="' + c.id + '"' : '';
                     return '<div class="' + cls.join(' ') + '"' + data + '>' +
@@ -449,6 +461,9 @@
         hasGenerator: function (id) { return !!GENERATORS[id]; },
         NORM: NORM,
         verdictFor: verdictFor,
-        wallHtml: wallHtml
+        wallHtml: wallHtml,
+        speedTier: speedTier,
+        accTier: accTier,
+        isMastered: isMastered
     };
 })();

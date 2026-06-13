@@ -157,7 +157,9 @@
     // ---------- Rekenmuur (gedeelde renderer) ----------
     function wallMap(wallArr) {
         const m = {};
-        (wallArr || []).forEach(w => { m[w.block_id] = { status: w.status, regressed: w.regressed }; });
+        (wallArr || []).forEach(w => {
+            m[w.block_id] = { best_per_min: w.best_per_min, best_accuracy: w.best_accuracy, regressed: w.regressed };
+        });
         return m;
     }
     async function showWall() {

@@ -521,7 +521,7 @@ document.addEventListener('DOMContentLoaded', () => {
         overKidsEmpty.style.display = anyMastery ? 'none' : '';
         overKids.innerHTML = students.map(s => {
             const map = masteryByStudent[s.id] || {};
-            const greenN = Object.keys(map).filter(k => map[k].status === 'green').length;
+            const greenN = Object.keys(map).filter(k => MTRekenrace.isMastered(map[k])).length;
             return '<div class="rr-kid-card">' +
                 '<div class="rr-kid-head">' +
                     '<img src="' + BASE + monsterForStudent(s) + '" alt="">' +
@@ -542,8 +542,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const green = [], orange = [], none = [];
         students.forEach(s => {
             const v = (masteryByStudent[s.id] || {})[overBlockId];
-            if (v && v.status === 'green') green.push({ s, v });
-            else if (v && v.status === 'orange') orange.push({ s, v });
+            if (v && MTRekenrace.isMastered(v)) green.push({ s, v });
+            else if (v) orange.push({ s, v });
             else none.push({ s, v: null });
         });
         function pills(arr) {
