@@ -11,6 +11,8 @@
     let students = {};
     let activeGroupId = null;
     let showArchived = false;
+    let schoolName = null;        // voor de leerlingcode-prefix
+    let schoolNameLoaded = false;
 
     // Schooljaar state
     let schooljaarData = { activeYear: null, years: {} };
@@ -45,6 +47,42 @@
         } catch (err) {
             console.error('Session error:', err);
             return null;
+        }
+    }
+
+    // ---------- Leerlingcode (3 letters + 3 cijfers, prefix = school) ----------
+    async function ensureSchoolName() {
+        if (schoolNameLoaded) return schoolName;
+        try {
+            const user = await getCurrentUser();
+            if (user) {
+                const { data } = await supabase.from('profiles').select('schools(name)').eq('id', user.id).single();
+                schoolName = (data && data.schools && data.schools.name) || '';
+            }
+        } catch (e) { /* niet fataal */ }
+        schoolNameLoaded = true;
+        return schoolName;
+    }
+    function genStudentCode(school) {
+        const LET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let prefix = String(school || '').toUpperCase().replace(/[^A-Z]/g, '').slice(0, 2);
+        while (prefix.length < 2) prefix += 'X'; // fallback als school (te) kort is
+        const rl = LET[Math.floor(Math.random() * 26)];
+        const digits = String(Math.floor(Math.random() * 1000)).padStart(3, '0');
+        return prefix + rl + digits;
+    }
+    // Geef leerlingen zonder code er één (backfill). Globaal uniek -> retry bij botsing.
+    async function ensureCodesForGroup(groupId) {
+        const missing = (students[groupId] || []).filter(s => !s.code);
+        if (!missing.length) return;
+        const school = await ensureSchoolName();
+        for (const s of missing) {
+            for (let attempt = 0; attempt < 8; attempt++) {
+                const code = genStudentCode(school);
+                const { error } = await supabase.from('students').update({ code }).eq('id', s.id);
+                if (!error) { s.code = code; break; }
+                if (error.code !== '23505') break; // andere fout -> niet eindeloos proberen
+            }
         }
     }
 
@@ -666,6 +704,7 @@
             <div class="leerlingen-toolbar">
                 <h4>Leerlingen</h4>
                 <button class="btn-add-small" onclick="window._showAddStudent('${groupId}')">+ Leerling</button>
+                <button class="btn-add-small" onclick="window._printCodes('${groupId}')" title="Print de leerlingcodes om uit te delen">&#128424;&#65039; Codes printen</button>
             </div>
             <div id="addStudentForm-${groupId}" style="display:none;margin-bottom:12px">
                 <div class="inline-add-form">
@@ -687,6 +726,7 @@
                     <div class="leerling-item${s.archived ? ' archived' : ''}">
                         <span class="leerling-nummer">${s.student_number}</span>
                         <span class="leerling-naam">${escapeHtml(fullName)}</span>
+                        ${s.code ? `<span class="leerling-code" title="Inlogcode voor meestertools.nl/leerling">${escapeHtml(s.code)}</span>` : ''}
                         ${s.archived ? '<span class="badge badge-archived" style="font-size:10px">Gearchiveerd</span>' : ''}
                         <div class="leerling-actions">
                             <button class="btn-small btn-edit" onclick="window._editStudent('${s.id}','${groupId}')">Bewerken</button>
@@ -717,6 +757,7 @@
             .order('student_number', { ascending: true });
 
         students[groupId] = data || [];
+        await ensureCodesForGroup(groupId);
         renderGroups();
     }
 
@@ -861,19 +902,28 @@
                 : 0;
             const studentNumber = maxNumber + 1;
 
-            const { error } = await supabase
-                .from('students')
-                .insert({
-                    first_name: firstName,
-                    last_name: lastName,
-                    student_number: studentNumber,
-                    group_id: groupId,
-                    user_id: user.id
-                });
+            // Unieke leerlingcode genereren (retry bij globale botsing).
+            const school = await ensureSchoolName();
+            let created = false, lastErr = null;
+            for (let attempt = 0; attempt < 8 && !created; attempt++) {
+                const { error } = await supabase
+                    .from('students')
+                    .insert({
+                        first_name: firstName,
+                        last_name: lastName,
+                        student_number: studentNumber,
+                        group_id: groupId,
+                        user_id: user.id,
+                        code: genStudentCode(school)
+                    });
+                if (!error) { created = true; break; }
+                lastErr = error;
+                if (error.code !== '23505') break;
+            }
 
-            if (error) {
-                console.error('Error adding student:', error);
-                showInlineError('addStudentForm-' + groupId, 'Fout bij toevoegen: ' + error.message);
+            if (!created) {
+                console.error('Error adding student:', lastErr);
+                showInlineError('addStudentForm-' + groupId, 'Fout bij toevoegen: ' + (lastErr ? lastErr.message : ''));
                 return;
             }
 
@@ -890,6 +940,48 @@
                 addBtn.textContent = 'Toevoegen';
             }
         }
+    };
+
+    // Print de leerlingcodes (knip-uit-strookjes) om uit te delen.
+    window._printCodes = async function (groupId) {
+        await ensureCodesForGroup(groupId);
+        const list = (students[groupId] || []).filter(s => !s.archived);
+        if (!list.length) { alert('Er zijn nog geen leerlingen om te printen.'); return; }
+        const group = groups.find(g => g.id === groupId);
+        const groupName = group ? group.name : '';
+        const host = location.host;
+
+        const cards = list.map(s =>
+            '<div class="slip">' +
+                '<div class="nm">' + escapeHtml(s.first_name) + '</div>' +
+                '<div class="cd">' + escapeHtml(s.code || '') + '</div>' +
+                '<div class="hint">Ga naar <b>' + escapeHtml(host) + '/leerling</b><br>en vul je voornaam en code in.</div>' +
+            '</div>'
+        ).join('');
+
+        const html = '<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8">' +
+            '<title>Leerlingcodes - ' + escapeHtml(groupName) + '</title><style>' +
+            '*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust:exact;}' +
+            'body{font-family:"Segoe UI",system-ui,Arial,sans-serif;padding:16px;color:#2D3436;}' +
+            'h1{font-size:18px;margin:0 0 14px;}' +
+            '.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}' +
+            '.slip{border:2px dashed #B9B6D6;border-radius:12px;padding:16px 18px;page-break-inside:avoid;text-align:center;}' +
+            '.nm{font-size:20px;font-weight:800;margin-bottom:6px;}' +
+            '.cd{font-family:"Courier New",monospace;font-size:32px;font-weight:800;letter-spacing:.14em;color:#6C63FF;margin-bottom:8px;}' +
+            '.hint{font-size:12.5px;color:#636E72;line-height:1.4;}' +
+            '@page{margin:12mm;}' +
+            '@media print{body{padding:0;}}' +
+            '</style></head><body>' +
+            '<h1>Leerlingcodes &mdash; ' + escapeHtml(groupName) + '</h1>' +
+            '<div class="grid">' + cards + '</div>' +
+            '<script>window.onload=function(){setTimeout(function(){window.print();},350);};<\/script>' +
+            '</body></html>';
+
+        const w = window.open('', '_blank');
+        if (!w) { alert('Sta pop-ups toe om te kunnen printen.'); return; }
+        w.document.open();
+        w.document.write(html);
+        w.document.close();
     };
 
     window._editStudent = function (studentId, groupId) {
