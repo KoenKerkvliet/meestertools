@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let participants = [];
     let channel = null;
     let timerInt = null;
+    let participantsPoll = null;  // fallback-verversing (naast Realtime)
 
     // overzicht / rekenmuren
     let overTab = 'kids';
@@ -337,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderSession();
     }
     function newSession() {
-        detachRealtime(); stopTimer();
+        detachRealtime(); stopTimer(); stopPoll();
         session = null; participants = [];
         showSetup();
     }
@@ -406,6 +407,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (st === 'lobby') { stopTimer(); renderLobby(); }
         else { renderDash(); if (st === 'playing') startTimer(); else stopTimer(); }
+
+        if (isClosed) stopPoll(); else startPoll();
     }
     function renderLobby() {
         participantCount.textContent = participants.length;
@@ -448,6 +451,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 '<span class="rr-rank-stat"><strong>' + tempoLabel(p) + '</strong><small>tempo</small></span>' +
                 '</div>';
         }).join('');
+    }
+
+    // ---------- Verversing (fallback naast Realtime) ----------
+    // Realtime-push kan haperen; daarom halen we de deelnemers ook periodiek op
+    // zodat de lobby en het dashboard altijd kloppen.
+    function stopPoll() { if (participantsPoll) { clearInterval(participantsPoll); participantsPoll = null; } }
+    function startPoll() {
+        stopPoll();
+        if (!session) return;
+        participantsPoll = setInterval(async () => {
+            if (!session || session.status === 'closed') { stopPoll(); return; }
+            await loadParticipants();
+            if (session.status === 'lobby') renderLobby(); else renderDash();
+        }, 3000);
     }
 
     // ---------- Timer (tijdmodus) ----------
@@ -654,7 +671,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- Klaswissel ----------
     async function onGroupChange() {
-        detachRealtime(); stopTimer();
+        detachRealtime(); stopTimer(); stopPoll();
         detachMasteryRealtime();
         // De klas-link blijft bestaan (persistent); alleen de weergave resetten.
         viewSession = null; hideViewLink();
