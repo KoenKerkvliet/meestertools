@@ -17,7 +17,7 @@
         hub: document.getElementById('screenHub'),
         wall: document.getElementById('screenWall')
     };
-    const wrapEl = document.querySelector('.md-wrap');
+    const topLogout = document.getElementById('topLogout');
 
     const nameInput = document.getElementById('nameInput');
     const codeInput = document.getElementById('codeInput');
@@ -27,7 +27,6 @@
     const hubMonster = document.getElementById('hubMonster');
     const hubHi = document.getElementById('hubHi');
     const tileWall = document.getElementById('tileWall');
-    const hubLogout = document.getElementById('hubLogout');
 
     const wallTitle = document.getElementById('wallTitle');
     const wallEl = document.getElementById('wall');
@@ -40,7 +39,7 @@
     // ---------- Helpers ----------
     function showScreen(key) {
         Object.keys(screens).forEach(k => screens[k].classList.toggle('active', k === key));
-        if (wrapEl) wrapEl.classList.toggle('is-wide', key === 'wall');
+        topLogout.style.display = (key === 'login') ? 'none' : '';
     }
     function showErr(el, msg) { el.textContent = msg; el.classList.add('show'); }
     function hideErr(el) { el.classList.remove('show'); }
@@ -124,8 +123,9 @@
         nameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') codeInput.focus(); });
         codeInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') doLogin(); });
         tileWall.addEventListener('click', showWall);
+        tileWall.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showWall(); } });
         wallBack.addEventListener('click', showHub);
-        hubLogout.addEventListener('click', logout);
+        topLogout.addEventListener('click', logout);
 
         const saved = restore();
         if (saved && saved.code && saved.name) {
