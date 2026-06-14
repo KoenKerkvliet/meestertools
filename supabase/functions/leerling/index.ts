@@ -67,6 +67,49 @@ serve(async (req) => {
       return json({ ok: true, matched: true, wall: wall || [] })
     }
 
+    // ---------------- sessions (actieve sessies van de klas) ----------------
+    if (action === 'sessions') {
+      if (!valid) return json({ ok: true, sessions: [] })
+      const gid = student.group_id
+      const naam = encodeURIComponent(student.first_name || '')
+      const out: Array<Record<string, unknown>> = []
+
+      const { data: rr } = await admin
+        .from('rekenrace_sessions')
+        .select('code, block_label, status')
+        .eq('group_id', gid).eq('purpose', 'race').in('status', ['lobby', 'playing'])
+      ;(rr || []).forEach((s: any) => out.push({
+        type: 'rekenrace', icon: '🧮',
+        label: 'Rekenrace' + (s.block_label ? ' · ' + s.block_label : ''),
+        joinUrl: '/meedoen-rekenrace?code=' + s.code + '&naam=' + naam,
+      }))
+
+      const { data: er } = await admin
+        .from('escaperoom_sessions')
+        .select('code, status, escaperooms(title)')
+        .eq('group_id', gid).in('status', ['lobby', 'playing'])
+      ;(er || []).forEach((s: any) => {
+        const title = s.escaperooms && s.escaperooms.title
+        out.push({
+          type: 'escaperoom', icon: '🗝️',
+          label: 'Escape room' + (title ? ' · ' + title : ''),
+          joinUrl: '/meedoen-escaperoom?code=' + s.code,
+        })
+      })
+
+      const { data: cm } = await admin
+        .from('compliment_sessions')
+        .select('code, status, focus_student_name')
+        .eq('group_id', gid).in('status', ['lobby', 'collecting'])
+      ;(cm || []).forEach((s: any) => out.push({
+        type: 'compliment', icon: '💛',
+        label: 'Complimentenmuur' + (s.focus_student_name ? ' · voor ' + s.focus_student_name : ''),
+        joinUrl: '/meedoen?code=' + s.code,
+      }))
+
+      return json({ ok: true, sessions: out })
+    }
+
     return json({ ok: false, error: 'Onbekende actie.' }, 400)
   } catch (err) {
     console.error('leerling error:', err)

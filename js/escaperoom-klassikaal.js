@@ -83,6 +83,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function createSession() {
+        // Koppel aan de actieve klas, zodat de room op /leerling verschijnt bij
+        // de leerlingen van die klas (null = verschijnt niet op leerlingpagina's).
+        let groupId = null;
+        try { groupId = localStorage.getItem('mt_active_group') || null; } catch (e) {}
+
         let created = null, lastErr = null;
         for (let attempt = 0; attempt < 6 && !created; attempt++) {
             const { data, error } = await supabase.from('escaperoom_sessions').insert({
@@ -90,7 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 room_id: room.id,
                 code: genCode(5),
                 status: 'lobby',
-                time_limit_minutes: room.time_limit_minutes || null
+                time_limit_minutes: room.time_limit_minutes || null,
+                group_id: groupId
             }).select().single();
             if (!error) { created = data; break; }
             lastErr = error;

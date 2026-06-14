@@ -11,6 +11,7 @@
     let code = '';
     let displayName = '';
     let monster = '';
+    let sessionsPoll = null;   // live verversen van de "Doe nu mee!"-balk
 
     const screens = {
         login: document.getElementById('screenLogin'),
@@ -27,6 +28,9 @@
     const hubMonster = document.getElementById('hubMonster');
     const hubHi = document.getElementById('hubHi');
     const tileWall = document.getElementById('tileWall');
+    const activeSessions = document.getElementById('activeSessions');
+    const activeSessionsGrid = document.getElementById('activeSessionsGrid');
+    const mineTitle = document.getElementById('mineTitle');
 
     const wallTitle = document.getElementById('wallTitle');
     const wallEl = document.getElementById('wall');
@@ -40,6 +44,12 @@
     function showScreen(key) {
         Object.keys(screens).forEach(k => screens[k].classList.toggle('active', k === key));
         topLogout.style.display = (key === 'login') ? 'none' : '';
+        if (key !== 'hub') stopSessionsPoll();
+    }
+    function escapeHtml(str) {
+        const d = document.createElement('div');
+        d.textContent = String(str == null ? '' : str);
+        return d.innerHTML;
     }
     function showErr(el, msg) { el.textContent = msg; el.classList.add('show'); }
     function hideErr(el) { el.classList.remove('show'); }
@@ -93,6 +103,35 @@
         hubMonster.src = monsterUrl(monster);
         hubHi.textContent = 'Hoi ' + (displayName || name) + '!';
         showScreen('hub');
+        loadSessions();
+        startSessionsPoll();
+    }
+
+    // ---------- Actieve sessies ("Doe nu mee!") ----------
+    function stopSessionsPoll() { if (sessionsPoll) { clearInterval(sessionsPoll); sessionsPoll = null; } }
+    function startSessionsPoll() { stopSessionsPoll(); sessionsPoll = setInterval(loadSessions, 6000); }
+    async function loadSessions() {
+        if (!code) return;
+        const res = await call('sessions', { code: code });
+        renderSessions((res && res.ok && res.sessions) || []);
+    }
+    function renderSessions(list) {
+        if (!list.length) {
+            activeSessions.style.display = 'none';
+            mineTitle.style.display = 'none';
+            activeSessionsGrid.innerHTML = '';
+            return;
+        }
+        activeSessionsGrid.innerHTML = list.map(s =>
+            '<a class="tool-card ll-session" href="' + escapeHtml(s.joinUrl || '#') + '">' +
+                '<span class="card-icon">' + (s.icon || '🎯') + '</span>' +
+                '<h3>' + escapeHtml(s.label || 'Sessie') + '</h3>' +
+                '<p>Doe mee!</p>' +
+                '<span class="ll-live">&#9679; live</span>' +
+            '</a>'
+        ).join('');
+        activeSessions.style.display = '';
+        mineTitle.style.display = '';
     }
 
     async function showWall() {
