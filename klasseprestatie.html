@@ -60,8 +60,13 @@
             </div>
 
             <!-- Tools-balk (timer, stoplicht) — staat los van render() zodat
-                 de timer blijft lopen als de leerlingen opnieuw getekend worden. -->
+                 de timer blijft lopen als de leerlingen opnieuw getekend worden.
+                 Staat bewust boven het logboek, maar onder de leerlingkaartjes. -->
             <div id="kprToolsTray" class="kpr-tools-tray" hidden></div>
+
+            <!-- Logboek minutenspel — los van #kprContainer zodat het ONDER de
+                 tools-balk blijft staan (en de tools niet uit beeld duwt). -->
+            <div id="kprLogbook" class="kpr-logbook-slot"></div>
 
             <!-- Task reveal popup (fullscreen overlay tijdens taskRevealed phase) -->
             <div id="kprTaskOverlay" class="kpr-task-overlay" style="display:none;">

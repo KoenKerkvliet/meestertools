@@ -182,7 +182,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     ];
 
-    var MAX_PUNT = 4;
+    var TARGET_PUNT = 4; // bedoeld aantal plekken; meer mag, maar krijgt een rode rand
+
+    // Een "plek" in de taartpunt bevat 1 of meer stellingen die naast elkaar
+    // liggen (omdat ze sterk op elkaar lijken). Intern is w.punt dus een lijst
+    // van groepen: [[id], [id, id], [id], ...]. Ouder formaat (platte lijst van
+    // ids) wordt bij het laden omgezet via normalizeGroups().
+    function normalizeGroups(arr) {
+        if (!Array.isArray(arr)) return [];
+        return arr.map(function (g) { return Array.isArray(g) ? g.slice() : [g]; });
+    }
+    function puntFlat(w) {
+        var out = [];
+        (w.punt || []).forEach(function (g) { (g || []).forEach(function (id) { out.push(id); }); });
+        return out;
+    }
 
     // Geef elke ingebouwde stelling een stabiel id
     var PUNT_BY_KEY = {};
@@ -218,7 +232,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // ---------- Work-state helpers ----------
     function blankPunt() { return { punt: [], parkeer: [], weg: [], cur: 0 }; }
     function ensureWork() {
-        PUNTEN.forEach(function (p) { if (!work[p.key]) work[p.key] = blankPunt(); });
+        PUNTEN.forEach(function (p) {
+            var w = work[p.key];
+            if (!w) { work[p.key] = blankPunt(); return; }
+            w.punt = normalizeGroups(w.punt);
+            if (!Array.isArray(w.parkeer)) w.parkeer = [];
+            if (!Array.isArray(w.weg)) w.weg = [];
+            if (typeof w.cur !== 'number') w.cur = 0;
+        });
     }
     function itemsFor(key) {
         var p = PUNT_BY_KEY[key];
@@ -236,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function deckFor(key) {
         var w = work[key];
         var placed = {};
-        w.punt.concat(w.parkeer, w.weg).forEach(function (id) { placed[id] = true; });
+        puntFlat(w).concat(w.parkeer, w.weg).forEach(function (id) { placed[id] = true; });
         return itemsFor(key).filter(function (it) { return !placed[it.id]; });
     }
 
@@ -299,7 +320,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 ' A' + r + ',' + r + ' 0 ' + large + ' 1 ' + e.x.toFixed(2) + ',' + e.y.toFixed(2) + ' Z';
             var mid = polar(cx, cy, r * 0.62, (a0 + a1) / 2);
             var w = work[p.key] || blankPunt();
-            var full = w.punt.length >= MAX_PUNT;
+            var full = (w.punt || []).length >= TARGET_PUNT;
             html += '<g class="vs-seg' + (full ? ' is-full' : '') + '" data-key="' + p.key + '">' +
                 '<path d="' + d + '" fill="' + p.kleur + '"></path>' +
                 '<text class="vs-seg-num" x="' + mid.x.toFixed(1) + '" y="' + (mid.y + 6).toFixed(1) + '" text-anchor="middle">' +
@@ -315,8 +336,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderGrid() {
         var html = PUNTEN.map(function (p, i) {
             var w = work[p.key] || blankPunt();
+            var plekken = (w.punt || []).length;
             var totaal = itemsFor(p.key).length;
-            var behandeld = w.punt.length + w.parkeer.length + w.weg.length;
+            var behandeld = puntFlat(w).length + w.parkeer.length + w.weg.length;
             var done = behandeld >= totaal;
             return '<button class="vs-punt-card" data-key="' + p.key + '">' +
                 '<div class="vs-pc-bar" style="background:' + p.kleur + '"></div>' +
@@ -327,7 +349,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     '</div>' +
                     '<p class="vs-pc-vraag">' + esc(p.vraag) + '</p>' +
                     '<div class="vs-pc-stats">' +
-                        '<span class="vs-pc-pill' + (w.punt.length >= MAX_PUNT ? ' is-done' : '') + '">In de punt: ' + w.punt.length + '/' + MAX_PUNT + '</span>' +
+                        '<span class="vs-pc-pill' + (plekken >= TARGET_PUNT ? ' is-done' : '') + (plekken > TARGET_PUNT ? ' is-over' : '') + '">In de punt: ' + plekken + '/' + TARGET_PUNT + (plekken > TARGET_PUNT ? ' (te veel)' : '') + '</span>' +
                         '<span class="vs-pc-pill' + (done ? ' is-done' : '') + '">Behandeld: ' + behandeld + '/' + totaal + '</span>' +
                     '</div>' +
                 '</div>' +
@@ -370,11 +392,12 @@ document.addEventListener('DOMContentLoaded', function () {
         var w = work[key];
         var deck = deckFor(key);
         var totaal = itemsFor(key).length;
-        var behandeld = w.punt.length + w.parkeer.length + w.weg.length;
+        var plekken = w.punt.length;
+        var behandeld = puntFlat(w).length + w.parkeer.length + w.weg.length;
 
         // Voortgang
         $('vsProgress').textContent = 'Behandeld: ' + behandeld + ' van ' + totaal +
-            '  ·  In de punt: ' + w.punt.length + '/' + MAX_PUNT +
+            '  ·  In de punt: ' + plekken + '/' + TARGET_PUNT + (plekken > TARGET_PUNT ? ' (te veel!)' : '') +
             '  ·  Geparkeerd: ' + w.parkeer.length + '  ·  Weggelegd: ' + w.weg.length;
 
         // Kaart of "klaar"-scherm
@@ -384,7 +407,6 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             if (w.cur >= deck.length) w.cur = 0;
             var card = deck[w.cur];
-            var puntVol = w.punt.length >= MAX_PUNT;
             var small = card.tekst.length > 150 ? ' is-small' : '';
             slot.innerHTML =
                 '<div class="vs-card" style="border-top-color:' + p.kleur + '">' +
@@ -392,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     '<p class="vs-card-text' + small + '">' + esc(card.tekst) + '</p>' +
                 '</div>' +
                 '<div class="vs-actions">' +
-                    '<button class="vs-act vs-act-punt" data-act="punt"' + (puntVol ? ' disabled title="De taartpunt is vol (max 4)"' : '') + '>' +
+                    '<button class="vs-act vs-act-punt" data-act="punt">' +
                         '<span class="vs-act-ico">⭐</span>In de taartpunt</button>' +
                     '<button class="vs-act vs-act-parkeer" data-act="parkeer"><span class="vs-act-ico">🛍️</span>Parkeren</button>' +
                     '<button class="vs-act vs-act-weg" data-act="weg"><span class="vs-act-ico">🗑️</span>Wegleggen</button>' +
@@ -404,7 +426,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         renderSlots();
-        $('vsPuntCount').textContent = w.punt.length + '/' + MAX_PUNT;
+        var cntEl = $('vsPuntCount');
+        cntEl.textContent = plekken + '/' + TARGET_PUNT;
+        cntEl.classList.toggle('vs-over', plekken > TARGET_PUNT);
         $('vsCntParkeer').textContent = w.parkeer.length;
         $('vsCntWeg').textContent = w.weg.length;
         saveLocal();
@@ -414,7 +438,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return '<div class="vs-done">' +
             '<div class="vs-done-ico">🎉</div>' +
             '<h3>Alle stellingen zijn behandeld</h3>' +
-            '<p>Je legde ' + w.punt.length + ' stelling(en) in de taartpunt. ' +
+            '<p>Je legde ' + puntFlat(w).length + ' stelling(en) in de taartpunt. ' +
                 'Bekijk de stapels die je niet koos nog eens &mdash; misschien wil je nog wisselen.</p>' +
             '<div class="vs-done-btns">' +
                 '<button class="btn btn-secondary" data-act="review-parkeer">🛍️ Geparkeerd (' + w.parkeer.length + ')</button>' +
@@ -427,17 +451,27 @@ document.addEventListener('DOMContentLoaded', function () {
         var key = currentPuntKey;
         var p = PUNT_BY_KEY[key];
         var w = work[key];
+        var groups = w.punt;
+        var rows = Math.max(TARGET_PUNT, groups.length); // altijd minstens 4 plekken tonen
         var html = '';
-        for (var i = 0; i < MAX_PUNT; i++) {
-            var id = w.punt[i];
-            if (id) {
-                var it = itemById(key, id);
-                var tekst = it ? it.tekst : '(verwijderd)';
-                html += '<div class="vs-slot is-filled" draggable="true" data-id="' + id + '" data-pos="' + i + '">' +
-                    '<span class="vs-slot-grip">☰</span>' +
-                    '<span class="vs-slot-num" style="background:' + p.kleur + '">' + (i + 1) + '</span>' +
-                    '<span class="vs-slot-text">' + esc(tekst) + '</span>' +
-                    '<button class="vs-slot-del" data-del="' + id + '" title="Terug naar de stapel">&times;</button>' +
+        for (var i = 0; i < rows; i++) {
+            var group = groups[i];
+            var overflow = i >= TARGET_PUNT; // plek 5, 6, ... = te veel
+            if (group && group.length) {
+                var cards = group.map(function (id) {
+                    var it = itemById(key, id);
+                    var tekst = it ? it.tekst : '(verwijderd)';
+                    return '<div class="vs-slot-card" data-id="' + id + '">' +
+                        '<span class="vs-slot-text">' + esc(tekst) + '</span>' +
+                        (group.length > 1 ? '<button class="vs-slot-split" data-split="' + id + '" title="Losmaken (apart leggen)">&#10573;</button>' : '') +
+                        '<button class="vs-slot-del" data-del="' + id + '" title="Terug naar de stapel">&times;</button>' +
+                    '</div>';
+                }).join('<span class="vs-slot-link-ico" title="lijken op elkaar">&asymp;</span>');
+                html += '<div class="vs-slot is-filled' + (overflow ? ' is-overflow' : '') + '" draggable="true" data-pos="' + i + '">' +
+                    '<span class="vs-slot-grip" title="Sleep om te ordenen">&#9776;</span>' +
+                    '<span class="vs-slot-num" style="background:' + (overflow ? '#d23' : p.kleur) + '">' + (i + 1) + '</span>' +
+                    '<div class="vs-slot-cards">' + cards + '</div>' +
+                    (i > 0 ? '<button class="vs-slot-pair" data-pair="' + i + '" title="Naast de vorige plek leggen (lijken op elkaar)">&#128279;</button>' : '') +
                 '</div>';
             } else {
                 html += '<div class="vs-slot is-empty" data-pos="' + i + '">leeg</div>';
@@ -454,8 +488,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!deck.length) return;
         var card = deck[w.cur];
         if (target === 'punt') {
-            if (w.punt.length >= MAX_PUNT) { toast('De taartpunt is vol (max 4). Verwijder eerst een stelling.'); return; }
-            w.punt.push(card.id);
+            w.punt.push([card.id]); // nieuwe plek; meer dan 4 mag (krijgt rode rand)
+            if (w.punt.length > TARGET_PUNT) toast('Let op: meer dan ' + TARGET_PUNT + ' in de taartpunt (rode rand).');
         } else if (target === 'parkeer') {
             w.parkeer.push(card.id);
         } else if (target === 'weg') {
@@ -476,25 +510,51 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     function removeFromPunt(id) {
         var w = work[currentPuntKey];
-        w.punt = w.punt.filter(function (x) { return x !== id; });
+        // haal de stelling uit zijn plek; lege plekken vervallen
+        w.punt = w.punt.map(function (g) { return g.filter(function (x) { return x !== id; }); })
+                       .filter(function (g) { return g.length > 0; });
         // gaat terug naar de stapel (verschijnt weer tussen de te behandelen stellingen)
         renderPunt();
         toast('Stelling terug naar de stapel');
     }
+    // Plek i naast de vorige plek leggen (samenvoegen omdat ze op elkaar lijken)
+    function pairGroup(i) {
+        var w = work[currentPuntKey];
+        if (i <= 0 || i >= w.punt.length) return;
+        w.punt[i - 1] = w.punt[i - 1].concat(w.punt[i]);
+        w.punt.splice(i, 1);
+        renderPunt();
+        toast('Naast elkaar gelegd');
+    }
+    // Een gekoppelde stelling weer losmaken tot een eigen plek
+    function splitFromGroup(id) {
+        var w = work[currentPuntKey];
+        for (var i = 0; i < w.punt.length; i++) {
+            var idx = w.punt[i].indexOf(id);
+            if (idx >= 0) {
+                w.punt[i].splice(idx, 1);
+                w.punt.splice(i + 1, 0, [id]);
+                if (w.punt[i].length === 0) w.punt.splice(i, 1);
+                break;
+            }
+        }
+        renderPunt();
+        toast('Losgemaakt');
+    }
 
-    // ---------- Slepen in de taartpunt ----------
-    var dragId = null;
+    // ---------- Slepen in de taartpunt (plekken ordenen) ----------
+    var dragPos = null;
     function setupDrag() {
         var container = $('vsSlots');
         container.addEventListener('dragstart', function (e) {
             var el = e.target.closest('.vs-slot.is-filled');
             if (!el) return;
-            dragId = el.getAttribute('data-id');
+            dragPos = parseInt(el.getAttribute('data-pos'), 10);
             el.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
         });
         container.addEventListener('dragend', function () {
-            dragId = null;
+            dragPos = null;
             Array.prototype.forEach.call(container.querySelectorAll('.vs-slot'), function (s) {
                 s.classList.remove('dragging', 'drag-over');
             });
@@ -507,17 +567,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         container.addEventListener('drop', function (e) {
             e.preventDefault();
-            if (!dragId) return;
+            if (dragPos === null) return;
             var el = e.target.closest('.vs-slot');
             if (!el) return;
             var w = work[currentPuntKey];
             var pos = parseInt(el.getAttribute('data-pos'), 10);
-            var from = w.punt.indexOf(dragId);
-            if (from < 0) return;
-            w.punt.splice(from, 1);
-            // clamp doelpositie binnen de huidige lijst
-            if (pos > w.punt.length) pos = w.punt.length;
-            w.punt.splice(pos, 0, dragId);
+            if (isNaN(pos) || pos === dragPos) return;
+            var group = w.punt[dragPos];
+            if (!group) return;
+            w.punt.splice(dragPos, 1);
+            if (pos > w.punt.length) pos = w.punt.length; // doel kan een lege plek voorbij de lijst zijn
+            w.punt.splice(pos, 0, group);
             renderPunt();
         });
     }
@@ -534,11 +594,10 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             list.innerHTML = ids.map(function (id) {
                 var it = itemById(key, id);
-                var puntVol = w.punt.length >= MAX_PUNT;
                 return '<div class="vs-review-item" data-id="' + id + '">' +
                     '<span class="vs-ri-text">' + esc(it ? it.tekst : '') + '</span>' +
                     '<span class="vs-ri-actions">' +
-                        '<button class="vs-mini-btn" data-rev="punt" data-from="' + which + '"' + (puntVol ? ' disabled' : '') + '>⭐ In de punt</button>' +
+                        '<button class="vs-mini-btn" data-rev="punt" data-from="' + which + '">⭐ In de punt</button>' +
                         '<button class="vs-mini-btn" data-rev="stapel" data-from="' + which + '">↺ Terug op stapel</button>' +
                     '</span>' +
                 '</div>';
@@ -552,9 +611,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (from === 'parkeer') w.parkeer = w.parkeer.filter(function (x) { return x !== id; });
         else w.weg = w.weg.filter(function (x) { return x !== id; });
         if (action === 'punt') {
-            if (w.punt.length >= MAX_PUNT) { toast('De taartpunt is vol (max 4).'); (from === 'parkeer' ? w.parkeer : w.weg).push(id); return; }
-            w.punt.push(id);
-            toast('In de taartpunt gelegd');
+            w.punt.push([id]); // nieuwe plek; meer dan 4 mag (rode rand)
+            toast(w.punt.length > TARGET_PUNT ? 'In de taartpunt (let op: meer dan ' + TARGET_PUNT + ')' : 'In de taartpunt gelegd');
         } else {
             toast('Terug op de stapel');
         }
@@ -616,7 +674,10 @@ document.addEventListener('DOMContentLoaded', function () {
         var punten = {};
         PUNTEN.forEach(function (p) {
             var w = work[p.key] || blankPunt();
-            punten[p.key] = { punt: w.punt.slice(), parkeer: w.parkeer.slice(), weg: w.weg.slice(), cur: w.cur || 0 };
+            punten[p.key] = {
+                punt: w.punt.map(function (g) { return g.slice(); }),
+                parkeer: w.parkeer.slice(), weg: w.weg.slice(), cur: w.cur || 0
+            };
         });
         return { v: 1, punten: punten };
     }
@@ -626,7 +687,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (state && state.punten) {
             PUNTEN.forEach(function (p) {
                 var s = state.punten[p.key];
-                if (s) work[p.key] = { punt: s.punt || [], parkeer: s.parkeer || [], weg: s.weg || [], cur: s.cur || 0 };
+                if (s) work[p.key] = { punt: normalizeGroups(s.punt), parkeer: s.parkeer || [], weg: s.weg || [], cur: s.cur || 0 };
             });
         }
         saveLocal();
@@ -743,7 +804,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Slots: verwijderen
     $('vsSlots').addEventListener('click', function (e) {
         var del = e.target.closest('[data-del]');
+        var pair = e.target.closest('[data-pair]');
+        var split = e.target.closest('[data-split]');
         if (del) removeFromPunt(del.getAttribute('data-del'));
+        else if (pair) pairGroup(parseInt(pair.getAttribute('data-pair'), 10));
+        else if (split) splitFromGroup(split.getAttribute('data-split'));
     });
     setupDrag();
 

@@ -328,6 +328,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- Render student grid + bottom controls ----------
     function render() {
+        // Logboek staat in een eigen slot ONDER de tools-balk (timer/stoplicht)
+        // en boven niets — zo duwen de tools het logboek niet uit beeld.
+        renderLogbookSlot();
         if (groups.length === 0) {
             container.innerHTML = '<div class="kpr-empty">' +
                 '<span class="kpr-empty-icon">&#128101;</span>' +
@@ -377,11 +380,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (bar) {
             html += '<div class="kpr-actionbar"><div class="kpr-actionbar-left">' + bar + '</div></div>';
-        }
-
-        // Logboek (alleen tijdens minutenspel, met entries)
-        if (mode === 'minutenspel' && msLog.length > 0) {
-            html += renderLogbook();
         }
 
         container.innerHTML = html;
@@ -727,6 +725,17 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast._t = setTimeout(function () {
             toastEl.classList.remove('visible');
         }, 4000);
+    }
+
+    /**
+     * Vul het losse logboek-slot (#kprLogbook). Dit element staat in de HTML
+     * onder #kprToolsTray (timer/stoplicht), zodat die tools tussen de
+     * leerlingkaartjes en het logboek blijven staan i.p.v. eronder te vallen.
+     */
+    function renderLogbookSlot() {
+        var el = document.getElementById('kprLogbook');
+        if (!el) return;
+        el.innerHTML = (mode === 'minutenspel' && msLog.length > 0) ? renderLogbook() : '';
     }
 
     /**

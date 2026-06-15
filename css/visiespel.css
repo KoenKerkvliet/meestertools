@@ -85,6 +85,10 @@
     padding: 3px 9px; border-radius: 999px; font-weight: 600;
 }
 .vs-pc-pill.is-done { background: #E7F6EE; color: #1a8a4f; }
+.vs-pc-pill.is-over { background: #fdeaea; color: #d23; }
+
+/* Plek-teller bij de taartpunt-titel: rood als er te veel plekken zijn */
+.vs-over { color: #d23; font-weight: 800; }
 
 /* ---------- Punt-werkblad ---------- */
 .vs-punt-view { display: none; }
@@ -175,9 +179,27 @@
     background: #fff;
 }
 .vs-slot.is-empty { color: var(--text-light, #aaa); font-style: italic; justify-content: center; border-style: dashed; }
-.vs-slot.is-filled { cursor: grab; }
+.vs-slot.is-filled { cursor: grab; align-items: stretch; }
 .vs-slot.is-filled.dragging { opacity: .4; }
 .vs-slot.drag-over { border-color: var(--primary); background: #faf9ff; }
+/* Plek 5+ = te veel: duidelijke rode rand */
+.vs-slot.is-overflow { border: 2px solid #d23; background: #fff5f5; }
+
+/* Eén plek kan meerdere stellingen naast elkaar bevatten (lijken op elkaar) */
+.vs-slot-cards { flex: 1; display: flex; gap: 8px; align-items: stretch; flex-wrap: wrap; }
+.vs-slot-card {
+    flex: 1 1 0; min-width: 0;
+    display: flex; align-items: center; gap: 6px;
+    background: #faf9ff; border: 1px solid var(--border-color, #ececf2);
+    border-radius: 8px; padding: 6px 8px;
+}
+.vs-slot.is-overflow .vs-slot-card { background: #fff; border-color: #f3c2c2; }
+.vs-slot-link-ico { align-self: center; color: var(--text-light, #b0b0b0); font-weight: 700; flex: none; }
+.vs-slot-pair, .vs-slot-split {
+    border: none; background: none; cursor: pointer; color: var(--text-light, #b0b0b0);
+    font-size: 15px; padding: 4px; border-radius: 6px; flex: none; align-self: center;
+}
+.vs-slot-pair:hover, .vs-slot-split:hover { color: var(--primary); background: #f1f0fb; }
 .vs-slot .vs-slot-num {
     width: 24px; height: 24px; border-radius: 50%; flex: none;
     display: inline-flex; align-items: center; justify-content: center;
