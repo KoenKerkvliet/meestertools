@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Visiespel digitale geletterdheid: bepaal samen met je team jullie visie. Prioriteer per taartpunt de stellingen en kies er vier die de basis vormen.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/organisatie/visiespel">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/organisatie/visiespel">
+    <meta property="og:title" content="Meestertools - Visiespel digitale geletterdheid">
+    <meta property="og:description" content="Bepaal samen met je team jullie visie op digitale geletterdheid. Prioriteer per taartpunt de stellingen.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Visiespel digitale geletterdheid">
+    <meta name="twitter:description" content="Bepaal samen met je team jullie visie op digitale geletterdheid.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Visiespel digitale geletterdheid</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/visiespel.css">
+</head>
+<body>
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../organisatie" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Visiespel digitale geletterdheid</h1>
+                <p>Bepaal samen met je team jullie visie &mdash; per taartpunt blijven 4 stellingen liggen.</p>
+            </div>
+        </div>
+
+        <div class="tool-page-body">
+            <div class="vs-wrap">
+
+                <!-- ===== HOME (wiel + taartpunten) ===== -->
+                <div id="vsHome">
+                    <div class="vs-intro">
+                        <p>Het visiespel kent <strong>9 taartpunten</strong>. Bespreek per punt de stellingen met je team en beslis telkens: <strong>in de taartpunt leggen</strong>, <strong>parkeren</strong> (later beslissen) of <strong>wegleggen</strong>. In elke punt blijven uiteindelijk maximaal <strong>4 stellingen</strong> liggen &mdash; die vormen samen jullie visie op onderwijs in digitale geletterdheid.</p>
+                    </div>
+
+                    <div class="vs-toolbar">
+                        <span class="vs-traject-naam" id="vsTrajectNaam"></span>
+                        <span class="vs-spacer"></span>
+                        <button class="btn btn-secondary" id="vsBtnOpen">&#128194; Mijn trajecten</button>
+                        <button class="btn btn-secondary" id="vsBtnSave">&#128190; Opslaan</button>
+                        <button class="btn btn-secondary" id="vsBtnReset">&#8635; Opnieuw beginnen</button>
+                    </div>
+
+                    <div class="vs-hero">
+                        <svg class="vs-wheel" id="vsWheel" viewBox="0 0 400 400" role="img" aria-label="Kies een taartpunt"></svg>
+                    </div>
+
+                    <div class="vs-grid" id="vsGrid"></div>
+                </div>
+
+                <!-- ===== PUNT-WERKBLAD ===== -->
+                <div id="vsPunt" class="vs-punt-view">
+                    <button class="vs-back-btn" id="vsPuntBack">&larr; Terug naar het wiel</button>
+                    <div class="vs-punt-head" id="vsPuntHead">
+                        <span class="vs-ph-num" id="vsPuntNum"></span>
+                        <div>
+                            <h2 id="vsPuntTitel"></h2>
+                            <p id="vsPuntVraag"></p>
+                        </div>
+                    </div>
+
+                    <div class="vs-cols">
+                        <!-- Links: stellingen behandelen -->
+                        <div class="vs-deck">
+                            <p class="vs-col-title">Stellingen behandelen</p>
+                            <div class="vs-progress" id="vsProgress"></div>
+                            <div id="vsCardSlot"></div>
+                        </div>
+
+                        <!-- Rechts: de taartpunt -->
+                        <div>
+                            <p class="vs-col-title">De taartpunt &mdash; <span id="vsPuntCount">0/4</span></p>
+                            <div class="vs-taart">
+                                <div class="vs-slots" id="vsSlots"></div>
+                                <div class="vs-taart-foot">
+                                    <button class="vs-mini-btn" id="vsBtnParkeer">&#128722; Geparkeerd (<span id="vsCntParkeer">0</span>)</button>
+                                    <button class="vs-mini-btn" id="vsBtnWeg">&#128465;&#65039; Weggelegd (<span id="vsCntWeg">0</span>)</button>
+                                    <button class="vs-mini-btn" id="vsBtnCustom">&#10133; Eigen stelling</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== Modal: trajecten ===== -->
+    <div class="modal-overlay" id="vsTrajectModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Mijn opgeslagen trajecten</h2>
+                <button class="modal-close" id="vsTrajectClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="vs-list" id="vsTrajectList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Modal: review (geparkeerd / weggelegd) ===== -->
+    <div class="modal-overlay" id="vsReviewModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="vsReviewTitle">Geparkeerde stellingen</h2>
+                <button class="modal-close" id="vsReviewClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="vs-review-list" id="vsReviewList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Modal: eigen stellingen ===== -->
+    <div class="modal-overlay" id="vsCustomModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Eigen stellingen</h2>
+                <button class="modal-close" id="vsCustomClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="vs-li-meta" id="vsCustomPuntLabel"></p>
+                <div class="vs-custom-add">
+                    <textarea id="vsCustomText" placeholder="Typ hier je eigen stelling&hellip;"></textarea>
+                </div>
+                <button class="btn btn-primary" id="vsCustomAdd">Toevoegen</button>
+                <div class="vs-list" id="vsCustomList" style="margin-top:16px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="vs-toast" id="vsToast"></div>
+
+    <footer id="app-footer-slot"></footer>
+
+    <script src="/js/template.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/tools-registry.js"></script>
+    <script src="../js/visiespel.js"></script>
+</body>
+</html>

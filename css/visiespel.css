@@ -1,0 +1,241 @@
+/* ============================================
+   MEESTERTOOLS - Visiespel digitale geletterdheid
+   ============================================ */
+
+.vs-wrap { max-width: 1100px; margin: 0 auto; }
+
+/* Knoppen (lokaal: .btn/.btn-secondary bestaan niet globaal) */
+.vs-wrap .btn, .modal .btn {
+    padding: 10px 18px; border-radius: var(--radius-sm); border: none;
+    font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+    transition: var(--transition);
+}
+.vs-wrap .btn-secondary, .modal .btn-secondary {
+    background: var(--bg-white); color: var(--text-dark);
+    border: 1px solid var(--border-color, #e2e2ea);
+}
+.vs-wrap .btn-secondary:hover, .modal .btn-secondary:hover {
+    border-color: var(--primary); color: var(--primary); transform: translateY(-1px);
+}
+
+/* ---------- Intro ---------- */
+.vs-intro {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    border-left: 4px solid var(--primary);
+}
+.vs-intro p { margin: 0; color: var(--text-medium); font-size: 15px; line-height: 1.6; }
+
+.vs-toolbar {
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    margin-bottom: 22px;
+}
+.vs-toolbar .vs-spacer { flex: 1 1 auto; }
+.vs-traject-naam {
+    font-size: 14px; color: var(--text-medium);
+    display: inline-flex; align-items: center; gap: 6px;
+}
+.vs-traject-naam strong { color: var(--text-dark); }
+
+/* ---------- Wheel (hero) ---------- */
+.vs-hero { display: flex; justify-content: center; margin: 6px 0 30px; }
+.vs-wheel { width: min(360px, 78vw); height: auto; cursor: default; }
+.vs-wheel .vs-seg { cursor: pointer; transition: transform .12s ease, opacity .12s ease; transform-origin: 200px 200px; }
+.vs-wheel .vs-seg:hover { opacity: .88; }
+.vs-wheel .vs-seg.is-full path { stroke: #fff; stroke-width: 3; }
+.vs-wheel .vs-seg-num { fill: #fff; font-weight: 800; font-size: 18px; pointer-events: none; }
+.vs-wheel .vs-seg-check { font-size: 16px; pointer-events: none; }
+
+/* ---------- Punt-kaarten (grid) ---------- */
+.vs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+.vs-punt-card {
+    position: relative;
+    text-align: left;
+    border: none;
+    border-radius: var(--radius-lg);
+    background: var(--bg-white);
+    box-shadow: var(--shadow-sm);
+    padding: 0;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform .12s ease, box-shadow .12s ease;
+    display: flex; flex-direction: column;
+}
+.vs-punt-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.vs-punt-card .vs-pc-bar { height: 8px; }
+.vs-punt-card .vs-pc-body { padding: 14px 16px 16px; }
+.vs-punt-card .vs-pc-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.vs-punt-card .vs-pc-badge {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 15px; flex: none;
+}
+.vs-punt-card h3 { margin: 0; font-size: 16px; color: var(--text-dark); line-height: 1.25; }
+.vs-punt-card .vs-pc-vraag { margin: 0 0 12px; font-size: 13px; color: var(--text-medium); line-height: 1.45; }
+.vs-punt-card .vs-pc-stats { display: flex; gap: 8px; flex-wrap: wrap; font-size: 12px; }
+.vs-pc-pill {
+    background: var(--bg-light); color: var(--text-medium);
+    padding: 3px 9px; border-radius: 999px; font-weight: 600;
+}
+.vs-pc-pill.is-done { background: #E7F6EE; color: #1a8a4f; }
+
+/* ---------- Punt-werkblad ---------- */
+.vs-punt-view { display: none; }
+.vs-punt-view.active { display: block; }
+
+.vs-punt-head {
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    color: #fff;
+    margin-bottom: 18px;
+    display: flex; align-items: flex-start; gap: 14px;
+}
+.vs-punt-head .vs-ph-num {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,.25);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 18px; flex: none;
+}
+.vs-punt-head h2 { margin: 0 0 2px; font-size: 22px; }
+.vs-punt-head p { margin: 0; font-size: 14px; opacity: .95; }
+.vs-back-btn {
+    background: none; border: none; color: var(--primary);
+    cursor: pointer; font-size: 14px; font-weight: 600;
+    padding: 6px 0; margin-bottom: 6px;
+}
+
+.vs-cols { display: grid; grid-template-columns: 1.15fr .85fr; gap: 22px; align-items: start; }
+@media (max-width: 820px) { .vs-cols { grid-template-columns: 1fr; } }
+
+.vs-col-title { font-size: 14px; font-weight: 700; color: var(--text-dark); margin: 0 0 10px; }
+
+/* Stellingkaart */
+.vs-deck { }
+.vs-progress { font-size: 13px; color: var(--text-medium); margin-bottom: 10px; }
+.vs-card {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    border-top: 8px solid var(--primary);
+    padding: 26px 24px;
+    min-height: 190px;
+    display: flex; flex-direction: column;
+    position: relative;
+}
+.vs-card .vs-card-tag {
+    align-self: flex-start;
+    font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em;
+    color: #fff; padding: 4px 10px; border-radius: 999px; margin-bottom: 14px;
+}
+.vs-card .vs-card-text { font-size: 20px; line-height: 1.4; color: var(--text-dark); margin: 0; flex: 1; }
+.vs-card .vs-card-text.is-small { font-size: 17px; }
+
+.vs-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
+.vs-act {
+    border: none; border-radius: var(--radius-md); padding: 12px 8px;
+    font-size: 14px; font-weight: 700; cursor: pointer; color: #fff;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    transition: transform .1s ease, filter .1s ease;
+}
+.vs-act:hover { filter: brightness(1.05); }
+.vs-act:active { transform: scale(.97); }
+.vs-act:disabled { opacity: .5; cursor: not-allowed; filter: none; }
+.vs-act .vs-act-ico { font-size: 20px; }
+.vs-act-punt   { background: #2e9e5b; }
+.vs-act-parkeer { background: #e0962a; }
+.vs-act-weg    { background: #9aa0a6; }
+
+/* Lege deck / klaar */
+.vs-done {
+    background: var(--bg-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+    padding: 28px 24px; text-align: center;
+}
+.vs-done .vs-done-ico { font-size: 40px; }
+.vs-done h3 { margin: 8px 0 6px; color: var(--text-dark); }
+.vs-done p { margin: 0 0 16px; color: var(--text-medium); font-size: 14px; }
+.vs-done .vs-done-btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+
+/* De taartpunt (4 slots) */
+.vs-taart { background: var(--bg-white); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 16px; }
+.vs-slots { display: flex; flex-direction: column; gap: 10px; }
+.vs-slot {
+    border: 2px dashed var(--border-color, #d9d9e3);
+    border-radius: var(--radius-md);
+    min-height: 58px;
+    padding: 10px 12px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; color: var(--text-dark);
+    background: #fff;
+}
+.vs-slot.is-empty { color: var(--text-light, #aaa); font-style: italic; justify-content: center; border-style: dashed; }
+.vs-slot.is-filled { cursor: grab; }
+.vs-slot.is-filled.dragging { opacity: .4; }
+.vs-slot.drag-over { border-color: var(--primary); background: #faf9ff; }
+.vs-slot .vs-slot-num {
+    width: 24px; height: 24px; border-radius: 50%; flex: none;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 12px;
+}
+.vs-slot .vs-slot-text { flex: 1; line-height: 1.35; }
+.vs-slot .vs-slot-del {
+    border: none; background: none; cursor: pointer; color: var(--text-light, #b0b0b0);
+    font-size: 16px; padding: 4px; border-radius: 6px; flex: none;
+}
+.vs-slot .vs-slot-del:hover { color: #d23; background: #fdeaea; }
+.vs-slot .vs-slot-grip { color: var(--text-light, #c4c4c4); flex: none; cursor: grab; }
+
+.vs-taart-foot { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
+.vs-mini-btn {
+    border: 1px solid var(--border-color, #e2e2ea); background: #fff;
+    border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 600;
+    color: var(--text-medium); cursor: pointer;
+}
+.vs-mini-btn:hover { border-color: var(--primary); color: var(--primary); }
+.vs-mini-btn[disabled] { opacity: .45; cursor: default; }
+
+/* Review-lijsten (geparkeerd / weggelegd) */
+.vs-review-list { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.vs-review-item {
+    border: 1px solid var(--border-color, #ececf2); border-radius: var(--radius-md);
+    padding: 10px 12px; display: flex; gap: 10px; align-items: center; background: #fff;
+}
+.vs-review-item .vs-ri-text { flex: 1; font-size: 14px; line-height: 1.35; color: var(--text-dark); }
+.vs-review-item .vs-ri-actions { display: flex; gap: 6px; flex: none; }
+
+/* ---------- Modals ---------- */
+.vs-list { display: flex; flex-direction: column; gap: 8px; }
+.vs-list-item {
+    display: flex; align-items: center; gap: 10px;
+    border: 1px solid var(--border-color, #ececf2); border-radius: var(--radius-md);
+    padding: 10px 12px;
+}
+.vs-list-item .vs-li-main { flex: 1; }
+.vs-list-item .vs-li-name { font-weight: 600; color: var(--text-dark); }
+.vs-list-item .vs-li-meta { font-size: 12px; color: var(--text-medium); }
+.vs-list-item .vs-li-actions { display: flex; gap: 6px; }
+.vs-empty-note { color: var(--text-medium); font-size: 14px; text-align: center; padding: 14px; }
+
+/* Eigen stellingen beheer */
+.vs-custom-add { display: flex; gap: 8px; margin: 10px 0 4px; }
+.vs-custom-add textarea { flex: 1; min-height: 52px; }
+
+.vs-toast {
+    position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%) translateY(20px);
+    background: var(--text-dark, #2a2a35); color: #fff; padding: 10px 18px; border-radius: 999px;
+    font-size: 14px; opacity: 0; pointer-events: none; transition: all .25s ease; z-index: 9999;
+}
+.vs-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Login-melding */
+.vs-login-note {
+    background: #FFF8E6; border: 1px solid #F4D58A; color: #8a6d1a;
+    border-radius: var(--radius-md); padding: 12px 16px; font-size: 14px; margin-bottom: 18px;
+}
+.vs-login-note a { color: #8a6d1a; font-weight: 700; }
