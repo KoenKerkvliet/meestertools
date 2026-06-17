@@ -353,6 +353,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         var others = students.filter(function (s) { return s.id !== student.id; });
 
+        // Naam-indexen voor het type-veld: namen om uit aan te vullen,
+        // en een map om een (volledig getypte) naam terug te vertalen naar id.
+        var names = [];
+        var byName = {};   // 'ariana' -> id (eerste voorkomen wint bij dubbele namen)
+        var nameById = {}; // id -> 'Ariana' (canonieke schrijfwijze)
+        others.forEach(function (s) {
+            var n = studentName(s);
+            names.push(n);
+            nameById[s.id] = n;
+            var key = n.toLowerCase();
+            if (!(key in byName)) byName[key] = s.id;
+        });
+
         card.innerHTML =
             '<div class="sg-entry-card-header">' +
                 '<h3>' + escapeHtml(studentName(student)) + '</h3>' +
@@ -361,38 +374,77 @@ document.addEventListener('DOMContentLoaded', () => {
             '<div class="sg-entry-card-body">' +
                 '<div class="sg-pick-col sg-pick-pos">' +
                     '<h4>&plus; Positief (3 keuzes)</h4>' +
-                    buildSelectsHtml('positief', others) +
+                    buildInputsHtml('positief') +
                 '</div>' +
                 '<div class="sg-pick-col sg-pick-neg">' +
                     '<h4>&minus; Negatief (3 keuzes)</h4>' +
-                    buildSelectsHtml('negatief', others) +
+                    buildInputsHtml('negatief') +
                 '</div>' +
             '</div>';
 
-        // Wire up change handlers
-        card.querySelectorAll('select').forEach(function (sel) {
-            sel.addEventListener('change', function () {
-                var type = sel.dataset.type;
-                var rank = parseInt(sel.dataset.rank);
-                currentPicks[student.id][type][rank - 1] = sel.value;
-                updateStudentStatus(card, student.id);
-                updateProgress();
-                validateCardConsistency(card, student.id);
+        var inputs = Array.prototype.slice.call(card.querySelectorAll('.sg-pick-input'));
+
+        function resolveInput(inp) {
+            var type = inp.dataset.type;
+            var rank = parseInt(inp.dataset.rank);
+            var val = inp.value.trim();
+            var id = val ? (byName[val.toLowerCase()] || '') : '';
+            if (val && !id) {
+                // Geen exacte match: accepteer een naam die hiermee begint.
+                var lower = val.toLowerCase();
+                for (var i = 0; i < names.length; i++) {
+                    if (names[i].toLowerCase().indexOf(lower) === 0) { id = byName[names[i].toLowerCase()]; break; }
+                }
+            }
+            if (id) {
+                inp.value = nameById[id]; // canonieke schrijfwijze
+                inp.classList.remove('sg-input-unknown');
+            } else {
+                inp.classList.toggle('sg-input-unknown', !!val); // getypt maar geen match
+            }
+            currentPicks[student.id][type][rank - 1] = id;
+            updateStudentStatus(card, student.id);
+            updateProgress();
+            validateCardConsistency(card, student.id);
+        }
+
+        inputs.forEach(function (inp, idx) {
+            // Inline-aanvulling: vul de rest van de eerste passende naam aan
+            // en selecteer dat stuk, zodat Tab/Enter de keuze bevestigt.
+            inp.addEventListener('input', function (e) {
+                if (e.inputType && e.inputType.indexOf('delete') === 0) return; // niet aanvullen bij wissen
+                var typed = inp.value;
+                if (!typed) return;
+                var lower = typed.toLowerCase();
+                var match = null;
+                for (var i = 0; i < names.length; i++) {
+                    if (names[i].toLowerCase().indexOf(lower) === 0) { match = names[i]; break; }
+                }
+                if (match && match.length > typed.length) {
+                    inp.value = match;
+                    try { inp.setSelectionRange(typed.length, match.length); } catch (err) {}
+                }
+            });
+            inp.addEventListener('blur', function () { resolveInput(inp); });
+            inp.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    resolveInput(inp);
+                    if (inputs[idx + 1]) inputs[idx + 1].focus();
+                    else inp.blur();
+                }
             });
         });
 
         return card;
     }
 
-    function buildSelectsHtml(type, others) {
+    function buildInputsHtml(type) {
         var html = '';
         for (var rank = 1; rank <= 3; rank++) {
-            html += '<select data-type="' + type + '" data-rank="' + rank + '">';
-            html += '<option value="">— keuze ' + rank + ' —</option>';
-            others.forEach(function (s) {
-                html += '<option value="' + s.id + '">' + escapeHtml(studentName(s)) + '</option>';
-            });
-            html += '</select>';
+            html += '<input type="text" class="sg-pick-input" data-type="' + type + '" data-rank="' + rank + '" ' +
+                'autocomplete="off" autocapitalize="words" spellcheck="false" ' +
+                'placeholder="— keuze ' + rank + ' — typ een naam">';
         }
         return html;
     }

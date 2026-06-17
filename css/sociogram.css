@@ -366,7 +366,8 @@
 .sg-pick-pos h4 { color: #2E7D32; }
 .sg-pick-neg h4 { color: #D63031; }
 
-.sg-pick-col select {
+.sg-pick-col select,
+.sg-pick-col .sg-pick-input {
     width: 100%;
     padding: 7px 9px;
     border: 1.5px solid #E8E8F0;
@@ -377,13 +378,24 @@
     background: white;
 }
 
-.sg-pick-col select:focus {
+.sg-pick-col select:focus,
+.sg-pick-col .sg-pick-input:focus {
     border-color: var(--primary);
     outline: none;
 }
+.sg-pick-col .sg-pick-input { box-sizing: border-box; -webkit-appearance: none; }
+.sg-pick-col .sg-pick-input::placeholder { color: #B6BAC6; }
 
-.sg-pick-pos select { border-left: 4px solid #C8E6C9; }
-.sg-pick-neg select { border-left: 4px solid #FFCDD2; }
+.sg-pick-pos select,
+.sg-pick-pos .sg-pick-input { border-left: 4px solid #C8E6C9; }
+.sg-pick-neg select,
+.sg-pick-neg .sg-pick-input { border-left: 4px solid #FFCDD2; }
+
+/* Getypt maar (nog) geen bestaande leerlingnaam */
+.sg-pick-col .sg-pick-input.sg-input-unknown {
+    border-color: #E6A23C;
+    background: #FFF9F0;
+}
 
 .sg-card-error {
     margin-top: 10px;
