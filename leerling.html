@@ -95,6 +95,39 @@
         .ll-screen { display: none; }
         .ll-screen.active { display: block; }
         .ll-foot { text-align: center; color: var(--text-light); font-size: 12px; padding: 16px; }
+
+        /* ---- Sociogram invullen ---- */
+        .tool-card.ll-socio-card { cursor: pointer; }
+        .tool-card.ll-socio-card.is-done { opacity: .72; }
+        .ll-socio-wrap { max-width: 640px; margin: 0 auto; }
+        .ll-socio-block {
+            background: var(--bg-white, #fff); border-radius: var(--radius-lg, 16px);
+            box-shadow: var(--shadow-sm); padding: 20px 22px; margin-bottom: 16px;
+            border-left: 6px solid #ccc;
+        }
+        .ll-socio-block.ll-socio-pos { border-left-color: #2E7D32; }
+        .ll-socio-block.ll-socio-neg { border-left-color: #D63031; }
+        .ll-socio-block h3 { font-size: 17px; margin-bottom: 4px; }
+        .ll-socio-block .hint { font-size: 13px; color: var(--text-medium); margin-bottom: 14px; }
+        .ll-socio-selects { display: flex; flex-direction: column; gap: 10px; }
+        .ll-socio-selects select {
+            width: 100%; border: 2px solid #E3E1F2; border-radius: 12px; padding: 13px 14px;
+            font-size: 16px; font-family: inherit; color: var(--text-dark); background: #fff;
+            outline: none; -webkit-appearance: none; appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238A86A8' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 16px center;
+        }
+        .ll-socio-selects select:focus { border-color: var(--primary); }
+        .ll-socio-actions { display: flex; gap: 12px; align-items: center; margin-top: 8px; }
+        .ll-socio-actions .ll-back { flex: 0 0 auto; }
+        .ll-socio-send { flex: 1; }
+        .ll-socio-done {
+            background: var(--bg-white, #fff); border-radius: var(--radius-lg, 16px);
+            box-shadow: var(--shadow-sm); padding: 36px 26px; text-align: center;
+        }
+        .ll-socio-done-emoji { font-size: 56px; margin-bottom: 8px; }
+        .ll-socio-done h2 { font-size: 24px; margin-bottom: 8px; }
+        .ll-socio-done p { color: var(--text-medium); margin-bottom: 22px; }
     </style>
 </head>
 <body>
@@ -150,6 +183,43 @@
                     <span class="card-icon">&#10024;</span>
                     <h3>Meer</h3>
                     <p>Binnenkort komt hier meer voor jou!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Sociogram invullen -->
+        <section class="ll-screen" id="screenSociogram">
+            <div class="dashboard-hero">
+                <h1 id="socioTitle">Sociogram</h1>
+                <p id="socioLead">Kies kinderen uit je eigen klas. Er is geen goed of fout — vul in wat jij vindt. Alleen je juf of meester ziet je antwoorden.</p>
+            </div>
+            <div class="ll-socio-wrap">
+                <div class="ll-error" id="socioError" style="margin-bottom:16px;"></div>
+
+                <div id="socioForm">
+                    <div class="ll-socio-block ll-socio-pos">
+                        <h3 id="socioPosTitle">Met deze kinderen werk ik graag samen</h3>
+                        <p class="hint">Kies 1, 2 of 3 kinderen.</p>
+                        <div class="ll-socio-selects" id="socioPos"></div>
+                    </div>
+                    <div class="ll-socio-block ll-socio-neg">
+                        <h3 id="socioNegTitle">Met deze kinderen werk ik liever niet</h3>
+                        <p class="hint">Dit mag je ook leeg laten.</p>
+                        <div class="ll-socio-selects" id="socioNeg"></div>
+                    </div>
+                    <div class="ll-socio-actions">
+                        <button class="ll-back" id="socioBack">&larr; Terug</button>
+                        <button class="ll-btn ll-socio-send" id="socioSend">Klaar! Versturen</button>
+                    </div>
+                </div>
+
+                <div id="socioDone" style="display:none;">
+                    <div class="ll-socio-done">
+                        <div class="ll-socio-done-emoji">&#127881;</div>
+                        <h2>Bedankt!</h2>
+                        <p>Je antwoorden zijn verstuurd. Wat fijn dat je hebt meegedaan!</p>
+                        <button class="ll-back" id="socioDoneBack">&larr; Terug naar mijn pagina</button>
+                    </div>
                 </div>
             </div>
         </section>

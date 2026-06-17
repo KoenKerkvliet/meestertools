@@ -113,10 +113,51 @@
 
                     <div id="sgSetupError" class="form-error" style="display:none;"></div>
 
+                    <div class="sg-digital">
+                        <div class="sg-digital-text">
+                            <strong>&#128241; Digitaal afnemen?</strong>
+                            <span>Start een sessie en zet de code op het bord. Leerlingen loggen in op <em>meestertools.nl/leerling</em> met hun naam en code en vullen het sociogram zelf in. Jij ziet live wie klaar is.</span>
+                        </div>
+                        <button class="sg-digital-btn" id="sgBtnSetupDigital" type="button">Digitale sessie starten &rarr;</button>
+                    </div>
+
                     <div class="sg-actions-row">
                         <button class="btn-cancel" id="sgBtnSetupCancel">Annuleren</button>
-                        <button class="btn-primary" id="sgBtnSetupNext">Verder naar invoer &rarr;</button>
+                        <button class="btn-primary" id="sgBtnSetupNext">Zelf invoeren (op papier) &rarr;</button>
                     </div>
+                </div>
+            </section>
+
+            <!-- ============= LIVE STATE (digitale afname) ============= -->
+            <section id="sgState-live" class="sg-state hidden">
+                <div class="sg-live-grid">
+                    <div class="sg-card sg-live-join">
+                        <h2 class="sg-section-title">Leerlingen doen mee</h2>
+                        <p class="sg-live-steps">
+                            1. Ga naar <strong id="sgLiveUrl">meestertools.nl/leerling</strong><br>
+                            2. Log in met je <strong>voornaam</strong> en je <strong>code</strong><br>
+                            3. Klik op <strong>&#128293; Doe nu mee!</strong> &rarr; Sociogram
+                        </p>
+                        <div class="sg-live-code-wrap">
+                            <span class="sg-live-code-label">Iedereen logt in op zijn eigen pagina — er is geen aparte code nodig.</span>
+                        </div>
+                        <div class="sg-live-qr" id="sgLiveQr"></div>
+                        <p class="sg-live-codehint" hidden>Sessiecode: <span id="sgLiveCode"></span></p>
+                    </div>
+
+                    <div class="sg-card sg-live-progress">
+                        <div class="sg-live-progress-head">
+                            <h2 class="sg-section-title">Wie is al klaar?</h2>
+                            <span class="sg-live-count" id="sgLiveProgressCount"></span>
+                        </div>
+                        <p class="sg-live-meta" id="sgLiveMeta"></p>
+                        <div class="sg-live-list" id="sgLiveList"></div>
+                    </div>
+                </div>
+
+                <div class="sg-actions-row">
+                    <button class="btn-cancel" id="sgBtnLiveCancel">Annuleren</button>
+                    <button class="btn-primary" id="sgBtnLiveFinish">Afronden &amp; resultaten &rarr;</button>
                 </div>
             </section>
 
@@ -178,6 +219,7 @@
     <footer id="app-footer-slot"></footer>
 
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
     <script src="/js/template.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>

@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var states = {
         welcome: document.getElementById('sgState-welcome'),
         setup: document.getElementById('sgState-setup'),
+        live: document.getElementById('sgState-live'),
         entry: document.getElementById('sgState-entry'),
         results: document.getElementById('sgState-results'),
     };
@@ -23,6 +24,17 @@ document.addEventListener('DOMContentLoaded', () => {
     var setupError = document.getElementById('sgSetupError');
     var btnSetupCancel = document.getElementById('sgBtnSetupCancel');
     var btnSetupNext = document.getElementById('sgBtnSetupNext');
+    var btnSetupDigital = document.getElementById('sgBtnSetupDigital');
+
+    // Live (digitale afname)
+    var liveCode = document.getElementById('sgLiveCode');
+    var liveMeta = document.getElementById('sgLiveMeta');
+    var liveUrl = document.getElementById('sgLiveUrl');
+    var liveQr = document.getElementById('sgLiveQr');
+    var liveProgressCount = document.getElementById('sgLiveProgressCount');
+    var liveList = document.getElementById('sgLiveList');
+    var btnLiveFinish = document.getElementById('sgBtnLiveFinish');
+    var btnLiveCancel = document.getElementById('sgBtnLiveCancel');
 
     // Entry
     var entryCards = document.getElementById('sgEntryCards');
@@ -115,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadPastSessions() {
         var { data, error } = await supabase
             .from('sociogram_sessions')
-            .select('id, group_id, type, afname_datum, titel, created_at, groups(name)')
+            .select('id, group_id, type, afname_datum, titel, status, code, created_at, groups(name)')
             .order('afname_datum', { ascending: false });
         if (error) {
             console.error('loadPastSessions error', error);
@@ -127,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadSession(sessionId) {
         var { data, error } = await supabase
             .from('sociogram_sessions')
-            .select('id, group_id, type, afname_datum, titel, groups(name)')
+            .select('id, group_id, type, afname_datum, titel, status, code, groups(name)')
             .eq('id', sessionId)
             .single();
         if (error) {
@@ -159,20 +171,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         pastListEl.innerHTML = '';
         sessions.forEach(function (s) {
+            var isLive = s.status === 'open';
             var card = document.createElement('div');
-            card.className = 'sg-past-card';
+            card.className = 'sg-past-card' + (isLive ? ' is-live' : '');
+            var liveBadge = isLive ? ' <span class="sg-live-badge">&#9679; live bezig</span>' : '';
             card.innerHTML =
                 '<div class="sg-past-main">' +
                     '<div class="sg-past-icon">' + (s.type === 'werken' ? '&#128218;' : '&#9917;') + '</div>' +
                     '<div class="sg-past-text">' +
                         '<strong>' + (s.titel ? escapeHtml(s.titel) : typeLabel(s.type) + ' - ' + escapeHtml(s.groups?.name || 'Onbekend')) + '</strong>' +
-                        '<small>' + typeLabel(s.type) + ' &middot; ' + escapeHtml(s.groups?.name || '?') + ' &middot; ' + formatDate(s.afname_datum) + '</small>' +
+                        '<small>' + typeLabel(s.type) + ' &middot; ' + escapeHtml(s.groups?.name || '?') + ' &middot; ' + formatDate(s.afname_datum) + liveBadge + '</small>' +
                     '</div>' +
                 '</div>' +
-                '<button class="btn-secondary" data-session-id="' + s.id + '">Bekijken &rarr;</button>';
+                '<button class="btn-secondary" data-session-id="' + s.id + '">' + (isLive ? 'Verder &rarr;' : 'Bekijken &rarr;') + '</button>';
             pastListEl.appendChild(card);
             card.querySelector('button').addEventListener('click', function () {
-                openExistingResults(s.id);
+                if (isLive) resumeLive(s.id);
+                else openExistingResults(s.id);
             });
         });
     }
@@ -220,33 +235,48 @@ document.addEventListener('DOMContentLoaded', () => {
     btnNew.addEventListener('click', renderSetup);
     btnSetupCancel.addEventListener('click', renderWelcome);
 
-    btnSetupNext.addEventListener('click', async function () {
+    // Gedeelde validatie + leerlingen laden voor beide afnamevormen.
+    // Geeft { user, groupId, type, datum, titel } terug of null bij een fout.
+    async function prepareSetup() {
         var groupId = groupSelect.value;
         var type = (document.querySelector('input[name="sgType"]:checked') || {}).value;
         var datum = dateInput.value;
         var titel = titelInput.value.trim();
 
-        if (!groupId) return showError(setupError, 'Kies eerst een klas.');
-        if (!type) return showError(setupError, 'Kies "Samen werken" of "Samen spelen".');
-        if (!datum) return showError(setupError, 'Vul een afnamedatum in.');
+        if (!groupId) { showError(setupError, 'Kies eerst een klas.'); return null; }
+        if (!type) { showError(setupError, 'Kies "Samen werken" of "Samen spelen".'); return null; }
+        if (!datum) { showError(setupError, 'Vul een afnamedatum in.'); return null; }
 
         if (window.MTActiveClass) window.MTActiveClass.setId(groupId);
 
         students = await loadStudents(groupId);
         if (students.length < 4) {
-            return showError(setupError, 'Deze klas heeft minder dan 4 leerlingen. Voeg eerst meer leerlingen toe via Beheer.');
+            showError(setupError, 'Deze klas heeft minder dan 4 leerlingen. Voeg eerst meer leerlingen toe via Beheer.');
+            return null;
         }
-
-        // Maak session aan in DB
         var { data: { user } } = await supabase.auth.getUser();
+        return { user: user, groupId: groupId, type: type, datum: datum, titel: titel };
+    }
+
+    function insertResultFields(data, groupId) {
+        return Object.assign({}, data, {
+            groups: { name: groups.find(function (g) { return g.id === groupId; })?.name || '' }
+        });
+    }
+
+    // ---- Papieren afname: handmatig invoeren ----
+    btnSetupNext.addEventListener('click', async function () {
+        var p = await prepareSetup();
+        if (!p) return;
+
         var { data, error } = await supabase
             .from('sociogram_sessions')
             .insert({
-                user_id: user.id,
-                group_id: groupId,
-                type: type,
-                afname_datum: datum,
-                titel: titel || null,
+                user_id: p.user.id,
+                group_id: p.groupId,
+                type: p.type,
+                afname_datum: p.datum,
+                titel: p.titel || null,
             })
             .select()
             .single();
@@ -254,11 +284,44 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('insert session error', error);
             return showError(setupError, 'Sessie kon niet aangemaakt worden: ' + error.message);
         }
-        currentSession = Object.assign({}, data, {
-            groups: { name: groups.find(function (g) { return g.id === groupId; })?.name || '' }
-        });
+        currentSession = insertResultFields(data, p.groupId);
         initEmptyPicks();
         renderEntry();
+    });
+
+    // ---- Digitale afname: sessie starten, leerlingen vullen zelf in ----
+    if (btnSetupDigital) btnSetupDigital.addEventListener('click', async function () {
+        var p = await prepareSetup();
+        if (!p) return;
+
+        btnSetupDigital.disabled = true;
+        var created = null, lastErr = null;
+        for (var attempt = 0; attempt < 6 && !created; attempt++) {
+            var res = await supabase
+                .from('sociogram_sessions')
+                .insert({
+                    user_id: p.user.id,
+                    group_id: p.groupId,
+                    type: p.type,
+                    afname_datum: p.datum,
+                    titel: p.titel || null,
+                    code: genCode(5),
+                    status: 'open',
+                })
+                .select()
+                .single();
+            if (!res.error) { created = res.data; break; }
+            lastErr = res.error;
+            if (res.error.code !== '23505') break; // alleen bij dubbele code opnieuw
+        }
+        btnSetupDigital.disabled = false;
+
+        if (!created) {
+            console.error('insert digital session error', lastErr);
+            return showError(setupError, 'Sessie kon niet gestart worden. Probeer opnieuw.');
+        }
+        currentSession = insertResultFields(created, p.groupId);
+        startLive();
     });
 
     function initEmptyPicks() {
@@ -453,6 +516,145 @@ document.addEventListener('DOMContentLoaded', () => {
 
         await openExistingResults(currentSession.id);
     }
+
+    // ---------- LIVE state (digitale afname) ----------
+    var liveChannel = null;
+    var livePoll = null;
+    var submittedIds = {}; // { student_id: true }
+
+    function genCode(len) {
+        var ALPH = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // zonder I,O,0,1,L
+        var arr = new Uint32Array(len);
+        crypto.getRandomValues(arr);
+        var s = '';
+        for (var i = 0; i < len; i++) s += ALPH[arr[i] % ALPH.length];
+        return s;
+    }
+
+    async function setRealtimeAuth() {
+        try {
+            var { data } = await supabase.auth.getSession();
+            if (data.session) supabase.realtime.setAuth(data.session.access_token);
+        } catch (e) { /* niet fataal */ }
+    }
+    function detachLiveRealtime() {
+        if (liveChannel) { try { supabase.removeChannel(liveChannel); } catch (e) {} liveChannel = null; }
+    }
+    function attachLiveRealtime() {
+        detachLiveRealtime();
+        if (!currentSession) return;
+        liveChannel = supabase.channel('sg-' + currentSession.id)
+            .on('postgres_changes',
+                { event: 'INSERT', schema: 'public', table: 'sociogram_participants', filter: 'session_id=eq.' + currentSession.id },
+                function (payload) {
+                    if (payload.new && payload.new.student_id) {
+                        submittedIds[payload.new.student_id] = true;
+                        renderLiveProgress();
+                    }
+                })
+            .subscribe();
+    }
+    function stopLivePoll() { if (livePoll) { clearInterval(livePoll); livePoll = null; } }
+    function startLivePoll() { stopLivePoll(); livePoll = setInterval(loadParticipants, 5000); }
+
+    async function loadParticipants() {
+        if (!currentSession) return;
+        var { data } = await supabase
+            .from('sociogram_participants')
+            .select('student_id')
+            .eq('session_id', currentSession.id);
+        submittedIds = {};
+        (data || []).forEach(function (p) { submittedIds[p.student_id] = true; });
+        renderLiveProgress();
+    }
+
+    async function startLive() {
+        await setRealtimeAuth();
+        submittedIds = {};
+        renderLive();
+        attachLiveRealtime();
+        startLivePoll();
+        loadParticipants();
+    }
+
+    // Vanuit het overzicht een nog lopende digitale sessie hervatten.
+    async function resumeLive(sessionId) {
+        var session = await loadSession(sessionId);
+        if (!session) { alert('Sessie kon niet geladen worden.'); return; }
+        currentSession = session;
+        students = await loadStudents(session.group_id);
+        startLive();
+    }
+
+    function renderLive() {
+        liveCode.textContent = currentSession.code || '';
+        liveMeta.textContent = typeLabel(currentSession.type) + ' · ' + (currentSession.groups?.name || '');
+        var base = location.host;
+        liveUrl.textContent = base + '/leerling';
+
+        // QR naar de leerlingpagina (optioneel — alleen als de lib geladen is)
+        liveQr.innerHTML = '';
+        if (typeof qrcode !== 'undefined') {
+            try {
+                var qr = qrcode(0, 'M');
+                qr.addData(location.origin + '/leerling');
+                qr.make();
+                liveQr.innerHTML = qr.createImgTag(5, 8);
+            } catch (e) { /* qr optioneel */ }
+        }
+        renderLiveProgress();
+        showState('live');
+    }
+
+    function renderLiveProgress() {
+        if (!students.length) { liveList.innerHTML = ''; liveProgressCount.textContent = ''; return; }
+        var done = students.filter(function (s) { return submittedIds[s.id]; }).length;
+        liveProgressCount.textContent = done + ' / ' + students.length + ' klaar';
+        // Klaar bovenaan, daarna nog-bezig — beide alfabetisch zoals geladen.
+        var sorted = students.slice().sort(function (a, b) {
+            var da = submittedIds[a.id] ? 0 : 1, db = submittedIds[b.id] ? 0 : 1;
+            return da - db;
+        });
+        liveList.innerHTML = sorted.map(function (s) {
+            var ok = !!submittedIds[s.id];
+            return '<span class="sg-live-chip ' + (ok ? 'is-done' : 'is-todo') + '">' +
+                '<span class="sg-live-dot">' + (ok ? '&#10003;' : '&#8230;') + '</span>' +
+                escapeHtml(studentName(s)) +
+            '</span>';
+        }).join('');
+    }
+
+    function teardownLive() {
+        detachLiveRealtime();
+        stopLivePoll();
+    }
+
+    async function finishLive() {
+        if (!currentSession) return;
+        var done = students.filter(function (s) { return submittedIds[s.id]; }).length;
+        var msg = done < students.length
+            ? 'Nog niet iedereen heeft ingevuld (' + done + ' van ' + students.length + '). Toch afronden en resultaten bekijken?'
+            : 'Afnemen afronden en de resultaten bekijken?';
+        if (!confirm(msg)) return;
+        var { error } = await supabase
+            .from('sociogram_sessions')
+            .update({ status: 'closed' })
+            .eq('id', currentSession.id);
+        if (error) { showError(setupError, 'Afronden lukte niet. Probeer opnieuw.'); return; }
+        teardownLive();
+        await openExistingResults(currentSession.id);
+    }
+
+    async function cancelLive() {
+        if (!currentSession) return;
+        if (!confirm('Digitale sessie annuleren? De sessie en alle ingevulde antwoorden worden verwijderd.')) return;
+        teardownLive();
+        await supabase.from('sociogram_sessions').delete().eq('id', currentSession.id);
+        renderWelcome();
+    }
+
+    if (btnLiveFinish) btnLiveFinish.addEventListener('click', finishLive);
+    if (btnLiveCancel) btnLiveCancel.addEventListener('click', cancelLive);
 
     // ---------- RESULTS state ----------
     async function openExistingResults(sessionId) {

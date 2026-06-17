@@ -16,7 +16,8 @@
     const screens = {
         login: document.getElementById('screenLogin'),
         hub: document.getElementById('screenHub'),
-        wall: document.getElementById('screenWall')
+        wall: document.getElementById('screenWall'),
+        sociogram: document.getElementById('screenSociogram')
     };
     const topLogout = document.getElementById('topLogout');
 
@@ -36,6 +37,20 @@
     const wallEl = document.getElementById('wall');
     const wallError = document.getElementById('wallError');
     const wallBack = document.getElementById('wallBack');
+
+    // Sociogram invullen
+    const socioTitle = document.getElementById('socioTitle');
+    const socioPosTitle = document.getElementById('socioPosTitle');
+    const socioNegTitle = document.getElementById('socioNegTitle');
+    const socioPos = document.getElementById('socioPos');
+    const socioNeg = document.getElementById('socioNeg');
+    const socioError = document.getElementById('socioError');
+    const socioForm = document.getElementById('socioForm');
+    const socioDone = document.getElementById('socioDone');
+    const socioSend = document.getElementById('socioSend');
+    const socioBack = document.getElementById('socioBack');
+    const socioDoneBack = document.getElementById('socioDoneBack');
+    let currentSocio = null; // { sessionCode, classmates:[{id,name}], type }
 
     const STORE_KEY = 'mt_leerling';
     let busy = false;
@@ -122,16 +137,129 @@
             activeSessionsGrid.innerHTML = '';
             return;
         }
-        activeSessionsGrid.innerHTML = list.map(s =>
-            '<a class="tool-card ll-session" href="' + escapeHtml(s.joinUrl || '#') + '">' +
+        activeSessionsGrid.innerHTML = list.map(s => {
+            // Sociogram wordt op deze pagina zelf ingevuld (geen aparte link).
+            if (s.type === 'sociogram') {
+                const done = !!s.submitted;
+                return '<div class="tool-card ll-session ll-socio-card' + (done ? ' is-done' : '') + '" ' +
+                        'role="button" tabindex="0" data-socio="' + escapeHtml(s.sessionCode || '') + '">' +
+                    '<span class="card-icon">' + (s.icon || '🧑‍🤝‍🧑') + '</span>' +
+                    '<h3>' + escapeHtml(s.label || 'Sociogram') + '</h3>' +
+                    '<p>' + (done ? 'Je hebt dit al ingevuld &#10003;' : 'Vul het in!') + '</p>' +
+                    (done ? '' : '<span class="ll-live">&#9679; live</span>') +
+                '</div>';
+            }
+            return '<a class="tool-card ll-session" href="' + escapeHtml(s.joinUrl || '#') + '">' +
                 '<span class="card-icon">' + (s.icon || '🎯') + '</span>' +
                 '<h3>' + escapeHtml(s.label || 'Sessie') + '</h3>' +
                 '<p>Doe mee!</p>' +
                 '<span class="ll-live">&#9679; live</span>' +
-            '</a>'
-        ).join('');
+            '</a>';
+        }).join('');
+
+        // Klik op een sociogram-kaart -> invulscherm
+        activeSessionsGrid.querySelectorAll('[data-socio]').forEach(el => {
+            const open = () => openSociogram(el.getAttribute('data-socio'));
+            el.addEventListener('click', open);
+            el.addEventListener('keydown', e => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+            });
+        });
+
         activeSessions.style.display = '';
         mineTitle.style.display = '';
+    }
+
+    // ---------- Sociogram invullen ----------
+    function socioQuestionText(type, kind) {
+        const speel = type === 'spelen';
+        if (kind === 'pos') return speel ? 'Met deze kinderen speel ik graag' : 'Met deze kinderen werk ik graag samen';
+        return speel ? 'Met deze kinderen speel ik liever niet' : 'Met deze kinderen werk ik liever niet';
+    }
+    function buildSocioSelects(container, mates) {
+        let html = '';
+        for (let i = 1; i <= 3; i++) {
+            html += '<select data-rank="' + i + '"><option value="">&mdash; kies ' + i + ' &mdash;</option>' +
+                mates.map(m => '<option value="' + escapeHtml(m.id) + '">' + escapeHtml(m.name) + '</option>').join('') +
+                '</select>';
+        }
+        container.innerHTML = html;
+    }
+    async function openSociogram(sessionCode) {
+        if (!sessionCode) return;
+        hideErr(socioError);
+        const res = await call('socio_load', { code: code, sessionCode: sessionCode });
+        if (!res || !res.ok || !res.found) {
+            // Sessie niet (meer) open — ververs de lijst.
+            loadSessions();
+            return;
+        }
+        if (res.submitted) {
+            currentSocio = { sessionCode: sessionCode, classmates: [], type: res.type };
+            showSocioDone();
+            return;
+        }
+        currentSocio = { sessionCode: sessionCode, classmates: res.classmates || [], type: res.type };
+        socioTitle.textContent = 'Sociogram invullen';
+        socioPosTitle.textContent = socioQuestionText(res.type, 'pos');
+        socioNegTitle.textContent = socioQuestionText(res.type, 'neg');
+        buildSocioSelects(socioPos, currentSocio.classmates);
+        buildSocioSelects(socioNeg, currentSocio.classmates);
+        socioForm.style.display = '';
+        socioDone.style.display = 'none';
+        showScreen('sociogram');
+    }
+    function collectPicks(container) {
+        const out = [];
+        container.querySelectorAll('select').forEach(sel => {
+            const v = sel.value;
+            if (v && out.indexOf(v) === -1) out.push(v);
+        });
+        return out;
+    }
+    function hasDuplicate(container) {
+        const seen = {};
+        let dup = false;
+        container.querySelectorAll('select').forEach(sel => {
+            if (!sel.value) return;
+            if (seen[sel.value]) dup = true;
+            seen[sel.value] = true;
+        });
+        return dup;
+    }
+    async function sendSocio() {
+        if (!currentSocio) return;
+        hideErr(socioError);
+        if (hasDuplicate(socioPos) || hasDuplicate(socioNeg)) {
+            showErr(socioError, 'Je hebt een kind twee keer gekozen. Kies elk kind maar één keer.');
+            return;
+        }
+        const positief = collectPicks(socioPos);
+        const negatief = collectPicks(socioNeg);
+        if (positief.some(id => negatief.indexOf(id) !== -1)) {
+            showErr(socioError, 'Een kind kan niet bij allebei staan. Kies anders.');
+            return;
+        }
+        if (!positief.length && !negatief.length) {
+            showErr(socioError, 'Kies eerst minstens één kind.');
+            return;
+        }
+        socioSend.disabled = true; socioSend.textContent = 'Versturen…';
+        const res = await call('socio_save', {
+            code: code, sessionCode: currentSocio.sessionCode,
+            positief: positief, negatief: negatief
+        });
+        socioSend.disabled = false; socioSend.textContent = 'Klaar! Versturen';
+        if (!res || !res.ok) {
+            showErr(socioError, (res && res.error) || 'Versturen lukte niet. Probeer opnieuw.');
+            return;
+        }
+        showSocioDone();
+    }
+    function showSocioDone() {
+        socioForm.style.display = 'none';
+        socioDone.style.display = '';
+        showScreen('sociogram');
     }
 
     async function showWall() {
@@ -164,6 +292,9 @@
         tileWall.addEventListener('click', showWall);
         tileWall.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showWall(); } });
         wallBack.addEventListener('click', showHub);
+        socioSend.addEventListener('click', sendSocio);
+        socioBack.addEventListener('click', showHub);
+        socioDoneBack.addEventListener('click', showHub);
         topLogout.addEventListener('click', logout);
 
         const saved = restore();

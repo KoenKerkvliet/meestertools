@@ -107,7 +107,128 @@ serve(async (req) => {
         joinUrl: '/meedoen?code=' + s.code,
       }))
 
+      // Sociogram — wordt op de leerlingpagina zelf ingevuld (geen aparte
+      // meedoen-pagina), dus we geven de sessiecode mee i.p.v. een joinUrl.
+      const { data: sg } = await admin
+        .from('sociogram_sessions')
+        .select('id, code, type, status')
+        .eq('group_id', gid).eq('status', 'open')
+      for (const s of (sg || []) as any[]) {
+        const { count } = await admin
+          .from('sociogram_participants')
+          .select('id', { count: 'exact', head: true })
+          .eq('session_id', s.id).eq('student_id', student.id)
+        out.push({
+          type: 'sociogram', icon: '🧑‍🤝‍🧑',
+          label: 'Sociogram · ' + typeLabel(s.type),
+          sessionCode: s.code,
+          submitted: (count || 0) > 0,
+        })
+      }
+
       return json({ ok: true, sessions: out })
+    }
+
+    // ---------------- sociogram: invulgegevens laden ----------------
+    if (action === 'socio_load') {
+      if (!valid) return json({ ok: true, found: false })
+      const sc = normCode(body?.sessionCode)
+      const session = await loadSociogramSession(admin, sc)
+      if (!session || session.group_id !== student.group_id || session.status !== 'open') {
+        return json({ ok: true, found: false })
+      }
+      // Klasgenoten (zonder zichzelf) om uit te kiezen.
+      const { data: roster } = await admin
+        .from('students')
+        .select('id, first_name, last_name')
+        .eq('group_id', student.group_id).eq('archived', false)
+        .order('first_name')
+      const classmates = (roster || [])
+        .filter((s: any) => s.id !== student.id)
+        .map((s: any) => ({ id: s.id, name: fullName(s) }))
+
+      const { count } = await admin
+        .from('sociogram_participants')
+        .select('id', { count: 'exact', head: true })
+        .eq('session_id', session.id).eq('student_id', student.id)
+
+      return json({
+        ok: true, found: true,
+        type: session.type,
+        submitted: (count || 0) > 0,
+        classmates,
+      })
+    }
+
+    // ---------------- sociogram: keuzes opslaan ----------------
+    if (action === 'socio_save') {
+      if (!valid) return json({ ok: false, error: 'Je code klopt niet.' }, 403)
+      const sc = normCode(body?.sessionCode)
+      const session = await loadSociogramSession(admin, sc)
+      if (!session || session.group_id !== student.group_id) {
+        return json({ ok: false, error: 'Deze sessie bestaat niet.' }, 404)
+      }
+      if (session.status !== 'open') {
+        return json({ ok: false, error: 'Het invullen is gesloten.' }, 409)
+      }
+
+      // Niet twee keer invullen.
+      const { data: existing } = await admin
+        .from('sociogram_participants')
+        .select('id')
+        .eq('session_id', session.id).eq('student_id', student.id)
+        .maybeSingle()
+      if (existing) {
+        return json({ ok: true, alreadyDone: true })
+      }
+
+      // Geldige klasgenoten (zonder zichzelf) als toegestane keuzes.
+      const { data: roster } = await admin
+        .from('students').select('id')
+        .eq('group_id', student.group_id).eq('archived', false)
+      const allowed = new Set((roster || [])
+        .map((s: any) => s.id)
+        .filter((id: string) => id !== student.id))
+
+      const positief = cleanPicks(body?.positief, allowed)
+      const negatief = cleanPicks(body?.negatief, allowed)
+
+      // Geen overlap tussen positief en negatief.
+      if (positief.some((id) => negatief.includes(id))) {
+        return json({ ok: false, error: 'Een kind kan niet bij allebei staan.' }, 400)
+      }
+      if (!positief.length && !negatief.length) {
+        return json({ ok: false, error: 'Kies eerst minstens één kind.' }, 400)
+      }
+
+      const rows: Array<Record<string, unknown>> = []
+      positief.forEach((id, i) => rows.push({
+        session_id: session.id, from_student_id: student.id,
+        to_student_id: id, pick_type: 'positief', rank: i + 1,
+      }))
+      negatief.forEach((id, i) => rows.push({
+        session_id: session.id, from_student_id: student.id,
+        to_student_id: id, pick_type: 'negatief', rank: i + 1,
+      }))
+
+      // Markeer eerst als ingevuld (unique constraint vangt dubbele inzending af).
+      const { error: partErr } = await admin
+        .from('sociogram_participants')
+        .insert({ session_id: session.id, student_id: student.id })
+      if (partErr) {
+        if (partErr.code === '23505') return json({ ok: true, alreadyDone: true })
+        console.error('participant insert error:', partErr.message)
+        return json({ ok: false, error: 'Opslaan lukte niet. Probeer opnieuw.' }, 500)
+      }
+
+      if (rows.length) {
+        const { error: pErr } = await admin.from('sociogram_picks').insert(rows)
+        if (pErr) {
+          console.error('picks insert error:', pErr.message)
+          return json({ ok: false, error: 'Opslaan lukte niet. Probeer opnieuw.' }, 500)
+        }
+      }
+      return json({ ok: true, saved: true })
     }
 
     return json({ ok: false, error: 'Onbekende actie.' }, 400)
@@ -141,6 +262,35 @@ function assignMonsters(list: Array<{ id: string }>): Record<string, number> {
 function monsterPath(n: number): string {
   const nn = n < 10 ? '0' + n : String(n)
   return 'assets/avatars/monsters/monster-' + nn + '.png'
+}
+
+// ---------- Sociogram ----------
+async function loadSociogramSession(admin: any, sessionCode: string) {
+  if (!sessionCode) return null
+  const { data } = await admin
+    .from('sociogram_sessions')
+    .select('id, group_id, type, status')
+    .eq('code', sessionCode)
+    .maybeSingle()
+  return data || null
+}
+function typeLabel(type: unknown): string {
+  return type === 'werken' ? 'Samen werken' : type === 'spelen' ? 'Samen spelen' : String(type || '')
+}
+function fullName(s: { first_name?: string; last_name?: string }): string {
+  return ((s.first_name || '') + ' ' + (s.last_name || '')).trim() || '?'
+}
+// Houd max 3 unieke, toegestane keuzes over (volgorde = rang).
+function cleanPicks(raw: unknown, allowed: Set<string>): string[] {
+  const out: string[] = []
+  if (Array.isArray(raw)) {
+    for (const v of raw) {
+      const id = String(v || '')
+      if (id && allowed.has(id) && !out.includes(id)) out.push(id)
+      if (out.length >= 3) break
+    }
+  }
+  return out
 }
 
 // ---------- Tekst ----------
