@@ -96,6 +96,8 @@
 }
 .pg-table-groep { grid-template-columns: 1fr 1fr; }
 .pg-table-rij { grid-template-columns: repeat(2, 1fr); }
+/* Oneven groepstafel: eerste plek bovenaan over de volle breedte, gecentreerd */
+.pg-table-odd .pg-seat:first-child { grid-column: 1 / -1; justify-self: center; }
 
 /* ---------- Plek (seat) ---------- */
 .pg-seat {

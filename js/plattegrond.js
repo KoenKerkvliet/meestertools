@@ -564,10 +564,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 var cell = byPos[rr + '-' + cc];
                 if (!cell) { g += '<div class="pg-cell-empty"></div>'; continue; }
                 var seatsHtml = '';
+                var renderedSeats = 0;
                 for (var i = 0; i < cell.seats; i++) {
-                    if (!isRemoved(cell.start + i)) seatsHtml += seatHtml(cell.start + i, opts);
+                    if (!isRemoved(cell.start + i)) { seatsHtml += seatHtml(cell.start + i, opts); renderedSeats++; }
                 }
-                if (seatsHtml) g += '<div class="pg-table pg-table-' + cell.type + '">' + seatsHtml + '</div>';
+                // Oneven groepstafel: de eerste plek komt bovenaan, gecentreerd
+                // (1 boven, daaronder steeds twee naast elkaar).
+                var oddCls = (cell.type === 'groep' && renderedSeats % 2 === 1) ? ' pg-table-odd' : '';
+                if (seatsHtml) g += '<div class="pg-table pg-table-' + cell.type + oddCls + '">' + seatsHtml + '</div>';
                 else g += '<div class="pg-cell-empty"></div>';
             }
         }
@@ -740,6 +744,7 @@ document.addEventListener('DOMContentLoaded', function () {
             '.pg-cell-empty{min-height:10px;}' +
             '.pg-table{display:grid;grid-template-columns:1fr 1fr;gap:6px;border:1px solid #E5E3F2;border-radius:12px;padding:8px;background:#FAFAFE;}' +
             '.pg-table-rij{grid-template-columns:repeat(2,1fr);}' +
+            '.pg-table-odd .pg-seat:first-child{grid-column:1 / -1;justify-self:center;}' +
             '.pg-seat{border:1px solid #E5E3F2;border-radius:10px;padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:74px;background:#fff;}' +
             '.pg-seat.is-empty{background:#F6F6FB;min-height:60px;}' +
             '.pg-seat-monster{width:34px;height:34px;object-fit:contain;}' +
