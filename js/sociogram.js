@@ -753,6 +753,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- Tab 1: Overzicht ---
         renderOverzicht(statsByStudent);
 
+        // --- Tab: Per leerling (wat heeft elk kind zelf ingevuld) ---
+        renderPerStudent(picks);
+
         // --- Tab 2: Wederzijds positief ---
         renderWederzijds(picks);
 
@@ -1165,6 +1168,59 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         html += '</tbody></table>';
         document.getElementById('sgTab-overzicht').innerHTML = html;
+    }
+
+    function renderPerStudent(picks) {
+        var container = document.getElementById('sgTab-leerling');
+        if (!container) return;
+        var studentMap = {};
+        students.forEach(function (s) { studentMap[s.id] = s; });
+
+        // Wat heeft elk kind zélf gekozen (from-kant), op rang-volgorde.
+        var given = {};
+        students.forEach(function (s) { given[s.id] = { positief: [], negatief: [] }; });
+        picks.forEach(function (p) {
+            if (given[p.from_student_id] && (p.pick_type === 'positief' || p.pick_type === 'negatief')) {
+                given[p.from_student_id][p.pick_type].push({ id: p.to_student_id, rank: p.rank });
+            }
+        });
+        students.forEach(function (s) {
+            ['positief', 'negatief'].forEach(function (t) {
+                given[s.id][t].sort(function (a, b) { return (a.rank || 0) - (b.rank || 0); });
+            });
+        });
+
+        var sorted = students.slice().sort(function (a, b) {
+            return studentName(a).localeCompare(studentName(b), 'nl');
+        });
+
+        function chips(arr, cls) {
+            if (!arr.length) return '<span class="sg-ps-empty">&mdash; niets ingevuld &mdash;</span>';
+            return arr.map(function (x) {
+                var st = studentMap[x.id];
+                if (!st) return '';
+                return '<span class="sg-ps-chip sg-ps-chip-' + cls + '">' +
+                    (x.rank ? '<span class="sg-ps-rank">' + x.rank + '</span>' : '') +
+                    escapeHtml(studentName(st)) + '</span>';
+            }).join('');
+        }
+
+        var html = '<p class="sg-tab-intro">Wat heeft elke leerling zelf ingevuld? Handig om snel terug te kijken bij het maken van een plaatsing.</p>';
+        html += '<div class="sg-ps-table-wrap"><table class="sg-results-table sg-ps-table"><thead><tr>' +
+            '<th>Leerling</th>' +
+            '<th>Koos zelf positief &#128077;</th>' +
+            '<th>Koos zelf negatief &#128078;</th>' +
+            '</tr></thead><tbody>';
+        sorted.forEach(function (s) {
+            var g = given[s.id];
+            html += '<tr>' +
+                '<td><strong>' + escapeHtml(studentName(s)) + '</strong></td>' +
+                '<td><div class="sg-ps-names">' + chips(g.positief, 'pos') + '</div></td>' +
+                '<td><div class="sg-ps-names">' + chips(g.negatief, 'neg') + '</div></td>' +
+            '</tr>';
+        });
+        html += '</tbody></table></div>';
+        container.innerHTML = html;
     }
 
     function renderWederzijds(picks) {

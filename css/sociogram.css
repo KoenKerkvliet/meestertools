@@ -1141,3 +1141,36 @@
     border-radius: 999px;
     padding: 2px 9px;
 }
+
+/* ============= PER LEERLING (terugkijken wat een kind invulde) ============= */
+.sg-ps-table-wrap { overflow-x: auto; }
+.sg-ps-table td { vertical-align: top; }
+.sg-ps-table td:first-child { white-space: nowrap; }
+.sg-ps-names { display: flex; flex-wrap: wrap; gap: 6px; }
+.sg-ps-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 11px 4px 5px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+.sg-ps-chip-pos { background: #E7F6EA; color: #2E7D32; }
+.sg-ps-chip-neg { background: #FDECEC; color: #C62828; }
+.sg-ps-rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+}
+.sg-ps-chip-pos .sg-ps-rank { background: #2E7D32; }
+.sg-ps-chip-neg .sg-ps-rank { background: #C62828; }
+.sg-ps-empty { color: #B6BAC6; font-size: 13px; }
