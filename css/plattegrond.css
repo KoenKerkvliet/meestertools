@@ -24,8 +24,26 @@
 .pg-btn-primary:hover { box-shadow: 0 6px 18px rgba(108,99,255,.3); }
 .pg-btn-ghost { background: var(--bg-light, #F1F0FA); color: var(--text-dark, #2D3436); }
 .pg-btn-ghost:hover { background: #E7E5F6; }
+.pg-btn-socio { background: linear-gradient(135deg, #6C63FF 0%, #B06CFF 100%); color: #fff; }
+.pg-btn-socio:hover { box-shadow: 0 6px 18px rgba(140,99,255,.35); }
 
 .pg-hint { background: #F4F2FF; border-radius: 10px; padding: 9px 14px; font-size: 13.5px; color: #4A4470; margin-bottom: 16px; }
+
+/* ---------- Sociogram-balk ---------- */
+.pg-socio-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    background: linear-gradient(135deg, #F3F2FF 0%, #F7EEFF 100%);
+    border: 1px solid #E2DBFF; border-radius: 12px; padding: 8px 14px; margin-bottom: 12px;
+}
+.pg-socio-info { font-size: 13.5px; color: #4A4470; }
+.pg-socio-toggle { display: inline-flex; align-items: center; gap: 6px; }
+.pg-socio-toggle-label { font-size: 13px; color: var(--text-medium, #636E72); font-weight: 600; }
+.pg-socio-toggle button {
+    border: 1px solid #D9D2F5; background: #fff; color: #5A52D5; cursor: pointer; font-family: inherit;
+    font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 999px; transition: background .15s, color .15s, border-color .15s;
+}
+.pg-socio-toggle button:hover { background: #F1EEFF; }
+.pg-socio-toggle button.active { background: var(--primary, #6C63FF); color: #fff; border-color: var(--primary, #6C63FF); }
 
 .pg-section-title { font-size: 15px; color: var(--text-dark, #2D3436); margin: 0 0 10px; display: flex; align-items: center; gap: 10px; }
 .pg-count {

@@ -54,6 +54,7 @@
                     <div class="pg-tb-actions">
                         <button class="pg-btn pg-btn-primary" id="pgBtnFill">&#129516; Vul op volgorde</button>
                         <button class="pg-btn pg-btn-ghost" id="pgBtnShuffle">&#127922; Husselen</button>
+                        <button class="pg-btn pg-btn-socio" id="pgBtnSociogram">&#129309; Sociogram-indeling</button>
                         <button class="pg-btn pg-btn-ghost" id="pgBtnClearSeats">&#8634; Plekken leegmaken</button>
                         <button class="pg-btn pg-btn-ghost" id="pgBtnRestoreSeats" style="display:none;">&#9851; Verwijderde plekken terug</button>
                         <span class="pg-tb-divider"></span>
@@ -62,6 +63,16 @@
                         <button class="pg-btn pg-btn-ghost" id="pgBtnPrint">&#128424;&#65039; Printen</button>
                     </div>
                     <div class="pg-status" id="pgStatus"></div>
+                </div>
+
+                <!-- Sociogram-balk (alleen zichtbaar als er een sociogram van deze klas is) -->
+                <div class="pg-socio-bar" id="pgSocioBar" style="display:none;">
+                    <span class="pg-socio-info" id="pgSocioInfo"></span>
+                    <div class="pg-socio-toggle" id="pgSocioToggle">
+                        <span class="pg-socio-toggle-label">Vrienden:</span>
+                        <button type="button" data-mode="samen" class="active">bij elkaar</button>
+                        <button type="button" data-mode="uit">uit elkaar</button>
+                    </div>
                 </div>
 
                 <p class="pg-hint" id="pgHint">Tip: tik op een leerling en daarna op een plek om hem/haar te zetten. Tik op twee plekken om ze te wisselen.</p>

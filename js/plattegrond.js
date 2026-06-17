@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var monsterByStudentId = {};
     var presentOpen = false;
     var editLayout = null;       // werk-kopie tijdens instellingen
+    var sociogramConstraints = null; // { mutualNeg, oneWayNeg, mutualPos, session } of null
+    var sociogramMode = 'samen';     // 'samen' = vrienden bij elkaar, 'uit' = vrienden uit elkaar
 
     // ---------- DOM ----------
     var noGroup = document.getElementById('pgNoGroup');
@@ -41,6 +43,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var btnFill = document.getElementById('pgBtnFill');
     var btnShuffle = document.getElementById('pgBtnShuffle');
+    var btnSociogram = document.getElementById('pgBtnSociogram');
+    var socioBar = document.getElementById('pgSocioBar');
+    var socioInfo = document.getElementById('pgSocioInfo');
+    var socioToggle = document.getElementById('pgSocioToggle');
     var btnClearSeats = document.getElementById('pgBtnClearSeats');
     var btnRestoreSeats = document.getElementById('pgBtnRestoreSeats');
     var btnSettings = document.getElementById('pgBtnSettings');
@@ -146,6 +152,46 @@ document.addEventListener('DOMContentLoaded', function () {
         students = res.data || [];
         monsterByStudentId = assignMonsters(students);
     }
+    // Meest recente sociogram van de klas -> wederzijds-negatieve/positieve paren.
+    async function loadSociogramConstraints() {
+        sociogramConstraints = null;
+        if (!selectedGroupId) return;
+        var sRes = await supabase.from('sociogram_sessions')
+            .select('id, type, afname_datum, titel')
+            .eq('group_id', selectedGroupId)
+            .order('afname_datum', { ascending: false })
+            .order('created_at', { ascending: false })
+            .limit(1);
+        var session = sRes.data && sRes.data[0];
+        if (!session) return;
+        var pRes = await supabase.from('sociogram_picks')
+            .select('from_student_id, to_student_id, pick_type')
+            .eq('session_id', session.id);
+        var picks = pRes.data || [];
+        if (!picks.length) return;
+
+        var posPairs = {}, negPairs = {};
+        picks.forEach(function (p) {
+            var key = p.from_student_id + ':' + p.to_student_id;
+            if (p.pick_type === 'positief') posPairs[key] = true; else negPairs[key] = true;
+        });
+        var mutualNeg = {}, oneWayNeg = {}, mutualPos = {};
+        Object.keys(negPairs).forEach(function (key) {
+            var parts = key.split(':');
+            var reverse = parts[1] + ':' + parts[0];
+            var sorted = parts[0] < parts[1] ? parts[0] + ':' + parts[1] : parts[1] + ':' + parts[0];
+            if (negPairs[reverse]) mutualNeg[sorted] = true; else oneWayNeg[sorted] = true;
+        });
+        Object.keys(posPairs).forEach(function (key) {
+            var parts = key.split(':');
+            var reverse = parts[1] + ':' + parts[0];
+            if (posPairs[reverse]) {
+                var sorted = parts[0] < parts[1] ? parts[0] + ':' + parts[1] : parts[1] + ':' + parts[0];
+                mutualPos[sorted] = true;
+            }
+        });
+        sociogramConstraints = { mutualNeg: mutualNeg, oneWayNeg: oneWayNeg, mutualPos: mutualPos, session: session };
+    }
     async function loadStore() {
         var res = await supabase.from('tool_settings').select('settings')
             .eq('user_id', currentUser.id).eq('tool_name', TOOL_NAME).maybeSingle();
@@ -155,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function persist() {
         if (!store.byGroup) store.byGroup = {};
         if (selectedGroupId) {
-            store.byGroup[selectedGroupId] = { layout: layout, placement: placement };
+            store.byGroup[selectedGroupId] = { layout: layout, placement: placement, sociogramMode: sociogramMode };
         }
         supabase.from('tool_settings').upsert({
             user_id: currentUser.id, tool_name: TOOL_NAME, settings: store,
@@ -168,6 +214,7 @@ document.addEventListener('DOMContentLoaded', function () {
         layout = { type: 'rijen', columns: 3, perDesk: 2, rowsPerColumn: 5, tableSeats: 4, grid: emptyGrid(), removed: [] };
         placement = [];
         var g = store.byGroup ? store.byGroup[selectedGroupId] : null;
+        sociogramMode = (g && g.sociogramMode === 'uit') ? 'uit' : 'samen';
         if (g && g.layout) {
             var L = g.layout;
             layout.type = (L.type === 'groepjes' || L.type === 'mix') ? L.type : 'rijen';
@@ -274,6 +321,161 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!students.length) { toast('Geen leerlingen in deze klas.'); return; }
         autoFill(shuffle(students));
     }
+
+    // ---------- Sociogram-indeling ----------
+    function pairKey(a, b) { return a < b ? a + ':' + b : b + ':' + a; }
+
+    // Bepaal de "eenheden" (tafels/banken) als groepjes seat-indices die bij
+    // elkaar horen. Wie in dezelfde eenheid zit, zit fysiek samen.
+    function buildUnits() {
+        var info = computeSeats();
+        var units = [];
+        if (info.kind === 'columns') {
+            var idx = 0;
+            for (var col = 0; col < info.columns; col++) {
+                for (var row = 0; row < info.rowsPerColumn; row++) {
+                    var seats = [];
+                    for (var d = 0; d < info.perDesk; d++) {
+                        if (!isRemoved(idx)) seats.push(idx);
+                        idx++;
+                    }
+                    if (seats.length) units.push(seats);
+                }
+            }
+        } else {
+            info.cells.forEach(function (cell) {
+                var seats = [];
+                for (var i = 0; i < cell.seats; i++) {
+                    var si = cell.start + i;
+                    if (!isRemoved(si)) seats.push(si);
+                }
+                if (seats.length) units.push(seats);
+            });
+        }
+        return units;
+    }
+
+    function sociogramFill() {
+        if (!students.length) { toast('Geen leerlingen in deze klas.'); return; }
+        if (!sociogramConstraints) {
+            toast('Nog geen sociogram voor deze klas. Neem er eerst een af bij <strong>Sociogram</strong>.');
+            return;
+        }
+        var C = sociogramConstraints;
+        var friendsTogether = sociogramMode !== 'uit';
+
+        function forbidden(a, b) { return !!C.mutualNeg[pairKey(a, b)]; }
+        function bond(a, b) {
+            var k = pairKey(a, b);
+            if (C.mutualNeg[k]) return -1000;          // conflict: nooit samen
+            if (friendsTogether) {
+                if (C.mutualPos[k]) return 20;         // vrienden: graag samen
+                if (C.oneWayNeg[k]) return -8;
+                return 0;
+            }
+            if (C.mutualPos[k]) return -8;             // vrienden juist uit elkaar
+            if (C.oneWayNeg[k]) return -8;
+            return 0;
+        }
+
+        var units = buildUnits();
+
+        // Eén greedy poging: vul elke eenheid via seed-and-grow; voeg nooit iemand
+        // toe die met een huidig lid wederzijds-negatief is (plek blijft dan leeg).
+        function attemptAssign() {
+            var used = {};
+            var assignment = units.map(function (seats) {
+                var members = [];
+                while (members.length < seats.length) {
+                    var best = null, bestScore = -Infinity;
+                    for (var n = 0; n < students.length; n++) {
+                        var s = students[n];
+                        if (used[s.id]) continue;
+                        var bad = false;
+                        for (var m = 0; m < members.length; m++) {
+                            if (forbidden(members[m], s.id)) { bad = true; break; }
+                        }
+                        if (bad) continue;
+                        var score = 0;
+                        if (!members.length) {
+                            // seed: leerling met de meeste te winnen banden bij wie nog vrij is
+                            for (var o = 0; o < students.length; o++) {
+                                var os = students[o];
+                                if (used[os.id] || os.id === s.id) continue;
+                                score += Math.max(0, bond(s.id, os.id));
+                            }
+                        } else {
+                            for (var m2 = 0; m2 < members.length; m2++) score += bond(members[m2], s.id);
+                        }
+                        score += Math.random() * 0.5; // variatie bij gelijke stand
+                        if (score > bestScore) { bestScore = score; best = s; }
+                    }
+                    if (!best) break; // niemand conflictvrij over -> plek leeg laten
+                    members.push(best.id); used[best.id] = true;
+                }
+                return members;
+            });
+            // Kwaliteit: zoveel mogelijk geplaatst, daarna zo goed mogelijke banden.
+            var placed = 0, bondScore = 0;
+            assignment.forEach(function (ids) {
+                placed += ids.length;
+                for (var a = 0; a < ids.length; a++) {
+                    for (var b = a + 1; b < ids.length; b++) bondScore += bond(ids[a], ids[b]);
+                }
+            });
+            return { assignment: assignment, used: used, placed: placed, bondScore: bondScore };
+        }
+
+        // Pak de beste van meerdere pogingen (voorkomt dat de greedy onnodig
+        // iemand laat staan en levert meteen een betere indeling op).
+        var bestRun = null;
+        for (var att = 0; att < 16; att++) {
+            var r = attemptAssign();
+            if (!bestRun || r.placed > bestRun.placed ||
+                (r.placed === bestRun.placed && r.bondScore > bestRun.bondScore)) {
+                bestRun = r;
+            }
+        }
+        var assignment = bestRun.assignment;
+        var used = bestRun.used;
+
+        var sc = computeSeats().seatCount;
+        placement = [];
+        for (var i = 0; i < sc; i++) placement.push(null);
+        units.forEach(function (seats, ui) {
+            var members = assignment[ui];
+            seats.forEach(function (si, k) { placement[si] = members[k] || null; });
+        });
+
+        selected = null;
+        persist(); render();
+
+        // Korte samenvatting
+        var satisfied = 0;
+        units.forEach(function (seats, ui) {
+            var ids = assignment[ui];
+            for (var a = 0; a < ids.length; a++) {
+                for (var b = a + 1; b < ids.length; b++) {
+                    if (C.mutualPos[pairKey(ids[a], ids[b])]) satisfied++;
+                }
+            }
+        });
+        var unplaced = students.filter(function (s) { return !used[s.id]; }).length;
+        var bits = [];
+        if (friendsTogether && satisfied) bits.push(satisfied + (satisfied === 1 ? ' vriendenpaar samen' : ' vriendenparen samen'));
+        bits.push('conflicten uit elkaar gehouden');
+        if (unplaced) bits.push(unplaced + ' zonder passende plek');
+        toast('&#129309; Ingedeeld op basis van het sociogram &middot; ' + bits.join(' &middot; '));
+    }
+
+    function formatDate(iso) {
+        if (!iso) return '';
+        var d = new Date(iso);
+        if (isNaN(d)) return '';
+        var maand = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
+        return d.getDate() + ' ' + maand[d.getMonth()] + ' ' + d.getFullYear();
+    }
+    function socioTypeLabel(t) { return t === 'spelen' ? 'samen spelen' : 'samen werken'; }
     function clearSeats() {
         if (!placedCount()) return;
         for (var i = 0; i < placement.length; i++) placement[i] = null;
@@ -411,8 +613,23 @@ document.addEventListener('DOMContentLoaded', function () {
             : '<p class="pg-pool-empty">Iedereen heeft een plek 🎉</p>';
 
         roomEl.innerHTML = roomHtml({ interactive: true });
+        updateSocioBar();
 
         if (presentOpen) presentRoom.innerHTML = roomHtml({});
+    }
+
+    function updateSocioBar() {
+        if (!socioBar) return;
+        if (!sociogramConstraints) { socioBar.style.display = 'none'; return; }
+        socioBar.style.display = '';
+        var ses = sociogramConstraints.session;
+        socioInfo.innerHTML = '&#128202; Sociogram van <strong>' + escapeHtml(formatDate(ses.afname_datum)) +
+            '</strong> &middot; ' + escapeHtml(socioTypeLabel(ses.type));
+        if (socioToggle) {
+            socioToggle.querySelectorAll('button').forEach(function (b) {
+                b.classList.toggle('active', b.getAttribute('data-mode') === sociogramMode);
+            });
+        }
     }
 
     // ---------- Instellingen ----------
@@ -557,6 +774,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     btnFill.addEventListener('click', fillInOrder);
     btnShuffle.addEventListener('click', shuffleFill);
+    if (btnSociogram) btnSociogram.addEventListener('click', sociogramFill);
+    if (socioToggle) socioToggle.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-mode]');
+        if (!b) return;
+        var mode = b.getAttribute('data-mode') === 'uit' ? 'uit' : 'samen';
+        if (mode === sociogramMode) return;
+        sociogramMode = mode;
+        persist();
+        // Direct opnieuw indelen zodat het effect meteen zichtbaar is.
+        if (sociogramConstraints) sociogramFill(); else updateSocioBar();
+    });
     btnClearSeats.addEventListener('click', clearSeats);
     btnRestoreSeats.addEventListener('click', restoreSeats);
     btnSettings.addEventListener('click', openSettings);
@@ -587,6 +815,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (selectedGroupId) {
             await loadStudents();
             restoreForGroup();
+            try { await loadSociogramConstraints(); } catch (e) { console.error('sociogram laden:', e); }
         }
         render();
         if (window.hidePageLoader) window.hidePageLoader();
