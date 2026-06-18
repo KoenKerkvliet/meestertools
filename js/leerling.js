@@ -17,7 +17,8 @@
         login: document.getElementById('screenLogin'),
         hub: document.getElementById('screenHub'),
         wall: document.getElementById('screenWall'),
-        sociogram: document.getElementById('screenSociogram')
+        sociogram: document.getElementById('screenSociogram'),
+        typetijger: document.getElementById('screenTypetijger')
     };
     const topLogout = document.getElementById('topLogout');
 
@@ -29,6 +30,8 @@
     const hubMonster = document.getElementById('hubMonster');
     const hubHi = document.getElementById('hubHi');
     const tileWall = document.getElementById('tileWall');
+    const tileTypetijger = document.getElementById('tileTypetijger');
+    const ttHubBack = document.getElementById('ttHubBack');
     const activeSessions = document.getElementById('activeSessions');
     const activeSessionsGrid = document.getElementById('activeSessionsGrid');
     const mineTitle = document.getElementById('mineTitle');
@@ -273,6 +276,32 @@
         wallEl.innerHTML = MTRekenrace.wallHtml(wallMap(res.wall), {});
     }
 
+    // ---------- Typetijger (typcursus) ----------
+    // Voortgang loopt per leerling via de edge function; het monster ligt vast
+    // en de niveaus gaan pas open na 3 sterren per level op het vorige niveau.
+    async function ttLoad() {
+        const res = await call('typetijger_load', { code: code });
+        return (res && res.ok && res.progress) ? res.progress : {};
+    }
+    function ttSave(_progress, lessonId, entry) {
+        // fire-and-forget; de server bewaart alleen de beste score
+        call('typetijger_save', {
+            code: code, lessonId: lessonId,
+            stars: entry && entry.stars, apm: entry && entry.apm, acc: entry && entry.acc
+        });
+    }
+    function showTypetijger() {
+        if (!window.Typetijger) return;
+        showScreen('typetijger');
+        window.Typetijger.start({
+            assetPrefix: '/',
+            avatarFixed: monsterUrl(monster),
+            lockLevels: true,
+            loadProgress: ttLoad,
+            saveProgress: ttSave
+        });
+    }
+
     function logout() {
         clearStore();
         name = ''; code = ''; displayName = ''; monster = '';
@@ -292,6 +321,14 @@
         tileWall.addEventListener('click', showWall);
         tileWall.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showWall(); } });
         wallBack.addEventListener('click', showHub);
+        if (tileTypetijger) {
+            tileTypetijger.addEventListener('click', showTypetijger);
+            tileTypetijger.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showTypetijger(); } });
+        }
+        if (ttHubBack) ttHubBack.addEventListener('click', () => {
+            if (window.Typetijger) window.Typetijger.showMap();
+            showHub();
+        });
         socioSend.addEventListener('click', sendSocio);
         socioBack.addEventListener('click', showHub);
         socioDoneBack.addEventListener('click', showHub);

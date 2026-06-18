@@ -9,6 +9,7 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>Leerling - Meestertools</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/typetijger.css">
     <style>
         /* ---- Eigen, account-loze kop-balk (geen leerkracht-header) ---- */
         .ll-header {
@@ -94,6 +95,10 @@
 
         .ll-screen { display: none; }
         .ll-screen.active { display: block; }
+
+        /* Typetijger op de leerlingpagina */
+        .ll-tt-topbar { max-width: 760px; margin: 0 auto 8px; }
+        .ll-tt-body { padding-top: 2px; }
         .ll-foot { text-align: center; color: var(--text-light); font-size: 12px; padding: 16px; }
 
         /* ---- Sociogram invullen ---- */
@@ -179,6 +184,11 @@
                     <h3>Mijn muurtje</h3>
                     <p>Bekijk hoe goed je de sommen al kunt.</p>
                 </div>
+                <div class="tool-card" id="tileTypetijger" role="button" tabindex="0">
+                    <span class="card-icon">&#128047;</span>
+                    <h3>Typetijger</h3>
+                    <p>Leer blind typen en verover de route, level voor level.</p>
+                </div>
                 <div class="tool-card ll-soon">
                     <span class="card-icon">&#10024;</span>
                     <h3>Meer</h3>
@@ -250,6 +260,78 @@
                 </div>
             </div>
         </section>
+
+        <!-- 5. Typetijger (typcursus) -->
+        <section class="ll-screen" id="screenTypetijger">
+            <div class="ll-tt-topbar">
+                <button class="ll-back" id="ttHubBack">&larr; Terug naar mijn pagina</button>
+            </div>
+
+            <div class="tool-page-body ll-tt-body">
+                <!-- Speelveld / route -->
+                <div id="tcMap" class="tc-map">
+                    <div class="tc-map-head">
+                        <span class="tc-avatar-badge" id="tcAvatarBadge">
+                            <img id="tcAvatarImg" src="" alt="Jouw monster">
+                            <span class="tc-avatar-edit">&#9998;</span>
+                        </span>
+                        <div class="tc-map-headtext">
+                            <h2>Jouw typ-avontuur</h2>
+                            <p>Speel elk level uit met 3 sterren om het volgende niveau te openen. <strong><span id="tcStarsTotal">0</span> / <span id="tcStarsMax">60</span></strong> sterren.</p>
+                        </div>
+                    </div>
+                    <div id="tcPath" class="tc-path"></div>
+                </div>
+
+                <!-- Werkruimte (typen) -->
+                <div id="tcWorkspace" class="tc-workspace" style="display:none;">
+                    <button type="button" class="tc-back-btn" id="tcBackToMap">&larr; Terug naar de route</button>
+                    <div class="tc-lesson-head">
+                        <h2 id="tcLessonTitle"></h2>
+                        <p class="tc-intro" id="tcLessonIntro"></p>
+                    </div>
+                    <div class="tc-stats">
+                        <div class="tc-stat"><div class="tc-stat-val" id="tcStatTime">0:00</div><div class="tc-stat-lbl">Tijd</div></div>
+                        <div class="tc-stat"><div class="tc-stat-val" id="tcStatApm">0</div><div class="tc-stat-lbl">Aanslagen / min</div></div>
+                        <div class="tc-stat"><div class="tc-stat-val" id="tcStatAcc">100%</div><div class="tc-stat-lbl">Nauwkeurig</div></div>
+                    </div>
+                    <div class="tc-ex-counter" id="tcExCounter"></div>
+                    <div class="tc-progress-track"><div class="tc-progress-bar" id="tcProgressBar"></div></div>
+                    <div class="tc-prompt" id="tcPrompt"></div>
+                    <div class="tc-hint" id="tcHint"></div>
+                    <div class="tc-keyboard" id="tcKeyboard"></div>
+                    <div class="tc-legend">
+                        <span><i class="f-lp"></i> pink</span>
+                        <span><i class="f-lr"></i> ringvinger</span>
+                        <span><i class="f-lm"></i> middelvinger</span>
+                        <span><i class="f-li"></i> wijsvinger (links)</span>
+                        <span><i class="f-ri"></i> wijsvinger (rechts)</span>
+                        <span><i class="f-rm"></i> middelvinger</span>
+                        <span><i class="f-rr"></i> ringvinger</span>
+                        <span><i class="f-rp"></i> pink</span>
+                        <span><i class="f-th"></i> duim (spatie)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resultaat-modal -->
+            <div class="tc-result-overlay" id="tcResultModal">
+                <div class="tc-result">
+                    <h2 id="tcResTitle">Les afgerond!</h2>
+                    <div class="tc-stars" id="tcResStars"></div>
+                    <div class="tc-result-stats">
+                        <div class="tc-stat"><div class="tc-stat-val" id="tcResApm">0</div><div class="tc-stat-lbl">Aanslagen / min</div></div>
+                        <div class="tc-stat"><div class="tc-stat-val" id="tcResAcc">100%</div><div class="tc-stat-lbl">Nauwkeurig</div></div>
+                    </div>
+                    <div class="tc-result-actions">
+                        <button class="tc-btn tc-btn-primary" id="tcResNext">Volgende les &rarr;</button>
+                        <button class="tc-btn tc-btn-ghost" id="tcResRetry">Nog een keer oefenen</button>
+                        <button class="tc-btn tc-btn-ghost" id="tcResClose">Sluiten</button>
+                    </div>
+                </div>
+            </div>
+            <input type="text" id="tcCapture" class="tc-capture" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-hidden="true">
+        </section>
     </main>
 
     <footer class="ll-foot">Meestertools</footer>
@@ -257,6 +339,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
     <script src="js/supabase-config.js"></script>
     <script src="js/rekenrace-blocks.js"></script>
+    <script>window.TT_NO_AUTOSTART = true;</script>
+    <script src="js/typetijger.js"></script>
     <script src="js/leerling.js"></script>
 </body>
 </html>

@@ -344,22 +344,36 @@
         }
     ];
 
-    // ---------- Voortgang (localStorage) ----------
-    function loadProgress() {
+    // ---------- Configuratie ----------
+    // Standaard = de leerkracht-tool (localStorage, vrije monsterkeuze, geen
+    // vergrendeling). De leerlingpagina overschrijft dit via Typetijger.start():
+    // dan komt de voortgang van de server, het monster ligt vast en de niveaus
+    // gaan pas open als het vorige niveau met 3 sterren per level af is.
+    var MONSTER_COUNT = 36;
+    var AVATAR_KEY = 'mt_typetijger_avatar';
+
+    function defaultLoadProgress() {
         try {
             var raw = localStorage.getItem(STORE_KEY);
             var obj = raw ? JSON.parse(raw) : {};
             return (obj && typeof obj === 'object') ? obj : {};
         } catch (e) { return {}; }
     }
-    function saveProgress(p) {
+    function defaultSaveProgress(p) {
         try { localStorage.setItem(STORE_KEY, JSON.stringify(p)); } catch (e) {}
     }
-    var progress = loadProgress();
 
-    // ---------- Avatar (het monstertje van de leerling) ----------
-    var AVATAR_KEY = 'mt_typetijger_avatar';
-    var MONSTER_COUNT = 36;
+    var cfg = {
+        assetPrefix: '../',        // pad-prefix naar /assets (tool zit in een submap)
+        avatarFixed: null,         // vaste monster-URL (leerling); null = kiezer aan
+        lockLevels: false,         // niveau pas open na 3 sterren op het vorige
+        loadProgress: defaultLoadProgress,
+        saveProgress: defaultSaveProgress   // (progressObj, lessonId, entry)
+    };
+
+    var progress = {};
+
+    // ---------- Avatar (het monstertje) ----------
     function loadAvatar() {
         var n = parseInt(localStorage.getItem(AVATAR_KEY), 10);
         return (n >= 1 && n <= MONSTER_COUNT) ? n : 13;
@@ -368,8 +382,9 @@
     var avatarNum = loadAvatar();
     function avatarSrc(n) {
         n = n || avatarNum;
-        return '../assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.png';
+        return cfg.assetPrefix + 'assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.png';
     }
+    function currentAvatarSrc() { return cfg.avatarFixed || avatarSrc(avatarNum); }
 
     // ---------- State ----------
     var state = {
@@ -393,19 +408,47 @@
     // ---------- Route / speelveld renderen (Duolingo-stijl) ----------
     var SECTION_COLORS = ['s-groen', 's-paars', 's-blauw', 's-oranje', 's-roze', 's-cyaan'];
 
-    // Eerste nog niet uitgespeelde les; daar staat het monstertje.
-    function currentLessonIndex() {
-        for (var i = 0; i < LESSONS.length; i++) {
-            var pr = progress[LESSONS[i].id];
-            if (!(pr && pr.done)) return i;
-        }
-        return LESSONS.length - 1;
-    }
-
     function lessonStars(l) {
         var pr = progress[l.id];
         if (!pr || !pr.done) return 0;
         return pr.stars || 1;
+    }
+
+    // Niveaus in volgorde van voorkomen.
+    function niveauOrder() {
+        var seen = {}, order = [];
+        LESSONS.forEach(function (l) { if (!seen[l.niveau]) { seen[l.niveau] = 1; order.push(l.niveau); } });
+        return order;
+    }
+    // Heeft elk level in dit niveau 3 sterren?
+    function niveauFully3(niveau) {
+        return LESSONS.filter(function (l) { return l.niveau === niveau; })
+            .every(function (l) { return lessonStars(l) >= 3; });
+    }
+    // Een niveau is open als vergrendeling uit staat, of als het 't eerste niveau is,
+    // of als het vorige niveau met 3 sterren per level is uitgespeeld.
+    function isNiveauUnlocked(niveau) {
+        if (!cfg.lockLevels) return true;
+        var order = niveauOrder();
+        var idx = order.indexOf(niveau);
+        if (idx <= 0) return true;
+        return niveauFully3(order[idx - 1]);
+    }
+    function isLessonLocked(l) { return !isNiveauUnlocked(l.niveau); }
+
+    // Het level waar het monstertje staat: het eerste speelbare level dat nog
+    // niet "af" is (af = 3 sterren bij vergrendeling, anders: al gespeeld).
+    function currentLessonIndex() {
+        var goal = cfg.lockLevels ? 3 : 1;
+        for (var i = 0; i < LESSONS.length; i++) {
+            if (isLessonLocked(LESSONS[i])) continue;
+            if (lessonStars(LESSONS[i]) < goal) return i;
+        }
+        // alles gehaald: zet 'm op het laatste speelbare level
+        for (var j = LESSONS.length - 1; j >= 0; j--) {
+            if (!isLessonLocked(LESSONS[j])) return j;
+        }
+        return 0;
     }
 
     // Zachte slinger naar links en rechts, net als bij Duolingo.
@@ -424,7 +467,7 @@
         LESSONS.forEach(function (l) { totalStars += lessonStars(l); });
         if (el.starsTotal) el.starsTotal.textContent = totalStars;
         if (el.starsMax) el.starsMax.textContent = LESSONS.length * 3;
-        if (el.avatarImg) el.avatarImg.src = avatarSrc();
+        if (el.avatarImg) el.avatarImg.src = currentAvatarSrc();
 
         var curIdx = currentLessonIndex();
         var html = '';
@@ -434,23 +477,28 @@
             if (l.niveau !== lastNiveau) {
                 lastNiveau = l.niveau;
                 sectionIdx++;
-                html += '<div class="tc-section ' + SECTION_COLORS[sectionIdx % SECTION_COLORS.length] + '">' +
-                    '<span class="tc-section-label">Niveau ' + (sectionIdx + 1) + '</span>' +
+                var locked = isLessonLocked(l);
+                html += '<div class="tc-section ' + SECTION_COLORS[sectionIdx % SECTION_COLORS.length] +
+                    (locked ? ' is-locked' : '') + '">' +
+                    '<span class="tc-section-label">Niveau ' + (sectionIdx + 1) +
+                    (locked ? ' &#128274;' : '') + '</span>' +
                     '<span class="tc-section-name">' + esc(l.niveau) + '</span></div>';
             }
 
             var stars = lessonStars(l);
             var done = stars > 0;
+            var locked = isLessonLocked(l);
             var isCur = (i === curIdx);
-            var stateCls = done ? 'done' : (isCur ? 'current' : 'todo');
-            var icon = done ? '&#10004;' : '&#9733;';
+            var stateCls = locked ? 'locked' : (done ? 'done' : (isCur ? 'current' : 'todo'));
+            var icon = locked ? '&#128274;' : (done ? '&#10004;' : '&#9733;');
 
             html += '<div class="tc-node-wrap" style="transform:translateX(' + pathOffset(i) + 'px)">';
-            if (isCur) {
+            if (isCur && !locked) {
                 html += '<span class="tc-node-start">START</span>';
-                html += '<img class="tc-node-avatar" src="' + avatarSrc() + '" alt="">';
+                html += '<img class="tc-node-avatar" src="' + currentAvatarSrc() + '" alt="">';
             }
-            html += '<button type="button" class="tc-node ' + stateCls + '" data-id="' + l.id + '">' +
+            html += '<button type="button" class="tc-node ' + stateCls + '" data-id="' + l.id + '"' +
+                (locked ? ' disabled aria-disabled="true"' : '') + '>' +
                 '<span class="tc-node-circle"><span class="tc-node-icon">' + icon + '</span></span></button>';
             html += done ? starPips(stars) : '<span class="tc-node-stars"></span>';
             html += '<span class="tc-node-label">' + esc(l.titel) + '</span>';
@@ -459,7 +507,7 @@
 
         el.path.innerHTML = html;
 
-        Array.prototype.forEach.call(el.path.querySelectorAll('.tc-node'), function (btn) {
+        Array.prototype.forEach.call(el.path.querySelectorAll('.tc-node:not([disabled])'), function (btn) {
             btn.addEventListener('click', function () {
                 var l = findLesson(btn.getAttribute('data-id'));
                 if (l) startLesson(l);
@@ -622,7 +670,9 @@
 
     // ---------- Toetsaanslagen verwerken ----------
     function onKeyDown(e) {
-        if (!state.lesson || el.workspace.style.display === 'none') return;
+        if (!state.lesson || !el.workspace || el.workspace.style.display === 'none') return;
+        // niet reageren als de werkruimte (via een verborgen scherm) onzichtbaar is
+        if (el.workspace.offsetParent === null) return;
         // modaltoetsen negeren
         if (e.ctrlKey || e.metaKey || e.altKey) return;
 
@@ -743,24 +793,27 @@
         if (!pr.bestAcc || acc > pr.bestAcc) pr.bestAcc = acc;
         if (!pr.stars || sterren > pr.stars) pr.stars = sterren;
         progress[state.lesson.id] = pr;
-        saveProgress(progress);
+        try {
+            cfg.saveProgress(progress, state.lesson.id, { stars: pr.stars, apm: apm, acc: acc });
+        } catch (e) {}
 
         el.resApm.textContent = apm;
         el.resAcc.textContent = acc + '%';
         el.resStars.innerHTML = starHtml(sterren);
         el.resTitle.textContent = state.lesson.titel + ' afgerond!';
 
-        // volgende les bepalen
-        var idx = LESSONS.indexOf(state.lesson);
-        var next = LESSONS[idx + 1] || null;
-        if (next) {
+        renderMap();
+
+        // volgende speelbare les bepalen (respecteert vergrendeling)
+        var nextIdx = currentLessonIndex();
+        var next = LESSONS[nextIdx];
+        if (next && next.id !== state.lesson.id && !isLessonLocked(next)) {
             el.resNext.style.display = '';
             el.resNext.innerHTML = 'Volgende les: ' + esc(next.titel) + ' &rarr;';
             el.resNext.onclick = function () { hideResult(); startLesson(next); };
         } else {
             el.resNext.style.display = 'none';
         }
-        renderMap();
         showResult();
     }
 
@@ -798,7 +851,7 @@
     }
 
     // ---------- Init ----------
-    function init() {
+    function cacheRefs() {
         el.map = $('tcMap');
         el.path = $('tcPath');
         el.starsTotal = $('tcStarsTotal');
@@ -825,10 +878,12 @@
         el.resAcc = $('tcResAcc');
         el.resStars = $('tcResStars');
         el.resNext = $('tcResNext');
+    }
 
-        if (!el.path) return;
-
-        renderMap();
+    var bound = false;
+    function bindOnce() {
+        if (bound) return;
+        bound = true;
 
         document.addEventListener('keydown', onKeyDown);
         // focus terug naar de vanger als je in de werkruimte klikt
@@ -839,32 +894,65 @@
             });
         }
 
-        // avatar-kiezer
-        if (el.avatarBadge) el.avatarBadge.addEventListener('click', openAvatarPicker);
-        var avatarClose = $('tcAvatarClose');
-        if (avatarClose) avatarClose.onclick = closeAvatarPicker;
-        if (el.avatarModal) el.avatarModal.addEventListener('click', function (e) {
-            if (e.target === el.avatarModal) closeAvatarPicker();
-        });
+        // avatar-kiezer (alleen als er geen vast monster is opgelegd)
+        if (!cfg.avatarFixed && el.avatarBadge) {
+            el.avatarBadge.addEventListener('click', openAvatarPicker);
+            var avatarClose = $('tcAvatarClose');
+            if (avatarClose) avatarClose.onclick = closeAvatarPicker;
+            if (el.avatarModal) el.avatarModal.addEventListener('click', function (e) {
+                if (e.target === el.avatarModal) closeAvatarPicker();
+            });
+        }
 
         // terug naar de route
         var back = $('tcBackToMap');
         if (back) back.onclick = showMap;
 
         var btnRetry = $('tcResRetry');
-        if (btnRetry) btnRetry.onclick = function () {
-            hideResult();
-            startLesson(state.lesson);
-        };
+        if (btnRetry) btnRetry.onclick = function () { hideResult(); startLesson(state.lesson); };
         var btnClose = $('tcResClose');
         if (btnClose) btnClose.onclick = function () { hideResult(); showMap(); };
+    }
+
+    function boot() {
+        cacheRefs();
+        if (!el.path) return;
+
+        if (cfg.avatarFixed && el.avatarBadge) el.avatarBadge.classList.add('tc-avatar-fixed');
+
+        bindOnce();
+        renderMap();
+
+        // begin altijd op het speelveld, niet in een les
+        if (el.workspace) el.workspace.style.display = 'none';
+        if (el.map) el.map.style.display = '';
 
         if (window.hidePageLoader) window.hidePageLoader();
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
+    // Publieke API: de leerlingpagina roept Typetijger.start({...}) aan met een
+    // vast monster, server-voortgang en niveau-vergrendeling.
+    function start(options) {
+        if (options) { for (var k in options) if (options.hasOwnProperty(k)) cfg[k] = options[k]; }
+        Promise.resolve()
+            .then(function () { return cfg.loadProgress(); })
+            .then(function (p) { progress = (p && typeof p === 'object') ? p : {}; boot(); })
+            .catch(function () { progress = {}; boot(); });
+    }
+
+    window.Typetijger = {
+        start: start,
+        showMap: function () { showMap(); },
+        render: function () { renderMap(); }
+    };
+
+    // Auto-start voor de leerkracht-tool. De leerlingpagina zet
+    // window.TT_NO_AUTOSTART = true en stuurt zelf Typetijger.start(...).
+    if (!window.TT_NO_AUTOSTART) {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () { start(); });
+        } else {
+            start();
+        }
     }
 })();

@@ -9,8 +9,10 @@ import { corsHeaders } from '../_shared/cors.ts'
  * prefix = school). Alles loopt via de service-role key; de code is de sleutel.
  *
  * Acties (POST body { action, ... }):
- *   - login { name, code }  -> match leerling op code + voornaam, geef monster
- *   - wall  { code }        -> het rekenmuurtje (mastery) van die leerling
+ *   - login { name, code }            -> match leerling op code + voornaam, geef monster
+ *   - wall  { code }                  -> het rekenmuurtje (mastery) van die leerling
+ *   - typetijger_load { code }        -> voortgang van de typcursus
+ *   - typetijger_save { code, lessonId, stars, apm, acc } -> voortgang opslaan (best)
  */
 
 const NAME_MAX = 30
@@ -65,6 +67,57 @@ serve(async (req) => {
         .select('block_id, status, regressed, best_per_min, best_accuracy, last_per_min, last_accuracy, last_answered')
         .eq('student_id', student.id)
       return json({ ok: true, matched: true, wall: wall || [] })
+    }
+
+    // ---------------- typetijger: voortgang laden ----------------
+    if (action === 'typetijger_load') {
+      if (!valid) return json({ ok: true, matched: false, progress: {} })
+      const { data: rows } = await admin
+        .from('typetijger_progress')
+        .select('lesson_id, stars, best_per_min, best_accuracy')
+        .eq('student_id', student.id)
+      const progress: Record<string, unknown> = {}
+      ;(rows || []).forEach((r: any) => {
+        progress[r.lesson_id] = {
+          done: true, stars: r.stars,
+          bestApm: r.best_per_min, bestAcc: r.best_accuracy,
+        }
+      })
+      return json({ ok: true, matched: true, progress })
+    }
+
+    // ---------------- typetijger: voortgang opslaan (alleen verbeteren) ----------------
+    if (action === 'typetijger_save') {
+      if (!valid) return json({ ok: false, error: 'Je code klopt niet.' }, 403)
+      const lessonId = cleanText(body?.lessonId, 40)
+      if (!lessonId) return json({ ok: false, error: 'Geen les opgegeven.' }, 400)
+      const stars = clampInt(body?.stars, 0, 3)
+      const apm = clampInt(body?.apm, 0, 100000)
+      const acc = clampInt(body?.acc, 0, 100)
+
+      const { data: cur } = await admin
+        .from('typetijger_progress')
+        .select('stars, best_per_min, best_accuracy')
+        .eq('student_id', student.id).eq('lesson_id', lessonId)
+        .maybeSingle()
+
+      const row = {
+        student_id: student.id,
+        group_id: student.group_id,
+        lesson_id: lessonId,
+        stars: Math.max(stars, (cur && cur.stars) || 0),
+        best_per_min: Math.max(apm, (cur && cur.best_per_min) || 0),
+        best_accuracy: Math.max(acc, (cur && cur.best_accuracy) || 0),
+        updated_at: new Date().toISOString(),
+      }
+      const { error: upErr } = await admin
+        .from('typetijger_progress')
+        .upsert(row, { onConflict: 'student_id,lesson_id' })
+      if (upErr) {
+        console.error('typetijger_save error:', upErr.message)
+        return json({ ok: false, error: 'Opslaan lukte niet.' }, 500)
+      }
+      return json({ ok: true, saved: true })
     }
 
     // ---------------- sessions (actieve sessies van de klas) ----------------
@@ -293,7 +346,7 @@ function cleanPicks(raw: unknown, allowed: Set<string>): string[] {
   return out
 }
 
-// ---------- Tekst ----------
+// ---------- Tekst / getallen ----------
 function normName(s: unknown): string {
   return String(s == null ? '' : s).trim().toLowerCase()
 }
@@ -302,6 +355,11 @@ function normCode(raw: unknown): string {
 }
 function cleanText(raw: unknown, max: number): string {
   return String(raw || '').replace(/\s+/g, ' ').trim().slice(0, max)
+}
+function clampInt(raw: unknown, min: number, max: number): number {
+  const n = Math.round(Number(raw))
+  if (!isFinite(n)) return min
+  return Math.max(min, Math.min(max, n))
 }
 
 function json(body: unknown, status = 200) {
