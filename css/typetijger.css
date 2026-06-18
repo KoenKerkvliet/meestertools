@@ -1,0 +1,325 @@
+/* ============================================
+   MEESTERTOOLS - Typetijger (typcursus)
+   ============================================ */
+
+.tc-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+/* ---------- Lessen-zijbalk ---------- */
+.tc-sidebar {
+    background: var(--bg-white);
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 14px;
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+    position: sticky;
+    top: 90px;
+}
+
+.tc-sidebar h2 {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0 0 10px 4px;
+}
+
+.tc-level { margin-bottom: 14px; }
+
+.tc-level-title {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin: 0 0 6px 4px;
+}
+
+.tc-lesson {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    text-align: left;
+    background: var(--bg-light);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    font-size: 13.5px;
+    color: var(--text-dark);
+    transition: background .15s, border-color .15s, transform .1s;
+}
+.tc-lesson:hover { background: #EEF0FF; }
+.tc-lesson.active { background: #EAE8FF; border-color: var(--primary); font-weight: 700; }
+.tc-lesson.done .tc-lesson-check { color: var(--accent-green); }
+
+.tc-lesson-check { width: 16px; flex-shrink: 0; font-size: 13px; }
+.tc-lesson-name { flex: 1; }
+.tc-lesson-score {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-medium);
+    background: #fff;
+    border-radius: 999px;
+    padding: 2px 7px;
+    flex-shrink: 0;
+}
+
+/* ---------- Werkruimte ---------- */
+.tc-panel {
+    background: var(--bg-white);
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 22px 24px;
+}
+
+.tc-welcome { text-align: center; padding: 48px 24px; }
+.tc-welcome .tc-welcome-emoji { font-size: 64px; display: block; margin-bottom: 12px; }
+.tc-welcome h2 { font-size: 22px; color: var(--text-dark); margin: 0 0 8px; }
+.tc-welcome p { color: var(--text-medium); max-width: 460px; margin: 0 auto 6px; line-height: 1.6; }
+
+.tc-lesson-head { margin-bottom: 14px; }
+.tc-lesson-head h2 { font-size: 20px; color: var(--text-dark); margin: 0 0 4px; }
+.tc-lesson-head .tc-intro { color: var(--text-medium); line-height: 1.55; margin: 0; font-size: 14.5px; }
+
+/* ---------- Statistiekbalk ---------- */
+.tc-stats {
+    display: flex;
+    gap: 10px;
+    margin: 16px 0 6px;
+    flex-wrap: wrap;
+}
+.tc-stat {
+    flex: 1;
+    min-width: 90px;
+    background: var(--bg-light);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    text-align: center;
+}
+.tc-stat .tc-stat-val { font-size: 22px; font-weight: 800; color: var(--primary); line-height: 1.1; }
+.tc-stat .tc-stat-lbl { font-size: 11px; color: var(--text-medium); text-transform: uppercase; letter-spacing: .04em; }
+
+.tc-ex-counter { font-size: 12.5px; color: var(--text-medium); font-weight: 600; margin-top: 4px; }
+
+.tc-progress-track {
+    height: 6px;
+    background: #ECECF5;
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 10px 0 4px;
+}
+.tc-progress-bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    border-radius: 999px;
+    transition: width .15s ease;
+}
+
+/* ---------- Te typen tekst ---------- */
+.tc-prompt {
+    font-family: 'Courier New', ui-monospace, monospace;
+    font-size: 28px;
+    line-height: 1.7;
+    letter-spacing: 1px;
+    background: var(--bg-light);
+    border-radius: var(--radius-md);
+    padding: 20px 22px;
+    margin: 12px 0 6px;
+    word-break: break-word;
+    min-height: 64px;
+    user-select: none;
+}
+.tc-char {
+    position: relative;
+    color: var(--text-medium);
+    border-radius: 3px;
+    transition: color .08s, background .08s;
+}
+.tc-char.tc-space { white-space: pre; }
+.tc-char.correct { color: var(--accent-green); }
+.tc-char.wrong { color: #fff; background: var(--secondary); }
+.tc-char.wrong.tc-space { background: var(--secondary); }
+.tc-char.current {
+    background: var(--accent-yellow);
+    color: var(--text-dark);
+    box-shadow: 0 0 0 2px var(--accent-yellow);
+}
+.tc-char.current::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: -3px;
+    height: 3px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+.tc-char.shake { animation: tcShake .25s; }
+@keyframes tcShake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+}
+
+.tc-hint {
+    text-align: center;
+    font-size: 15px;
+    color: var(--text-dark);
+    min-height: 24px;
+    margin: 6px 0 12px;
+}
+.tc-hint strong {
+    display: inline-block;
+    min-width: 22px;
+    padding: 1px 8px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 6px;
+    text-transform: uppercase;
+}
+
+/* ---------- On-screen toetsenbord ---------- */
+.tc-keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    margin-top: 8px;
+}
+.tc-kb-row { display: flex; gap: 6px; justify-content: center; }
+.tc-key {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-dark);
+    background: #EDEDF4;
+    border: 1px solid #DADAE6;
+    border-bottom-width: 3px;
+    user-select: none;
+    text-transform: uppercase;
+}
+.tc-key-wide { width: 64px; font-size: 12px; text-transform: none; }
+.tc-key-space { width: 280px; font-size: 12px; text-transform: none; }
+.tc-key-mod { background: #E2E2EC; color: var(--text-medium); }
+
+/* indent voor de natuurlijke toetsenbord-trapjes */
+.tc-kb-row-2 { margin-left: 0; }
+.tc-kb-row-3 { padding-left: 18px; }
+
+/* vingerkleuren */
+.f-lp { background: #FFD6E0; border-color: #FBB6C9; }
+.f-lr { background: #FFE3C2; border-color: #FAC89A; }
+.f-lm { background: #FFF6BF; border-color: #F3E48C; }
+.f-li { background: #D8F5C8; border-color: #B6E59C; }
+.f-ri { background: #C7F2E6; border-color: #97E0CC; }
+.f-rm { background: #C9E7FF; border-color: #9FD0F7; }
+.f-rr { background: #D9D6FF; border-color: #B9B2F5; }
+.f-rp { background: #F2D6FF; border-color: #DCAEF5; }
+.f-th { background: #E6E6EC; border-color: #CFCFDB; }
+
+.tc-key.next {
+    background: var(--accent-yellow) !important;
+    border-color: var(--accent-orange) !important;
+    color: var(--text-dark) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255,140,66,.4);
+    animation: tcPulse 1s ease-in-out infinite;
+}
+.tc-key.next-mod {
+    background: #FFE9A8 !important;
+    border-color: var(--accent-orange) !important;
+    color: var(--text-dark) !important;
+}
+@keyframes tcPulse {
+    0%,100% { box-shadow: 0 4px 10px rgba(255,140,66,.4); }
+    50% { box-shadow: 0 4px 16px rgba(255,140,66,.7); }
+}
+
+/* ---------- Vinger-legenda ---------- */
+.tc-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    justify-content: center;
+    margin-top: 16px;
+    font-size: 11.5px;
+    color: var(--text-medium);
+}
+.tc-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.tc-legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+/* ---------- Resultaat-modal ---------- */
+.tc-result-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(45,52,54,.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+}
+.tc-result-overlay.open { display: flex; }
+.tc-result {
+    background: var(--bg-white);
+    border-radius: var(--radius-xl);
+    padding: 32px 28px;
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+}
+.tc-result h2 { font-size: 21px; color: var(--text-dark); margin: 0 0 4px; }
+.tc-stars { font-size: 40px; margin: 8px 0 16px; }
+.tc-star { color: #E0E0EA; }
+.tc-star.on { color: var(--accent-yellow); }
+.tc-result-stats { display: flex; gap: 12px; justify-content: center; margin-bottom: 22px; }
+.tc-result-stats .tc-stat { background: var(--bg-light); }
+.tc-result-actions { display: flex; flex-direction: column; gap: 8px; }
+.tc-btn {
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 12px 18px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.tc-btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: #fff; }
+.tc-btn-ghost { background: var(--bg-light); color: var(--text-dark); }
+
+.tc-capture {
+    position: absolute;
+    left: -9999px;
+    width: 1px; height: 1px;
+    opacity: 0;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 880px) {
+    .tc-layout { grid-template-columns: 1fr; }
+    .tc-sidebar { position: static; max-height: none; }
+    .tc-prompt { font-size: 22px; }
+    .tc-key { width: 32px; height: 36px; font-size: 13px; }
+    .tc-key-wide { width: 48px; }
+    .tc-key-space { width: 180px; }
+    .tc-kb-row-3 { padding-left: 10px; }
+}
+@media (max-width: 560px) {
+    .tc-key { width: 26px; height: 32px; font-size: 11px; border-bottom-width: 2px; }
+    .tc-key-wide { width: 38px; font-size: 10px; }
+    .tc-key-space { width: 130px; }
+    .tc-prompt { font-size: 19px; padding: 14px; }
+}

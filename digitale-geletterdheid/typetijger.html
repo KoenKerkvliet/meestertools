@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Typetijger - een leuke touch-type-cursus voor leerlingen van 10-12 jaar. Leer blind typen met tien vingers, rij voor rij.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/digitale-geletterdheid/typetijger">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/digitale-geletterdheid/typetijger">
+    <meta property="og:title" content="Meestertools - Typetijger">
+    <meta property="og:description" content="Een leuke touch-type-cursus voor leerlingen van 10-12 jaar. Leer blind typen met tien vingers, rij voor rij.">
+    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Meestertools - Typetijger">
+    <meta name="twitter:description" content="Een leuke touch-type-cursus voor leerlingen van 10-12 jaar.">
+    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Typetijger</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/typetijger.css">
+</head>
+<body>
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../digitale-geletterdheid" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>&#128047; Typetijger</h1>
+                <p>Leer blind typen met tien vingers &mdash; rij voor rij, op jouw tempo.</p>
+            </div>
+        </div>
+
+        <div class="tool-page-body">
+            <div class="tc-layout">
+                <!-- Lessen -->
+                <aside class="tc-sidebar">
+                    <h2>Lessen</h2>
+                    <div id="tcLessons"></div>
+                </aside>
+
+                <!-- Werkruimte -->
+                <section class="tc-panel">
+                    <!-- Welkomscherm -->
+                    <div id="tcWelcome" class="tc-welcome">
+                        <span class="tc-welcome-emoji">&#128047;&#9000;&#65039;</span>
+                        <h2>Word een Typetijger!</h2>
+                        <p>Kies links een les en begin. Je leert stap voor stap blind typen: eerst de thuisrij, dan de andere rijen, hoofdletters, cijfers en hele zinnen.</p>
+                        <p><strong>Tip:</strong> leg je wijsvingers op de <strong>F</strong> en de <strong>J</strong> &mdash; voel je de bobbeltjes? Daar staan je vingers altijd klaar.</p>
+                    </div>
+
+                    <!-- Actieve les -->
+                    <div id="tcWorkspace" style="display:none;">
+                        <div class="tc-lesson-head">
+                            <h2 id="tcLessonTitle"></h2>
+                            <p class="tc-intro" id="tcLessonIntro"></p>
+                        </div>
+
+                        <div class="tc-stats">
+                            <div class="tc-stat"><div class="tc-stat-val" id="tcStatTime">0:00</div><div class="tc-stat-lbl">Tijd</div></div>
+                            <div class="tc-stat"><div class="tc-stat-val" id="tcStatApm">0</div><div class="tc-stat-lbl">Aanslagen / min</div></div>
+                            <div class="tc-stat"><div class="tc-stat-val" id="tcStatAcc">100%</div><div class="tc-stat-lbl">Nauwkeurig</div></div>
+                        </div>
+                        <div class="tc-ex-counter" id="tcExCounter"></div>
+                        <div class="tc-progress-track"><div class="tc-progress-bar" id="tcProgressBar"></div></div>
+
+                        <div class="tc-prompt" id="tcPrompt"></div>
+                        <div class="tc-hint" id="tcHint"></div>
+
+                        <div class="tc-keyboard" id="tcKeyboard"></div>
+
+                        <div class="tc-legend">
+                            <span><i class="f-lp"></i> pink</span>
+                            <span><i class="f-lr"></i> ringvinger</span>
+                            <span><i class="f-lm"></i> middelvinger</span>
+                            <span><i class="f-li"></i> wijsvinger (links)</span>
+                            <span><i class="f-ri"></i> wijsvinger (rechts)</span>
+                            <span><i class="f-rm"></i> middelvinger</span>
+                            <span><i class="f-rr"></i> ringvinger</span>
+                            <span><i class="f-rp"></i> pink</span>
+                            <span><i class="f-th"></i> duim (spatie)</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Resultaat-modal -->
+    <div class="tc-result-overlay" id="tcResultModal">
+        <div class="tc-result">
+            <h2 id="tcResTitle">Les afgerond!</h2>
+            <div class="tc-stars" id="tcResStars"></div>
+            <div class="tc-result-stats">
+                <div class="tc-stat"><div class="tc-stat-val" id="tcResApm">0</div><div class="tc-stat-lbl">Aanslagen / min</div></div>
+                <div class="tc-stat"><div class="tc-stat-val" id="tcResAcc">100%</div><div class="tc-stat-lbl">Nauwkeurig</div></div>
+            </div>
+            <div class="tc-result-actions">
+                <button class="tc-btn tc-btn-primary" id="tcResNext">Volgende les &rarr;</button>
+                <button class="tc-btn tc-btn-ghost" id="tcResRetry">Nog een keer oefenen</button>
+                <button class="tc-btn tc-btn-ghost" id="tcResClose">Sluiten</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Onzichtbaar invoerveld dat de focus vasthoudt -->
+    <input type="text" id="tcCapture" class="tc-capture" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-hidden="true">
+
+    <footer id="app-footer-slot"></footer>
+
+    <script src="/js/template.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/typetijger.js"></script>
+</body>
+</html>
