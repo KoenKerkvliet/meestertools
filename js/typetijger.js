@@ -42,15 +42,66 @@
         'h': 'ri', 'j': 'ri', 'k': 'rm', 'l': 'rr', ';': 'rp',
         'z': 'lp', 'x': 'lr', 'c': 'lm', 'v': 'li', 'b': 'li',
         'n': 'ri', 'm': 'ri', ',': 'rm', '.': 'rr', '/': 'rp',
+        '`': 'lp', '-': 'rp', '=': 'rp', '[': 'rp', ']': 'rp', '\\': 'rp', '\'': 'rp',
         ' ': 'th'
     };
 
-    // Toetsenbord-layout (kleine letters) voor de on-screen weergave.
-    var KB_ROWS = [
-        ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
-        ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
-        ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';'],
-        ['z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/']
+    // Volledig toetsenbord-layout (zoals een echt toetsenbord), met de
+    // natuurlijke "stagger": de breedte van Tab/Caps Lock/Shift schuift elke
+    // rij iets op, zodat de M netjes tussen de J en de K valt.
+    // Per toets: key = te typen teken (krijgt data-key + vingerkleur),
+    // sub = teken-met-shift (klein erboven), label = vaste opdruk (Tab, Shift),
+    // w = breedte in toets-eenheden, mod = data-mod, cls = extra klasse,
+    // spacer = lege ruimte (alleen in de functierij).
+    var KB_LAYOUT = [
+        // Functierij (decoratief, niet te typen)
+        { fn: true, keys: [
+            { label: 'Esc', w: 1.3, cls: 'tc-key-esc' }, { spacer: 0.7 },
+            { label: 'F1' }, { label: 'F2' }, { label: 'F3' }, { label: 'F4' }, { spacer: 0.5 },
+            { label: 'F5' }, { label: 'F6' }, { label: 'F7' }, { label: 'F8' }, { spacer: 0.5 },
+            { label: 'F9' }, { label: 'F10' }, { label: 'F11' }, { label: 'F12' }
+        ] },
+        // Cijferrij
+        { keys: [
+            { key: '`', sub: '~' }, { key: '1', sub: '!' }, { key: '2', sub: '@' },
+            { key: '3', sub: '#' }, { key: '4', sub: '$' }, { key: '5', sub: '%' },
+            { key: '6', sub: '^' }, { key: '7', sub: '&' }, { key: '8', sub: '*' },
+            { key: '9', sub: '(' }, { key: '0', sub: ')' }, { key: '-', sub: '_' },
+            { key: '=', sub: '+' }, { label: '&#9003;', w: 2, mod: 'backspace', cls: 'tc-key-mod' }
+        ] },
+        // Toprij
+        { keys: [
+            { label: 'Tab', w: 1.5, mod: 'tab', cls: 'tc-key-mod' },
+            { key: 'q' }, { key: 'w' }, { key: 'e' }, { key: 'r' }, { key: 't' },
+            { key: 'y' }, { key: 'u' }, { key: 'i' }, { key: 'o' }, { key: 'p' },
+            { key: '[', sub: '{' }, { key: ']', sub: '}' }, { key: '\\', sub: '|', w: 1.5 }
+        ] },
+        // Thuisrij
+        { keys: [
+            { label: 'Caps Lock', w: 1.75, mod: 'caps', cls: 'tc-key-mod' },
+            { key: 'a' }, { key: 's' }, { key: 'd' }, { key: 'f' }, { key: 'g' },
+            { key: 'h' }, { key: 'j' }, { key: 'k' }, { key: 'l' },
+            { key: ';', sub: ':' }, { key: '\'', sub: '"' },
+            { label: '&#9166;', w: 2.25, mod: 'enter', cls: 'tc-key-mod' }
+        ] },
+        // Onderrij
+        { keys: [
+            { label: 'Shift', w: 2.25, mod: 'shift-l', cls: 'tc-key-mod' },
+            { key: 'z' }, { key: 'x' }, { key: 'c' }, { key: 'v' }, { key: 'b' },
+            { key: 'n' }, { key: 'm' }, { key: ',', sub: '<' }, { key: '.', sub: '>' },
+            { key: '/', sub: '?' }, { label: 'Shift', w: 2.75, mod: 'shift-r', cls: 'tc-key-mod' }
+        ] },
+        // Spatierij
+        { keys: [
+            { label: 'Ctrl', w: 1.4, cls: 'tc-key-mod' },
+            { label: '', w: 1.1, cls: 'tc-key-deco tc-key-pink' },
+            { label: 'Alt', w: 1.25, cls: 'tc-key-mod' },
+            { key: ' ', w: 6.4, space: true },
+            { label: 'Alt Gr', w: 1.25, cls: 'tc-key-mod' },
+            { label: '', w: 1.1, cls: 'tc-key-deco tc-key-pink' },
+            { label: '', w: 1.1, cls: 'tc-key-deco tc-key-purple' },
+            { label: 'Ctrl', w: 1.4, cls: 'tc-key-mod' }
+        ] }
     ];
 
     // Een hoofdletter / leesteken-met-shift typ je met de SHIFT aan de
@@ -409,22 +460,38 @@
     // ---------- Toetsenbord renderen ----------
     function buildKeyboard() {
         var html = '';
-        KB_ROWS.forEach(function (row, ri) {
-            html += '<div class="tc-kb-row tc-kb-row-' + ri + '">';
-            // shift links voor de onderste letterrijen
-            if (ri === 2) html += '<span class="tc-key tc-key-wide tc-key-mod" data-mod="shift-l">Shift</span>';
-            row.forEach(function (k) {
-                var fin = KEY_FINGER[k];
-                var label = k === ';' ? ';' : k;
-                html += '<span class="tc-key ' + (fin ? FINGERS[fin].kl : '') + '" data-key="' + k + '">' + esc(label) + '</span>';
+        KB_LAYOUT.forEach(function (row) {
+            html += '<div class="tc-kb-row' + (row.fn ? ' tc-kb-fn' : '') + '">';
+            row.keys.forEach(function (k) {
+                if (k.spacer) {
+                    html += '<span class="tc-kb-spacer" style="width:calc(var(--tcu) * ' + k.spacer + ')"></span>';
+                    return;
+                }
+                var w = k.w || 1;
+                var cls = 'tc-key';
+                if (k.key != null) {
+                    var fin = KEY_FINGER[k.key];
+                    if (fin) cls += ' ' + FINGERS[fin].kl;
+                }
+                if (k.cls) cls += ' ' + k.cls;
+                else if (row.fn) cls += ' tc-key-fkey';
+                if (k.space) cls += ' tc-key-space';
+                if (k.key === 'f' || k.key === 'j') cls += ' tc-key-home';
+
+                var attrs = '';
+                if (k.key != null) attrs += ' data-key="' + k.key + '"';
+                if (k.mod) attrs += ' data-mod="' + k.mod + '"';
+
+                var inner;
+                if (k.space) inner = 'spatie';
+                else if (k.sub != null) inner = '<span class="tc-key-sub">' + esc(k.sub) + '</span><span class="tc-key-main">' + esc(k.key) + '</span>';
+                else if (k.key != null) inner = '<span class="tc-key-main">' + esc(k.key) + '</span>';
+                else inner = k.label || '';
+
+                html += '<span class="' + cls + '" style="width:calc(var(--tcu) * ' + w + ' - var(--tcgap))"' + attrs + '>' + inner + '</span>';
             });
-            if (ri === 2) html += '<span class="tc-key tc-key-wide tc-key-mod" data-mod="enter">Enter</span>';
-            if (ri === 3) html += '<span class="tc-key tc-key-wide tc-key-mod" data-mod="shift-r">Shift</span>';
             html += '</div>';
         });
-        // spatiebalk
-        html += '<div class="tc-kb-row tc-kb-row-space">' +
-            '<span class="tc-key tc-key-space f-th" data-key=" ">spatie</span></div>';
         el.keyboard.innerHTML = html;
     }
 
@@ -540,7 +607,8 @@
     function currentApm() {
         var m = elapsedMinutes();
         if (m <= 0) return 0;
-        return Math.round(state.correct / m);
+        // begrens tegen onrealistische pieken bij heel korte oefeningen
+        return Math.min(999, Math.round(state.correct / m));
     }
     function currentAccuracy() {
         if (state.total === 0) return 100;

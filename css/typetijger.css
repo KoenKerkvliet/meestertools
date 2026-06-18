@@ -188,38 +188,71 @@
 
 /* ---------- On-screen toetsenbord ---------- */
 .tc-keyboard {
+    --tcu: 46px;   /* breedte van één toets-eenheid (pitch) */
+    --tcgap: 6px;  /* ruimte tussen de toetsen */
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    align-items: center;
-    margin-top: 8px;
+    gap: var(--tcgap);
+    align-items: flex-start;
+    margin-top: 12px;
+    padding: 12px;
+    background: #F1F3F9;
+    border: 1px solid #E3E6F0;
+    border-radius: 14px;
+    overflow-x: auto;
+    max-width: 100%;
 }
-.tc-kb-row { display: flex; gap: 6px; justify-content: center; }
+.tc-kb-row { display: flex; gap: var(--tcgap); justify-content: flex-start; }
+.tc-kb-fn { margin-bottom: 4px; }
+.tc-kb-spacer { flex: 0 0 auto; }
+
 .tc-key {
-    width: 42px;
-    height: 42px;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    width: calc(var(--tcu) - var(--tcgap));
+    height: calc(var(--tcu) - var(--tcgap));
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    gap: 1px;
+    border-radius: 7px;
     font-size: 15px;
     font-weight: 700;
     color: var(--text-dark);
-    background: #EDEDF4;
-    border: 1px solid #DADAE6;
+    background: #BFE0EC;
+    border: 1px solid #9CC6D8;
     border-bottom-width: 3px;
     user-select: none;
-    text-transform: uppercase;
+    line-height: 1;
+    overflow: hidden;
 }
-.tc-key-wide { width: 64px; font-size: 12px; text-transform: none; }
-.tc-key-space { width: 280px; font-size: 12px; text-transform: none; }
-.tc-key-mod { background: #E2E2EC; color: var(--text-medium); }
+.tc-key-main { text-transform: uppercase; }
+.tc-key-sub { font-size: 10px; font-weight: 700; opacity: .7; text-transform: none; }
 
-/* indent voor de natuurlijke toetsenbord-trapjes */
-.tc-kb-row-2 { margin-left: 0; }
-.tc-kb-row-3 { padding-left: 18px; }
+/* speciale toetsen */
+.tc-key-mod { background: #BFE0EC; border-color: #9CC6D8; font-size: 11.5px; font-weight: 700; text-transform: none; }
+.tc-key-space { font-size: 12px; font-weight: 600; text-transform: none; }
+.tc-key-fkey { background: #F3CD87; border-color: #E0B45F; font-size: 12px; }
+.tc-key-esc { background: #fff; border-color: #D6D9E4; font-size: 12px; }
+.tc-key-deco { background: #E6E6EC; border-color: #CFCFDB; }
+.tc-key-pink { background: #F2AFAF; border-color: #E08A8A; }
+.tc-key-purple { background: #C7A6E0; border-color: #AE86CF; }
 
-/* vingerkleuren */
+/* bobbeltjes op de F en de J (de startpositie van je wijsvingers) */
+.tc-key-home .tc-key-main { position: relative; }
+.tc-key-home .tc-key-main::after {
+    content: '';
+    position: absolute;
+    left: 50%; bottom: -5px;
+    transform: translateX(-50%);
+    width: 11px; height: 2px;
+    background: currentColor;
+    opacity: .5;
+    border-radius: 2px;
+}
+
+/* vingerkleuren (op de letter- en cijfertoetsen) */
 .f-lp { background: #FFD6E0; border-color: #FBB6C9; }
 .f-lr { background: #FFE3C2; border-color: #FAC89A; }
 .f-lm { background: #FFF6BF; border-color: #F3E48C; }
@@ -235,8 +268,9 @@
     border-color: var(--accent-orange) !important;
     color: var(--text-dark) !important;
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(255,140,66,.4);
+    box-shadow: 0 4px 10px rgba(255,140,66,.45);
     animation: tcPulse 1s ease-in-out infinite;
+    z-index: 1;
 }
 .tc-key.next-mod {
     background: #FFE9A8 !important;
@@ -244,8 +278,8 @@
     color: var(--text-dark) !important;
 }
 @keyframes tcPulse {
-    0%,100% { box-shadow: 0 4px 10px rgba(255,140,66,.4); }
-    50% { box-shadow: 0 4px 16px rgba(255,140,66,.7); }
+    0%,100% { box-shadow: 0 4px 10px rgba(255,140,66,.45); }
+    50% { box-shadow: 0 4px 16px rgba(255,140,66,.75); }
 }
 
 /* ---------- Vinger-legenda ---------- */
@@ -308,18 +342,26 @@
 }
 
 /* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+    .tc-keyboard { --tcu: 40px; }
+    .tc-key { font-size: 13px; }
+}
 @media (max-width: 880px) {
     .tc-layout { grid-template-columns: 1fr; }
     .tc-sidebar { position: static; max-height: none; }
     .tc-prompt { font-size: 22px; }
-    .tc-key { width: 32px; height: 36px; font-size: 13px; }
-    .tc-key-wide { width: 48px; }
-    .tc-key-space { width: 180px; }
-    .tc-kb-row-3 { padding-left: 10px; }
+    .tc-keyboard { --tcu: 36px; }
 }
-@media (max-width: 560px) {
-    .tc-key { width: 26px; height: 32px; font-size: 11px; border-bottom-width: 2px; }
-    .tc-key-wide { width: 38px; font-size: 10px; }
-    .tc-key-space { width: 130px; }
+@media (max-width: 680px) {
+    .tc-keyboard { --tcu: 30px; --tcgap: 4px; align-items: stretch; }
+    .tc-key { font-size: 11px; border-bottom-width: 2px; border-radius: 5px; }
+    .tc-key-sub { font-size: 8px; }
+    .tc-key-mod, .tc-key-space, .tc-key-fkey, .tc-key-esc { font-size: 9px; }
+    .tc-kb-fn { display: none; }
+}
+@media (max-width: 520px) {
+    .tc-keyboard { --tcu: 25px; }
+    .tc-key { font-size: 9px; }
+    .tc-key-sub { font-size: 7px; }
     .tc-prompt { font-size: 19px; padding: 14px; }
 }
