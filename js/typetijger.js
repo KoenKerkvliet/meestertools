@@ -357,6 +357,20 @@
     }
     var progress = loadProgress();
 
+    // ---------- Avatar (het monstertje van de leerling) ----------
+    var AVATAR_KEY = 'mt_typetijger_avatar';
+    var MONSTER_COUNT = 36;
+    function loadAvatar() {
+        var n = parseInt(localStorage.getItem(AVATAR_KEY), 10);
+        return (n >= 1 && n <= MONSTER_COUNT) ? n : 13;
+    }
+    function saveAvatar(n) { try { localStorage.setItem(AVATAR_KEY, String(n)); } catch (e) {} }
+    var avatarNum = loadAvatar();
+    function avatarSrc(n) {
+        n = n || avatarNum;
+        return '../assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.png';
+    }
+
     // ---------- State ----------
     var state = {
         lesson: null,        // huidige les
@@ -376,40 +390,103 @@
 
     function $(id) { return document.getElementById(id); }
 
-    // ---------- Lessenlijst renderen ----------
-    function renderLessonList() {
-        var byNiveau = {};
-        var volgorde = [];
-        LESSONS.forEach(function (l) {
-            if (!byNiveau[l.niveau]) { byNiveau[l.niveau] = []; volgorde.push(l.niveau); }
-            byNiveau[l.niveau].push(l);
-        });
+    // ---------- Route / speelveld renderen (Duolingo-stijl) ----------
+    var SECTION_COLORS = ['s-groen', 's-paars', 's-blauw', 's-oranje', 's-roze', 's-cyaan'];
 
+    // Eerste nog niet uitgespeelde les; daar staat het monstertje.
+    function currentLessonIndex() {
+        for (var i = 0; i < LESSONS.length; i++) {
+            var pr = progress[LESSONS[i].id];
+            if (!(pr && pr.done)) return i;
+        }
+        return LESSONS.length - 1;
+    }
+
+    function lessonStars(l) {
+        var pr = progress[l.id];
+        if (!pr || !pr.done) return 0;
+        return pr.stars || 1;
+    }
+
+    // Zachte slinger naar links en rechts, net als bij Duolingo.
+    function pathOffset(i) { return Math.round(Math.sin(i * 0.9) * 64); }
+
+    function starPips(n) {
+        var out = '<span class="tc-node-stars">';
+        for (var i = 0; i < 3; i++) out += '<i class="' + (i < n ? 'on' : '') + '">&#9733;</i>';
+        return out + '</span>';
+    }
+
+    function renderMap() {
+        if (!el.path) return;
+
+        var totalStars = 0;
+        LESSONS.forEach(function (l) { totalStars += lessonStars(l); });
+        if (el.starsTotal) el.starsTotal.textContent = totalStars;
+        if (el.starsMax) el.starsMax.textContent = LESSONS.length * 3;
+        if (el.avatarImg) el.avatarImg.src = avatarSrc();
+
+        var curIdx = currentLessonIndex();
         var html = '';
-        volgorde.forEach(function (niveau) {
-            html += '<div class="tc-level"><div class="tc-level-title">' + esc(niveau) + '</div>';
-            byNiveau[niveau].forEach(function (l) {
-                var pr = progress[l.id];
-                var done = pr && pr.done;
-                var active = state.lesson && state.lesson.id === l.id;
-                html += '<button class="tc-lesson' + (active ? ' active' : '') + (done ? ' done' : '') +
-                    '" data-id="' + l.id + '">' +
-                    '<span class="tc-lesson-check">' + (done ? '&#10004;' : '') + '</span>' +
-                    '<span class="tc-lesson-name">' + esc(l.titel) + '</span>' +
-                    (pr && pr.bestApm ? '<span class="tc-lesson-score">' + pr.bestApm + ' a/m</span>' : '') +
-                    '</button>';
-            });
+        var lastNiveau = null, sectionIdx = -1;
+
+        LESSONS.forEach(function (l, i) {
+            if (l.niveau !== lastNiveau) {
+                lastNiveau = l.niveau;
+                sectionIdx++;
+                html += '<div class="tc-section ' + SECTION_COLORS[sectionIdx % SECTION_COLORS.length] + '">' +
+                    '<span class="tc-section-label">Niveau ' + (sectionIdx + 1) + '</span>' +
+                    '<span class="tc-section-name">' + esc(l.niveau) + '</span></div>';
+            }
+
+            var stars = lessonStars(l);
+            var done = stars > 0;
+            var isCur = (i === curIdx);
+            var stateCls = done ? 'done' : (isCur ? 'current' : 'todo');
+            var icon = done ? '&#10004;' : '&#9733;';
+
+            html += '<div class="tc-node-wrap" style="transform:translateX(' + pathOffset(i) + 'px)">';
+            if (isCur) {
+                html += '<span class="tc-node-start">START</span>';
+                html += '<img class="tc-node-avatar" src="' + avatarSrc() + '" alt="">';
+            }
+            html += '<button type="button" class="tc-node ' + stateCls + '" data-id="' + l.id + '">' +
+                '<span class="tc-node-circle"><span class="tc-node-icon">' + icon + '</span></span></button>';
+            html += done ? starPips(stars) : '<span class="tc-node-stars"></span>';
+            html += '<span class="tc-node-label">' + esc(l.titel) + '</span>';
             html += '</div>';
         });
-        el.lessons.innerHTML = html;
 
-        Array.prototype.forEach.call(el.lessons.querySelectorAll('.tc-lesson'), function (btn) {
+        el.path.innerHTML = html;
+
+        Array.prototype.forEach.call(el.path.querySelectorAll('.tc-node'), function (btn) {
             btn.addEventListener('click', function () {
                 var l = findLesson(btn.getAttribute('data-id'));
                 if (l) startLesson(l);
             });
         });
     }
+
+    // ---------- Avatar-kiezer ----------
+    function buildAvatarGrid() {
+        if (!el.avatarGrid) return;
+        var html = '';
+        for (var n = 1; n <= MONSTER_COUNT; n++) {
+            html += '<button type="button" class="tc-avatar-opt' + (n === avatarNum ? ' active' : '') +
+                '" data-n="' + n + '"><img src="' + avatarSrc(n) + '" alt="Monster ' + n + '"></button>';
+        }
+        el.avatarGrid.innerHTML = html;
+        Array.prototype.forEach.call(el.avatarGrid.querySelectorAll('.tc-avatar-opt'), function (b) {
+            b.addEventListener('click', function () {
+                avatarNum = parseInt(b.getAttribute('data-n'), 10) || avatarNum;
+                saveAvatar(avatarNum);
+                renderMap();
+                closeAvatarPicker();
+            });
+        });
+    }
+    function openAvatarPicker() { buildAvatarGrid(); if (el.avatarModal) el.avatarModal.classList.add('open'); }
+    function closeAvatarPicker() { if (el.avatarModal) el.avatarModal.classList.remove('open'); }
 
     function findLesson(id) {
         for (var i = 0; i < LESSONS.length; i++) if (LESSONS[i].id === id) return LESSONS[i];
@@ -422,13 +499,23 @@
         state.exIndex = 0;
         state.correct = 0;
         state.total = 0;
-        renderLessonList();
-        el.welcome.style.display = 'none';
+        if (el.map) el.map.style.display = 'none';
         el.workspace.style.display = '';
         el.lessonIntro.textContent = lesson.intro;
         el.lessonTitle.textContent = lesson.titel;
         loadExercise();
+        window.scrollTo({ top: 0, behavior: 'auto' });
         focusCapture();
+    }
+
+    // Terug naar het speelveld / de route.
+    function showMap() {
+        stopTimer();
+        state.running = false;
+        el.workspace.style.display = 'none';
+        if (el.map) el.map.style.display = '';
+        renderMap();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function loadExercise() {
@@ -647,16 +734,17 @@
     function finishLesson() {
         var apm = currentApm();
         var acc = currentAccuracy();
+        var sterren = scoreToStars(apm, acc);
 
-        // voortgang bewaren (beste score)
+        // voortgang bewaren (beste score + beste sterren)
         var pr = progress[state.lesson.id] || {};
         pr.done = true;
         if (!pr.bestApm || apm > pr.bestApm) pr.bestApm = apm;
         if (!pr.bestAcc || acc > pr.bestAcc) pr.bestAcc = acc;
+        if (!pr.stars || sterren > pr.stars) pr.stars = sterren;
         progress[state.lesson.id] = pr;
         saveProgress(progress);
 
-        var sterren = scoreToStars(apm, acc);
         el.resApm.textContent = apm;
         el.resAcc.textContent = acc + '%';
         el.resStars.innerHTML = starHtml(sterren);
@@ -667,13 +755,12 @@
         var next = LESSONS[idx + 1] || null;
         if (next) {
             el.resNext.style.display = '';
-            el.resNext.textContent = 'Volgende les: ' + next.titel + ' &rarr;';
             el.resNext.innerHTML = 'Volgende les: ' + esc(next.titel) + ' &rarr;';
             el.resNext.onclick = function () { hideResult(); startLesson(next); };
         } else {
             el.resNext.style.display = 'none';
         }
-        renderLessonList();
+        renderMap();
         showResult();
     }
 
@@ -712,8 +799,14 @@
 
     // ---------- Init ----------
     function init() {
-        el.lessons = $('tcLessons');
-        el.welcome = $('tcWelcome');
+        el.map = $('tcMap');
+        el.path = $('tcPath');
+        el.starsTotal = $('tcStarsTotal');
+        el.starsMax = $('tcStarsMax');
+        el.avatarImg = $('tcAvatarImg');
+        el.avatarBadge = $('tcAvatarBadge');
+        el.avatarModal = $('tcAvatarModal');
+        el.avatarGrid = $('tcAvatarGrid');
         el.workspace = $('tcWorkspace');
         el.lessonTitle = $('tcLessonTitle');
         el.lessonIntro = $('tcLessonIntro');
@@ -733,9 +826,9 @@
         el.resStars = $('tcResStars');
         el.resNext = $('tcResNext');
 
-        if (!el.lessons) return;
+        if (!el.path) return;
 
-        renderLessonList();
+        renderMap();
 
         document.addEventListener('keydown', onKeyDown);
         // focus terug naar de vanger als je in de werkruimte klikt
@@ -746,13 +839,25 @@
             });
         }
 
+        // avatar-kiezer
+        if (el.avatarBadge) el.avatarBadge.addEventListener('click', openAvatarPicker);
+        var avatarClose = $('tcAvatarClose');
+        if (avatarClose) avatarClose.onclick = closeAvatarPicker;
+        if (el.avatarModal) el.avatarModal.addEventListener('click', function (e) {
+            if (e.target === el.avatarModal) closeAvatarPicker();
+        });
+
+        // terug naar de route
+        var back = $('tcBackToMap');
+        if (back) back.onclick = showMap;
+
         var btnRetry = $('tcResRetry');
         if (btnRetry) btnRetry.onclick = function () {
             hideResult();
             startLesson(state.lesson);
         };
         var btnClose = $('tcResClose');
-        if (btnClose) btnClose.onclick = hideResult;
+        if (btnClose) btnClose.onclick = function () { hideResult(); showMap(); };
 
         if (window.hidePageLoader) window.hidePageLoader();
     }

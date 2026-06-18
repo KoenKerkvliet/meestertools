@@ -40,56 +40,53 @@
         </div>
 
         <div class="tool-page-body">
-            <div class="tc-layout">
-                <!-- Lessen -->
-                <aside class="tc-sidebar">
-                    <h2>Lessen</h2>
-                    <div id="tcLessons"></div>
-                </aside>
-
-                <!-- Werkruimte -->
-                <section class="tc-panel">
-                    <!-- Welkomscherm -->
-                    <div id="tcWelcome" class="tc-welcome">
-                        <span class="tc-welcome-emoji">&#128047;&#9000;&#65039;</span>
-                        <h2>Word een Typetijger!</h2>
-                        <p>Kies links een les en begin. Je leert stap voor stap blind typen: eerst de thuisrij, dan de andere rijen, hoofdletters, cijfers en hele zinnen.</p>
-                        <p><strong>Tip:</strong> leg je wijsvingers op de <strong>F</strong> en de <strong>J</strong> &mdash; voel je de bobbeltjes? Daar staan je vingers altijd klaar.</p>
+            <!-- SPEELVELD / route (Duolingo-stijl) -->
+            <div id="tcMap" class="tc-map">
+                <div class="tc-map-head">
+                    <button type="button" class="tc-avatar-badge" id="tcAvatarBadge" title="Kies je eigen monster">
+                        <img id="tcAvatarImg" src="" alt="Jouw monster">
+                        <span class="tc-avatar-edit">&#9998;</span>
+                    </button>
+                    <div class="tc-map-headtext">
+                        <h2>Jouw typ-avontuur</h2>
+                        <p>Speel elk level uit en verdien sterren. <strong><span id="tcStarsTotal">0</span> / <span id="tcStarsMax">60</span></strong> sterren verzameld.</p>
                     </div>
+                </div>
+                <div id="tcPath" class="tc-path"></div>
+            </div>
 
-                    <!-- Actieve les -->
-                    <div id="tcWorkspace" style="display:none;">
-                        <div class="tc-lesson-head">
-                            <h2 id="tcLessonTitle"></h2>
-                            <p class="tc-intro" id="tcLessonIntro"></p>
-                        </div>
+            <!-- WERKRUIMTE (typen) -->
+            <div id="tcWorkspace" class="tc-workspace" style="display:none;">
+                <button type="button" class="tc-back-btn" id="tcBackToMap">&larr; Terug naar de route</button>
+                <div class="tc-lesson-head">
+                    <h2 id="tcLessonTitle"></h2>
+                    <p class="tc-intro" id="tcLessonIntro"></p>
+                </div>
 
-                        <div class="tc-stats">
-                            <div class="tc-stat"><div class="tc-stat-val" id="tcStatTime">0:00</div><div class="tc-stat-lbl">Tijd</div></div>
-                            <div class="tc-stat"><div class="tc-stat-val" id="tcStatApm">0</div><div class="tc-stat-lbl">Aanslagen / min</div></div>
-                            <div class="tc-stat"><div class="tc-stat-val" id="tcStatAcc">100%</div><div class="tc-stat-lbl">Nauwkeurig</div></div>
-                        </div>
-                        <div class="tc-ex-counter" id="tcExCounter"></div>
-                        <div class="tc-progress-track"><div class="tc-progress-bar" id="tcProgressBar"></div></div>
+                <div class="tc-stats">
+                    <div class="tc-stat"><div class="tc-stat-val" id="tcStatTime">0:00</div><div class="tc-stat-lbl">Tijd</div></div>
+                    <div class="tc-stat"><div class="tc-stat-val" id="tcStatApm">0</div><div class="tc-stat-lbl">Aanslagen / min</div></div>
+                    <div class="tc-stat"><div class="tc-stat-val" id="tcStatAcc">100%</div><div class="tc-stat-lbl">Nauwkeurig</div></div>
+                </div>
+                <div class="tc-ex-counter" id="tcExCounter"></div>
+                <div class="tc-progress-track"><div class="tc-progress-bar" id="tcProgressBar"></div></div>
 
-                        <div class="tc-prompt" id="tcPrompt"></div>
-                        <div class="tc-hint" id="tcHint"></div>
+                <div class="tc-prompt" id="tcPrompt"></div>
+                <div class="tc-hint" id="tcHint"></div>
 
-                        <div class="tc-keyboard" id="tcKeyboard"></div>
+                <div class="tc-keyboard" id="tcKeyboard"></div>
 
-                        <div class="tc-legend">
-                            <span><i class="f-lp"></i> pink</span>
-                            <span><i class="f-lr"></i> ringvinger</span>
-                            <span><i class="f-lm"></i> middelvinger</span>
-                            <span><i class="f-li"></i> wijsvinger (links)</span>
-                            <span><i class="f-ri"></i> wijsvinger (rechts)</span>
-                            <span><i class="f-rm"></i> middelvinger</span>
-                            <span><i class="f-rr"></i> ringvinger</span>
-                            <span><i class="f-rp"></i> pink</span>
-                            <span><i class="f-th"></i> duim (spatie)</span>
-                        </div>
-                    </div>
-                </section>
+                <div class="tc-legend">
+                    <span><i class="f-lp"></i> pink</span>
+                    <span><i class="f-lr"></i> ringvinger</span>
+                    <span><i class="f-lm"></i> middelvinger</span>
+                    <span><i class="f-li"></i> wijsvinger (links)</span>
+                    <span><i class="f-ri"></i> wijsvinger (rechts)</span>
+                    <span><i class="f-rm"></i> middelvinger</span>
+                    <span><i class="f-rr"></i> ringvinger</span>
+                    <span><i class="f-rp"></i> pink</span>
+                    <span><i class="f-th"></i> duim (spatie)</span>
+                </div>
             </div>
         </div>
     </main>
@@ -108,6 +105,16 @@
                 <button class="tc-btn tc-btn-ghost" id="tcResRetry">Nog een keer oefenen</button>
                 <button class="tc-btn tc-btn-ghost" id="tcResClose">Sluiten</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Avatar-kiezer -->
+    <div class="tc-result-overlay" id="tcAvatarModal">
+        <div class="tc-result tc-avatar-picker">
+            <h2>Kies jouw monster</h2>
+            <p class="tc-avatar-picker-sub">Dit monstertje loopt met je mee over de route.</p>
+            <div class="tc-avatar-grid" id="tcAvatarGrid"></div>
+            <button class="tc-btn tc-btn-ghost" id="tcAvatarClose">Klaar</button>
         </div>
     </div>
 
