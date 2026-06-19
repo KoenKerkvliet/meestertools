@@ -155,15 +155,12 @@
     50%     { transform: translateY(-5px); }
 }
 
-/* ---------- Werkruimte ---------- */
+/* ---------- Werkruimte ----------
+   Geen eigen kaart: de werkruimte zit al in de .tool-page-body-kaart en
+   vult die van links tot rechts, zodat het toetsenbord en de te typen regel
+   de volle contentbreedte gebruiken. */
 .tc-workspace {
-    background: var(--bg-white);
-    border: 1px solid #E8E8F0;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
-    padding: 20px 24px;
-    max-width: 860px;
-    margin: 0 auto;
+    width: 100%;
 }
 .tc-back-btn {
     background: var(--bg-light);
@@ -180,23 +177,24 @@
 .tc-lesson-head h2 { font-size: 20px; color: var(--text-dark); margin: 0 0 4px; }
 .tc-lesson-head .tc-intro { color: var(--text-medium); line-height: 1.55; margin: 0; font-size: 14.5px; }
 
-/* ---------- Statistiekbalk ---------- */
+/* ---------- Statistiekbalk (compact, terughoudend) ---------- */
 .tc-stats {
     display: flex;
-    gap: 10px;
-    margin: 16px 0 6px;
+    gap: 8px;
+    margin: 12px 0 4px;
     flex-wrap: wrap;
 }
 .tc-stat {
-    flex: 1;
-    min-width: 90px;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
     background: var(--bg-light);
-    border-radius: var(--radius-md);
-    padding: 10px 12px;
-    text-align: center;
+    border-radius: 999px;
+    padding: 5px 13px;
 }
-.tc-stat .tc-stat-val { font-size: 22px; font-weight: 800; color: var(--primary); line-height: 1.1; }
-.tc-stat .tc-stat-lbl { font-size: 11px; color: var(--text-medium); text-transform: uppercase; letter-spacing: .04em; }
+.tc-stat .tc-stat-val { font-size: 15px; font-weight: 800; color: var(--primary); line-height: 1.2; }
+.tc-stat .tc-stat-lbl { font-size: 11px; color: var(--text-medium); text-transform: none; letter-spacing: 0; }
 
 .tc-ex-counter { font-size: 12.5px; color: var(--text-medium); font-weight: 600; margin-top: 4px; }
 
@@ -215,18 +213,21 @@
     transition: width .15s ease;
 }
 
-/* ---------- Te typen tekst ---------- */
+/* ---------- Te typen tekst (prominent) ---------- */
 .tc-prompt {
     font-family: 'Courier New', ui-monospace, monospace;
-    font-size: 28px;
-    line-height: 1.7;
-    letter-spacing: 1px;
+    font-size: 38px;
+    line-height: 1.6;
+    letter-spacing: 2px;
     background: var(--bg-light);
     border-radius: var(--radius-md);
-    padding: 20px 22px;
-    margin: 12px 0 6px;
+    padding: 30px 26px;
+    margin: 10px 0 6px;
     word-break: break-word;
-    min-height: 64px;
+    min-height: 104px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
     user-select: none;
 }
 .tc-char {
@@ -278,12 +279,17 @@
 
 /* ---------- On-screen toetsenbord ---------- */
 .tc-keyboard {
-    --tcu: 46px;   /* breedte van één toets-eenheid (pitch) */
     --tcgap: 6px;  /* ruimte tussen de toetsen */
+    /* Eén toets-eenheid (pitch). Een rij is altijd 15 eenheden breed, dus
+       met 100cqw/15 vult het toetsenbord precies de breedte van zijn
+       container. De px-waarde is de fallback voor oudere browsers. */
+    --tcu: 46px;
+    --tcu: calc((100cqw + var(--tcgap)) / 15);
+    container-type: inline-size;
     display: flex;
     flex-direction: column;
     gap: var(--tcgap);
-    align-items: flex-start;
+    align-items: stretch;
     margin-top: 12px;
     padding: 12px;
     background: #F1F3F9;
@@ -457,29 +463,26 @@
 }
 
 /* ---------- Responsive ---------- */
+/* Het toetsenbord schaalt nu mee met zijn container (100cqw/15), dus de
+   toets-breedte hoeft hier niet meer per breakpoint gezet te worden. */
 @media (max-width: 1024px) {
-    .tc-keyboard { --tcu: 40px; }
     .tc-key { font-size: 13px; }
+    .tc-prompt { font-size: 32px; }
 }
 @media (max-width: 880px) {
-    .tc-prompt { font-size: 22px; }
-    .tc-keyboard { --tcu: 36px; }
+    .tc-prompt { font-size: 27px; min-height: 88px; padding: 22px; }
+}
+@media (max-width: 680px) {
+    .tc-keyboard { --tcgap: 4px; }
+    .tc-key { font-size: 11px; border-bottom-width: 2px; border-radius: 5px; }
+    .tc-key-sub { font-size: 8px; }
+    .tc-key-mod, .tc-key-space { font-size: 9px; }
 }
 @media (max-width: 520px) {
     .tc-node-avatar { right: -36px; width: 42px; height: 42px; }
     .tc-avatar-grid { grid-template-columns: repeat(5, 1fr); }
     .tc-workspace { padding: 16px 14px; }
-}
-@media (max-width: 680px) {
-    .tc-keyboard { --tcu: 30px; --tcgap: 4px; align-items: stretch; }
-    .tc-key { font-size: 11px; border-bottom-width: 2px; border-radius: 5px; }
-    .tc-key-sub { font-size: 8px; }
-    .tc-key-mod, .tc-key-space, .tc-key-fkey, .tc-key-esc { font-size: 9px; }
-    .tc-kb-fn { display: none; }
-}
-@media (max-width: 520px) {
-    .tc-keyboard { --tcu: 25px; }
     .tc-key { font-size: 9px; }
     .tc-key-sub { font-size: 7px; }
-    .tc-prompt { font-size: 19px; padding: 14px; }
+    .tc-prompt { font-size: 21px; padding: 14px; letter-spacing: 1px; min-height: 70px; }
 }

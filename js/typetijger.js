@@ -46,21 +46,13 @@
         ' ': 'th'
     };
 
-    // Volledig toetsenbord-layout (zoals een echt toetsenbord), met de
-    // natuurlijke "stagger": de breedte van Tab/Caps Lock/Shift schuift elke
-    // rij iets op, zodat de M netjes tussen de J en de K valt.
+    // Toetsenbord-layout (zoals een echt toetsenbord), met de natuurlijke
+    // "stagger": de breedte van Tab/Caps Lock/Shift schuift elke rij iets op,
+    // zodat de M netjes tussen de J en de K valt.
     // Per toets: key = te typen teken (krijgt data-key + vingerkleur),
     // sub = teken-met-shift (klein erboven), label = vaste opdruk (Tab, Shift),
-    // w = breedte in toets-eenheden, mod = data-mod, cls = extra klasse,
-    // spacer = lege ruimte (alleen in de functierij).
+    // w = breedte in toets-eenheden, mod = data-mod, cls = extra klasse.
     var KB_LAYOUT = [
-        // Functierij (decoratief, niet te typen)
-        { fn: true, keys: [
-            { label: 'Esc', w: 1.3, cls: 'tc-key-esc' }, { spacer: 0.7 },
-            { label: 'F1' }, { label: 'F2' }, { label: 'F3' }, { label: 'F4' }, { spacer: 0.5 },
-            { label: 'F5' }, { label: 'F6' }, { label: 'F7' }, { label: 'F8' }, { spacer: 0.5 },
-            { label: 'F9' }, { label: 'F10' }, { label: 'F11' }, { label: 'F12' }
-        ] },
         // Cijferrij
         { keys: [
             { key: '`', sub: '~' }, { key: '1', sub: '!' }, { key: '2', sub: '@' },
