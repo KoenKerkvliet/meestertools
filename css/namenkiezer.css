@@ -189,6 +189,32 @@
     font-size: 15px;
 }
 
+/* ---------- Settings: checkbox rows ---------- */
+/* Override the global .form-group label/input rules (block label + 100%-wide
+   input) so the checkbox sits inline on the right of its label instead of
+   stretched above the text. */
+.modal-body .checkbox-label {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+}
+
+.modal-body .checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
+
 /* ---------- Settings: order editor ---------- */
 .form-hint {
     font-size: 12px;
