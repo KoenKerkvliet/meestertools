@@ -13,14 +13,24 @@ document.addEventListener('DOMContentLoaded', function () {
     var btnSaveSettings = document.getElementById('btnSaveSettings');
     var selectGroup = document.getElementById('selectGroup');
     var chkUniqueMode = document.getElementById('chkUniqueMode');
+    var chkOrderMode = document.getElementById('chkOrderMode');
+    var orderEditorGroup = document.getElementById('orderEditorGroup');
+    var orderList = document.getElementById('orderList');
 
     // State
     var selectedGroupId = null;
     var uniqueMode = false; // default: allow repeats
+    var orderMode = false;  // when true: draw students in a fixed order instead of random
+    var orderByGroup = {};  // { groupId: [names in chosen order] }
+    var customOrder = [];   // reconciled order for the active group
     var groups = [];
     var studentNames = [];
     var pickedNames = [];
     var isPicking = false;
+
+    // Modal-only editing state for the order list
+    var editOrder = [];
+    var editGroupId = null;
 
     // ---------- Supabase ----------
     async function getSessionUser() {
@@ -40,12 +50,16 @@ document.addEventListener('DOMContentLoaded', function () {
             .single();
 
         if (result.data && result.data.settings) {
-            if (result.data.settings.selectedGroupId) selectedGroupId = result.data.settings.selectedGroupId;
-            if (result.data.settings.uniqueMode === true) uniqueMode = true;
+            var s = result.data.settings;
+            if (s.selectedGroupId) selectedGroupId = s.selectedGroupId;
+            if (s.uniqueMode === true) uniqueMode = true;
+            if (s.orderMode === true) orderMode = true;
+            if (s.orderByGroup && typeof s.orderByGroup === 'object') orderByGroup = s.orderByGroup;
         }
 
         await loadGroups(user.id);
         await loadStudents(user.id);
+        syncCustomOrder();
         render();
     }
 
@@ -68,23 +82,61 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    async function loadStudents(userId) {
-        if (!selectedGroupId) {
-            studentNames = [];
-            return;
-        }
+    async function fetchStudentNames(userId, groupId) {
+        if (!groupId) return [];
 
         var result = await supabase
             .from('students')
             .select('first_name, last_name')
-            .eq('group_id', selectedGroupId)
+            .eq('group_id', groupId)
             .eq('user_id', userId)
             .eq('archived', false)
             .order('student_number', { ascending: true });
 
-        studentNames = (result.data || []).map(function (s) {
+        return (result.data || []).map(function (s) {
             return s.last_name ? s.first_name + ' ' + s.last_name : s.first_name;
         });
+    }
+
+    async function loadStudents(userId) {
+        studentNames = await fetchStudentNames(userId, selectedGroupId);
+    }
+
+    // Build the effective draw-order for the active group: saved order minus
+    // removed students, plus any students that aren't in the saved order yet.
+    function reconcileOrder(saved, names) {
+        saved = saved || [];
+        var out = [];
+        for (var i = 0; i < saved.length; i++) {
+            if (names.indexOf(saved[i]) !== -1 && out.indexOf(saved[i]) === -1) out.push(saved[i]);
+        }
+        for (var j = 0; j < names.length; j++) {
+            if (out.indexOf(names[j]) === -1) out.push(names[j]);
+        }
+        return out;
+    }
+
+    function syncCustomOrder() {
+        customOrder = reconcileOrder(orderByGroup[selectedGroupId], studentNames);
+    }
+
+    function getOrderedNames() {
+        return customOrder.length ? customOrder : studentNames;
+    }
+
+    // How many names count toward the "X / N" tally, and whether the run is finished.
+    function getTotalCount() {
+        return orderMode ? getOrderedNames().length : studentNames.length;
+    }
+
+    function showCount() {
+        return uniqueMode || orderMode;
+    }
+
+    function isAllDone() {
+        if (orderMode) return getOrderedNames().length > 0 && pickedNames.length >= getOrderedNames().length;
+        if (uniqueMode) return studentNames.length > 0 && getRemainingNames().length === 0;
+        return false;
     }
 
     async function saveSettingsToDb() {
@@ -98,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .upsert({
                 user_id: user.id,
                 tool_name: TOOL_NAME,
-                settings: { selectedGroupId: selectedGroupId, uniqueMode: uniqueMode },
+                settings: { selectedGroupId: selectedGroupId, uniqueMode: uniqueMode, orderMode: orderMode, orderByGroup: orderByGroup },
                 updated_at: new Date().toISOString()
             }, { onConflict: 'user_id,tool_name' });
     }
@@ -129,8 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        var remaining = getRemainingNames();
-        var allDone = uniqueMode && remaining.length === 0;
+        var allDone = isAllDone();
 
         var html = '';
         html += '<div class="name-display" id="nameDisplay">';
@@ -144,8 +195,8 @@ document.addEventListener('DOMContentLoaded', function () {
         html += '<button class="tool-action-btn name-pick-btn" id="btnPick"' + (allDone ? ' disabled' : '') + '>&#127919; Kies een naam</button>';
 
         html += '<div class="name-status">';
-        if (uniqueMode) {
-            html += '<span class="status-count">' + pickedNames.length + ' / ' + studentNames.length + ' gekozen</span>';
+        if (showCount()) {
+            html += '<span class="status-count">' + pickedNames.length + ' / ' + getTotalCount() + ' gekozen</span>';
         }
         if (pickedNames.length > 0) {
             html += '<button class="btn-reset" id="btnReset">Reset</button>';
@@ -192,8 +243,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function pickName() {
         if (isPicking) return;
-        var pool = uniqueMode ? getRemainingNames() : studentNames;
-        if (pool.length === 0) return;
+
+        // Decide which name lands. In order mode we take the next one in the
+        // fixed order; otherwise we pick randomly (optionally without repeats).
+        var finalName;
+        if (orderMode) {
+            var ordered = getOrderedNames();
+            if (pickedNames.length >= ordered.length) return;
+            finalName = ordered[pickedNames.length];
+        } else {
+            var pool = uniqueMode ? getRemainingNames() : studentNames;
+            if (pool.length === 0) return;
+            finalName = pool[Math.floor(Math.random() * pool.length)];
+        }
 
         isPicking = true;
         var btnPick = document.getElementById('btnPick');
@@ -201,10 +263,6 @@ document.addEventListener('DOMContentLoaded', function () {
         var nameText = document.getElementById('nameText');
 
         btnPick.disabled = true;
-
-        // Choose the final name
-        var finalIndex = Math.floor(Math.random() * pool.length);
-        var finalName = pool[finalIndex];
 
         // Start spinning animation
         nameDisplay.className = 'name-display spinning';
@@ -241,8 +299,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     isPicking = false;
                     btnPick.disabled = false;
 
-                    // Check if all done (only in unique mode)
-                    if (uniqueMode && getRemainingNames().length === 0) {
+                    // Check if all done (unique mode or fixed-order mode)
+                    if (isAllDone()) {
                         btnPick.disabled = true;
                         var statusArea = document.querySelector('.name-status');
                         if (statusArea) {
@@ -260,10 +318,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateStatus() {
-        // Update count (only in unique mode)
+        // Update count (unique mode or fixed-order mode)
         var countEl = container.querySelector('.status-count');
-        if (countEl && uniqueMode) {
-            countEl.textContent = pickedNames.length + ' / ' + studentNames.length + ' gekozen';
+        if (countEl && showCount()) {
+            countEl.textContent = pickedNames.length + ' / ' + getTotalCount() + ' gekozen';
         }
 
         // Add reset button if not present
@@ -333,7 +391,77 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         chkUniqueMode.checked = uniqueMode;
+        chkOrderMode.checked = orderMode;
+        chkUniqueMode.disabled = orderMode;
+        orderEditorGroup.style.display = orderMode ? '' : 'none';
+        editOrder = [];
+        editGroupId = null;
+        if (orderMode) buildOrderEditor();
+
         settingsModal.classList.add('active');
+    });
+
+    // ---------- Order editor ----------
+    async function buildOrderEditor() {
+        var user = await getSessionUser();
+        if (!user) return;
+        var gid = selectGroup.value;
+        editGroupId = gid;
+        var names = await fetchStudentNames(user.id, gid);
+        editOrder = reconcileOrder(orderByGroup[gid], names);
+        renderOrderEditor();
+    }
+
+    function renderOrderEditor() {
+        if (editOrder.length === 0) {
+            orderList.innerHTML = '<p class="order-empty">Deze groep heeft nog geen leerlingen.</p>';
+            return;
+        }
+        var html = '';
+        for (var i = 0; i < editOrder.length; i++) {
+            html += '<div class="order-item">';
+            html += '<span class="order-pos">' + (i + 1) + '</span>';
+            html += '<span class="order-name">' + escapeHtml(editOrder[i]) + '</span>';
+            html += '<span class="order-actions">';
+            html += '<button type="button" class="order-btn order-up" data-index="' + i + '"' + (i === 0 ? ' disabled' : '') + ' title="Omhoog">&#9650;</button>';
+            html += '<button type="button" class="order-btn order-down" data-index="' + i + '"' + (i === editOrder.length - 1 ? ' disabled' : '') + ' title="Omlaag">&#9660;</button>';
+            html += '</span>';
+            html += '</div>';
+        }
+        orderList.innerHTML = html;
+    }
+
+    function moveOrder(from, to) {
+        if (to < 0 || to >= editOrder.length) return;
+        var item = editOrder.splice(from, 1)[0];
+        editOrder.splice(to, 0, item);
+        renderOrderEditor();
+    }
+
+    orderList.addEventListener('click', function (e) {
+        var up = e.target.closest('.order-up');
+        var down = e.target.closest('.order-down');
+        if (up) {
+            var i = parseInt(up.getAttribute('data-index'), 10);
+            moveOrder(i, i - 1);
+        } else if (down) {
+            var j = parseInt(down.getAttribute('data-index'), 10);
+            moveOrder(j, j + 1);
+        }
+    });
+
+    chkOrderMode.addEventListener('change', function () {
+        var on = chkOrderMode.checked;
+        orderEditorGroup.style.display = on ? '' : 'none';
+        chkUniqueMode.disabled = on;
+        if (on) {
+            chkUniqueMode.checked = false;
+            buildOrderEditor();
+        }
+    });
+
+    selectGroup.addEventListener('change', function () {
+        if (chkOrderMode.checked) buildOrderEditor();
     });
 
     btnCloseSettings.addEventListener('click', closeModal);
@@ -354,17 +482,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
     btnSaveSettings.addEventListener('click', async function () {
         var newGroupId = selectGroup.value;
-        var newUniqueMode = chkUniqueMode.checked;
+        var newOrderMode = chkOrderMode.checked;
+        var newUniqueMode = newOrderMode ? false : chkUniqueMode.checked;
 
-        if (newGroupId !== selectedGroupId) {
-            selectedGroupId = newGroupId;
-            pickedNames = [];
+        // Persist the order that's currently being edited (for its group).
+        if (editGroupId) orderByGroup[editGroupId] = editOrder.slice();
+
+        var groupChanged = newGroupId !== selectedGroupId;
+        var modeChanged = newOrderMode !== orderMode || newUniqueMode !== uniqueMode;
+        var prevOrder = customOrder.join('|');
+
+        selectedGroupId = newGroupId;
+        orderMode = newOrderMode;
+        uniqueMode = newUniqueMode;
+
+        if (groupChanged) {
             var user = await getSessionUser();
             if (user) await loadStudents(user.id);
         }
+        syncCustomOrder();
 
-        if (newUniqueMode !== uniqueMode) {
-            uniqueMode = newUniqueMode;
+        // Reset the run if anything that affects the draw changed.
+        if (groupChanged || modeChanged || customOrder.join('|') !== prevOrder) {
             pickedNames = [];
         }
 
