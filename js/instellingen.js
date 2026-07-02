@@ -50,7 +50,9 @@
         }
     }
 
-    // ---------- Leerlingcode (3 letters + 3 cijfers, prefix = school) ----------
+    // ---------- Leerlingcode (4 letters + 3 cijfers, prefix = school) ----------
+    // Bestaande codes (3 letters + 3 cijfers) blijven gewoon geldig;
+    // alleen nieuw uitgedeelde codes krijgen het langere, sterkere formaat.
     async function ensureSchoolName() {
         if (schoolNameLoaded) return schoolName;
         try {
@@ -67,9 +69,11 @@
         const LET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         let prefix = String(school || '').toUpperCase().replace(/[^A-Z]/g, '').slice(0, 2);
         while (prefix.length < 2) prefix += 'X'; // fallback als school (te) kort is
-        const rl = LET[Math.floor(Math.random() * 26)];
-        const digits = String(Math.floor(Math.random() * 1000)).padStart(3, '0');
-        return prefix + rl + digits;
+        const buf = new Uint32Array(5);
+        crypto.getRandomValues(buf);
+        const letters = LET[buf[0] % 26] + LET[buf[1] % 26];
+        const digits = String(buf[2] % 10) + String(buf[3] % 10) + String(buf[4] % 10);
+        return prefix + letters + digits;
     }
     // Geef leerlingen zonder code er één (backfill). Globaal uniek -> retry bij botsing.
     async function ensureCodesForGroup(groupId) {

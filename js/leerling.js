@@ -2,7 +2,8 @@
    LEERLINGPAGINA (/leerling)
 
    Publiek, geen account. Inloggen met voornaam + persoonlijke code
-   (3 letters + 3 cijfers). Alles loopt via de Edge Function 'leerling'.
+   (oude codes: 3 letters + 3 cijfers; nieuwe: 4 letters + 3 cijfers).
+   Alles loopt via de Edge Function 'leerling'.
    v1: tegel "Mijn muurtje" -> eigen rekenmuurtje (read-only).
    ============================================ */
 
@@ -77,7 +78,9 @@
     function clearStore() { try { sessionStorage.removeItem(STORE_KEY); } catch (e) {} }
 
     async function call(action, extra) {
-        const body = Object.assign({ action: action }, extra || {});
+        // Naam gaat altijd mee: de server eist naam + code als paar,
+        // zodat een (geraden) code alleen nooit genoeg is.
+        const body = Object.assign({ action: action, name: name }, extra || {});
         const { data, error } = await supabase.functions.invoke('leerling', { body: body });
         if (error) {
             let parsed = null;
@@ -102,7 +105,7 @@
         name = (nameInput.value || '').trim();
         code = (codeInput.value || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
         if (!name) { showErr(loginError, 'Vul je voornaam in.'); return; }
-        if (code.length < 6) { showErr(loginError, 'Vul je code in (3 letters en 3 cijfers).'); return; }
+        if (code.length < 6) { showErr(loginError, 'Vul je hele code in.'); return; }
 
         busy = true; loginBtn.disabled = true; loginBtn.textContent = 'Even kijken…';
         const res = await call('login', { name: name, code: code });

@@ -5,18 +5,49 @@ import { corsHeaders } from '../_shared/cors.ts'
 /**
  * Leerlingpagina (/leerling) — publieke kant, geen account.
  *
- * Een leerling logt in met VOORNAAM + persoonlijke CODE (3 letters + 3 cijfers,
- * prefix = school). Alles loopt via de service-role key; de code is de sleutel.
+ * Een leerling logt in met VOORNAAM + persoonlijke CODE (prefix = school;
+ * oudere codes zijn 3 letters + 3 cijfers, nieuwe 4 letters + 3 cijfers).
+ * Alles loopt via de service-role key.
  *
- * Acties (POST body { action, ... }):
- *   - login { name, code }            -> match leerling op code + voornaam, geef monster
- *   - wall  { code }                  -> het rekenmuurtje (mastery) van die leerling
- *   - typetijger_load { code }        -> voortgang van de typcursus
- *   - typetijger_save { code, lessonId, stars, apm, acc } -> voortgang opslaan (best)
+ * ELKE actie vereist naam + code als paar: een code alleen is niet genoeg
+ * (anders zou iemand codes kunnen raden en voortgang/sessies uitlezen).
+ * Mislukte pogingen worden per IP afgeremd tegen brute force.
+ *
+ * Acties (POST body { action, name, code, ... }):
+ *   - login            -> match leerling op code + voornaam, geef monster
+ *   - wall             -> het rekenmuurtje (mastery) van die leerling
+ *   - typetijger_load  -> voortgang van de typcursus
+ *   - typetijger_save { lessonId, stars, apm, acc } -> voortgang opslaan (best)
  */
 
 const NAME_MAX = 30
 const MONSTER_COUNT = 36
+
+// Brute-force-rem: alleen MISLUKTE pogingen tellen mee (een klas vol geldige
+// leerlingen achter één school-IP merkt hier dus niets van). In-memory per
+// isolate: geen garantie, wel een effectieve snelheidsrem.
+const MISS_WINDOW_MS = 10 * 60 * 1000
+const MISS_MAX = 100
+const misses = new Map<string, { count: number; resetAt: number }>()
+
+function ipOf(req: Request): string {
+  const fwd = req.headers.get('x-forwarded-for') || ''
+  return fwd.split(',')[0].trim() || 'onbekend'
+}
+function tooManyMisses(ip: string): boolean {
+  const m = misses.get(ip)
+  return !!m && Date.now() <= m.resetAt && m.count >= MISS_MAX
+}
+function registerMiss(ip: string) {
+  const now = Date.now()
+  const m = misses.get(ip)
+  if (!m || now > m.resetAt) {
+    if (misses.size > 5000) misses.clear() // simpele cap tegen geheugengroei
+    misses.set(ip, { count: 1, resetAt: now + MISS_WINDOW_MS })
+  } else {
+    m.count++
+  }
+}
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -27,8 +58,15 @@ serve(async (req) => {
     const body = await req.json().catch(() => ({}))
     const action = String(body?.action || '')
     const code = normCode(body?.code)
+    const name = cleanText(body?.name, NAME_MAX)
 
     if (!code) return json({ ok: false, error: 'Vul je code in.' }, 400)
+    if (!name) return json({ ok: false, error: 'Vul je voornaam in.' }, 400)
+
+    const ip = ipOf(req)
+    if (tooManyMisses(ip)) {
+      return json({ ok: false, error: 'Te veel mislukte pogingen. Wacht even en probeer het opnieuw.' }, 429)
+    }
 
     const admin = createClient(
       Deno.env.get('SUPABASE_URL')!,
@@ -41,13 +79,14 @@ serve(async (req) => {
       .eq('code', code)
       .maybeSingle()
 
-    const valid = student && !student.archived
+    // Naam + code moeten samen kloppen — voor élke actie.
+    const valid = !!(student && !student.archived &&
+      normName(student.first_name) === normName(name))
+    if (!valid) registerMiss(ip)
 
     // ---------------- login ----------------
     if (action === 'login') {
-      const name = cleanText(body?.name, NAME_MAX)
-      if (!name) return json({ ok: false, error: 'Vul je voornaam in.' }, 400)
-      if (!valid || normName(student.first_name) !== normName(name)) {
+      if (!valid) {
         return json({ ok: true, matched: false })
       }
       // Monstertje: zelfde (binnen de klas unieke) toewijzing als de tools.
@@ -351,7 +390,8 @@ function normName(s: unknown): string {
   return String(s == null ? '' : s).trim().toLowerCase()
 }
 function normCode(raw: unknown): string {
-  return String(raw || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6)
+  // Oude codes zijn 6 tekens, nieuwe 7 — accepteer ruim.
+  return String(raw || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8)
 }
 function cleanText(raw: unknown, max: number): string {
   return String(raw || '').replace(/\s+/g, ' ').trim().slice(0, max)
