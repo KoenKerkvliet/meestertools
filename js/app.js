@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     resetForm.reset();
                     setTimeout(async () => {
                         await supabase.auth.signOut();
-                        window.location.href = 'index';
+                        window.location.href = 'inloggen';
                     }, 2000);
                     return;
                 }
@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isDashboard || isToolPage || isAdminPage) {
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (!session) {
-                window.location.href = getBasePath() + 'index';
+                window.location.href = getBasePath() + 'inloggen';
                 return;
             }
             // Set profile info and fetch role from database
@@ -473,7 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.addEventListener('click', async (e) => {
             e.preventDefault();
             await supabase.auth.signOut();
-            window.location.href = getBasePath() + 'index';
+            window.location.href = getBasePath() + 'inloggen';
         });
     }
 

@@ -3,133 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Inloggen op Meestertools - het digitale platform voor de basisschool met interactieve tools voor digibord, klasprestatie en lesmateriaal.">
+    <meta name="description" content="Meestertools: 34 gratis digitale tools voor de basisschool. Namenkiezer, timer en geluidsmeter voor het digibord, sociogram en complimentenmuur voor groepsvorming, werkbladen, typcursus en meer. Gemaakt door een leerkracht.">
     <meta name="theme-color" content="#6C63FF">
     <link rel="canonical" href="https://meestertools.nl/">
 
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://meestertools.nl/">
-    <meta property="og:title" content="Meestertools - Inloggen">
-    <meta property="og:description" content="Inloggen op Meestertools - het digitale platform voor de basisschool met interactieve tools voor digibord, klasprestatie en lesmateriaal.">
-    <meta property="og:image" content="https://meestertools.nl/favicon.svg">
+    <meta property="og:title" content="Meestertools - Gratis digitale tools voor de basisschool">
+    <meta property="og:description" content="34 gratis tools voor leerkrachten: digibordtools, groepsvorming, lesmateriaal, organisatie en meer. Eén keer je klas instellen, elke tool gebruikt 'm. Gemaakt door een meester die zelf voor de klas staat.">
+    <meta property="og:image" content="https://meestertools.nl/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:locale" content="nl_NL">
     <meta property="og:site_name" content="Meestertools">
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Meestertools - Inloggen">
-    <meta name="twitter:description" content="Inloggen op Meestertools - het digitale platform voor de basisschool met interactieve tools voor digibord, klasprestatie en lesmateriaal.">
-    <meta name="twitter:image" content="https://meestertools.nl/favicon.svg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Meestertools - Gratis digitale tools voor de basisschool">
+    <meta name="twitter:description" content="34 gratis tools voor leerkrachten: digibordtools, groepsvorming, lesmateriaal, organisatie en meer. Gemaakt door een meester die zelf voor de klas staat.">
+    <meta name="twitter:image" content="https://meestertools.nl/assets/og-image.png">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <title>Meestertools - Inloggen</title>
+    <title>Meestertools - Gratis digitale tools voor de basisschool</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/landing.css">
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Meestertools",
+        "url": "https://meestertools.nl/",
+        "description": "Gratis digitale tools voor leerkrachten in het basisonderwijs: digibordtools, groepsvorming, lesmateriaal, klassenorganisatie en educatieve games.",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Web",
+        "inLanguage": "nl",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+        "audience": { "@type": "EducationalAudience", "educationalRole": "teacher" },
+        "creator": { "@type": "Person", "name": "Koen Kerkvliet", "jobTitle": "Leerkracht basisonderwijs" }
+    }
+    </script>
 </head>
 <body>
-    <div class="login-container login-split-page">
-        <div class="login-split">
-            <!-- Links: over Meestertools -->
-            <div class="login-info">
-                <div class="login-info-brand">
-                    <span class="login-info-icon">&#127891;</span>
-                    <h1>Meestertools</h1>
-                    <p class="login-info-tagline">Het digitale platform voor de basisschool</p>
-                </div>
 
-                <div class="login-usp-list">
-                    <div class="login-usp">
-                        <span class="login-usp-icon">&#129520;</span>
-                        <div>
-                            <strong><span id="lgToolCount">30</span>+ tools, alles op &eacute;&eacute;n plek</strong>
-                            <span>Voor digibord, groepsvorming, organisatie, lesmateriaal en meer.</span>
-                        </div>
-                    </div>
-                    <div class="login-usp">
-                        <span class="login-usp-icon">&#128104;&#8205;&#127979;</span>
-                        <div>
-                            <strong>Door een meester, voor de klas</strong>
-                            <span>Gemaakt door een leerkracht die zelf elke dag voor de groep staat.</span>
-                        </div>
-                    </div>
-                    <div class="login-usp">
-                        <span class="login-usp-icon">&#127891;</span>
-                        <div>
-                            <strong>E&eacute;n keer je klas instellen</strong>
-                            <span>Voer je leerlingen &eacute;&eacute;n keer in en elke tool gebruikt ze automatisch.</span>
-                        </div>
-                    </div>
-                    <div class="login-usp">
-                        <span class="login-usp-icon">&#128424;&#65039;</span>
-                        <div>
-                            <strong>Printklaar in een paar klikken</strong>
-                            <span>Werkbladen, naamkaarten en kleurplaten rollen als kant-en-klare PDF uit de tool.</span>
-                        </div>
-                    </div>
-                </div>
+    <header class="lp-header">
+        <a href="/" class="lp-logo"><span class="logo-icon">&#127891;</span><span class="lp-logo-text">Meestertools</span></a>
+        <div class="lp-header-actions">
+            <a href="/inloggen" class="lp-btn lp-btn-ghost">Inloggen</a>
+            <a href="/registreer" class="lp-btn lp-btn-primary">Gratis account</a>
+        </div>
+    </header>
 
-                <div class="login-monsters">
-                    <img src="assets/avatars/monsters/monster-03.png" alt="">
-                    <img src="assets/avatars/monsters/monster-08.png" alt="">
-                    <img src="assets/avatars/monsters/monster-14.png" alt="">
-                    <img src="assets/avatars/monsters/monster-22.png" alt="">
-                    <span>Elke leerling krijgt z'n eigen monstertje</span>
-                </div>
+    <!-- ===== Hero ===== -->
+    <section class="lp-hero">
+        <div class="lp-hero-inner">
+            <h1>Alle digitale tools voor jouw klas, op &eacute;&eacute;n plek</h1>
+            <p class="lp-hero-sub">Namenkiezer, timer en geluidsmeter voor het digibord. Sociogram en complimentenmuur voor groepsvorming. Werkbladen, typcursus, rekenspellen en meer &mdash; gemaakt door een meester die zelf elke dag voor de klas staat. Helemaal gratis.</p>
+            <div class="lp-hero-cta">
+                <a href="/registreer" class="lp-btn lp-btn-primary lp-btn-big">Gratis account maken</a>
+                <a href="#tools" class="lp-btn lp-btn-ghost lp-btn-big">Bekijk de tools</a>
             </div>
-
-            <!-- Rechts: inloggen -->
-            <div class="login-formside">
-                <div class="login-card">
-                    <div class="login-logo">
-                        <span class="logo-icon">&#127891;</span>
-                        <h1>Welkom terug!</h1>
-                        <p>Log in om verder te gaan</p>
-                    </div>
-
-                    <div id="loginError" class="form-error" style="display:none;"></div>
-
-                    <form id="loginForm">
-                        <div class="form-group">
-                            <label for="email">E-mailadres</label>
-                            <input type="email" id="email" placeholder="juf@basisschool.nl" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password">Wachtwoord</label>
-                            <input type="password" id="password" placeholder="Voer je wachtwoord in" required>
-                        </div>
-
-                        <div class="form-options">
-                            <label>
-                                <input type="checkbox"> Onthoud mij
-                            </label>
-                            <a href="wachtwoord-vergeten">Wachtwoord vergeten?</a>
-                        </div>
-
-                        <button type="submit" class="btn-login" id="loginBtn">Inloggen</button>
-                    </form>
-
-                    <!-- Registreren tijdelijk verborgen (later weer invoegen):
-                    <div class="login-footer">
-                        Nog geen account? <a href="registreer">Registreer hier</a>
-                    </div>
-                    -->
-
-                </div>
+            <div class="lp-hero-monsters">
+                <img src="assets/avatars/monsters/monster-03.png" alt="">
+                <img src="assets/avatars/monsters/monster-08.png" alt="">
+                <img src="assets/avatars/monsters/monster-14.png" alt="">
+                <img src="assets/avatars/monsters/monster-22.png" alt="">
+                <img src="assets/avatars/monsters/monster-27.png" alt="">
+                <img src="assets/avatars/monsters/monster-31.png" alt="">
             </div>
         </div>
+    </section>
+
+    <!-- ===== Stats ===== -->
+    <div class="lp-stats">
+        <div class="lp-stat"><strong>34</strong><span>tools</span></div>
+        <div class="lp-stat"><strong>8</strong><span>categorie&euml;n</span></div>
+        <div class="lp-stat"><strong>100%</strong><span>gratis</span></div>
+        <div class="lp-stat"><strong>1&times;</strong><span>je klas instellen</span></div>
     </div>
 
-    <script src="/js/template.js"></script>
-    <script>
-        // Toon het actuele aantal tools uit de centrale tool-lijst
-        (function () {
-            var el = document.getElementById('lgToolCount');
-            if (el && window.MT_ALL_TOOLS) el.textContent = window.MT_ALL_TOOLS.length;
-        })();
-    </script>
+    <!-- ===== USP's ===== -->
+    <section class="lp-section">
+        <h2 class="lp-section-title">Gemaakt voor de echte klas</h2>
+        <p class="lp-section-sub">Geen abonnementen, geen advertenties, geen losse accounts per tool. E&eacute;n keer je leerlingen invoeren en alles werkt.</p>
+        <div class="lp-usp-grid">
+            <div class="lp-usp-card">
+                <span class="lp-usp-icon">&#128104;&#8205;&#127979;</span>
+                <strong>Door een meester, voor de klas</strong>
+                <span>Elke tool is bedacht en getest in een echte klas, door een leerkracht die zelf elke dag voor de groep staat.</span>
+            </div>
+            <div class="lp-usp-card">
+                <span class="lp-usp-icon">&#127891;</span>
+                <strong>E&eacute;n keer je klas instellen</strong>
+                <span>Voer je leerlingen &eacute;&eacute;n keer in. De namenkiezer, groepjesmaker, plattegrond en alle andere tools gebruiken ze automatisch.</span>
+            </div>
+            <div class="lp-usp-card">
+                <span class="lp-usp-icon">&#128274;</span>
+                <strong>Privacy voorop</strong>
+                <span>Alleen een voornaam is genoeg. Geen tracking, geen advertenties, data veilig opgeslagen binnen de EU. <a href="/privacy">Lees hoe &rarr;</a></span>
+            </div>
+            <div class="lp-usp-card">
+                <span class="lp-usp-icon">&#128424;&#65039;</span>
+                <strong>Printklaar in een paar klikken</strong>
+                <span>Werkbladen, naamkaarten, leerlingcodes en kleurplaten rollen als kant-en-klare PDF uit de tool.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Tools per categorie ===== -->
+    <div class="lp-section-alt-wrap" id="tools">
+        <section class="lp-section">
+            <h2 class="lp-section-title">34 tools, verdeeld over 8 categorie&euml;n</h2>
+            <p class="lp-section-sub">Van een snelle dobbelsteen op het digibord tot een compleet sociogram van je groep.</p>
+            <div class="lp-cat-grid">
+                <div class="lp-cat-card">
+                    <div class="lp-cat-head"><span class="lp-cat-icon">&#128421;&#65039;</span><h3>Digibordtools</h3></div>
+                    <p>Snelle klassenhulpjes die altijd open staan op het bord.</p>
+                    <div class="lp-chip-row">
+                        <span class="lp-chip">&#9997;&#65039; Namenkiezer</span>
+                        <span class="lp-chip">&#127922; Dobbelstenen</span>
+                        <span class="lp-chip">&#127920; Draairad</span>
+                        <span class="lp-chip">&#128266; Geluidsmeter</span>
+                        <span class="lp-chip">&#128101; Groepjesmaker</span>
+                        <span class="lp-chip">&#128678; Stoplicht</span>
+                        <span class="lp-chip">&#9202; Time Timer</span>
+                        <span class="lp-chip">&#127942; Podium</span>
+                    </div>
+                </div>
+                <div class="lp-cat-card">
+                    <div class="lp-cat-head"><span class="lp-cat-icon">&#129309;</span><h3>Groepsvorming</h3></div>
+                    <p>Werk het hele jaar aan een fijne, veilige groep.</p>
+                    <div class="lp-chip-row">
+                        <span class="lp-chip">&#129309; Sociogram</span>
+                        <span class="lp-chip">&#128140; Complimentenmuur</span>
+                        <span class="lp-chip">&#10084;&#65039; Klimaat-monitor</span>
+                        <span class="lp-chip">&#127777;&#65039; Sfeercijfer</span>
+                        <span class="lp-chip">&#128522; Check-in</span>
+                        <span class="lp-chip">&#128202; Gedragspatroon</span>
+                        <span class="lp-chip">&#128506;&#65039; Groepsfase-tracker</span>
+                        <span class="lp-chip">&#127917; Rolverdeler</span>
+                        <span class="lp-chip">&#9878;&#65039; Dilemmakaarten</span>
+                        <span class="lp-chip">&#128488;&#65039; Gesprekskaarten</span>
+                        <span class="lp-chip">&#129309; Conflict-stappenplan</span>
+                        <span class="lp-chip">&#128203; Routines</span>
+                    </div>
+                </div>
+                <div class="lp-cat-card">
+                    <div class="lp-cat-head"><span class="lp-cat-icon">&#128218;</span><h3>Lesmateriaal</h3></div>
+                    <p>Oefenen en automatiseren, klassikaal of zelfstandig.</p>
+                    <div class="lp-chip-row">
+                        <span class="lp-chip">&#129518; Rekenrace</span>
+                        <span class="lp-chip">&#9889; Woorden Flitsen</span>
+                        <span class="lp-chip">&#10067; Vraag van de Dag</span>
+                        <span class="lp-chip">&#128196; Werkbladen</span>
+                    </div>
+                </div>
+                <div class="lp-cat-card">
+                    <div class="lp-cat-head"><span class="lp-cat-icon">&#128203;</span><h3>Organisatie</h3></div>
+                    <p>Alles rondom het reilen en zeilen van je klas.</p>
+                    <div class="lp-chip-row">
+                        <span class="lp-chip">&#128205; Plattegrond</span>
+                        <span class="lp-chip">&#129529; Klassendienst</span>
+                        <span class="lp-chip">&#128218; Huiswerk controleren</span>
+                        <span class="lp-chip">&#128219; Naamkaarten</span>
+                        <span class="lp-chip">&#129461; Visiespel digitale geletterdheid</span>
+                    </div>
+                </div>
+                <div class="lp-cat-card">
+                    <div class="lp-cat-head"><span class="lp-cat-icon">&#127942;</span><h3>Klasseprestatie</h3></div>
+                    <p>Beloon je groep samen: punten sparen, doelen halen en prijzen verzilveren.</p>
+                    <div class="lp-chip-row">
+                        <span class="lp-chip">&#127942; Klasseprestatie</span>
+                    </div>
+                </div>
+                <div class="lp-cat-card">
+                    <div class="lp-cat-head"><span class="lp-cat-icon">&#128047;</span><h3>Digitale geletterdheid</h3></div>
+                    <p>Typcursus met niveaus, sterren en een eigen voortgang per leerling.</p>
+                    <div class="lp-chip-row">
+                        <span class="lp-chip">&#128047; Typetijger</span>
+                    </div>
+                </div>
+                <div class="lp-cat-card">
+                    <div class="lp-cat-head"><span class="lp-cat-icon">&#127918;</span><h3>Educatieve games</h3></div>
+                    <p>Spelenderwijs rekenen en taal oefenen op het digibord.</p>
+                    <div class="lp-chip-row">
+                        <span class="lp-chip">&#127922; 24 Game</span>
+                        <span class="lp-chip">&#127919; Potje 1000</span>
+                    </div>
+                </div>
+                <div class="lp-cat-card">
+                    <div class="lp-cat-head"><span class="lp-cat-icon">&#127912;</span><h3>Ontspanning</h3></div>
+                    <p>Even iets anders: creatieve tussendoortjes voor de klas.</p>
+                    <div class="lp-chip-row">
+                        <span class="lp-chip">&#127912; Naamkleurplaat</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ===== Leerlingen doen mee ===== -->
+    <section class="lp-section">
+        <div class="lp-split">
+            <div>
+                <h2>Je leerlingen doen live mee &mdash; zonder account</h2>
+                <p>Voor tools als de rekenrace, complimentenmuur en het sociogram doen leerlingen mee op hun eigen chromebook of tablet. Veilig en simpel:</p>
+                <ul class="lp-check-list">
+                    <li>Meedoen met een korte klascode op het bord &mdash; geen e-mailadres of wachtwoord nodig.</li>
+                    <li>Elke leerling krijgt een eigen monstertje als avatar.</li>
+                    <li>Op de eigen leerlingpagina zien ze hun voortgang van de typcursus en het rekenmuurtje.</li>
+                </ul>
+            </div>
+            <div class="lp-illustration">
+                <div class="lp-monster-row">
+                    <img src="assets/avatars/monsters/monster-05.png" alt="">
+                    <img src="assets/avatars/monsters/monster-11.png" alt="">
+                    <img src="assets/avatars/monsters/monster-19.png" alt="">
+                </div>
+                <span class="lp-code-demo">KLAS12</span>
+                <span class="lp-code-label">E&eacute;n code op het bord en iedereen doet mee</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Privacy ===== -->
+    <div class="lp-section-alt-wrap">
+        <section class="lp-section">
+            <h2 class="lp-section-title">Privacy is het uitgangspunt, geen bijzaak</h2>
+            <p class="lp-section-sub">Meestertools is gebouwd op het principe van dataminimalisatie: we vragen niet meer dan nodig is om de tools te laten werken.</p>
+            <div class="lp-usp-grid">
+                <div class="lp-usp-card">
+                    <span class="lp-usp-icon">&#128100;</span>
+                    <strong>Minimale leerlinggegevens</strong>
+                    <span>Alleen een (voor)naam en optioneel een leerlingnummer. Geen geboortedata, geen foto's, geen e-mailadressen van kinderen.</span>
+                </div>
+                <div class="lp-usp-card">
+                    <span class="lp-usp-icon">&#127466;&#127482;</span>
+                    <strong>Opslag binnen de EU</strong>
+                    <span>Alle gegevens staan op Europese servers en zijn alleen toegankelijk voor de eigen leerkracht.</span>
+                </div>
+                <div class="lp-usp-card">
+                    <span class="lp-usp-icon">&#128683;</span>
+                    <strong>Geen tracking of advertenties</strong>
+                    <span>Geen analytics-scripts, geen advertentiecookies, geen doorverkoop van data. Nooit.</span>
+                </div>
+            </div>
+            <p style="text-align:center; margin-top:28px;">
+                <a href="/privacy" class="lp-btn lp-btn-ghost">Lees de volledige privacyverklaring</a>
+            </p>
+        </section>
+    </div>
+
+    <!-- ===== Over de maker ===== -->
+    <section class="lp-section">
+        <div class="lp-split">
+            <div class="lp-illustration">
+                <div class="lp-monster-row">
+                    <img src="assets/avatars/monsters/monster-08.png" alt="">
+                </div>
+                <span class="lp-code-label" style="font-size:1rem;"><strong>Koen</strong> &mdash; meester &eacute;n bouwer van Meestertools</span>
+            </div>
+            <div>
+                <h2>Gemaakt door een meester die zelf voor de klas staat</h2>
+                <p>Meestertools begon als een verzameling hulpmiddelen voor mijn eigen klas. Wat in mijn lokaal werkt, komt op de site &mdash; en wat niet werkt, gaat eruit. Daardoor groeit de site elke week een beetje mee met wat er in een echte klas nodig is.</p>
+                <p>Benieuwd wat er onlangs bij is gekomen? Bekijk de <a href="/changelog" style="color: var(--primary); font-weight: 600;">changelog</a> met alle updates.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Slot-CTA ===== -->
+    <section class="lp-section">
+        <div class="lp-cta-block">
+            <h2>Morgen al gebruiken in je klas?</h2>
+            <p>Maak een gratis account, voer je klas &eacute;&eacute;n keer in en alle tools staan voor je klaar.</p>
+            <a href="/registreer" class="lp-btn lp-btn-primary lp-btn-big">Gratis account maken</a>
+        </div>
+    </section>
+
+    <footer class="lp-footer">
+        <div class="lp-footer-inner">
+            <span>&copy; <span id="lpYear">2026</span> Meestertools &middot; Gemaakt door een leerkracht</span>
+            <div class="lp-footer-links">
+                <a href="/privacy">Privacy</a>
+                <a href="mailto:info@meestertools.nl">Contact</a>
+                <a href="/changelog">Changelog</a>
+                <a href="/inloggen">Inloggen</a>
+            </div>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
     <script src="js/supabase-config.js"></script>
-    <script src="js/app.js"></script>
+    <script>
+        // Jaar in de footer + ingelogde leerkrachten direct door naar het dashboard.
+        document.getElementById('lpYear').textContent = new Date().getFullYear();
+        supabase.auth.getSession().then(function (res) {
+            if (res && res.data && res.data.session) {
+                window.location.href = '/dashboard';
+            }
+        });
+    </script>
 </body>
 </html>
