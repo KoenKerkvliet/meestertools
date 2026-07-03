@@ -1,6 +1,6 @@
 /* ============================================
    MEESTERTOOLS - Template Injector
-   Versie: v1.35.0
+   Versie: v1.36.0
 
    Inject reusable header and footer into every page that has
    <header id="app-header-slot"></header> and
@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.35.0';
+    const VERSION = 'v1.36.0';
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [
@@ -37,7 +37,7 @@
         // Educatieve games
         { id: '24game', name: '24 Game', url: 'educatieve-games/24game', icon: '&#127922;' },
         { id: 'potje1000', name: 'Potje 1000', url: 'educatieve-games/potje1000', icon: '&#127919;' },
-        { id: 'lingo', name: 'Lingo', url: 'educatieve-games/lingo', icon: '&#128221;', uc: true },
+        { id: 'lingo', name: 'Lingo', url: 'educatieve-games/lingo', icon: '&#128221;' },
         { id: 'escaperooms', name: 'Escape rooms', url: 'educatieve-games/escaperooms', icon: '&#128477;&#65039;', uc: true },
         // Klasseprestatie
         { id: 'klasseprestatie', name: 'Klasseprestatie', url: 'klasseprestatie', icon: '&#127942;' },
@@ -61,6 +61,7 @@
         { id: 'dilemmakaarten', name: 'Dilemmakaarten', url: 'groepsvorming/dilemmakaarten', icon: '&#9878;&#65039;' },
         { id: 'gesprekskaarten', name: 'Gesprekskaarten', url: 'groepsvorming/gesprekskaarten', icon: '&#128488;&#65039;' },
         { id: 'routines', name: 'Routines', url: 'groepsvorming/routines', icon: '&#128203;' },
+        { id: 'energizer', name: 'Energizer', url: 'groepsvorming/energizer', icon: '&#9889;' },
         // Organisatie
         { id: 'klassendienst', name: 'Klassendienst', url: 'organisatie/klassendienst', icon: '&#129529;' },
         { id: 'huiswerk', name: 'Huiswerk controleren', url: 'organisatie/huiswerk', icon: '&#128218;' },

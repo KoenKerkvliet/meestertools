@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gratis energizer-tool voor in de klas: trek een willekeurige brain break (bewegen, rust of samenwerken) met een grote timer op het digibord. Direct te gebruiken, zonder account.">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="canonical" href="https://meestertools.nl/groepsvorming/energizer">
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meestertools.nl/groepsvorming/energizer">
+    <meta property="og:title" content="Energizer / brain break voor in de klas - gratis - Meestertools">
+    <meta property="og:description" content="Gratis energizer-tool voor in de klas: trek een willekeurige brain break (bewegen, rust of samenwerken) met een grote timer op het digibord. Direct te gebruiken, zonder account.">
+    <meta property="og:image" content="https://meestertools.nl/assets/og-image.png">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:site_name" content="Meestertools">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Energizer / brain break voor in de klas - gratis - Meestertools">
+    <meta name="twitter:description" content="Gratis energizer-tool voor in de klas: trek een willekeurige brain break (bewegen, rust of samenwerken) met een grote timer op het digibord. Direct te gebruiken, zonder account.">
+    <meta name="twitter:image" content="https://meestertools.nl/assets/og-image.png">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Energizer / brain break voor in de klas - gratis - Meestertools</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/instellingen.css">
+    <link rel="stylesheet" href="../css/energizer.css">
+</head>
+<body>
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../groepsvorming" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Energizer</h1>
+                <p>Energie wegzakken of juist te veel? Trek een brain break en zet de timer aan.</p>
+            </div>
+            <button class="tool-settings-btn" id="ezSoundBtn" title="Geluid aan/uit">&#128266;</button>
+        </div>
+        <div class="tool-page-body">
+            <div class="ez-wrap">
+                <!-- Filterchips -->
+                <div class="ez-filters" id="ezFilters">
+                    <button class="ez-filter active" data-type="alles">&#127922; Alles</button>
+                    <button class="ez-filter" data-type="bewegen">&#127939; Bewegen</button>
+                    <button class="ez-filter" data-type="rust">&#129496; Rust</button>
+                    <button class="ez-filter" data-type="samen">&#129309; Samen</button>
+                </div>
+
+                <!-- Startkaart -->
+                <div class="ez-card ez-start" id="ezStart">
+                    <div class="ez-start-emoji">&#9889;</div>
+                    <h2>Tijd voor een pauze?</h2>
+                    <p>Trek een willekeurige energizer en doe hem samen met de klas.</p>
+                    <button class="ez-btn ez-btn-big" id="ezDrawBtn">Verras ons! &#127922;</button>
+                </div>
+
+                <!-- Activiteitkaart -->
+                <div class="ez-card ez-activity" id="ezActivity" style="display:none;">
+                    <span class="ez-type-badge" id="ezTypeBadge"></span>
+                    <div class="ez-emoji" id="ezEmoji"></div>
+                    <h2 id="ezTitle"></h2>
+                    <p class="ez-desc" id="ezDesc"></p>
+
+                    <div class="ez-timer" id="ezTimer">
+                        <button class="ez-time-adjust" id="ezMinusBtn" title="30 seconden korter">&minus;</button>
+                        <div class="ez-time-display" id="ezTimeDisplay">1:00</div>
+                        <button class="ez-time-adjust" id="ezPlusBtn" title="30 seconden langer">+</button>
+                    </div>
+
+                    <div class="ez-done-msg">Klaar! Goed gedaan &#128170;</div>
+
+                    <div class="ez-controls">
+                        <button class="ez-btn" id="ezStartBtn">&#9654; Start</button>
+                        <button class="ez-btn ez-btn-ghost" id="ezResetBtn">Reset</button>
+                        <button class="ez-btn ez-btn-ghost" id="ezNextBtn">Volgende &#127922;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <script src="/js/template.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/instellingen.js"></script>
+    <script src="../js/energizer.js"></script>
+</body>
+</html>

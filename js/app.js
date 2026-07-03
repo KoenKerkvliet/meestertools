@@ -257,7 +257,9 @@ document.addEventListener('DOMContentLoaded', () => {
         'digibord/draairad',
         'digibord/geluidsmeter',
         'digibord/stoplicht',
-        'digibord/timetimer'
+        'digibord/timetimer',
+        'groepsvorming/energizer',
+        'educatieve-games/lingo'
     ];
     function isPublicToolPath() {
         const p = window.location.pathname

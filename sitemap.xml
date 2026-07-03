@@ -36,6 +36,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://meestertools.nl/groepsvorming/energizer</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://meestertools.nl/educatieve-games/lingo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://meestertools.nl/registreer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
