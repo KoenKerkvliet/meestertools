@@ -1,6 +1,7 @@
 /* ============================================
    MEESTERTOOLS - Lingo
-   Versie: v1.0.0
+   Versie: v2.0.0 — klassieke tv-stijl:
+   blauw raster, rood = goed, geel rondje = verkeerde plek.
    ============================================ */
 
 .lingo-wrap {
@@ -40,56 +41,102 @@
 .lingo-btn-primary { background: var(--primary, #6C63FF); color: #fff; }
 .lingo-btn-primary:hover { background: var(--primary-dark, #5A52D5); transform: translateY(-1px); }
 
-/* ---------- Bord ---------- */
+/* ---------- Bord: donkerblauw tv-paneel ---------- */
 .lingo-board {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 7px;
     width: 100%;
     margin-bottom: 14px;
+    background: #0C2D6B;
+    border: 4px solid #0A2455;
+    border-radius: 14px;
+    padding: 10px;
+    box-shadow: inset 0 2px 14px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(12, 45, 107, 0.35);
 }
 .lingo-row {
     display: grid;
-    gap: 8px;
+    gap: 7px;
 }
+
+/* Standaardtegel: blauw met witte letter (= "niet goed" / leeg / getypt) */
 .lingo-tile {
+    position: relative;
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
-    border: 2px solid #E3E3EE;
-    background: var(--bg-white, #fff);
+    border-radius: 8px;
+    border: 2px solid #5B8FE8;
+    background: linear-gradient(160deg, #2E6FD3, #1E56AE);
     font-size: clamp(22px, 7vw, 34px);
     font-weight: 800;
     text-transform: uppercase;
-    color: var(--text-dark, #2D3436);
+    color: #fff;
     user-select: none;
 }
-.lingo-tile.is-filled { border-color: var(--primary-light, #8B83FF); }
-.lingo-tile.is-cursor { border-color: var(--primary, #6C63FF); box-shadow: 0 0 0 3px rgba(108,99,255,.16); }
+.lingo-tile.is-cursor {
+    border-color: #FFD23E;
+    box-shadow: 0 0 0 3px rgba(255, 210, 62, 0.35);
+}
+
+/* Gegeven eerste letter in de actieve rij: die is goed, dus rood */
 .lingo-tile.lingo-given {
-    background: #F3F2FF;
-    border-color: var(--primary-light, #8B83FF);
-    color: var(--primary-dark, #5A52D5);
+    background: linear-gradient(160deg, #CE1F3B, #A6122A);
+    border-color: #E85A6F;
 }
+
+/* Toekomstige rijen: blauw, eerste letter vaag zichtbaar */
 .lingo-tile.lingo-future {
-    background: var(--bg-light, #F8F9FE);
-    border-color: #ECECF3;
-    color: var(--text-light, #C7CBD6);
+    color: rgba(255, 255, 255, 0.35);
+}
+.lingo-tile.lingo-future.lingo-given {
+    background: linear-gradient(160deg, #2E6FD3, #1E56AE);
+    border-color: #5B8FE8;
 }
 
-/* resultaat-kleuren */
-.lingo-correct { background: #4CAF50 !important; border-color: #43A047 !important; color: #fff !important; }
-.lingo-present { background: #F0A92E !important; border-color: #E09A1E !important; color: #fff !important; }
-.lingo-absent  { background: #9AA3B2 !important; border-color: #8B95A6 !important; color: #fff !important; }
+/* ---------- Resultaat-kleuren (klassiek Lingo) ---------- */
+/* Rood = letter goed én op de juiste plaats */
+.lingo-tile.lingo-correct {
+    background: linear-gradient(160deg, #CE1F3B, #A6122A);
+    border-color: #E85A6F;
+    color: #fff;
+}
+/* Blauw = letter zit niet in het woord (tegel blijft zoals 'ie was) */
+.lingo-tile.lingo-absent {
+    background: linear-gradient(160deg, #2E6FD3, #1E56AE);
+    border-color: #5B8FE8;
+    color: #fff;
+}
+/* Geel rondje = letter zit wel in het woord, maar op een andere plaats */
+.lingo-tile.lingo-present {
+    background: linear-gradient(160deg, #2E6FD3, #1E56AE);
+    border-color: #5B8FE8;
+    color: #0C2D6B;
+}
+.lingo-tile.lingo-present::before {
+    content: '';
+    position: absolute;
+    inset: 12%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #FFE27A, #F7C93C 70%);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+.lingo-tile.lingo-present > span,
+.lingo-tile.lingo-present {
+    z-index: 0;
+}
+.lingo-tile.lingo-present .lingo-letter {
+    position: relative;
+    z-index: 1;
+}
 
-.lingo-tile.is-revealed { animation: lingoFlip .5s ease both; }
-@keyframes lingoFlip {
-    0%   { transform: rotateX(0); }
-    45%  { transform: rotateX(90deg); }
-    55%  { transform: rotateX(90deg); }
-    100% { transform: rotateX(0); }
+/* Pop-animatie op het moment dat een letter onthuld wordt (op het piepje) */
+.lingo-tile.is-pop { animation: lingoPop .32s ease; }
+@keyframes lingoPop {
+    0%   { transform: scale(1); }
+    45%  { transform: scale(1.18); }
+    100% { transform: scale(1); }
 }
 
 .lingo-row.lingo-shake { animation: lingoShake .4s ease; }
@@ -142,9 +189,9 @@
 .lingo-key:hover { background: #DBDCE6; }
 .lingo-key:active { transform: translateY(1px); }
 .lingo-key-wide { flex: 1.6 1 auto; max-width: 72px; font-size: 13px; }
-.lingo-key.lingo-correct { background: #4CAF50; color: #fff; }
-.lingo-key.lingo-present { background: #F0A92E; color: #fff; }
-.lingo-key.lingo-absent  { background: #9AA3B2; color: #fff; }
+.lingo-key.lingo-correct { background: #BE1931; color: #fff; }
+.lingo-key.lingo-present { background: #F7C93C; color: #0C2D6B; }
+.lingo-key.lingo-absent  { background: #2E6FD3; color: rgba(255, 255, 255, 0.55); }
 
 /* ---------- Instellingen ---------- */
 .lingo-field-label { display: block; font-size: 13px; font-weight: 700; color: var(--text-dark, #2D3436); margin-bottom: 8px; }
@@ -177,12 +224,13 @@
 }
 .lingo-legend-item { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--text-medium, #636E72); }
 .lingo-swatch { width: 18px; height: 18px; border-radius: 5px; }
-.lingo-swatch.lingo-correct { background: #4CAF50; }
-.lingo-swatch.lingo-present { background: #F0A92E; }
-.lingo-swatch.lingo-absent  { background: #9AA3B2; }
+.lingo-swatch.lingo-correct { background: #BE1931; }
+.lingo-swatch.lingo-present { background: radial-gradient(circle, #F7C93C 56%, #2E6FD3 60%); }
+.lingo-swatch.lingo-absent  { background: #2E6FD3; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 480px) {
     .lingo-key { height: 46px; font-size: 15px; }
-    .lingo-tile { border-radius: 10px; }
+    .lingo-tile { border-radius: 7px; }
+    .lingo-board { padding: 7px; border-width: 3px; }
 }

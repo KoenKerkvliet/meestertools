@@ -3,20 +3,47 @@
    Versie: v1.0.0
 
    Raad het woord van 5 of 6 letters. De eerste letter is gegeven (zoals bij
-   Lingo). Per beurt kleuren de letters:
-   - groen  (correct)  : juiste letter op de juiste plaats
-   - oranje (present)  : letter zit in het woord, maar op een andere plaats
-   - grijs  (absent)   : letter zit niet in het woord
+   Lingo op tv). Bij het controleren worden de letters één voor één onthuld,
+   met een piepje per letter (hoog = goed, midden = verkeerde plek, laag = fout):
+   - rood         (correct) : juiste letter op de juiste plaats
+   - geel rondje  (present) : letter zit in het woord, maar op een andere plaats
+   - blauw        (absent)  : letter zit niet in het woord
 
    Met een schermtoetsenbord (fijn voor digibord/touch) dat meekleurt.
-   Aantal letters instelbaar (5/6); voorkeur in localStorage.
+   Aantal letters (5/6) en geluid instelbaar; voorkeuren in localStorage.
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
     var LEN_KEY = 'mt_lingo_len';
+    var SOUND_KEY = 'mt_lingo_sound';
     var ATTEMPTS = 6;
+    var REVEAL_STEP_MS = 450; // ritme van de piepjes bij het onthullen
+
+    // ---------- Geluid (piepje per letter) ----------
+    var soundOn = true;
+    try { soundOn = localStorage.getItem(SOUND_KEY) !== 'uit'; } catch (e) {}
+    var audioCtx = null;
+
+    function beep(kind) {
+        if (!soundOn) return;
+        try {
+            var Ctx = window.AudioContext || window.webkitAudioContext;
+            if (!audioCtx) audioCtx = new Ctx();
+            var freq = kind === 'correct' ? 880 : kind === 'present' ? 520 : 220;
+            var osc = audioCtx.createOscillator();
+            var gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.value = freq;
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.22);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.24);
+        } catch (e) { /* geen audio beschikbaar */ }
+    }
 
     // ---------- Woordenlijsten (zonder leestekens) ----------
     var WORDS5 = [
@@ -67,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var state = 'playing';
     var keyState = {};    // letter -> 'correct'|'present'|'absent'
     var revealing = false;
+    var revealGen = 0;    // annuleert een lopende onthulling bij "Nieuw woord"
 
     var $ = function (id) { return document.getElementById(id); };
     var boardEl = $('lingoBoard');
@@ -112,19 +140,26 @@ document.addEventListener('DOMContentLoaded', function () {
             var isActive = (r === rows.length && state === 'playing');
             for (var c = 0; c < wordLength; c++) {
                 if (played) {
-                    var st = played.eval[c];
-                    html += '<div class="lingo-tile lingo-' + st + ' is-revealed" style="animation-delay:' + (c * 0.18) + 's">' +
-                        played.guess[c] + '</div>';
+                    // Onthuld tot en met played.revealed-1; de rest wacht (blauw).
+                    var revealedCount = (played.revealed == null) ? wordLength : played.revealed;
+                    if (c < revealedCount) {
+                        var st = played.eval[c];
+                        var pop = (played.justPopped === c) ? ' is-pop' : '';
+                        html += '<div class="lingo-tile lingo-' + st + pop + '"><span class="lingo-letter">' +
+                            played.guess[c] + '</span></div>';
+                    } else {
+                        html += '<div class="lingo-tile"><span class="lingo-letter">' + played.guess[c] + '</span></div>';
+                    }
                 } else if (isActive) {
                     var ch = current[c] || '';
                     var given = (c === 0) ? ' lingo-given' : '';
                     var filled = ch ? ' is-filled' : '';
                     var cursor = (c === current.length && current.length < wordLength) ? ' is-cursor' : '';
-                    html += '<div class="lingo-tile' + given + filled + cursor + '">' + ch + '</div>';
+                    html += '<div class="lingo-tile' + given + filled + cursor + '"><span class="lingo-letter">' + ch + '</span></div>';
                 } else {
                     // toekomstige rij: toon de gegeven eerste letter vaag
                     var g = (c === 0 && answer) ? answer[0] : '';
-                    html += '<div class="lingo-tile lingo-future' + (c === 0 ? ' lingo-given' : '') + '">' + g + '</div>';
+                    html += '<div class="lingo-tile lingo-future' + (c === 0 ? ' lingo-given' : '') + '"><span class="lingo-letter">' + g + '</span></div>';
                 }
             }
             html += '</div>';
@@ -155,6 +190,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Spel ----------
     function newGame() {
+        revealGen++;
+        revealing = false;
         answer = pick(wordLength === 6 ? WORDS6 : WORDS5);
         rows = [];
         current = answer[0];
@@ -187,32 +224,50 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         var ev = evaluate(current, answer);
         var guess = current;
-        rows.push({ guess: guess, eval: ev });
-
-        // toetsenbord-kleuren bijwerken
-        for (var i = 0; i < guess.length; i++) {
-            var c = guess[i];
-            if (rank(ev[i]) > rank(keyState[c])) keyState[c] = ev[i];
-        }
+        var row = { guess: guess, eval: ev, revealed: 0, justPopped: -1 };
+        rows.push(row);
 
         revealing = true;
         renderBoard();
-        renderKeyboard();
 
-        var revealMs = wordLength * 180 + 280;
-        setTimeout(function () {
-            revealing = false;
-            if (guess === answer) {
-                state = 'won';
-                setMessage('🎉 Knap gedaan! Het woord was ' + answer + '.', 'win');
-            } else if (rows.length >= ATTEMPTS) {
-                state = 'lost';
-                setMessage('Helaas! Het woord was ' + answer + '.', 'lose');
-            } else {
-                current = answer[0];
-            }
+        var gen = ++revealGen;
+
+        // Letters één voor één onthullen, op het ritme van de piepjes:
+        // hoog = goed (rood), midden = verkeerde plek (geel), laag = fout (blauw).
+        function revealNext() {
+            if (gen !== revealGen) return; // er is intussen een nieuw spel gestart
+            var i = row.revealed;
+            beep(ev[i]);
+            row.revealed = i + 1;
+            row.justPopped = i;
             renderBoard();
-        }, revealMs);
+            if (row.revealed < wordLength) {
+                setTimeout(revealNext, REVEAL_STEP_MS);
+                return;
+            }
+            // Alles onthuld: toetsenbord bijwerken en de beurt afronden.
+            row.justPopped = -1;
+            for (var k = 0; k < guess.length; k++) {
+                var c = guess[k];
+                if (rank(ev[k]) > rank(keyState[c])) keyState[c] = ev[k];
+            }
+            setTimeout(function () {
+                if (gen !== revealGen) return;
+                revealing = false;
+                if (guess === answer) {
+                    state = 'won';
+                    setMessage('🎉 Knap gedaan! Het woord was ' + answer + '.', 'win');
+                } else if (rows.length >= ATTEMPTS) {
+                    state = 'lost';
+                    setMessage('Helaas! Het woord was ' + answer + '.', 'lose');
+                } else {
+                    current = answer[0];
+                }
+                renderBoard();
+                renderKeyboard();
+            }, 380);
+        }
+        setTimeout(revealNext, 300);
     }
 
     function shakeActiveRow() {
@@ -265,6 +320,25 @@ document.addEventListener('DOMContentLoaded', function () {
         setLength(len);
         newGame();
     });
+
+    var soundSeg = $('lingoSoundSeg');
+    function renderSoundSeg() {
+        if (!soundSeg) return;
+        Array.prototype.forEach.call(soundSeg.querySelectorAll('.lingo-seg-btn'), function (b) {
+            b.classList.toggle('is-active', (b.getAttribute('data-sound') === 'aan') === soundOn);
+        });
+    }
+    if (soundSeg) {
+        soundSeg.addEventListener('click', function (e) {
+            var b = e.target.closest('.lingo-seg-btn');
+            if (!b) return;
+            soundOn = b.getAttribute('data-sound') === 'aan';
+            try { localStorage.setItem(SOUND_KEY, soundOn ? 'aan' : 'uit'); } catch (err) {}
+            renderSoundSeg();
+            if (soundOn) beep('correct'); // meteen even horen
+        });
+        renderSoundSeg();
+    }
 
     function openSettings() { settingsModal.classList.add('active'); }
     function closeSettings() { settingsModal.classList.remove('active'); }
