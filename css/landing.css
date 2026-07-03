@@ -164,6 +164,38 @@
     color: var(--text-medium);
 }
 
+/* ---------- Direct proberen (zonder account) ---------- */
+.lp-try {
+    text-align: center;
+    scroll-margin-top: 70px; /* sticky header niet over de ankertitel */
+    padding: 40px 24px 44px;
+    background: linear-gradient(135deg, rgba(108, 99, 255, 0.06), rgba(78, 205, 196, 0.08));
+    border-bottom: 1px solid rgba(108, 99, 255, 0.1);
+}
+.lp-try h2 {
+    font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+.lp-try p {
+    color: var(--text-medium);
+    font-size: 0.95rem;
+    max-width: 560px;
+    margin: 0 auto 20px;
+}
+.lp-try-chips {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 720px;
+    margin: 0 auto;
+}
+.lp-try-chips .lp-chip-free {
+    font-size: 0.95rem;
+    padding: 9px 16px;
+}
+
 /* ---------- Secties ---------- */
 .lp-section {
     max-width: 1080px;

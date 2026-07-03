@@ -19,10 +19,10 @@
     var POLL_MS = 20000;
 
     var TYPES = {
-        rekenrace:  { icon: '&#129518;',              url: '/lesmateriaal/rekenrace' },
-        escaperoom: { icon: '&#128477;&#65039;',      url: '/educatieve-games/escaperooms' },
-        compliment: { icon: '&#128155;',              url: '/groepsvorming/complimentenmuur' },
-        sociogram:  { icon: '&#129309;',              url: '/groepsvorming/sociogram' }
+        rekenrace:  { icon: '&#129518;',              url: '/lesmateriaal/rekenrace',              table: 'rekenrace_sessions',  closedAt: true },
+        escaperoom: { icon: '&#128477;&#65039;',      url: '/educatieve-games/escaperooms',        table: 'escaperoom_sessions', closedAt: true },
+        compliment: { icon: '&#128155;',              url: '/groepsvorming/complimentenmuur',      table: 'compliment_sessions', closedAt: true },
+        sociogram:  { icon: '&#129309;',              url: '/groepsvorming/sociogram',             table: 'sociogram_sessions',  closedAt: false }
     };
 
     var wrap, btn, panel, list, badge;
@@ -57,6 +57,32 @@
 
         btn.addEventListener('click', function (e) { e.stopPropagation(); panel.classList.toggle('open'); });
         document.addEventListener('click', function (e) { if (wrap && !wrap.contains(e.target)) panel.classList.remove('open'); });
+
+        // Stopknop per sessie (event-delegatie: de lijst wordt via innerHTML ververst)
+        list.addEventListener('click', function (e) {
+            var stop = e.target.closest ? e.target.closest('.mt-live-stop') : null;
+            if (!stop) return;
+            e.preventDefault();
+            e.stopPropagation();
+            stopSession(stop.dataset.type, stop.dataset.id, stop);
+        });
+    }
+
+    async function stopSession(type, id, stopBtnEl) {
+        var t = TYPES[type];
+        if (!t || !id) return;
+        if (!confirm('Deze sessie stoppen? Leerlingen kunnen dan niet meer meedoen.')) return;
+        stopBtnEl.disabled = true;
+        try {
+            var patch = { status: 'closed' };
+            if (t.closedAt) patch.closed_at = new Date().toISOString();
+            var res = await supabase.from(t.table).update(patch).eq('id', id);
+            if (res.error) throw res.error;
+            await load();
+        } catch (err) {
+            stopBtnEl.disabled = false;
+            alert('Stoppen lukte niet. Probeer het opnieuw of stop de sessie vanuit de tool zelf.');
+        }
     }
 
     function chip(status) {
@@ -79,12 +105,16 @@
         var multiClass = Object.keys(groupNames).length > 1;
         list.innerHTML = items.map(function (it) {
             var sub = (multiClass && it.groupName) ? esc(it.groupName) : esc(it.sub);
-            return '<a class="mt-live-item" href="' + TYPES[it.type].url + '">' +
-                '<span class="mt-live-item-icon">' + TYPES[it.type].icon + '</span>' +
-                '<span class="mt-live-item-main">' +
-                    '<span class="mt-live-item-title">' + esc(it.title) + '</span>' +
-                    '<span class="mt-live-item-sub">' + sub + '</span>' +
-                '</span>' + chip(it.status) + '</a>';
+            return '<div class="mt-live-item">' +
+                '<a class="mt-live-item-link" href="' + TYPES[it.type].url + '">' +
+                    '<span class="mt-live-item-icon">' + TYPES[it.type].icon + '</span>' +
+                    '<span class="mt-live-item-main">' +
+                        '<span class="mt-live-item-title">' + esc(it.title) + '</span>' +
+                        '<span class="mt-live-item-sub">' + sub + '</span>' +
+                    '</span>' +
+                '</a>' + chip(it.status) +
+                '<button class="mt-live-stop" type="button" data-type="' + it.type + '" data-id="' + esc(it.id) + '" title="Sessie stoppen">&#9632;</button>' +
+            '</div>';
         }).join('');
     }
 
@@ -94,36 +124,36 @@
         try {
             var res = await Promise.all([
                 supabase.from('rekenrace_sessions')
-                    .select('block_label, status, group_id')
+                    .select('id, block_label, status, group_id')
                     .eq('user_id', userId).eq('purpose', 'race').in('status', ['lobby', 'playing']),
                 supabase.from('escaperoom_sessions')
-                    .select('status, group_id, escaperooms(title)')
+                    .select('id, status, group_id, escaperooms(title)')
                     .eq('user_id', userId).in('status', ['lobby', 'playing']),
                 supabase.from('compliment_sessions')
-                    .select('status, group_id, focus_student_name')
+                    .select('id, status, group_id, focus_student_name')
                     .eq('user_id', userId).in('status', ['lobby', 'collecting']),
                 supabase.from('sociogram_sessions')
-                    .select('status, type, group_id')
+                    .select('id, status, type, group_id')
                     .eq('user_id', userId).eq('status', 'open')
             ]);
 
             var items = [];
             (res[0].data || []).forEach(function (s) {
-                items.push({ type: 'rekenrace', status: s.status, groupName: groupNames[s.group_id],
+                items.push({ type: 'rekenrace', id: s.id, status: s.status, groupName: groupNames[s.group_id],
                     sub: 'Rekenrace', title: 'Rekenrace' + (s.block_label ? ' · ' + s.block_label : '') });
             });
             (res[1].data || []).forEach(function (s) {
                 var t = s.escaperooms && s.escaperooms.title;
-                items.push({ type: 'escaperoom', status: s.status, groupName: groupNames[s.group_id],
+                items.push({ type: 'escaperoom', id: s.id, status: s.status, groupName: groupNames[s.group_id],
                     sub: 'Escape room', title: 'Escape room' + (t ? ' · ' + t : '') });
             });
             (res[2].data || []).forEach(function (s) {
-                items.push({ type: 'compliment', status: s.status, groupName: groupNames[s.group_id],
+                items.push({ type: 'compliment', id: s.id, status: s.status, groupName: groupNames[s.group_id],
                     sub: 'Complimentenmuur', title: 'Complimentenmuur' + (s.focus_student_name ? ' · ' + s.focus_student_name : '') });
             });
             (res[3].data || []).forEach(function (s) {
                 var tl = s.type === 'werken' ? 'samen werken' : s.type === 'spelen' ? 'samen spelen' : '';
-                items.push({ type: 'sociogram', status: 'open', groupName: groupNames[s.group_id],
+                items.push({ type: 'sociogram', id: s.id, status: 'open', groupName: groupNames[s.group_id],
                     sub: 'Sociogram', title: 'Sociogram' + (tl ? ' · ' + tl : '') });
             });
 
