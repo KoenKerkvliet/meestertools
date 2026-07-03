@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Doe mee met de Typrace van je juf of meester.">
+    <meta name="theme-color" content="#6C63FF">
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Typrace - Meestertools</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #6C63FF; }
+        html, body { height: 100%; }
+        body {
+            font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+            background: linear-gradient(160deg, #6C63FF 0%, #8B7FFF 50%, #FF7AA8 130%);
+            min-height: 100%; display: flex; align-items: flex-start; justify-content: center;
+            padding: 28px 16px 48px; color: #2D3436;
+        }
+        .tr-wrap { width: 100%; max-width: 460px; }
+        .tr-brand { text-align: center; color: #fff; font-weight: 800; font-size: 22px; margin-bottom: 16px; }
+        .tr-brand .l { font-size: 26px; }
+        .tr-card { background: #fff; border-radius: 22px; padding: 26px 22px; box-shadow: 0 18px 50px rgba(0,0,0,.22); }
+        .tr-screen { display: none; }
+        .tr-screen.active { display: block; }
+        h1 { font-size: 24px; margin-bottom: 8px; text-align: center; }
+        .tr-lead { color: #636E72; font-size: 15px; line-height: 1.5; margin-bottom: 20px; text-align: center; }
+        .tr-field { margin-bottom: 16px; }
+        .tr-field label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 7px; }
+        .tr-input {
+            width: 100%; border: 2px solid #E3E1F2; border-radius: 14px; padding: 14px 16px;
+            font-size: 17px; font-family: inherit; color: #2D3436; outline: none; -webkit-appearance: none;
+        }
+        .tr-input:focus { border-color: var(--primary); }
+        .tr-code-input { text-align: center; font-size: 26px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; }
+        .tr-btn {
+            width: 100%; border: none; border-radius: 14px; cursor: pointer;
+            background: var(--primary); color: #fff; font-size: 18px; font-weight: 700; padding: 16px;
+            font-family: inherit; transition: box-shadow .15s ease, opacity .15s ease;
+        }
+        .tr-btn:hover:not(:disabled) { box-shadow: 0 8px 22px rgba(108,99,255,.4); }
+        .tr-btn:disabled { opacity: .5; cursor: not-allowed; }
+        .tr-error { background: #FCE7E7; color: #C0392B; border-radius: 12px; padding: 12px 14px; font-size: 14px; margin-bottom: 16px; display: none; }
+        .tr-error.show { display: block; }
+        .tr-big { font-size: 54px; text-align: center; margin-bottom: 6px; }
+        .tr-monster { width: 90px; height: 90px; object-fit: contain; display: block; margin: 0 auto 10px; filter: drop-shadow(0 6px 12px rgba(0,0,0,.2)); }
+        .tr-spin { text-align: center; color: #8B86A8; font-size: 14px; margin-top: 14px; }
+
+        /* Spel */
+        .tr-hud { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+        .tr-hud-box { background: #F1F0FA; border-radius: 999px; padding: 8px 18px; font-weight: 800; font-size: 18px; }
+        .tr-hud-box .lbl { font-size: 11px; font-weight: 700; color: #8B86A8; display: block; text-transform: uppercase; letter-spacing: .04em; }
+        .tr-word {
+            text-align: center; font-size: clamp(34px, 11vw, 52px); font-weight: 800; letter-spacing: 2px;
+            padding: 26px 10px; min-height: 120px; display: flex; align-items: center; justify-content: center; gap: 2px;
+            text-transform: lowercase;
+        }
+        .tr-l { color: #2D3436; }
+        .tr-l.ok { color: #2C9E4B; }
+        .tr-word.bad { animation: trBad .22s ease; }
+        @keyframes trBad { 10%,90% { transform: translateX(-2px); } 30%,70% { transform: translateX(4px); } 50% { transform: translateX(-6px); } }
+        .tr-hint { text-align: center; color: #8B86A8; font-size: 13px; }
+        .tr-capture { position: absolute; left: -9999px; opacity: 0; width: 1px; height: 1px; }
+        .tr-foot { text-align: center; color: rgba(255,255,255,.85); font-size: 12px; margin-top: 18px; }
+        .tr-foot a { color: inherit; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <div class="tr-wrap">
+        <div class="tr-brand"><span class="l">&#127939;</span> Typrace</div>
+        <div class="tr-card">
+            <!-- 1. Aanmelden -->
+            <section class="tr-screen active" id="screenJoin">
+                <h1>Doe je mee?</h1>
+                <p class="tr-lead">Vul de code van het bord in en je voornaam. Typ straks zoveel mogelijk woorden!</p>
+                <div class="tr-error" id="joinError"></div>
+                <div class="tr-field">
+                    <label for="codeInput">Code van het bord</label>
+                    <input class="tr-input tr-code-input" id="codeInput" type="text" inputmode="latin"
+                           autocomplete="off" autocapitalize="characters" maxlength="8" placeholder="ABCDE">
+                </div>
+                <div class="tr-field">
+                    <label for="nameInput">Je voornaam</label>
+                    <input class="tr-input" id="nameInput" type="text" autocomplete="off" maxlength="30" placeholder="Bijv. Sophie">
+                </div>
+                <button class="tr-btn" id="joinBtn">Doe mee &rarr;</button>
+            </section>
+
+            <!-- 2. Wachten -->
+            <section class="tr-screen" id="screenWait">
+                <img class="tr-monster" id="waitMonster" src="" alt="">
+                <h1 id="waitHi">Je doet mee!</h1>
+                <p class="tr-lead">Even geduld &mdash; zodra de juf of meester start, begint de race vanzelf.</p>
+                <div class="tr-spin">Wachten op de start&hellip;</div>
+            </section>
+
+            <!-- 3. Spel -->
+            <section class="tr-screen" id="screenGame">
+                <div class="tr-hud">
+                    <span class="tr-hud-box"><span class="lbl">Score</span><span id="trScore">0</span></span>
+                    <span class="tr-hud-box"><span class="lbl">Tijd</span><span id="trTimer">1:30</span></span>
+                </div>
+                <div class="tr-word" id="trWord"></div>
+                <p class="tr-hint">Typ het woord &mdash; goede letters worden groen.</p>
+                <input class="tr-capture" id="trCapture" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-hidden="true">
+            </section>
+
+            <!-- 4. Klaar -->
+            <section class="tr-screen" id="screenDone">
+                <div class="tr-big">&#127937;</div>
+                <h1>Klaar!</h1>
+                <p class="tr-lead">Jouw score: <b style="font-size:22px;color:var(--primary)"><span id="doneScore">0</span></b> woorden</p>
+                <p class="tr-lead" id="doneText"></p>
+            </section>
+        </div>
+        <p class="tr-foot">Meestertools is gratis voor leerkrachten &middot; <a href="/" target="_blank" rel="noopener">meestertools.nl</a></p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/meedoen-typrace.js"></script>
+</body>
+</html>

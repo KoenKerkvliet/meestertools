@@ -1,0 +1,82 @@
+/* ============================================
+   MEESTERTOOLS - Typrace (leerkracht / host)
+   ============================================ */
+
+.trq-root { max-width: 960px; margin: 0 auto; }
+.trq-loading, .trq-fatal { text-align: center; color: var(--text-medium); padding: 48px 20px; }
+.trq-fatal { color: var(--secondary); }
+.trq-empty { color: var(--text-light); font-size: 14px; padding: 10px 0; }
+
+.trq-btn {
+    border: none; cursor: pointer; font-family: inherit;
+    font-size: 16px; font-weight: 700; border-radius: 999px; padding: 13px 26px;
+    transition: all .15s ease;
+}
+.trq-btn.primary { background: var(--primary); color: #fff; }
+.trq-btn.primary:hover:not(:disabled) { background: var(--primary-dark); transform: translateY(-1px); }
+.trq-btn.ghost { background: var(--bg-light); color: var(--text-dark); }
+.trq-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ---------- Lobby ---------- */
+.trq-lobby { display: grid; grid-template-columns: 320px 1fr; gap: 22px; align-items: start; }
+@media (max-width: 720px) { .trq-lobby { grid-template-columns: 1fr; } }
+
+.trq-join {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff; border-radius: var(--radius-lg); padding: 22px; text-align: center;
+    box-shadow: var(--shadow-md);
+}
+.trq-join-label { font-size: 14px; opacity: .95; line-height: 1.4; margin-bottom: 10px; }
+.trq-join-label b { font-weight: 800; }
+.trq-code {
+    font-size: 46px; font-weight: 800; letter-spacing: .12em;
+    background: rgba(255,255,255,.16); border-radius: var(--radius-md); padding: 10px 8px; margin-bottom: 14px;
+}
+.trq-qr { background: #fff; display: inline-block; padding: 8px; border-radius: 12px; }
+.trq-qr img { display: block; width: 160px; height: 160px; image-rendering: pixelated; }
+
+.trq-count { font-size: 18px; font-weight: 800; margin-bottom: 12px; }
+.trq-count span { color: var(--primary); }
+.trq-chips { display: flex; flex-wrap: wrap; gap: 8px; min-height: 44px; margin-bottom: 20px; }
+.trq-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--bg-white); border: 1px solid #E8E8F0; border-radius: 999px;
+    padding: 5px 12px 5px 5px; font-size: 14px; font-weight: 600; box-shadow: var(--shadow-sm);
+}
+.trq-chip img { width: 26px; height: 26px; border-radius: 50%; object-fit: contain; background: #F1ECFF; }
+.trq-controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.trq-dur { font-size: 14px; font-weight: 700; color: var(--text-dark); }
+.trq-dur select { font-family: inherit; font-size: 14px; padding: 8px 10px; border-radius: 10px; border: 2px solid #E3E1F2; margin-left: 4px; }
+
+/* ---------- Race ---------- */
+.trq-racehead { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+.trq-pill { font-size: 13px; font-weight: 800; border-radius: 999px; padding: 6px 14px; }
+.trq-pill.live { background: #FDE7E7; color: #C0392B; }
+.trq-pill.done { background: #EFEFF5; color: #6B6B80; }
+.trq-timer { font-size: 30px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--text-dark); }
+.trq-racebtns { margin-left: auto; }
+.trq-winner {
+    text-align: center; font-size: 20px; font-weight: 800; color: var(--text-dark);
+    background: linear-gradient(135deg, rgba(255,217,61,.18), rgba(255,140,66,.14));
+    border-radius: var(--radius-md); padding: 14px; margin-bottom: 16px;
+}
+
+.trq-board { display: flex; flex-direction: column; gap: 8px; }
+.trq-row {
+    display: grid; grid-template-columns: 40px 40px 1fr 3fr auto; align-items: center; gap: 12px;
+    background: var(--bg-white); border: 1px solid #EFEFF4; border-radius: var(--radius-md);
+    padding: 10px 14px; transition: background .3s ease;
+}
+.trq-row.top { border-color: rgba(108,99,255,.25); }
+.trq-rank { font-size: 18px; font-weight: 800; text-align: center; color: var(--text-medium); }
+.trq-av { width: 34px; height: 34px; border-radius: 50%; object-fit: contain; background: #F1ECFF; }
+.trq-name { font-weight: 700; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.trq-bar { height: 12px; background: var(--bg-light); border-radius: 999px; overflow: hidden; }
+.trq-bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--primary-light), var(--primary)); border-radius: 999px; transition: width .4s ease; }
+.trq-score { font-size: 20px; font-weight: 800; color: var(--primary); min-width: 34px; text-align: right; }
+
+@media (max-width: 560px) {
+    .trq-row { grid-template-columns: 32px 32px 1fr auto; gap: 8px; }
+    .trq-bar { display: none; }
+    .trq-code { font-size: 38px; }
+}
