@@ -90,11 +90,21 @@ document.addEventListener('DOMContentLoaded', function () {
     var wordLength = 5;
     var answer = '';
     var rows = [];        // [{ guess:'APPEL', eval:['correct',...] }]
-    var current = '';     // huidige rij incl. gegeven eerste letter
+    var current = [];     // huidige rij: array met per vakje een letter of ''
+    var cursorPos = 0;    // vakje waar de volgende letter komt (start op 0)
     var state = 'playing';
     var keyState = {};    // letter -> 'correct'|'present'|'absent'
     var revealing = false;
     var revealGen = 0;    // annuleert een lopende onthulling bij "Nieuw woord"
+
+    // Nieuwe actieve rij: eerste letter alvast als hint (maar aanpasbaar),
+    // cursor meteen op de eerste letter zodat je het hele woord kunt typen.
+    function startNewRow() {
+        current = new Array(wordLength);
+        for (var i = 0; i < wordLength; i++) current[i] = '';
+        if (answer) current[0] = answer[0];
+        cursorPos = 0;
+    }
 
     var $ = function (id) { return document.getElementById(id); };
     var boardEl = $('lingoBoard');
@@ -150,16 +160,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     } else {
                         html += '<div class="lingo-tile"><span class="lingo-letter">' + played.guess[c] + '</span></div>';
                     }
-                } else if (isActive) {
+                } else if (isActive && !revealing) {
+                    // Actieve rij: getypte letters, cursor op het te vullen vakje,
+                    // en een puntje in de nog lege vakjes (zoals de echte Lingo).
                     var ch = current[c] || '';
-                    var given = (c === 0) ? ' lingo-given' : '';
-                    var filled = ch ? ' is-filled' : '';
-                    var cursor = (c === current.length && current.length < wordLength) ? ' is-cursor' : '';
-                    html += '<div class="lingo-tile' + given + filled + cursor + '"><span class="lingo-letter">' + ch + '</span></div>';
+                    var cursor = (c === cursorPos) ? ' is-cursor' : '';
+                    var inner = ch
+                        ? '<span class="lingo-letter">' + ch + '</span>'
+                        : '<span class="lingo-dot"></span>';
+                    html += '<div class="lingo-tile' + cursor + '">' + inner + '</div>';
                 } else {
-                    // toekomstige rij: toon de gegeven eerste letter vaag
-                    var g = (c === 0 && answer) ? answer[0] : '';
-                    html += '<div class="lingo-tile lingo-future' + (c === 0 ? ' lingo-given' : '') + '"><span class="lingo-letter">' + g + '</span></div>';
+                    // Toekomstige rij (of de rij onder een lopende controle):
+                    // helemaal leeg, geen hint-letter en geen puntjes.
+                    html += '<div class="lingo-tile"></div>';
                 }
             }
             html += '</div>';
@@ -194,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function () {
         revealing = false;
         answer = pick(wordLength === 6 ? WORDS6 : WORDS5);
         rows = [];
-        current = answer[0];
+        startNewRow();
         state = 'playing';
         keyState = {};
         lenLabel.textContent = wordLength + ' letters';
@@ -205,25 +218,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function addLetter(ch) {
         if (state !== 'playing' || revealing) return;
-        if (current.length >= wordLength) return;
-        current += ch;
+        if (cursorPos >= wordLength) return;   // rij is vol
+        current[cursorPos] = ch;
+        cursorPos++;
         renderBoard();
     }
     function removeLetter() {
         if (state !== 'playing' || revealing) return;
-        if (current.length <= 1) return;   // eerste letter blijft staan
-        current = current.slice(0, -1);
+        // Cursor terug en dat vakje leegmaken; de eerste letter mag ook weg.
+        if (cursorPos > 0) cursorPos--;
+        current[cursorPos] = '';
         renderBoard();
     }
     function submit() {
         if (state !== 'playing' || revealing) return;
-        if (current.length < wordLength) {
+        if (current.indexOf('') !== -1) {
             setMessage('Vul eerst het hele woord in.', 'warn');
             shakeActiveRow();
             return;
         }
-        var ev = evaluate(current, answer);
-        var guess = current;
+        var guess = current.join('');
+        var ev = evaluate(guess, answer);
         var row = { guess: guess, eval: ev, revealed: 0, justPopped: -1 };
         rows.push(row);
 
@@ -261,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     state = 'lost';
                     setMessage('Helaas! Het woord was ' + answer + '.', 'lose');
                 } else {
-                    current = answer[0];
+                    startNewRow();
                 }
                 renderBoard();
                 renderKeyboard();

@@ -80,19 +80,12 @@
     box-shadow: 0 0 0 3px rgba(255, 210, 62, 0.35);
 }
 
-/* Gegeven eerste letter in de actieve rij: die is goed, dus rood */
-.lingo-tile.lingo-given {
-    background: linear-gradient(160deg, #CE1F3B, #A6122A);
-    border-color: #E85A6F;
-}
-
-/* Toekomstige rijen: blauw, eerste letter vaag zichtbaar */
-.lingo-tile.lingo-future {
-    color: rgba(255, 255, 255, 0.35);
-}
-.lingo-tile.lingo-future.lingo-given {
-    background: linear-gradient(160deg, #2E6FD3, #1E56AE);
-    border-color: #5B8FE8;
+/* Puntje in een leeg vakje van de actieve rij (zoals de echte Lingo) */
+.lingo-dot {
+    width: 15%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.55);
 }
 
 /* ---------- Resultaat-kleuren (klassiek Lingo) ---------- */
