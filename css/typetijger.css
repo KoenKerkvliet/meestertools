@@ -124,6 +124,139 @@
     padding-bottom: 30px;
 }
 
+/* ---------- Eindspel-node op de kaart ---------- */
+.tc-node.game.ready .tc-node-circle {
+    background: linear-gradient(135deg, #8B83FF, #6C63FF);
+    box-shadow: 0 5px 0 #5A52D5, 0 0 0 6px rgba(139,131,255,.25);
+    animation: tcNodePulse 1.8s ease-in-out infinite;
+}
+.tc-node.game.ready .tc-node-icon { font-size: 28px; }
+@keyframes tcGameNodePulse {
+    0%,100% { box-shadow: 0 5px 0 #5A52D5, 0 0 0 6px rgba(139,131,255,.25); }
+    50%     { box-shadow: 0 5px 0 #5A52D5, 0 0 0 12px rgba(139,131,255,.08); }
+}
+.tc-node.game.ready .tc-node-circle { animation-name: tcGameNodePulse; }
+
+/* ---------- Eindspel: Woordenregen ---------- */
+.tc-game { max-width: 1080px; margin: 0 auto; }
+.tc-game-top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.tc-game-hud { display: flex; align-items: center; gap: 16px; }
+.tc-game-scorebox {
+    font-size: 15px; font-weight: 700; color: var(--text-dark);
+    background: var(--bg-white); border: 1px solid #E8E8F0;
+    border-radius: 999px; padding: 7px 16px; box-shadow: var(--shadow-sm);
+}
+.tc-game-scorebox b { color: var(--primary); font-size: 17px; }
+.tc-game-lives { display: flex; gap: 4px; font-size: 22px; }
+.tc-game-lives .on { color: var(--secondary); }
+.tc-game-lives .off { color: #DADCE6; }
+
+.tc-game-field {
+    position: relative;
+    height: clamp(360px, 58vh, 560px);
+    background: linear-gradient(180deg, #EAF3FF 0%, #F5F0FF 100%);
+    border: 2px solid #DDE3F0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: inset 0 -3px 0 rgba(108,99,255,.12);
+}
+/* bodemlijn: hier "verliezen" de woorden */
+.tc-game-field::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 4px;
+    background: repeating-linear-gradient(90deg, #FF6B6B 0 12px, transparent 12px 24px);
+    opacity: .6;
+}
+
+.tc-word {
+    position: absolute; top: 0; left: 0;
+    display: inline-flex; gap: 1px;
+    padding: 7px 12px;
+    background: rgba(255,255,255,.92);
+    border: 3px solid transparent;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,.12);
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 800;
+    color: var(--text-dark);
+    white-space: nowrap;
+    will-change: transform;
+}
+.tc-word-l { color: var(--text-dark); transition: color .08s; }
+.tc-word-l.correct { color: var(--accent-green); }
+.tc-word.is-focus {
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(108,99,255,.3);
+}
+.tc-word.tc-word-done {
+    transition: transform .16s ease, opacity .16s ease;
+    transform: translate(var(--x,0), var(--y,0)) scale(1.25) !important;
+    opacity: 0;
+}
+.tc-word.tc-word-miss { animation: tcWordMiss .22s ease forwards; }
+@keyframes tcWordMiss {
+    to { opacity: 0; filter: saturate(0.3); }
+}
+.tc-word.tc-word-bad { animation: tcWordBad .22s ease; }
+@keyframes tcWordBad {
+    25% { transform: translate(var(--x,0), var(--y,0)); }
+}
+
+.tc-game-capture {
+    position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0;
+}
+.tc-game-foot {
+    text-align: center; color: var(--text-medium); font-size: 13px; margin-top: 12px;
+}
+
+/* Start / game-over overlay */
+.tc-game-overlay {
+    position: absolute; inset: 0; z-index: 5;
+    display: none; align-items: center; justify-content: center;
+    background: rgba(20, 22, 45, .45);
+    padding: 18px;
+}
+.tc-game-overlay.show { display: flex; }
+.tc-go-card {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 26px 26px 22px;
+    max-width: 420px; width: 100%;
+    text-align: center;
+    max-height: 100%; overflow-y: auto;
+}
+.tc-go-emoji { font-size: 40px; }
+.tc-go-card h2 { font-size: 22px; margin: 6px 0 8px; color: var(--text-dark); }
+.tc-go-card p { color: var(--text-medium); font-size: 14.5px; margin-bottom: 14px; }
+.tc-go-score b { color: var(--primary); font-size: 20px; }
+.tc-go-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+.tc-go-btn {
+    border: none; cursor: pointer; font-family: inherit;
+    font-size: 15px; font-weight: 700;
+    border-radius: 999px; padding: 12px 22px;
+    background: var(--bg-light); color: var(--text-dark);
+    transition: all .15s ease;
+}
+.tc-go-btn:hover { background: #E7E5F6; }
+.tc-go-btn.primary { background: var(--primary); color: #fff; }
+.tc-go-btn.primary:hover { background: var(--primary-dark); }
+
+.tc-go-board { margin: 6px 0 14px; }
+.tc-go-title { font-size: 13px; font-weight: 800; color: var(--text-medium); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
+.tc-go-list { list-style: none; margin: 0; padding: 0; text-align: left; max-height: 210px; overflow-y: auto; }
+.tc-go-list li {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 10px; border-radius: 10px; font-size: 14.5px;
+}
+.tc-go-list li.me { background: rgba(108,99,255,.1); font-weight: 700; }
+.tc-go-rank { flex: 0 0 auto; width: 26px; text-align: center; font-weight: 800; color: var(--text-medium); }
+.tc-go-name { flex: 1; min-width: 0; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tc-go-pts { flex: 0 0 auto; font-weight: 800; color: var(--primary); }
+.tc-go-empty, .tc-go-loading { color: var(--text-light); font-size: 14px; padding: 12px; }
+
 /* De levels van een niveau staan naast elkaar en vullen de volle breedte;
    bij smallere schermen lopen ze netjes door naar de volgende regel. */
 .tc-section-nodes {

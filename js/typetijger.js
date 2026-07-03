@@ -336,6 +336,42 @@
         }
     ];
 
+    // ---------- Niveaus (afgeleid uit LESSONS) ----------
+    function slug(s) {
+        return String(s).toLowerCase()
+            .replace(/&/g, 'en').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+    var NIVEAUS = (function () {
+        var out = [], byName = {};
+        LESSONS.forEach(function (l) {
+            if (!byName[l.niveau]) {
+                byName[l.niveau] = { name: l.niveau, key: slug(l.niveau), lessons: [] };
+                out.push(byName[l.niveau]);
+            }
+            byName[l.niveau].lessons.push(l);
+        });
+        return out;
+    })();
+
+    // Woordenpool voor het eindspel van een niveau: echte woorden (met klinker,
+    // 3-9 letters) uit dit niveau én alle eerdere — zo bouwt het cumulatief op.
+    function buildWordPool(niveauIndex) {
+        var seen = {}, pool = [];
+        for (var n = 0; n <= niveauIndex && n < NIVEAUS.length; n++) {
+            NIVEAUS[n].lessons.forEach(function (l) {
+                (l.oefeningen || []).forEach(function (line) {
+                    String(line).toLowerCase().split(/\s+/).forEach(function (tok) {
+                        var w = tok.replace(/[^a-z]/g, '');
+                        if (w.length >= 3 && w.length <= 9 && /[aeiou]/.test(w) && !seen[w]) {
+                            seen[w] = 1; pool.push(w);
+                        }
+                    });
+                });
+            });
+        }
+        return pool;
+    }
+
     // ---------- Configuratie ----------
     // Standaard = de leerkracht-tool (localStorage, vrije monsterkeuze, geen
     // vergrendeling). De leerlingpagina overschrijft dit via Typetijger.start():
@@ -378,6 +414,23 @@
             dates.push(t);
             try { localStorage.setItem(ACTIVITY_KEY, JSON.stringify(dates.slice(-400))); } catch (e) {}
         }
+    }
+
+    // Eindspel-scores (leerkracht-modus: lokaal; geen klasgenoten).
+    var GAME_KEY = 'mt_typetijger_gamescores';
+    function readGameScores() {
+        try { return JSON.parse(localStorage.getItem(GAME_KEY)) || {}; } catch (e) { return {}; }
+    }
+    function defaultSaveGameScore(niveauKey, score) {
+        var m = readGameScores();
+        var best = Math.max(score, m[niveauKey] || 0);
+        m[niveauKey] = best;
+        try { localStorage.setItem(GAME_KEY, JSON.stringify(m)); } catch (e) {}
+        return Promise.resolve({ best: best, leaderboard: best > 0 ? [{ name: 'Jij', score: best, isMe: true }] : [] });
+    }
+    function defaultLoadLeaderboard(niveauKey) {
+        var best = readGameScores()[niveauKey] || 0;
+        return Promise.resolve({ best: best, leaderboard: best > 0 ? [{ name: 'Jij', score: best, isMe: true }] : [] });
     }
 
     // Datum-rekenwerk op 12:00 UTC, zodat zomertijd de datum niet verschuift.
@@ -434,7 +487,9 @@
         loadProgress: defaultLoadProgress,
         saveProgress: defaultSaveProgress,  // (progressObj, lessonId, entry)
         loadActivity: defaultLoadActivity,  // -> { dates:[...], today:'YYYY-MM-DD' } (of Promise)
-        recordActivity: defaultRecordActivity
+        recordActivity: defaultRecordActivity,
+        saveGameScore: defaultSaveGameScore,   // (niveauKey, score) -> Promise<{best, leaderboard}>
+        loadLeaderboard: defaultLoadLeaderboard // (niveauKey) -> Promise<{best, leaderboard}>
     };
 
     var progress = {};
@@ -606,54 +661,348 @@
         if (el.avatarImg) el.avatarImg.src = currentAvatarSrc();
 
         var curIdx = currentLessonIndex();
+        var curLesson = LESSONS[curIdx];
         var html = '';
-        var lastNiveau = null, sectionIdx = -1;
 
-        LESSONS.forEach(function (l, i) {
-            if (l.niveau !== lastNiveau) {
-                if (lastNiveau !== null) html += '</div>'; // vorige niveau-rij sluiten
-                lastNiveau = l.niveau;
-                sectionIdx++;
+        NIVEAUS.forEach(function (niv, sectionIdx) {
+            var nivLocked = isLessonLocked(niv.lessons[0]);
+            html += '<div class="tc-section ' + SECTION_COLORS[sectionIdx % SECTION_COLORS.length] +
+                (nivLocked ? ' is-locked' : '') + '">' +
+                '<span class="tc-section-label">Niveau ' + (sectionIdx + 1) +
+                (nivLocked ? ' &#128274;' : '') + '</span>' +
+                '<span class="tc-section-name">' + esc(niv.name) + '</span></div>';
+            html += '<div class="tc-section-nodes">';
+
+            niv.lessons.forEach(function (l) {
+                var stars = lessonStars(l);
+                var done = stars > 0;
                 var locked = isLessonLocked(l);
-                html += '<div class="tc-section ' + SECTION_COLORS[sectionIdx % SECTION_COLORS.length] +
-                    (locked ? ' is-locked' : '') + '">' +
-                    '<span class="tc-section-label">Niveau ' + (sectionIdx + 1) +
-                    (locked ? ' &#128274;' : '') + '</span>' +
-                    '<span class="tc-section-name">' + esc(l.niveau) + '</span></div>';
-                html += '<div class="tc-section-nodes">'; // levels naast elkaar over de volle breedte
-            }
+                var isCur = (curLesson && l.id === curLesson.id);
+                var stateCls = locked ? 'locked' : (done ? 'done' : (isCur ? 'current' : 'todo'));
+                var icon = locked ? '&#128274;' : (done ? '&#10004;' : '&#9733;');
 
-            var stars = lessonStars(l);
-            var done = stars > 0;
-            var locked = isLessonLocked(l);
-            var isCur = (i === curIdx);
-            var stateCls = locked ? 'locked' : (done ? 'done' : (isCur ? 'current' : 'todo'));
-            var icon = locked ? '&#128274;' : (done ? '&#10004;' : '&#9733;');
+                html += '<div class="tc-node-wrap' + (isCur && !locked ? ' is-current' : '') + '">';
+                if (isCur && !locked) {
+                    html += '<span class="tc-node-start">START</span>';
+                    html += '<img class="tc-node-avatar" src="' + currentAvatarSrc() + '" alt="">';
+                }
+                html += '<button type="button" class="tc-node ' + stateCls + '" data-id="' + l.id + '"' +
+                    (locked ? ' disabled aria-disabled="true"' : '') + '>' +
+                    '<span class="tc-node-circle"><span class="tc-node-icon">' + icon + '</span></span></button>';
+                html += done ? starPips(stars) : '<span class="tc-node-stars"></span>';
+                html += '<span class="tc-node-label">' + esc(l.titel) + '</span>';
+                html += '</div>';
+            });
 
-            html += '<div class="tc-node-wrap' + (isCur && !locked ? ' is-current' : '') + '">';
-            if (isCur && !locked) {
-                html += '<span class="tc-node-start">START</span>';
-                html += '<img class="tc-node-avatar" src="' + currentAvatarSrc() + '" alt="">';
-            }
-            html += '<button type="button" class="tc-node ' + stateCls + '" data-id="' + l.id + '"' +
-                (locked ? ' disabled aria-disabled="true"' : '') + '>' +
-                '<span class="tc-node-circle"><span class="tc-node-icon">' + icon + '</span></span></button>';
-            html += done ? starPips(stars) : '<span class="tc-node-stars"></span>';
-            html += '<span class="tc-node-label">' + esc(l.titel) + '</span>';
+            // Eindspel-node: open zodra alle lessen van dit niveau gedaan zijn.
+            var allDone = niv.lessons.every(function (l) { return lessonStars(l) > 0; });
+            var gameLocked = nivLocked || !allDone;
+            html += '<div class="tc-node-wrap tc-node-game">';
+            html += '<button type="button" class="tc-node game ' + (gameLocked ? 'locked' : 'ready') +
+                '" data-game="' + sectionIdx + '"' + (gameLocked ? ' disabled aria-disabled="true"' : '') + '>' +
+                '<span class="tc-node-circle"><span class="tc-node-icon">' +
+                (gameLocked ? '&#128274;' : '&#127918;') + '</span></span></button>';
+            html += '<span class="tc-node-stars"></span>';
+            html += '<span class="tc-node-label">Woordenregen</span>';
+            html += '</div>';
+
             html += '</div>';
         });
-        if (lastNiveau !== null) html += '</div>'; // laatste niveau-rij sluiten
 
         el.path.innerHTML = html;
 
         Array.prototype.forEach.call(el.path.querySelectorAll('.tc-node:not([disabled])'), function (btn) {
             btn.addEventListener('click', function () {
+                var gi = btn.getAttribute('data-game');
+                if (gi !== null) { startGame(NIVEAUS[parseInt(gi, 10)], parseInt(gi, 10)); return; }
                 var l = findLesson(btn.getAttribute('data-id'));
                 if (l) startLesson(l);
             });
         });
 
         renderWeek();
+    }
+
+    // ---------- Eindspel: Woordenregen ----------
+    var GAME_LIVES = 3;
+    var GAME = null;
+
+    function ensureGameEl() {
+        if (el.game && el.game.parentNode) return el.game;
+        if (!el.map || !el.map.parentNode) return null;
+        var g = document.createElement('div');
+        g.id = 'tcGame';
+        g.className = 'tc-game';
+        g.style.display = 'none';
+        g.innerHTML =
+            '<div class="tc-game-top">' +
+                '<button type="button" class="tc-back-btn" id="tcGameBack">&larr; Terug naar de route</button>' +
+                '<div class="tc-game-hud">' +
+                    '<span class="tc-game-scorebox">Score <b id="tcGameScore">0</b></span>' +
+                    '<span class="tc-game-lives" id="tcGameLives"></span>' +
+                '</div>' +
+            '</div>' +
+            '<div class="tc-game-field" id="tcGameField">' +
+                '<div class="tc-game-overlay" id="tcGameOverlay"></div>' +
+            '</div>' +
+            '<input class="tc-game-capture" id="tcGameCapture" autocomplete="off" ' +
+                'autocorrect="off" autocapitalize="none" spellcheck="false" aria-hidden="true">' +
+            '<div class="tc-game-foot">Typ elk woord voordat het de bodem raakt.</div>';
+        el.map.parentNode.insertBefore(g, el.map.nextSibling);
+        el.game = g;
+        el.gameField = g.querySelector('#tcGameField');
+        el.gameScore = g.querySelector('#tcGameScore');
+        el.gameLives = g.querySelector('#tcGameLives');
+        el.gameOverlay = g.querySelector('#tcGameOverlay');
+        el.gameCapture = g.querySelector('#tcGameCapture');
+        g.querySelector('#tcGameBack').onclick = exitGame;
+        g.addEventListener('mousedown', function (e) {
+            if (e.target.closest && e.target.closest('button')) return;
+            setTimeout(focusGameArea, 0);
+        });
+        return g;
+    }
+
+    function focusGameArea() {
+        if (el.gameCapture) { try { el.gameCapture.focus({ preventScroll: true }); } catch (e) {} }
+    }
+    function clearField() {
+        if (!el.gameField) return;
+        Array.prototype.slice.call(el.gameField.querySelectorAll('.tc-word')).forEach(function (n) { n.remove(); });
+    }
+    function showGameOverlay(html) {
+        if (!el.gameOverlay) return;
+        el.gameOverlay.innerHTML = '<div class="tc-go-card">' + html + '</div>';
+        el.gameOverlay.classList.add('show');
+    }
+    function hideGameOverlay() {
+        if (el.gameOverlay) { el.gameOverlay.classList.remove('show'); el.gameOverlay.innerHTML = ''; }
+    }
+    function updateGameHud() {
+        if (!GAME) return;
+        if (el.gameScore) el.gameScore.textContent = GAME.score;
+        if (el.gameLives) {
+            var h = '';
+            for (var i = 0; i < GAME_LIVES; i++) h += '<span class="' + (i < GAME.lives ? 'on' : 'off') + '">&#10084;</span>';
+            el.gameLives.innerHTML = h;
+        }
+    }
+
+    function startGame(niveau, niveauIndex) {
+        ensureGameEl();
+        var pool = buildWordPool(niveauIndex);
+        if (pool.length < 4) return; // te weinig woorden -> niet spelen
+        GAME = {
+            niveau: niveau, niveauIndex: niveauIndex, niveauKey: niveau.key, pool: pool,
+            words: [], score: 0, lives: GAME_LIVES, running: false, raf: null,
+            lastTime: 0, spawnTimer: 0, lastWord: '', fieldH: 0, fieldW: 0
+        };
+        clearField();
+        updateGameHud();
+        showGameScreen();
+        showGameOverlay(
+            '<div class="tc-go-emoji">&#127918;</div>' +
+            '<h2>Woordenregen</h2>' +
+            '<p>Typ elk woord voordat het de bodem raakt. Je hebt <b>3 levens</b>. ' +
+            'Het woord met de <b>rand</b> is aan de beurt.</p>' +
+            '<div class="tc-go-btns">' +
+                '<button type="button" class="tc-go-btn primary" id="tcGoStart">Start!</button>' +
+                '<button type="button" class="tc-go-btn" id="tcGoCancel">Terug</button>' +
+            '</div>'
+        );
+        var s = document.getElementById('tcGoStart'); if (s) s.onclick = beginRun;
+        var c = document.getElementById('tcGoCancel'); if (c) c.onclick = exitGame;
+        focusGameArea();
+    }
+
+    function beginRun() {
+        if (!GAME) return;
+        hideGameOverlay();
+        var r = el.gameField.getBoundingClientRect();
+        GAME.fieldH = r.height; GAME.fieldW = r.width;
+        GAME.words = []; GAME.score = 0; GAME.lives = GAME_LIVES;
+        clearField(); updateGameHud();
+        GAME.running = true;
+        GAME.lastTime = 0;
+        GAME.spawnTimer = 1e9; // meteen het eerste woord
+        GAME.raf = requestAnimationFrame(gameTick);
+        focusGameArea();
+    }
+
+    function spawnWord() {
+        var word, tries = 0;
+        do { word = GAME.pool[Math.floor(Math.random() * GAME.pool.length)]; tries++; }
+        while (word === GAME.lastWord && tries < 10 && GAME.pool.length > 1);
+        GAME.lastWord = word;
+
+        var wEl = document.createElement('div');
+        wEl.className = 'tc-word';
+        var inner = '';
+        for (var i = 0; i < word.length; i++) inner += '<span class="tc-word-l">' + word.charAt(i) + '</span>';
+        wEl.innerHTML = inner;
+        el.gameField.appendChild(wEl);
+
+        var ww = wEl.offsetWidth || 80;
+        var maxX = Math.max(4, GAME.fieldW - ww - 8);
+        var x = Math.floor(Math.random() * maxX);
+        wEl.style.transform = 'translate(' + x + 'px,-34px)';
+        GAME.words.push({ text: word, typed: 0, x: x, y: -34, el: wEl, letters: wEl.querySelectorAll('.tc-word-l') });
+    }
+
+    function focusWord() {
+        if (!GAME || !GAME.words.length) return null;
+        var typing = null, lowest = null;
+        GAME.words.forEach(function (w) {
+            if (w.typed > 0) typing = w;
+            if (!lowest || w.y > lowest.y) lowest = w;
+        });
+        return typing || lowest;
+    }
+    function updateFocus() {
+        var f = focusWord();
+        GAME.words.forEach(function (w) { if (w.el) w.el.classList.toggle('is-focus', w === f); });
+    }
+
+    function completeWord(w) {
+        var idx = GAME.words.indexOf(w);
+        if (idx >= 0) GAME.words.splice(idx, 1);
+        if (w.el) {
+            var node = w.el;
+            node.classList.remove('is-focus'); // geen border terwijl 'ie wegploft
+            node.classList.add('tc-word-done');
+            setTimeout(function () { if (node.parentNode) node.remove(); }, 180);
+        }
+        GAME.score++;
+        updateGameHud();
+        updateFocus();
+    }
+    function missWord(w, idx) {
+        if (idx == null) idx = GAME.words.indexOf(w);
+        if (idx >= 0) GAME.words.splice(idx, 1);
+        if (w.el) {
+            var node = w.el;
+            node.classList.remove('is-focus');
+            node.classList.add('tc-word-miss');
+            setTimeout(function () { if (node.parentNode) node.remove(); }, 220);
+        }
+        GAME.lives--;
+        updateGameHud();
+        updateFocus();
+        if (GAME.lives <= 0) endGame();
+    }
+
+    function gameTick(ts) {
+        if (!GAME || !GAME.running) return;
+        if (!GAME.lastTime) GAME.lastTime = ts;
+        var dt = Math.min(64, ts - GAME.lastTime); // dt begrenzen bij tab-wissel
+        GAME.lastTime = ts;
+
+        var lvl = GAME.score;
+        var fall = (GAME.fieldH / 9) * (1 + lvl * 0.06);
+        fall = Math.min(fall, GAME.fieldH / 3);
+        var spawnInterval = Math.max(1400, 3200 - lvl * 120);
+        var maxWords = lvl < 3 ? 1 : (lvl < 8 ? 2 : 3);
+
+        for (var i = GAME.words.length - 1; i >= 0; i--) {
+            var w = GAME.words[i];
+            w.y += fall * (dt / 1000);
+            w.el.style.transform = 'translate(' + w.x + 'px,' + Math.round(w.y) + 'px)';
+            if (w.y >= GAME.fieldH - 6) missWord(w, i);
+        }
+        if (!GAME.running) return; // endGame kan hierboven zijn afgegaan
+
+        updateFocus();
+
+        GAME.spawnTimer += dt;
+        var need = GAME.words.length === 0 ? 250 : spawnInterval;
+        if (GAME.words.length < maxWords && GAME.spawnTimer >= need) {
+            GAME.spawnTimer = 0;
+            spawnWord();
+        }
+
+        GAME.raf = requestAnimationFrame(gameTick);
+    }
+
+    function onGameKey(e) {
+        if (!GAME || !GAME.running) return;
+        if (!el.game || el.game.style.display === 'none') return;
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        var key = e.key;
+        if (!key || key.length !== 1) return;
+        var ch = key.toLowerCase();
+        if (ch < 'a' || ch > 'z') return;
+        e.preventDefault();
+        var f = focusWord();
+        if (!f) return;
+        if (ch === f.text.charAt(f.typed)) {
+            f.letters[f.typed].classList.add('correct');
+            f.typed++;
+            if (f.typed >= f.text.length) completeWord(f);
+            else updateFocus();
+        } else if (f.el) {
+            f.el.classList.remove('tc-word-bad'); void f.el.offsetWidth; f.el.classList.add('tc-word-bad');
+        }
+    }
+
+    function stopGameLoop() {
+        if (GAME && GAME.raf) { cancelAnimationFrame(GAME.raf); GAME.raf = null; }
+        if (GAME) GAME.running = false;
+    }
+
+    function endGame() {
+        stopGameLoop();
+        var score = GAME.score, niveau = GAME.niveau, niveauIndex = GAME.niveauIndex, niveauKey = GAME.niveauKey;
+        showGameOverlay(
+            '<div class="tc-go-emoji">&#127937;</div>' +
+            '<h2>Game over!</h2>' +
+            '<p class="tc-go-score">Je score: <b>' + score + '</b> ' + (score === 1 ? 'woord' : 'woorden') + '</p>' +
+            '<div class="tc-go-board" id="tcGoBoard"><div class="tc-go-loading">Ranglijst laden&hellip;</div></div>' +
+            '<div class="tc-go-btns">' +
+                '<button type="button" class="tc-go-btn primary" id="tcGoRetry">Opnieuw spelen</button>' +
+                '<button type="button" class="tc-go-btn" id="tcGoBack">Terug naar de route</button>' +
+            '</div>'
+        );
+        var r = document.getElementById('tcGoRetry'); if (r) r.onclick = function () { startGame(niveau, niveauIndex); };
+        var b = document.getElementById('tcGoBack'); if (b) b.onclick = exitGame;
+
+        Promise.resolve(cfg.saveGameScore ? cfg.saveGameScore(niveauKey, score) : null)
+            .then(function (res) { renderLeaderboard(niveau, res); })
+            .catch(function () { renderLeaderboard(niveau, null); });
+    }
+
+    function renderLeaderboard(niveau, res) {
+        var board = document.getElementById('tcGoBoard');
+        if (!board) return;
+        var list = (res && res.leaderboard) || [];
+        if (!list.length) {
+            board.innerHTML = '<div class="tc-go-empty">Speel om als eerste op de ranglijst te komen!</div>';
+            return;
+        }
+        var html = '<div class="tc-go-title">Ranglijst &mdash; ' + esc(niveau.name) + '</div><ol class="tc-go-list">';
+        list.forEach(function (e, i) {
+            var medal = i === 0 ? '&#129351;' : i === 1 ? '&#129352;' : i === 2 ? '&#129353;' : (i + 1);
+            html += '<li class="' + (e.isMe ? 'me' : '') + '">' +
+                '<span class="tc-go-rank">' + medal + '</span>' +
+                '<span class="tc-go-name">' + esc(e.name) +
+                    (e.isMe && String(e.name).toLowerCase() !== 'jij' ? ' (jij)' : '') + '</span>' +
+                '<span class="tc-go-pts">' + e.score + '</span></li>';
+        });
+        html += '</ol>';
+        board.innerHTML = html;
+    }
+
+    function showGameScreen() {
+        ensureGameEl();
+        if (el.map) el.map.style.display = 'none';
+        if (el.workspace) el.workspace.style.display = 'none';
+        if (el.game) el.game.style.display = '';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function exitGame() {
+        stopGameLoop();
+        GAME = null;
+        if (el.game) el.game.style.display = 'none';
+        showMap();
     }
 
     // ---------- Avatar-kiezer ----------
@@ -701,7 +1050,9 @@
     function showMap() {
         stopTimer();
         state.running = false;
+        if (GAME) { stopGameLoop(); GAME = null; }
         el.workspace.style.display = 'none';
+        if (el.game) el.game.style.display = 'none';
         if (el.map) el.map.style.display = '';
         renderMap();
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1030,6 +1381,7 @@
         bound = true;
 
         document.addEventListener('keydown', onKeyDown);
+        document.addEventListener('keydown', onGameKey);
         // focus terug naar de vanger als je in de werkruimte klikt
         if (el.workspace) {
             el.workspace.addEventListener('mousedown', function (e) {

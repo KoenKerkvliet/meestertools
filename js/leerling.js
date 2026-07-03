@@ -298,6 +298,14 @@
             stars: entry && entry.stars, apm: entry && entry.apm, acc: entry && entry.acc
         });
     }
+    async function ttGameSave(niveauKey, score) {
+        const res = await call('typetijger_game_save', { code: code, niveauKey: niveauKey, score: score });
+        return (res && res.ok) ? { best: res.best, leaderboard: res.leaderboard || [] } : { best: 0, leaderboard: [] };
+    }
+    async function ttLeaderboard(niveauKey) {
+        const res = await call('typetijger_leaderboard', { code: code, niveauKey: niveauKey });
+        return (res && res.ok) ? { best: res.best, leaderboard: res.leaderboard || [] } : { best: 0, leaderboard: [] };
+    }
     function showTypetijger() {
         if (!window.Typetijger) return;
         showScreen('typetijger');
@@ -308,7 +316,9 @@
             loadProgress: ttLoad,
             saveProgress: ttSave,
             loadActivity: ttLoadActivity,
-            recordActivity: function () { /* server doet dit al bij typetijger_save */ }
+            recordActivity: function () { /* server doet dit al bij typetijger_save */ },
+            saveGameScore: ttGameSave,
+            loadLeaderboard: ttLeaderboard
         });
     }
 

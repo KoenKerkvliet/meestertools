@@ -178,6 +178,47 @@ serve(async (req) => {
       return json({ ok: true, saved: true })
     }
 
+    // ---------------- typetijger eindspel: score opslaan + leaderboard ----------------
+    if (action === 'typetijger_game_save') {
+      if (!valid) return json({ ok: false, error: 'Je code klopt niet.' }, 403)
+      const niveauKey = cleanText(body?.niveauKey, 40)
+      const score = clampInt(body?.score, 0, 100000)
+      if (!niveauKey) return json({ ok: false, error: 'Geen niveau opgegeven.' }, 400)
+
+      const { data: cur } = await admin
+        .from('typetijger_game_scores')
+        .select('best_score')
+        .eq('student_id', student.id).eq('niveau_key', niveauKey)
+        .maybeSingle()
+      const best = Math.max(score, (cur && cur.best_score) || 0)
+      const { error: gErr } = await admin
+        .from('typetijger_game_scores')
+        .upsert(
+          {
+            student_id: student.id, group_id: student.group_id,
+            niveau_key: niveauKey, best_score: best,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: 'student_id,niveau_key' },
+        )
+      if (gErr) {
+        console.error('game_save error:', gErr.message)
+        return json({ ok: false, error: 'Opslaan lukte niet.' }, 500)
+      }
+      const leaderboard = await buildLeaderboard(admin, student, niveauKey)
+      return json({ ok: true, best, leaderboard })
+    }
+
+    // ---------------- typetijger eindspel: klas-leaderboard ophalen ----------------
+    if (action === 'typetijger_leaderboard') {
+      if (!valid) return json({ ok: true, leaderboard: [], best: 0 })
+      const niveauKey = cleanText(body?.niveauKey, 40)
+      if (!niveauKey) return json({ ok: false, error: 'Geen niveau opgegeven.' }, 400)
+      const leaderboard = await buildLeaderboard(admin, student, niveauKey)
+      const me = leaderboard.find((e: any) => e.isMe)
+      return json({ ok: true, leaderboard, best: me ? me.score : 0 })
+    }
+
     // ---------------- sessions (actieve sessies van de klas) ----------------
     if (action === 'sessions') {
       if (!valid) return json({ ok: true, sessions: [] })
@@ -424,6 +465,30 @@ function clampInt(raw: unknown, min: number, max: number): number {
 // niet op UTC-middernacht al naar de volgende dag rolt.
 function amsterdamToday(): string {
   return new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/Amsterdam' })
+}
+
+// Klas-leaderboard voor het eindspel: beste score per klasgenoot voor dit niveau,
+// aflopend gesorteerd. Alleen voornamen (klasgenoten), zoals overal in de app.
+async function buildLeaderboard(admin: any, student: any, niveauKey: string) {
+  const { data: roster } = await admin
+    .from('students').select('id, first_name')
+    .eq('group_id', student.group_id).eq('archived', false)
+  const names: Record<string, string> = {}
+  ;(roster || []).forEach((s: any) => { names[s.id] = s.first_name })
+  const ids = (roster || []).map((s: any) => s.id)
+  if (!ids.length) return []
+  const { data: scores } = await admin
+    .from('typetijger_game_scores')
+    .select('student_id, best_score')
+    .eq('niveau_key', niveauKey)
+    .in('student_id', ids)
+  const list = (scores || []).map((r: any) => ({
+    name: names[r.student_id] || '?',
+    score: r.best_score,
+    isMe: r.student_id === student.id,
+  }))
+  list.sort((a: any, b: any) => (b.score - a.score) || a.name.localeCompare(b.name))
+  return list.slice(0, 50)
 }
 
 function json(body: unknown, status = 200) {
