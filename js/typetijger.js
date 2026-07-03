@@ -183,7 +183,7 @@
             oefeningen: [
                 'eee iii eee iii eiei ieie',
                 'ei ie de ki le ji se li',
-                'die fee lie kei eik geil',
+                'die fee lie kei eik geel',
                 'lief diesel ideale jakhals'
             ]
         },
