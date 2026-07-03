@@ -122,7 +122,15 @@ serve(async (req) => {
           bestApm: r.best_per_min, bestAcc: r.best_accuracy,
         }
       })
-      return json({ ok: true, matched: true, progress })
+      // Oefendagen (voor de week-streak): de laatste ~60 dagen dat dit kind oefende.
+      const { data: act } = await admin
+        .from('typetijger_activity')
+        .select('activity_date')
+        .eq('student_id', student.id)
+        .order('activity_date', { ascending: false })
+        .limit(60)
+      const activityDates = (act || []).map((r: any) => r.activity_date)
+      return json({ ok: true, matched: true, progress, activityDates, today: amsterdamToday() })
     }
 
     // ---------------- typetijger: voortgang opslaan (alleen verbeteren) ----------------
@@ -156,6 +164,17 @@ serve(async (req) => {
         console.error('typetijger_save error:', upErr.message)
         return json({ ok: false, error: 'Opslaan lukte niet.' }, 500)
       }
+
+      // Vandaag telt als oefendag (voor de week-streak). Faalt dit, dan mag de
+      // les-opslag alsnog slagen — het is een extraatje.
+      const { error: actErr } = await admin
+        .from('typetijger_activity')
+        .upsert(
+          { student_id: student.id, group_id: student.group_id, activity_date: amsterdamToday() },
+          { onConflict: 'student_id,activity_date' },
+        )
+      if (actErr) console.error('typetijger activity error:', actErr.message)
+
       return json({ ok: true, saved: true })
     }
 
@@ -400,6 +419,11 @@ function clampInt(raw: unknown, min: number, max: number): number {
   const n = Math.round(Number(raw))
   if (!isFinite(n)) return min
   return Math.max(min, Math.min(max, n))
+}
+// Datum van vandaag in de Nederlandse tijdzone (YYYY-MM-DD), zodat een oefendag
+// niet op UTC-middernacht al naar de volgende dag rolt.
+function amsterdamToday(): string {
+  return new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/Amsterdam' })
 }
 
 function json(body: unknown, status = 200) {

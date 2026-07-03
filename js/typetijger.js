@@ -355,15 +355,99 @@
         try { localStorage.setItem(STORE_KEY, JSON.stringify(p)); } catch (e) {}
     }
 
+    // ---------- Oefendagen / week-streak ----------
+    // Leerkracht-modus houdt de oefendagen lokaal bij; de leerlingpagina laat
+    // de server dit doen (via de edge function) en levert de dagen aan.
+    var ACTIVITY_KEY = 'mt_typetijger_activity';
+    function todayStr() {
+        var d = new Date();
+        var m = ('0' + (d.getMonth() + 1)).slice(-2);
+        var day = ('0' + d.getDate()).slice(-2);
+        return d.getFullYear() + '-' + m + '-' + day;
+    }
+    function defaultLoadActivity() {
+        var dates = [];
+        try { dates = JSON.parse(localStorage.getItem(ACTIVITY_KEY)) || []; } catch (e) { dates = []; }
+        return { dates: dates, today: todayStr() };
+    }
+    function defaultRecordActivity() {
+        var dates = [];
+        try { dates = JSON.parse(localStorage.getItem(ACTIVITY_KEY)) || []; } catch (e) { dates = []; }
+        var t = todayStr();
+        if (dates.indexOf(t) === -1) {
+            dates.push(t);
+            try { localStorage.setItem(ACTIVITY_KEY, JSON.stringify(dates.slice(-400))); } catch (e) {}
+        }
+    }
+
+    // Datum-rekenwerk op 12:00 UTC, zodat zomertijd de datum niet verschuift.
+    function mondayOf(dateStr) {
+        var d = new Date(dateStr + 'T12:00:00Z');
+        var dow = d.getUTCDay();               // 0=zo .. 6=za
+        d.setUTCDate(d.getUTCDate() + (dow === 0 ? -6 : 1 - dow));
+        return d.toISOString().slice(0, 10);
+    }
+    function addDaysStr(dateStr, n) {
+        var d = new Date(dateStr + 'T12:00:00Z');
+        d.setUTCDate(d.getUTCDate() + n);
+        return d.toISOString().slice(0, 10);
+    }
+    function computeStreak(set, today) {
+        var streak = 0, isFirst = true;
+        var d = new Date(today + 'T12:00:00Z');
+        for (var i = 0; i < 400; i++) {
+            var ds = d.toISOString().slice(0, 10);
+            var dow = d.getUTCDay();
+            var weekend = (dow === 0 || dow === 6);
+            if (set[ds]) {
+                streak++;
+            } else if (!weekend) {
+                // Niet-geoefende schooldag breekt de streak, behalve als het
+                // vandaag is (die dag kan nog).
+                if (!(isFirst && ds === today)) break;
+            }
+            // Weekend zonder oefening is "transparant" en breekt niets.
+            isFirst = false;
+            d.setUTCDate(d.getUTCDate() - 1);
+        }
+        return streak;
+    }
+    var DAY_LABELS = ['ma', 'di', 'wo', 'do', 'vr'];
+    function activityFromDates(dates, today) {
+        var set = {};
+        (dates || []).forEach(function (x) { set[x] = true; });
+        var monday = mondayOf(today);
+        var week = [];
+        for (var i = 0; i < 5; i++) {
+            var ds = addDaysStr(monday, i);
+            week.push({ label: DAY_LABELS[i], done: !!set[ds], isToday: ds === today });
+        }
+        var doneCount = 0;
+        week.forEach(function (w) { if (w.done) doneCount++; });
+        return { week: week, streak: computeStreak(set, today), doneCount: doneCount, today: today, todayDone: !!set[today] };
+    }
+
     var cfg = {
         assetPrefix: '../',        // pad-prefix naar /assets (tool zit in een submap)
         avatarFixed: null,         // vaste monster-URL (leerling); null = kiezer aan
         lockLevels: false,         // niveau pas open na 3 sterren op het vorige
         loadProgress: defaultLoadProgress,
-        saveProgress: defaultSaveProgress   // (progressObj, lessonId, entry)
+        saveProgress: defaultSaveProgress,  // (progressObj, lessonId, entry)
+        loadActivity: defaultLoadActivity,  // -> { dates:[...], today:'YYYY-MM-DD' } (of Promise)
+        recordActivity: defaultRecordActivity
     };
 
     var progress = {};
+    var activityRaw = null;   // { dates:[...], today:'YYYY-MM-DD' }
+    var activity = null;      // afgeleid: { week, streak, doneCount, today, todayDone }
+
+    function setActivity(raw) {
+        if (!raw) { activityRaw = null; activity = null; return; }
+        var dates = raw.dates || raw.activityDates || [];
+        var today = raw.today || todayStr();
+        activityRaw = { dates: dates, today: today };
+        activity = activityFromDates(dates, today);
+    }
 
     // ---------- Avatar (het monstertje) ----------
     function loadAvatar() {
@@ -449,6 +533,69 @@
         return out + '</span>';
     }
 
+    // ---------- Week-streak strip ----------
+    // Wordt lui boven de route ingevoegd, zodat beide pagina's (leerkracht +
+    // leerling) 'm krijgen zonder eigen HTML.
+    function ensureWeekEl() {
+        if (el.week && el.week.parentNode) return el.week;
+        if (!el.path || !el.path.parentNode) return null;
+        var w = document.createElement('div');
+        w.id = 'tcWeek';
+        w.className = 'tc-week';
+        el.path.parentNode.insertBefore(w, el.path);
+        el.week = w;
+        return w;
+    }
+
+    function renderWeek() {
+        var w = ensureWeekEl();
+        if (!w) return;
+        if (!activity) { w.style.display = 'none'; return; }
+        w.style.display = '';
+
+        var daysHtml = '';
+        activity.week.forEach(function (d) {
+            var cls = 'tc-week-day' + (d.done ? ' done' : '') + (d.isToday ? ' today' : '');
+            var mark = d.done ? '&#10004;' : (d.isToday ? '&#9733;' : '');
+            daysHtml += '<span class="' + cls + '"><i class="tc-week-daylbl">' + d.label + '</i>' +
+                '<span class="tc-week-dot">' + mark + '</span></span>';
+        });
+
+        var complete = activity.doneCount >= 5;
+        var streak = activity.streak;
+        var title = complete
+            ? 'Top! Je hebt deze week 5 dagen geoefend! &#127881;'
+            : (activity.todayDone
+                ? 'Goed bezig &mdash; kom morgen weer oefenen!'
+                : 'Oefen vandaag even om je streak vast te houden!');
+
+        w.className = 'tc-week' + (complete ? ' is-complete' : '');
+        w.innerHTML =
+            '<div class="tc-week-flamebox" title="Aantal schooldagen op rij geoefend">' +
+                '<span class="tc-week-flame">&#128293;</span>' +
+                '<span class="tc-week-streaknum">' + streak + '</span>' +
+                '<span class="tc-week-streaklbl">op rij</span>' +
+            '</div>' +
+            '<div class="tc-week-mid">' +
+                '<div class="tc-week-title">' + title + '</div>' +
+                '<div class="tc-week-days">' + daysHtml + '</div>' +
+            '</div>' +
+            '<div class="tc-week-goal">' +
+                '<span class="tc-week-goalnum">' + activity.doneCount + '/5</span>' +
+                '<span class="tc-week-goallbl">dagen</span>' +
+            '</div>';
+    }
+
+    // Vandaag als oefendag markeren (bij het afronden van een level).
+    function markPracticedToday() {
+        try { if (cfg.recordActivity) cfg.recordActivity(); } catch (e) {}
+        var today = (activityRaw && activityRaw.today) || todayStr();
+        var dates = (activityRaw && activityRaw.dates ? activityRaw.dates.slice() : []);
+        if (dates.indexOf(today) === -1) dates.push(today);
+        setActivity({ dates: dates, today: today });
+        renderWeek();
+    }
+
     function renderMap() {
         if (!el.path) return;
 
@@ -505,6 +652,8 @@
                 if (l) startLesson(l);
             });
         });
+
+        renderWeek();
     }
 
     // ---------- Avatar-kiezer ----------
@@ -789,6 +938,9 @@
             cfg.saveProgress(progress, state.lesson.id, { stars: pr.stars, apm: apm, acc: acc });
         } catch (e) {}
 
+        // Vandaag telt als oefendag (voor de week-streak).
+        markPracticedToday();
+
         el.resApm.textContent = apm;
         el.resAcc.textContent = acc + '%';
         el.resStars.innerHTML = starHtml(sterren);
@@ -928,8 +1080,12 @@
         if (options) { for (var k in options) if (options.hasOwnProperty(k)) cfg[k] = options[k]; }
         Promise.resolve()
             .then(function () { return cfg.loadProgress(); })
-            .then(function (p) { progress = (p && typeof p === 'object') ? p : {}; boot(); })
-            .catch(function () { progress = {}; boot(); });
+            .then(function (p) {
+                progress = (p && typeof p === 'object') ? p : {};
+                return cfg.loadActivity ? cfg.loadActivity() : null;
+            })
+            .then(function (act) { setActivity(act); boot(); })
+            .catch(function () { progress = progress || {}; setActivity(null); boot(); });
     }
 
     window.Typetijger = {

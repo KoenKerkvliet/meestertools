@@ -282,12 +282,17 @@
     // ---------- Typetijger (typcursus) ----------
     // Voortgang loopt per leerling via de edge function; het monster ligt vast
     // en de niveaus gaan pas open na 3 sterren per level op het vorige niveau.
+    let ttActivity = null; // { activityDates:[...], today:'YYYY-MM-DD' } uit typetijger_load
     async function ttLoad() {
         const res = await call('typetijger_load', { code: code });
+        ttActivity = (res && res.ok && res.activityDates)
+            ? { activityDates: res.activityDates, today: res.today }
+            : null;
         return (res && res.ok && res.progress) ? res.progress : {};
     }
+    function ttLoadActivity() { return ttActivity; }
     function ttSave(_progress, lessonId, entry) {
-        // fire-and-forget; de server bewaart alleen de beste score
+        // fire-and-forget; de server bewaart de beste score én de oefendag
         call('typetijger_save', {
             code: code, lessonId: lessonId,
             stars: entry && entry.stars, apm: entry && entry.apm, acc: entry && entry.acc
@@ -301,7 +306,9 @@
             avatarFixed: monsterUrl(monster),
             lockLevels: true,
             loadProgress: ttLoad,
-            saveProgress: ttSave
+            saveProgress: ttSave,
+            loadActivity: ttLoadActivity,
+            recordActivity: function () { /* server doet dit al bij typetijger_save */ }
         });
     }
 

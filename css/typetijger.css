@@ -42,6 +42,84 @@
 .tc-map-headtext p { margin: 0; font-size: 13.5px; color: var(--text-medium); }
 .tc-map-headtext strong { color: var(--accent-orange); }
 
+/* ---------- Week-streak strip ---------- */
+.tc-week {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--bg-white);
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 12px 18px;
+    margin-bottom: 18px;
+}
+.tc-week.is-complete {
+    border-color: var(--accent-green);
+    background: linear-gradient(135deg, rgba(107,203,119,.12), rgba(255,217,61,.12));
+}
+.tc-week-flamebox {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    min-width: 52px;
+}
+.tc-week-flame { font-size: 26px; }
+.tc-week-streaknum { font-size: 22px; font-weight: 800; color: var(--accent-orange); margin-top: 2px; }
+.tc-week-streaklbl { font-size: 10px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: .04em; }
+.tc-week-mid { flex: 1; min-width: 0; }
+.tc-week-title { font-size: 13.5px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+.tc-week-days { display: flex; gap: 10px; }
+.tc-week-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.tc-week-daylbl { font-style: normal; font-size: 11px; font-weight: 700; color: var(--text-medium); text-transform: uppercase; }
+.tc-week-dot {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 2px solid #D7D9E3;
+    background: var(--bg-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: #fff; font-weight: 800;
+}
+.tc-week-day.done .tc-week-dot {
+    background: var(--accent-green);
+    border-color: var(--accent-green);
+    box-shadow: 0 2px 5px rgba(76,168,92,.35);
+}
+.tc-week-day.today .tc-week-dot {
+    border-color: var(--accent-orange);
+    color: var(--accent-orange);
+    animation: tcWeekPulse 1.6s ease-in-out infinite;
+}
+.tc-week-day.today.done .tc-week-dot { color: #fff; }
+.tc-week-day.today .tc-week-daylbl { color: var(--accent-orange); }
+@keyframes tcWeekPulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(255,140,66,.35); }
+    50%     { box-shadow: 0 0 0 6px rgba(255,140,66,.05); }
+}
+.tc-week-goal {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.1;
+}
+.tc-week-goalnum { font-size: 18px; font-weight: 800; color: var(--primary); }
+.tc-week-goallbl { font-size: 11px; color: var(--text-medium); }
+
+@media (max-width: 560px) {
+    .tc-week { flex-wrap: wrap; gap: 12px; padding: 12px 14px; }
+    .tc-week-mid { order: 3; flex-basis: 100%; }
+    .tc-week-days { justify-content: space-between; }
+    .tc-week-dot { width: 34px; height: 34px; }
+}
+
 .tc-path {
     padding-bottom: 30px;
 }
