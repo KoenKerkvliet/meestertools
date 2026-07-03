@@ -703,7 +703,7 @@
                 '<span class="tc-node-circle"><span class="tc-node-icon">' +
                 (gameLocked ? '&#128274;' : '&#127918;') + '</span></span></button>';
             html += '<span class="tc-node-stars"></span>';
-            html += '<span class="tc-node-label">Woordenregen</span>';
+            html += '<span class="tc-node-label">Speelhoek</span>';
             html += '</div>';
 
             html += '</div>';
@@ -714,7 +714,7 @@
         Array.prototype.forEach.call(el.path.querySelectorAll('.tc-node:not([disabled])'), function (btn) {
             btn.addEventListener('click', function () {
                 var gi = btn.getAttribute('data-game');
-                if (gi !== null) { startGame(NIVEAUS[parseInt(gi, 10)], parseInt(gi, 10)); return; }
+                if (gi !== null) { openGamePicker(NIVEAUS[parseInt(gi, 10)], parseInt(gi, 10)); return; }
                 var l = findLesson(btn.getAttribute('data-id'));
                 if (l) startLesson(l);
             });
@@ -723,9 +723,36 @@
         renderWeek();
     }
 
-    // ---------- Eindspel: Woordenregen ----------
+    // ---------- Eindspellen (speelhoek) ----------
     var GAME_LIVES = 3;
     var GAME = null;
+    var GAMES = {
+        woordenregen: { name: 'Woordenregen', emoji: '&#127783;&#65039;',
+            desc: 'Typ de woorden voordat ze de bodem raken.', unit: ['woord', 'woorden'] },
+        mol: { name: 'Toetsen-mol', emoji: '&#128063;',
+            desc: 'Sla de mol door de juiste letter te typen.', unit: ['mol', 'mollen'] },
+        runner: { name: 'Monster-renner', emoji: '&#127939;',
+            desc: 'Typ de woorden zodat je monster over de hindernissen springt.', unit: ['sprong', 'sprongen'] }
+    };
+
+    // Letters die tot en met dit niveau geleerd zijn (voor de mol).
+    function learnedLetters(index) {
+        var set = {}, out = [];
+        for (var n = 0; n <= index && n < NIVEAUS.length; n++) {
+            NIVEAUS[n].lessons.forEach(function (l) {
+                (l.nieuw || []).forEach(function (k) {
+                    var c = String(k).toLowerCase();
+                    if (c >= 'a' && c <= 'z' && !set[c]) { set[c] = 1; out.push(c); }
+                });
+            });
+        }
+        if (out.length < 4) {
+            buildWordPool(index).join('').split('').forEach(function (c) {
+                if (c >= 'a' && c <= 'z' && !set[c]) { set[c] = 1; out.push(c); }
+            });
+        }
+        return out.length ? out : ['f', 'j', 'd', 'k'];
+    }
 
     function ensureGameEl() {
         if (el.game && el.game.parentNode) return el.game;
@@ -768,7 +795,9 @@
     }
     function clearField() {
         if (!el.gameField) return;
-        Array.prototype.slice.call(el.gameField.querySelectorAll('.tc-word')).forEach(function (n) { n.remove(); });
+        Array.prototype.slice.call(el.gameField.children).forEach(function (n) {
+            if (n !== el.gameOverlay) n.remove();
+        });
     }
     function showGameOverlay(html) {
         if (!el.gameOverlay) return;
@@ -788,30 +817,57 @@
         }
     }
 
-    function startGame(niveau, niveauIndex) {
+    // Keuzemenu: welk spel wil je spelen?
+    function openGamePicker(niveau, niveauIndex) {
         ensureGameEl();
-        var pool = buildWordPool(niveauIndex);
-        if (pool.length < 4) return; // te weinig woorden -> niet spelen
+        GAME = null;
+        clearField();
+        if (el.gameScore) el.gameScore.textContent = '0';
+        if (el.gameLives) el.gameLives.innerHTML = '';
+        showGameScreen();
+        var btns = Object.keys(GAMES).map(function (m) {
+            return '<button type="button" class="tc-go-game" data-mode="' + m + '">' +
+                '<span class="tc-go-game-emoji">' + GAMES[m].emoji + '</span>' +
+                '<span class="tc-go-game-txt"><b>' + GAMES[m].name + '</b>' +
+                '<span>' + GAMES[m].desc + '</span></span></button>';
+        }).join('');
+        showGameOverlay(
+            '<div class="tc-go-emoji">&#127918;</div>' +
+            '<h2>Speelhoek &mdash; ' + esc(niveau.name) + '</h2>' +
+            '<p>Kies een spel om je typen te oefenen.</p>' +
+            '<div class="tc-go-games">' + btns + '</div>' +
+            '<div class="tc-go-btns"><button type="button" class="tc-go-btn" id="tcGoCancel">Terug naar de route</button></div>'
+        );
+        Array.prototype.forEach.call(el.gameOverlay.querySelectorAll('.tc-go-game'), function (b) {
+            b.onclick = function () { startGame(niveau, niveauIndex, b.getAttribute('data-mode')); };
+        });
+        var c = document.getElementById('tcGoCancel'); if (c) c.onclick = exitGame;
+    }
+
+    function startGame(niveau, niveauIndex, mode) {
+        ensureGameEl();
+        mode = GAMES[mode] ? mode : 'woordenregen';
         GAME = {
-            niveau: niveau, niveauIndex: niveauIndex, niveauKey: niveau.key, pool: pool,
-            words: [], score: 0, lives: GAME_LIVES, running: false, raf: null,
-            lastTime: 0, spawnTimer: 0, lastWord: '', fieldH: 0, fieldW: 0
+            mode: mode, niveau: niveau, niveauIndex: niveauIndex,
+            gameKey: mode === 'woordenregen' ? niveau.key : niveau.key + ':' + mode,
+            score: 0, lives: GAME_LIVES, running: false, raf: null,
+            lastTime: 0, fieldH: 0, fieldW: 0
         };
         clearField();
         updateGameHud();
         showGameScreen();
+        var g = GAMES[mode];
         showGameOverlay(
-            '<div class="tc-go-emoji">&#127918;</div>' +
-            '<h2>Woordenregen</h2>' +
-            '<p>Typ elk woord voordat het de bodem raakt. Je hebt <b>3 levens</b>. ' +
-            'Het woord met de <b>rand</b> is aan de beurt.</p>' +
+            '<div class="tc-go-emoji">' + g.emoji + '</div>' +
+            '<h2>' + g.name + '</h2>' +
+            '<p>' + g.desc + ' Je hebt <b>3 levens</b>.</p>' +
             '<div class="tc-go-btns">' +
                 '<button type="button" class="tc-go-btn primary" id="tcGoStart">Start!</button>' +
                 '<button type="button" class="tc-go-btn" id="tcGoCancel">Terug</button>' +
             '</div>'
         );
         var s = document.getElementById('tcGoStart'); if (s) s.onclick = beginRun;
-        var c = document.getElementById('tcGoCancel'); if (c) c.onclick = exitGame;
+        var c = document.getElementById('tcGoCancel'); if (c) c.onclick = function () { openGamePicker(niveau, niveauIndex); };
         focusGameArea();
     }
 
@@ -820,13 +876,82 @@
         hideGameOverlay();
         var r = el.gameField.getBoundingClientRect();
         GAME.fieldH = r.height; GAME.fieldW = r.width;
-        GAME.words = []; GAME.score = 0; GAME.lives = GAME_LIVES;
+        GAME.score = 0; GAME.lives = GAME_LIVES;
         clearField(); updateGameHud();
+        if (GAME.mode === 'mol') initMol();
+        else if (GAME.mode === 'runner') initRunner();
+        else initWoordenregen();
         GAME.running = true;
         GAME.lastTime = 0;
-        GAME.spawnTimer = 1e9; // meteen het eerste woord
         GAME.raf = requestAnimationFrame(gameTick);
         focusGameArea();
+    }
+
+    function gameTick(ts) {
+        if (!GAME || !GAME.running) return;
+        if (!GAME.lastTime) GAME.lastTime = ts;
+        var dt = Math.min(64, ts - GAME.lastTime);
+        GAME.lastTime = ts;
+        if (GAME.mode === 'mol') tickMol(dt);
+        else if (GAME.mode === 'runner') tickRunner(dt);
+        else tickWoordenregen(dt);
+        if (GAME && GAME.running) GAME.raf = requestAnimationFrame(gameTick);
+    }
+
+    function onGameKey(e) {
+        if (!GAME || !GAME.running) return;
+        if (!el.game || el.game.style.display === 'none') return;
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        var key = e.key;
+        if (!key || key.length !== 1) return;
+        var ch = key.toLowerCase();
+        if (ch < 'a' || ch > 'z') return;
+        e.preventDefault();
+        if (GAME.mode === 'mol') keyMol(ch);
+        else if (GAME.mode === 'runner') keyRunner(ch);
+        else keyWoordenregen(ch);
+    }
+
+    // ===== Spel 1: Woordenregen =====
+    function initWoordenregen() {
+        GAME.pool = buildWordPool(GAME.niveauIndex);
+        if (GAME.pool.length < 4) GAME.pool = ['dag', 'als', 'sla', 'gas'];
+        GAME.words = [];
+        GAME.spawnTimer = 1e9;
+        GAME.lastWord = '';
+    }
+    function tickWoordenregen(dt) {
+        var lvl = GAME.score;
+        var fall = (GAME.fieldH / 9) * (1 + lvl * 0.06);
+        fall = Math.min(fall, GAME.fieldH / 3);
+        var spawnInterval = Math.max(1400, 3200 - lvl * 120);
+        var maxWords = lvl < 3 ? 1 : (lvl < 8 ? 2 : 3);
+        for (var i = GAME.words.length - 1; i >= 0; i--) {
+            var w = GAME.words[i];
+            w.y += fall * (dt / 1000);
+            w.el.style.transform = 'translate(' + w.x + 'px,' + Math.round(w.y) + 'px)';
+            if (w.y >= GAME.fieldH - 6) missWord(w, i);
+        }
+        if (!GAME.running) return;
+        updateFocus();
+        GAME.spawnTimer += dt;
+        var need = GAME.words.length === 0 ? 250 : spawnInterval;
+        if (GAME.words.length < maxWords && GAME.spawnTimer >= need) {
+            GAME.spawnTimer = 0;
+            spawnWord();
+        }
+    }
+    function keyWoordenregen(ch) {
+        var f = focusWord();
+        if (!f) return;
+        if (ch === f.text.charAt(f.typed)) {
+            f.letters[f.typed].classList.add('correct');
+            f.typed++;
+            if (f.typed >= f.text.length) completeWord(f);
+            else updateFocus();
+        } else if (f.el) {
+            f.el.classList.remove('tc-word-bad'); void f.el.offsetWidth; f.el.classList.add('tc-word-bad');
+        }
     }
 
     function spawnWord() {
@@ -891,56 +1016,179 @@
         if (GAME.lives <= 0) endGame();
     }
 
-    function gameTick(ts) {
-        if (!GAME || !GAME.running) return;
-        if (!GAME.lastTime) GAME.lastTime = ts;
-        var dt = Math.min(64, ts - GAME.lastTime); // dt begrenzen bij tab-wissel
-        GAME.lastTime = ts;
-
-        var lvl = GAME.score;
-        var fall = (GAME.fieldH / 9) * (1 + lvl * 0.06);
-        fall = Math.min(fall, GAME.fieldH / 3);
-        var spawnInterval = Math.max(1400, 3200 - lvl * 120);
-        var maxWords = lvl < 3 ? 1 : (lvl < 8 ? 2 : 3);
-
-        for (var i = GAME.words.length - 1; i >= 0; i--) {
-            var w = GAME.words[i];
-            w.y += fall * (dt / 1000);
-            w.el.style.transform = 'translate(' + w.x + 'px,' + Math.round(w.y) + 'px)';
-            if (w.y >= GAME.fieldH - 6) missWord(w, i);
+    // ===== Spel 2: Toetsen-mol =====
+    function initMol() {
+        var grid = document.createElement('div');
+        grid.className = 'tc-mol-grid';
+        for (var i = 0; i < 6; i++) {
+            var hole = document.createElement('div');
+            hole.className = 'tc-mol-hole';
+            grid.appendChild(hole);
         }
-        if (!GAME.running) return; // endGame kan hierboven zijn afgegaan
-
-        updateFocus();
-
-        GAME.spawnTimer += dt;
-        var need = GAME.words.length === 0 ? 250 : spawnInterval;
-        if (GAME.words.length < maxWords && GAME.spawnTimer >= need) {
-            GAME.spawnTimer = 0;
-            spawnWord();
+        el.gameField.appendChild(grid);
+        GAME.holes = Array.prototype.slice.call(grid.children);
+        GAME.moles = [];
+        GAME.molSpawnTimer = 1e9;
+        GAME.letters = learnedLetters(GAME.niveauIndex);
+        GAME.lastMolLetter = '';
+    }
+    function spawnMole(showMs) {
+        var used = {};
+        GAME.moles.forEach(function (m) { used[m.hole] = 1; });
+        var free = [];
+        for (var i = 0; i < GAME.holes.length; i++) if (!used[i]) free.push(i);
+        if (!free.length) return;
+        var holeIdx = free[Math.floor(Math.random() * free.length)];
+        var letter, tries = 0;
+        do { letter = GAME.letters[Math.floor(Math.random() * GAME.letters.length)]; tries++; }
+        while (letter === GAME.lastMolLetter && tries < 8 && GAME.letters.length > 1);
+        GAME.lastMolLetter = letter;
+        var fin = KEY_FINGER[letter];
+        var molEl = document.createElement('div');
+        molEl.className = 'tc-mol' + (fin ? ' ' + FINGERS[fin].kl : '');
+        molEl.textContent = letter;
+        GAME.holes[holeIdx].appendChild(molEl);
+        GAME.moles.push({ hole: holeIdx, letter: letter, el: molEl, life: showMs });
+    }
+    function removeMole(m, idx, cls) {
+        if (idx == null) idx = GAME.moles.indexOf(m);
+        if (idx >= 0) GAME.moles.splice(idx, 1);
+        if (m.el) {
+            var n = m.el; n.classList.add(cls);
+            setTimeout(function () { if (n.parentNode) n.remove(); }, 160);
         }
-
-        GAME.raf = requestAnimationFrame(gameTick);
+    }
+    function tickMol(dt) {
+        for (var i = GAME.moles.length - 1; i >= 0; i--) {
+            var m = GAME.moles[i];
+            m.life -= dt;
+            if (m.life <= 0) {
+                removeMole(m, i, 'gone');
+                GAME.lives--;
+                updateGameHud();
+                if (GAME.lives <= 0) { endGame(); return; }
+            }
+        }
+        if (!GAME.running) return;
+        var target = GAME.score < 6 ? 1 : (GAME.score < 15 ? 2 : 3);
+        var showMs = Math.max(950, 2200 - GAME.score * 70);
+        var gap = Math.max(450, 1300 - GAME.score * 45);
+        GAME.molSpawnTimer += dt;
+        if (GAME.moles.length < target && GAME.molSpawnTimer >= (GAME.moles.length === 0 ? 300 : gap)) {
+            GAME.molSpawnTimer = 0;
+            spawnMole(showMs);
+        }
+    }
+    function keyMol(ch) {
+        var best = -1, bestLife = Infinity;
+        for (var i = 0; i < GAME.moles.length; i++) {
+            if (GAME.moles[i].letter === ch && GAME.moles[i].life < bestLife) { best = i; bestLife = GAME.moles[i].life; }
+        }
+        if (best >= 0) {
+            removeMole(GAME.moles[best], best, 'whacked');
+            GAME.score++;
+            updateGameHud();
+        }
+        // geen match -> mild negeren
     }
 
-    function onGameKey(e) {
-        if (!GAME || !GAME.running) return;
-        if (!el.game || el.game.style.display === 'none') return;
-        if (e.ctrlKey || e.metaKey || e.altKey) return;
-        var key = e.key;
-        if (!key || key.length !== 1) return;
-        var ch = key.toLowerCase();
-        if (ch < 'a' || ch > 'z') return;
-        e.preventDefault();
-        var f = focusWord();
+    // ===== Spel 3: Monster-renner =====
+    function initRunner() {
+        GAME.pool = buildWordPool(GAME.niveauIndex);
+        if (GAME.pool.length < 4) GAME.pool = ['dag', 'als', 'sla', 'gas'];
+        var track = document.createElement('div');
+        track.className = 'tc-run-track';
+        var monster = document.createElement('div');
+        monster.className = 'tc-run-monster';
+        if (cfg.avatarFixed) {
+            var img = document.createElement('img');
+            img.src = cfg.avatarFixed; img.alt = '';
+            monster.appendChild(img);
+        } else {
+            monster.textContent = '🦖'; // dino
+        }
+        track.appendChild(monster);
+        el.gameField.appendChild(track);
+        GAME.track = track; GAME.monsterEl = monster;
+        GAME.obstacles = [];
+        GAME.spawnTimer = 1e9;
+        GAME.lastWord = '';
+        GAME.monsterX = 76;
+    }
+    function spawnObstacle() {
+        var word, tries = 0;
+        do { word = GAME.pool[Math.floor(Math.random() * GAME.pool.length)]; tries++; }
+        while (word === GAME.lastWord && tries < 10 && GAME.pool.length > 1);
+        GAME.lastWord = word;
+        var o = document.createElement('div');
+        o.className = 'tc-run-ob';
+        var wl = document.createElement('div'); wl.className = 'tc-run-word';
+        var inner = '';
+        for (var i = 0; i < word.length; i++) inner += '<span class="tc-word-l">' + word.charAt(i) + '</span>';
+        wl.innerHTML = inner;
+        var rock = document.createElement('div'); rock.className = 'tc-run-rock'; rock.textContent = '🌵';
+        o.appendChild(wl); o.appendChild(rock);
+        o.style.transform = 'translateX(' + Math.round(GAME.fieldW) + 'px)';
+        GAME.track.appendChild(o);
+        GAME.obstacles.push({ word: word, typed: 0, x: GAME.fieldW, el: o, letters: wl.querySelectorAll('.tc-word-l') });
+    }
+    function runFocus() {
+        var typing = null, nearest = null;
+        GAME.obstacles.forEach(function (o) {
+            if (o.typed > 0) typing = o;
+            if (o.x > GAME.monsterX && (!nearest || o.x < nearest.x)) nearest = o;
+        });
+        return typing || nearest || (GAME.obstacles.length ? GAME.obstacles[0] : null);
+    }
+    function updateRunFocus() {
+        var f = runFocus();
+        GAME.obstacles.forEach(function (o) { if (o.el) o.el.classList.toggle('is-focus', o === f); });
+    }
+    function bumpMonster(cls) {
+        if (!GAME.monsterEl) return;
+        GAME.monsterEl.classList.remove(cls); void GAME.monsterEl.offsetWidth; GAME.monsterEl.classList.add(cls);
+    }
+    function tickRunner(dt) {
+        var speed = (GAME.fieldW / 5) * (1 + GAME.score * 0.05);
+        speed = Math.min(speed, GAME.fieldW / 2);
+        for (var i = GAME.obstacles.length - 1; i >= 0; i--) {
+            var o = GAME.obstacles[i];
+            o.x -= speed * (dt / 1000);
+            o.el.style.transform = 'translateX(' + Math.round(o.x) + 'px)';
+            if (o.x <= GAME.monsterX) {
+                GAME.obstacles.splice(i, 1);
+                var n = o.el; n.classList.add('bumped');
+                setTimeout(function () { if (n.parentNode) n.remove(); }, 220);
+                GAME.lives--; updateGameHud(); bumpMonster('hit');
+                if (GAME.lives <= 0) { endGame(); return; }
+            }
+        }
+        if (!GAME.running) return;
+        updateRunFocus();
+        var gap = Math.max(1100, 2600 - GAME.score * 90);
+        var maxOb = GAME.score < 4 ? 1 : 2;
+        GAME.spawnTimer += dt;
+        if (GAME.obstacles.length < maxOb && GAME.spawnTimer >= (GAME.obstacles.length === 0 ? 400 : gap)) {
+            GAME.spawnTimer = 0;
+            spawnObstacle();
+        }
+    }
+    function keyRunner(ch) {
+        var f = runFocus();
         if (!f) return;
-        if (ch === f.text.charAt(f.typed)) {
+        if (ch === f.word.charAt(f.typed)) {
             f.letters[f.typed].classList.add('correct');
             f.typed++;
-            if (f.typed >= f.text.length) completeWord(f);
-            else updateFocus();
+            if (f.typed >= f.word.length) {
+                var idx = GAME.obstacles.indexOf(f);
+                if (idx >= 0) GAME.obstacles.splice(idx, 1);
+                if (f.el) { var n = f.el; n.classList.add('cleared'); setTimeout(function () { if (n.parentNode) n.remove(); }, 220); }
+                GAME.score++; updateGameHud(); bumpMonster('jump'); updateRunFocus();
+            } else {
+                updateRunFocus();
+            }
         } else if (f.el) {
-            f.el.classList.remove('tc-word-bad'); void f.el.offsetWidth; f.el.classList.add('tc-word-bad');
+            f.el.classList.remove('tc-run-bad'); void f.el.offsetWidth; f.el.classList.add('tc-run-bad');
         }
     }
 
@@ -951,26 +1199,30 @@
 
     function endGame() {
         stopGameLoop();
-        var score = GAME.score, niveau = GAME.niveau, niveauIndex = GAME.niveauIndex, niveauKey = GAME.niveauKey;
+        var score = GAME.score, niveau = GAME.niveau, niveauIndex = GAME.niveauIndex,
+            gameKey = GAME.gameKey, mode = GAME.mode;
+        var unit = GAMES[mode].unit;
         showGameOverlay(
             '<div class="tc-go-emoji">&#127937;</div>' +
             '<h2>Game over!</h2>' +
-            '<p class="tc-go-score">Je score: <b>' + score + '</b> ' + (score === 1 ? 'woord' : 'woorden') + '</p>' +
+            '<p class="tc-go-score">Je score: <b>' + score + '</b> ' + (score === 1 ? unit[0] : unit[1]) + '</p>' +
             '<div class="tc-go-board" id="tcGoBoard"><div class="tc-go-loading">Ranglijst laden&hellip;</div></div>' +
             '<div class="tc-go-btns">' +
-                '<button type="button" class="tc-go-btn primary" id="tcGoRetry">Opnieuw spelen</button>' +
-                '<button type="button" class="tc-go-btn" id="tcGoBack">Terug naar de route</button>' +
+                '<button type="button" class="tc-go-btn primary" id="tcGoRetry">Opnieuw</button>' +
+                '<button type="button" class="tc-go-btn" id="tcGoOther">Ander spel</button>' +
+                '<button type="button" class="tc-go-btn" id="tcGoBack">Naar de route</button>' +
             '</div>'
         );
-        var r = document.getElementById('tcGoRetry'); if (r) r.onclick = function () { startGame(niveau, niveauIndex); };
+        var r = document.getElementById('tcGoRetry'); if (r) r.onclick = function () { startGame(niveau, niveauIndex, mode); };
+        var o = document.getElementById('tcGoOther'); if (o) o.onclick = function () { openGamePicker(niveau, niveauIndex); };
         var b = document.getElementById('tcGoBack'); if (b) b.onclick = exitGame;
 
-        Promise.resolve(cfg.saveGameScore ? cfg.saveGameScore(niveauKey, score) : null)
-            .then(function (res) { renderLeaderboard(niveau, res); })
-            .catch(function () { renderLeaderboard(niveau, null); });
+        Promise.resolve(cfg.saveGameScore ? cfg.saveGameScore(gameKey, score) : null)
+            .then(function (res) { renderLeaderboard(niveau, mode, res); })
+            .catch(function () { renderLeaderboard(niveau, mode, null); });
     }
 
-    function renderLeaderboard(niveau, res) {
+    function renderLeaderboard(niveau, mode, res) {
         var board = document.getElementById('tcGoBoard');
         if (!board) return;
         var list = (res && res.leaderboard) || [];
@@ -978,7 +1230,8 @@
             board.innerHTML = '<div class="tc-go-empty">Speel om als eerste op de ranglijst te komen!</div>';
             return;
         }
-        var html = '<div class="tc-go-title">Ranglijst &mdash; ' + esc(niveau.name) + '</div><ol class="tc-go-list">';
+        var html = '<div class="tc-go-title">Ranglijst &mdash; ' + esc(GAMES[mode].name) +
+            ' <span class="tc-go-subtitle">(' + esc(niveau.name) + ')</span></div><ol class="tc-go-list">';
         list.forEach(function (e, i) {
             var medal = i === 0 ? '&#129351;' : i === 1 ? '&#129352;' : i === 2 ? '&#129353;' : (i + 1);
             html += '<li class="' + (e.isMe ? 'me' : '') + '">' +

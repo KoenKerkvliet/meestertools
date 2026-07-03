@@ -256,6 +256,99 @@
 .tc-go-name { flex: 1; min-width: 0; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tc-go-pts { flex: 0 0 auto; font-weight: 800; color: var(--primary); }
 .tc-go-empty, .tc-go-loading { color: var(--text-light); font-size: 14px; padding: 12px; }
+.tc-go-subtitle { color: var(--text-light); font-weight: 600; }
+
+/* Speelkeuze-menu */
+.tc-go-games { display: flex; flex-direction: column; gap: 10px; margin: 6px 0 14px; text-align: left; }
+.tc-go-game {
+    display: flex; align-items: center; gap: 14px;
+    border: 2px solid rgba(108,99,255,.2); background: var(--bg-white);
+    border-radius: var(--radius-md); padding: 12px 14px; cursor: pointer;
+    font-family: inherit; transition: all .15s ease; width: 100%;
+}
+.tc-go-game:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.tc-go-game-emoji { font-size: 28px; flex: 0 0 auto; }
+.tc-go-game-txt { display: flex; flex-direction: column; }
+.tc-go-game-txt b { font-size: 15px; color: var(--text-dark); }
+.tc-go-game-txt span { font-size: 12.5px; color: var(--text-medium); }
+
+/* ---------- Toetsen-mol ---------- */
+.tc-mol-grid {
+    position: absolute; inset: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr);
+    gap: 10px; padding: 18px;
+}
+.tc-mol-hole {
+    position: relative;
+    display: flex; align-items: flex-end; justify-content: center;
+    padding-bottom: 6%;
+}
+.tc-mol-hole::after {
+    content: ''; position: absolute; left: 12%; right: 12%; bottom: 4%; height: 22%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, #B98C5A 0%, #9A6E3E 70%, #86602F 100%);
+    box-shadow: inset 0 4px 8px rgba(0,0,0,.35);
+}
+.tc-mol {
+    position: relative; z-index: 1;
+    width: clamp(46px, 9vw, 66px); height: clamp(46px, 9vw, 66px);
+    display: flex; align-items: center; justify-content: center;
+    border: 3px solid rgba(0,0,0,.12);
+    border-radius: 50% 50% 46% 46%;
+    font-size: clamp(22px, 5vw, 30px); font-weight: 800; text-transform: lowercase;
+    color: #4a3b1e;
+    box-shadow: 0 5px 0 rgba(0,0,0,.15), 0 6px 10px rgba(0,0,0,.18);
+    animation: tcMolUp .18s ease-out;
+}
+@keyframes tcMolUp { from { transform: translateY(60%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.tc-mol.whacked { animation: tcMolWhack .16s ease forwards; }
+@keyframes tcMolWhack { to { transform: translateY(70%) scale(.6); opacity: 0; } }
+.tc-mol.gone { animation: tcMolGone .16s ease forwards; }
+@keyframes tcMolGone { to { transform: translateY(70%); opacity: 0; } }
+
+/* ---------- Monster-renner ---------- */
+.tc-run-track {
+    position: absolute; inset: 0; overflow: hidden;
+}
+.tc-run-track::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 46px;
+    background: linear-gradient(180deg, #C8E6A0, #A9D479);
+    border-top: 3px solid #8FBE5E;
+}
+.tc-run-monster {
+    position: absolute; left: 20px; bottom: 40px; z-index: 2;
+    width: 54px; height: 54px;
+    display: flex; align-items: flex-end; justify-content: center;
+    font-size: 44px; line-height: 1;
+    animation: tcRunBob .5s ease-in-out infinite;
+}
+.tc-run-monster img { width: 54px; height: 54px; object-fit: contain; }
+@keyframes tcRunBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+.tc-run-monster.jump { animation: tcRunJump .5s ease; }
+@keyframes tcRunJump { 0%,100% { transform: translateY(0); } 40% { transform: translateY(-64px); } }
+.tc-run-monster.hit { animation: tcRunHit .3s ease; }
+@keyframes tcRunHit { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } filter: none; }
+
+.tc-run-ob {
+    position: absolute; left: 0; bottom: 40px; z-index: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    will-change: transform;
+}
+.tc-run-rock { font-size: 42px; line-height: 1; }
+.tc-run-word {
+    display: inline-flex; gap: 1px;
+    background: rgba(255,255,255,.94);
+    border: 3px solid transparent; border-radius: 10px;
+    padding: 5px 10px;
+    font-size: clamp(18px, 2.6vw, 24px); font-weight: 800; color: var(--text-dark);
+    box-shadow: 0 3px 7px rgba(0,0,0,.14); white-space: nowrap;
+}
+.tc-run-ob.is-focus .tc-run-word { border-color: var(--primary); box-shadow: 0 4px 12px rgba(108,99,255,.3); }
+.tc-run-ob.cleared { animation: tcRunCleared .22s ease forwards; }
+@keyframes tcRunCleared { to { transform: translateX(var(--x)) translateY(-40px); opacity: 0; } }
+.tc-run-ob.bumped { animation: tcRunBumped .22s ease forwards; }
+@keyframes tcRunBumped { to { opacity: 0; filter: saturate(.3); } }
+.tc-run-ob.tc-run-bad .tc-run-word { animation: tcWordBad .22s ease; }
 
 /* De levels van een niveau staan naast elkaar en vullen de volle breedte;
    bij smallere schermen lopen ze netjes door naar de volgende regel. */
