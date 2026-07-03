@@ -250,9 +250,65 @@ document.addEventListener('DOMContentLoaded', () => {
     const isToolPage = document.querySelector('.tool-page-content');
     const isAdminPage = document.querySelector('.admin-content');
 
+    // Gratis laag: deze tools werken ook zonder account (geen klasdata nodig).
+    // Gasten krijgen geen redirect maar een banner met uitnodiging.
+    const PUBLIC_TOOLS = [
+        'digibord/dobbelstenen',
+        'digibord/draairad',
+        'digibord/geluidsmeter',
+        'digibord/stoplicht',
+        'digibord/timetimer'
+    ];
+    function isPublicToolPath() {
+        const p = window.location.pathname
+            .replace(/^\/+/, '').replace(/\.html$/, '').replace(/\/+$/, '');
+        return PUBLIC_TOOLS.indexOf(p) !== -1;
+    }
+
+    function enableGuestMode() {
+        document.body.classList.add('mt-guest');
+        if (sessionStorage.getItem('mt_guest_banner_hidden')) return;
+
+        const banner = document.createElement('div');
+        banner.className = 'guest-banner';
+
+        const text = document.createElement('span');
+        text.className = 'guest-banner-text';
+        text.textContent = 'Je gebruikt deze tool zonder account. Met een gratis account stel je één keer je klas in en worden je instellingen bewaard.';
+
+        const register = document.createElement('a');
+        register.className = 'guest-banner-btn';
+        register.href = getBasePath() + 'registreer';
+        register.textContent = 'Gratis account';
+
+        const login = document.createElement('a');
+        login.className = 'guest-banner-login';
+        login.href = getBasePath() + 'inloggen';
+        login.textContent = 'Inloggen';
+
+        const dismiss = document.createElement('button');
+        dismiss.className = 'guest-banner-dismiss';
+        dismiss.title = 'Melding sluiten';
+        dismiss.innerHTML = '&times;';
+        dismiss.addEventListener('click', () => {
+            banner.remove();
+            try { sessionStorage.setItem('mt_guest_banner_hidden', '1'); } catch (e) {}
+        });
+
+        banner.appendChild(text);
+        banner.appendChild(register);
+        banner.appendChild(login);
+        banner.appendChild(dismiss);
+        document.body.prepend(banner);
+    }
+
     if (isDashboard || isToolPage || isAdminPage) {
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (!session) {
+                if (isToolPage && isPublicToolPath()) {
+                    enableGuestMode();
+                    return;
+                }
                 window.location.href = getBasePath() + 'inloggen';
                 return;
             }

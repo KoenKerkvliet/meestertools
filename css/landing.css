@@ -265,6 +265,21 @@
     font-weight: 600;
     white-space: nowrap;
 }
+.lp-chip-free {
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    transition: var(--transition);
+}
+.lp-chip-free::after {
+    content: '\2192';
+    font-weight: 800;
+}
+.lp-chip-free:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
 
 /* ---------- Leerling-sectie ---------- */
 .lp-split {
