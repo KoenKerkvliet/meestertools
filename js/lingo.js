@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var LEN_KEY = 'mt_lingo_len';
     var SOUND_KEY = 'mt_lingo_sound';
-    var ATTEMPTS = 6;
+    var ATTEMPTS = 5;
     var REVEAL_STEP_MS = 450; // ritme van de piepjes bij het onthullen
 
     // ---------- Geluid (piepje per letter) ----------
