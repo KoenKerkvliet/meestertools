@@ -443,9 +443,6 @@
         return 0;
     }
 
-    // Zachte slinger naar links en rechts, net als bij Duolingo.
-    function pathOffset(i) { return Math.round(Math.sin(i * 0.9) * 64); }
-
     function starPips(n) {
         var out = '<span class="tc-node-stars">';
         for (var i = 0; i < 3; i++) out += '<i class="' + (i < n ? 'on' : '') + '">&#9733;</i>';
@@ -467,6 +464,7 @@
 
         LESSONS.forEach(function (l, i) {
             if (l.niveau !== lastNiveau) {
+                if (lastNiveau !== null) html += '</div>'; // vorige niveau-rij sluiten
                 lastNiveau = l.niveau;
                 sectionIdx++;
                 var locked = isLessonLocked(l);
@@ -475,6 +473,7 @@
                     '<span class="tc-section-label">Niveau ' + (sectionIdx + 1) +
                     (locked ? ' &#128274;' : '') + '</span>' +
                     '<span class="tc-section-name">' + esc(l.niveau) + '</span></div>';
+                html += '<div class="tc-section-nodes">'; // levels naast elkaar over de volle breedte
             }
 
             var stars = lessonStars(l);
@@ -484,7 +483,7 @@
             var stateCls = locked ? 'locked' : (done ? 'done' : (isCur ? 'current' : 'todo'));
             var icon = locked ? '&#128274;' : (done ? '&#10004;' : '&#9733;');
 
-            html += '<div class="tc-node-wrap" style="transform:translateX(' + pathOffset(i) + 'px)">';
+            html += '<div class="tc-node-wrap' + (isCur && !locked ? ' is-current' : '') + '">';
             if (isCur && !locked) {
                 html += '<span class="tc-node-start">START</span>';
                 html += '<img class="tc-node-avatar" src="' + currentAvatarSrc() + '" alt="">';
@@ -496,6 +495,7 @@
             html += '<span class="tc-node-label">' + esc(l.titel) + '</span>';
             html += '</div>';
         });
+        if (lastNiveau !== null) html += '</div>'; // laatste niveau-rij sluiten
 
         el.path.innerHTML = html;
 

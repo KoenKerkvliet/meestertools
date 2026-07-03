@@ -3,7 +3,7 @@
    ============================================ */
 
 /* ---------- Speelveld / route ---------- */
-.tc-map { max-width: 560px; margin: 0 auto; }
+.tc-map { max-width: 1080px; margin: 0 auto; }
 
 .tc-map-head {
     display: flex;
@@ -43,10 +43,20 @@
 .tc-map-headtext strong { color: var(--accent-orange); }
 
 .tc-path {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     padding-bottom: 30px;
+}
+
+/* De levels van een niveau staan naast elkaar en vullen de volle breedte;
+   bij smallere schermen lopen ze netjes door naar de volgende regel. */
+.tc-section-nodes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 22px 30px;
+    /* ruimte bovenaan voor de START-bubbel + het monstertje boven het huidige level */
+    padding-top: 36px;
+    margin: 4px 0 6px;
 }
 
 /* niveau-balk */
@@ -76,7 +86,7 @@
     flex-direction: column;
     align-items: center;
     gap: 5px;
-    margin: 10px 0;
+    width: 112px;
 }
 .tc-node { position: relative; width: 64px; height: 64px; border: none; background: none; padding: 0; cursor: pointer; }
 .tc-node-circle {
@@ -140,8 +150,8 @@
 }
 .tc-node-avatar {
     position: absolute;
-    width: 52px; height: 52px;
-    right: -44px; top: 6px;
+    width: 46px; height: 46px;
+    right: -26px; top: -28px;
     object-fit: cover;
     border-radius: 50%;
     background: #fff;
@@ -479,7 +489,9 @@
     .tc-key-mod, .tc-key-space { font-size: 9px; }
 }
 @media (max-width: 520px) {
-    .tc-node-avatar { right: -36px; width: 42px; height: 42px; }
+    .tc-node-avatar { right: -20px; top: -26px; width: 40px; height: 40px; }
+    .tc-section-nodes { gap: 16px 18px; }
+    .tc-node-wrap { width: 92px; }
     .tc-avatar-grid { grid-template-columns: repeat(5, 1fr); }
     .tc-workspace { padding: 16px 14px; }
     .tc-key { font-size: 9px; }
