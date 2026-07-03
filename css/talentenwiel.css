@@ -1,0 +1,324 @@
+/* ============================================
+   MEESTERTOOLS - Talentenwiel
+   Draai het wiel en zet een kind in het zonnetje.
+   ============================================ */
+
+.tw-wrap {
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+/* ---------- Tabs ---------- */
+.tw-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.tw-tab {
+    border: 2px solid rgba(108, 99, 255, 0.25);
+    background: var(--bg-white);
+    color: var(--text-dark);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 10px 22px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.tw-tab.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+/* ---------- Wiel ---------- */
+.tw-wheel-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+}
+
+.tw-wheel-wrapper {
+    position: relative;
+    width: min(520px, 88vw);
+}
+
+.tw-wheel-wrapper canvas {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 10px 24px rgba(108, 99, 255, 0.25));
+}
+
+.tw-pointer {
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 26px solid var(--secondary);
+    z-index: 2;
+    filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.25));
+}
+
+.tw-spin-btn {
+    border: none;
+    background: var(--primary);
+    color: #fff;
+    font-family: inherit;
+    font-size: 19px;
+    font-weight: 800;
+    border-radius: 999px;
+    padding: 16px 40px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.tw-spin-btn:hover:not(:disabled) {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.tw-spin-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+/* ---------- Spotlight ---------- */
+.tw-spotlight {
+    margin: 26px auto 0;
+    max-width: 560px;
+    background: linear-gradient(135deg, rgba(255, 217, 61, 0.18), rgba(255, 140, 66, 0.12));
+    border: 2px solid rgba(255, 217, 61, 0.6);
+    border-radius: var(--radius-xl);
+    padding: 30px 26px;
+    text-align: center;
+    animation: twPop 0.35s ease-out;
+}
+
+@keyframes twPop {
+    from { transform: scale(0.92); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.tw-spot-emoji {
+    font-size: 42px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.tw-spotlight h2 {
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 800;
+    margin-bottom: 14px;
+}
+
+.tw-spot-talents {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.tw-talent-chip {
+    background: var(--bg-white);
+    border: 2px solid rgba(255, 140, 66, 0.5);
+    color: var(--text-dark);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: 700;
+}
+
+.tw-spot-ask {
+    color: var(--text-medium);
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.tw-edit-btn {
+    border: none;
+    background: var(--bg-white);
+    color: var(--primary);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 10px 22px;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.tw-edit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ---------- Overzicht ---------- */
+.tw-stats {
+    text-align: center;
+    color: var(--text-medium);
+    font-size: 14px;
+    margin: 0 0 18px;
+}
+
+.tw-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+.tw-card {
+    background: var(--bg-white);
+    border: 2px solid transparent;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 16px;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: left;
+    font-family: inherit;
+}
+
+.tw-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(108, 99, 255, 0.35);
+}
+
+.tw-card-name {
+    display: block;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.tw-card-talents {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tw-card-talents .tw-mini-chip {
+    background: rgba(108, 99, 255, 0.09);
+    color: var(--text-dark);
+    border-radius: 999px;
+    padding: 4px 11px;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+.tw-card.no-talents .tw-card-none {
+    color: var(--text-light);
+    font-style: italic;
+    font-size: 13px;
+}
+
+/* ---------- Modal ---------- */
+.tw-max-hint {
+    font-weight: 400;
+    color: var(--text-light);
+}
+
+.tw-chosen,
+.tw-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tw-chosen:empty::after {
+    content: 'Nog geen talenten gekozen.';
+    color: var(--text-light);
+    font-style: italic;
+    font-size: 13px;
+}
+
+.tw-pick {
+    border: 2px solid rgba(108, 99, 255, 0.3);
+    background: var(--bg-white);
+    color: var(--text-dark);
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 7px 14px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.tw-pick:hover {
+    border-color: var(--primary);
+}
+
+.tw-pick.chosen {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+.tw-chosen .tw-pick::after {
+    content: ' \00d7';
+    opacity: 0.7;
+}
+
+.tw-custom-row {
+    display: flex;
+    gap: 8px;
+}
+
+.tw-custom-row input {
+    flex: 1;
+}
+
+.tw-add-btn {
+    flex: 0 0 auto;
+    width: 44px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: var(--primary);
+    color: #fff;
+    font-size: 20px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.tw-add-btn:hover {
+    background: var(--primary-dark);
+}
+
+/* ---------- Lege staat ---------- */
+.tw-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-medium);
+}
+
+.tw-empty-icon {
+    font-size: 52px;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.tw-empty h2 {
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+@media (max-width: 560px) {
+    .tw-grid { grid-template-columns: 1fr 1fr; }
+    .tw-spin-btn { font-size: 16px; padding: 13px 30px; }
+}
