@@ -1,0 +1,21 @@
+name: Supabase keepalive
+
+# Voorkomt dat het gratis Supabase-project wordt gepauzeerd na inactiviteit.
+# De interne pg_cron job (keepalive_tick) schrijft dagelijks naar de database,
+# maar raakt nooit de API-gateway — Supabase's pauze-detectie kijkt naar
+# echt API-verkeer. Deze workflow doet dat door dagelijks een onschuldig
+# health-check request te doen naar de Auth API.
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Auth health endpoint
+        run: |
+          curl -sf "https://chnjybpwquystuwmiger.supabase.co/auth/v1/health" \
+            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNobmp5YnB3cXV5c3R1d21pZ2VyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NzAzOTgsImV4cCI6MjA4ODE0NjM5OH0.d2tlRjvXsk34J3mnYIuCFPWSQR6m6YLu3zv5S7qbz88"
