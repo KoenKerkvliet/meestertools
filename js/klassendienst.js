@@ -13,6 +13,11 @@
    - Taken bevatten een dag-veld { text, day } waarbij day 'all' of 1..5 is.
    - Toont: deze week (wie + taken per dag), sneak preview volgende week en
      een jaaroverzicht dat als pdf te downloaden is.
+   - Het afvinken van de taken en de uitgedeelde beloning staan per klas per dag
+     in klassendienst_days, zodat digibord en laptop dezelfde stand tonen.
+   - Bij een koppeling met Klasseprestatie: zodra alle taken van vandaag af zijn,
+     kiest de leerkracht in een venster wie de beloning krijgt. Nooit automatisch,
+     want een kind kan naar huis gaan zonder zijn deel te doen.
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -41,6 +46,14 @@ document.addEventListener('DOMContentLoaded', function () {
     var chooseSub = document.getElementById('kdChooseSub');
     var chooseCount = document.getElementById('kdChooseCount');
 
+    var awardModal = document.getElementById('kdAwardModal');
+    var awardClose = document.getElementById('kdAwardClose');
+    var awardLater = document.getElementById('kdAwardLater');
+    var awardConfirm = document.getElementById('kdAwardConfirm');
+    var awardGrid = document.getElementById('kdAwardGrid');
+    var awardReward = document.getElementById('kdAwardReward');
+    var awardSub = document.getElementById('kdAwardSub');
+
     var settingsChooseBtn = document.getElementById('kdSettingsChooseBtn');
     var settingsResetBtn = document.getElementById('kdSettingsResetBtn');
     var settingsManualStatus = document.getElementById('kdSettingsManualStatus');
@@ -56,6 +69,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var schoolWeeks = [];           // [{ monday, friday, sunday, index, students }]
     var selectedDay = 0;            // 0 = vandaag (auto), 1..5 = ma..vr
     var checkState = {};            // { taskText: true } voor de huidige datum
+    var dayKey = '';                // yyyy-mm-dd van de geladen dagstatus
+    var awardedAt = null;           // moment waarop de beloning is uitgedeeld
+    var awardedIds = [];            // leerling-ids die de beloning kregen
+    var awardDismissed = false;     // 'Later' geklikt: niet opnieuw vanzelf openen
+    var awardSelected = [];         // aangevinkte kinderen in het beloningsvenster
     var currentUser = null;         // gecachede Supabase gebruiker
     var klassePrestRewardTypes = []; // positieve reward types uit Klasseprestatie
 
@@ -195,82 +213,113 @@ document.addEventListener('DOMContentLoaded', function () {
         return selectedDay || todayWeekdayCode();
     }
 
-    // ---------- Afvinklijst (per datum, lokaal) ----------
-    function checkStorageKey() {
-        var d = new Date();
-        var ymd = d.getFullYear() + '-' +
-            ('0' + (d.getMonth() + 1)).slice(-2) + '-' +
-            ('0' + d.getDate()).slice(-2);
-        return 'mt_kd_check_' + (groupId || 'x') + '_' + ymd;
+    // ---------- Afvinklijst + beloning (per datum, in de database) ----------
+    // Staat in klassendienst_days (uniek per klas + dag), zodat het afvinken en
+    // de uitgedeelde beloning op elk apparaat hetzelfde zijn. Eerder stond dit
+    // in localStorage, waardoor een tweede apparaat dezelfde dag opnieuw punten
+    // kon uitdelen.
+    function todayYmd() {
+        return ymd(new Date());
     }
 
-    function loadCheckState() {
+    function resetDayState() {
         checkState = {};
+        awardedAt = null;
+        awardedIds = [];
+        awardDismissed = false;
+    }
+
+    async function loadDayState() {
+        dayKey = todayYmd();
+        resetDayState();
+        if (!currentUser || !groupId) return;
         try {
-            var raw = localStorage.getItem(checkStorageKey());
-            var arr = raw ? JSON.parse(raw) : [];
+            var res = await supabase
+                .from('klassendienst_days')
+                .select('completed_tasks, awarded_at, awarded_student_ids')
+                .eq('group_id', groupId)
+                .eq('day', dayKey)
+                .maybeSingle();
+            if (res.error || !res.data) return;
+            var arr = res.data.completed_tasks;
             if (Array.isArray(arr)) {
                 arr.forEach(function (k) { checkState[k] = true; });
             }
-        } catch (e) { checkState = {}; }
+            awardedAt = res.data.awarded_at || null;
+            awardedIds = Array.isArray(res.data.awarded_student_ids) ? res.data.awarded_student_ids : [];
+        } catch (e) { /* stil falen: de tool blijft bruikbaar zonder opslag */ }
     }
 
-    function saveCheckState() {
+    async function saveDayState() {
+        if (!currentUser || !groupId) return;
+        var payload = {
+            user_id: currentUser.id,
+            group_id: groupId,
+            day: dayKey || todayYmd(),
+            completed_tasks: Object.keys(checkState).filter(function (k) { return checkState[k]; }),
+            awarded_at: awardedAt,
+            awarded_student_ids: awardedIds,
+            updated_at: new Date().toISOString()
+        };
         try {
-            var arr = Object.keys(checkState).filter(function (k) { return checkState[k]; });
-            localStorage.setItem(checkStorageKey(), JSON.stringify(arr));
-        } catch (e) { /* stil falen */ }
-        checkAndAward();
+            var res = await supabase
+                .from('klassendienst_days')
+                .upsert(payload, { onConflict: 'group_id,day' });
+            if (res.error) console.error('Klassendienst opslaan mislukt:', res.error);
+        } catch (e) { console.error('Klassendienst opslaan mislukt:', e); }
+    }
+
+    // Is de geladen dagstatus nog van vandaag? (bord blijft soms nachten aan staan)
+    async function ensureFreshDay() {
+        if (dayKey === todayYmd()) return false;
+        await loadDayState();
+        return true;
     }
 
     // ---------- Koppeling Klasseprestatie ----------
-    function awardedKey() {
-        var d = new Date();
-        var ymd = d.getFullYear() + '-' +
-            ('0' + (d.getMonth() + 1)).slice(-2) + '-' +
-            ('0' + d.getDate()).slice(-2);
-        return 'mt_kd_awarded_' + (groupId || 'x') + '_' + ymd;
+    function kdLinkReady() {
+        return !!(settings.kdLink.enabled && settings.kdLink.rewardTypeId && currentRewardType());
     }
 
-    function wasAwardedToday() {
-        try { return !!localStorage.getItem(awardedKey()); } catch (e) { return false; }
+    function currentRewardType() {
+        return klassePrestRewardTypes.find(function (r) {
+            return r.id === settings.kdLink.rewardTypeId;
+        }) || null;
     }
 
-    function markAwardedToday() {
-        try { localStorage.setItem(awardedKey(), '1'); } catch (e) {}
+    function todayTasks() {
+        var code = todayWeekdayCode();
+        return settings.tasks.filter(function (t) {
+            return t.day === 'all' || t.day === code;
+        });
     }
 
     function allTodayTasksDone() {
-        var code = todayWeekdayCode();
-        var todayTasks = settings.tasks.filter(function (t) {
-            return t.day === 'all' || t.day === code;
-        });
-        if (!todayTasks.length) return false;
-        return todayTasks.every(function (t) { return !!checkState[t.text]; });
+        var list = todayTasks();
+        if (!list.length) return false;
+        return list.every(function (t) { return !!checkState[t.text]; });
     }
 
-    async function checkAndAward() {
-        if (!settings.kdLink.enabled || !settings.kdLink.rewardTypeId) return;
-        if (wasAwardedToday()) return;
-        if (!allTodayTasksDone()) return;
-
-        // Haal de huidige dienstdoende leerlingen op
+    // De kinderen die deze week dienst hebben (leeg tijdens vakantie).
+    function dutyStudentsNow() {
         var cur = findCurrentWeek();
-        if (cur.index === -1 || cur.vacationNow) return;
-        var dutyStudents = schoolWeeks[cur.index] ? schoolWeeks[cur.index].students : [];
-        if (!dutyStudents.length) return;
+        if (cur.index === -1 || cur.vacationNow) return [];
+        return (schoolWeeks[cur.index] && schoolWeeks[cur.index].students) || [];
+    }
 
-        // Vind het reward type
-        var rt = klassePrestRewardTypes.find(function (r) {
-            return r.id === settings.kdLink.rewardTypeId;
-        });
-        if (!rt) return;
-
-        await awardKlasseprestatiePoints(rt, dutyStudents);
+    // Na het afvinken van de laatste taak: vraag wie de beloning verdient.
+    // De leerkracht bevestigt zelf, zodat een kind dat naar huis ging niet
+    // meelift op het werk van de rest.
+    function maybeOfferAward() {
+        if (awardedAt || awardDismissed) return;
+        if (!kdLinkReady()) return;
+        if (!allTodayTasksDone()) return;
+        if (!dutyStudentsNow().length) return;
+        openAwardModal();
     }
 
     async function awardKlasseprestatiePoints(rt, dutyStudents) {
-        if (!currentUser) return;
+        if (!currentUser) return false;
         var signed = rt.type === 'positief' ? rt.points : -rt.points;
         var rows = dutyStudents.map(function (s) {
             return {
@@ -283,14 +332,18 @@ document.addEventListener('DOMContentLoaded', function () {
         var res = await supabase.from('klasseprestatie_points').insert(rows);
         if (res.error) {
             console.error('Klasseprestatie koppeling fout:', res.error);
-            return;
+            showToast('&#9888;&#65039; De beloning kon niet worden opgeslagen. Probeer het opnieuw.');
+            return false;
         }
-        markAwardedToday();
+        awardedAt = new Date().toISOString();
+        awardedIds = dutyStudents.map(function (s) { return s.id; });
+        await saveDayState();
         var namen = dutyStudents.map(function (s) {
             return s.first_name || studentName(s);
         }).join(' & ');
         showToast('&#127942; ' + namen + ' ' + (dutyStudents.length === 1 ? 'heeft' : 'hebben') +
             ' "' + rt.icon + ' ' + rt.label + '" ontvangen in Klasseprestatie!');
+        return true;
     }
 
     function showToast(msg) {
@@ -497,7 +550,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Render ----------
     function render() {
-        loadCheckState();
+        // Is het intussen een nieuwe dag? Dan de dagstatus opnieuw ophalen.
+        if (dayKey && dayKey !== todayYmd()) {
+            loadDayState().then(render);
+            return;
+        }
 
         if (!window.MTActiveClass || !window.MTActiveClass.getId()) {
             container.innerHTML = noClassHtml();
@@ -564,7 +621,7 @@ document.addEventListener('DOMContentLoaded', function () {
         html += '      </div>';
 
         // Taakoverzicht (verwisselbaar per tab)
-        html += '      <div id="kdTasksWrap">' + taskListHtml(dayCode) + '</div>';
+        html += '      <div id="kdTasksWrap">' + taskListHtml(dayCode) + awardBoxHtml(dayCode) + '</div>';
         html += '    </div>';
         html += '  </div>';
         html += '</section>';
@@ -585,6 +642,7 @@ document.addEventListener('DOMContentLoaded', function () {
         container.innerHTML = html;
         bindDayTabs();
         bindTaskChecks();
+        bindAwardBox();
         bindOverview();
     }
 
@@ -640,6 +698,177 @@ document.addEventListener('DOMContentLoaded', function () {
         }).join('') + '</ul>';
     }
 
+    // ---- Beloningsblok onder de takenlijst (alleen voor vandaag) ----
+    function awardBoxHtml(dayCode) {
+        if (dayCode !== todayWeekdayCode()) return '';
+        if (!kdLinkReady()) return '';
+
+        var duty = dutyStudentsNow();
+        if (!duty.length) return '';
+
+        if (awardedAt) {
+            var byId = {};
+            duty.forEach(function (s) { byId[s.id] = s; });
+            var namen = awardedIds.map(function (id) {
+                var s = byId[id];
+                return s ? (s.first_name || studentName(s)) : null;
+            }).filter(Boolean).join(' & ');
+            var skipped = duty.length - awardedIds.length;
+            var extra = skipped > 0
+                ? ' <span class="kd-award-skipped">(' + skipped + ' ' + (skipped === 1 ? 'kind' : 'kinderen') + ' overgeslagen)</span>'
+                : '';
+            return '<div class="kd-award-box is-done">' +
+                '<span class="kd-award-done-text">&#9989; Beloning gegeven aan <strong>' +
+                escapeHtml(namen || '-') + '</strong>' + extra + '</span>' +
+                '<button type="button" class="kd-award-undo" id="kdAwardUndo">Terugdraaien</button>' +
+                '</div>';
+        }
+
+        if (!allTodayTasksDone()) return '';
+
+        var rt = currentRewardType();
+        return '<div class="kd-award-box">' +
+            '<span class="kd-award-ready">&#127881; Alle taken van vandaag zijn gedaan!</span>' +
+            '<button type="button" class="btn-primary kd-award-btn" id="kdAwardBtn">&#127942; Beloning geven' +
+            (rt ? ' (' + escapeHtml(rt.icon + ' ' + rt.label) + ')' : '') + '</button>' +
+            '</div>';
+    }
+
+    function refreshAwardBox() {
+        var wrap = document.getElementById('kdTasksWrap');
+        if (!wrap) return;
+        var existing = wrap.querySelector('.kd-award-box');
+        if (existing) existing.remove();
+        var html = awardBoxHtml(activeDayCode());
+        if (html) wrap.insertAdjacentHTML('beforeend', html);
+        bindAwardBox();
+    }
+
+    function bindAwardBox() {
+        var btn = document.getElementById('kdAwardBtn');
+        if (btn) btn.addEventListener('click', function () { openAwardModal(); });
+        var undo = document.getElementById('kdAwardUndo');
+        if (undo) undo.addEventListener('click', undoAward);
+    }
+
+    // ---- Beloningsvenster: wie krijgt de punten? ----
+    function openAwardModal() {
+        if (!awardModal) return;
+        var duty = dutyStudentsNow();
+        var rt = currentRewardType();
+        if (!duty.length || !rt) return;
+
+        // Standaard staat iedereen met dienst aangevinkt; uitvinken kan altijd.
+        awardSelected = duty.map(function (s) { return s.id; });
+        if (awardSub) {
+            awardSub.textContent = duty.length === 1
+                ? 'Vink uit als dit kind de klassendienst toch niet heeft gedaan.'
+                : 'Vink de kinderen uit die de klassendienst niet hebben gedaan.';
+        }
+        if (awardReward) {
+            awardReward.innerHTML = 'Beloning: <strong>' +
+                escapeHtml(rt.icon + ' ' + rt.label) + '</strong> ' +
+                '<span class="kd-award-points">+' + escapeHtml(String(rt.points)) + '</span>';
+        }
+        renderAwardGrid();
+        awardModal.classList.add('active');
+    }
+
+    function closeAwardModal() {
+        if (awardModal) awardModal.classList.remove('active');
+    }
+
+    function dismissAwardModal() {
+        awardDismissed = true;
+        closeAwardModal();
+        refreshAwardBox();
+    }
+
+    function renderAwardGrid() {
+        if (!awardGrid) return;
+        var duty = dutyStudentsNow();
+        awardGrid.innerHTML = duty.map(function (s) {
+            var sel = awardSelected.indexOf(s.id) !== -1;
+            return '<button type="button" class="kd-award-chip' + (sel ? ' selected' : '') + '" data-id="' + s.id + '" ' +
+                'aria-pressed="' + (sel ? 'true' : 'false') + '">' +
+                '<span class="kd-award-tick">' + (sel ? '&#10003;' : '') + '</span>' +
+                '<img src="' + monsterForStudent(s) + '" alt="" class="kd-award-monster" ' +
+                    'onerror="this.style.visibility=\'hidden\'">' +
+                '<span class="kd-award-name">' + escapeHtml(s.first_name || studentName(s)) + '</span>' +
+                '</button>';
+        }).join('');
+        awardGrid.querySelectorAll('.kd-award-chip').forEach(function (b) {
+            b.addEventListener('click', function () {
+                var id = b.dataset.id;
+                var i = awardSelected.indexOf(id);
+                if (i === -1) { awardSelected.push(id); } else { awardSelected.splice(i, 1); }
+                renderAwardGrid();
+            });
+        });
+        if (awardConfirm) {
+            awardConfirm.disabled = awardSelected.length === 0;
+            awardConfirm.innerHTML = awardSelected.length === 0
+                ? 'Geef beloning'
+                : 'Geef beloning aan ' + awardSelected.length +
+                  ' ' + (awardSelected.length === 1 ? 'kind' : 'kinderen');
+        }
+    }
+
+    async function confirmAward() {
+        if (!awardSelected.length) return;
+        var rt = currentRewardType();
+        if (!rt) return;
+        var duty = dutyStudentsNow();
+        var chosen = duty.filter(function (s) { return awardSelected.indexOf(s.id) !== -1; });
+        if (!chosen.length) return;
+
+        if (awardConfirm) awardConfirm.disabled = true;
+        var ok = await awardKlasseprestatiePoints(rt, chosen);
+        if (awardConfirm) awardConfirm.disabled = false;
+        if (!ok) return;
+        closeAwardModal();
+        refreshAwardBox();
+    }
+
+    async function undoAward() {
+        if (!awardedAt || !currentUser) return;
+        if (!confirm('De beloning van vandaag terugdraaien? De punten worden uit Klasseprestatie verwijderd.')) return;
+
+        var rt = currentRewardType();
+        // Verwijder precies de punten van deze uitreiking: van vandaag, dit reward
+        // type, deze leerlingen. Handmatig gegeven punten blijven zo staan.
+        if (rt && awardedIds.length) {
+            var res = await supabase
+                .from('klasseprestatie_points')
+                .delete()
+                .eq('user_id', currentUser.id)
+                .eq('reward_type_id', rt.id)
+                .in('student_id', awardedIds)
+                .gte('created_at', (dayKey || todayYmd()) + 'T00:00:00');
+            if (res.error) {
+                console.error('Terugdraaien mislukt:', res.error);
+                showToast('&#9888;&#65039; Terugdraaien mislukt. Probeer het opnieuw.');
+                return;
+            }
+        }
+        awardedAt = null;
+        awardedIds = [];
+        awardDismissed = true;
+        await saveDayState();
+        refreshAwardBox();
+        showToast('&#8634; De beloning van vandaag is teruggedraaid.');
+    }
+
+    if (awardClose) awardClose.addEventListener('click', dismissAwardModal);
+    if (awardLater) awardLater.addEventListener('click', dismissAwardModal);
+    if (awardConfirm) awardConfirm.addEventListener('click', confirmAward);
+    if (awardModal) awardModal.addEventListener('click', function (e) {
+        if (e.target === awardModal) dismissAwardModal();
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && awardModal && awardModal.classList.contains('active')) dismissAwardModal();
+    });
+
     // ---- Dagtabs koppelen ----
     function bindDayTabs() {
         var tabs = container.querySelectorAll('.kd-day-tab');
@@ -649,8 +878,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 tabs.forEach(function (t) { t.classList.toggle('active', t === tab); });
                 var wrap = document.getElementById('kdTasksWrap');
                 if (wrap) {
-                    wrap.innerHTML = taskListHtml(selectedDay);
+                    wrap.innerHTML = taskListHtml(selectedDay) + awardBoxHtml(selectedDay);
                     bindTaskChecks();
+                    bindAwardBox();
                 }
             });
         });
@@ -668,11 +898,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     checkState[key] = true;
                 }
-                saveCheckState();
                 var li = btn.closest('li');
                 var isDone = !!checkState[key];
                 if (li) li.classList.toggle('kd-task-done', isDone);
                 btn.classList.toggle('done', isDone);
+                refreshAwardBox();
+                saveDayState();
+                maybeOfferAward();
             });
         });
     }
@@ -1040,6 +1272,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (groupId) {
             await loadStudents(groupId);
+            await loadDayState();
             buildSchoolWeeks();
         }
         render();

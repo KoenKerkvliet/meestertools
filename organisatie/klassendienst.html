@@ -88,7 +88,7 @@
                     <div id="kdLinkKPWrap" class="kd-link-detail">
                         <label for="kdLinkKPReward">Beloning bij voltooide dag</label>
                         <select id="kdLinkKPReward" class="kd-link-select"></select>
-                        <p class="kd-link-hint">Als alle taken van vandaag zijn afgevinkt, ontvangen de kinderen met klassendienst automatisch deze beloning in Klasseprestatie.</p>
+                        <p class="kd-link-hint">Als alle taken van vandaag zijn afgevinkt, vraagt Meestertools wie de beloning verdient. Standaard staan alle kinderen met dienst aangevinkt &mdash; wie niet meehielp vink je uit.</p>
                     </div>
                 </div>
                 <p class="kd-settings-hint">
@@ -118,6 +118,25 @@
             <div class="modal-footer kd-choose-footer">
                 <button class="kd-choose-cancel" id="kdChooseCancel">Annuleren</button>
                 <button class="btn-primary" id="kdChooseConfirm" disabled>Gebruik dit groepje</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wie krijgt de beloning? -->
+    <div class="modal-overlay" id="kdAwardModal">
+        <div class="modal kd-award-modal">
+            <div class="modal-header">
+                <h2>&#127881; Alle taken van vandaag gedaan!</h2>
+                <button class="modal-close" id="kdAwardClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="kd-award-sub" id="kdAwardSub">Vink de kinderen uit die de klassendienst niet hebben gedaan.</p>
+                <div class="kd-award-grid" id="kdAwardGrid"></div>
+                <p class="kd-award-reward" id="kdAwardReward"></p>
+            </div>
+            <div class="modal-footer kd-award-footer">
+                <button class="kd-award-later" id="kdAwardLater">Later</button>
+                <button class="btn-primary" id="kdAwardConfirm">Geef beloning</button>
             </div>
         </div>
     </div>
