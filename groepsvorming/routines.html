@@ -86,12 +86,27 @@
 
                 <div class="rt-add">
                     <input type="text" id="rtNewItem" class="rt-text" maxlength="60" placeholder="Nieuwe routine, bijv. agenda noteren">
-                    <textarea id="rtNewDesc" class="rt-text rt-add-desc" rows="2" maxlength="500" placeholder="Uitleg (optioneel)"></textarea>
+                    <textarea id="rtNewDesc" class="rt-text rt-add-desc" rows="2" maxlength="500" placeholder="Uitleg (optioneel) &mdash; komt groot in beeld als je op de routine klikt"></textarea>
                     <button class="rt-btn rt-btn-primary" id="rtAddBtn">&#10010; Toevoegen</button>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn-primary" id="rtSettingsDone">Klaar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Routine groot in beeld (voor het digibord) -->
+    <div class="modal-overlay rt-view-overlay" id="rtViewModal">
+        <div class="modal rt-view-modal" role="dialog" aria-modal="true" aria-labelledby="rtViewTitle">
+            <button class="rt-view-close" id="rtViewClose" aria-label="Sluiten" title="Sluiten (Esc)">&times;</button>
+            <div class="rt-view-body">
+                <h2 class="rt-view-title" id="rtViewTitle"></h2>
+                <div class="rt-view-desc" id="rtViewDesc"></div>
+            </div>
+            <div class="rt-view-foot">
+                <span class="rt-view-count" id="rtViewCount"></span>
+                <button class="rt-btn rt-btn-primary rt-view-done" id="rtViewDone">Sluiten</button>
             </div>
         </div>
     </div>

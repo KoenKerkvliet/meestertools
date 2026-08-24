@@ -8,6 +8,8 @@
      als zijn checkedOn-datum gelijk is aan vandaag).
    - Achter elk item staat een teller: hoe vaak je die routine al hebt
      uitgelegd (telt op bij vinken, telt af als je dezelfde dag weer uitvinkt).
+   - Klikken op een routine toont hem paginabreed in een venster, zodat ook de
+     kinderen achter in de klas de uitleg kunnen lezen.
 
    Opslag per gebruiker in tool_settings ('routines'):
      { items: [ { id, label, count, checkedOn } ] }
@@ -55,6 +57,13 @@ document.addEventListener('DOMContentLoaded', function () {
     var newDescInput = $('rtNewDesc');
     var addBtn = $('rtAddBtn');
     var sortAzBtn = $('rtSortAz');
+
+    var viewModal = $('rtViewModal');
+    var viewClose = $('rtViewClose');
+    var viewDone = $('rtViewDone');
+    var viewTitle = $('rtViewTitle');
+    var viewDesc = $('rtViewDesc');
+    var viewCount = $('rtViewCount');
 
     // ---------- Helpers ----------
     function todayStr() {
@@ -113,28 +122,24 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ---------- Checklist renderen ----------
+    // Vier hoekpijltjes: 'toon groot in beeld'
+    var ZOOM_ICON = '<span class="rt-zoom" aria-hidden="true">' +
+        '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" ' +
+            'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' +
+        '<path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg></span>';
+
     function itemHtml(it) {
         var checked = isCheckedToday(it);
         var hasDesc = !!(it.desc && it.desc.trim());
         var badge = '<span class="rt-count' + (it.count > 0 ? '' : ' is-zero') + '" title="' + it.count + ' keer uitgelegd">' + it.count + '</span>';
-        var chev = hasDesc ? '<span class="rt-chev" aria-hidden="true">&#9662;</span>' : '';
-        var desc = hasDesc
-            ? '<div class="rt-desc"><div class="rt-desc-inner">' + esc(it.desc).replace(/\n/g, '<br>') + '</div></div>'
-            : '';
-
-        var mainOpen = hasDesc
-            ? '<button type="button" class="rt-main rt-main-btn" aria-expanded="false">'
-            : '<span class="rt-main">';
-        var mainClose = hasDesc ? '</button>' : '</span>';
 
         return '<div class="rt-item' + (checked ? ' is-checked' : '') + (hasDesc ? ' has-desc' : '') + '" data-id="' + it.id + '">' +
                 '<button type="button" class="rt-check" aria-pressed="' + (checked ? 'true' : 'false') + '" ' +
                     'aria-label="Afvinken" title="' + (checked ? 'Uitvinken' : 'Afvinken') + '"></button>' +
-                mainOpen +
+                '<button type="button" class="rt-main rt-main-btn" title="Groot in beeld tonen">' +
                     '<span class="rt-label">' + esc(it.label) + '</span>' +
-                    badge + chev +
-                mainClose +
-                desc +
+                    badge + ZOOM_ICON +
+                '</button>' +
             '</div>';
     }
 
@@ -187,11 +192,47 @@ document.addEventListener('DOMContentLoaded', function () {
         persist();
     }
 
-    function toggleExpand(el) {
-        var open = el.classList.toggle('is-open');
-        var main = el.querySelector('.rt-main-btn');
-        if (main) main.setAttribute('aria-expanded', open ? 'true' : 'false');
+    // ---------- Routine groot in beeld ----------
+    // Uitklappen in de lijst was te klein om vanaf de achterste tafel te lezen;
+    // daarom opent een klik op de routine hem nu paginabreed in een venster.
+    function openView(id) {
+        var it = items.find(function (x) { return x.id === id; });
+        if (!it || !viewModal) return;
+
+        if (viewTitle) viewTitle.textContent = it.label;
+        if (viewDesc) {
+            var d = (it.desc || '').trim();
+            if (d) {
+                viewDesc.innerHTML = esc(d).replace(/\n/g, '<br>');
+                viewDesc.classList.remove('is-empty');
+            } else {
+                viewDesc.innerHTML = 'Nog geen uitleg bij deze routine. Voeg er een toe via ' +
+                    '<strong>&#9881;&#65039; Routines beheren</strong>.';
+                viewDesc.classList.add('is-empty');
+            }
+        }
+        if (viewCount) {
+            viewCount.textContent = it.count > 0
+                ? (it.count === 1 ? '1 keer uitgelegd' : it.count + ' keer uitgelegd')
+                : 'Nog niet uitgelegd';
+        }
+        viewModal.classList.add('active');
+        // Het venster is pas na de fade-in echt zichtbaar; focussen kan dus niet
+        // meteen (focus() op een onzichtbaar element doet niets).
+        setTimeout(function () {
+            if (viewClose && viewModal.classList.contains('active')) viewClose.focus();
+        }, 120);
     }
+
+    function closeView() {
+        if (viewModal) viewModal.classList.remove('active');
+    }
+
+    if (viewClose) viewClose.addEventListener('click', closeView);
+    if (viewDone) viewDone.addEventListener('click', closeView);
+    if (viewModal) viewModal.addEventListener('click', function (e) {
+        if (e.target === viewModal) closeView();
+    });
 
     listEl.addEventListener('click', function (e) {
         var item = e.target.closest('.rt-item');
@@ -199,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.target.closest('.rt-check')) {
             toggle(item.getAttribute('data-id'));
         } else if (e.target.closest('.rt-main-btn')) {
-            toggleExpand(item);
+            openView(item.getAttribute('data-id'));
         }
     });
 
@@ -214,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<button type="button" class="rt-edit-del" title="Verwijderen">&#128465;&#65039;</button>' +
             '</div>' +
             '<textarea class="rt-edit-desc rt-text" rows="2" maxlength="500" ' +
-                'placeholder="Uitleg (optioneel) — verschijnt als je in de lijst op de balk klikt">' + esc(it.desc || '') + '</textarea>' +
+                'placeholder="Uitleg (optioneel) — komt groot in beeld als je in de lijst op de routine klikt">' + esc(it.desc || '') + '</textarea>' +
         '</div>';
     }
     function renderEditList() {
@@ -329,7 +370,9 @@ document.addEventListener('DOMContentLoaded', function () {
     settingsDone.addEventListener('click', closeSettings);
     settingsModal.addEventListener('click', function (e) { if (e.target === settingsModal) closeSettings(); });
     document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && settingsModal.classList.contains('active')) closeSettings();
+        if (e.key !== 'Escape') return;
+        if (viewModal && viewModal.classList.contains('active')) { closeView(); return; }
+        if (settingsModal.classList.contains('active')) closeSettings();
     });
 
     // ---------- Init ----------
