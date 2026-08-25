@@ -1608,7 +1608,7 @@ document.addEventListener('DOMContentLoaded', () => {
             for (var i = 0; i < wbStudents.length; i++) {
                 var s = wbStudents[i];
                 var n = monsterMap[s.id];
-                var src = '../assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.png';
+                var src = '../assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.webp';
                 var monsterImg = await wbLoadImage(src);
                 wbPaint(wctx, s, monsterImg, type, datum);
                 if (i > 0) doc.addPage('a4', 'portrait');

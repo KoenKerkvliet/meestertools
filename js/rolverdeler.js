@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function monsterForStudent(s) {
         var id = (s && s.id) || '';
         var n = monsterByStudentId[id] || ((monsterHash(id) % MONSTER_COUNT) + 1);
-        return BASE + 'assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.png';
+        return BASE + 'assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.webp';
     }
     function studentById(id) { return students.find(function (s) { return s.id === id; }); }
     function roleById(id) { return roles.find(function (r) { return r.id === id; }); }

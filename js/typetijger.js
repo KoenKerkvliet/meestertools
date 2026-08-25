@@ -513,7 +513,7 @@
     var avatarNum = loadAvatar();
     function avatarSrc(n) {
         n = n || avatarNum;
-        return cfg.assetPrefix + 'assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.png';
+        return cfg.assetPrefix + 'assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.webp';
     }
     function currentAvatarSrc() { return cfg.avatarFixed || avatarSrc(avatarNum); }
 

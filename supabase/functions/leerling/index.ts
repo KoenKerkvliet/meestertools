@@ -413,7 +413,7 @@ function assignMonsters(list: Array<{ id: string }>): Record<string, number> {
 }
 function monsterPath(n: number): string {
   const nn = n < 10 ? '0' + n : String(n)
-  return 'assets/avatars/monsters/monster-' + nn + '.png'
+  return 'assets/avatars/monsters/monster-' + nn + '.webp'
 }
 
 // ---------- Sociogram ----------

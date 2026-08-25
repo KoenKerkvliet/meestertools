@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function monsterForStudent(s) {
         const id = (s && s.id) || '';
         const n = monsterByStudentId[id] || ((hashStr(id) % MONSTER_COUNT) + 1);
-        return 'assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.png';
+        return 'assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.webp';
     }
 
     // ---------- Data loading ----------

@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function monsterForStudent(s) {
         var id = (s && s.id) || '';
         var n = monsterByStudentId[id] || ((monsterHash(id) % MONSTER_COUNT) + 1);
-        return '../assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.png';
+        return '../assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.webp';
     }
 
     // Migreer oude string-taken naar { text, day }

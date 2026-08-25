@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function monsterUrl(s, abs) {
         var id = (s && s.id) || '';
         var n = monsterByStudentId[id] || ((monsterHash(id) % MONSTER_COUNT) + 1);
-        var path = 'assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.png';
+        var path = 'assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.webp';
         return abs ? (location.origin + '/' + path) : (BASE + path);
     }
     function studentById(id) { return students.find(function (s) { return s.id === id; }); }

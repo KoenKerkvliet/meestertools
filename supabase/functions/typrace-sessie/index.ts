@@ -170,7 +170,7 @@ function assignMonsters(list: Array<{ id: string }>): Record<string, number> {
 }
 function monsterPath(n: number): string {
   const nn = n < 10 ? '0' + n : String(n)
-  return 'assets/avatars/monsters/monster-' + nn + '.png'
+  return 'assets/avatars/monsters/monster-' + nn + '.webp'
 }
 // Voornaam plus achterletter als die er is: "Noa K.".
 function displayNameOf(s: { first_name?: string; name_suffix?: string }): string {

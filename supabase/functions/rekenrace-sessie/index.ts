@@ -467,7 +467,7 @@ function assignMonsters(list) {
 }
 function monsterPath(n) {
   const nn = n < 10 ? '0' + n : String(n)
-  return 'assets/avatars/monsters/monster-' + nn + '.png'
+  return 'assets/avatars/monsters/monster-' + nn + '.webp'
 }
 
 // ---------- Tekst ----------

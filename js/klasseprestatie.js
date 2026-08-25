@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function monsterForStudent(s) {
         var id = (s && s.id) || '';
         var n = monsterByStudentId[id] || ((monsterHash(id) % MONSTER_COUNT) + 1);
-        return 'assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.png';
+        return 'assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.webp';
     }
     function escapeHtml(str) {
         var d = document.createElement('div');
@@ -434,7 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (hasMsBadge) {
             html += '<div class="kpr-ms-number">' + msRound + '</div>';
         } else {
-            var avatarSrc = pts >= HATCH_AT ? monsterForStudent(s) : 'assets/egg.png';
+            var avatarSrc = pts >= HATCH_AT ? monsterForStudent(s) : 'assets/egg.webp';
             html += '<div class="kpr-avatar"><img class="kpr-avatar-img" src="' + avatarSrc + '" alt="" '
                 + 'onerror="this.parentNode.classList.add(\'kpr-avatar-noimg\')" />'
                 + '<span class="kpr-avatar-initials">' + escapeHtml(initials(s)) + '</span></div>';
@@ -1730,7 +1730,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function monsterUrl(n) {
             var num = n < 10 ? '0' + n : String(n);
-            return base + 'assets/avatars/monsters/monster-' + num + '.png';
+            return base + 'assets/avatars/monsters/monster-' + num + '.webp';
         }
 
         // Drie decoratieve monsters
