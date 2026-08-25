@@ -40,6 +40,8 @@ Het digitale platform voor de basisschool. Interactieve tools voor digibord, kla
 ├── scripts/
 │   └── set-version.js                  # versie zetten + ?v= cache-busting syncen
 ├── supabase/
+│   ├── config.toml                     # verify_jwt per edge function
+│   ├── migrations/                     # schema-wijzigingen
 │   └── functions/
 │       ├── _shared/                    # Herbruikbare CORS + emailit helpers
 │       └── send-password-reset-email/  # Edge function voor reset-mail
@@ -77,10 +79,24 @@ git push origin main
 
 ## Edge Functions
 
-Edge functions deployen via Supabase CLI of de Supabase Dashboard:
+**Deployen gaat automatisch.** De workflow
+[deploy-functions.yml](./.github/workflows/deploy-functions.yml) deployt bij een
+push naar `main` de functies die in die push zijn gewijzigd. Verandert er iets
+in `_shared/` of in `config.toml`, dan gaan ze allemaal mee, want die code zit
+in elke functie gebundeld.
+
+Eenmalig instellen: repo → Settings → Secrets and variables → Actions → secret
+`SUPABASE_ACCESS_TOKEN`, met een token uit
+<https://supabase.com/dashboard/account/tokens>.
+
+`supabase/config.toml` bepaalt per functie of er een JWT vereist is. Vergeet die
+niet als je een nieuwe functie toevoegt: zonder regel deployt de CLI met
+`verify_jwt = true`.
+
+Handmatig kan uiteraard ook:
 
 ```bash
-supabase functions deploy send-password-reset-email --no-verify-jwt
+supabase functions deploy send-password-reset-email --project-ref chnjybpwquystuwmiger
 ```
 
 Vereiste secrets (in Supabase Dashboard → Edge Functions → Secrets):

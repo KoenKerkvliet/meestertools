@@ -1,0 +1,31 @@
+# Supabase CLI-configuratie. Wordt gelezen bij `supabase functions deploy`.
+#
+# Belangrijk: zonder deze instellingen deployt de CLI elke functie met
+# verify_jwt = true. Voor send-keepalive-notification zou dat de functie breken,
+# want die wordt door de GitHub Action aangeroepen zonder token.
+
+project_id = "chnjybpwquystuwmiger"
+
+# --- Leerlingkant: geen account, wel de publieke anon-key als JWT ---
+[functions.leerling]
+verify_jwt = true
+
+[functions.complimentenmuur]
+verify_jwt = true
+
+[functions.escaperoom-sessie]
+verify_jwt = true
+
+[functions.rekenrace-sessie]
+verify_jwt = true
+
+[functions.typrace-sessie]
+verify_jwt = true
+
+# --- Mail ---
+[functions.send-password-reset-email]
+verify_jwt = true
+
+# Wordt extern aangeroepen (keepalive), dus zonder JWT.
+[functions.send-keepalive-notification]
+verify_jwt = false
