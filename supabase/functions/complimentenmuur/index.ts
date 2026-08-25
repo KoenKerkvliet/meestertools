@@ -188,24 +188,6 @@ serve(async (req) => {
   }
 })
 
-): string {
-  const x = (s.name_suffix || '').trim()
-  return ((s.first_name || '') + ' ' + (x ? x + '.' : '')).trim()
-}
->): Record<string, number> {
-  const map: Record<string, number> = {}
-  const used: Record<number, boolean> = {}
-  ;(list || []).slice().sort((a, b) => {
-    const ai = String(a.id), bi = String(b.id)
-    return ai < bi ? -1 : ai > bi ? 1 : 0
-  }).forEach((s) => {
-    let n = hashStr(s.id) % MONSTER_COUNT, tries = 0
-    while (used[n] && tries < MONSTER_COUNT) { n = (n + 1) % MONSTER_COUNT; tries++ }
-    used[n] = true
-    map[s.id] = n + 1
-  })
-  return map
-}
 function normalizeCode(raw: unknown): string {
   return String(raw || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8)
 }

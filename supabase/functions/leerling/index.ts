@@ -389,20 +389,6 @@ serve(async (req) => {
   }
 })
 
->): Record<string, number> {
-  const map: Record<string, number> = {}
-  const used: Record<number, boolean> = {}
-  ;(list || []).slice().sort((a, b) => {
-    const ai = String(a.id), bi = String(b.id)
-    return ai < bi ? -1 : ai > bi ? 1 : 0
-  }).forEach((s) => {
-    let n = hashStr(s.id) % MONSTER_COUNT, tries = 0
-    while (used[n] && tries < MONSTER_COUNT) { n = (n + 1) % MONSTER_COUNT; tries++ }
-    used[n] = true
-    map[s.id] = n + 1
-  })
-  return map
-}
 // ---------- Sociogram ----------
 async function loadSociogramSession(admin: any, sessionCode: string) {
   if (!sessionCode) return null
@@ -416,7 +402,7 @@ async function loadSociogramSession(admin: any, sessionCode: string) {
 function typeLabel(type: unknown): string {
   return type === 'werken' ? 'Samen werken' : type === 'spelen' ? 'Samen spelen' : String(type || '')
 }
-// Zelfde weergave als overal ("Noa K."), met een streepje als terugval zodat
+// Zelfde weergave als overal ("Noa K."), met een vraagteken als terugval zodat
 // er nooit een lege naam in de kieslijst van het sociogram staat.
 function fullName(s: { first_name?: string; name_suffix?: string }): string {
   return displayNameOf(s) || '?'

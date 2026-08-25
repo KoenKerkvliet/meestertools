@@ -8,6 +8,9 @@ name: Controle
 #     VERSION in js/template.js. Zo niet: draai `node scripts/set-version.js`.
 #  3. Controleert dat elke pagina js/mt-shared.js op tijd inlaadt, en dat
 #     niemand weer een eigen kopie van een gedeelde helper heeft gemaakt.
+#  4. Parseert elke edge function. `node --check` kan geen TypeScript, dus
+#     dat gaat via esbuild - zonder deze stap merk je een typefout in een
+#     edge function pas als de deploy erop stukloopt.
 
 on:
   push:
@@ -41,3 +44,14 @@ jobs:
 
       - name: Gedeelde helpers correct ingeladen
         run: node scripts/check-shared.js
+
+      - name: Edge functions parsen (TypeScript)
+        run: |
+          fout=0
+          for f in supabase/functions/*/index.ts supabase/functions/_shared/*.ts; do
+            if ! npx --yes esbuild@0.24.0 "$f" --loader:.ts=ts --outfile=/dev/null; then
+              echo "::error file=$f::parsefout"
+              fout=1
+            fi
+          done
+          exit $fout
