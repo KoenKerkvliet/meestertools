@@ -72,8 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function studentName(student) {
         if (!student) return '?';
         var first = student.first_name || '';
-        var last = student.last_name || '';
-        return (first + ' ' + last).trim() || '?';
+        var last = student.name_suffix || '';
+        return (first + ' ' + (last ? last + '.' : '')).trim() || '?';
     }
 
     function typeLabel(type) {
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadStudents(groupId) {
         var { data, error } = await supabase
             .from('students')
-            .select('id, first_name, last_name, student_number')
+            .select('id, first_name, name_suffix, student_number')
             .eq('group_id', groupId)
             .eq('archived', false)
             .order('first_name');

@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!user) return;
         const { data: studentData } = await supabase
             .from('students')
-            .select('id, first_name, last_name')
+            .select('id, first_name, name_suffix')
             .eq('group_id', groupId)
             .eq('user_id', user.id)
             .eq('archived', false)
@@ -306,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
             students.forEach(s => {
                 const opt = document.createElement('option');
                 opt.value = s.id;
-                opt.textContent = s.last_name ? s.first_name + ' ' + s.last_name : s.first_name;
+                opt.textContent = s.name_suffix ? s.first_name + ' ' + s.name_suffix + '.' : s.first_name;
                 if (s.id === currentId) opt.selected = true;
                 select.appendChild(opt);
             });
@@ -339,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function getStudentName(id) {
             const s = students.find(st => st.id === id);
             if (!s) return '';
-            return s.last_name ? s.first_name + ' ' + s.last_name : s.first_name;
+            return s.name_suffix ? s.first_name + ' ' + s.name_suffix + '.' : s.first_name;
         }
 
         place1Id = settingPlace1.value || null;

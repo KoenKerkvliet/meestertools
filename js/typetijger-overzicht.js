@@ -119,7 +119,7 @@
         try {
             var user = await getUser();
             var sres = await supabase.from('students')
-                .select('id, first_name, last_name')
+                .select('id, first_name, name_suffix')
                 .eq('user_id', user.id).eq('group_id', groupId).eq('archived', false)
                 .order('first_name');
             var students = sres.data || [];

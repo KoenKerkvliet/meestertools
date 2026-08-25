@@ -7,7 +7,7 @@ import { corsHeaders } from '../_shared/cors.ts'
  *
  * Acties (POST body { action, code, ... }):
  *   - status { code }                      -> status van de sessie (poll)
- *   - join   { code, name }                -> deelnemen, geef monster + id
+ *   - join   { code, name, studentId? }    -> deelnemen, geef monster + id
  *   - progress { code, participantId, score } -> eigen score melden (alleen omhoog)
  *
  * De woorden worden client-side gegenereerd; de server houdt alleen de score bij
@@ -59,22 +59,46 @@ serve(async (req) => {
       let displayName = name
       if (session.group_id) {
         const { data: roster } = await admin
-          .from('students').select('id, first_name')
+          .from('students').select('id, first_name, name_suffix')
           .eq('group_id', session.group_id).eq('archived', false)
         const map = assignMonsters(roster || [])
-        match = (roster || []).find((s: any) => normName(s.first_name) === normName(name))
+
+        // Meer kinderen met dezelfde voornaam? Niet zomaar de eerste pakken —
+        // dan neemt de tweede Noa de rij én de score van de eerste over.
+        // Het kind wijst zichzelf aan via het eigen monstertje.
+        const sameName = (roster || []).filter((s: any) => normName(s.first_name) === normName(name))
+        const pickedId = String(body?.studentId || '')
+        match = sameName.length === 1 ? sameName[0] : null
+        if (sameName.length > 1) {
+          match = sameName.find((s: any) => s.id === pickedId) || null
+          if (!match) {
+            return json({
+              ok: true,
+              needsPick: true,
+              candidates: sameName.map((s: any) => ({
+                id: s.id,
+                label: displayNameOf(s),
+                monster: monsterPath(map[s.id] || ((hashStr(s.id) % MONSTER_COUNT) + 1)),
+              })),
+              ...pub,
+            })
+          }
+        }
         if (match) {
-          displayName = match.first_name
+          displayName = displayNameOf(match)
           monster = monsterPath(map[match.id] || ((hashStr(match.id) % MONSTER_COUNT) + 1))
         }
       }
 
-      // Hergebruik een bestaande deelnemer met dezelfde (genormaliseerde) naam.
+      // Hergebruik een bestaande deelnemer: op student_id als het kind aan de
+      // klaslijst hangt, anders pas op naam.
       const { data: parts } = await admin
         .from('typrace_participants')
-        .select('id, name')
+        .select('id, name, student_id')
         .eq('session_id', session.id)
-      const existing = (parts || []).find((p: any) => normName(p.name) === normName(name))
+      const existing = match
+        ? (parts || []).find((p: any) => p.student_id === match.id) || null
+        : (parts || []).find((p: any) => !p.student_id && normName(p.name) === normName(name)) || null
       if (existing) {
         return json({ ok: true, participantId: existing.id, displayName, monster, ...pub })
       }
@@ -147,6 +171,11 @@ function assignMonsters(list: Array<{ id: string }>): Record<string, number> {
 function monsterPath(n: number): string {
   const nn = n < 10 ? '0' + n : String(n)
   return 'assets/avatars/monsters/monster-' + nn + '.png'
+}
+// Voornaam plus achterletter als die er is: "Noa K.".
+function displayNameOf(s: { first_name?: string; name_suffix?: string }): string {
+  const x = (s.name_suffix || '').trim()
+  return ((s.first_name || '') + ' ' + (x ? x + '.' : '')).trim()
 }
 function normName(s: unknown): string { return String(s == null ? '' : s).trim().toLowerCase() }
 function normCode(raw: unknown): string {

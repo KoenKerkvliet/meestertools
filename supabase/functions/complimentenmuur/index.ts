@@ -11,9 +11,9 @@ import { corsHeaders } from '../_shared/cors.ts'
  * server-side, lekken we niets en kunnen we eenvoudig misbruik afremmen.
  *
  * Acties (POST body { action, ... }):
- *   - status  { code }                       -> sessiestatus + focus-kind
- *   - join    { code, name }                 -> maak deelnemer, geef id terug
- *   - submit  { code, participantId, text }  -> dien compliment in
+ *   - status  { code }                          -> sessiestatus + focus-kind
+ *   - join    { code, name, studentId? }        -> maak deelnemer, geef id terug
+ *   - submit  { code, participantId, text }     -> dien compliment in
  */
 
 const NAME_MAX = 30
@@ -44,7 +44,7 @@ serve(async (req) => {
     // Sessie ophalen op code — voor elke actie nodig.
     const { data: session, error: sErr } = await admin
       .from('compliment_sessions')
-      .select('id, status, focus_student_name, show_author, moderation')
+      .select('id, group_id, status, focus_student_name, show_author, moderation')
       .eq('code', code)
       .maybeSingle()
 
@@ -77,6 +77,35 @@ serve(async (req) => {
       const name = cleanText(body?.name, NAME_MAX)
       if (!name) return json({ ok: false, error: 'Vul je voornaam in.' }, 400)
 
+      // Deelnemer aan de klaslijst koppelen, zodat de controlelijst van de
+      // leerkracht per kind klopt. Op alleen de voornaam ging dat mis: stuurde
+      // één Noa iets in, dan stonden alle Noa's als "klaar".
+      let match: any = null
+      if (session.group_id) {
+        const { data: roster } = await admin
+          .from('students').select('id, first_name, name_suffix')
+          .eq('group_id', session.group_id).eq('archived', false)
+        const sameName = (roster || []).filter((s: any) => normName(s.first_name) === normName(name))
+        const pickedId = String(body?.studentId || '')
+        match = sameName.length === 1 ? sameName[0] : null
+        if (sameName.length > 1) {
+          match = sameName.find((s: any) => s.id === pickedId) || null
+          if (!match) {
+            const map = assignMonsters(roster || [])
+            return json({
+              ok: true,
+              needsPick: true,
+              candidates: sameName.map((s: any) => ({
+                id: s.id,
+                label: displayNameOf(s),
+                monster: monsterPath(map[s.id] || ((hashStr(s.id) % MONSTER_COUNT) + 1)),
+              })),
+              ...pub,
+            })
+          }
+        }
+      }
+
       const { count: pCount } = await admin
         .from('compliment_participants')
         .select('id', { count: 'exact', head: true })
@@ -88,7 +117,7 @@ serve(async (req) => {
 
       const { data: p, error: pErr } = await admin
         .from('compliment_participants')
-        .insert({ session_id: session.id, name })
+        .insert({ session_id: session.id, name, student_id: match ? match.id : null })
         .select('id')
         .single()
 
@@ -157,6 +186,42 @@ serve(async (req) => {
     return json({ ok: false, error: (err as Error).message || 'Onbekende fout.' }, 500)
   }
 })
+
+const MONSTER_COUNT = 36
+
+// Voornaam plus achterletter als die er is: "Noa K.".
+function displayNameOf(s: { first_name?: string; name_suffix?: string }): string {
+  const x = (s.name_suffix || '').trim()
+  return ((s.first_name || '') + ' ' + (x ? x + '.' : '')).trim()
+}
+function normName(s: unknown): string {
+  return String(s == null ? '' : s).trim().toLowerCase()
+}
+function hashStr(key: string): number {
+  let h = 0
+  key = String(key || '')
+  for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0
+  return h
+}
+// Zelfde toewijzing als in de tools, zodat een kind overal hetzelfde monster ziet.
+function assignMonsters(list: Array<{ id: string }>): Record<string, number> {
+  const map: Record<string, number> = {}
+  const used: Record<number, boolean> = {}
+  ;(list || []).slice().sort((a, b) => {
+    const ai = String(a.id), bi = String(b.id)
+    return ai < bi ? -1 : ai > bi ? 1 : 0
+  }).forEach((s) => {
+    let n = hashStr(s.id) % MONSTER_COUNT, tries = 0
+    while (used[n] && tries < MONSTER_COUNT) { n = (n + 1) % MONSTER_COUNT; tries++ }
+    used[n] = true
+    map[s.id] = n + 1
+  })
+  return map
+}
+function monsterPath(n: number): string {
+  const nn = n < 10 ? '0' + n : String(n)
+  return 'assets/avatars/monsters/monster-' + nn + '.png'
+}
 
 function normalizeCode(raw: unknown): string {
   return String(raw || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8)

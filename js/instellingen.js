@@ -712,10 +712,11 @@
             </div>
             <div id="addStudentForm-${groupId}" style="display:none;margin-bottom:12px">
                 <div class="inline-add-form">
-                    <input type="text" id="studentFirstName-${groupId}" placeholder="Voornaam">
-                    <input type="text" id="studentLastName-${groupId}" placeholder="Achternaam" style="max-width:140px">
+                    <input type="text" id="studentFirstName-${groupId}" placeholder="Voornaam" oninput="window._checkDuplicateName('${groupId}')">
+                    <input type="text" id="studentSuffix-${groupId}" placeholder="Letter" maxlength="2" style="max-width:70px" title="Alleen nodig bij dubbele voornamen, bijv. K.">
                     <button class="btn-add-small" onclick="window._addStudent('${groupId}')">Toevoegen</button>
                 </div>
+                <div class="inline-form-hint" id="addStudentForm-${groupId}Hint"></div>
                 <div class="inline-form-error" id="addStudentForm-${groupId}Error"></div>
             </div>
         `;
@@ -725,11 +726,10 @@
         } else {
             html += '<div class="leerlingen-list">';
             studentList.forEach(s => {
-                const fullName = s.last_name ? s.first_name + ' ' + s.last_name : s.first_name;
                 html += `
                     <div class="leerling-item${s.archived ? ' archived' : ''}">
                         <span class="leerling-nummer">${s.student_number}</span>
-                        <span class="leerling-naam">${escapeHtml(fullName)}</span>
+                        <span class="leerling-naam">${escapeHtml(studentName(s))}</span>
                         ${s.code ? `<span class="leerling-code" title="Inlogcode voor meestertools.nl/leerling">${escapeHtml(s.code)}</span>` : ''}
                         ${s.archived ? '<span class="badge badge-archived" style="font-size:10px">Gearchiveerd</span>' : ''}
                         <div class="leerling-actions">
@@ -878,11 +878,31 @@
         }
     };
 
+    // Waarschuwt zodra de getypte voornaam al in deze groep voorkomt. Geen blokkade
+    // (drie kinderen die Noa heten mag), maar een duw richting de achterletter op
+    // het moment dat het uitmaakt: zonder onderscheid koppelen de meedoen-tools
+    // ze allemaal aan hetzelfde kind.
+    window._checkDuplicateName = function (groupId) {
+        const hint = overlayEl.querySelector('#addStudentForm-' + groupId + 'Hint');
+        if (!hint) return;
+        const input = overlayEl.querySelector('#studentFirstName-' + groupId);
+        const typed = normName(input ? input.value : '');
+        const clash = typed
+            ? (students[groupId] || []).filter(s => !s.archived && normName(s.first_name) === typed)
+            : [];
+        if (!clash.length) { hint.textContent = ''; hint.style.display = 'none'; return; }
+        const letters = clash.map(s => normSuffix(s.name_suffix)).filter(Boolean);
+        hint.textContent = 'Er is al een ' + (clash[0].first_name || typed) + ' in deze groep'
+            + (letters.length ? ' (' + letters.map(l => l + '.').join(', ') + ')' : '')
+            + '. Geef ze allebei een letter ter onderscheid.';
+        hint.style.display = 'block';
+    };
+
     window._addStudent = async function (groupId) {
         const firstNameInput = overlayEl.querySelector('#studentFirstName-' + groupId);
-        const lastNameInput = overlayEl.querySelector('#studentLastName-' + groupId);
+        const suffixInput = overlayEl.querySelector('#studentSuffix-' + groupId);
         const firstName = firstNameInput.value.trim();
-        const lastName = lastNameInput.value.trim();
+        const nameSuffix = normSuffix(suffixInput.value);
         if (!firstName) return;
 
         // Find the add button and show loading
@@ -899,12 +919,20 @@
                 return;
             }
 
-            // Auto-generate student number
-            const allStudents = Object.values(students).flat();
-            const maxNumber = allStudents.length > 0
-                ? Math.max.apply(null, allStudents.map(function(s) { return s.student_number || 0; }))
-                : 0;
-            const studentNumber = maxNumber + 1;
+            // Volgnummer: oplopend binnen déze groep, en rechtstreeks uit de database.
+            // (Stond eerder op de max over alle geladen groepen, en die lijst bevat
+            // bij het openen van Instellingen nog helemaal geen nummers — waardoor
+            // het per ongeluk goed ging, maar een kind in groep 5 nummer 29 kreeg
+            // zodra groep 8 ook openstond.)
+            const { data: lastStudent } = await supabase
+                .from('students')
+                .select('student_number')
+                .eq('group_id', groupId)
+                .eq('user_id', user.id)
+                .order('student_number', { ascending: false })
+                .limit(1)
+                .maybeSingle();
+            const studentNumber = ((lastStudent && lastStudent.student_number) || 0) + 1;
 
             // Unieke leerlingcode genereren (retry bij globale botsing).
             const school = await ensureSchoolName();
@@ -914,7 +942,7 @@
                     .from('students')
                     .insert({
                         first_name: firstName,
-                        last_name: lastName,
+                        name_suffix: nameSuffix,
                         student_number: studentNumber,
                         group_id: groupId,
                         user_id: user.id,
@@ -932,7 +960,8 @@
             }
 
             firstNameInput.value = '';
-            lastNameInput.value = '';
+            suffixInput.value = '';
+            window._checkDuplicateName(groupId);
             overlayEl.querySelector('#addStudentForm-' + groupId).style.display = 'none';
             loadStudentsForGroup(groupId);
         } catch (err) {
@@ -1001,8 +1030,9 @@
                 <input type="text" id="editFirstName" value="${escapeHtml(student.first_name)}">
             </div>
             <div class="form-group">
-                <label for="editLastName">Achternaam</label>
-                <input type="text" id="editLastName" value="${escapeHtml(student.last_name || '')}">
+                <label for="editSuffix">Letter ter onderscheid</label>
+                <input type="text" id="editSuffix" maxlength="2" value="${escapeHtml(normSuffix(student.name_suffix))}">
+                <small class="form-hint">Alleen invullen als er meer kinderen met deze voornaam in de groep zitten, bijv. K. Dan staat er overal &ldquo;${escapeHtml((student.first_name || '').trim())} K.&rdquo;.</small>
             </div>
         `;
         overlayEl.querySelector('#innerModalFooter').innerHTML = `
@@ -1014,10 +1044,10 @@
         overlayEl.querySelector('#cancelEditStudent').addEventListener('click', () => modal.classList.remove('active'));
         overlayEl.querySelector('#saveEditStudent').addEventListener('click', async () => {
             const fn = overlayEl.querySelector('#editFirstName').value.trim();
-            const ln = overlayEl.querySelector('#editLastName').value.trim();
+            const sx = normSuffix(overlayEl.querySelector('#editSuffix').value);
             if (!fn) return;
 
-            await supabase.from('students').update({ first_name: fn, last_name: ln }).eq('id', studentId);
+            await supabase.from('students').update({ first_name: fn, name_suffix: sx }).eq('id', studentId);
             modal.classList.remove('active');
             loadStudentsForGroup(groupId);
         });
@@ -1033,7 +1063,7 @@
         const student = studentList.find(s => s.id === studentId);
         if (!student) return;
 
-        const fullName = student.last_name ? student.first_name + ' ' + student.last_name : student.first_name;
+        const fullName = studentName(student);
 
         const modal = overlayEl.querySelector('#instellingenModal');
         overlayEl.querySelector('#innerModalTitle').textContent = 'Leerling verwijderen';
@@ -1062,6 +1092,25 @@
         const div = document.createElement('div');
         div.textContent = str;
         return div.innerHTML;
+    }
+
+    // Achterletter: alleen letters, max 2, als "K" opgeslagen en als "K." getoond.
+    // Bewust te kort voor een achternaam — de database dwingt dat ook af.
+    function normSuffix(raw) {
+        return String(raw == null ? '' : raw)
+            .replace(/[^A-Za-zÀ-ÿ]/g, '')
+            .slice(0, 2)
+            .replace(/^./, c => c.toUpperCase())
+            .replace(/^(.)(.)$/, (m, a, b) => a + b.toLowerCase());
+    }
+    function studentName(s) {
+        if (!s) return '?';
+        const f = (s.first_name || '').trim();
+        const x = normSuffix(s.name_suffix);
+        return (x ? f + ' ' + x + '.' : f) || '?';
+    }
+    function normName(s) {
+        return String(s == null ? '' : s).trim().toLowerCase();
     }
 
 })();

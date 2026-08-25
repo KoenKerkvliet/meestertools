@@ -172,10 +172,10 @@ document.addEventListener('DOMContentLoaded', function () {
     async function loadStudents(groupId) {
         students = [];
         if (!groupId) return;
-        var res = await supabase.from('students').select('first_name, last_name')
+        var res = await supabase.from('students').select('first_name, name_suffix')
             .eq('group_id', groupId).eq('archived', false).order('first_name');
         students = (res.data || []).map(function (s) {
-            return (s.first_name || '').trim() || (s.last_name || '').trim();
+            return (s.first_name || '').trim();
         }).filter(Boolean);
     }
 

@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!user) return;
         const { data } = await supabase
             .from('students')
-            .select('id, first_name, last_name')
+            .select('id, first_name, name_suffix')
             .eq('group_id', groupId)
             .eq('user_id', user.id)
             .eq('archived', false)

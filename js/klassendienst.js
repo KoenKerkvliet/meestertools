@@ -142,12 +142,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function initials(s) {
         var f = (s.first_name || '').charAt(0);
-        var l = (s.last_name || '').charAt(0);
+        var l = (s.name_suffix || '').charAt(0);
         return (f + l).toUpperCase() || '?';
     }
 
     function studentName(s) {
-        return s.last_name ? (s.first_name + ' ' + s.last_name) : s.first_name;
+        return s.name_suffix ? (s.first_name + ' ' + s.name_suffix + '.') : s.first_name;
     }
 
     function currentSchoolYearLabel() {
@@ -419,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function () {
     async function loadStudents(gid) {
         var res = await supabase
             .from('students')
-            .select('id, first_name, last_name, student_number')
+            .select('id, first_name, name_suffix, student_number')
             .eq('group_id', gid)
             .eq('archived', false)
             .order('student_number', { ascending: true });

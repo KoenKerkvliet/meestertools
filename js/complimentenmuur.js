@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function studentName(s) {
         if (!s) return '?';
-        return ((s.first_name || '') + ' ' + (s.last_name || '')).trim() || '?';
+        return ((s.first_name || '') + ' ' + (s.name_suffix ? s.name_suffix + '.' : '')).trim() || '?';
     }
     function hashStr(key) {
         let h = 0;
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
         monsterByStudentId = {};
         if (!selectedGroupId) return;
         const { data } = await supabase
-            .from('students').select('id, first_name, last_name, student_number')
+            .from('students').select('id, first_name, name_suffix, student_number')
             .eq('group_id', selectedGroupId).eq('archived', false).order('student_number');
         students = data || [];
         monsterByStudentId = assignMonsters(students);
@@ -185,9 +185,9 @@ document.addEventListener('DOMContentLoaded', () => {
         participants = []; compliments = [];
         if (!session) return;
         const [pRes, cRes] = await Promise.all([
-            supabase.from('compliment_participants').select('id, name, created_at')
+            supabase.from('compliment_participants').select('id, name, student_id, created_at')
                 .eq('session_id', session.id).order('created_at'),
-            supabase.from('compliments').select('id, author_name, text, status, created_at')
+            supabase.from('compliments').select('id, participant_id, author_name, text, status, created_at')
                 .eq('session_id', session.id).order('created_at')
         ]);
         participants = pRes.data || [];
@@ -501,25 +501,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- Wie heeft ingevuld? ----------
     function normName(s) { return String(s == null ? '' : s).trim().toLowerCase(); }
     function renderCheck() {
-        // Genormaliseerde ingestuurde namen -> originele schrijfwijze (eerste voorkomen)
-        const submittedMap = {};
+        // Deelnemers worden bij het aanmelden aan een leerling gekoppeld. Dat moet
+        // ook: op alleen de voornaam vielen drie kinderen die Noa heten samen, en
+        // stonden ze alle drie als 'klaar' zodra één van hen iets instuurde.
+        const partById = {};
+        participants.forEach(p => { partById[p.id] = p; });
+
+        const submittedIds = new Set();          // student_id's die iets instuurden
+        const submittedLoose = {};               // deelnemers zonder klas-koppeling
         compliments.forEach(c => {
+            const p = partById[c.participant_id];
+            if (p && p.student_id) { submittedIds.add(p.student_id); return; }
             const n = normName(c.author_name);
-            if (n && !submittedMap[n]) submittedMap[n] = c.author_name;
+            if (n && !submittedLoose[n]) submittedLoose[n] = c.author_name;
         });
+
         const focusId = session ? session.focus_student_id : '';
         const roster = students.filter(s => s.id !== focusId); // focus-kind schrijft niet over zichzelf
 
         const done = [], todo = [];
         roster.forEach(s => {
-            const fn = normName(s.first_name);
-            if (fn && submittedMap[fn]) done.push(s); else todo.push(s);
+            if (submittedIds.has(s.id)) done.push(s); else todo.push(s);
         });
 
         // Bekende namen = klassenlijst + focus-kind, zodat een terechte naam niet als 'onbekend' telt
         const known = new Set(roster.map(s => normName(s.first_name)));
         if (session && session.focus_student_name) known.add(normName(session.focus_student_name));
-        const unmatched = Object.keys(submittedMap).filter(n => !known.has(n)).map(n => submittedMap[n]);
+        const unmatched = Object.keys(submittedLoose).filter(n => !known.has(n)).map(n => submittedLoose[n]);
 
         checkSummary.textContent = roster.length
             ? done.length + ' van de ' + roster.length + ' kinderen hebben minstens één compliment ingestuurd.'

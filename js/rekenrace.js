@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         students = [];
         if (!selectedGroupId) return;
         const { data } = await supabase
-            .from('students').select('id, first_name, last_name, student_number')
+            .from('students').select('id, first_name, name_suffix, student_number')
             .eq('group_id', selectedGroupId).eq('archived', false).order('student_number');
         students = data || [];
         monsterByStudentId = assignMonsters(students);

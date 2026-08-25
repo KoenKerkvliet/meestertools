@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!user) return;
         const { data: studentData } = await supabase
             .from('students')
-            .select('id, first_name, last_name')
+            .select('id, first_name, name_suffix')
             .eq('group_id', selectedGroupId)
             .eq('user_id', user.id)
             .eq('archived', false)
@@ -299,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
             students.forEach(s => {
                 const opt = document.createElement('option');
                 opt.value = s.id;
-                opt.textContent = s.last_name ? s.first_name + ' ' + s.last_name : s.first_name;
+                opt.textContent = s.name_suffix ? s.first_name + ' ' + s.name_suffix + '.' : s.first_name;
                 if (s.id === selectedStudentId) opt.selected = true;
                 studentSelect.appendChild(opt);
             });
@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function studentName(s) {
-        return s.last_name ? s.first_name + ' ' + s.last_name : s.first_name;
+        return s.name_suffix ? s.first_name + ' ' + s.name_suffix + '.' : s.first_name;
     }
 
     function getStudentsWithEntriesToday() {
@@ -712,7 +712,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 doc.setTextColor(50, 50, 70);
                 doc.setFontSize(13);
                 doc.setFont('helvetica', 'bold');
-                const name = student.last_name ? student.first_name + ' ' + student.last_name : student.first_name;
+                const name = student.name_suffix ? student.first_name + ' ' + student.name_suffix + '.' : student.first_name;
                 doc.text(name, pageW / 2, subtitleY, { align: 'center' });
                 subtitleY += 10;
             }

@@ -217,7 +217,30 @@
     function stopPolling() { if (pollTimer) { clearInterval(pollTimer); pollTimer = null; } }
 
     // ---------- Aanmelden ----------
-    async function doJoin() {
+    // Zitten er meer kinderen met dezelfde voornaam in de klas, dan geeft de
+    // server geen match terug maar een lijstje. Het kind wijst zichzelf aan via
+    // het eigen monstertje; pas daarna weten we wélke Noa dit is.
+    function showPicker(candidates) {
+        const grid = document.getElementById('pickGrid');
+        grid.innerHTML = '';
+        (candidates || []).forEach((c) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'md-pick-btn';
+            const img = document.createElement('img');
+            img.src = monsterUrl(c.monster);
+            img.alt = '';
+            const span = document.createElement('span');
+            span.textContent = c.label || name;
+            b.appendChild(img); b.appendChild(span);
+            b.addEventListener('click', () => doJoin(c.id));
+            grid.appendChild(b);
+        });
+        document.getElementById('pickBox').hidden = false;
+    }
+    function hidePicker() { document.getElementById('pickBox').hidden = true; }
+
+    async function doJoin(studentId) {
         if (busy) return;
         hideErr();
         code = (codeInput.value || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -226,11 +249,13 @@
         if (!name) { showErr('Vul je voornaam in.'); return; }
 
         busy = true; joinBtn.disabled = true; joinBtn.textContent = 'Even kijken…';
-        const res = await call('join', { name: name });
+        const res = await call('join', { name: name, studentId: studentId || '' });
         busy = false; joinBtn.disabled = false; joinBtn.innerHTML = 'Doe mee &rarr;';
 
         if (!res.ok) { showErr(res.error || 'Er ging iets mis.'); return; }
         if (!res.exists) { showErr('Deze code klopt niet. Kijk nog eens op het bord.'); return; }
+        if (res.needsPick) { showPicker(res.candidates); return; }
+        hidePicker();
         if (res.status === 'closed') { applyPub(res); routeByStatus('closed'); return; }
         if (!res.participantId) { showErr('Aanmelden lukte niet. Probeer opnieuw.'); return; }
 
@@ -437,7 +462,8 @@
         codeInput.addEventListener('input', () => {
             codeInput.value = codeInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
         });
-        joinBtn.addEventListener('click', doJoin);
+        joinBtn.addEventListener('click', () => doJoin());
+        nameInput.addEventListener('input', hidePicker); // andere naam = keuze niet meer geldig
         nameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') doJoin(); });
         answerInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); submitAnswer(); } });
         endBackBtn.addEventListener('click', () => { showWall(); });

@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!user || !groupId) return [];
         const { data } = await supabase
             .from('students')
-            .select('id, first_name, last_name')
+            .select('id, first_name, name_suffix')
             .eq('group_id', groupId)
             .eq('user_id', user.id)
             .eq('archived', false)
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function studentName(s) {
-        return s.last_name ? s.first_name + ' ' + s.last_name : s.first_name;
+        return s.name_suffix ? s.first_name + ' ' + s.name_suffix + '.' : s.first_name;
     }
 
     // ---------- Page dimensions ----------

@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let useSociogram = false;
     let sociogramMode = 'samen'; // 'samen' = vrienden bij elkaar | 'mix' = vrienden uit elkaar
     let groups = [];
-    let students = [];          // [{id, first_name, last_name}, ...]
+    let students = [];          // [{id, first_name, name_suffix}, ...]
     let sociogramConstraints = null; // { mutualNegativeIds: Set<'a:b'>, mutualPositiveIds: Set<'a:b'>, sessionInfo: {...} } | null
     let isShuffling = false;
 
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const { data } = await supabase
             .from('students')
-            .select('id, first_name, last_name')
+            .select('id, first_name, name_suffix')
             .eq('group_id', selectedGroupId)
             .eq('user_id', userId)
             .eq('archived', false)
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function studentLabel(s) {
         if (!s) return '';
-        return s.last_name ? s.first_name + ' ' + s.last_name : s.first_name;
+        return s.name_suffix ? s.first_name + ' ' + s.name_suffix + '.' : s.first_name;
     }
 
     /**

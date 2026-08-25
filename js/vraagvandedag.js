@@ -92,14 +92,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var result = await supabase
             .from('students')
-            .select('first_name, last_name')
+            .select('first_name, name_suffix')
             .eq('group_id', selectedGroupId)
             .eq('user_id', userId)
             .eq('archived', false)
             .order('student_number', { ascending: true });
 
         studentNames = (result.data || []).map(function (s) {
-            return s.last_name ? s.first_name + ' ' + s.last_name : s.first_name;
+            return s.name_suffix ? s.first_name + ' ' + s.name_suffix + '.' : s.first_name;
         });
     }
 

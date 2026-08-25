@@ -161,7 +161,9 @@ CREATE TRIGGER on_groups_updated
 CREATE TABLE IF NOT EXISTS public.students (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     first_name TEXT NOT NULL,
-    last_name TEXT DEFAULT '',
+    -- Achterletter (max 2) om kinderen met dezelfde voornaam te onderscheiden:
+    -- "Noa K." / "Noa B.". Bewust te kort voor een achternaam.
+    name_suffix TEXT DEFAULT '' CHECK (char_length(coalesce(name_suffix, '')) <= 2),
     student_number INTEGER NOT NULL,
     group_id UUID NOT NULL REFERENCES public.groups(id) ON DELETE CASCADE,
     user_id UUID NOT NULL REFERENCES auth.users ON DELETE CASCADE,

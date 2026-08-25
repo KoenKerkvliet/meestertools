@@ -84,12 +84,12 @@ document.addEventListener('DOMContentLoaded', function () {
         d.textContent = str == null ? '' : str;
         return d.innerHTML;
     }
-    function studentName(s) { return s ? (((s.first_name || '') + ' ' + (s.last_name || '')).trim() || '?') : '?'; }
+    function studentName(s) { return s ? (((s.first_name || '') + ' ' + (s.name_suffix ? s.name_suffix + '.' : '')).trim() || '?') : '?'; }
     function firstName(s) { return (s && (s.first_name || studentName(s))) || '?'; }
     function initials(s) {
         if (!s) return '?';
         var f = (s.first_name || '').charAt(0).toUpperCase();
-        var l = (s.last_name || '').charAt(0).toUpperCase();
+        var l = (s.name_suffix || '').charAt(0).toUpperCase();
         return f + (l || '');
     }
     function monsterHash(key) {
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
     async function loadStudents() {
         students = []; monsterByStudentId = {};
         if (!selectedGroupId) return;
-        var res = await supabase.from('students').select('id, first_name, last_name, student_number')
+        var res = await supabase.from('students').select('id, first_name, name_suffix, student_number')
             .eq('group_id', selectedGroupId).eq('archived', false).order('student_number');
         students = res.data || [];
         monsterByStudentId = assignMonsters(students);

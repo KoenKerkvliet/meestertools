@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var currentUser = null;
     var selectedGroupId = null;
     var groups = [];
-    var students = [];               // {id, first_name, last_name}
+    var students = [];               // {id, first_name, name_suffix}
     var rewardTypes = [];            // alle reward types van user
     var pointsByStudent = {};        // {student_id: total}
     var attendanceToday = {};        // {student_id: is_absent (boolean)}
@@ -123,13 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- Helpers ----------
     function studentName(s) {
         if (!s) return '?';
-        var f = s.first_name || '', l = s.last_name || '';
-        return (f + ' ' + l).trim() || '?';
+        var f = s.first_name || '', l = s.name_suffix || '';
+        return (f + ' ' + (l ? l + '.' : '')).trim() || '?';
     }
     function initials(s) {
         if (!s) return '?';
         var f = (s.first_name || '').trim();
-        var l = (s.last_name || '').trim();
+        var l = (s.name_suffix || '').trim();
         var fi = f.charAt(0).toUpperCase();
         var li = l.charAt(0).toUpperCase();
         return fi + (li || '');
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!selectedGroupId) { students = []; monsterByStudentId = {}; return; }
         var { data } = await supabase
             .from('students')
-            .select('id, first_name, last_name, student_number')
+            .select('id, first_name, name_suffix, student_number')
             .eq('group_id', selectedGroupId)
             .eq('archived', false)
             .order('student_number');

@@ -54,6 +54,14 @@
         .md-field { margin-bottom: 18px; }
         .md-counter { text-align: right; font-size: 12px; color: #9A96B8; margin-top: 5px; }
 
+        .md-pick { margin-bottom: 16px; }
+        .md-pick-lead { text-align: center; color: #4A4468; font-weight: 700; margin: 0 0 10px; }
+        .md-pick-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .md-pick-btn { background: #fff; border: 2px solid #E6E3F5; border-radius: 16px; padding: 10px 12px;
+                       cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px;
+                       font: inherit; font-weight: 700; color: #4A4468; min-width: 96px; }
+        .md-pick-btn img { width: 56px; height: 56px; object-fit: contain; }
+        .md-pick-btn:hover, .md-pick-btn:focus-visible { border-color: #6C63FF; outline: none; }
         .md-btn {
             width: 100%; border: none; border-radius: 14px; cursor: pointer;
             background: var(--primary); color: #fff; font-size: 18px; font-weight: 700;
@@ -107,6 +115,10 @@
                     <label for="nameInput">Je voornaam</label>
                     <input class="md-input" id="nameInput" type="text" autocomplete="off"
                            maxlength="30" placeholder="Bijv. Sophie">
+                </div>
+                <div class="md-pick" id="pickBox" hidden>
+                    <p class="md-pick-lead">Er zijn meer kinderen met deze naam. Welke ben jij?</p>
+                    <div class="md-pick-grid" id="pickGrid"></div>
                 </div>
                 <button class="md-btn" id="joinBtn">Doe mee &rarr;</button>
             </section>

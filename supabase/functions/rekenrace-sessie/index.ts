@@ -17,7 +17,7 @@ import { corsHeaders } from '../_shared/cors.ts'
  *
  * Acties (POST body { action, code, ... }):
  *   - status   { code }
- *   - join     { code, name }
+ *   - join     { code, name, studentId? }
  *   - progress { code, participantId, answered, correct, totalMs, finished }
  *   - mywall   { code, participantId }
  */
@@ -122,21 +122,44 @@ serve(async (req) => {
       // Voornaam matchen aan de klas waarvoor de sessie is gestart.
       const { data: roster } = await admin
         .from('students')
-        .select('id, first_name, student_number')
+        .select('id, first_name, name_suffix, student_number')
         .eq('group_id', session.group_id)
         .eq('archived', false)
         .order('student_number')
 
       const monsterMap = assignMonsters(roster || [])
       const norm = normName(name)
-      const match = (roster || []).find((s) => normName(s.first_name) === norm) || null
+
+      // Meer kinderen met dezelfde voornaam? Dan mag de server niet zomaar de
+      // eerste pakken — dan komen drie Noa's op hetzelfde rekenmuurtje uit.
+      // Het kind kiest zelf, aan de hand van het eigen monstertje.
+      const sameName = (roster || []).filter((s) => normName(s.first_name) === norm)
+      const pickedId = String(body?.studentId || '')
+      let match = sameName.length === 1 ? sameName[0] : null
+      if (sameName.length > 1) {
+        // Alleen een kind uit dit lijstje mag gekozen worden: je moet de voornaam
+        // dus al goed hebben getypt voordat een id iets oplevert.
+        match = sameName.find((s) => s.id === pickedId) || null
+        if (!match) {
+          return json({
+            ok: true,
+            needsPick: true,
+            candidates: sameName.map((s) => ({
+              id: s.id,
+              label: displayNameOf(s),
+              monster: monsterPath(monsterMap[s.id] || ((hashStr(s.id) % MONSTER_COUNT) + 1)),
+            })),
+            ...pub,
+          })
+        }
+      }
 
       let studentId = null
       let displayName = titleCase(name)
       let monster
       if (match) {
         studentId = match.id
-        displayName = match.first_name || displayName
+        displayName = displayNameOf(match) || displayName
         monster = monsterPath(monsterMap[match.id] || ((hashStr(match.id) % MONSTER_COUNT) + 1))
       } else {
         monster = monsterPath((hashStr(norm) % MONSTER_COUNT) + 1)
@@ -151,10 +174,12 @@ serve(async (req) => {
             .select('id').eq('session_id', session.id).eq('student_id', studentId).limit(1).maybeSingle()
           existing = r.data || null
         }
-        if (!existing) {
+        // Alleen terugvallen op de naam als het kind niet aan de klaslijst hangt.
+        // Anders zou een tweede Noa de rij van de eerste kunnen overnemen.
+        if (!existing && !studentId) {
           const r = await admin.from('rekenrace_participants')
-            .select('id, name').eq('session_id', session.id)
-          existing = (r.data || []).find((p) => normName(p.name) === norm) || null
+            .select('id, name, student_id').eq('session_id', session.id)
+          existing = (r.data || []).find((p) => !p.student_id && normName(p.name) === norm) || null
         }
         if (existing) {
           return json({ ok: true, participantId: existing.id, displayName, monster, matched: !!match, ...pub })
@@ -446,6 +471,11 @@ function monsterPath(n) {
 }
 
 // ---------- Tekst ----------
+// Voornaam plus achterletter als die er is: "Noa K.".
+function displayNameOf(s) {
+  const x = (s.name_suffix || '').trim()
+  return ((s.first_name || '') + ' ' + (x ? x + '.' : '')).trim()
+}
 function normName(s) {
   return String(s == null ? '' : s).trim().toLowerCase()
 }

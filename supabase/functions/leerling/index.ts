@@ -292,7 +292,7 @@ serve(async (req) => {
       // Klasgenoten (zonder zichzelf) om uit te kiezen.
       const { data: roster } = await admin
         .from('students')
-        .select('id, first_name, last_name')
+        .select('id, first_name, name_suffix')
         .eq('group_id', student.group_id).eq('archived', false)
         .order('first_name')
       const classmates = (roster || [])
@@ -429,8 +429,12 @@ async function loadSociogramSession(admin: any, sessionCode: string) {
 function typeLabel(type: unknown): string {
   return type === 'werken' ? 'Samen werken' : type === 'spelen' ? 'Samen spelen' : String(type || '')
 }
-function fullName(s: { first_name?: string; last_name?: string }): string {
-  return ((s.first_name || '') + ' ' + (s.last_name || '')).trim() || '?'
+// Voornaam, met de achterletter erbij als die er is ("Noa K."). Achternamen
+// slaan we niet op — dit is het enige onderscheid tussen twee kinderen die
+// dezelfde voornaam hebben.
+function fullName(s: { first_name?: string; name_suffix?: string }): string {
+  const x = (s.name_suffix || '').trim()
+  return ((s.first_name || '') + ' ' + (x ? x + '.' : '')).trim() || '?'
 }
 // Houd max 3 unieke, toegestane keuzes over (volgorde = rang).
 function cleanPicks(raw: unknown, allowed: Set<string>): string[] {

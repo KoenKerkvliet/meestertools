@@ -56,7 +56,26 @@
     }
 
     // ---------- Aanmelden ----------
-    async function doJoin() {
+    // Zitten er meer kinderen met dezelfde voornaam in de klas, dan geeft de
+    // server geen match terug maar een lijstje. Het kind wijst zichzelf aan
+    // via het eigen monstertje; pas daarna weten we wélke Noa dit is.
+    function showPicker(candidates) {
+        var grid = $('pickGrid');
+        grid.innerHTML = '';
+        (candidates || []).forEach(function (c) {
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'tr-pick-btn';
+            b.innerHTML = '<img src="/' + esc(String(c.monster || '').replace(/^\/+/, '')) + '" alt="">' +
+                          '<span>' + esc(c.label || name) + '</span>';
+            b.addEventListener('click', function () { doJoin(c.id); });
+            grid.appendChild(b);
+        });
+        $('pickBox').hidden = false;
+    }
+    function hidePicker() { $('pickBox').hidden = true; }
+
+    async function doJoin(studentId) {
         hideErr($('joinError'));
         name = ($('nameInput').value || '').trim();
         code = ($('codeInput').value || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -64,11 +83,13 @@
         if (!name) { showErr($('joinError'), 'Vul je voornaam in.'); return; }
 
         var btn = $('joinBtn'); btn.disabled = true; btn.textContent = 'Even kijken…';
-        var res = await call('join', { name: name });
+        var res = await call('join', { name: name, studentId: studentId || '' });
         btn.disabled = false; btn.innerHTML = 'Doe mee &rarr;';
 
         if (!res.ok) { showErr($('joinError'), res.error || 'Er ging iets mis.'); return; }
         if (!res.exists) { showErr($('joinError'), 'Deze code klopt niet. Kijk nog eens goed.'); return; }
+        if (res.needsPick) { showPicker(res.candidates); return; }
+        hidePicker();
         participantId = res.participantId; displayName = res.displayName || name; monster = res.monster || '';
         duration = res.duration || 90;
         applyMonster();
@@ -155,8 +176,9 @@
 
     // ---------- Init ----------
     function init() {
-        $('joinBtn').addEventListener('click', doJoin);
+        $('joinBtn').addEventListener('click', function () { doJoin(); });
         $('nameInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') doJoin(); });
+        $('nameInput').addEventListener('input', hidePicker); // andere naam = keuze niet meer geldig
         $('codeInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') doJoin(); });
         $('codeInput').addEventListener('input', function () {
             $('codeInput').value = $('codeInput').value.toUpperCase().replace(/[^A-Z0-9]/g, '');

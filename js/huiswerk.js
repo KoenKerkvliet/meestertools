@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     function studentName(s) {
         if (!s) return '?';
-        return ((s.first_name || '') + ' ' + (s.last_name || '')).trim() || '?';
+        return ((s.first_name || '') + ' ' + (s.name_suffix ? s.name_suffix + '.' : '')).trim() || '?';
     }
     function firstName(s) { return (s && s.first_name) || studentName(s); }
     function toast(msg) {
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
     async function loadStudents() {
         students = []; monsterByStudentId = {};
         if (!selectedGroupId) return;
-        var res = await supabase.from('students').select('id, first_name, last_name, student_number')
+        var res = await supabase.from('students').select('id, first_name, name_suffix, student_number')
             .eq('group_id', selectedGroupId).eq('archived', false).order('student_number');
         students = res.data || [];
         monsterByStudentId = assignMonsters(students);
