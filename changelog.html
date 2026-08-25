@@ -23,8 +23,8 @@
     <meta name="twitter:image" content="https://meestertools.nl/assets/og-image.png">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>Meestertools - Changelog</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/instellingen.css">
+    <link rel="stylesheet" href="css/style.css?v=1.46.2">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.46.2">
     <style>
         .changelog-container {
             max-width: 1200px;
@@ -168,6 +168,19 @@
         <div class="changelog-header">
             <h1>Changelog</h1>
             <p>Alle updates en verbeteringen van Meestertools.</p>
+        </div>
+
+        <!-- 25 augustus 2026 (v1.46.2) -->
+        <div class="changelog-entry">
+            <div class="changelog-date">25 augustus 2026 &mdash; v1.46.2</div>
+
+            <div class="changelog-section">
+                <span class="changelog-badge improved">Verbeterd</span>
+                <ul class="changelog-list">
+                    <li><strong>Updates komen nu in &eacute;&eacute;n keer binnen:</strong> de pagina&rsquo;s en de bijbehorende code werden apart in de browsercache bewaard en konden dus los van elkaar verlopen. Daardoor kon je heel even een nieuwe pagina te zien krijgen die nog met oude code draaide &mdash; met kans op rare fouten of ontbrekende plaatjes. Elke stijl- en codeverwijzing draagt nu het versienummer, zodat ze altijd bij elkaar horen.</li>
+                    <li><strong>Vangnet op elke wijziging:</strong> er draait voortaan een automatische controle die alle code op typefouten nakijkt en waarschuwt als het versienummer ergens niet meegelopen is.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- 25 augustus 2026 (v1.46.1) -->
@@ -1209,11 +1222,11 @@
 
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/template.js"></script>
+    <script src="/js/template.js?v=1.46.2"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/instellingen.js"></script>
+    <script src="js/supabase-config.js?v=1.46.2"></script>
+    <script src="js/app.js?v=1.46.2"></script>
+    <script src="js/instellingen.js?v=1.46.2"></script>
 </body>
 </html>

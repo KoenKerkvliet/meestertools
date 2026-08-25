@@ -37,6 +37,8 @@ Het digitale platform voor de basisschool. Interactieve tools voor digibord, kla
 ├── educatieve-games/                   # 24 game e.d.
 ├── lesmateriaal/                       # Werkbladen, vraag van de dag, woordenflitsen
 ├── groepsvorming/                      # Check-in, gedragspatroon, sociogram
+├── scripts/
+│   └── set-version.js                  # versie zetten + ?v= cache-busting syncen
 ├── supabase/
 │   └── functions/
 │       ├── _shared/                    # Herbruikbare CORS + emailit helpers
@@ -91,7 +93,24 @@ Vereiste secrets (in Supabase Dashboard → Edge Functions → Secrets):
 
 ## Versie
 
-Zie [changelog.html](./changelog.html) of in de footer van elke pagina.
+De versie staat op één plek: `const VERSION` in [js/template.js](./js/template.js).
+Die versie hangt ook als `?v=` achter elke eigen css/js-verwijzing in de HTML,
+zodat een nieuwe HTML nooit met oude JS gecombineerd kan worden (GitHub Pages
+serveert alles met `max-age=600`).
+
+Ophogen doe je daarom met het script, niet met de hand:
+
+```bash
+node scripts/set-version.js 1.47.0   # versie zetten én alle HTML syncen
+node scripts/set-version.js          # alleen syncen, huidige versie
+node scripts/set-version.js --check  # controleren (draait ook in CI)
+```
+
+De GitHub Action *Controle* laat een push falen als de `?v=` niet meer
+gelijkloopt, of als een JS-bestand een syntaxfout bevat.
+
+Zie [changelog.html](./changelog.html) of de footer van elke pagina voor wat er
+per versie is veranderd.
 
 ---
 

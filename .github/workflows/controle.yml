@@ -1,0 +1,38 @@
+name: Controle
+
+# Kleine vangnetten op elke push. De site heeft geen build-stap, dus dit is
+# de enige plek waar iets fout kan gaan vóórdat een leerkracht het merkt.
+#
+#  1. Draait elk JS-bestand door de parser van Node (vangt typefouten).
+#  2. Controleert of de ?v=-cache-busting in de HTML nog gelijkloopt met de
+#     VERSION in js/template.js. Zo niet: draai `node scripts/set-version.js`.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch: {}
+
+jobs:
+  controle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: JS-syntax controleren
+        run: |
+          fout=0
+          for f in js/*.js scripts/*.js; do
+            if ! node --check "$f"; then
+              echo "::error file=$f::syntaxfout"
+              fout=1
+            fi
+          done
+          exit $fout
+
+      - name: Cache-busting in sync met de versie
+        run: node scripts/set-version.js --check
