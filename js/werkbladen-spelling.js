@@ -600,10 +600,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ---------- Utility ----------
-    function escapeHtml(text) {
-        var div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
 
 });

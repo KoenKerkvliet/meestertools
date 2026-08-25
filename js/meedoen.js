@@ -98,11 +98,7 @@
         showScreen('wait');
     }
 
-    function escapeHtml(str) {
-        const d = document.createElement('div');
-        d.textContent = String(str == null ? '' : str);
-        return d.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
 
     // ---------- Polling ----------
     function startPolling() {

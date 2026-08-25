@@ -107,11 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let viewLinkUrl = '';
 
     // ---------- Helpers ----------
-    function escapeHtml(str) {
-        const d = document.createElement('div');
-        d.textContent = String(str == null ? '' : str);
-        return d.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
     async function getUser() {
         const s = await supabase.auth.getSession();
         return (s.data.session && s.data.session.user) || null;
@@ -148,23 +144,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Monstertjes — zelfde algoritme als de andere tools (uniek binnen de klas).
     const MONSTER_COUNT = 36;
     let monsterByStudentId = {};
-    function hashStr(key) {
-        let h = 0; key = String(key || '');
-        for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
-        return h;
-    }
-    function assignMonsters(list) {
-        const map = {}, used = {};
-        (list || []).slice().sort((a, b) => {
-            const ai = String(a.id), bi = String(b.id);
-            return ai < bi ? -1 : ai > bi ? 1 : 0;
-        }).forEach(s => {
-            let n = hashStr(s.id) % MONSTER_COUNT, tries = 0;
-            while (used[n] && tries < MONSTER_COUNT) { n = (n + 1) % MONSTER_COUNT; tries++; }
-            used[n] = true; map[s.id] = n + 1;
-        });
-        return map;
-    }
+    function hashStr(key) { return MT.hashStr(key); }
+    function assignMonsters(list) { return MT.assignMonsters(list); }
     function monsterForStudent(s) {
         const id = (s && s.id) || '';
         const n = monsterByStudentId[id] || ((hashStr(id) % MONSTER_COUNT) + 1);
@@ -276,14 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---------- Sessie-lifecycle ----------
-    function genCode(len) {
-        const ALPH = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
-        const arr = new Uint32Array(len);
-        crypto.getRandomValues(arr);
-        let s = '';
-        for (let i = 0; i < len; i++) s += ALPH[arr[i] % ALPH.length];
-        return s;
-    }
+    function genCode(len) { return MT.genCode(len); }
     async function createSession() {
         if (!selectedBlockId) { toast('Kies eerst een blokje.'); return; }
         const meta = blockMeta(selectedBlockId);

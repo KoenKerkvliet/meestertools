@@ -95,39 +95,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let checkOpen = false;
 
     // ---------- Helpers ----------
-    function escapeHtml(str) {
-        const d = document.createElement('div');
-        d.textContent = String(str == null ? '' : str);
-        return d.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
     function studentName(s) {
         if (!s) return '?';
         return ((s.first_name || '') + ' ' + (s.name_suffix ? s.name_suffix + '.' : '')).trim() || '?';
     }
-    function hashStr(key) {
-        let h = 0;
-        key = String(key || '');
-        for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
-        return h;
-    }
+    function hashStr(key) { return MT.hashStr(key); }
     const MONSTER_COUNT = 36;
     let monsterByStudentId = {}; // {student_id: 1..36}, uniek binnen de klas
     // Wijs elk kind in de klas een UNIEK monstertje toe. Zelfde algoritme als
     // Klasseprestatie/Klassendienst, zodat een leerling overal hetzelfde
     // (en binnen de klas niet-dubbele) monstertje houdt.
-    function assignMonsters(list) {
-        const map = {}, used = {};
-        (list || []).slice().sort((a, b) => {
-            const ai = String(a.id), bi = String(b.id);
-            return ai < bi ? -1 : ai > bi ? 1 : 0;
-        }).forEach(s => {
-            let n = hashStr(s.id) % MONSTER_COUNT, tries = 0;
-            while (used[n] && tries < MONSTER_COUNT) { n = (n + 1) % MONSTER_COUNT; tries++; }
-            used[n] = true;
-            map[s.id] = n + 1;
-        });
-        return map;
-    }
+    function assignMonsters(list) { return MT.assignMonsters(list); }
     function monsterForStudent(s) {
         const id = (s && s.id) || '';
         const n = monsterByStudentId[id] || ((hashStr(id) % MONSTER_COUNT) + 1);
@@ -239,14 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---------- Sessie-lifecycle ----------
-    function genCode(len) {
-        const ALPH = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // zonder I,O,0,1,L
-        const arr = new Uint32Array(len);
-        crypto.getRandomValues(arr);
-        let s = '';
-        for (let i = 0; i < len; i++) s += ALPH[arr[i] % ALPH.length];
-        return s;
-    }
+    function genCode(len) { return MT.genCode(len); }
     async function createSession() {
         const focus = students.find(s => s.id === focusSelect.value);
         if (!focus) { toast('Kies eerst een leerling.'); return; }

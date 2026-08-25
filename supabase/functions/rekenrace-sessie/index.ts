@@ -1,6 +1,7 @@
 import { serve } from 'https://deno.land/std@0.224.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { corsHeaders } from '../_shared/cors.ts'
+import { assignMonsters, hashStr, monsterPath, normName, MONSTER_COUNT, displayNameOf } from '../_shared/monsters.ts'
 
 /**
  * Rekenrace — publieke leerlingkant (klassikale rekensprint).
@@ -24,7 +25,6 @@ import { corsHeaders } from '../_shared/cors.ts'
 
 const NAME_MAX = 30
 const MAX_PARTICIPANTS = 60
-const MONSTER_COUNT = 36
 const ANSWER_CAP = 100000
 
 // Norm voor "beheerst" (groen). Bron van waarheid; client spiegelt dit alleen
@@ -444,41 +444,6 @@ async function ensureRewardType(admin, userId) {
   return created.id
 }
 
-// ---------- Monstertjes (zelfde algoritme als de tools client-side) ----------
-function hashStr(key) {
-  let h = 0
-  key = String(key || '')
-  for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0
-  return h
-}
-function assignMonsters(list) {
-  const map = {}
-  const used = {}
-  ;(list || []).slice().sort((a, b) => {
-    const ai = String(a.id), bi = String(b.id)
-    return ai < bi ? -1 : ai > bi ? 1 : 0
-  }).forEach((s) => {
-    let n = hashStr(s.id) % MONSTER_COUNT, tries = 0
-    while (used[n] && tries < MONSTER_COUNT) { n = (n + 1) % MONSTER_COUNT; tries++ }
-    used[n] = true
-    map[s.id] = n + 1
-  })
-  return map
-}
-function monsterPath(n) {
-  const nn = n < 10 ? '0' + n : String(n)
-  return 'assets/avatars/monsters/monster-' + nn + '.webp'
-}
-
-// ---------- Tekst ----------
-// Voornaam plus achterletter als die er is: "Noa K.".
-function displayNameOf(s) {
-  const x = (s.name_suffix || '').trim()
-  return ((s.first_name || '') + ' ' + (x ? x + '.' : '')).trim()
-}
-function normName(s) {
-  return String(s == null ? '' : s).trim().toLowerCase()
-}
 function titleCase(s) {
   const t = String(s || '').trim()
   return t ? t.charAt(0).toUpperCase() + t.slice(1) : t

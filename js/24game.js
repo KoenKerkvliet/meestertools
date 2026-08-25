@@ -532,11 +532,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ---------- Utility ----------
-    function escapeHtml(str) {
-        var div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
 
     // ---------- Init ----------
     async function init() {

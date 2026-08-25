@@ -1,6 +1,7 @@
 import { serve } from 'https://deno.land/std@0.224.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { corsHeaders } from '../_shared/cors.ts'
+import { assignMonsters, hashStr, monsterPath, normName, MONSTER_COUNT, displayNameOf } from '../_shared/monsters.ts'
 
 /**
  * Complimentenmuur — publieke leerlingkant.
@@ -187,24 +188,11 @@ serve(async (req) => {
   }
 })
 
-const MONSTER_COUNT = 36
-
-// Voornaam plus achterletter als die er is: "Noa K.".
-function displayNameOf(s: { first_name?: string; name_suffix?: string }): string {
+): string {
   const x = (s.name_suffix || '').trim()
   return ((s.first_name || '') + ' ' + (x ? x + '.' : '')).trim()
 }
-function normName(s: unknown): string {
-  return String(s == null ? '' : s).trim().toLowerCase()
-}
-function hashStr(key: string): number {
-  let h = 0
-  key = String(key || '')
-  for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0
-  return h
-}
-// Zelfde toewijzing als in de tools, zodat een kind overal hetzelfde monster ziet.
-function assignMonsters(list: Array<{ id: string }>): Record<string, number> {
+>): Record<string, number> {
   const map: Record<string, number> = {}
   const used: Record<number, boolean> = {}
   ;(list || []).slice().sort((a, b) => {
@@ -218,11 +206,6 @@ function assignMonsters(list: Array<{ id: string }>): Record<string, number> {
   })
   return map
 }
-function monsterPath(n: number): string {
-  const nn = n < 10 ? '0' + n : String(n)
-  return 'assets/avatars/monsters/monster-' + nn + '.webp'
-}
-
 function normalizeCode(raw: unknown): string {
   return String(raw || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8)
 }

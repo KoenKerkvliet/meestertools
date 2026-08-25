@@ -20,12 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function fmt(s) { var m = Math.floor(s / 60); return m + ':' + ('0' + (s % 60)).slice(-2); }
 
     // ---------- Sessie-lifecycle ----------
-    function genCode(len) {
-        var ALPH = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
-        var arr = new Uint32Array(len); crypto.getRandomValues(arr);
-        var s = ''; for (var i = 0; i < len; i++) s += ALPH[arr[i] % ALPH.length];
-        return s;
-    }
+    function genCode(len) { return MT.genCode(len); }
     async function findOpenSession() {
         if (!groupId) return null;
         var res = await supabase.from('typrace_sessions').select('*')

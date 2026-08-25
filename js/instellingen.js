@@ -1088,11 +1088,7 @@
     };
 
     // ---------- Utility ----------
-    function escapeHtml(str) {
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
 
     // Achterletter: alleen letters, max 2, als "K" opgeslagen en als "K." getoond.
     // Bewust te kort voor een achternaam — de database dwingt dat ook af.

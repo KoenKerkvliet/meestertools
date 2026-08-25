@@ -192,11 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function escapeHtml(s) {
-        return String(s || '').replace(/[&<>"']/g, function (c) {
-            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-        });
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
 
     // ---------- SETUP state ----------
     async function renderSetup() {
@@ -574,14 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var livePoll = null;
     var submittedIds = {}; // { student_id: true }
 
-    function genCode(len) {
-        var ALPH = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // zonder I,O,0,1,L
-        var arr = new Uint32Array(len);
-        crypto.getRandomValues(arr);
-        var s = '';
-        for (var i = 0; i < len; i++) s += ALPH[arr[i] % ALPH.length];
-        return s;
-    }
+    function genCode(len) { return MT.genCode(len); }
 
     async function setRealtimeAuth() {
         try {
@@ -1359,27 +1348,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Zelfde monster-toewijzing als in Klassendienst/Klasseprestatie/
     // Complimentenmuur/Naamkaarten, zodat elk kind overal hetzelfde
     // monstertje heeft.
-    function monsterHash(key) {
-        key = String(key || '');
-        var h = 0;
-        for (var i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
-        return h;
-    }
+    function monsterHash(key) { return MT.hashStr(key); }
 
-    function assignMonsters(list) {
-        var map = {}, used = {};
-        var sorted = (list || []).slice().sort(function (a, b) {
-            var ai = String(a.id), bi = String(b.id);
-            return ai < bi ? -1 : ai > bi ? 1 : 0;
-        });
-        sorted.forEach(function (s) {
-            var n = monsterHash(s.id) % MONSTER_COUNT, tries = 0;
-            while (used[n] && tries < MONSTER_COUNT) { n = (n + 1) % MONSTER_COUNT; tries++; }
-            used[n] = true;
-            map[s.id] = n + 1;
-        });
-        return map;
-    }
+    function assignMonsters(list) { return MT.assignMonsters(list); }
 
     var wbImgCache = {};
     function wbLoadImage(src) {

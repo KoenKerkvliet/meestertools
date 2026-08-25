@@ -135,11 +135,7 @@
     }
 
     // ---------- Dashboard render (compact) ----------
-    function escapeHtml(str) {
-        var div = document.createElement('div');
-        div.textContent = str == null ? '' : str;
-        return div.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
 
     function pillHtml(tool) {
         return '<a class="mt-pill" href="' + tool.url + '">' +

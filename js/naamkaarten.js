@@ -84,27 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- Monsters ----------
     // Zelfde toewijzing als in Klassendienst, Klasseprestatie en
     // Complimentenmuur, zodat een kind overal hetzelfde monstertje heeft.
-    function monsterHash(key) {
-        key = String(key || '');
-        let h = 0;
-        for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
-        return h;
-    }
+    function monsterHash(key) { return MT.hashStr(key); }
 
-    function assignMonsters(list) {
-        const map = {}, used = {};
-        const sorted = (list || []).slice().sort((a, b) => {
-            const ai = String(a.id), bi = String(b.id);
-            return ai < bi ? -1 : ai > bi ? 1 : 0;
-        });
-        sorted.forEach(s => {
-            let n = monsterHash(s.id) % MONSTER_COUNT, tries = 0;
-            while (used[n] && tries < MONSTER_COUNT) { n = (n + 1) % MONSTER_COUNT; tries++; }
-            used[n] = true;
-            map[s.id] = n + 1;
-        });
-        return map;
-    }
+    function assignMonsters(list) { return MT.assignMonsters(list); }
 
     function monsterSrc(s) {
         const id = (s && s.id) || '';

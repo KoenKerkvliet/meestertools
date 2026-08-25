@@ -1,5 +1,6 @@
 import { serve } from 'https://deno.land/std@0.224.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { hashStr } from '../_shared/monsters.ts'
 
 /**
  * Escape room-sessie — publieke leerlingkant (teams).
@@ -310,12 +311,6 @@ function normalizeCode(raw: unknown): string {
 
 function cleanText(raw: unknown, max: number): string {
   return String(raw || '').replace(/\s+/g, ' ').trim().slice(0, max)
-}
-
-function hashStr(key: string): number {
-  let h = 0
-  for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0
-  return h
 }
 
 // Deterministische shuffle: zelfde team -> zelfde volgorde (ook na refresh)

@@ -370,11 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ---------- Utility ----------
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
 
     // ---------- WOORDENLIJSTEN ----------
     const READING_LEVELS = ['E3', 'M4', 'E4', 'M5', 'E5', 'M6', 'E6', 'M7', 'E7', 'Plus'];

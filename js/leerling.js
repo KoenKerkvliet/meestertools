@@ -65,11 +65,7 @@
         topLogout.style.display = (key === 'login') ? 'none' : '';
         if (key !== 'hub') stopSessionsPoll();
     }
-    function escapeHtml(str) {
-        const d = document.createElement('div');
-        d.textContent = String(str == null ? '' : str);
-        return d.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
     function showErr(el, msg) { el.textContent = msg; el.classList.add('show'); }
     function hideErr(el) { el.classList.remove('show'); }
     function monsterUrl(p) { return '/' + String(p || '').replace(/^\/+/, ''); }

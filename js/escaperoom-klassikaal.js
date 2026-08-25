@@ -44,11 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const teamsEl = document.getElementById('erHostTeams');
     const errorEl = document.getElementById('erHostError');
 
-    function escapeHtml(str) {
-        const div = document.createElement('div');
-        div.textContent = str == null ? '' : String(str);
-        return div.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
 
     function showError(msg) {
         errorEl.textContent = msg;
@@ -62,14 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---------- Sessie-lifecycle ----------
-    function genCode(len) {
-        const ALPH = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // zonder I,O,0,1,L
-        const arr = new Uint32Array(len);
-        crypto.getRandomValues(arr);
-        let s = '';
-        for (let i = 0; i < len; i++) s += ALPH[arr[i] % ALPH.length];
-        return s;
-    }
+    function genCode(len) { return MT.genCode(len); }
 
     async function findOpenSession() {
         const { data } = await supabase

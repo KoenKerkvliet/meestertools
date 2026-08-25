@@ -87,11 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let timerStarted = false;
     let timeLimitSec = null;
 
-    function escapeHtml(str) {
-        const div = document.createElement('div');
-        div.textContent = str == null ? '' : String(str);
-        return div.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
 
     function attrUrl(url) {
         return String(url || '').replace(/"/g, '%22');

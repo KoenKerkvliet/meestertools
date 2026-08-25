@@ -18,11 +18,7 @@
 (function () {
     if (typeof supabase === 'undefined') return;
 
-    function escapeHtml(str) {
-        var div = document.createElement('div');
-        div.textContent = str == null ? '' : String(str);
-        return div.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
 
     async function init() {
         if (!document.querySelector('.dashboard-content')) return;

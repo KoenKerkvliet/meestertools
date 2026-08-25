@@ -3392,11 +3392,7 @@ document.addEventListener('DOMContentLoaded', function () {
         doc.setFontSize(11);
     }
 
-    function escapeHtml(str) {
-        var div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
 
     // Render a fraction as stacked HTML (numerator over denominator with horizontal line)
     function renderFracHtml(breukStr, isBlank) {

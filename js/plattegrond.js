@@ -79,11 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return g;
     }
     function cloneGrid(g) { return g.map(function (row) { return row.slice(); }); }
-    function escapeHtml(str) {
-        var d = document.createElement('div');
-        d.textContent = str == null ? '' : str;
-        return d.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
     function studentName(s) { return s ? (((s.first_name || '') + ' ' + (s.name_suffix ? s.name_suffix + '.' : '')).trim() || '?') : '?'; }
     function firstName(s) { return (s && (s.first_name || studentName(s))) || '?'; }
     function initials(s) {
@@ -92,25 +88,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var l = (s.name_suffix || '').charAt(0).toUpperCase();
         return f + (l || '');
     }
-    function monsterHash(key) {
-        key = String(key || '');
-        var h = 0;
-        for (var i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
-        return h;
-    }
-    function assignMonsters(list) {
-        var map = {}, used = {};
-        (list || []).slice().sort(function (a, b) {
-            var ai = String(a.id), bi = String(b.id);
-            return ai < bi ? -1 : ai > bi ? 1 : 0;
-        }).forEach(function (s) {
-            var n = monsterHash(s.id) % MONSTER_COUNT, tries = 0;
-            while (used[n] && tries < MONSTER_COUNT) { n = (n + 1) % MONSTER_COUNT; tries++; }
-            used[n] = true;
-            map[s.id] = n + 1;
-        });
-        return map;
-    }
+    function monsterHash(key) { return MT.hashStr(key); }
+    function assignMonsters(list) { return MT.assignMonsters(list); }
     function monsterUrl(s, abs) {
         var id = (s && s.id) || '';
         var n = monsterByStudentId[id] || ((monsterHash(id) % MONSTER_COUNT) + 1);

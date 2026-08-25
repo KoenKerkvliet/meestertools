@@ -37,11 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let saveTimer = null;
 
     // ---------- Helpers ----------
-    function escapeHtml(s) {
-        return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
-            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-        });
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
     function studentName(s) {
         if (!s) return '?';
         return ((s.first_name || '') + ' ' + (s.name_suffix ? s.name_suffix + '.' : '')).trim() || '?';

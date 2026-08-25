@@ -6,6 +6,8 @@ name: Controle
 #  1. Draait elk JS-bestand door de parser van Node (vangt typefouten).
 #  2. Controleert of de ?v=-cache-busting in de HTML nog gelijkloopt met de
 #     VERSION in js/template.js. Zo niet: draai `node scripts/set-version.js`.
+#  3. Controleert dat elke pagina js/mt-shared.js op tijd inlaadt, en dat
+#     niemand weer een eigen kopie van een gedeelde helper heeft gemaakt.
 
 on:
   push:
@@ -36,3 +38,6 @@ jobs:
 
       - name: Cache-busting in sync met de versie
         run: node scripts/set-version.js --check
+
+      - name: Gedeelde helpers correct ingeladen
+        run: node scripts/check-shared.js

@@ -1,6 +1,7 @@
 import { serve } from 'https://deno.land/std@0.224.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { corsHeaders } from '../_shared/cors.ts'
+import { assignMonsters, hashStr, monsterPath, normName, MONSTER_COUNT, displayNameOf } from '../_shared/monsters.ts'
 
 /**
  * Leerlingpagina (/leerling) — publieke kant, geen account.
@@ -21,8 +22,6 @@ import { corsHeaders } from '../_shared/cors.ts'
  */
 
 const NAME_MAX = 30
-const MONSTER_COUNT = 36
-
 // Brute-force-rem: alleen MISLUKTE pogingen tellen mee (een klas vol geldige
 // leerlingen achter één school-IP merkt hier dus niets van). In-memory per
 // isolate: geen garantie, wel een effectieve snelheidsrem.
@@ -390,14 +389,7 @@ serve(async (req) => {
   }
 })
 
-// ---------- Monstertjes (zelfde algoritme als de tools) ----------
-function hashStr(key: string): number {
-  let h = 0
-  key = String(key || '')
-  for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0
-  return h
-}
-function assignMonsters(list: Array<{ id: string }>): Record<string, number> {
+>): Record<string, number> {
   const map: Record<string, number> = {}
   const used: Record<number, boolean> = {}
   ;(list || []).slice().sort((a, b) => {
@@ -411,11 +403,6 @@ function assignMonsters(list: Array<{ id: string }>): Record<string, number> {
   })
   return map
 }
-function monsterPath(n: number): string {
-  const nn = n < 10 ? '0' + n : String(n)
-  return 'assets/avatars/monsters/monster-' + nn + '.webp'
-}
-
 // ---------- Sociogram ----------
 async function loadSociogramSession(admin: any, sessionCode: string) {
   if (!sessionCode) return null
@@ -429,12 +416,10 @@ async function loadSociogramSession(admin: any, sessionCode: string) {
 function typeLabel(type: unknown): string {
   return type === 'werken' ? 'Samen werken' : type === 'spelen' ? 'Samen spelen' : String(type || '')
 }
-// Voornaam, met de achterletter erbij als die er is ("Noa K."). Achternamen
-// slaan we niet op — dit is het enige onderscheid tussen twee kinderen die
-// dezelfde voornaam hebben.
+// Zelfde weergave als overal ("Noa K."), met een streepje als terugval zodat
+// er nooit een lege naam in de kieslijst van het sociogram staat.
 function fullName(s: { first_name?: string; name_suffix?: string }): string {
-  const x = (s.name_suffix || '').trim()
-  return ((s.first_name || '') + ' ' + (x ? x + '.' : '')).trim() || '?'
+  return displayNameOf(s) || '?'
 }
 // Houd max 3 unieke, toegestane keuzes over (volgorde = rang).
 function cleanPicks(raw: unknown, allowed: Set<string>): string[] {
@@ -449,10 +434,6 @@ function cleanPicks(raw: unknown, allowed: Set<string>): string[] {
   return out
 }
 
-// ---------- Tekst / getallen ----------
-function normName(s: unknown): string {
-  return String(s == null ? '' : s).trim().toLowerCase()
-}
 function normCode(raw: unknown): string {
   // Oude codes zijn 6 tekens, nieuwe 7 — accepteer ruim.
   return String(raw || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8)

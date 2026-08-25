@@ -95,11 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var MONSTER_COUNT = 36;
 
     // ---------- Helpers ----------
-    function escapeHtml(str) {
-        var div = document.createElement('div');
-        div.textContent = str == null ? '' : str;
-        return div.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
 
     function parseDate(str) {
         if (!str) return null;
@@ -158,30 +154,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     var monsterByStudentId = {}; // {student_id: 1..36}, uniek binnen de klas
-    function monsterHash(key) {
-        key = String(key || '');
-        var h = 0;
-        for (var i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
-        return h;
-    }
+    function monsterHash(key) { return MT.hashStr(key); }
     // Wijs elk kind in de klas een UNIEK monstertje toe (1..36). Voorkeur =
     // hash van het id; bij botsing schuift het deterministisch door naar het
     // eerstvolgende vrije monster. Zelfde algoritme als in Klasseprestatie en
     // Complimentenmuur, zodat een kind overal hetzelfde monster houdt.
-    function assignMonsters(list) {
-        var map = {}, used = {};
-        var sorted = (list || []).slice().sort(function (a, b) {
-            var ai = String(a.id), bi = String(b.id);
-            return ai < bi ? -1 : ai > bi ? 1 : 0;
-        });
-        sorted.forEach(function (s) {
-            var n = monsterHash(s.id) % MONSTER_COUNT, tries = 0;
-            while (used[n] && tries < MONSTER_COUNT) { n = (n + 1) % MONSTER_COUNT; tries++; }
-            used[n] = true;
-            map[s.id] = n + 1;
-        });
-        return map;
-    }
+    function assignMonsters(list) { return MT.assignMonsters(list); }
     function monsterForStudent(s) {
         var id = (s && s.id) || '';
         var n = monsterByStudentId[id] || ((monsterHash(id) % MONSTER_COUNT) + 1);

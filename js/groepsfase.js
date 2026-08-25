@@ -173,11 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return parseInt(p[2], 10) + ' ' + MONTHS[parseInt(p[1], 10) - 1] + ' ' + p[0];
     }
 
-    function escapeHtml(str) {
-        const div = document.createElement('div');
-        div.textContent = str == null ? '' : str;
-        return div.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
 
     function newId() {
         return 'e' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);

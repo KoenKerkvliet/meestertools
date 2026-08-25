@@ -88,11 +88,7 @@
     const finditStatus = document.getElementById('erFindItStatus');
 
     // ---------- Helpers ----------
-    function escapeHtml(str) {
-        const div = document.createElement('div');
-        div.textContent = str == null ? '' : String(str);
-        return div.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
     function attrUrl(url) { return String(url || '').replace(/"/g, '%22'); }
     function showErr(el, msg) { el.textContent = msg; el.classList.add('show'); }
     function hideErr(el) { el.classList.remove('show'); }

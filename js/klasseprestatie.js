@@ -137,42 +137,20 @@ document.addEventListener('DOMContentLoaded', () => {
     var MONSTER_COUNT = 36;
     var HATCH_AT = 5; // vanaf dit aantal punten komt het ei uit
     var monsterByStudentId = {}; // {student_id: 1..36}, uniek binnen de klas
-    function monsterHash(key) {
-        key = String(key || '');
-        var h = 0;
-        for (var i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
-        return h;
-    }
+    function monsterHash(key) { return MT.hashStr(key); }
     // Wijs elk kind in de klas een UNIEK monstertje toe (1..36). Voorkeur =
     // hash van het id (zodat een kind z'n vertrouwde monster houdt); bij een
     // botsing schuiven we deterministisch door naar het eerstvolgende vrije
     // monster. Sorteren op id maakt de toewijzing onafhankelijk van de
     // laadvolgorde, zodat alle tools hetzelfde resultaat geven.
     // >36 leerlingen: uniek kan dan niet meer, dan vallen we terug op de voorkeur.
-    function assignMonsters(list) {
-        var map = {}, used = {};
-        var sorted = (list || []).slice().sort(function (a, b) {
-            var ai = String(a.id), bi = String(b.id);
-            return ai < bi ? -1 : ai > bi ? 1 : 0;
-        });
-        sorted.forEach(function (s) {
-            var n = monsterHash(s.id) % MONSTER_COUNT, tries = 0;
-            while (used[n] && tries < MONSTER_COUNT) { n = (n + 1) % MONSTER_COUNT; tries++; }
-            used[n] = true;
-            map[s.id] = n + 1;
-        });
-        return map;
-    }
+    function assignMonsters(list) { return MT.assignMonsters(list); }
     function monsterForStudent(s) {
         var id = (s && s.id) || '';
         var n = monsterByStudentId[id] || ((monsterHash(id) % MONSTER_COUNT) + 1);
         return 'assets/avatars/monsters/monster-' + (n < 10 ? '0' + n : n) + '.webp';
     }
-    function escapeHtml(str) {
-        var d = document.createElement('div');
-        d.textContent = String(str || '');
-        return d.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
     function today() {
         return new Date().toISOString().slice(0, 10);
     }

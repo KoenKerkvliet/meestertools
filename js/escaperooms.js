@@ -20,11 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let filterCategory = '';
     let filterGroup = '';
 
-    function escapeHtml(str) {
-        const div = document.createElement('div');
-        div.textContent = str == null ? '' : String(str);
-        return div.innerHTML;
-    }
+    function escapeHtml(s) { return MT.escapeHtml(s); }
 
     function groupLabel(g) {
         return g ? 'Groep ' + g : '';
