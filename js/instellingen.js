@@ -11,6 +11,8 @@
     let students = {};
     let activeGroupId = null;
     let showArchived = false;
+    let currentUserId = null;
+    let membersByGroup = {};      // {group_id: [{user_id}]} - duo-leerkrachten
     let schoolName = null;        // voor de leerlingcode-prefix
     let schoolNameLoaded = false;
 
@@ -157,9 +159,18 @@
                             <h3>Mijn klas</h3>
                             <div class="klas-toolbar">
                                 <button class="btn-primary" id="addGroupBtn">+ Nieuwe groep</button>
+                                <button class="btn-add-small" id="joinGroupBtn" title="Kreeg je een code van een collega?">Deelnemen aan een klas</button>
                                 <label class="filter-toggle">
                                     <input type="checkbox" id="showArchivedGroups"> Toon gearchiveerd
                                 </label>
+                            </div>
+                            <div id="joinGroupForm" style="display:none;margin-bottom:16px">
+                                <div class="inline-add-form">
+                                    <input type="text" id="joinCode" placeholder="Code van je collega" maxlength="12" autocomplete="off" style="text-transform:uppercase">
+                                    <button class="btn-add-small" id="confirmJoinGroup">Deelnemen</button>
+                                </div>
+                                <div class="inline-form-hint">Werk je op andere dagen met de klas van een collega? Vraag om een uitnodigingscode via Instellingen &rarr; Mijn klas &rarr; Samenwerken.</div>
+                                <div class="inline-form-error" id="joinGroupError"></div>
                             </div>
                             <div id="addGroupForm" style="display:none;margin-bottom:16px">
                                 <div class="inline-add-form">
@@ -249,6 +260,33 @@
             }
         });
         overlayEl.querySelector('#confirmAddGroup').addEventListener('click', addGroup);
+
+        // ---------- Deelnemen aan de klas van een collega ----------
+        const joinForm = () => overlayEl.querySelector('#joinGroupForm');
+        overlayEl.querySelector('#joinGroupBtn').addEventListener('click', () => {
+            const f = joinForm();
+            f.style.display = f.style.display === 'block' ? 'none' : 'block';
+            if (f.style.display === 'block') overlayEl.querySelector('#joinCode').focus();
+        });
+        const doeMee = async () => {
+            const input = overlayEl.querySelector('#joinCode');
+            const code = (input.value || '').trim();
+            if (!code) return;
+            const btn = overlayEl.querySelector('#confirmJoinGroup');
+            btn.disabled = true; btn.textContent = 'Bezig...';
+            const { data, error } = await supabase.rpc('redeem_group_invite', { p_code: code });
+            btn.disabled = false; btn.textContent = 'Deelnemen';
+            if (error) {
+                showInlineError('joinGroupForm', error.message || 'Deelnemen lukte niet.');
+                return;
+            }
+            input.value = '';
+            joinForm().style.display = 'none';
+            await loadGroups();
+            alert('Je werkt nu mee in "' + (data.group_name || 'de klas') + '".');
+        };
+        overlayEl.querySelector('#confirmJoinGroup').addEventListener('click', doeMee);
+        overlayEl.querySelector('#joinCode').addEventListener('keydown', (e) => { if (e.key === 'Enter') doeMee(); });
         overlayEl.querySelector('#newGroupName').addEventListener('keydown', (e) => {
             if (e.key === 'Enter') addGroup();
         });
@@ -619,7 +657,6 @@
         const { data, error } = await supabase
             .from('groups')
             .select('*')
-            .eq('user_id', user.id)
             .order('created_at', { ascending: true });
 
         if (error) {
@@ -628,12 +665,23 @@
         }
 
         groups = data || [];
+        currentUserId = user.id;
+
+        // Wie heeft er nog meer toegang tot deze groepen? (duo-leerkrachten)
+        membersByGroup = {};
+        try {
+            const { data: mem } = await supabase
+                .from('group_members')
+                .select('group_id, user_id, created_at');
+            (mem || []).forEach(m => {
+                (membersByGroup[m.group_id] = membersByGroup[m.group_id] || []).push(m);
+            });
+        } catch (e) { /* niet fataal: de ledenlijst is een extraatje */ }
 
         // Load student counts
         const { data: studentData } = await supabase
             .from('students')
-            .select('id, group_id, archived')
-            .eq('user_id', user.id);
+            .select('id, group_id, archived');
 
         students = {};
         (studentData || []).forEach(s => {
@@ -663,20 +711,30 @@
             const activeCount = studentList.filter(s => !s.archived).length;
             const isActive = activeGroupId === g.id;
 
+            const isOwner = g.user_id === currentUserId;
+            const duos = (membersByGroup[g.id] || []).length;
+
             return `
                 <div class="groep-item${isActive ? ' active' : ''}${g.archived ? ' archived' : ''}" data-id="${g.id}">
                     <div class="groep-header" data-id="${g.id}">
                         <span class="groep-expand">&#9654;</span>
                         <span class="groep-name">${escapeHtml(g.name)}</span>
                         ${g.archived ? '<span class="badge badge-archived">Gearchiveerd</span>' : ''}
+                        ${!isOwner ? '<span class="badge badge-gedeeld" title="Je collega heeft je toegang gegeven tot deze klas">Gedeeld met jou</span>' : ''}
+                        ${isOwner && duos ? `<span class="badge badge-gedeeld" title="Je deelt deze klas met een collega">Duo &times;${duos}</span>` : ''}
                         <span class="groep-count">${activeCount} leerling${activeCount !== 1 ? 'en' : ''}</span>
                         <div class="groep-actions">
+                            ${isOwner ? `
                             <button class="btn-small btn-edit" onclick="event.stopPropagation();window._editGroup('${g.id}')">Bewerken</button>
+                            <button class="btn-small btn-edit" onclick="event.stopPropagation();window._manageDuo('${g.id}')">Samenwerken</button>
                             ${g.archived
                                 ? `<button class="btn-small btn-restore" onclick="event.stopPropagation();window._archiveGroup('${g.id}',false)">Herstellen</button>`
                                 : `<button class="btn-small btn-archive" onclick="event.stopPropagation();window._archiveGroup('${g.id}',true)">Archiveren</button>`
                             }
                             <button class="btn-small btn-delete" onclick="event.stopPropagation();window._deleteGroup('${g.id}')">Verwijderen</button>
+                            ` : `
+                            <button class="btn-small btn-archive" onclick="event.stopPropagation();window._leaveGroup('${g.id}')">Toegang opzeggen</button>
+                            `}
                         </div>
                     </div>
                     <div class="leerlingen-panel" id="leerlingen-${g.id}">
@@ -757,7 +815,6 @@
             .from('students')
             .select('*')
             .eq('group_id', groupId)
-            .eq('user_id', user.id)
             .order('student_number', { ascending: true });
 
         students[groupId] = data || [];
@@ -928,7 +985,6 @@
                 .from('students')
                 .select('student_number')
                 .eq('group_id', groupId)
-                .eq('user_id', user.id)
                 .order('student_number', { ascending: false })
                 .limit(1)
                 .maybeSingle();
@@ -1050,6 +1106,96 @@
             await supabase.from('students').update({ first_name: fn, name_suffix: sx }).eq('id', studentId);
             modal.classList.remove('active');
             loadStudentsForGroup(groupId);
+        });
+    };
+
+    // ---------- Samenwerken: duo-leerkracht ----------
+    // De code loopt via create_group_invite/redeem_group_invite in de database.
+    // Die functies controleren zelf of jij de eigenaar bent; de tabel met
+    // uitnodigingen is voor niemand rechtstreeks leesbaar, zodat codes niet
+    // afgelopen kunnen worden.
+    window._manageDuo = async function (groupId) {
+        const group = groups.find(g => g.id === groupId);
+        if (!group) return;
+        const leden = membersByGroup[groupId] || [];
+
+        const modal = overlayEl.querySelector('#instellingenModal');
+        overlayEl.querySelector('#innerModalTitle').textContent = 'Samenwerken in ' + group.name;
+        overlayEl.querySelector('#innerModalBody').innerHTML = `
+            <p class="confirm-text">Werkt er een collega op andere dagen met deze klas? Geef haar of hem
+            een uitnodigingscode. Jullie werken daarna in dezelfde klas: dezelfde kinderen, dezelfde
+            punten, dezelfde plattegrond.</p>
+            <p class="confirm-text"><strong>Wat blijft van jou:</strong> de groep zelf, je beloningsknoppen
+            en je eigen instellingen. Je collega gebruikt die wel, maar kan ze niet wijzigen of iemand
+            anders uitnodigen.</p>
+            <div class="form-group">
+                <label>Toegang nu</label>
+                <div id="duoLeden">${leden.length
+                    ? leden.map(m => `<div class="duo-lid">Collega toegevoegd op ${new Date(m.created_at).toLocaleDateString('nl-NL')}
+                        <button class="btn-small btn-delete" data-remove="${escapeHtml(m.user_id)}">Intrekken</button></div>`).join('')
+                    : '<em>Nog niemand. Alleen jij hebt toegang.</em>'}</div>
+            </div>
+            <div class="form-group">
+                <button class="btn-save" id="duoMaakCode">Uitnodigingscode maken</button>
+                <div id="duoCodeUit" style="margin-top:10px"></div>
+            </div>
+            <div class="inline-form-error" id="duoFout"></div>
+        `;
+        overlayEl.querySelector('#innerModalFooter').innerHTML =
+            '<button class="btn-cancel" id="duoSluit">Sluiten</button>';
+        modal.classList.add('active');
+
+        const fout = overlayEl.querySelector('#duoFout');
+        const toonFout = (msg) => { fout.textContent = msg; fout.style.display = 'block'; };
+
+        overlayEl.querySelector('#duoSluit').addEventListener('click', () => modal.classList.remove('active'));
+
+        overlayEl.querySelector('#duoMaakCode').addEventListener('click', async () => {
+            fout.style.display = 'none';
+            const btn = overlayEl.querySelector('#duoMaakCode');
+            btn.disabled = true; btn.textContent = 'Bezig...';
+            const { data, error } = await supabase.rpc('create_group_invite', { p_group: groupId });
+            btn.disabled = false; btn.textContent = 'Nieuwe code maken';
+            if (error) { toonFout(error.message || 'Aanmaken lukte niet.'); return; }
+            const tot = new Date(data.expires_at).toLocaleDateString('nl-NL');
+            overlayEl.querySelector('#duoCodeUit').innerHTML =
+                `<div class="duo-code">${escapeHtml(data.code)}</div>
+                 <p class="form-hint">Geef deze code aan je collega. Zij vult hem in bij
+                 Instellingen &rarr; Mijn klas &rarr; <em>Deelnemen aan een klas</em>.
+                 De code werkt &eacute;&eacute;n keer en verloopt op ${tot}.</p>`;
+        });
+
+        overlayEl.querySelectorAll('[data-remove]').forEach(b => {
+            b.addEventListener('click', async () => {
+                const { error } = await supabase.rpc('remove_group_member',
+                    { p_group: groupId, p_user: b.getAttribute('data-remove') });
+                if (error) { toonFout(error.message || 'Intrekken lukte niet.'); return; }
+                modal.classList.remove('active');
+                loadGroups();
+            });
+        });
+    };
+
+    // Zelf een gedeelde klas verlaten.
+    window._leaveGroup = async function (groupId) {
+        const group = groups.find(g => g.id === groupId);
+        if (!group) return;
+        const modal = overlayEl.querySelector('#instellingenModal');
+        overlayEl.querySelector('#innerModalTitle').textContent = 'Toegang opzeggen';
+        overlayEl.querySelector('#innerModalBody').innerHTML = `
+            <p class="confirm-text">Wil je je toegang tot <strong>${escapeHtml(group.name)}</strong> opzeggen?
+            De klas en alle gegevens blijven gewoon bestaan bij je collega; jij ziet ze alleen niet meer.
+            Je collega kan je later opnieuw uitnodigen.</p>`;
+        overlayEl.querySelector('#innerModalFooter').innerHTML = `
+            <button class="btn-cancel" id="leaveNee">Annuleren</button>
+            <button class="btn-primary" id="leaveJa">Toegang opzeggen</button>`;
+        modal.classList.add('active');
+        overlayEl.querySelector('#leaveNee').addEventListener('click', () => modal.classList.remove('active'));
+        overlayEl.querySelector('#leaveJa').addEventListener('click', async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            await supabase.rpc('remove_group_member', { p_group: groupId, p_user: session.user.id });
+            modal.classList.remove('active');
+            loadGroups();
         });
     };
 

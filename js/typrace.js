@@ -23,8 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function genCode(len) { return MT.genCode(len); }
     async function findOpenSession() {
         if (!groupId) return null;
-        var res = await supabase.from('typrace_sessions').select('*')
-            .eq('user_id', userId).eq('group_id', groupId).in('status', ['lobby', 'playing'])
+        var res = await supabase.from('typrace_sessions').select('*').eq('group_id', groupId).in('status', ['lobby', 'playing'])
             .order('created_at', { ascending: false }).limit(1).maybeSingle();
         return res.data || null;
     }
@@ -199,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
             groupId = (window.MTActiveClass && window.MTActiveClass.getId && window.MTActiveClass.getId()) || null;
         } catch (e) {}
         if (!groupId) {
-            var g = await supabase.from('groups').select('id').eq('user_id', userId).eq('archived', false).order('name').limit(1).maybeSingle();
+            var g = await supabase.from('groups').select('id').eq('archived', false).order('name').limit(1).maybeSingle();
             groupId = g.data ? g.data.id : null;
         }
         if (!groupId) { showError('Stel eerst een klas in via Instellingen → Mijn klas.'); if (window.hidePageLoader) window.hidePageLoader(); return; }

@@ -89,8 +89,7 @@
         try {
             var user = await getUser();
             if (!user) { bodyEl.innerHTML = '<div class="tt-ov-empty">Log in om het overzicht te zien.</div>'; return; }
-            var res = await supabase.from('groups').select('id, name')
-                .eq('user_id', user.id).eq('archived', false).order('name');
+            var res = await supabase.from('groups').select('id, name').eq('archived', false).order('name');
             groups = res.data || [];
             if (!groups.length) {
                 selectEl.innerHTML = '';
@@ -119,8 +118,7 @@
         try {
             var user = await getUser();
             var sres = await supabase.from('students')
-                .select('id, first_name, name_suffix')
-                .eq('user_id', user.id).eq('group_id', groupId).eq('archived', false)
+                .select('id, first_name, name_suffix').eq('group_id', groupId).eq('archived', false)
                 .order('first_name');
             var students = sres.data || [];
             if (!students.length) { bodyEl.innerHTML = '<div class="tt-ov-empty">Nog geen leerlingen in deze klas.</div>'; return; }

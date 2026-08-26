@@ -121,8 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return (s.data.session && s.data.session.user) || null;
     }
     async function loadGroups() {
-        var res = await supabase.from('groups').select('id, name')
-            .eq('user_id', currentUser.id).eq('archived', false).order('name');
+        var res = await supabase.from('groups').select('id, name').eq('archived', false).order('name');
         groups = res.data || [];
     }
     async function loadStudents() {

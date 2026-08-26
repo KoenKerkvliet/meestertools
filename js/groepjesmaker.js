@@ -72,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const { data } = await supabase
             .from('groups')
             .select('id, name')
-            .eq('user_id', userId)
             .eq('archived', false)
             .order('created_at', { ascending: true });
 
@@ -98,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .from('students')
             .select('id, first_name, name_suffix')
             .eq('group_id', selectedGroupId)
-            .eq('user_id', userId)
             .eq('archived', false)
             .order('student_number', { ascending: true });
 

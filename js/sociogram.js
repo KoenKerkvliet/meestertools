@@ -100,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         var { data, error } = await supabase
             .from('groups')
             .select('id, name')
-            .eq('user_id', user.id)
             .eq('archived', false)
             .order('name');
         if (error) {

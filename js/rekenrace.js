@@ -155,8 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- Data loading ----------
     async function loadGroups() {
         const { data } = await supabase
-            .from('groups').select('id, name')
-            .eq('user_id', currentUser.id).eq('archived', false).order('name');
+            .from('groups').select('id, name').eq('archived', false).order('name');
         groups = data || [];
     }
     async function loadStudents() {

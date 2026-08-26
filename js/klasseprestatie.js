@@ -160,12 +160,24 @@ document.addEventListener('DOMContentLoaded', () => {
         return s.data.session?.user || null;
     }
 
+    // Beloningstypes en prijzen hangen aan de eigenaar van de klas. Werk je als
+    // duo-collega mee, dan gebruik je diens knoppen: zien en gebruiken mag,
+    // wijzigen niet (dat regelt RLS). Val terug op jezelf zolang er nog geen
+    // klas gekozen is.
+    function ownerId() {
+        var o = (window.MTActiveClass && selectedGroupId)
+            ? window.MTActiveClass.getOwnerId(selectedGroupId) : null;
+        return o || (currentUser ? currentUser.id : null);
+    }
+    function isEigenaar() {
+        return !!currentUser && ownerId() === currentUser.id;
+    }
+
     // ---------- Data loading ----------
     async function loadGroups() {
         var { data } = await supabase
             .from('groups')
             .select('id, name')
-            .eq('user_id', currentUser.id)
             .eq('archived', false)
             .order('name');
         groups = data || [];
@@ -187,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         var { data } = await supabase
             .from('klasseprestatie_reward_types')
             .select('*')
-            .eq('user_id', currentUser.id)
+            .eq('user_id', ownerId())
             .eq('archived', false)
             .order('type')
             .order('sort_order');
@@ -199,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
             var { data: d2 } = await supabase
                 .from('klasseprestatie_reward_types')
                 .select('*')
-                .eq('user_id', currentUser.id)
+                .eq('user_id', ownerId())
                 .eq('archived', false)
                 .order('type')
                 .order('sort_order');
@@ -241,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
         var { data } = await supabase
             .from('klasseprestatie_prizes')
             .select('id, icon, label, cost, sort_order')
-            .eq('user_id', currentUser.id)
+            .eq('user_id', ownerId())
             .eq('archived', false)
             .order('sort_order')
             .order('created_at');
@@ -254,7 +266,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .from('klasseprestatie_redemptions')
             .select('id, prize_label, prize_icon, points_cost, redeemed_at')
             .eq('student_id', studentId)
-            .eq('user_id', currentUser.id)
             .order('redeemed_at', { ascending: false });
         redemptions[studentId] = data || [];
     }
@@ -677,7 +688,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         var rows = receivers.map(function (s) {
             return {
-                user_id: currentUser.id,
+                user_id: ownerId(),
                 student_id: s.id,
                 reward_type_id: rt.id,
                 points: rt.points,
@@ -933,7 +944,7 @@ document.addEventListener('DOMContentLoaded', () => {
             var newAbsent = pendingAttendance[studentId];
             if (newAbsent) {
                 rowsToUpsert.push({
-                    user_id: currentUser.id,
+                    user_id: ownerId(),
                     student_id: studentId,
                     date: today(),
                     is_absent: true,
@@ -1103,7 +1114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function redeemPrize(prize, studentId) {
         if (!currentUser) return;
         var { error } = await supabase.from('klasseprestatie_redemptions').insert({
-            user_id: currentUser.id,
+            user_id: ownerId(),
             student_id: studentId,
             prize_id: prize.id,
             prize_label: prize.label,
@@ -1184,7 +1195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         var signed = rt.type === 'positief' ? rt.points : -rt.points;
         var rows = pendingTargetStudentIds.map(function (sid) {
             return {
-                user_id: currentUser.id,
+                user_id: ownerId(),
                 student_id: sid,
                 reward_type_id: rt.id,
                 points: signed,
@@ -1235,8 +1246,9 @@ document.addEventListener('DOMContentLoaded', () => {
     async function getAdjustRewardTypeId() {
         if (adjustRewardTypeId) return adjustRewardTypeId;
         var sel = await supabase.from('klasseprestatie_reward_types')
-            .select('id').eq('user_id', currentUser.id).eq('label', ADJUST_LABEL).limit(1).maybeSingle();
+            .select('id').eq('user_id', ownerId()).eq('label', ADJUST_LABEL).limit(1).maybeSingle();
         if (sel.data && sel.data.id) { adjustRewardTypeId = sel.data.id; return adjustRewardTypeId; }
+        if (!isEigenaar()) return null; // alleen de eigenaar beheert beloningstypes
         var ins = await supabase.from('klasseprestatie_reward_types')
             .insert({ user_id: currentUser.id, type: 'positief', icon: '✏️', label: ADJUST_LABEL, points: 1, archived: true, sort_order: 999 })
             .select('id').single();
@@ -1250,7 +1262,7 @@ document.addEventListener('DOMContentLoaded', () => {
         var rtId = await getAdjustRewardTypeId();
         if (!rtId) { showToast('Kon punten niet aanpassen.'); return; }
         var rows = studentIds.map(function (sid) {
-            return { user_id: currentUser.id, student_id: sid, reward_type_id: rtId, points: amount };
+            return { user_id: ownerId(), student_id: sid, reward_type_id: rtId, points: amount };
         });
         var { error } = await supabase.from('klasseprestatie_points').insert(rows);
         if (error) { showToast('Opslaan mislukt: ' + error.message); return; }
@@ -1270,8 +1282,8 @@ document.addEventListener('DOMContentLoaded', () => {
         var naam = s ? (s.first_name || studentName(s)) : 'deze leerling';
         if (!confirm('Alle punten én inwissel-geschiedenis van ' + naam + ' wissen? Het saldo gaat naar 0. Dit kan niet ongedaan worden gemaakt.')) return;
         var res = await Promise.all([
-            supabase.from('klasseprestatie_points').delete().eq('user_id', currentUser.id).eq('student_id', studentId),
-            supabase.from('klasseprestatie_redemptions').delete().eq('user_id', currentUser.id).eq('student_id', studentId)
+            supabase.from('klasseprestatie_points').delete().eq('student_id', studentId),
+            supabase.from('klasseprestatie_redemptions').delete().eq('student_id', studentId)
         ]);
         if (res.some(function (r) { return r && r.error; })) { showToast('Wissen mislukt.'); return; }
         pointsByStudent[studentId] = 0;
@@ -1288,8 +1300,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!confirm('Weet je het zeker? Alle punten én inwissel-geschiedenis van ALLE leerlingen in ' + groupName + ' worden gewist. Dit kan niet ongedaan worden gemaakt.')) return;
         var ids = students.map(function (s) { return s.id; });
         var res = await Promise.all([
-            supabase.from('klasseprestatie_points').delete().eq('user_id', currentUser.id).in('student_id', ids),
-            supabase.from('klasseprestatie_redemptions').delete().eq('user_id', currentUser.id).in('student_id', ids)
+            supabase.from('klasseprestatie_points').delete().in('student_id', ids),
+            supabase.from('klasseprestatie_redemptions').delete().in('student_id', ids)
         ]);
         if (res.some(function (r) { return r && r.error; })) { showToast('Wissen mislukt.'); return; }
         students.forEach(function (s) { pointsByStudent[s.id] = 0; redemptions[s.id] = []; });

@@ -819,7 +819,6 @@ document.addEventListener('DOMContentLoaded', function () {
             var res = await supabase
                 .from('klasseprestatie_points')
                 .delete()
-                .eq('user_id', currentUser.id)
                 .eq('reward_type_id', rt.id)
                 .in('student_id', awardedIds)
                 .gte('created_at', (dayKey || todayYmd()) + 'T00:00:00');

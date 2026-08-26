@@ -58,7 +58,6 @@
             var groupRes = await supabase
                 .from('groups')
                 .select('id, name, created_at')
-                .eq('user_id', session.user.id)
                 .eq('archived', false)
                 .lt('created_at', start.toISOString())
                 .order('name');
@@ -148,8 +147,7 @@
                     var res = await supabase
                         .from('groups')
                         .update({ archived: true })
-                        .in('id', ids)
-                        .eq('user_id', userId);
+                        .in('id', ids);
                     if (res.error) throw res.error;
 
                     // Was de actieve klas net gearchiveerd? Dan wissen.

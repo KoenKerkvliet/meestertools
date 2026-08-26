@@ -68,6 +68,21 @@
         getId: getId,
         getName: getName,
         getGroups: function () { return groups.slice(); },
+        // Eigenaar van een groep. Voor een duo-collega is dat een ander dan zijzelf.
+        // Nodig bij instellingen die aan de eigenaar hangen, zoals de
+        // beloningsknoppen van Klasseprestatie: die gebruikt zij wel, maar
+        // beheert alleen de eigenaar.
+        getOwnerId: function (groupId) {
+            var id = groupId || getId();
+            for (var i = 0; i < groups.length; i++) {
+                if (groups[i].id === id) return groups[i].user_id || null;
+            }
+            return null;
+        },
+        isOwner: function (groupId, userId) {
+            var owner = window.MTActiveClass.getOwnerId(groupId);
+            return !!owner && !!userId && owner === userId;
+        },
         setId: function (id, name) { setId(id, name); },
         onChange: function (cb) { if (typeof cb === 'function') listeners.push(cb); },
         // Geef de groep-id terug die een tool als standaard moet gebruiken:
@@ -151,8 +166,7 @@
 
             var res = await supabase
                 .from('groups')
-                .select('id, name')
-                .eq('user_id', session.user.id)
+                .select('id, name, user_id')
                 .eq('archived', false)
                 .order('name');
             groups = res.data || [];

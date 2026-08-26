@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const { data } = await supabase
             .from('escaperoom_sessions').select('*')
             .eq('room_id', room.id)
-            .eq('user_id', currentUser.id)
             .in('status', ['lobby', 'playing'])
             .order('created_at', { ascending: false })
             .limit(1).maybeSingle();

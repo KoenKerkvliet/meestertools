@@ -124,17 +124,13 @@
         try {
             var res = await Promise.all([
                 supabase.from('rekenrace_sessions')
-                    .select('id, block_label, status, group_id')
-                    .eq('user_id', userId).eq('purpose', 'race').in('status', ['lobby', 'playing']),
+                    .select('id, block_label, status, group_id').eq('purpose', 'race').in('status', ['lobby', 'playing']),
                 supabase.from('escaperoom_sessions')
-                    .select('id, status, group_id, escaperooms(title)')
-                    .eq('user_id', userId).in('status', ['lobby', 'playing']),
+                    .select('id, status, group_id, escaperooms(title)').in('status', ['lobby', 'playing']),
                 supabase.from('compliment_sessions')
-                    .select('id, status, group_id, focus_student_name')
-                    .eq('user_id', userId).in('status', ['lobby', 'collecting']),
+                    .select('id, status, group_id, focus_student_name').in('status', ['lobby', 'collecting']),
                 supabase.from('sociogram_sessions')
-                    .select('id, status, type, group_id')
-                    .eq('user_id', userId).eq('status', 'open')
+                    .select('id, status, type, group_id').eq('status', 'open')
             ]);
 
             var items = [];
