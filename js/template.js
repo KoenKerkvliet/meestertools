@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.49.2';
+    const VERSION = 'v1.50.0';
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [

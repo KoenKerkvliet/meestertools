@@ -23,9 +23,9 @@
     <meta name="twitter:image" content="https://meestertools.nl/assets/og-image.png">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>Meestertools - Podium</title>
-    <link rel="stylesheet" href="../css/style.css?v=1.49.2">
-    <link rel="stylesheet" href="../css/instellingen.css?v=1.49.2">
-    <link rel="stylesheet" href="../css/podium.css?v=1.49.2">
+    <link rel="stylesheet" href="../css/style.css?v=1.50.0">
+    <link rel="stylesheet" href="../css/instellingen.css?v=1.50.0">
+    <link rel="stylesheet" href="../css/podium.css?v=1.50.0">
 </head>
 <body>
     <header id="app-header-slot"></header>
@@ -35,35 +35,15 @@
             <a href="../digibordtools" class="back-link">&larr; Terug</a>
             <div class="tool-inline-title">
                 <h1>Podium</h1>
-                <p>Onthul de top 3 van je klas op een Olympisch podium.</p>
+                <p>Onthul de winnaars van je klas op een Olympisch podium.</p>
             </div>
             <button class="tool-settings-btn" id="btnSettings" title="Instellingen">&#9881;&#65039;</button>
         </div>
         <div class="tool-page-body">
             <div class="podium-container">
-                <div class="podium-stage">
-                    <!-- Place 2 (left, silver) -->
-                    <div class="podium-place place-2">
-                        <div class="podium-name" id="name2">???</div>
-                        <div class="podium-block block-2">
-                            <span class="podium-number">2</span>
-                        </div>
-                    </div>
-                    <!-- Place 1 (center, gold) -->
-                    <div class="podium-place place-1">
-                        <div class="podium-name" id="name1">???</div>
-                        <div class="podium-block block-1">
-                            <span class="podium-number">1</span>
-                        </div>
-                    </div>
-                    <!-- Place 3 (right, bronze) -->
-                    <div class="podium-place place-3">
-                        <div class="podium-name" id="name3">???</div>
-                        <div class="podium-block block-3">
-                            <span class="podium-number">3</span>
-                        </div>
-                    </div>
-                </div>
+                <!-- De blokken worden door podium.js gebouwd: het aantal plaatsen
+                     is een instelling (1 t/m 5). -->
+                <div class="podium-stage"></div>
 
                 <div class="podium-action">
                     <button class="podium-reveal-btn" id="btnReveal">Onthul!</button>
@@ -71,7 +51,7 @@
 
                 <div class="podium-empty" id="emptyState" style="display:none;">
                     <div class="empty-icon">&#127942;</div>
-                    <p>Stel via de instellingen de top 3 in om te beginnen.</p>
+                    <p>Stel via de instellingen in wie er op het podium staan.</p>
                 </div>
             </div>
         </div>
@@ -94,24 +74,20 @@
                         <option value="">Selecteer groep...</option>
                     </select>
                 </div>
-                <div class="form-group" id="studentFields" style="display:none;">
-                    <label for="settingPlace3">&#129353; Plaats 3 (Brons)</label>
-                    <select id="settingPlace3">
-                        <option value="">Selecteer leerling...</option>
+                <div class="form-group">
+                    <label for="settingCount">Aantal podiumplaatsen</label>
+                    <select id="settingCount">
+                        <option value="1">1 &mdash; alleen de winnaar</option>
+                        <option value="2">2 plaatsen</option>
+                        <option value="3">3 plaatsen (goud, zilver, brons)</option>
+                        <option value="4">4 plaatsen</option>
+                        <option value="5">5 plaatsen</option>
                     </select>
                 </div>
-                <div class="form-group" id="studentFields2" style="display:none;">
-                    <label for="settingPlace2">&#129352; Plaats 2 (Zilver)</label>
-                    <select id="settingPlace2">
-                        <option value="">Selecteer leerling...</option>
-                    </select>
-                </div>
-                <div class="form-group" id="studentFields1" style="display:none;">
-                    <label for="settingPlace1">&#129351; Plaats 1 (Goud)</label>
-                    <select id="settingPlace1">
-                        <option value="">Selecteer leerling...</option>
-                    </select>
-                </div>
+                <!-- Eén select per plaats, van de laagste plaats naar de winnaar:
+                     dezelfde volgorde als waarin ze straks onthuld worden. -->
+                <div id="placeFields" style="display:none;"></div>
+                <p class="podium-hint" id="settingsHint" style="display:none;"></p>
             </div>
             <div class="modal-footer">
                 <button class="btn-primary" id="btnSaveSettings">Opslaan</button>
@@ -121,13 +97,13 @@
 
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.49.2"></script>
-    <script src="/js/template.js?v=1.49.2"></script>
+    <script src="/js/mt-shared.js?v=1.50.0"></script>
+    <script src="/js/template.js?v=1.50.0"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="../js/supabase-config.js?v=1.49.2"></script>
-    <script src="../js/app.js?v=1.49.2"></script>
-    <script src="../js/instellingen.js?v=1.49.2"></script>
-    <script src="../js/podium.js?v=1.49.2"></script>
+    <script src="../js/supabase-config.js?v=1.50.0"></script>
+    <script src="../js/app.js?v=1.50.0"></script>
+    <script src="../js/instellingen.js?v=1.50.0"></script>
+    <script src="../js/podium.js?v=1.50.0"></script>
 </body>
 </html>

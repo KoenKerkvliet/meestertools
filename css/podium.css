@@ -20,6 +20,14 @@
     max-width: 600px;
 }
 
+/* Meer plaatsen hebben meer breedte nodig, minder juist minder: anders staat
+   een podium van 1 verloren in het midden en worden 5 blokken te smal voor de
+   namen. podium.js zet data-count. */
+.podium-stage[data-count="1"] { max-width: 260px; }
+.podium-stage[data-count="2"] { max-width: 420px; }
+.podium-stage[data-count="4"] { max-width: 760px; }
+.podium-stage[data-count="5"] { max-width: 900px; }
+
 .podium-place {
     display: flex;
     flex-direction: column;
@@ -74,6 +82,9 @@
 /* ---------- Blocks ---------- */
 .podium-block {
     width: 100%;
+    /* podium.js zet --h per blok: de hoogte hangt af van zowel de plaats als
+       van hoeveel plaatsen er in totaal zijn. */
+    height: var(--h, 120px);
     border-radius: 12px 12px 0 0;
     display: flex;
     align-items: center;
@@ -91,23 +102,33 @@
 
 /* Gold - Place 1 */
 .block-1 {
-    height: 180px;
     background: linear-gradient(180deg, #FFD700 0%, #F0C030 50%, #D4A017 100%);
     box-shadow: 0 -4px 20px rgba(255, 215, 0, 0.3), inset 0 2px 0 rgba(255, 255, 255, 0.3);
 }
 
 /* Silver - Place 2 */
 .block-2 {
-    height: 130px;
     background: linear-gradient(180deg, #E8E8E8 0%, #C0C0C0 50%, #A8A8A8 100%);
     box-shadow: 0 -4px 20px rgba(192, 192, 192, 0.3), inset 0 2px 0 rgba(255, 255, 255, 0.3);
 }
 
 /* Bronze - Place 3 */
 .block-3 {
-    height: 90px;
     background: linear-gradient(180deg, #E8A060 0%, #CD7F32 50%, #B06820 100%);
     box-shadow: 0 -4px 20px rgba(205, 127, 50, 0.3), inset 0 2px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Plaats 4 en 5 - geen medaille, dus bewust geen metaalkleur maar de lila van
+   Meestertools zelf. Zo leest het podium in één oogopslag: drie medailles en
+   daarnaast de eervolle vermeldingen. */
+.block-4 {
+    background: linear-gradient(180deg, #C7C3F5 0%, #A9A3EE 50%, #8E86E0 100%);
+    box-shadow: 0 -4px 20px rgba(108, 99, 255, 0.22), inset 0 2px 0 rgba(255, 255, 255, 0.3);
+}
+
+.block-5 {
+    background: linear-gradient(180deg, #D9D6F8 0%, #BFBAF2 50%, #A49CE6 100%);
+    box-shadow: 0 -4px 20px rgba(108, 99, 255, 0.18), inset 0 2px 0 rgba(255, 255, 255, 0.3);
 }
 
 /* Glow effect when revealed */
@@ -121,6 +142,11 @@
 
 .podium-place.active .block-3 {
     box-shadow: 0 -4px 30px rgba(205, 127, 50, 0.5), 0 0 40px rgba(205, 127, 50, 0.15), inset 0 2px 0 rgba(255, 255, 255, 0.3);
+}
+
+.podium-place.active .block-4,
+.podium-place.active .block-5 {
+    box-shadow: 0 -4px 30px rgba(108, 99, 255, 0.4), 0 0 40px rgba(108, 99, 255, 0.15), inset 0 2px 0 rgba(255, 255, 255, 0.3);
 }
 
 /* ---------- Reveal Button ---------- */
@@ -183,6 +209,18 @@
     font-weight: 500;
 }
 
+/* ---------- Melding in de instellingen ---------- */
+.podium-hint {
+    margin: 4px 0 0;
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    background: #FFF4E5;
+    border: 1px solid #FFD9A8;
+    color: #8A5A00;
+    font-size: 14px;
+    font-weight: 600;
+}
+
 /* ---------- Confetti Canvas ---------- */
 #confettiCanvas {
     position: fixed;
@@ -209,16 +247,8 @@
         font-size: 36px;
     }
 
-    .block-1 {
-        height: 140px;
-    }
-
-    .block-2 {
-        height: 100px;
-    }
-
-    .block-3 {
-        height: 70px;
+    .podium-block {
+        height: calc(var(--h, 120px) * 0.78);
     }
 
     .podium-reveal-btn {

@@ -5,22 +5,32 @@
 document.addEventListener('DOMContentLoaded', () => {
     const TOOL_NAME = 'podium';
 
+    // ---------- Podiumgrootte ----------
+    const MIN_PLACES = 1;
+    const MAX_PLACES = 5;
+    const DEFAULT_PLACES = 3;
+
+    // Hoogte van elk blok in pixels, per aantal plaatsen. Met de hand gekozen in
+    // plaats van berekend: bij drie plaatsen staan hier exact de oude waarden, zodat
+    // het podium dat iedereen kent niet ineens verspringt. Index 0 = plaats 1.
+    const BLOCK_HEIGHTS = {
+        1: [200],
+        2: [190, 130],
+        3: [180, 130, 90],
+        4: [180, 140, 105, 75],
+        5: [175, 143, 114, 88, 65]
+    };
+
     // ---------- DOM Elements ----------
     const btnSettings = document.getElementById('btnSettings');
     const settingsModal = document.getElementById('settingsModal');
     const btnCloseSettings = document.getElementById('btnCloseSettings');
     const btnSaveSettings = document.getElementById('btnSaveSettings');
     const settingGroup = document.getElementById('settingGroup');
-    const settingPlace1 = document.getElementById('settingPlace1');
-    const settingPlace2 = document.getElementById('settingPlace2');
-    const settingPlace3 = document.getElementById('settingPlace3');
-    const studentFields = document.getElementById('studentFields');
-    const studentFields1 = document.getElementById('studentFields1');
-    const studentFields2 = document.getElementById('studentFields2');
+    const settingCount = document.getElementById('settingCount');
+    const placeFields = document.getElementById('placeFields');
+    const settingsHint = document.getElementById('settingsHint');
 
-    const name1 = document.getElementById('name1');
-    const name2 = document.getElementById('name2');
-    const name3 = document.getElementById('name3');
     const btnReveal = document.getElementById('btnReveal');
     const emptyState = document.getElementById('emptyState');
     const podiumStage = document.querySelector('.podium-stage');
@@ -31,15 +41,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- State ----------
     let selectedGroupId = null;
-    let place1Id = null;
-    let place2Id = null;
-    let place3Id = null;
-    let place1Name = '';
-    let place2Name = '';
-    let place3Name = '';
+    let placeCount = DEFAULT_PLACES;
+    let placeIds = [];    // index 0 = plaats 1
+    let placeNames = [];  // idem: de naam zoals die op het bord komt
+    let nameEls = [];     // de naam-elementen op het podium, index 0 = plaats 1
     let students = [];
     let groups = [];
-    let revealStep = 0; // 0=none, 1=#3 shown, 2=#2 shown, 3=all shown
+    let revealStep = 0;   // aantal plaatsen dat al onthuld is
+    let modalGroupId = null; // de groep die op dit moment in de instellingen staat
+
+    function clampCount(n) {
+        n = parseInt(n, 10);
+        if (!n || n < MIN_PLACES) return DEFAULT_PLACES;
+        return Math.min(n, MAX_PLACES);
+    }
+
+    // Volgorde van links naar rechts: de winnaar in het midden, de rest om en om
+    // links en rechts ernaast. Dat geeft 2-1-3 bij drie plaatsen (het klassieke
+    // podium) en 4-2-1-3-5 bij vijf.
+    function stageOrder(count) {
+        const left = [], right = [];
+        for (let rank = 2; rank <= count; rank++) {
+            (rank % 2 === 0 ? left : right).push(rank);
+        }
+        return left.reverse().concat([1], right);
+    }
 
     // ---------- Supabase Helpers ----------
     async function getSessionUser() {
@@ -60,12 +86,29 @@ document.addEventListener('DOMContentLoaded', () => {
         if (settingsData && settingsData.settings) {
             const s = settingsData.settings;
             selectedGroupId = s.selectedGroupId || null;
-            place1Id = s.place1Id || null;
-            place2Id = s.place2Id || null;
-            place3Id = s.place3Id || null;
-            place1Name = s.place1Name || '';
-            place2Name = s.place2Name || '';
-            place3Name = s.place3Name || '';
+
+            if (Array.isArray(s.placeNames)) {
+                placeCount = clampCount(s.placeCount);
+                placeIds = s.placeIds || [];
+                placeNames = s.placeNames;
+            } else {
+                // Opgeslagen vóór de instelbare podiumgrootte: toen was het altijd drie.
+                placeCount = 3;
+                placeIds = [s.place1Id || null, s.place2Id || null, s.place3Id || null];
+                placeNames = [s.place1Name || '', s.place2Name || '', s.place3Name || ''];
+            }
+            normalizePlaces();
+        }
+    }
+
+    // Zorg dat beide lijsten precies placeCount lang zijn: bij het ophogen van het
+    // aantal plaatsen komen er lege bij, bij het verlagen vallen ze eraf.
+    function normalizePlaces() {
+        placeIds.length = placeCount;
+        placeNames.length = placeCount;
+        for (let i = 0; i < placeCount; i++) {
+            if (!placeIds[i]) placeIds[i] = null;
+            if (!placeNames[i]) placeNames[i] = '';
         }
     }
 
@@ -79,8 +122,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 tool_name: TOOL_NAME,
                 settings: {
                     selectedGroupId,
-                    place1Id, place2Id, place3Id,
-                    place1Name, place2Name, place3Name
+                    placeCount,
+                    placeIds,
+                    placeNames
                 },
                 updated_at: new Date().toISOString()
             }, { onConflict: 'user_id,tool_name' });
@@ -112,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- UI ----------
     function buildUI() {
-        const hasPlaces = place1Name && place2Name && place3Name;
+        const hasPlaces = placeNames.length === placeCount && placeNames.every(n => n);
 
         if (!hasPlaces) {
             podiumStage.style.display = 'none';
@@ -125,62 +169,92 @@ document.addEventListener('DOMContentLoaded', () => {
         podiumAction.style.display = '';
         emptyState.style.display = 'none';
 
+        buildStage();
         resetPodium();
+    }
+
+    // De blokken staan niet in de HTML: hoeveel het er zijn is een instelling.
+    function buildStage() {
+        podiumStage.innerHTML = '';
+        podiumStage.dataset.count = placeCount;
+        nameEls = [];
+
+        const heights = BLOCK_HEIGHTS[placeCount] || BLOCK_HEIGHTS[DEFAULT_PLACES];
+
+        stageOrder(placeCount).forEach(rank => {
+            const place = document.createElement('div');
+            place.className = 'podium-place place-' + rank;
+
+            const nameEl = document.createElement('div');
+            nameEl.className = 'podium-name hidden-text';
+            nameEl.textContent = '???';
+
+            const block = document.createElement('div');
+            block.className = 'podium-block block-' + rank;
+            block.style.setProperty('--h', heights[rank - 1] + 'px');
+
+            const number = document.createElement('span');
+            number.className = 'podium-number';
+            number.textContent = rank;
+
+            block.appendChild(number);
+            place.appendChild(nameEl);
+            place.appendChild(block);
+            podiumStage.appendChild(place);
+
+            nameEls[rank - 1] = nameEl;
+        });
     }
 
     function resetPodium() {
         revealStep = 0;
 
-        // Reset all names to ???
-        [name1, name2, name3].forEach(el => {
+        nameEls.forEach(el => {
             el.textContent = '???';
             el.classList.remove('revealed');
             el.classList.add('hidden-text');
         });
 
-        // Remove active states from blocks
-        document.querySelectorAll('.podium-place').forEach(el => el.classList.remove('active'));
+        podiumStage.querySelectorAll('.podium-place').forEach(el => el.classList.remove('active'));
 
-        // Reset button
         btnReveal.textContent = 'Onthul!';
         btnReveal.classList.remove('reset');
     }
 
     // ---------- Reveal Logic ----------
+    // Van de laagste plaats naar de winnaar toe, hoeveel plaatsen er ook zijn.
+    // Bij één plaats is de eerste klik dus meteen de winnaar plus confetti.
     btnReveal.addEventListener('click', () => {
-        if (revealStep >= 3) {
-            // Reset
+        if (revealStep >= placeCount) {
             resetPodium();
             return;
         }
 
         revealStep++;
+        revealPlace(placeCount - revealStep + 1);
 
-        if (revealStep === 1) {
-            // Reveal #3
-            revealPlace(name3, place3Name, '.place-3');
-            btnReveal.textContent = 'Volgende...';
-        } else if (revealStep === 2) {
-            // Reveal #2
-            revealPlace(name2, place2Name, '.place-2');
-            btnReveal.textContent = 'En de winnaar is...';
-        } else if (revealStep === 3) {
-            // Reveal #1 + confetti
-            revealPlace(name1, place1Name, '.place-1');
+        if (revealStep >= placeCount) {
             btnReveal.textContent = 'Opnieuw';
             btnReveal.classList.add('reset');
             launchConfetti();
+        } else if (revealStep === placeCount - 1) {
+            btnReveal.textContent = 'En de winnaar is...';
+        } else {
+            btnReveal.textContent = 'Volgende...';
         }
     });
 
-    function revealPlace(nameEl, name, placeSelector) {
+    function revealPlace(rank) {
+        const nameEl = nameEls[rank - 1];
+        if (!nameEl) return;
+
         nameEl.classList.remove('hidden-text');
-        nameEl.textContent = name;
+        nameEl.textContent = placeNames[rank - 1];
         // Force reflow for animation
         void nameEl.offsetWidth;
         nameEl.classList.add('revealed');
 
-        const placeEl = document.querySelector(placeSelector);
+        const placeEl = podiumStage.querySelector('.place-' + rank);
         if (placeEl) placeEl.classList.add('active');
     }
 
@@ -262,13 +336,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---------- Settings Modal ----------
+    const PLACE_LABELS = {
+        1: '\u{1F947} Plaats 1 (Goud)',
+        2: '\u{1F948} Plaats 2 (Zilver)',
+        3: '\u{1F949} Plaats 3 (Brons)',
+        4: 'Plaats 4',
+        5: 'Plaats 5'
+    };
+
     function openModal() {
+        settingCount.value = String(placeCount);
+        hideHint();
         loadGroupsIntoSelect();
         settingsModal.classList.add('active');
     }
 
     function closeModal() {
         settingsModal.classList.remove('active');
+    }
+
+    function showHint(text) {
+        settingsHint.textContent = text;
+        settingsHint.style.display = '';
+    }
+
+    function hideHint() {
+        settingsHint.style.display = 'none';
     }
 
     async function loadGroupsIntoSelect() {
@@ -282,45 +375,86 @@ document.addEventListener('DOMContentLoaded', () => {
             settingGroup.appendChild(opt);
         });
 
+        modalGroupId = selectedGroupId;
+
         if (selectedGroupId) {
             await loadStudents(selectedGroupId);
-            showStudentFields(true);
-            populateStudentDropdowns();
+            renderPlaceFields();
         } else {
-            showStudentFields(false);
+            placeFields.style.display = 'none';
         }
     }
 
-    function showStudentFields(show) {
-        studentFields.style.display = show ? '' : 'none';
-        studentFields1.style.display = show ? '' : 'none';
-        studentFields2.style.display = show ? '' : 'none';
+    function studentLabel(s) {
+        return s.name_suffix ? s.first_name + ' ' + s.name_suffix + '.' : s.first_name;
     }
 
-    function populateStudentDropdowns() {
-        [settingPlace1, settingPlace2, settingPlace3].forEach((select, i) => {
-            const currentId = [place1Id, place2Id, place3Id][i];
-            select.innerHTML = '<option value="">Selecteer leerling...</option>';
+    // Een select per plaats, opgebouwd van de laagste plaats naar de winnaar toe:
+    // dezelfde volgorde als waarin ze straks onthuld worden.
+    function renderPlaceFields() {
+        const count = clampCount(settingCount.value);
+        placeFields.innerHTML = '';
+        placeFields.style.display = '';
+
+        for (let rank = count; rank >= 1; rank--) {
+            const group = document.createElement('div');
+            group.className = 'form-group';
+
+            const label = document.createElement('label');
+            label.setAttribute('for', 'settingPlace' + rank);
+            label.textContent = PLACE_LABELS[rank];
+
+            const select = document.createElement('select');
+            select.id = 'settingPlace' + rank;
+            select.dataset.rank = rank;
+
+            const blank = document.createElement('option');
+            blank.value = '';
+            blank.textContent = 'Selecteer leerling...';
+            select.appendChild(blank);
+
             students.forEach(s => {
                 const opt = document.createElement('option');
                 opt.value = s.id;
-                opt.textContent = s.name_suffix ? s.first_name + ' ' + s.name_suffix + '.' : s.first_name;
-                if (s.id === currentId) opt.selected = true;
+                opt.textContent = studentLabel(s);
+                if (s.id === placeIds[rank - 1]) opt.selected = true;
                 select.appendChild(opt);
             });
+
+            group.appendChild(label);
+            group.appendChild(select);
+            placeFields.appendChild(group);
+        }
+    }
+
+    // Onthoud wat er nu in de selects staat, zodat een gekozen leerling niet
+    // verdwijnt als je het aantal plaatsen aanpast.
+    function readPlaceFields() {
+        placeFields.querySelectorAll('select[data-rank]').forEach(select => {
+            placeIds[parseInt(select.dataset.rank, 10) - 1] = select.value || null;
         });
     }
 
+    settingCount.addEventListener('change', () => {
+        if (placeFields.style.display === 'none') return;
+        readPlaceFields();
+        hideHint();
+        renderPlaceFields();
+    });
+
     settingGroup.addEventListener('change', async () => {
         const groupId = settingGroup.value || null;
+        hideHint();
         if (groupId) {
+            // Een andere groep betekent andere kinderen: de oude keuzes gelden niet meer.
+            if (groupId !== modalGroupId) placeIds = [];
             await loadStudents(groupId);
-            showStudentFields(true);
-            populateStudentDropdowns();
+            renderPlaceFields();
         } else {
             students = [];
-            showStudentFields(false);
+            placeFields.style.display = 'none';
         }
+        modalGroupId = groupId;
     });
 
     btnSettings.addEventListener('click', openModal);
@@ -331,22 +465,41 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     btnSaveSettings.addEventListener('click', async () => {
-        selectedGroupId = settingGroup.value || null;
+        const chosenGroup = settingGroup.value || null;
+        placeCount = clampCount(settingCount.value);
 
-        // Get selected student names
-        function getStudentName(id) {
-            const s = students.find(st => st.id === id);
-            if (!s) return '';
-            return s.name_suffix ? s.first_name + ' ' + s.name_suffix + '.' : s.first_name;
+        // Eerst controleren, dan pas opslaan. Vroeger sloot de modal ook bij een
+        // half ingevulde top drie, en stond je met een leeg podium voor de klas
+        // zonder te zien waarom.
+        if (!chosenGroup) {
+            showHint('Kies eerst een groep.');
+            return;
         }
 
-        place1Id = settingPlace1.value || null;
-        place2Id = settingPlace2.value || null;
-        place3Id = settingPlace3.value || null;
-        place1Name = getStudentName(place1Id);
-        place2Name = getStudentName(place2Id);
-        place3Name = getStudentName(place3Id);
+        selectedGroupId = chosenGroup;
+        readPlaceFields();
+        normalizePlaces();
 
+        if (placeIds.some(id => !id)) {
+            showHint(placeCount === 1
+                ? 'Kies wie er op het podium komt.'
+                : 'Vul alle ' + placeCount + ' de plaatsen in, of kies hierboven minder podiumplaatsen.');
+            return;
+        }
+
+        const dubbel = placeIds.find((id, i) => placeIds.indexOf(id) !== i);
+        if (dubbel) {
+            const s = students.find(st => st.id === dubbel);
+            showHint((s ? studentLabel(s) : 'Een leerling') + ' staat op meer dan één plaats.');
+            return;
+        }
+
+        placeNames = placeIds.map(id => {
+            const s = students.find(st => st.id === id);
+            return s ? studentLabel(s) : '';
+        });
+
+        hideHint();
         await saveSettingsToDb();
         buildUI();
         closeModal();
