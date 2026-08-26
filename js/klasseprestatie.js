@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var prizeIconPicker = document.getElementById('kprPrizeIconPicker');
     var prizeEditLabel = document.getElementById('kprPrizeEditLabel');
     var prizeEditCost = document.getElementById('kprPrizeEditCost');
+    var prizeEditScope = document.getElementById('kprPrizeEditScope');
     var prizeEditError = document.getElementById('kprPrizeEditError');
     var btnSavePrizeEdit = document.getElementById('kprBtnSavePrizeEdit');
     var btnCancelPrizeEdit = document.getElementById('kprBtnCancelPrizeEdit');
@@ -114,11 +115,30 @@ document.addEventListener('DOMContentLoaded', () => {
     var bonusEnabled = false;        // setting: belonen niet-genoemde leerlingen?
     var bonusRewardTypeId = null;    // setting: welke positieve reward type
 
-    var prizes = [];                 // [{ id, icon, label, cost, sort_order }]
+    var prizes = [];                 // [{ id, icon, label, cost, sort_order, is_group }]
     var redemptions = {};            // { student_id: [{prize_label, prize_icon, points_cost, redeemed_at}] }
     var editingPrize = null;         // null of prize object
     var redeemConfirming = null;     // prize dat we bevestigen, of null
     var singleStudentId = null;      // student_id bij single-student modal, anders null
+
+    // ---------- Klaspot ----------
+    // De klas spaart samen, naast wat elk kind voor zichzelf spaart. Dezelfde punt
+    // telt dus twee keer mee: een keer voor het kind en een keer voor de klas. Een
+    // groepsprijs gaat alleen van de klaspot af en raakt niemands eigen punten.
+    var potEarned = 0;               // alles wat de klas samen verdiend heeft
+    var potSpent = 0;                // wat er aan groepsprijzen uit betaald is
+    var groupRedemptions = [];       // [{id, prize_label, prize_icon, points_cost, redeemed_at}]
+    var penaltyTypeIds = new Set();  // beloningstypes van het soort 'aandachtspunt'
+    var groupRedeemConfirming = null;
+
+    function potSaldo() { return potEarned - potSpent; }
+
+    // Elke plek die pointsByStudent bijwerkt zonder opnieuw te laden, moet ook de
+    // klaspot bijwerken - anders klopt de teller pas na een herlaad. Aandachtspunten
+    // slaan we over: die raken alleen de leerling zelf.
+    function potBij(rewardTypeId, delta) {
+        if (!penaltyTypeIds.has(rewardTypeId)) potEarned += delta;
+    }
 
     // ---------- Helpers ----------
     function studentName(s) {
@@ -219,21 +239,54 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Welke beloningstypes zijn aandachtspunten? Ook de gearchiveerde, want daar
+    // kunnen nog punten-rijen aan hangen. Nodig voor de klaspot: aandachtspunten
+    // raken alleen de leerling zelf, de klaspot groeit alleen.
+    async function loadPenaltyTypeIds() {
+        penaltyTypeIds = new Set();
+        var owner = ownerId();
+        if (!owner) return;
+        var { data } = await supabase
+            .from('klasseprestatie_reward_types')
+            .select('id')
+            .eq('user_id', owner)
+            .eq('type', 'aandachtspunt');
+        (data || []).forEach(function (r) { penaltyTypeIds.add(r.id); });
+    }
+
     async function loadPointTotals() {
-        if (!students.length) { pointsByStudent = {}; return; }
+        if (!students.length) { pointsByStudent = {}; potEarned = 0; return; }
         var ids = students.map(function (s) { return s.id; });
         var [ptsRes, redemRes] = await Promise.all([
-            supabase.from('klasseprestatie_points').select('student_id, points').in('student_id', ids),
+            supabase.from('klasseprestatie_points').select('student_id, points, reward_type_id').in('student_id', ids),
             supabase.from('klasseprestatie_redemptions').select('student_id, points_cost').in('student_id', ids)
         ]);
         pointsByStudent = {};
         students.forEach(function (s) { pointsByStudent[s.id] = 0; });
+        potEarned = 0;
         (ptsRes.data || []).forEach(function (p) {
             pointsByStudent[p.student_id] = (pointsByStudent[p.student_id] || 0) + p.points;
+            // Alles telt mee voor de klaspot behalve aandachtspunten. Een handmatige
+            // correctie telt dus wel mee, ook een negatieve: anders kun je een
+            // vergissing wel bij het kind rechtzetten maar niet in de pot.
+            if (!penaltyTypeIds.has(p.reward_type_id)) potEarned += p.points;
         });
         (redemRes.data || []).forEach(function (r) {
             pointsByStudent[r.student_id] = (pointsByStudent[r.student_id] || 0) - r.points_cost;
         });
+    }
+
+    async function loadGroupRedemptions() {
+        groupRedemptions = [];
+        potSpent = 0;
+        if (!selectedGroupId) return;
+        var { data } = await supabase
+            .from('klasseprestatie_group_redemptions')
+            .select('id, prize_label, prize_icon, points_cost, redeemed_at')
+            .eq('group_id', selectedGroupId)
+            .order('redeemed_at', { ascending: false });
+        groupRedemptions = data || [];
+        groupRedemptions.forEach(function (r) { potSpent += r.points_cost; });
     }
 
     async function loadAttendanceToday() {
@@ -252,12 +305,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!currentUser) return;
         var { data } = await supabase
             .from('klasseprestatie_prizes')
-            .select('id, icon, label, cost, sort_order')
+            .select('id, icon, label, cost, sort_order, is_group')
             .eq('user_id', ownerId())
             .eq('archived', false)
             .order('sort_order')
             .order('created_at');
         prizes = data || [];
+    }
+
+    // De prijzenlijst bevat beide soorten; de UI toont ze nooit door elkaar.
+    function individuelePrijzen() {
+        return prizes.filter(function (p) { return !p.is_group; });
+    }
+    function groepsPrijzen() {
+        return prizes.filter(function (p) { return p.is_group; });
     }
 
     async function loadRedemptionsForStudent(studentId) {
@@ -339,7 +400,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        var html = '<div class="kpr-grid' + (mode === 'minutenspel' ? ' kpr-mode-minutenspel' : '') + '" id="kprStudentGrid">';
+        var html = renderPotBar();
+        html += '<div class="kpr-grid' + (mode === 'minutenspel' ? ' kpr-mode-minutenspel' : '') + '" id="kprStudentGrid">';
         students.forEach(function (s) {
             html += renderStudentCard(s);
         });
@@ -392,6 +454,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.kpr-student-card').forEach(function (card) {
             card.addEventListener('click', function () { onStudentClick(card.dataset.studentId); });
         });
+
+        var potBar = document.getElementById('kprPotBar');
+        if (potBar) {
+            potBar.addEventListener('click', openPotModal);
+            potBar.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPotModal(); }
+            });
+        }
 
         var btnSave = document.getElementById('kprBtnSaveAttendance');
         if (btnSave) btnSave.addEventListener('click', saveAttendance);
@@ -735,6 +805,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         receivers.forEach(function (s) {
             pointsByStudent[s.id] = (pointsByStudent[s.id] || 0) + rt.points;
+            potBij(rt.id, rt.points);
         });
         showToast(receivers.length + ' leerling' + (receivers.length === 1 ? '' : 'en') +
             ' kregen "' + rt.label + '" (+' + rt.points + ') als bonus');
@@ -1016,7 +1087,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function openRewardModal(studentIds) {
         pendingTargetStudentIds = studentIds;
         redeemConfirming = null;
+        groupRedeemConfirming = null;
         singleStudentId = studentIds.length === 1 ? studentIds[0] : null;
+
+        // Dezelfde popup dient ook de klaspot; die verbergt de tabbladen.
+        rewardModal.classList.remove('kpr-pot-modal');
+        rewardModal.querySelector('.kpr-reward-tabs').style.display = '';
 
         if (singleStudentId) {
             var s = students.find(function (x) { return x.id === singleStudentId; });
@@ -1037,8 +1113,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function closeRewardModal() {
         rewardModal.classList.remove('active');
+        rewardModal.classList.remove('kpr-pot-modal');
+        rewardModal.querySelector('.kpr-reward-tabs').style.display = '';
         pendingTargetStudentIds = [];
         redeemConfirming = null;
+        groupRedeemConfirming = null;
         singleStudentId = null;
     }
 
@@ -1082,14 +1161,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (redeemConfirming) { renderConfirmPanel(); return; }
 
         var pts = pointsByStudent[studentId] || 0;
-        if (!prizes.length) {
+        var eigenPrijzen = individuelePrijzen();
+        if (!eigenPrijzen.length) {
             rewardGrid.innerHTML = '<p class="kpr-empty-msg" style="padding:16px">Nog geen prijzen ingesteld. Voeg toe via &#9881;&#65039; Instellingen &rarr; Prijslijst.</p>';
             return;
         }
 
         var html = '<div class="kpr-prize-balance">Spaarsaldo: <strong>' + pts + ' punt' + (pts === 1 ? '' : 'en') + '</strong></div>';
         html += '<div class="kpr-prize-grid">';
-        prizes.forEach(function (p) {
+        eigenPrijzen.forEach(function (p) {
             var canAfford = pts >= p.cost;
             var cls = 'kpr-prize-card' + (canAfford ? '' : ' kpr-prize-unaffordable');
             html += '<button class="' + cls + '" data-prize-id="' + p.id + '"' + (canAfford ? '' : ' disabled') + '>' +
@@ -1175,6 +1255,185 @@ document.addEventListener('DOMContentLoaded', () => {
         render();
     }
 
+    // ================= Klaspot =================
+    // De teller staat boven de leerlingen en is zelf de knop: erop tikken opent de
+    // groepsprijzen. Zo hoeft er niets bij in de toolbar, die al vol staat.
+    function renderPotBar() {
+        var saldo = potSaldo();
+        var heeftGroepsprijzen = groepsPrijzen().length > 0;
+        var klikbaar = heeftGroepsprijzen || groupRedemptions.length > 0;
+
+        var html = '<div class="kpr-pot' + (klikbaar ? ' kpr-pot-clickable' : '') + '"' +
+            (klikbaar ? ' id="kprPotBar" role="button" tabindex="0"' : '') + '>' +
+            '<span class="kpr-pot-icon">&#127963;&#65039;</span>' +
+            '<span class="kpr-pot-text">Klaspot</span>' +
+            '<span class="kpr-pot-value">' + saldo + '</span>' +
+            '<span class="kpr-pot-unit">punt' + (saldo === 1 ? '' : 'en') + '</span>';
+
+        // Alleen tonen als er ook echt iets uitgegeven is: anders is "verdiend"
+        // hetzelfde getal en voegt de regel niets toe.
+        if (potSpent > 0) {
+            html += '<span class="kpr-pot-sub">' + potEarned + ' verdiend &minus; ' + potSpent + ' uitgegeven</span>';
+        }
+        if (klikbaar) {
+            html += '<span class="kpr-pot-cta">' + (heeftGroepsprijzen ? 'Groepsprijzen' : 'Bekijk') + ' &rarr;</span>';
+        }
+        html += '</div>';
+        return html;
+    }
+
+    function openPotModal() {
+        groupRedeemConfirming = null;
+        singleStudentId = null;
+        pendingTargetStudentIds = [];
+        rewardTitle.innerHTML = '&#127963;&#65039; Klaspot';
+        rewardModal.classList.add('kpr-pot-modal');
+        // De tabbladen horen bij het belonen van leerlingen, niet bij de klaspot.
+        rewardModal.querySelector('.kpr-reward-tabs').style.display = 'none';
+        renderPotGrid();
+        rewardModal.classList.add('active');
+    }
+
+    function renderPotGrid() {
+        if (groupRedeemConfirming) { renderPotConfirmPanel(); return; }
+
+        var saldo = potSaldo();
+        var lijst = groepsPrijzen();
+
+        var html = '<div class="kpr-prize-balance">De klas heeft samen <strong>' + saldo +
+            ' punt' + (saldo === 1 ? '' : 'en') + '</strong> in de pot</div>';
+
+        if (!lijst.length) {
+            html += '<p class="kpr-empty-msg" style="padding:16px">Nog geen groepsprijzen. Voeg ze toe via &#9881;&#65039; Instellingen &rarr; Prijslijst &rarr; <em>Voor de hele groep</em>.</p>';
+        } else {
+            html += '<div class="kpr-prize-grid">';
+            lijst.forEach(function (p) {
+                var canAfford = saldo >= p.cost;
+                var cls = 'kpr-prize-card' + (canAfford ? '' : ' kpr-prize-unaffordable');
+                html += '<button class="' + cls + '" data-prize-id="' + p.id + '"' + (canAfford ? '' : ' disabled') + '>' +
+                    '<div class="kpr-prize-icon">' + escapeHtml(p.icon) + '</div>' +
+                    '<div class="kpr-prize-label">' + escapeHtml(p.label) + '</div>' +
+                    '<div class="kpr-prize-cost">' + p.cost + ' pt</div>' +
+                '</button>';
+            });
+            html += '</div>';
+        }
+
+        if (groupRedemptions.length) {
+            html += '<div class="kpr-pot-history"><h3>Al ingewisseld</h3><ul>';
+            groupRedemptions.forEach(function (r) {
+                html += '<li>' +
+                    '<span class="kpr-pot-hist-icon">' + escapeHtml(r.prize_icon) + '</span>' +
+                    '<span class="kpr-pot-hist-label">' + escapeHtml(r.prize_label) + '</span>' +
+                    '<span class="kpr-pot-hist-cost">&minus;' + r.points_cost + ' pt</span>' +
+                    '<span class="kpr-pot-hist-date">' + formatDatum(r.redeemed_at) + '</span>' +
+                    '<button class="kpr-pot-undo" data-redemption-id="' + r.id + '" title="Terugdraaien">&#8630;</button>' +
+                '</li>';
+            });
+            html += '</ul></div>';
+        }
+
+        rewardGrid.innerHTML = html;
+
+        rewardGrid.querySelectorAll('.kpr-prize-card:not([disabled])').forEach(function (b) {
+            b.addEventListener('click', function () {
+                var prize = prizes.find(function (p) { return p.id === b.dataset.prizeId; });
+                if (prize) { groupRedeemConfirming = prize; renderPotConfirmPanel(); }
+            });
+        });
+        rewardGrid.querySelectorAll('.kpr-pot-undo').forEach(function (b) {
+            b.addEventListener('click', function () { undoGroupRedemption(b.dataset.redemptionId); });
+        });
+    }
+
+    function formatDatum(iso) {
+        if (!iso) return '';
+        var d = new Date(iso);
+        return d.getDate() + '-' + (d.getMonth() + 1) + '-' + d.getFullYear();
+    }
+
+    function renderPotConfirmPanel() {
+        var prize = groupRedeemConfirming;
+        var saldo = potSaldo();
+        var na = saldo - prize.cost;
+
+        rewardGrid.innerHTML =
+            '<div class="kpr-confirm-panel">' +
+                '<div class="kpr-confirm-prize">' +
+                    '<span class="kpr-confirm-icon">' + escapeHtml(prize.icon) + '</span>' +
+                    '<div>' +
+                        '<div class="kpr-confirm-name">' + escapeHtml(prize.label) + '</div>' +
+                        '<div class="kpr-confirm-cost">' + prize.cost + ' punten</div>' +
+                    '</div>' +
+                '</div>' +
+                '<p class="kpr-confirm-msg">De klaspot staat op <strong>' + saldo +
+                    '</strong>. Na inwisselen: <strong>' + na + '</strong> punt' + (na === 1 ? '' : 'en') +
+                    '.<br><span class="kpr-confirm-note">De punten van de leerlingen zelf blijven staan.</span></p>' +
+                '<div class="kpr-confirm-btns">' +
+                    '<button class="kpr-btn-confirm-cancel" id="kprBtnPotCancel">&#8592; Terug</button>' +
+                    '<button class="kpr-btn-confirm-ok" id="kprBtnPotOk">&#127873; Inwisselen</button>' +
+                '</div>' +
+            '</div>';
+
+        document.getElementById('kprBtnPotCancel').addEventListener('click', function () {
+            groupRedeemConfirming = null;
+            renderPotGrid();
+        });
+        document.getElementById('kprBtnPotOk').addEventListener('click', async function () {
+            this.disabled = true;
+            await redeemGroupPrize(prize);
+        });
+    }
+
+    async function redeemGroupPrize(prize) {
+        if (!currentUser || !selectedGroupId) return;
+        // Nog een keer rekenen op het moment zelf: een duo-collega kan intussen
+        // uit dezelfde pot betaald hebben.
+        if (prize.cost > potSaldo()) {
+            showToast('Er zit niet genoeg in de klaspot.');
+            groupRedeemConfirming = null;
+            renderPotGrid();
+            return;
+        }
+        var { data, error } = await supabase.from('klasseprestatie_group_redemptions').insert({
+            group_id: selectedGroupId,
+            user_id: currentUser.id,
+            prize_id: prize.id,
+            prize_label: prize.label,
+            prize_icon: prize.icon,
+            points_cost: prize.cost
+        }).select('id, prize_label, prize_icon, points_cost, redeemed_at').single();
+
+        if (error) {
+            showToast('Fout bij inwisselen: ' + error.message);
+            groupRedeemConfirming = null;
+            renderPotGrid();
+            return;
+        }
+
+        groupRedemptions.unshift(data);
+        potSpent += prize.cost;
+        groupRedeemConfirming = null;
+        showToast('&#127963;&#65039; De klas heeft "' + prize.label + '" ingewisseld!');
+        closeRewardModal();
+        render();
+    }
+
+    async function undoGroupRedemption(id) {
+        var r = groupRedemptions.find(function (x) { return x.id === id; });
+        if (!r) return;
+        if (!confirm('"' + r.prize_label + '" terugdraaien? De ' + r.points_cost + ' punten gaan terug in de klaspot.')) return;
+
+        var { error } = await supabase.from('klasseprestatie_group_redemptions').delete().eq('id', id);
+        if (error) { showToast('Terugdraaien mislukt: ' + error.message); return; }
+
+        groupRedemptions = groupRedemptions.filter(function (x) { return x.id !== id; });
+        potSpent -= r.points_cost;
+        showToast('&#8630; "' + r.prize_label + '" teruggedraaid.');
+        renderPotGrid();
+        render();
+    }
+
     // ---- Logboek per leerling ----
     async function renderLogbookContent() {
         var studentId = singleStudentId;
@@ -1244,6 +1503,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update lokale totals
         pendingTargetStudentIds.forEach(function (sid) {
             pointsByStudent[sid] = (pointsByStudent[sid] || 0) + signed;
+            potBij(rt.id, signed);
         });
 
         // Korte visuele bevestiging
@@ -1302,6 +1562,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (error) { showToast('Opslaan mislukt: ' + error.message); return; }
         studentIds.forEach(function (sid) {
             pointsByStudent[sid] = (pointsByStudent[sid] || 0) + amount;
+            potBij(rtId, amount);
         });
         var s = students.find(function (x) { return x.id === studentIds[0]; });
         var naam = s ? (s.first_name || studentName(s)) : 'Leerling';
@@ -1320,8 +1581,9 @@ document.addEventListener('DOMContentLoaded', () => {
             supabase.from('klasseprestatie_redemptions').delete().eq('student_id', studentId)
         ]);
         if (res.some(function (r) { return r && r.error; })) { showToast('Wissen mislukt.'); return; }
-        pointsByStudent[studentId] = 0;
         redemptions[studentId] = [];
+        // Deze leerling droeg ook bij aan de klaspot, dus die opnieuw uitrekenen.
+        await loadPointTotals();
         showToast('\u{1F9F9} Punten van ' + naam + ' gewist.');
         closeRewardModal();
         render();
@@ -1331,14 +1593,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!students.length) { showToast('Geen leerlingen in deze klas.'); return; }
         var g = groups.find(function (x) { return x.id === selectedGroupId; });
         var groupName = g ? g.name : 'deze klas';
-        if (!confirm('Weet je het zeker? Alle punten én inwissel-geschiedenis van ALLE leerlingen in ' + groupName + ' worden gewist. Dit kan niet ongedaan worden gemaakt.')) return;
+        if (!confirm('Weet je het zeker? Alle punten én inwissel-geschiedenis van ALLE leerlingen in ' + groupName + ' worden gewist, en de klaspot gaat terug naar 0. Dit kan niet ongedaan worden gemaakt.')) return;
         var ids = students.map(function (s) { return s.id; });
+        // De klaspot hoort hier ook bij: laat je de ingewisselde groepsprijzen staan
+        // terwijl de verdiende punten verdwijnen, dan komt de pot negatief uit.
         var res = await Promise.all([
             supabase.from('klasseprestatie_points').delete().in('student_id', ids),
-            supabase.from('klasseprestatie_redemptions').delete().in('student_id', ids)
+            supabase.from('klasseprestatie_redemptions').delete().in('student_id', ids),
+            supabase.from('klasseprestatie_group_redemptions').delete().eq('group_id', selectedGroupId)
         ]);
         if (res.some(function (r) { return r && r.error; })) { showToast('Wissen mislukt.'); return; }
         students.forEach(function (s) { pointsByStudent[s.id] = 0; redemptions[s.id] = []; });
+        potEarned = 0;
+        potSpent = 0;
+        groupRedemptions = [];
         showToast('\u{1F9F9} Alle scores van ' + groupName + ' gewist.');
         if (settingsModal) settingsModal.classList.remove('active');
         render();
@@ -1562,7 +1830,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.MTActiveClass && selectedGroupId) window.MTActiveClass.setId(selectedGroupId);
         await saveSettings();
         await loadStudents();
+        await loadRewardTypes();
+        await loadPrizes();
+        await loadPenaltyTypeIds();
         await loadPointTotals();
+        await loadGroupRedemptions();
         await loadAttendanceToday();
         render();
     });
@@ -1721,16 +1993,27 @@ document.addEventListener('DOMContentLoaded', () => {
             prizesList.innerHTML = '<p class="kpr-empty-msg">Nog geen prijzen. Voeg er een toe met de knop hieronder.</p>';
             return;
         }
-        var html = '';
-        prizes.forEach(function (p) {
-            html += '<div class="kpr-settings-item kpr-set-prize" data-id="' + p.id + '">' +
-                '<div class="kpr-set-icon">' + escapeHtml(p.icon) + '</div>' +
-                '<div class="kpr-set-label">' + escapeHtml(p.label) + '</div>' +
-                '<div class="kpr-set-pts">' + p.cost + ' pt</div>' +
-                '<button class="kpr-set-btn kpr-set-edit" data-id="' + p.id + '" title="Bewerken">&#9998;</button>' +
-                '<button class="kpr-set-btn kpr-set-delete" data-id="' + p.id + '" title="Verwijderen">&#128465;&#65039;</button>' +
-            '</div>';
-        });
+
+        // Twee kopjes, zodat in één oogopslag duidelijk is wie waarvoor betaalt.
+        function sectie(titel, lijst, leegTekst) {
+            var out = '<h4 class="kpr-prizes-kop">' + titel + '</h4>';
+            if (!lijst.length) return out + '<p class="kpr-empty-msg">' + leegTekst + '</p>';
+            lijst.forEach(function (p) {
+                out += '<div class="kpr-settings-item kpr-set-prize" data-id="' + p.id + '">' +
+                    '<div class="kpr-set-icon">' + escapeHtml(p.icon) + '</div>' +
+                    '<div class="kpr-set-label">' + escapeHtml(p.label) + '</div>' +
+                    '<div class="kpr-set-pts">' + p.cost + ' pt</div>' +
+                    '<button class="kpr-set-btn kpr-set-edit" data-id="' + p.id + '" title="Bewerken">&#9998;</button>' +
+                    '<button class="kpr-set-btn kpr-set-delete" data-id="' + p.id + '" title="Verwijderen">&#128465;&#65039;</button>' +
+                '</div>';
+            });
+            return out;
+        }
+
+        var html = sectie('&#128100; Voor &eacute;&eacute;n leerling', individuelePrijzen(),
+                          'Nog geen prijzen die een leerling met eigen punten kan inwisselen.');
+        html += sectie('&#127963;&#65039; Voor de hele groep', groepsPrijzen(),
+                       'Nog geen groepsprijzen. Zet bij een nieuwe prijs <em>Voor wie</em> op &ldquo;De hele groep&rdquo;.');
         prizesList.innerHTML = html;
         prizesList.querySelectorAll('.kpr-set-edit').forEach(function (b) {
             b.addEventListener('click', function () { openPrizeEditModal(b.dataset.id); });
@@ -1763,11 +2046,14 @@ document.addEventListener('DOMContentLoaded', () => {
         var mIntro   = monsterUrl(23);
         var mFooter  = monsterUrl(1);
 
+        // Groepsprijzen krijgen een label: anders leest een kind de poster als
+        // "dit kan ik met mijn eigen punten kopen".
         var prizeCardsHtml = sorted.map(function (p) {
             return '<div class="prize-card">' +
                 '<div class="prize-icon">' + escapeHtml(p.icon) + '</div>' +
                 '<div class="prize-name">' + escapeHtml(p.label) + '</div>' +
                 '<div class="prize-cost">&#11088; ' + p.cost + ' punten</div>' +
+                (p.is_group ? '<div class="prize-scope">&#127963;&#65039; uit de klaspot</div>' : '') +
             '</div>';
         }).join('');
 
@@ -1938,6 +2224,12 @@ document.addEventListener('DOMContentLoaded', () => {
 '      padding: 5px 14px;\n' +
 '      border-radius: 999px;\n' +
 '    }\n' +
+'    .prize-scope {\n' +
+'      margin-top: 6px;\n' +
+'      font-size: 11px;\n' +
+'      font-weight: 700;\n' +
+'      color: #6C63FF;\n' +
+'    }\n' +
 '\n' +
 '    /* ---- Footer ---- */\n' +
 '    .footer {\n' +
@@ -2010,6 +2302,7 @@ document.addEventListener('DOMContentLoaded', () => {
         prizeEditTitle.textContent = editingPrize ? 'Prijs bewerken' : 'Prijs toevoegen';
         prizeEditLabel.value = editingPrize ? editingPrize.label : '';
         prizeEditCost.value  = editingPrize ? editingPrize.cost  : 10;
+        if (prizeEditScope) prizeEditScope.value = (editingPrize && editingPrize.is_group) ? 'groep' : 'individueel';
         prizeEditError.style.display = 'none';
         renderPrizeIconPicker(editingPrize ? editingPrize.icon : '🎁');
         prizeEditModal.classList.add('active');
@@ -2059,19 +2352,22 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        var isGroup = !!prizeEditScope && prizeEditScope.value === 'groep';
+
         if (editingPrize) {
             var { error } = await supabase.from('klasseprestatie_prizes')
-                .update({ icon: icon, label: label, cost: cost })
+                .update({ icon: icon, label: label, cost: cost, is_group: isGroup })
                 .eq('id', editingPrize.id);
             if (error) { prizeEditError.textContent = error.message; prizeEditError.style.display = 'block'; return; }
         } else {
             var { error } = await supabase.from('klasseprestatie_prizes')
-                .insert({ user_id: currentUser.id, icon: icon, label: label, cost: cost, sort_order: prizes.length });
+                .insert({ user_id: currentUser.id, icon: icon, label: label, cost: cost, is_group: isGroup, sort_order: prizes.length });
             if (error) { prizeEditError.textContent = error.message; prizeEditError.style.display = 'block'; return; }
         }
         await loadPrizes();
         renderPrizesList();
         closePrizeEditModal();
+        render();
     });
 
     async function deletePrize(prizeId) {
@@ -2079,6 +2375,7 @@ document.addEventListener('DOMContentLoaded', () => {
         await supabase.from('klasseprestatie_prizes').update({ archived: true }).eq('id', prizeId);
         await loadPrizes();
         renderPrizesList();
+        render();
     }
 
     // ---------- Init ----------
@@ -2093,7 +2390,9 @@ document.addEventListener('DOMContentLoaded', () => {
             await loadStudents();
             await loadRewardTypes();
             await loadPrizes();
+            await loadPenaltyTypeIds();
             await loadPointTotals();
+            await loadGroupRedemptions();
             await loadAttendanceToday();
             render();
         } finally {
