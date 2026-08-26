@@ -2372,17 +2372,28 @@ document.addEventListener('DOMContentLoaded', () => {
             var { error } = await supabase.from('klasseprestatie_prizes')
                 .update({ icon: icon, label: label, cost: cost, is_group: isGroup })
                 .eq('id', editingPrize.id);
-            if (error) { prizeEditError.textContent = error.message; prizeEditError.style.display = 'block'; return; }
+            if (error) { prizeEditError.textContent = leesbareFout(error); prizeEditError.style.display = 'block'; return; }
         } else {
             var { error } = await supabase.from('klasseprestatie_prizes')
                 .insert({ user_id: currentUser.id, icon: icon, label: label, cost: cost, is_group: isGroup, sort_order: prizes.length });
-            if (error) { prizeEditError.textContent = error.message; prizeEditError.style.display = 'block'; return; }
+            if (error) { prizeEditError.textContent = leesbareFout(error); prizeEditError.style.display = 'block'; return; }
         }
         await loadPrizes();
         renderPrizesList();
         closePrizeEditModal();
         render();
     });
+
+    // Een leerkracht heeft niets aan 'violates check constraint ...'. Vertaal wat we
+    // herkennen; de rest tonen we wel ruw, want dan is er iets onverwachts aan de hand
+    // en helpt de originele tekst bij het uitzoeken.
+    function leesbareFout(error) {
+        var m = (error && error.message) || 'Onbekende fout';
+        if (/cost_check/.test(m)) return 'De kosten moeten tussen 1 en 99999 punten liggen.';
+        if (/mijlpaal_uniek/.test(m)) return 'Deze mijlpaal is al afgevinkt.';
+        if (/row-level security|permission denied/i.test(m)) return 'Je mag de prijzen van deze klas niet aanpassen. Alleen de eigenaar van de klas kan dat.';
+        return m;
+    }
 
     async function deletePrize(prizeId) {
         if (!confirm('Deze prijs verwijderen? Eerdere inwisselingen in het logboek blijven zichtbaar.')) return;

@@ -23,8 +23,8 @@
     <meta name="twitter:image" content="https://meestertools.nl/assets/og-image.png">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>Meestertools - Changelog</title>
-    <link rel="stylesheet" href="css/style.css?v=1.52.0">
-    <link rel="stylesheet" href="css/instellingen.css?v=1.52.0">
+    <link rel="stylesheet" href="css/style.css?v=1.52.1">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.52.1">
     <style>
         .changelog-container {
             max-width: 1200px;
@@ -168,6 +168,19 @@
         <div class="changelog-header">
             <h1>Changelog</h1>
             <p>Alle updates en verbeteringen van Meestertools.</p>
+        </div>
+
+        <!-- 26 augustus 2026 (v1.52.1) -->
+        <div class="changelog-entry">
+            <div class="changelog-date">26 augustus 2026 &mdash; v1.52.1</div>
+
+            <div class="changelog-section">
+                <span class="changelog-badge fix">Opgelost</span>
+                <ul class="changelog-list">
+                    <li><strong>Groepsprijs boven de 999 punten kon niet worden opgeslagen:</strong> het formulier liet een mijlpaal van bijvoorbeeld 1200 punten toe, maar de database hield vast aan het oude maximum van 999. Opslaan mislukte dan met een onbegrijpelijke technische melding. Beide grenzen staan nu op 99999.</li>
+                    <li><strong>Duidelijke taal bij een fout:</strong> gaat er bij het opslaan van een prijs toch iets mis, dan lees je nu wat er aan de hand is in plaats van een technische regel uit de database.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- 26 augustus 2026 (v1.52.0) -->
@@ -1354,12 +1367,12 @@
 
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.52.0"></script>
-    <script src="/js/template.js?v=1.52.0"></script>
+    <script src="/js/mt-shared.js?v=1.52.1"></script>
+    <script src="/js/template.js?v=1.52.1"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.52.0"></script>
-    <script src="js/app.js?v=1.52.0"></script>
-    <script src="js/instellingen.js?v=1.52.0"></script>
+    <script src="js/supabase-config.js?v=1.52.1"></script>
+    <script src="js/app.js?v=1.52.1"></script>
+    <script src="js/instellingen.js?v=1.52.1"></script>
 </body>
 </html>
