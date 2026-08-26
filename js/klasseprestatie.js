@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var panelPrizes = document.getElementById('kprPanelPrizes');
     var prizesList = document.getElementById('kprPrizesList');
     var btnAddPrize = document.getElementById('kprBtnAddPrize');
+    var btnAddGroupPrize = document.getElementById('kprBtnAddGroupPrize');
     var btnPrintPrizes = document.getElementById('kprBtnPrintPrizes');
     var prizeEditModal = document.getElementById('kprPrizeEditModal');
     var prizeEditTitle = document.getElementById('kprPrizeEditTitle');
@@ -313,12 +314,19 @@ document.addEventListener('DOMContentLoaded', () => {
         prizes = data || [];
     }
 
-    // De prijzenlijst bevat beide soorten; de UI toont ze nooit door elkaar.
+    // De prijzenlijst bevat beide soorten; de UI toont ze nooit door elkaar en
+    // altijd van goedkoop naar duur - zo zie je meteen wat er al binnen bereik is.
+    // Bij gelijke prijs op naam, anders springen even dure prijzen door elkaar.
+    function sorteerOpPrijs(lijst) {
+        return lijst.slice().sort(function (a, b) {
+            return a.cost - b.cost || a.label.localeCompare(b.label, 'nl');
+        });
+    }
     function individuelePrijzen() {
-        return prizes.filter(function (p) { return !p.is_group; });
+        return sorteerOpPrijs(prizes.filter(function (p) { return !p.is_group; }));
     }
     function groepsPrijzen() {
-        return prizes.filter(function (p) { return p.is_group; });
+        return sorteerOpPrijs(prizes.filter(function (p) { return p.is_group; }));
     }
 
     async function loadRedemptionsForStudent(studentId) {
@@ -2010,10 +2018,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return out;
         }
 
-        var html = sectie('&#128100; Voor &eacute;&eacute;n leerling', individuelePrijzen(),
+        var html = sectie('&#128100; Voor &eacute;&eacute;n leerling &mdash; eigen punten', individuelePrijzen(),
                           'Nog geen prijzen die een leerling met eigen punten kan inwisselen.');
-        html += sectie('&#127963;&#65039; Voor de hele groep', groepsPrijzen(),
-                       'Nog geen groepsprijzen. Zet bij een nieuwe prijs <em>Voor wie</em> op &ldquo;De hele groep&rdquo;.');
+        html += sectie('&#127963;&#65039; Voor de hele groep &mdash; uit de klaspot', groepsPrijzen(),
+                       'Nog geen groepsprijzen. Voeg er een toe met de knop <em>Groepsprijs</em> hieronder.');
         prizesList.innerHTML = html;
         prizesList.querySelectorAll('.kpr-set-edit').forEach(function (b) {
             b.addEventListener('click', function () { openPrizeEditModal(b.dataset.id); });
@@ -2023,14 +2031,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (btnAddPrize)    btnAddPrize.addEventListener('click', function () { openPrizeEditModal(null); });
+    if (btnAddPrize)      btnAddPrize.addEventListener('click', function () { openPrizeEditModal(null, false); });
+    if (btnAddGroupPrize) btnAddGroupPrize.addEventListener('click', function () { openPrizeEditModal(null, true); });
     if (btnPrintPrizes) btnPrintPrizes.addEventListener('click', printPrizeList);
 
     function printPrizeList() {
         if (!prizes.length) { showToast('Voeg eerst prijzen toe aan de prijslijst.'); return; }
 
-        // Sorted low → high
-        var sorted = prizes.slice().sort(function (a, b) { return a.cost - b.cost; });
+        var eigen = individuelePrijzen();
+        var groep = groepsPrijzen();
 
         // Base URL zodat monster-afbeeldingen in het nieuwe venster werken
         var base = window.location.href.split('?')[0].split('#')[0].replace(/[^/]+$/, '');
@@ -2046,16 +2055,27 @@ document.addEventListener('DOMContentLoaded', () => {
         var mIntro   = monsterUrl(23);
         var mFooter  = monsterUrl(1);
 
-        // Groepsprijzen krijgen een label: anders leest een kind de poster als
-        // "dit kan ik met mijn eigen punten kopen".
-        var prizeCardsHtml = sorted.map(function (p) {
-            return '<div class="prize-card">' +
-                '<div class="prize-icon">' + escapeHtml(p.icon) + '</div>' +
-                '<div class="prize-name">' + escapeHtml(p.label) + '</div>' +
-                '<div class="prize-cost">&#11088; ' + p.cost + ' punten</div>' +
-                (p.is_group ? '<div class="prize-scope">&#127963;&#65039; uit de klaspot</div>' : '') +
-            '</div>';
-        }).join('');
+        function kaarten(lijst) {
+            return lijst.map(function (p) {
+                return '<div class="prize-card">' +
+                    '<div class="prize-icon">' + escapeHtml(p.icon) + '</div>' +
+                    '<div class="prize-name">' + escapeHtml(p.label) + '</div>' +
+                    '<div class="prize-cost">&#11088; ' + p.cost + ' punten</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        // Twee blokken op de poster, net als in de instellingen. Zonder die scheiding
+        // leest een kind een groepsprijs als iets dat het zelf kan kopen.
+        var prizeCardsHtml = '';
+        if (eigen.length) {
+            prizeCardsHtml += '<div class="section-label">Spaar zelf &mdash; van goedkoop naar duur</div>' +
+                '<div class="prize-grid">' + kaarten(eigen) + '</div>';
+        }
+        if (groep.length) {
+            prizeCardsHtml += '<div class="section-label section-label-groep">&#127963;&#65039; Samen sparen &mdash; uit de klaspot</div>' +
+                '<div class="prize-grid">' + kaarten(groep) + '</div>';
+        }
 
         var html = '<!DOCTYPE html>\n' +
 '<html lang="nl">\n' +
@@ -2224,6 +2244,10 @@ document.addEventListener('DOMContentLoaded', () => {
 '      padding: 5px 14px;\n' +
 '      border-radius: 999px;\n' +
 '    }\n' +
+'    .section-label-groep {\n' +
+'      color: #6C63FF;\n' +
+'      margin-top: 26px;\n' +
+'    }\n' +
 '    .prize-scope {\n' +
 '      margin-top: 6px;\n' +
 '      font-size: 11px;\n' +
@@ -2274,9 +2298,7 @@ document.addEventListener('DOMContentLoaded', () => {
 '        </div>\n' +
 '      </div>\n' +
 '\n' +
-'      <div class="section-label">Beschikbare prijzen &mdash; van goedkoop naar duur</div>\n' +
-'\n' +
-'      <div class="prize-grid">' + prizeCardsHtml + '</div>\n' +
+'      ' + prizeCardsHtml + '\n' +
 '    </div>\n' +
 '\n' +
 '    <div class="footer">\n' +
@@ -2297,12 +2319,20 @@ document.addEventListener('DOMContentLoaded', () => {
         w.document.close();
     }
 
-    function openPrizeEditModal(prizeId) {
+    // nieuwGroep bepaalt bij een nieuwe prijs of het er een voor de groep wordt;
+    // bij bewerken telt gewoon wat de prijs zelf al is.
+    function openPrizeEditModal(prizeId, nieuwGroep) {
         editingPrize = prizeId ? prizes.find(function (p) { return p.id === prizeId; }) || null : null;
-        prizeEditTitle.textContent = editingPrize ? 'Prijs bewerken' : 'Prijs toevoegen';
+        var isGroep = editingPrize ? !!editingPrize.is_group : !!nieuwGroep;
+        prizeEditTitle.textContent = editingPrize
+            ? 'Prijs bewerken'
+            : (isGroep ? 'Groepsprijs toevoegen' : 'Prijs toevoegen');
         prizeEditLabel.value = editingPrize ? editingPrize.label : '';
-        prizeEditCost.value  = editingPrize ? editingPrize.cost  : 10;
-        if (prizeEditScope) prizeEditScope.value = (editingPrize && editingPrize.is_group) ? 'groep' : 'individueel';
+        prizeEditLabel.placeholder = isGroep
+            ? 'Bv. Filmmiddag, Extra pauze'
+            : 'Bv. Vrij lezen, Sticker uitzoeken';
+        prizeEditCost.value  = editingPrize ? editingPrize.cost  : (isGroep ? 50 : 10);
+        if (prizeEditScope) prizeEditScope.value = isGroep ? 'groep' : 'individueel';
         prizeEditError.style.display = 'none';
         renderPrizeIconPicker(editingPrize ? editingPrize.icon : '🎁');
         prizeEditModal.classList.add('active');
