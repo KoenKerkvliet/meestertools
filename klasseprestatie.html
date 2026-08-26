@@ -23,9 +23,9 @@
     <meta name="twitter:image" content="https://meestertools.nl/assets/og-image.png">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>Meestertools - Klasseprestatie</title>
-    <link rel="stylesheet" href="css/style.css?v=1.51.1">
-    <link rel="stylesheet" href="css/instellingen.css?v=1.51.1">
-    <link rel="stylesheet" href="css/klasseprestatie.css?v=1.51.1">
+    <link rel="stylesheet" href="css/style.css?v=1.52.0">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.52.0">
+    <link rel="stylesheet" href="css/klasseprestatie.css?v=1.52.0">
 </head>
 <body>
     <div class="mt-page-loader" id="mtPageLoader"><div class="mt-spinner"></div></div>
@@ -142,7 +142,7 @@
 
                 <!-- Panel: prijslijst -->
                 <div class="kpr-settings-panel" id="kprPanelPrizes" style="display:none;">
-                    <p class="kpr-settings-sub">Prijzen die een leerling inwisselt met eigen punten (klik op een leerling &rarr; tab Inwisselen), en groepsprijzen die de klas samen betaalt uit de klaspot (klik op de klaspot boven de leerlingen).</p>
+                    <p class="kpr-settings-sub">Prijzen die een leerling inwisselt met eigen punten (klik op een leerling &rarr; tab Inwisselen), en groepsprijzen die de klas samen verdient: die zijn een mijlpaal in de klaspot, gehaald zodra de klas genoeg punten heeft. De pot loopt gewoon door naar de volgende mijlpaal.</p>
                     <div id="kprPrizesList" class="kpr-settings-list">
                         <!-- Gevuld door JS -->
                     </div>
@@ -214,13 +214,13 @@
                 </div>
                 <div class="form-group">
                     <label for="kprPrizeEditCost">Kosten (punten)</label>
-                    <input type="number" id="kprPrizeEditCost" min="1" max="999" value="10">
+                    <input type="number" id="kprPrizeEditCost" min="1" max="99999" value="10">
                 </div>
                 <div class="form-group">
                     <label for="kprPrizeEditScope">Voor wie</label>
                     <select id="kprPrizeEditScope">
                         <option value="individueel">E&eacute;n leerling &mdash; betaalt met eigen punten</option>
-                        <option value="groep">De hele groep &mdash; betaalt uit de klaspot</option>
+                        <option value="groep">De hele groep &mdash; mijlpaal in de klaspot</option>
                     </select>
                 </div>
                 <div class="kpr-edit-error" id="kprPrizeEditError" style="display:none;"></div>
@@ -303,15 +303,15 @@
 
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.51.1"></script>
-    <script src="/js/template.js?v=1.51.1"></script>
+    <script src="/js/mt-shared.js?v=1.52.0"></script>
+    <script src="/js/template.js?v=1.52.0"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.51.1"></script>
-    <script src="js/app.js?v=1.51.1"></script>
-    <script src="/js/active-class.js?v=1.51.1"></script>
-    <script src="js/instellingen.js?v=1.51.1"></script>
-    <script src="js/klasseprestatie.js?v=1.51.1"></script>
-    <script src="js/kpr-tools.js?v=1.51.1"></script>
+    <script src="js/supabase-config.js?v=1.52.0"></script>
+    <script src="js/app.js?v=1.52.0"></script>
+    <script src="/js/active-class.js?v=1.52.0"></script>
+    <script src="js/instellingen.js?v=1.52.0"></script>
+    <script src="js/klasseprestatie.js?v=1.52.0"></script>
+    <script src="js/kpr-tools.js?v=1.52.0"></script>
 </body>
 </html>

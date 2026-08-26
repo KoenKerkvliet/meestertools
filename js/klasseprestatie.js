@@ -124,15 +124,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- Klaspot ----------
     // De klas spaart samen, naast wat elk kind voor zichzelf spaart. Dezelfde punt
-    // telt dus twee keer mee: een keer voor het kind en een keer voor de klas. Een
-    // groepsprijs gaat alleen van de klaspot af en raakt niemands eigen punten.
+    // telt dus twee keer mee: een keer voor het kind en een keer voor de klas.
+    //
+    // De pot is een teller en geen portemonnee: groepsprijzen zijn mijlpalen op een
+    // ladder. Haalt de klas een mijlpaal, dan is die verdiend en loopt de teller
+    // gewoon door naar de volgende. Er gaat dus nooit iets van de pot af - niet bij
+    // de klas en niet bij de kinderen.
     var potEarned = 0;               // alles wat de klas samen verdiend heeft
-    var potSpent = 0;                // wat er aan groepsprijzen uit betaald is
-    var groupRedemptions = [];       // [{id, prize_label, prize_icon, points_cost, redeemed_at}]
+    var groupRedemptions = [];       // gevierde mijlpalen: [{id, prize_id, prize_label, prize_icon, points_cost, redeemed_at}]
     var penaltyTypeIds = new Set();  // beloningstypes van het soort 'aandachtspunt'
-    var groupRedeemConfirming = null;
 
-    function potSaldo() { return potEarned - potSpent; }
+    function potStand() { return potEarned; }
+
+    // Een mijlpaal is 'gehaald' zodra de teller er voorbij is, en 'gevierd' zodra
+    // de leerkracht hem heeft afgevinkt (de filmmiddag is dan echt geweest).
+    function mijlpaalGehaald(prijs) { return potEarned >= prijs.cost; }
+    function gevierdeMijlpaal(prizeId) {
+        return groupRedemptions.find(function (r) { return r.prize_id === prizeId; }) || null;
+    }
+
+    // De eerstvolgende mijlpaal waar de klas nog niet is: het doel van dit moment.
+    function volgendeMijlpaal() {
+        var lijst = groepsPrijzen();
+        for (var i = 0; i < lijst.length; i++) {
+            if (!mijlpaalGehaald(lijst[i])) return lijst[i];
+        }
+        return null;
+    }
 
     // Elke plek die pointsByStudent bijwerkt zonder opnieuw te laden, moet ook de
     // klaspot bijwerken - anders klopt de teller pas na een herlaad. Aandachtspunten
@@ -279,15 +297,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadGroupRedemptions() {
         groupRedemptions = [];
-        potSpent = 0;
         if (!selectedGroupId) return;
         var { data } = await supabase
             .from('klasseprestatie_group_redemptions')
-            .select('id, prize_label, prize_icon, points_cost, redeemed_at')
+            .select('id, prize_id, prize_label, prize_icon, points_cost, redeemed_at')
             .eq('group_id', selectedGroupId)
             .order('redeemed_at', { ascending: false });
         groupRedemptions = data || [];
-        groupRedemptions.forEach(function (r) { potSpent += r.points_cost; });
     }
 
     async function loadAttendanceToday() {
@@ -1095,7 +1111,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function openRewardModal(studentIds) {
         pendingTargetStudentIds = studentIds;
         redeemConfirming = null;
-        groupRedeemConfirming = null;
         singleStudentId = studentIds.length === 1 ? studentIds[0] : null;
 
         // Dezelfde popup dient ook de klaspot; die verbergt de tabbladen.
@@ -1125,7 +1140,6 @@ document.addEventListener('DOMContentLoaded', () => {
         rewardModal.querySelector('.kpr-reward-tabs').style.display = '';
         pendingTargetStudentIds = [];
         redeemConfirming = null;
-        groupRedeemConfirming = null;
         singleStudentId = null;
     }
 
@@ -1267,31 +1281,43 @@ document.addEventListener('DOMContentLoaded', () => {
     // De teller staat boven de leerlingen en is zelf de knop: erop tikken opent de
     // groepsprijzen. Zo hoeft er niets bij in de toolbar, die al vol staat.
     function renderPotBar() {
-        var saldo = potSaldo();
-        var heeftGroepsprijzen = groepsPrijzen().length > 0;
-        var klikbaar = heeftGroepsprijzen || groupRedemptions.length > 0;
+        var stand = potStand();
+        var lijst = groepsPrijzen();
+        var klikbaar = lijst.length > 0 || groupRedemptions.length > 0;
+        var volgende = volgendeMijlpaal();
 
         var html = '<div class="kpr-pot' + (klikbaar ? ' kpr-pot-clickable' : '') + '"' +
             (klikbaar ? ' id="kprPotBar" role="button" tabindex="0"' : '') + '>' +
+            '<div class="kpr-pot-top">' +
             '<span class="kpr-pot-icon">&#127963;&#65039;</span>' +
             '<span class="kpr-pot-text">Klaspot</span>' +
-            '<span class="kpr-pot-value">' + saldo + '</span>' +
-            '<span class="kpr-pot-unit">punt' + (saldo === 1 ? '' : 'en') + '</span>';
+            '<span class="kpr-pot-value">' + stand + '</span>' +
+            '<span class="kpr-pot-unit">punt' + (stand === 1 ? '' : 'en') + '</span>';
 
-        // Alleen tonen als er ook echt iets uitgegeven is: anders is "verdiend"
-        // hetzelfde getal en voegt de regel niets toe.
-        if (potSpent > 0) {
-            html += '<span class="kpr-pot-sub">' + potEarned + ' verdiend &minus; ' + potSpent + ' uitgegeven</span>';
+        if (volgende) {
+            var tegaan = volgende.cost - stand;
+            html += '<span class="kpr-pot-sub">nog <strong>' + tegaan + '</strong> tot ' +
+                escapeHtml(volgende.icon) + ' ' + escapeHtml(volgende.label) + '</span>';
+        } else if (lijst.length) {
+            html += '<span class="kpr-pot-sub kpr-pot-sub-klaar">&#127881; alle mijlpalen gehaald</span>';
         }
         if (klikbaar) {
-            html += '<span class="kpr-pot-cta">' + (heeftGroepsprijzen ? 'Groepsprijzen' : 'Bekijk') + ' &rarr;</span>';
+            html += '<span class="kpr-pot-cta">' + (lijst.length ? 'Mijlpalen' : 'Bekijk') + ' &rarr;</span>';
         }
+        html += '</div>';
+
+        // Balkje naar de volgende mijlpaal. Bewust vanaf nul: dat leest voor kinderen
+        // als "zo ver zijn we", niet als "zo veel hebben we sinds de vorige keer".
+        if (volgende) {
+            var pct = Math.max(0, Math.min(100, Math.round((stand / volgende.cost) * 100)));
+            html += '<div class="kpr-pot-progress"><div class="kpr-pot-progress-fill" style="width:' + pct + '%"></div></div>';
+        }
+
         html += '</div>';
         return html;
     }
 
     function openPotModal() {
-        groupRedeemConfirming = null;
         singleStudentId = null;
         pendingTargetStudentIds = [];
         rewardTitle.innerHTML = '&#127963;&#65039; Klaspot';
@@ -1302,51 +1328,54 @@ document.addEventListener('DOMContentLoaded', () => {
         rewardModal.classList.add('active');
     }
 
+    // De ladder: elke mijlpaal met zijn stand. Geen winkel met kaartjes meer, maar
+    // een lijst op volgorde - dat is wat een klas het hele jaar volgt.
     function renderPotGrid() {
-        if (groupRedeemConfirming) { renderPotConfirmPanel(); return; }
-
-        var saldo = potSaldo();
+        var stand = potStand();
         var lijst = groepsPrijzen();
 
-        var html = '<div class="kpr-prize-balance">De klas heeft samen <strong>' + saldo +
-            ' punt' + (saldo === 1 ? '' : 'en') + '</strong> in de pot</div>';
+        var html = '<div class="kpr-prize-balance">De klas heeft samen <strong>' + stand +
+            ' punt' + (stand === 1 ? '' : 'en') + '</strong> verdiend</div>';
 
         if (!lijst.length) {
-            html += '<p class="kpr-empty-msg" style="padding:16px">Nog geen groepsprijzen. Voeg ze toe via &#9881;&#65039; Instellingen &rarr; Prijslijst &rarr; <em>Voor de hele groep</em>.</p>';
+            html += '<p class="kpr-empty-msg" style="padding:16px">Nog geen mijlpalen. Voeg ze toe via &#9881;&#65039; Instellingen &rarr; Prijslijst &rarr; <em>Groepsprijs</em>.</p>';
         } else {
-            html += '<div class="kpr-prize-grid">';
+            html += '<ul class="kpr-ladder">';
             lijst.forEach(function (p) {
-                var canAfford = saldo >= p.cost;
-                var cls = 'kpr-prize-card' + (canAfford ? '' : ' kpr-prize-unaffordable');
-                html += '<button class="' + cls + '" data-prize-id="' + p.id + '"' + (canAfford ? '' : ' disabled') + '>' +
-                    '<div class="kpr-prize-icon">' + escapeHtml(p.icon) + '</div>' +
-                    '<div class="kpr-prize-label">' + escapeHtml(p.label) + '</div>' +
-                    '<div class="kpr-prize-cost">' + p.cost + ' pt</div>' +
-                '</button>';
-            });
-            html += '</div>';
-        }
+                var gehaald = mijlpaalGehaald(p);
+                var gevierd = gevierdeMijlpaal(p.id);
+                var cls = 'kpr-ladder-item' + (gevierd ? ' kpr-ladder-gevierd' : gehaald ? ' kpr-ladder-gehaald' : '');
 
-        if (groupRedemptions.length) {
-            html += '<div class="kpr-pot-history"><h3>Al ingewisseld</h3><ul>';
-            groupRedemptions.forEach(function (r) {
-                html += '<li>' +
-                    '<span class="kpr-pot-hist-icon">' + escapeHtml(r.prize_icon) + '</span>' +
-                    '<span class="kpr-pot-hist-label">' + escapeHtml(r.prize_label) + '</span>' +
-                    '<span class="kpr-pot-hist-cost">&minus;' + r.points_cost + ' pt</span>' +
-                    '<span class="kpr-pot-hist-date">' + formatDatum(r.redeemed_at) + '</span>' +
-                    '<button class="kpr-pot-undo" data-redemption-id="' + r.id + '" title="Terugdraaien">&#8630;</button>' +
-                '</li>';
+                html += '<li class="' + cls + '">' +
+                    '<span class="kpr-ladder-icon">' + escapeHtml(p.icon) + '</span>' +
+                    '<span class="kpr-ladder-body">' +
+                        '<span class="kpr-ladder-label">' + escapeHtml(p.label) + '</span>' +
+                        '<span class="kpr-ladder-meta">' + p.cost + ' punten' +
+                            (gevierd ? ' &middot; gevierd op ' + formatDatum(gevierd.redeemed_at)
+                             : gehaald ? ' &middot; gehaald!'
+                             : ' &middot; nog ' + (p.cost - stand) + ' te gaan') +
+                        '</span>' +
+                    '</span>';
+
+                if (gevierd) {
+                    html += '<button class="kpr-pot-undo" data-redemption-id="' + gevierd.id + '" title="Toch nog niet gevierd">&#8630;</button>';
+                } else if (gehaald) {
+                    html += '<button class="kpr-ladder-btn" data-prize-id="' + p.id + '">&#127881; Gevierd</button>';
+                } else {
+                    html += '<span class="kpr-ladder-todo">&#128274;</span>';
+                }
+                html += '</li>';
             });
-            html += '</ul></div>';
+            html += '</ul>';
+            html += '<p class="kpr-ladder-uitleg">Een gehaalde mijlpaal kost de klas niets: de teller loopt gewoon door naar de volgende. Vink af zodra je de beloning echt gegeven hebt.</p>';
         }
 
         rewardGrid.innerHTML = html;
 
-        rewardGrid.querySelectorAll('.kpr-prize-card:not([disabled])').forEach(function (b) {
+        rewardGrid.querySelectorAll('.kpr-ladder-btn').forEach(function (b) {
             b.addEventListener('click', function () {
                 var prize = prizes.find(function (p) { return p.id === b.dataset.prizeId; });
-                if (prize) { groupRedeemConfirming = prize; renderPotConfirmPanel(); }
+                if (prize) markeerGevierd(prize);
             });
         });
         rewardGrid.querySelectorAll('.kpr-pot-undo').forEach(function (b) {
@@ -1360,49 +1389,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return d.getDate() + '-' + (d.getMonth() + 1) + '-' + d.getFullYear();
     }
 
-    function renderPotConfirmPanel() {
-        var prize = groupRedeemConfirming;
-        var saldo = potSaldo();
-        var na = saldo - prize.cost;
-
-        rewardGrid.innerHTML =
-            '<div class="kpr-confirm-panel">' +
-                '<div class="kpr-confirm-prize">' +
-                    '<span class="kpr-confirm-icon">' + escapeHtml(prize.icon) + '</span>' +
-                    '<div>' +
-                        '<div class="kpr-confirm-name">' + escapeHtml(prize.label) + '</div>' +
-                        '<div class="kpr-confirm-cost">' + prize.cost + ' punten</div>' +
-                    '</div>' +
-                '</div>' +
-                '<p class="kpr-confirm-msg">De klaspot staat op <strong>' + saldo +
-                    '</strong>. Na inwisselen: <strong>' + na + '</strong> punt' + (na === 1 ? '' : 'en') +
-                    '.<br><span class="kpr-confirm-note">De punten van de leerlingen zelf blijven staan.</span></p>' +
-                '<div class="kpr-confirm-btns">' +
-                    '<button class="kpr-btn-confirm-cancel" id="kprBtnPotCancel">&#8592; Terug</button>' +
-                    '<button class="kpr-btn-confirm-ok" id="kprBtnPotOk">&#127873; Inwisselen</button>' +
-                '</div>' +
-            '</div>';
-
-        document.getElementById('kprBtnPotCancel').addEventListener('click', function () {
-            groupRedeemConfirming = null;
-            renderPotGrid();
-        });
-        document.getElementById('kprBtnPotOk').addEventListener('click', async function () {
-            this.disabled = true;
-            await redeemGroupPrize(prize);
-        });
-    }
-
-    async function redeemGroupPrize(prize) {
+    // Afvinken dat de beloning echt gegeven is. Er gaat niets van de pot af: de
+    // mijlpaal was al gehaald, dit legt alleen vast dat de klas hem gevierd heeft.
+    async function markeerGevierd(prize) {
         if (!currentUser || !selectedGroupId) return;
-        // Nog een keer rekenen op het moment zelf: een duo-collega kan intussen
-        // uit dezelfde pot betaald hebben.
-        if (prize.cost > potSaldo()) {
-            showToast('Er zit niet genoeg in de klaspot.');
-            groupRedeemConfirming = null;
-            renderPotGrid();
-            return;
-        }
+        if (!mijlpaalGehaald(prize)) { showToast('Deze mijlpaal is nog niet gehaald.'); return; }
+        if (gevierdeMijlpaal(prize.id)) { renderPotGrid(); return; }
+
         var { data, error } = await supabase.from('klasseprestatie_group_redemptions').insert({
             group_id: selectedGroupId,
             user_id: currentUser.id,
@@ -1410,34 +1403,26 @@ document.addEventListener('DOMContentLoaded', () => {
             prize_label: prize.label,
             prize_icon: prize.icon,
             points_cost: prize.cost
-        }).select('id, prize_label, prize_icon, points_cost, redeemed_at').single();
+        }).select('id, prize_id, prize_label, prize_icon, points_cost, redeemed_at').single();
 
-        if (error) {
-            showToast('Fout bij inwisselen: ' + error.message);
-            groupRedeemConfirming = null;
-            renderPotGrid();
-            return;
-        }
+        if (error) { showToast('Opslaan mislukt: ' + error.message); return; }
 
         groupRedemptions.unshift(data);
-        potSpent += prize.cost;
-        groupRedeemConfirming = null;
-        showToast('&#127963;&#65039; De klas heeft "' + prize.label + '" ingewisseld!');
-        closeRewardModal();
+        showToast('&#127881; "' + prize.label + '" afgevinkt als gevierd!');
+        renderPotGrid();
         render();
     }
 
     async function undoGroupRedemption(id) {
         var r = groupRedemptions.find(function (x) { return x.id === id; });
         if (!r) return;
-        if (!confirm('"' + r.prize_label + '" terugdraaien? De ' + r.points_cost + ' punten gaan terug in de klaspot.')) return;
+        if (!confirm('"' + r.prize_label + '" weer op niet-gevierd zetten? De klaspot verandert hier niet van.')) return;
 
         var { error } = await supabase.from('klasseprestatie_group_redemptions').delete().eq('id', id);
         if (error) { showToast('Terugdraaien mislukt: ' + error.message); return; }
 
         groupRedemptions = groupRedemptions.filter(function (x) { return x.id !== id; });
-        potSpent -= r.points_cost;
-        showToast('&#8630; "' + r.prize_label + '" teruggedraaid.');
+        showToast('&#8630; "' + r.prize_label + '" staat weer op niet-gevierd.');
         renderPotGrid();
         render();
     }
@@ -1613,7 +1598,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (res.some(function (r) { return r && r.error; })) { showToast('Wissen mislukt.'); return; }
         students.forEach(function (s) { pointsByStudent[s.id] = 0; redemptions[s.id] = []; });
         potEarned = 0;
-        potSpent = 0;
         groupRedemptions = [];
         showToast('\u{1F9F9} Alle scores van ' + groupName + ' gewist.');
         if (settingsModal) settingsModal.classList.remove('active');
@@ -2020,7 +2004,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         var html = sectie('&#128100; Voor &eacute;&eacute;n leerling &mdash; eigen punten', individuelePrijzen(),
                           'Nog geen prijzen die een leerling met eigen punten kan inwisselen.');
-        html += sectie('&#127963;&#65039; Voor de hele groep &mdash; uit de klaspot', groepsPrijzen(),
+        html += sectie('&#127963;&#65039; Voor de hele groep &mdash; mijlpalen in de klaspot', groepsPrijzen(),
                        'Nog geen groepsprijzen. Voeg er een toe met de knop <em>Groepsprijs</em> hieronder.');
         prizesList.innerHTML = html;
         prizesList.querySelectorAll('.kpr-set-edit').forEach(function (b) {
@@ -2073,7 +2057,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 '<div class="prize-grid">' + kaarten(eigen) + '</div>';
         }
         if (groep.length) {
-            prizeCardsHtml += '<div class="section-label section-label-groep">&#127963;&#65039; Samen sparen &mdash; uit de klaspot</div>' +
+            prizeCardsHtml += '<div class="section-label section-label-groep">&#127963;&#65039; Samen sparen &mdash; dit haalt de klas samen</div>' +
                 '<div class="prize-grid">' + kaarten(groep) + '</div>';
         }
 
@@ -2376,8 +2360,8 @@ document.addEventListener('DOMContentLoaded', () => {
             prizeEditError.style.display = 'block';
             return;
         }
-        if (!(cost >= 1 && cost <= 999)) {
-            prizeEditError.textContent = 'Kosten moeten tussen 1 en 999 zijn.';
+        if (!(cost >= 1 && cost <= 99999)) {
+            prizeEditError.textContent = 'Kosten moeten tussen 1 en 99999 zijn.';
             prizeEditError.style.display = 'block';
             return;
         }
