@@ -348,9 +348,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Contextuele actiebalk (zwevend onderaan) — alleen tonen als er acties zijn.
         // De modus-knoppen zelf staan nu in de toolbar bovenin.
         var bar = '';
-        if (mode === 'selecteer' && selectedStudentIds.size > 0) {
-            bar += '<span class="kpr-selected-count">' + selectedStudentIds.size + ' leerling' + (selectedStudentIds.size === 1 ? '' : 'en') + ' geselecteerd</span>';
-            bar += '<button class="kpr-btn kpr-btn-primary" id="kprBtnRewardSelected">&#127942; Beloning geven</button>';
+        if (mode === 'selecteer') {
+            var kanAantal = selecteerbareLeerlingen().length;
+            var afwezig = students.length - kanAantal;
+            bar += '<button class="kpr-btn" id="kprBtnSelectAll">' +
+                   (allenGeselecteerd() ? '&#10005; Selectie wissen' : '&#9989; Iedereen selecteren') + '</button>';
+            if (selectedStudentIds.size > 0) {
+                bar += '<span class="kpr-selected-count">' + selectedStudentIds.size + ' leerling' + (selectedStudentIds.size === 1 ? '' : 'en') + ' geselecteerd</span>';
+            } else {
+                bar += '<span class="kpr-selected-count">Tik leerlingen aan, of selecteer iedereen</span>';
+            }
+            if (afwezig > 0) {
+                bar += '<span class="kpr-selected-hint">' + afwezig + ' afwezig, doet niet mee</span>';
+            }
+            if (selectedStudentIds.size > 0) {
+                bar += '<button class="kpr-btn kpr-btn-primary" id="kprBtnRewardSelected">&#127942; Beloning geven</button>';
+            }
         }
         if (mode === 'aanwezigheid' && Object.keys(pendingAttendance).length > 0) {
             bar += '<span class="kpr-pending-count">' + Object.keys(pendingAttendance).length + ' wijziging' + (Object.keys(pendingAttendance).length === 1 ? '' : 'en') + ' onopgeslagen</span>';
@@ -384,6 +397,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btnSave) btnSave.addEventListener('click', saveAttendance);
         var btnRwSel = document.getElementById('kprBtnRewardSelected');
         if (btnRwSel) btnRwSel.addEventListener('click', openRewardForSelected);
+        var btnSelAll = document.getElementById('kprBtnSelectAll');
+        if (btnSelAll) btnSelAll.addEventListener('click', toggleAlles);
 
         // Minutenspel buttons
         var btnMsTask = document.getElementById('kprBtnMsTask');
@@ -409,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
         var classes = ['kpr-student-card'];
         if (isAbsent) classes.push('kpr-absent');
         if (isSelected) classes.push('kpr-selected');
-        if (mode === 'default' && isAbsent) classes.push('kpr-blocked');
+        if ((mode === 'default' || mode === 'selecteer') && isAbsent) classes.push('kpr-blocked');
         if (hasMsBadge) classes.push('kpr-has-ms-badge');
         if (mode === 'minutenspel' && msPhase !== 'picking') classes.push('kpr-ms-frozen');
 
@@ -450,6 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             render();
         } else if (mode === 'selecteer') {
+            if (attendanceToday[studentId]) return; // afwezig = geen punten
             if (selectedStudentIds.has(studentId)) selectedStudentIds.delete(studentId);
             else selectedStudentIds.add(studentId);
             render();
@@ -477,6 +493,24 @@ document.addEventListener('DOMContentLoaded', () => {
             mode = 'aanwezigheid';
             selectedStudentIds.clear();
             pendingAttendance = {};
+        }
+        render();
+    }
+
+    // Leerlingen die een beloning kunnen krijgen: afwezigen doen niet mee, net
+    // als in de gewone modus (daar zijn hun kaartjes geblokkeerd).
+    function selecteerbareLeerlingen() {
+        return students.filter(function (s) { return !attendanceToday[s.id]; });
+    }
+    function allenGeselecteerd() {
+        var kan = selecteerbareLeerlingen();
+        return kan.length > 0 && kan.every(function (s) { return selectedStudentIds.has(s.id); });
+    }
+    function toggleAlles() {
+        if (allenGeselecteerd()) {
+            selectedStudentIds.clear();
+        } else {
+            selecteerbareLeerlingen().forEach(function (s) { selectedStudentIds.add(s.id); });
         }
         render();
     }
