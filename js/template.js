@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.55.0';
+    const VERSION = 'v1.56.0';
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [
@@ -39,7 +39,7 @@
         { id: '24game', name: '24 Game', url: 'educatieve-games/24game', icon: '&#127922;' },
         { id: 'potje1000', name: 'Potje 1000', url: 'educatieve-games/potje1000', icon: '&#127919;' },
         { id: 'lingo', name: 'Lingo', url: 'educatieve-games/lingo', icon: '&#128221;' },
-        { id: 'escaperooms', name: 'Escape rooms', url: 'educatieve-games/escaperooms', icon: '&#128477;&#65039;', uc: true },
+        { id: 'escaperooms', name: 'Escape rooms', url: 'educatieve-games/escaperooms', icon: '&#128477;&#65039;' },
         // Klasseprestatie
         { id: 'klasseprestatie', name: 'Klasseprestatie', url: 'klasseprestatie', icon: '&#127942;' },
         // Lesmateriaal

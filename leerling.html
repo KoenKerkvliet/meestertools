@@ -8,8 +8,8 @@
     <meta name="robots" content="noindex">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>Leerling - Meestertools</title>
-    <link rel="stylesheet" href="css/style.css?v=1.55.0">
-    <link rel="stylesheet" href="css/typetijger.css?v=1.55.0">
+    <link rel="stylesheet" href="css/style.css?v=1.56.0">
+    <link rel="stylesheet" href="css/typetijger.css?v=1.56.0">
     <style>
         /* ---- Eigen, account-loze kop-balk (geen leerkracht-header) ---- */
         .ll-header {
@@ -66,6 +66,38 @@
         .ll-back { border: none; background: var(--bg-light, #F1F0FA); color: #5A52D5; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; border-radius: 999px; padding: 12px 26px; }
         .ll-back:hover { background: #E7E5F6; }
 
+        /* Zelf oefenen: dezelfde opmaak als de klassikale rekenrace, zodat een
+           kind hetzelfde ziet of het nu meedoet met de klas of alleen oefent. */
+        .ll-oef-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+        .ll-oef-blok { font-weight: 800; font-size: 15px; color: var(--text-dark); }
+        .md-meter { font-weight: 800; font-size: 18px; color: var(--primary); background: #F4F2FF; border-radius: 999px; padding: 6px 14px; }
+        .md-meter.is-low { color: #C0392B; background: #FCE7E7; }
+        .md-sum { text-align: center; font-size: 54px; font-weight: 800; color: #2D3436; padding: 26px 10px; line-height: 1.1; }
+        .md-answer { width: 100%; border: 3px solid #E3E1F2; border-radius: 16px; padding: 16px;
+            font-size: 36px; font-weight: 800; text-align: center; font-family: inherit; color: #2D3436; outline: none; }
+        .md-answer:focus { border-color: var(--primary); }
+        .md-answer.is-good { border-color: #2ecc71; background: #F0FBF3; }
+        .md-answer.is-bad { border-color: #e74c3c; background: #FDF1F0; }
+        .md-enter-hint { text-align: center; color: #9A96B8; font-size: 13px; margin-top: 12px; }
+        .md-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+        .md-key { border: none; border-radius: 12px; background: #F1F0FA; color: #2D3436; font-size: 22px;
+            font-weight: 700; padding: 15px 0; cursor: pointer; font-family: inherit;
+            transition: background .12s ease, transform .06s ease; -webkit-user-select: none; user-select: none; }
+        .md-key:hover { background: #E7E5F6; }
+        .md-key:active { transform: translateY(1px); }
+        .md-key-act { background: #FDEBE4; color: #C0392B; font-size: 20px; }
+        .md-key-enter { grid-column: 1 / -1; background: var(--primary); color: #fff; font-size: 18px; }
+        .ll-oef-uitslag { display: flex; gap: 14px; justify-content: center; margin: 8px 0 20px; }
+        .ll-oef-cijfer { background: #fff; border: 1px solid #E8E8F0; border-radius: 16px; padding: 16px 26px; text-align: center; }
+        .ll-oef-groot { font-size: 30px; font-weight: 800; color: var(--primary); line-height: 1; }
+        .ll-oef-label { font-size: 12px; color: var(--text-medium); margin-top: 6px; }
+        /* Een steentje waar je op kunt tikken moet er ook zo uitzien. */
+        .md-wall .rr-cell.is-clickable { cursor: pointer; }
+        .md-wall .rr-cell.is-clickable:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,.12); }
+        @media (prefers-reduced-motion: reduce) {
+            .md-wall .rr-cell.is-clickable:hover { transform: none; }
+            .md-key:active { transform: none; }
+        }
         .md-wall { display: flex; flex-direction: column; gap: 6px; }
         .md-wall .rr-fase { display: flex; gap: 6px; align-items: stretch; }
         .md-wall .rr-fase-label { flex-shrink: 0; width: 44px; border-radius: 9px; background: #F08C1E; color: #fff; font-weight: 800; font-size: 10px; display: flex; align-items: center; justify-content: center; text-align: center; }
@@ -239,7 +271,7 @@
         <section class="ll-screen" id="screenWall">
             <div class="dashboard-hero">
                 <h1 id="wallTitle">Mijn rekenmuurtje</h1>
-                <p id="wallLead">Groen = goed bezig! De rand toont je snelheid, de vulkleur hoe goed je het maakt.</p>
+                <p id="wallLead">Tik op een steentje om te oefenen. Groen = goed bezig! De rand toont je snelheid, de vulkleur hoe goed je het maakt.</p>
             </div>
             <div class="ll-wall-wrap">
                 <div class="md-wall" id="wall"></div>
@@ -259,6 +291,61 @@
                 <div class="ll-wall-actions">
                     <button class="ll-back" id="wallBack">&larr; Terug naar mijn pagina</button>
                 </div>
+            </div>
+        </section>
+
+        <!-- 4b. Zelf oefenen op een steentje -->
+        <section class="ll-screen" id="screenOefenen">
+            <div class="ll-oef-top">
+                <span class="ll-oef-blok" id="oefBlok">Sommen</span>
+                <span class="md-meter" id="oefMeter">2:00</span>
+            </div>
+            <div class="md-sum" id="oefSum">5 + 2</div>
+            <input class="md-answer" id="oefAnswer" type="text" inputmode="none" pattern="[0-9,]*"
+                   autocomplete="off" autocorrect="off" placeholder="?" aria-label="Jouw antwoord">
+            <div class="md-keypad" id="oefKeypad">
+                <button type="button" class="md-key" data-key="7">7</button>
+                <button type="button" class="md-key" data-key="8">8</button>
+                <button type="button" class="md-key" data-key="9">9</button>
+                <button type="button" class="md-key" data-key="4">4</button>
+                <button type="button" class="md-key" data-key="5">5</button>
+                <button type="button" class="md-key" data-key="6">6</button>
+                <button type="button" class="md-key" data-key="1">1</button>
+                <button type="button" class="md-key" data-key="2">2</button>
+                <button type="button" class="md-key" data-key="3">3</button>
+                <button type="button" class="md-key" data-key=",">,</button>
+                <button type="button" class="md-key" data-key="0">0</button>
+                <button type="button" class="md-key md-key-act" data-act="back" aria-label="Wissen">&#9003;</button>
+                <button type="button" class="md-key md-key-enter" data-act="enter">Klaar &#10003;</button>
+            </div>
+            <p class="md-enter-hint">Tik je antwoord of typ het &mdash; <strong>Enter</strong> of <strong>Klaar</strong> levert in &crarr;</p>
+            <div class="ll-wall-actions">
+                <button class="ll-back" id="oefStop">Stoppen</button>
+            </div>
+        </section>
+
+        <!-- 4c. Klaar met oefenen -->
+        <section class="ll-screen" id="screenOefenKlaar">
+            <div class="dashboard-hero">
+                <h1 id="oefKlaarTitel">Goed gedaan!</h1>
+                <p id="oefKlaarLead"></p>
+            </div>
+            <div class="ll-oef-uitslag">
+                <div class="ll-oef-cijfer">
+                    <div class="ll-oef-groot" id="oefSnelheid">&mdash;</div>
+                    <div class="ll-oef-label">sommen per minuut</div>
+                </div>
+                <div class="ll-oef-cijfer">
+                    <div class="ll-oef-groot" id="oefGoed">&mdash;</div>
+                    <div class="ll-oef-label">goed</div>
+                </div>
+            </div>
+            <div class="ll-wall-wrap">
+                <div class="md-wall" id="oefWall"></div>
+            </div>
+            <div class="ll-wall-actions">
+                <button class="ll-back" id="oefNogEens">Nog een keer</button>
+                <button class="ll-back" id="oefTerugMuur">&larr; Terug naar mijn muur</button>
             </div>
         </section>
 
@@ -338,11 +425,11 @@
     <footer class="ll-foot">Meestertools is gratis voor leerkrachten &middot; <a href="/" target="_blank" rel="noopener">meestertools.nl</a></footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="/js/mt-shared.js?v=1.55.0"></script>
-    <script src="js/supabase-config.js?v=1.55.0"></script>
-    <script src="js/rekenrace-blocks.js?v=1.55.0"></script>
+    <script src="/js/mt-shared.js?v=1.56.0"></script>
+    <script src="js/supabase-config.js?v=1.56.0"></script>
+    <script src="js/rekenrace-blocks.js?v=1.56.0"></script>
     <script>window.TT_NO_AUTOSTART = true;</script>
-    <script src="js/typetijger.js?v=1.55.0"></script>
-    <script src="js/leerling.js?v=1.55.0"></script>
+    <script src="js/typetijger.js?v=1.56.0"></script>
+    <script src="js/leerling.js?v=1.56.0"></script>
 </body>
 </html>

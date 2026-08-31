@@ -7,7 +7,8 @@
      - "Klassikale ronde": leerlingen geven om de beurt een cijfer,
        de tool toont het klasgemiddelde.
    Daarbij een optionele notitie per dag, een grafiek over tijd en
-   een logboek. Data per klas opgeslagen in tool_settings (JSON).
+   een logboek. Data per klas in group_tool_settings, zodat een duo-collega
+   dezelfde reeks ziet en de grafiek de hele week beslaat.
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -99,35 +100,49 @@ document.addEventListener('DOMContentLoaded', () => {
         return sum / round.total;
     }
 
-    async function loadSettings() {
-        const user = await getSessionUser();
-        if (!user) return;
+    // Het sfeercijfer hoort bij de klas en niet bij de leerkracht. Stond het per
+    // leerkracht, dan bouwden een duo samen twee halve reeksen op en zag ieder
+    // een compleet ogende grafiek waar de helft van de week in ontbreekt - erger
+    // dan een leeg scherm, want je ziet niet dat er iets mist.
+    //
+    // Vandaar group_tool_settings (toegang via has_group_access). In het
+    // geheugen blijft de vorm byGroup[groepId] staan zodat groupDays() en de
+    // rest ongemoeid blijven; er zit nu alleen één klas in.
+    async function loadSettings(groupId) {
+        data = { byGroup: {} };
+        if (!groupId) return;
         const { data: row } = await supabase
-            .from('tool_settings')
+            .from('group_tool_settings')
             .select('settings')
-            .eq('user_id', user.id)
+            .eq('group_id', groupId)
             .eq('tool_name', TOOL_NAME)
             .maybeSingle();
-        if (row && row.settings && typeof row.settings === 'object') {
-            data = row.settings;
-        }
-        if (!data.byGroup) data.byGroup = {};
+        const s = (row && row.settings && typeof row.settings === 'object') ? row.settings : {};
+        data.byGroup[groupId] = { days: s.days || {} };
     }
+
+    // De klas waarvoor de wachtende opslag bedoeld is, vastgelegd op het moment
+    // van plannen: wissel je binnen die halve seconde van klas, dan mag de
+    // wijziging niet in de verkeerde rij belanden.
     function scheduleSave() {
+        const groupId = currentGroupId;
         if (saveTimer) clearTimeout(saveTimer);
-        saveTimer = setTimeout(saveSettings, 500);
+        saveTimer = setTimeout(function () { saveSettings(groupId); }, 500);
     }
-    async function saveSettings() {
+    async function saveSettings(groupId) {
+        const gid = groupId || currentGroupId;
+        if (!gid) return;
         const user = await getSessionUser();
-        if (!user) return;
+        const bucket = (data.byGroup && data.byGroup[gid]) || { days: {} };
         await supabase
-            .from('tool_settings')
+            .from('group_tool_settings')
             .upsert({
-                user_id: user.id,
+                group_id: gid,
                 tool_name: TOOL_NAME,
-                settings: data,
-                updated_at: new Date().toISOString()
-            }, { onConflict: 'user_id,tool_name' });
+                settings: { days: bucket.days || {} },
+                updated_at: new Date().toISOString(),
+                updated_by: user ? user.id : null
+            }, { onConflict: 'group_id,tool_name' });
     }
 
     async function loadGroups() {
@@ -473,6 +488,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         noGroup.style.display = 'none';
         main.style.display = 'block';
+        // Anders dan bij de klassendienst wisselt deze tool van klas zonder de
+        // pagina te herladen, dus hier zelf opnieuw ophalen.
+        await loadSettings(currentGroupId);
         studentCount = await loadStudentCount(currentGroupId);
         renderToday();
         renderTrend();
@@ -483,7 +501,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- Init ----------
     async function init() {
-        await loadSettings();
         groups = await loadGroups();
         groupSelect.innerHTML = '<option value="">Kies een klas...</option>' +
             groups.map(function (g) { return '<option value="' + g.id + '">' + escapeHtml(g.name) + '</option>'; }).join('');

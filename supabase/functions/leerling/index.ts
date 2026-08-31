@@ -2,6 +2,7 @@ import { serve } from 'https://deno.land/std@0.224.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { corsHeaders } from '../_shared/cors.ts'
 import { assignMonsters, hashStr, monsterPath, normName, MONSTER_COUNT, displayNameOf } from '../_shared/monsters.ts'
+import { ACTIVE_BLOCKS, computeVerdict, upsertMastery } from '../_shared/rekenmuur.ts'
 
 /**
  * Leerlingpagina (/leerling) — publieke kant, geen account.
@@ -17,11 +18,17 @@ import { assignMonsters, hashStr, monsterPath, normName, MONSTER_COUNT, displayN
  * Acties (POST body { action, name, code, ... }):
  *   - login            -> match leerling op code + voornaam, geef monster
  *   - wall             -> het rekenmuurtje (mastery) van die leerling
+ *   - wall_oefenen { blockId, answered, correct, totalMs }
+ *                      -> zelf geoefend op een steentje; werkt de muur bij
  *   - typetijger_load  -> voortgang van de typcursus
  *   - typetijger_save { lessonId, stars, apm, acc } -> voortgang opslaan (best)
  */
 
 const NAME_MAX = 30
+// Bovengrens op wat een browser als geoefend mag opgeven. Niet omdat we een
+// kind wantrouwen, maar omdat een vastgelopen teller anders een onzinnige
+// score de muur op schrijft.
+const ANSWER_CAP = 100000
 // Brute-force-rem: alleen MISLUKTE pogingen tellen mee (een klas vol geldige
 // leerlingen achter één school-IP merkt hier dus niets van). In-memory per
 // isolate: geen garantie, wel een effectieve snelheidsrem.
@@ -105,6 +112,49 @@ serve(async (req) => {
         .select('block_id, status, regressed, best_per_min, best_accuracy, last_per_min, last_accuracy, last_answered')
         .eq('student_id', student.id)
       return json({ ok: true, matched: true, wall: wall || [] })
+    }
+
+    // ---------------- wall_oefenen (zelfstandig oefenen op een steentje) ----------------
+    // De sommen worden in de browser gemaakt en nagekeken (ze zijn niet geheim,
+    // en zo is er geen wachttijd tussen twee sommen). Hier komt alleen het
+    // resultaat binnen. Norm en muur-bijwerking staan in _shared/rekenmuur.ts,
+    // exact dezelfde als bij de klassikale rekenrace - anders zou een steentje
+    // groen kunnen zijn na de race en oranje na zelf oefenen.
+    if (action === 'wall_oefenen') {
+      if (!valid) return json({ ok: true, matched: false, wall: [] })
+
+      const blockId = String(body?.blockId || '')
+      if (!ACTIVE_BLOCKS.has(blockId)) {
+        return json({ ok: false, error: 'Onbekend steentje.' }, 400)
+      }
+
+      // De punten die eventueel te verdienen zijn horen bij de leerkracht die
+      // de klas heeft aangemaakt; die staat op de groep.
+      const { data: groep } = await admin
+        .from('groups').select('user_id').eq('id', student.group_id).maybeSingle()
+      if (!groep) return json({ ok: true, matched: false, wall: [] })
+
+      const answered = clampInt(body?.answered, 0, ANSWER_CAP)
+      let correct = clampInt(body?.correct, 0, ANSWER_CAP)
+      if (correct > answered) correct = answered
+      const totalMs = clampInt(body?.totalMs, 0, ANSWER_CAP * 60000)
+
+      let mastery = null
+      const verdict = computeVerdict(answered, correct, totalMs)
+      if (verdict) {
+        mastery = await upsertMastery(
+          admin,
+          { user_id: groep.user_id, group_id: student.group_id, block_id: blockId },
+          student.id,
+          verdict,
+        )
+      }
+
+      const { data: wall } = await admin
+        .from('rekenmuur_mastery')
+        .select('block_id, status, regressed, best_per_min, best_accuracy, last_per_min, last_accuracy, last_answered')
+        .eq('student_id', student.id)
+      return json({ ok: true, matched: true, mastery, wall: wall || [] })
     }
 
     // ---------------- typetijger: voortgang laden ----------------
@@ -233,6 +283,16 @@ serve(async (req) => {
         type: 'rekenrace', icon: '🧮',
         label: 'Rekenrace' + (s.block_label ? ' · ' + s.block_label : ''),
         joinUrl: '/meedoen-rekenrace?code=' + s.code + '&naam=' + naam,
+      }))
+
+      const { data: tr } = await admin
+        .from('typrace_sessions')
+        .select('code, status')
+        .eq('group_id', gid).in('status', ['lobby', 'playing'])
+      ;(tr || []).forEach((s: any) => out.push({
+        type: 'typrace', icon: '🏃',
+        label: 'Typrace',
+        joinUrl: '/meedoen-typrace?code=' + s.code + '&naam=' + naam,
       }))
 
       const { data: er } = await admin

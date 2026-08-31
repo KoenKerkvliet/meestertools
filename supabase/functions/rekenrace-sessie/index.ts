@@ -2,6 +2,7 @@ import { serve } from 'https://deno.land/std@0.224.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { corsHeaders } from '../_shared/cors.ts'
 import { assignMonsters, hashStr, monsterPath, normName, MONSTER_COUNT, displayNameOf } from '../_shared/monsters.ts'
+import { ACTIVE_BLOCKS, computeVerdict, upsertMastery } from '../_shared/rekenmuur.ts'
 
 /**
  * Rekenrace — publieke leerlingkant (klassikale rekensprint).
@@ -27,32 +28,11 @@ const NAME_MAX = 30
 const MAX_PARTICIPANTS = 60
 const ANSWER_CAP = 100000
 
-// Norm voor "beheerst" (groen). Bron van waarheid; client spiegelt dit alleen
-// voor het directe eindscherm-label.
-const NORM_ACCURACY = 90       // % goed (vulling groen)
-const NORM_SEC_PER_SUM = 4     // gemiddeld seconden per som
-const MIN_GREEN = 8            // minimaal aantal sommen voor groen
-const MIN_VERDICT = 4          // minder -> geen oordeel (muur ongewijzigd)
-const AWARD_SPEED_MIN_BPM = 15 // >= 15 sommen/min == <= 4 sec/som (rand groen)
+// De norm voor "beheerst" en het bijwerken van de muur staan in
+// _shared/rekenmuur.ts, want de leerling-functie doet bij solo-oefenen exact
+// hetzelfde. Zou dat hier apart staan, dan kon een steentje groen zijn na de
+// klassikale race en oranje na zelf oefenen.
 
-// Speelbare steentjes (spiegelt de active:true-cellen in js/rekenrace-blocks.js).
-// Nodig voor solo-oefenen: alleen een geldig steentje mag de muur bijwerken.
-const ACTIVE_BLOCKS = new Set([
-  // FASE 1A
-  '1a_opt_t10', '1a_opt_t20_zonder', '1a_opt_t20_met', '1a_splitsen',
-  '1a_aftr_t20_met', '1a_aftr_t20_zonder', '1a_aftr_t10',
-  // FASE 1B
-  '1b_opt_tiental', '1b_opt_eenheden', '1b_tafels', '1b_aftr_eenheden', '1b_aftr_tiental',
-  '1b_plus10', '1b_plus1', '1b_min1', '1b_min10',
-  // FASE 2
-  '2_opt_hte', '2_opt_te', '2_tafels', '2_delen', '2_aftr_te', '2_aftr_hte',
-  // FASE 3
-  '3_optellen', '3_aftrekken', '3_vermenigvuldigen', '3_delen',
-  // FASE 4
-  '4_lengte', '4_inhoud', '4_omtrek', '4_breuken', '4_procenten', '4_komma', '4_grafieken',
-  // Getalbegrip
-  '1a_gb10', '1a_gb20', '1b_gb100', '2_gb1000', '3_gb10000', '3_gb100000',
-])
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -339,111 +319,6 @@ serve(async (req) => {
 })
 
 // ---------- Beheersing (rekenmuur) ----------
-function computeVerdict(answered, correct, totalMs) {
-  if (!answered || answered < MIN_VERDICT) return null
-  const accuracy = Math.round((correct / answered) * 100)
-  const avgSec = totalMs > 0 ? (totalMs / answered / 1000) : 999
-  const perMin = totalMs > 0 ? Math.round(answered / (totalMs / 60000)) : 0
-  const green = answered >= MIN_GREEN && accuracy >= NORM_ACCURACY && avgSec <= NORM_SEC_PER_SUM
-  return { status: green ? 'green' : 'orange', accuracy, perMin, answered }
-}
-
-async function upsertMastery(admin, session, studentId, v) {
-  const { data: existing } = await admin
-    .from('rekenmuur_mastery')
-    .select('status, achieved_at, best_per_min, best_accuracy, attempts, awarded_speed, awarded_acc')
-    .eq('student_id', studentId)
-    .eq('block_id', session.block_id)
-    .maybeSingle()
-
-  const nowIso = new Date().toISOString()
-  let status, regressed, achievedAt
-  if (existing && existing.status === 'green') {
-    // Sticky-green: blijft groen, maar zet een seintje als deze race terugzakte.
-    status = 'green'
-    regressed = v.status !== 'green'
-    achievedAt = existing.achieved_at
-  } else {
-    status = v.status
-    regressed = false
-    achievedAt = v.status === 'green' ? nowIso : (existing ? existing.achieved_at : null)
-  }
-
-  const newBestPerMin = Math.max(existing ? existing.best_per_min : 0, v.perMin)
-  const newBestAcc = Math.max(existing ? existing.best_accuracy : 0, v.accuracy)
-
-  // Klasseprestatiepunten: eenmalig per mijlpaal per steentje.
-  //   rand groen (snel, <= 4 sec) -> awarded_speed ; vulling groen (>= 90%) -> awarded_acc
-  let awardedSpeed = existing ? !!existing.awarded_speed : false
-  let awardedAcc = existing ? !!existing.awarded_acc : false
-  const wantSpeed = !awardedSpeed && newBestPerMin >= AWARD_SPEED_MIN_BPM
-  const wantAcc = !awardedAcc && newBestAcc >= NORM_ACCURACY
-  if ((wantSpeed || wantAcc) && await rewardEnabled(admin, session.user_id)) {
-    const rtId = await ensureRewardType(admin, session.user_id)
-    if (rtId) {
-      const rows = []
-      if (wantSpeed) rows.push({ user_id: session.user_id, student_id: studentId, reward_type_id: rtId, points: 1 })
-      if (wantAcc) rows.push({ user_id: session.user_id, student_id: studentId, reward_type_id: rtId, points: 1 })
-      const { error: awErr } = await admin.from('klasseprestatie_points').insert(rows)
-      if (!awErr) {
-        if (wantSpeed) awardedSpeed = true
-        if (wantAcc) awardedAcc = true
-      } else {
-        console.error('award insert error:', awErr.message)
-      }
-    }
-  }
-
-  const row = {
-    user_id: session.user_id,
-    group_id: session.group_id,
-    student_id: studentId,
-    block_id: session.block_id,
-    status,
-    regressed,
-    achieved_at: achievedAt,
-    best_per_min: newBestPerMin,
-    best_accuracy: newBestAcc,
-    last_per_min: v.perMin,
-    last_accuracy: v.accuracy,
-    last_answered: v.answered,
-    last_played_at: nowIso,
-    attempts: (existing ? existing.attempts : 0) + 1,
-    awarded_speed: awardedSpeed,
-    awarded_acc: awardedAcc,
-    updated_at: nowIso,
-  }
-  const { error } = await admin
-    .from('rekenmuur_mastery')
-    .upsert(row, { onConflict: 'student_id,block_id' })
-  if (error) { console.error('mastery upsert error:', error.message); return null }
-  return { blockId: session.block_id, status, regressed }
-}
-
-// Belonen aan/uit (per leerkracht, tool_settings; standaard aan).
-async function rewardEnabled(admin, userId) {
-  const { data } = await admin
-    .from('tool_settings').select('settings')
-    .eq('user_id', userId).eq('tool_name', 'rekenrace').maybeSingle()
-  if (data && data.settings && data.settings.awardPoints === false) return false
-  return true
-}
-
-// Vast Rekenrace-beloningstype per leerkracht (gearchiveerd: telt mee in het
-// totaal, maar geen losse knop in Klasseprestatie). Find-or-create op label.
-async function ensureRewardType(admin, userId) {
-  const { data: existing } = await admin
-    .from('klasseprestatie_reward_types').select('id')
-    .eq('user_id', userId).eq('label', 'Rekenrace').limit(1).maybeSingle()
-  if (existing) return existing.id
-  const { data: created, error } = await admin
-    .from('klasseprestatie_reward_types')
-    .insert({ user_id: userId, type: 'positief', icon: '🧮', label: 'Rekenrace', points: 1, sort_order: 999, archived: true })
-    .select('id').single()
-  if (error) { console.error('reward type create error:', error.message); return null }
-  return created.id
-}
-
 function titleCase(s) {
   const t = String(s || '').trim()
   return t ? t.charAt(0).toUpperCase() + t.slice(1) : t

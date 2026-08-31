@@ -4,7 +4,9 @@
    Publiek, geen account. Inloggen met voornaam + persoonlijke code
    (oude codes: 3 letters + 3 cijfers; nieuwe: 4 letters + 3 cijfers).
    Alles loopt via de Edge Function 'leerling'.
-   v1: tegel "Mijn muurtje" -> eigen rekenmuurtje (read-only).
+   Tegel "Mijn muurtje" -> eigen rekenmuurtje; tik een steentje aan om er
+   twee minuten op te oefenen. Het resultaat gaat naar dezelfde muur als de
+   klassikale rekenrace, met dezelfde norm (_shared/rekenmuur.ts).
    ============================================ */
 
 (function () {
@@ -18,6 +20,8 @@
         login: document.getElementById('screenLogin'),
         hub: document.getElementById('screenHub'),
         wall: document.getElementById('screenWall'),
+        oefenen: document.getElementById('screenOefenen'),
+        oefenklaar: document.getElementById('screenOefenKlaar'),
         sociogram: document.getElementById('screenSociogram'),
         typetijger: document.getElementById('screenTypetijger')
     };
@@ -272,8 +276,177 @@
         const res = await call('wall', { code: code });
         if (!res || !res.ok) { showErr(wallError, 'Kon je muurtje niet laden.'); return; }
         if (!res.matched) { showErr(wallError, 'Er is nog geen muurtje voor jou.'); return; }
-        wallEl.innerHTML = MTRekenrace.wallHtml(wallMap(res.wall), {});
+        // clickable: elk steentje is een oefenronde. Alleen steentjes waarvoor
+        // sommen gemaakt kunnen worden reageren; dat controleert startOefenen.
+        wallEl.innerHTML = MTRekenrace.wallHtml(wallMap(res.wall), { clickable: true });
     }
+
+    /* ---------- Zelf oefenen op een steentje ----------
+
+       Twee minuten sommen op één steentje, en het resultaat gaat naar dezelfde
+       rekenmuur als de klassikale rekenrace. De sommen worden hier gemaakt en
+       nagekeken (ze zijn niet geheim, en zo zit er geen wachttijd tussen twee
+       sommen); alleen het eindresultaat gaat naar de server, die met dezelfde
+       norm bepaalt of het steentje groen wordt.
+
+       Bewust géén kopie van de racepagina: die heeft een lobby, een live-stand
+       en een podium. Zelf oefenen heeft dat allemaal niet nodig. Wat wél
+       gedeeld is - de sommen, de muur-opmaak en de norm - komt uit
+       js/rekenrace-blocks.js en _shared/rekenmuur.ts.
+    */
+    const OEFEN_SECONDEN = 120;
+
+    const oefBlok = document.getElementById('oefBlok');
+    const oefMeter = document.getElementById('oefMeter');
+    const oefSum = document.getElementById('oefSum');
+    const oefAnswer = document.getElementById('oefAnswer');
+    const oefKeypad = document.getElementById('oefKeypad');
+    const oefStop = document.getElementById('oefStop');
+    const oefWall = document.getElementById('oefWall');
+
+    let oefBlockId = '';
+    let oefBezig = false;
+    let oefTimer = null;
+    let oefStartMs = 0;
+    let oefGetoondOp = 0;
+    let oefHuidig = null;
+    let oefWacht = false;              // korte pauze na een fout antwoord
+    let oefAantal = 0, oefGoedAantal = 0, oefTotaalMs = 0;
+
+    function blokLabel(id) {
+        const blocks = (window.MT_REKENRACE_BLOCKS || []);
+        for (const f of blocks) {
+            for (const row of f.rows) {
+                for (const c of row) if (c.id === id) return c.label;
+            }
+        }
+        return 'Sommen';
+    }
+
+    function startOefenen(id) {
+        if (!window.MTRekenrace || !MTRekenrace.hasGenerator(id)) return;
+        oefBlockId = id;
+        oefBezig = true;
+        oefWacht = false;
+        oefAantal = 0; oefGoedAantal = 0; oefTotaalMs = 0;
+        oefStartMs = Date.now();
+        oefBlok.textContent = blokLabel(id);
+        showScreen('oefenen');
+        volgendeSom();
+        startOefenTimer();
+        setTimeout(() => oefAnswer.focus(), 50);
+    }
+
+    function volgendeSom() {
+        oefHuidig = MTRekenrace.generateSum(oefBlockId);
+        if (!oefHuidig) { stopOefenen(); return; }
+        if (oefHuidig.html) {
+            oefSum.innerHTML = oefHuidig.html;
+            oefSum.style.fontSize = '';
+        } else {
+            oefSum.textContent = oefHuidig.prompt;
+            // Langere opdrachten (maten, breuken, procenten) kleiner tonen.
+            const len = oefHuidig.prompt.length;
+            oefSum.style.fontSize = len > 22 ? '28px' : len > 14 ? '36px' : '54px';
+        }
+        oefAnswer.value = '';
+        oefAnswer.className = 'md-answer';
+        oefGetoondOp = Date.now();
+        oefAnswer.focus();
+    }
+
+    function schoonAntwoord(v) {
+        v = String(v || '').replace(/[^0-9,]/g, '');
+        const i = v.indexOf(',');
+        if (i !== -1) v = v.slice(0, i + 1) + v.slice(i + 1).replace(/,/g, ''); // max één komma
+        return v;
+    }
+
+    function leverIn() {
+        if (!oefBezig || oefWacht || !oefHuidig) return;
+        const raw = (oefAnswer.value || '').trim().replace(',', '.');
+        if (raw === '' || raw === '.') return;
+        const val = parseFloat(raw);
+        const goed = isFinite(val) && Math.round(val * 1000) === Math.round(oefHuidig.answer * 1000);
+
+        oefAantal++;
+        oefTotaalMs += Math.max(0, Date.now() - oefGetoondOp);
+        if (goed) oefGoedAantal++;
+
+        if (goed) {
+            oefAnswer.className = 'md-answer is-good';
+            volgendeSom();
+        } else {
+            // Even laten zien dat het fout was, dan door. Het antwoord telt al.
+            oefWacht = true;
+            oefAnswer.className = 'md-answer is-bad';
+            setTimeout(() => { oefWacht = false; if (oefBezig) volgendeSom(); }, 450);
+        }
+    }
+
+    function startOefenTimer() {
+        stopOefenTimer();
+        const tik = () => {
+            const over = Math.max(0, Math.round((oefStartMs + OEFEN_SECONDEN * 1000 - Date.now()) / 1000));
+            const m = Math.floor(over / 60), sec = over % 60;
+            oefMeter.textContent = m + ':' + (sec < 10 ? '0' + sec : sec);
+            oefMeter.classList.toggle('is-low', over <= 10);
+            if (over <= 0) stopOefenen();
+        };
+        tik();
+        oefTimer = setInterval(tik, 250);
+    }
+    function stopOefenTimer() { if (oefTimer) { clearInterval(oefTimer); oefTimer = null; } }
+
+    async function stopOefenen() {
+        if (!oefBezig) return;
+        oefBezig = false;
+        stopOefenTimer();
+
+        const perMin = oefTotaalMs > 0 ? Math.round(oefAantal / (oefTotaalMs / 60000)) : 0;
+        const pct = oefAantal > 0 ? Math.round((oefGoedAantal / oefAantal) * 100) : 0;
+        document.getElementById('oefSnelheid').textContent = oefAantal ? perMin : '—';
+        document.getElementById('oefGoed').textContent = oefAantal ? pct + '%' : '—';
+        document.getElementById('oefKlaarTitel').textContent =
+            oefAantal === 0 ? 'Nog niets geoefend' : 'Goed gedaan!';
+        document.getElementById('oefKlaarLead').textContent =
+            oefAantal === 0 ? 'Je hebt geen som ingevuld. Probeer het nog eens!'
+                            : 'Je maakte ' + oefAantal + ' som' + (oefAantal === 1 ? '' : 'men') + '.';
+        oefWall.innerHTML = '';
+        showScreen('oefenklaar');
+
+        const res = await call('wall_oefenen', {
+            code: code, blockId: oefBlockId,
+            answered: oefAantal, correct: oefGoedAantal, totalMs: oefTotaalMs
+        });
+        if (res && res.ok && res.wall) {
+            oefWall.innerHTML = MTRekenrace.wallHtml(wallMap(res.wall), { highlight: oefBlockId });
+        }
+    }
+
+    // Klik op een steentje -> oefenen
+    wallEl.addEventListener('click', (e) => {
+        const cel = e.target.closest ? e.target.closest('.rr-cell.is-clickable') : null;
+        if (!cel) return;
+        const id = cel.getAttribute('data-block');
+        if (id) startOefenen(id);
+    });
+
+    // Toetsenbord én het cijferklavier op tablets
+    oefAnswer.addEventListener('input', () => { oefAnswer.value = schoonAntwoord(oefAnswer.value); });
+    oefAnswer.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); leverIn(); } });
+    oefKeypad.addEventListener('click', (e) => {
+        const knop = e.target.closest('.md-key');
+        if (!knop) return;
+        const act = knop.getAttribute('data-act');
+        if (act === 'enter') { leverIn(); return; }
+        if (act === 'back') { oefAnswer.value = oefAnswer.value.slice(0, -1); return; }
+        const k = knop.getAttribute('data-key');
+        if (k) oefAnswer.value = schoonAntwoord(oefAnswer.value + k);
+    });
+    oefStop.addEventListener('click', () => stopOefenen());
+    document.getElementById('oefNogEens').addEventListener('click', () => startOefenen(oefBlockId));
+    document.getElementById('oefTerugMuur').addEventListener('click', () => showWall());
 
     // ---------- Typetijger (typcursus) ----------
     // Voortgang loopt per leerling via de edge function; het monster ligt vast

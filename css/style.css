@@ -2778,3 +2778,43 @@ body.mt-uc-admin .tool-card.uc-card {
     color: var(--text-medium);
     line-height: 1.55;
 }
+
+/* ---------- "Gepland" op kaarten en keuzeknoppen ----------
+   Uitgegrijsd en onklikbaar leest als kapot. Een kaart die zegt dat het
+   gepland staat en doorlinkt naar de roadmap vertelt hetzelfde, maar geeft
+   de leerkracht iets om te doen: stemmen op wat hij mist. */
+.tool-card-planned {
+    border-style: dashed;
+    background: var(--bg-light);
+}
+
+.tool-card-planned h3,
+.tool-card-planned p {
+    color: var(--text-medium);
+}
+
+.wb-type-planned {
+    position: relative;
+}
+
+.wb-type-badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #FFF4D6;
+    color: #8A6100;
+    font-size: 11px;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.wb-coming-link {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.wb-coming-link:hover {
+    text-decoration: underline;
+}

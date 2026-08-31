@@ -22,6 +22,7 @@
         rekenrace:  { icon: '&#129518;',              url: '/lesmateriaal/rekenrace',              table: 'rekenrace_sessions',  closedAt: true },
         escaperoom: { icon: '&#128477;&#65039;',      url: '/educatieve-games/escaperooms',        table: 'escaperoom_sessions', closedAt: true },
         compliment: { icon: '&#128155;',              url: '/groepsvorming/complimentenmuur',      table: 'compliment_sessions', closedAt: true },
+        typrace:    { icon: '&#127939;',              url: '/digitale-geletterdheid/typrace',      table: 'typrace_sessions',    closedAt: true },
         sociogram:  { icon: '&#129309;',              url: '/groepsvorming/sociogram',             table: 'sociogram_sessions',  closedAt: false }
     };
 
@@ -130,7 +131,9 @@
                 supabase.from('compliment_sessions')
                     .select('id, status, group_id, focus_student_name').in('status', ['lobby', 'collecting']),
                 supabase.from('sociogram_sessions')
-                    .select('id, status, type, group_id').eq('status', 'open')
+                    .select('id, status, type, group_id').eq('status', 'open'),
+                supabase.from('typrace_sessions')
+                    .select('id, status, group_id').in('status', ['lobby', 'playing'])
             ]);
 
             var items = [];
@@ -151,6 +154,10 @@
                 var tl = s.type === 'werken' ? 'samen werken' : s.type === 'spelen' ? 'samen spelen' : '';
                 items.push({ type: 'sociogram', id: s.id, status: 'open', groupName: groupNames[s.group_id],
                     sub: 'Sociogram', title: 'Sociogram' + (tl ? ' · ' + tl : '') });
+            });
+            (res[4].data || []).forEach(function (s) {
+                items.push({ type: 'typrace', id: s.id, status: s.status, groupName: groupNames[s.group_id],
+                    sub: 'Typrace', title: 'Typrace' });
             });
 
             render(items);
