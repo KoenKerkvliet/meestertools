@@ -1255,7 +1255,7 @@ document.addEventListener('DOMContentLoaded', function () {
         groupName = window.MTActiveClass ? window.MTActiveClass.getName() : '';
 
         await loadSettings(groupId);
-        await loadSchooljaar(await groupOwnerId(groupId) || user.id);
+        await loadSchooljaar(groupOwnerId() || user.id);
         await loadKlasseprestatieRewardTypes();
 
         if (groupId) {
@@ -1267,10 +1267,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Wie heeft deze klas aangemaakt? Bepaalt welk schooljaar de rotatie volgt.
-    async function groupOwnerId(gid) {
-        if (!gid) return null;
-        var res = await supabase.from('groups').select('user_id').eq('id', gid).maybeSingle();
-        return (res.data && res.data.user_id) || null;
+    // MTActiveClass heeft de groepenlijst al binnen, dus geen extra query.
+    function groupOwnerId() {
+        if (!groupId || !window.MTActiveClass || !window.MTActiveClass.getOwnerId) return null;
+        return window.MTActiveClass.getOwnerId(groupId);
     }
 
     init();
