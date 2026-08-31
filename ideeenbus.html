@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ideeënbus van Meestertools: stuur je idee, verbetering of foutmelding rechtstreeks door.">
+    <meta name="theme-color" content="#6C63FF">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://meestertools.nl/ideeenbus">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Ideeënbus</title>
+    <link rel="stylesheet" href="css/style.css?v=1.53.0">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.53.0">
+    <link rel="stylesheet" href="css/ideeenbus.css?v=1.53.0">
+</head>
+<body>
+    <div class="mt-page-loader" id="mtPageLoader"><div class="mt-spinner"></div></div>
+
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="/dashboard" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Ideeënbus</h1>
+                <p>Mis je iets, kan iets beter of werkt er iets niet? Laat het hier achter.</p>
+            </div>
+        </div>
+
+        <div class="tool-page-body">
+            <div class="ib-layout">
+
+                <!-- Formulier -->
+                <div class="ib-card" id="ibFormCard">
+                    <h2>Wat wil je kwijt?</h2>
+                    <p class="ib-card-sub">Alles wat je hier instuurt lees ik zelf. Niemand anders kan het zien.</p>
+
+                    <form id="ibForm" novalidate>
+                        <div class="ib-field">
+                            <span class="ib-label" id="ibKindLabel">Waar gaat het over?</span>
+                            <div class="ib-kinds" role="radiogroup" aria-labelledby="ibKindLabel">
+                                <button type="button" class="ib-kind active" data-kind="idee" role="radio" aria-checked="true">
+                                    <span class="ib-kind-icon">&#128161;</span> Een idee
+                                </button>
+                                <button type="button" class="ib-kind" data-kind="verbetering" role="radio" aria-checked="false">
+                                    <span class="ib-kind-icon">&#10024;</span> Iets kan beter
+                                </button>
+                                <button type="button" class="ib-kind" data-kind="bug" role="radio" aria-checked="false">
+                                    <span class="ib-kind-icon">&#128027;</span> Er gaat iets mis
+                                </button>
+                                <button type="button" class="ib-kind" data-kind="nieuwe-tool" role="radio" aria-checked="false">
+                                    <span class="ib-kind-icon">&#129513;</span> Een nieuwe tool
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="ib-field">
+                            <label class="ib-label" for="ibTool">Gaat het over een bepaalde tool?</label>
+                            <select class="ib-select" id="ibTool">
+                                <option value="">Nee, of nog niet gebouwd</option>
+                            </select>
+                        </div>
+
+                        <div class="ib-field">
+                            <label class="ib-label" for="ibTitle">In één zin</label>
+                            <input type="text" class="ib-input" id="ibTitle" maxlength="120"
+                                   placeholder="Bijv. Timetimer met een geluidje aan het eind" autocomplete="off">
+                            <span class="ib-counter" id="ibTitleCount">0 / 120</span>
+                        </div>
+
+                        <div class="ib-field">
+                            <label class="ib-label" for="ibBody">Vertel er wat meer over</label>
+                            <textarea class="ib-textarea" id="ibBody" maxlength="2000"
+                                      placeholder="Wat zou je willen, en wanneer zou je het gebruiken? Hoe concreter, hoe groter de kans dat het gebouwd wordt."></textarea>
+                            <span class="ib-counter" id="ibBodyCount">0 / 2000</span>
+
+                            <div class="ib-privacy">
+                                <span aria-hidden="true">&#128274;</span>
+                                <span>Vul hier geen namen van leerlingen in. Beschrijf de situatie zonder naam &mdash; dat werkt net zo goed.</span>
+                            </div>
+                        </div>
+
+                        <div class="ib-actions">
+                            <button type="submit" class="btn-primary" id="ibSubmit">Versturen</button>
+                            <span class="ib-error" id="ibError" role="alert"></span>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Bedankje (vervangt het formulier na versturen) -->
+                <div class="ib-card ib-thanks" id="ibThanks" style="display:none;">
+                    <div class="ib-thanks-icon">&#127881;</div>
+                    <h2>Dank je wel!</h2>
+                    <p>Je idee staat in de bus. Hiernaast zie je de status &mdash; die verandert zodra ik ernaar gekeken heb.</p>
+                    <button type="button" class="btn-primary" id="ibAgain">Nog een idee insturen</button>
+                </div>
+
+                <!-- Eigen inzendingen -->
+                <div class="ib-card">
+                    <h2>Jouw ideeën</h2>
+                    <p class="ib-card-sub">Alles wat je eerder instuurde, met de stand van zaken.</p>
+                    <div class="ib-mine-list" id="ibMine"></div>
+                    <div class="ib-empty" id="ibMineEmpty">
+                        <span class="ib-empty-icon">&#128238;</span>
+                        Je hebt nog niets ingestuurd.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <div class="ib-toast" id="ibToast" role="status" aria-live="polite"></div>
+
+    <script src="/js/mt-shared.js?v=1.53.0"></script>
+    <script src="/js/template.js?v=1.53.0"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="js/supabase-config.js?v=1.53.0"></script>
+    <script src="js/app.js?v=1.53.0"></script>
+    <script src="js/instellingen.js?v=1.53.0"></script>
+    <script src="js/ideeenbus.js?v=1.53.0"></script>
+</body>
+</html>

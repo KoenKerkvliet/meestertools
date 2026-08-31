@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.52.1';
+    const VERSION = 'v1.53.0';
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [
@@ -141,6 +141,9 @@
             <div class="dropdown-item" onclick="openInstellingen('profiel')">
                 &#128100; Mijn profiel
             </div>
+            <div class="dropdown-item" onclick="window.location.href='/ideeenbus'">
+                &#128161; Idee&euml;nbus
+            </div>
             <div class="dropdown-item logout">
                 &#128682; Uitloggen
             </div>
@@ -151,7 +154,7 @@
     const footerHtml = `
 <footer class="app-footer">
     <div class="footer-inner">
-        <span class="footer-left">&copy; <span id="footerYear"></span> Meestertools &middot; Design by <a href="https://designpixels.nl" target="_blank" rel="noopener">Design Pixels</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="mailto:info@meestertools.nl">Contact</a></span>
+        <span class="footer-left">&copy; <span id="footerYear"></span> Meestertools &middot; Design by <a href="https://designpixels.nl" target="_blank" rel="noopener">Design Pixels</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/ideeenbus">Idee&euml;nbus</a> &middot; <a href="mailto:info@meestertools.nl">Contact</a></span>
         <a href="/changelog" class="version">${VERSION}</a>
     </div>
 </footer>`;

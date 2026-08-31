@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Waar Meestertools aan werkt: geplande tools en verbeteringen, met stemmen van leerkrachten.">
+    <meta name="theme-color" content="#6C63FF">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://meestertools.nl/roadmap">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Roadmap</title>
+    <link rel="stylesheet" href="css/style.css?v=1.53.0">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.53.0">
+    <link rel="stylesheet" href="css/ideeenbus.css?v=1.53.0">
+</head>
+<body>
+    <div class="mt-page-loader" id="mtPageLoader"><div class="mt-spinner"></div></div>
+
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="/dashboard" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Roadmap</h1>
+                <p>Waar wordt aan gewerkt, en wat komt eraan?</p>
+            </div>
+        </div>
+
+        <div class="tool-page-body">
+            <p class="rm-intro">
+                Dit zijn de plannen die uit de idee&euml;nbus zijn gekomen. Geef een duimpje aan
+                wat jij graag zou gebruiken &mdash; wat de meeste duimpjes krijgt, bouw ik eerder.
+                Er staan geen namen bij: niemand ziet wie wat heeft ingestuurd of gestemd.
+            </p>
+
+            <div class="rm-columns">
+                <div class="rm-column">
+                    <div class="rm-column-head">
+                        <span aria-hidden="true">&#128197;</span>
+                        <h2>Gepland</h2>
+                        <span class="rm-count" id="rmCountGepland">0</span>
+                    </div>
+                    <div class="rm-items" id="rmGepland"></div>
+                    <div class="rm-column-empty" id="rmEmptyGepland">Nog niets gepland.</div>
+                </div>
+
+                <div class="rm-column">
+                    <div class="rm-column-head">
+                        <span aria-hidden="true">&#128296;</span>
+                        <h2>In aanbouw</h2>
+                        <span class="rm-count" id="rmCountIn-aanbouw">0</span>
+                    </div>
+                    <div class="rm-items" id="rmIn-aanbouw"></div>
+                    <div class="rm-column-empty" id="rmEmptyIn-aanbouw">Er is nu niets in aanbouw.</div>
+                </div>
+
+                <div class="rm-column">
+                    <div class="rm-column-head">
+                        <span aria-hidden="true">&#127881;</span>
+                        <h2>Gebouwd</h2>
+                        <span class="rm-count" id="rmCountGebouwd">0</span>
+                    </div>
+                    <div class="rm-items" id="rmGebouwd"></div>
+                    <div class="rm-column-empty" id="rmEmptyGebouwd">Nog niets opgeleverd vanaf deze lijst.</div>
+                </div>
+            </div>
+
+            <p class="rm-cta">
+                Staat jouw idee er niet bij? Zet het in de <a href="/ideeenbus">idee&euml;nbus</a>.
+            </p>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <div class="ib-toast" id="ibToast" role="status" aria-live="polite"></div>
+
+    <script src="/js/mt-shared.js?v=1.53.0"></script>
+    <script src="/js/template.js?v=1.53.0"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="js/supabase-config.js?v=1.53.0"></script>
+    <script src="js/app.js?v=1.53.0"></script>
+    <script src="js/instellingen.js?v=1.53.0"></script>
+    <script src="js/roadmap.js?v=1.53.0"></script>
+</body>
+</html>

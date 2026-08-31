@@ -1,0 +1,650 @@
+/* ============================================
+   MEESTERTOOLS - Ideeënbus + roadmap
+
+   Twee pagina's, één stylesheet: ze horen bij elkaar en delen de
+   statusbadges. /ideeenbus is het formulier plus je eigen inzendingen,
+   /roadmap is het publieke bord met duimpjes.
+   ============================================ */
+
+/* ---------- Gedeeld: statusbadges ---------- */
+.ib-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.ib-status-nieuw      { background: #EDEBFF; color: #4A42C4; }
+.ib-status-bekeken    { background: #E7F5FF; color: #1F6F9B; }
+.ib-status-gepland    { background: #FFF4D6; color: #8A6100; }
+.ib-status-in-aanbouw { background: #FFEBDD; color: #A34A0A; }
+.ib-status-gebouwd    { background: #E3F8E6; color: #2C7A3F; }
+.ib-status-niet-nu    { background: #F0F1F3; color: #636E72; }
+
+/* ---------- Formulier ---------- */
+.ib-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.ib-card {
+    background: var(--bg-white);
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 24px;
+}
+
+.ib-card h2 {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0 0 4px;
+}
+
+.ib-card-sub {
+    font-size: 14px;
+    color: var(--text-medium);
+    margin: 0 0 20px;
+}
+
+.ib-field {
+    margin-bottom: 18px;
+}
+
+.ib-field:last-child {
+    margin-bottom: 0;
+}
+
+.ib-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.ib-input,
+.ib-textarea,
+.ib-select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--text-dark);
+    background: var(--bg-white);
+    transition: var(--transition);
+}
+
+.ib-input:focus,
+.ib-textarea:focus,
+.ib-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.12);
+}
+
+.ib-textarea {
+    resize: vertical;
+    min-height: 130px;
+    line-height: 1.55;
+}
+
+/* Soort-keuze: vier knoppen in plaats van een dropdown, zodat je in één
+   oogopslag ziet wat er te kiezen valt. */
+.ib-kinds {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.ib-kind {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    background: var(--bg-white);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+    text-align: left;
+    transition: var(--transition);
+}
+
+.ib-kind:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-1px);
+}
+
+.ib-kind.active {
+    border-color: var(--primary);
+    background: #F4F3FF;
+    color: var(--primary-dark);
+}
+
+.ib-kind-icon {
+    font-size: 19px;
+    line-height: 1;
+}
+
+.ib-counter {
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 6px;
+}
+
+.ib-counter.warn {
+    color: var(--secondary);
+    font-weight: 700;
+}
+
+/* Waarschuwing over leerlingnamen: dit is de enige vrije-tekstplek op de site
+   waar een beheerder meeleest, dus die regel mag niet wegvallen. */
+.ib-privacy {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: #FFF9E8;
+    border: 1px solid #F2E2B0;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    line-height: 1.5;
+    color: #6B5518;
+}
+
+.ib-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 22px;
+}
+
+.ib-error {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+/* ---------- Bedankje na versturen ---------- */
+.ib-thanks {
+    text-align: center;
+    padding: 26px 20px;
+}
+
+.ib-thanks-icon {
+    font-size: 46px;
+    line-height: 1;
+    margin-bottom: 12px;
+}
+
+.ib-thanks h2 {
+    margin-bottom: 6px;
+}
+
+.ib-thanks p {
+    font-size: 14px;
+    color: var(--text-medium);
+    max-width: 380px;
+    margin: 0 auto 18px;
+    line-height: 1.6;
+}
+
+/* ---------- Eigen inzendingen ---------- */
+.ib-mine-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ib-mine-item {
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    background: var(--bg-white);
+}
+
+.ib-mine-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.ib-mine-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.4;
+}
+
+.ib-mine-body {
+    font-size: 13.5px;
+    color: var(--text-medium);
+    line-height: 1.55;
+    margin-top: 6px;
+    white-space: pre-wrap;
+}
+
+.ib-mine-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+.ib-mine-link {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.ib-mine-link:hover {
+    text-decoration: underline;
+}
+
+.ib-withdraw {
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 12px;
+    color: var(--text-light);
+    cursor: pointer;
+    padding: 0;
+}
+
+.ib-withdraw:hover {
+    color: var(--secondary);
+    text-decoration: underline;
+}
+
+.ib-empty {
+    text-align: center;
+    padding: 26px 16px;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.ib-empty-icon {
+    display: block;
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+/* ---------- Roadmap ---------- */
+.rm-intro {
+    max-width: 680px;
+    margin: 0 auto 26px;
+    text-align: center;
+    font-size: 14.5px;
+    color: var(--text-medium);
+    line-height: 1.6;
+}
+
+.rm-columns {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    align-items: start;
+}
+
+.rm-column {
+    background: var(--bg-white);
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 18px;
+}
+
+.rm-column-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #F0F0F6;
+}
+
+.rm-column-head h2 {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.rm-count {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-light);
+}
+
+.rm-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.rm-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid #EDEDF4;
+    border-radius: var(--radius-md);
+    background: #FCFCFF;
+}
+
+.rm-item-text {
+    min-width: 0;
+    flex: 1;
+}
+
+.rm-item-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.4;
+}
+
+.rm-item-body {
+    font-size: 13px;
+    color: var(--text-medium);
+    line-height: 1.55;
+    margin-top: 6px;
+    white-space: pre-wrap;
+}
+
+.rm-mine-tag {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #EDEBFF;
+    color: #4A42C4;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* Duimknop: telt op, en klikken op een duim die al aan staat haalt hem weg. */
+.rm-vote {
+    flex-shrink: 0;
+    /* Zonder align-self rekt de knop mee met de hoogte van de kaart. */
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    width: 52px;
+    padding: 8px 0;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    background: var(--bg-white);
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.rm-vote:hover:not(:disabled) {
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+.rm-vote:disabled {
+    cursor: default;
+    opacity: 0.6;
+}
+
+.rm-vote.voted {
+    border-color: var(--primary);
+    background: #F4F3FF;
+}
+
+.rm-vote-icon {
+    font-size: 17px;
+    line-height: 1;
+}
+
+.rm-vote-count {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.rm-vote.voted .rm-vote-count {
+    color: var(--primary-dark);
+}
+
+.rm-column-empty {
+    text-align: center;
+    padding: 22px 10px;
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+.rm-cta {
+    text-align: center;
+    margin-top: 28px;
+    font-size: 14px;
+    color: var(--text-medium);
+}
+
+.rm-cta a {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.rm-cta a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Toast ---------- */
+.ib-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%) translateY(16px);
+    background: var(--text-dark);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 3000;
+}
+
+.ib-toast.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .ib-layout,
+    .rm-columns {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 520px) {
+    .ib-kinds {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ib-card {
+        padding: 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ib-kind:hover,
+    .rm-vote:hover:not(:disabled) {
+        transform: none;
+    }
+
+    .ib-toast {
+        transition: opacity 0.01ms;
+    }
+}
+
+/* ============================================
+   Beheerkant (beheer.html)
+   ============================================ */
+
+/* Teller met nog onbehandelde ideeën, direct op de tab. */
+.admin-tab-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    margin-left: 6px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--secondary);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.admin-tab.active .admin-tab-badge {
+    background: #fff;
+    color: var(--primary-dark);
+}
+
+.admin-toolbar-note {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-medium);
+}
+
+/* Het idee zoals het binnenkwam, duidelijk afgescheiden van de velden
+   waarmee je het beoordeelt. */
+.idea-detail {
+    background: var(--bg-light);
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    margin-bottom: 20px;
+}
+
+.idea-detail-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    font-size: 12px;
+    color: var(--text-medium);
+    margin-bottom: 10px;
+}
+
+.idea-detail-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0 0 8px;
+    line-height: 1.4;
+}
+
+.idea-detail-body {
+    font-size: 14px;
+    color: var(--text-dark);
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.idea-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.idea-note {
+    font-size: 13px;
+    color: var(--text-medium);
+    background: #FAFAFE;
+    border-left: 3px solid var(--primary-light);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 8px 12px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.idea-note-date {
+    display: block;
+    font-size: 11px;
+    color: var(--text-light);
+    margin-bottom: 2px;
+}
+
+.idea-roadmap-box {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid #F0F0F5;
+    font-size: 13px;
+    color: var(--text-medium);
+}
+
+.idea-roadmap-box .btn-primary {
+    margin-top: 10px;
+}
+
+.form-hint {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+.modal-body .form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-family: inherit;
+    line-height: 1.55;
+    color: var(--text-dark);
+    outline: none;
+    resize: vertical;
+    transition: var(--transition);
+}
+
+.modal-body .form-group textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.1);
+}
+
+/* De titel in de ideeëntabel mag afkappen; de rest staat in de modal. */
+.idea-cell-title {
+    display: block;
+    max-width: 320px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

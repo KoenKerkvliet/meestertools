@@ -72,6 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // De schollentabel toont gebruikers-per-school; opnieuw renderen nu
         // de gebruikers binnen zijn (scholen en gebruikers laden parallel).
         renderSchools();
+        // Idem voor de ideeënbus: die zoekt de naam van de inzender hierin op.
+        renderIdeas();
     }
 
     // ---------- Render Schools ----------
@@ -1955,11 +1957,393 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('closeEscaperoomModal')?.addEventListener('click', () => closeModal('escaperoomModal'));
     document.getElementById('cancelEscaperoomModal')?.addEventListener('click', () => closeModal('escaperoomModal'));
 
+    /* ============================================
+       IDEEËNBUS
+       ============================================
+
+       public.ideas is privé: alleen de inzender en de super admin zien een rij.
+       Goedkeuren betekent hier niet "vlaggetje omzetten" maar een los item
+       aanmaken in public.roadmap_items - een tabel zonder user_id, die elke
+       ingelogde gebruiker mag lezen. De originele tekst blijft dus altijd aan
+       de privé-kant staan; wat op de roadmap komt schrijf je zelf.
+       ============================================ */
+
+    let allIdeas = [];
+    let allRoadmap = [];
+    let openIdeaRow = null;      // idee dat nu in de modal staat
+    let roadmapEditId = null;    // roadmap-item dat bewerkt wordt
+    let roadmapSourceIdea = null; // idee waar dit item uit voortkomt
+
+    const IDEA_STATUS = {
+        'nieuw':   'In de bus',
+        'bekeken': 'Gelezen',
+        'gepland': 'Op de roadmap',
+        'gebouwd': 'Gebouwd',
+        'niet-nu': 'Nu even niet'
+    };
+
+    const IDEA_KIND = {
+        'idee': '&#128161; Idee',
+        'verbetering': '&#10024; Verbetering',
+        'bug': '&#128027; Fout',
+        'nieuwe-tool': '&#129513; Nieuwe tool'
+    };
+
+    const ROADMAP_STATUS = {
+        'gepland': 'Gepland',
+        'in-aanbouw': 'In aanbouw',
+        'gebouwd': 'Gebouwd'
+    };
+
+    function ideaToolName(id) {
+        if (!id) return '-';
+        const list = window.MT_ALL_TOOLS || [];
+        for (let i = 0; i < list.length; i++) {
+            if (list[i].id === id) return list[i].name;
+        }
+        return id;
+    }
+
+    function ideaSender(userId) {
+        if (!userId) return 'Account verwijderd';
+        const u = allUsers.find(p => p.id === userId);
+        if (!u) return 'Onbekend';
+        return u.full_name || u.email || 'Onbekend';
+    }
+
+    function shortDate(iso) {
+        if (!iso) return '-';
+        const d = new Date(iso);
+        if (isNaN(d.getTime())) return '-';
+        return d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    async function loadIdeas() {
+        const { data, error } = await supabase
+            .from('ideas')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.error('Error loading ideas:', error);
+            return;
+        }
+        allIdeas = data || [];
+        renderIdeas();
+        updateIdeasBadge();
+    }
+
+    // Onbehandeld = nog niet beoordeeld. 'gepland', 'gebouwd' en 'niet-nu' zijn
+    // beslissingen, die tellen niet meer mee in de badge.
+    function updateIdeasBadge() {
+        const badge = document.getElementById('ideasBadge');
+        if (!badge) return;
+        const n = allIdeas.filter(i => i.status === 'nieuw').length;
+        badge.textContent = n;
+        badge.hidden = n === 0;
+    }
+
+    function renderIdeas() {
+        const tbody = document.getElementById('ideasTableBody');
+        if (!tbody) return;
+
+        const search = document.getElementById('searchIdeas')?.value?.toLowerCase() || '';
+        const filter = document.getElementById('filterIdeas')?.value ?? 'open';
+
+        const filtered = allIdeas.filter(i => {
+            if (filter === 'open' && i.status !== 'nieuw' && i.status !== 'bekeken') return false;
+            if (filter && filter !== 'open' && i.status !== filter) return false;
+            if (!search) return true;
+            return (i.title || '').toLowerCase().includes(search) ||
+                   (i.body || '').toLowerCase().includes(search) ||
+                   ideaSender(i.user_id).toLowerCase().includes(search);
+        });
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = `
+                <tr><td colspan="7">
+                    <div class="admin-empty">
+                        <span class="empty-icon">&#128161;</span>
+                        <p>${allIdeas.length === 0 ? 'Er is nog niets ingestuurd.' : 'Geen idee&euml;n die hierop passen.'}</p>
+                    </div>
+                </td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(i => `
+            <tr>
+                <td>${shortDate(i.created_at)}</td>
+                <td>${escapeHtml(ideaSender(i.user_id))}</td>
+                <td>${IDEA_KIND[i.category] || 'Idee'}</td>
+                <td>${escapeHtml(ideaToolName(i.tool_id))}</td>
+                <td><strong class="idea-cell-title">${escapeHtml(i.title)}</strong></td>
+                <td><span class="ib-status ib-status-${escapeHtml(i.status)}">${escapeHtml(IDEA_STATUS[i.status] || i.status)}</span></td>
+                <td>
+                    <button class="btn-small" onclick="openIdea('${i.id}')">Bekijken</button>
+                </td>
+            </tr>`).join('');
+    }
+
+    window.openIdea = async function (id) {
+        const idea = allIdeas.find(i => i.id === id);
+        if (!idea) return;
+        openIdeaRow = idea;
+
+        const meta = [
+            escapeHtml(ideaSender(idea.user_id)),
+            IDEA_KIND[idea.category] || 'Idee',
+            shortDate(idea.created_at)
+        ];
+        if (idea.tool_id) meta.push('Tool: ' + escapeHtml(ideaToolName(idea.tool_id)));
+        if (idea.page_url) meta.push('Vanaf: ' + escapeHtml(idea.page_url));
+
+        document.getElementById('ideaDetailMeta').innerHTML =
+            meta.map(m => `<span>${m}</span>`).join('');
+        document.getElementById('ideaDetailTitle').textContent = idea.title;
+        document.getElementById('ideaDetailBody').textContent = idea.body;
+        document.getElementById('ideaStatus').value = idea.status;
+        document.getElementById('ideaNote').value = '';
+
+        renderRoadmapBox(idea);
+        await loadIdeaNotes(idea.id);
+
+        openModal('ideaModal');
+    };
+
+    async function loadIdeaNotes(ideaId) {
+        const box = document.getElementById('ideaNotes');
+        box.innerHTML = '';
+
+        const { data, error } = await supabase
+            .from('idea_notes')
+            .select('note, created_at')
+            .eq('idea_id', ideaId)
+            .order('created_at');
+
+        if (error || !data || !data.length) return;
+
+        box.innerHTML = data.map(n => `
+            <div class="idea-note">
+                <span class="idea-note-date">${shortDate(n.created_at)}</span>${escapeHtml(n.note)}
+            </div>`).join('');
+    }
+
+    function renderRoadmapBox(idea) {
+        const box = document.getElementById('ideaRoadmapBox');
+        if (!idea.roadmap_item_id) {
+            box.innerHTML = `
+                <p>Dit idee staat nog niet op de roadmap. Zet je het erop, dan maak je een
+                   nieuw item met je eigen tekst &mdash; de inzending zelf blijft priv&eacute;.</p>
+                <button class="btn-primary" id="ideaToRoadmap">Op de roadmap zetten</button>`;
+            document.getElementById('ideaToRoadmap').addEventListener('click', () => {
+                closeModal('ideaModal');
+                openRoadmapModal(null, idea);
+            });
+            return;
+        }
+
+        const item = allRoadmap.find(r => r.id === idea.roadmap_item_id);
+        box.innerHTML = `
+            <p>Staat op de roadmap als <strong>${escapeHtml(item ? item.title : 'onbekend item')}</strong>
+               ${item ? `(${escapeHtml(ROADMAP_STATUS[item.status] || item.status)}, ${item.vote_count} stem${item.vote_count === 1 ? '' : 'men'})` : ''}.</p>`;
+    }
+
+    document.getElementById('ideaSave')?.addEventListener('click', async () => {
+        if (!openIdeaRow) return;
+        const btn = document.getElementById('ideaSave');
+        btn.disabled = true;
+
+        const status = document.getElementById('ideaStatus').value;
+        const note = document.getElementById('ideaNote').value.trim();
+
+        const { error } = await supabase
+            .from('ideas')
+            .update({ status })
+            .eq('id', openIdeaRow.id);
+
+        if (error) {
+            alert('Opslaan mislukt: ' + error.message);
+            btn.disabled = false;
+            return;
+        }
+
+        if (note) {
+            await supabase.from('idea_notes').insert({ idea_id: openIdeaRow.id, note });
+        }
+
+        btn.disabled = false;
+        closeModal('ideaModal');
+        await loadIdeas();
+    });
+
+    document.getElementById('ideaDelete')?.addEventListener('click', () => {
+        if (!openIdeaRow) return;
+        const idea = openIdeaRow;
+        closeModal('ideaModal');
+        showConfirm('Idee verwijderen',
+            `"${idea.title}" verwijderen? De inzender ziet het dan ook niet meer terug.`,
+            async () => {
+                const { error } = await supabase.from('ideas').delete().eq('id', idea.id);
+                if (error) {
+                    alert('Verwijderen mislukt: ' + error.message);
+                    return;
+                }
+                await loadIdeas();
+            });
+    });
+
+    document.getElementById('searchIdeas')?.addEventListener('input', renderIdeas);
+    document.getElementById('filterIdeas')?.addEventListener('change', renderIdeas);
+    document.getElementById('closeIdeaModal')?.addEventListener('click', () => closeModal('ideaModal'));
+    document.getElementById('cancelIdeaModal')?.addEventListener('click', () => closeModal('ideaModal'));
+
+    /* ---------- Roadmap ---------- */
+
+    async function loadRoadmap() {
+        const { data, error } = await supabase
+            .from('roadmap_items')
+            .select('*')
+            .order('status')
+            .order('vote_count', { ascending: false })
+            .order('sort_order');
+
+        if (error) {
+            console.error('Error loading roadmap:', error);
+            return;
+        }
+        allRoadmap = data || [];
+        renderRoadmap();
+    }
+
+    function renderRoadmap() {
+        const tbody = document.getElementById('roadmapTableBody');
+        if (!tbody) return;
+
+        if (!allRoadmap.length) {
+            tbody.innerHTML = `
+                <tr><td colspan="5">
+                    <div class="admin-empty">
+                        <span class="empty-icon">&#128506;&#65039;</span>
+                        <p>De roadmap is nog leeg. Keur een idee goed of voeg een los item toe.</p>
+                    </div>
+                </td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = allRoadmap.map(r => `
+            <tr>
+                <td><strong class="idea-cell-title">${escapeHtml(r.title)}</strong></td>
+                <td><span class="ib-status ib-status-${escapeHtml(r.status)}">${escapeHtml(ROADMAP_STATUS[r.status] || r.status)}</span></td>
+                <td>&#128077; ${r.vote_count}</td>
+                <td>${shortDate(r.created_at)}</td>
+                <td>
+                    <button class="btn-small" onclick="editRoadmap('${r.id}')">Bewerken</button>
+                    <button class="btn-small btn-delete" onclick="deleteRoadmap('${r.id}', '${escapeHtml(r.title)}')">Verwijderen</button>
+                </td>
+            </tr>`).join('');
+    }
+
+    function openRoadmapModal(item, sourceIdea) {
+        roadmapEditId = item ? item.id : null;
+        roadmapSourceIdea = sourceIdea || null;
+
+        document.getElementById('roadmapModalTitle').textContent =
+            item ? 'Roadmap-item bewerken' : (sourceIdea ? 'Op de roadmap zetten' : 'Los item toevoegen');
+
+        const hint = document.getElementById('roadmapSourceHint');
+        if (sourceIdea) {
+            hint.innerHTML = 'Overgenomen uit een inzending. <strong>Herschrijf de tekst</strong> ' +
+                             'voordat je opslaat &mdash; iedereen die is ingelogd leest dit mee.';
+            hint.style.display = '';
+        } else {
+            hint.style.display = 'none';
+        }
+
+        document.getElementById('roadmapTitle').value = item ? item.title : (sourceIdea ? sourceIdea.title : '');
+        document.getElementById('roadmapBody').value = item ? (item.body || '') : (sourceIdea ? sourceIdea.body.slice(0, 600) : '');
+        document.getElementById('roadmapStatus').value = item ? item.status : 'gepland';
+
+        openModal('roadmapModal');
+    }
+
+    window.editRoadmap = function (id) {
+        const item = allRoadmap.find(r => r.id === id);
+        if (item) openRoadmapModal(item, null);
+    };
+
+    window.deleteRoadmap = function (id, title) {
+        showConfirm('Roadmap-item verwijderen',
+            `"${title}" van de roadmap halen? De stemmen verdwijnen mee.`,
+            async () => {
+                const { error } = await supabase.from('roadmap_items').delete().eq('id', id);
+                if (error) {
+                    alert('Verwijderen mislukt: ' + error.message);
+                    return;
+                }
+                await Promise.all([loadRoadmap(), loadIdeas()]);
+            });
+    };
+
+    document.getElementById('addRoadmapBtn')?.addEventListener('click', () => openRoadmapModal(null, null));
+
+    document.getElementById('roadmapSave')?.addEventListener('click', async () => {
+        const btn = document.getElementById('roadmapSave');
+        const title = document.getElementById('roadmapTitle').value.trim();
+        const body = document.getElementById('roadmapBody').value.trim();
+        const status = document.getElementById('roadmapStatus').value;
+
+        if (title.length < 3) {
+            alert('Vul een titel in.');
+            return;
+        }
+        btn.disabled = true;
+
+        let error;
+        if (roadmapEditId) {
+            ({ error } = await supabase.from('roadmap_items')
+                .update({
+                    title, body,
+                    status,
+                    released_at: status === 'gebouwd' ? new Date().toISOString() : null
+                })
+                .eq('id', roadmapEditId));
+        } else {
+            const res = await supabase.from('roadmap_items')
+                .insert({ title, body, status })
+                .select('id')
+                .single();
+            error = res.error;
+
+            // Het idee onthoudt waar het gebleven is, zodat de inzender op zijn
+            // eigen pagina ziet dat het de roadmap gehaald heeft.
+            if (!error && roadmapSourceIdea) {
+                await supabase.from('ideas')
+                    .update({ status: status === 'gebouwd' ? 'gebouwd' : 'gepland', roadmap_item_id: res.data.id })
+                    .eq('id', roadmapSourceIdea.id);
+            }
+        }
+
+        btn.disabled = false;
+
+        if (error) {
+            alert('Opslaan mislukt: ' + error.message);
+            return;
+        }
+
+        roadmapEditId = null;
+        roadmapSourceIdea = null;
+        closeModal('roadmapModal');
+        await Promise.all([loadRoadmap(), loadIdeas()]);
+    });
+
+    document.getElementById('closeRoadmapModal')?.addEventListener('click', () => closeModal('roadmapModal'));
+    document.getElementById('cancelRoadmapModal')?.addEventListener('click', () => closeModal('roadmapModal'));
+
     // ---------- Initial Load ----------
     async function initAdminData() {
         if (window.userRole !== 'super_admin') return;
         try {
-            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets(), loadSpellingSentences(), loadEscaperooms()]);
+            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets(), loadSpellingSentences(), loadEscaperooms(), loadRoadmap(), loadIdeas()]);
         } catch (e) {
             console.error('Error during initial load:', e);
         }

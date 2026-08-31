@@ -23,8 +23,9 @@
     <meta name="twitter:image" content="https://meestertools.nl/assets/og-image.png">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>Meestertools - Beheer</title>
-    <link rel="stylesheet" href="css/style.css?v=1.52.1">
-    <link rel="stylesheet" href="css/instellingen.css?v=1.52.1">
+    <link rel="stylesheet" href="css/style.css?v=1.53.0">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.53.0">
+    <link rel="stylesheet" href="css/ideeenbus.css?v=1.53.0">
 </head>
 <body>
     <!-- Header -->
@@ -45,6 +46,8 @@
             <button class="admin-tab" data-tab="spelling">Spelling</button>
             <button class="admin-tab" data-tab="game24">24 Game</button>
             <button class="admin-tab" data-tab="escaperooms">Escape rooms</button>
+            <button class="admin-tab" data-tab="ideas">Idee&euml;nbus <span class="admin-tab-badge" id="ideasBadge" hidden>0</span></button>
+            <button class="admin-tab" data-tab="roadmap">Roadmap</button>
         </div>
 
         <!-- Schools Tab -->
@@ -336,6 +339,80 @@
                 </table>
             </div>
         </div>
+
+        <!-- Ideeënbus Tab -->
+        <div class="admin-tab-panel" id="tab-ideas">
+            <div class="admin-toolbar">
+                <input type="text" class="search-input" id="searchIdeas" placeholder="Zoek in idee&euml;n...">
+                <select class="search-input" id="filterIdeas" style="max-width:220px;">
+                    <option value="open">Nog te behandelen</option>
+                    <option value="">Alles</option>
+                    <option value="nieuw">In de bus</option>
+                    <option value="bekeken">Gelezen</option>
+                    <option value="gepland">Op de roadmap</option>
+                    <option value="gebouwd">Gebouwd</option>
+                    <option value="niet-nu">Nu even niet</option>
+                </select>
+            </div>
+
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Binnengekomen</th>
+                            <th>Van</th>
+                            <th>Soort</th>
+                            <th>Tool</th>
+                            <th>Idee</th>
+                            <th>Status</th>
+                            <th>Acties</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ideasTableBody">
+                        <tr>
+                            <td colspan="7">
+                                <div class="admin-empty">
+                                    <span class="empty-icon">&#128161;</span>
+                                    <p>Idee&euml;n worden geladen...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Roadmap Tab -->
+        <div class="admin-tab-panel" id="tab-roadmap">
+            <div class="admin-toolbar">
+                <p class="admin-toolbar-note">Wat hier staat is zichtbaar voor iedereen die is ingelogd. Er staan geen namen bij.</p>
+                <button class="btn-primary" id="addRoadmapBtn">+ Los item toevoegen</button>
+            </div>
+
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Titel</th>
+                            <th>Status</th>
+                            <th>Stemmen</th>
+                            <th>Toegevoegd</th>
+                            <th>Acties</th>
+                        </tr>
+                    </thead>
+                    <tbody id="roadmapTableBody">
+                        <tr>
+                            <td colspan="5">
+                                <div class="admin-empty">
+                                    <span class="empty-icon">&#128506;&#65039;</span>
+                                    <p>Roadmap wordt geladen...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 
     <!-- Word Edit Modal -->
@@ -566,6 +643,86 @@
         </div>
     </div>
 
+    <!-- Idee bekijken en beoordelen -->
+    <div class="modal-overlay" id="ideaModal">
+        <div class="modal" style="max-width:720px;">
+            <div class="modal-header">
+                <h2>Idee</h2>
+                <button class="modal-close" id="closeIdeaModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="idea-detail">
+                    <div class="idea-detail-meta" id="ideaDetailMeta"></div>
+                    <h3 class="idea-detail-title" id="ideaDetailTitle"></h3>
+                    <div class="idea-detail-body" id="ideaDetailBody"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ideaStatus">Status</label>
+                    <select id="ideaStatus">
+                        <option value="nieuw">In de bus</option>
+                        <option value="bekeken">Gelezen</option>
+                        <option value="gepland">Op de roadmap</option>
+                        <option value="gebouwd">Gebouwd</option>
+                        <option value="niet-nu">Nu even niet</option>
+                    </select>
+                    <p class="form-hint">Deze status ziet de inzender op zijn eigen pagina.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="ideaNote">Jouw notitie</label>
+                    <div class="idea-notes" id="ideaNotes"></div>
+                    <textarea id="ideaNote" rows="2" placeholder="Alleen voor jezelf &mdash; de inzender ziet dit nooit."></textarea>
+                </div>
+
+                <div class="idea-roadmap-box" id="ideaRoadmapBox"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel btn-delete" id="ideaDelete">Verwijderen</button>
+                <span style="flex:1;"></span>
+                <button class="btn-cancel" id="cancelIdeaModal">Sluiten</button>
+                <button class="btn-primary" id="ideaSave">Opslaan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Roadmap-item toevoegen of bewerken -->
+    <div class="modal-overlay" id="roadmapModal">
+        <div class="modal" style="max-width:640px;">
+            <div class="modal-header">
+                <h2 id="roadmapModalTitle">Op de roadmap zetten</h2>
+                <button class="modal-close" id="closeRoadmapModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="form-hint" id="roadmapSourceHint" style="margin-bottom:16px;"></p>
+
+                <div class="form-group">
+                    <label for="roadmapTitle">Titel</label>
+                    <input type="text" id="roadmapTitle" maxlength="120" placeholder="Korte titel voor op de roadmap">
+                </div>
+
+                <div class="form-group">
+                    <label for="roadmapBody">Omschrijving</label>
+                    <textarea id="roadmapBody" rows="4" maxlength="600" placeholder="In je eigen woorden, zonder namen of details uit de klas."></textarea>
+                    <p class="form-hint">Iedereen die is ingelogd leest dit. Herschrijf de inzending dus naar iets algemeens.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="roadmapStatus">Status</label>
+                    <select id="roadmapStatus">
+                        <option value="gepland">Gepland</option>
+                        <option value="in-aanbouw">In aanbouw</option>
+                        <option value="gebouwd">Gebouwd</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="cancelRoadmapModal">Annuleren</button>
+                <button class="btn-primary" id="roadmapSave">Opslaan</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Confirm Modal -->
     <div class="modal-overlay" id="confirmModal">
         <div class="modal" style="max-width:400px;">
@@ -586,13 +743,13 @@
     <!-- Footer -->
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.52.1"></script>
-    <script src="/js/template.js?v=1.52.1"></script>
+    <script src="/js/mt-shared.js?v=1.53.0"></script>
+    <script src="/js/template.js?v=1.53.0"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.52.1"></script>
-    <script src="js/app.js?v=1.52.1"></script>
-    <script src="js/instellingen.js?v=1.52.1"></script>
-    <script src="js/admin.js?v=1.52.1"></script>
+    <script src="js/supabase-config.js?v=1.53.0"></script>
+    <script src="js/app.js?v=1.53.0"></script>
+    <script src="js/instellingen.js?v=1.53.0"></script>
+    <script src="js/admin.js?v=1.53.0"></script>
 </body>
 </html>
