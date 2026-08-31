@@ -23,8 +23,8 @@
     <meta name="twitter:image" content="https://meestertools.nl/assets/og-image.png">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>Meestertools - Changelog</title>
-    <link rel="stylesheet" href="css/style.css?v=1.54.1">
-    <link rel="stylesheet" href="css/instellingen.css?v=1.54.1">
+    <link rel="stylesheet" href="css/style.css?v=1.55.0">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.55.0">
     <style>
         .changelog-container {
             max-width: 1200px;
@@ -184,6 +184,39 @@
             <h1>Changelog</h1>
             <p>Alle updates en verbeteringen van Meestertools.</p>
             <p class="changelog-cta">Mis je iets? Zet het in de <a href="/ideeenbus">idee&euml;nbus</a>, of kijk op de <a href="/roadmap">roadmap</a> wat eraan komt.</p>
+        </div>
+
+        <!-- 31 augustus 2026 (v1.55.0) -->
+        <div class="changelog-entry">
+            <div class="changelog-date">31 augustus 2026 &mdash; v1.55.0</div>
+
+            <div class="changelog-section">
+                <span class="changelog-badge improved">Verbeterd</span>
+                <ul class="changelog-list">
+                    <li><strong>Je school beter vinden bij het invullen.</strong> Het schoolveld
+                        herkent nu de kern van de naam: typ je &ldquo;BS de Schatgraver&rdquo;,
+                        &ldquo;obs Schatgraver&rdquo; of &ldquo;de Schatgraver&rdquo;, dan kom je bij
+                        dezelfde school uit. Voorheen zag je alleen suggesties als je toevallig met
+                        dezelfde letters begon als de school al in het systeem stond &mdash; wie met
+                        &ldquo;BS&rdquo; begon, maakte er ongemerkt een tweede school bij.</li>
+                    <li>De suggesties tonen voortaan de pl&aacute;ats erbij, en de plaats is verplicht
+                        zodra je een school invult. Twee scholen met dezelfde naam in verschillende
+                        plaatsen worden nooit meer aan elkaar gekoppeld.</li>
+                    <li>Typ je een naam die lijkt op een school die al bestaat in diezelfde plaats,
+                        dan vragen we het even: &ldquo;Bedoel je deze school?&rdquo; Zo kom je samen
+                        met je collega&rsquo;s in &eacute;&eacute;n school terecht in plaats van in
+                        twee bijna-gelijke.</li>
+                </ul>
+            </div>
+
+            <div class="changelog-section">
+                <span class="changelog-badge fix">Opgelost</span>
+                <ul class="changelog-list">
+                    <li>Wie een schoolnaam invulde maar de plaats leeg liet, kon gekoppeld worden aan
+                        de eerste de beste school met die naam &mdash; ook eentje in een heel andere
+                        provincie. Dat kan niet meer.</li>
+                </ul>
+            </div>
         </div>
 
         <!-- 31 augustus 2026 (v1.54.1) -->
@@ -1441,12 +1474,12 @@
 
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.54.1"></script>
-    <script src="/js/template.js?v=1.54.1"></script>
+    <script src="/js/mt-shared.js?v=1.55.0"></script>
+    <script src="/js/template.js?v=1.55.0"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.54.1"></script>
-    <script src="js/app.js?v=1.54.1"></script>
-    <script src="js/instellingen.js?v=1.54.1"></script>
+    <script src="js/supabase-config.js?v=1.55.0"></script>
+    <script src="js/app.js?v=1.55.0"></script>
+    <script src="js/instellingen.js?v=1.55.0"></script>
 </body>
 </html>

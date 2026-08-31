@@ -128,14 +128,15 @@
                                     <label>E-mailadres</label>
                                     <input type="email" id="profielEmail" disabled style="opacity:0.6;cursor:not-allowed">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group school-veld">
                                     <label for="profielSchool">School</label>
-                                    <input type="text" id="profielSchool" placeholder="Naam van je school" list="schoolSuggesties" autocomplete="off">
-                                    <datalist id="schoolSuggesties"></datalist>
+                                    <input type="text" id="profielSchool" placeholder="Naam van je school" autocomplete="off">
+                                    <div class="school-suggesties" id="profielSchoolSuggesties"></div>
                                 </div>
                                 <div class="form-group">
                                     <label for="profielPlaats">Plaats van de school</label>
                                     <input type="text" id="profielPlaats" placeholder="Bijv. Zwolle">
+                                    <p class="school-plaats-hint">Nodig om scholen met dezelfde naam uit elkaar te houden.</p>
                                 </div>
                                 <button class="btn-save" id="saveProfielBtn">Opslaan</button>
                                 <div class="profiel-message" id="profielMessage"></div>
@@ -487,59 +488,239 @@
 
         // School-gegevens + suggesties van bestaande scholen
         try {
-            const [profRes, schoolsRes] = await Promise.all([
-                supabase.from('profiles').select('school_id, schools(name, city)').eq('id', user.id).single(),
-                supabase.from('schools').select('name, city').eq('archived', false).order('name')
-            ]);
+            const profRes = await supabase
+                .from('profiles').select('school_id, schools(name, city)').eq('id', user.id).single();
+
+            const naamEl = overlayEl.querySelector('#profielSchool');
+            const plaatsEl = overlayEl.querySelector('#profielPlaats');
 
             if (profRes.data?.schools) {
-                overlayEl.querySelector('#profielSchool').value = profRes.data.schools.name || '';
-                overlayEl.querySelector('#profielPlaats').value = profRes.data.schools.city || '';
+                naamEl.value = profRes.data.schools.name || '';
+                plaatsEl.value = profRes.data.schools.city || '';
             }
 
-            const datalist = overlayEl.querySelector('#schoolSuggesties');
-            datalist.innerHTML = (schoolsRes.data || []).map(s =>
-                `<option value="${escapeHtml(s.name)}">${escapeHtml(s.city || '')}</option>`
-            ).join('');
+            // Maar een keer aanhaken: het profielscherm wordt hergebruikt.
+            if (!naamEl.dataset.suggestiesAan) {
+                profielSchoolKiezer = schoolSuggestie(
+                    naamEl, plaatsEl, overlayEl.querySelector('#profielSchoolSuggesties'));
+                naamEl.dataset.suggestiesAan = '1';
+            }
         } catch (err) {
             console.error('School-gegevens laden mislukt:', err);
         }
     }
 
-    // Zoek een bestaande school op naam (+ plaats) of maak hem aan.
+    /* ---------- Scholen koppelen ----------
+
+       Twee scholen met dezelfde naam in verschillende plaatsen zijn twee
+       verschillende scholen, en die mogen nooit samenvallen. De plaats is
+       daarom geen extraatje maar de scheidslijn: zonder plaats koppelen we
+       niet aan iets bestaands.
+
+       Tot v1.54.1 pakte deze functie bij een lege plaats gewoon `matches[0]`,
+       de eerste de beste school met die naam. Wie "de Schatgraver" intikte en
+       de plaats leeg liet, kon zo aan de Schatgraver in een andere provincie
+       gekoppeld worden.
+
+       De naamvergelijking loopt via MT.schoolKey, zodat "BS de Schatgraver" en
+       "de Schatgraver" elkaar vinden. Een gelijke sleutel is een vermoeden, geen
+       bewijs: verschilt de ingetikte tekst van de bestaande naam, dan vraagt de
+       aanroeper het eerst aan de gebruiker (vraagSchoolBevestiging).
+    */
+
+    // Alle scholen, een keer opgehaald en daarna hergebruikt door beide velden.
+    let schoolCache = null;
+    let profielSchoolKiezer = null;
+    async function alleScholen() {
+        if (schoolCache) return schoolCache;
+        const { data } = await supabase
+            .from('schools').select('id, name, city').eq('archived', false).order('name');
+        schoolCache = data || [];
+        return schoolCache;
+    }
+
+    // Zoekt de bestaande school die bij deze naam + plaats hoort.
+    // Geeft null als er geen plaats is ingevuld: dan kunnen we niet weten
+    // welke gelijknamige school bedoeld wordt.
+    async function vindSchool(schoolName, schoolCity) {
+        if (!schoolName || !schoolCity) return null;
+        const nk = MT.schoolKey(schoolName);
+        const ck = MT.cityKey(schoolCity);
+        if (!nk || !ck) return null;
+        const lijst = await alleScholen();
+        return lijst.find(s => MT.schoolKey(s.name) === nk && MT.cityKey(s.city) === ck) || null;
+    }
+    window._vindSchool = vindSchool;
+
+    // Zoek een bestaande school op naam + plaats of maak hem aan.
     // Geeft het school-id terug, of null als er geen naam is ingevuld.
-    async function resolveSchoolId(schoolName, schoolCity) {
+    // forceNieuw: de gebruiker heeft bevestigd dat het echt een andere school is.
+    async function resolveSchoolId(schoolName, schoolCity, forceNieuw) {
         if (!schoolName) return null;
-
-        // % en _ zijn wildcards in ilike; letterlijk maken
-        const pattern = schoolName.replace(/[%_]/g, '\\$&');
-        const { data: matches, error: findError } = await supabase
-            .from('schools')
-            .select('id, city')
-            .ilike('name', pattern);
-        if (findError) throw findError;
-
-        let match = null;
-        if (matches && matches.length) {
-            if (schoolCity) {
-                // Zelfde naam in een andere plaats is een andere school
-                match = matches.find(s => (s.city || '').toLowerCase() === schoolCity.toLowerCase()) || null;
-            } else {
-                match = matches[0];
-            }
+        if (!schoolCity) {
+            const err = new Error('Vul ook de plaats in, anders kunnen we scholen met dezelfde naam niet uit elkaar houden.');
+            err.code = 'GEEN_PLAATS';
+            throw err;
         }
-        if (match) return match.id;
+
+        if (!forceNieuw) {
+            const bestaand = await vindSchool(schoolName, schoolCity);
+            if (bestaand) return bestaand.id;
+        }
 
         const { data: created, error: insertError } = await supabase
             .from('schools')
-            .insert({ name: schoolName, city: schoolCity || null })
-            .select('id')
+            .insert({ name: schoolName, city: schoolCity })
+            .select('id, name, city')
             .single();
         if (insertError) throw insertError;
+        schoolCache = null;   // lijst is verouderd
         return created.id;
     }
     // Ook gebruikt door de school-popup op het dashboard
     window._resolveSchoolId = resolveSchoolId;
+
+    /* Suggestielijst onder een schoolveld.
+
+       Vervangt de <datalist>. Die filterde op de hele inhoud van het veld, dus
+       wie met "BS " begon zag nooit een bestaande school staan - de aanleiding
+       voor precies de dubbeling die we hier proberen te voorkomen. Deze lijst
+       zoekt op de genormaliseerde naam en op de plaats, en toont altijd allebei
+       zodat twee gelijknamige scholen uit elkaar te houden zijn.
+    */
+    function schoolSuggestie(nameInput, cityInput, mountEl) {
+        let gekozenId = null;
+
+        function verberg() { mountEl.innerHTML = ''; mountEl.style.display = 'none'; }
+
+        async function toon() {
+            const ruw = nameInput.value.trim();
+            const nk = MT.schoolKey(ruw);
+            const ck = MT.cityKey(cityInput.value.trim());
+            if (ruw.length < 2) { verberg(); return; }
+
+            const lijst = await alleScholen();
+            const treffers = lijst.filter(s => {
+                const sk = MT.schoolKey(s.name);
+                if (!sk) return false;
+                // Op het begin vergelijken, niet ergens middenin: bij "ergens
+                // middenin" stelde "BS d" ook Elzeneind voor (de d van eind).
+                // Beide richtingen, zodat iemand die meer typt dan er staat
+                // ("Schatgraverschool") de school nog steeds vindt.
+                if (nk && sk.indexOf(nk) !== 0 && nk.indexOf(sk) !== 0) return false;
+                if (ck && MT.cityKey(s.city).indexOf(ck) !== 0) return false;
+                return true;
+            }).slice(0, 6);
+
+            if (!treffers.length) { verberg(); return; }
+
+            mountEl.innerHTML = treffers.map(s =>
+                '<button type="button" class="school-suggestie" data-id="' + escapeHtml(s.id) + '"' +
+                ' data-naam="' + escapeHtml(s.name) + '" data-plaats="' + escapeHtml(s.city || '') + '">' +
+                '<span class="school-suggestie-naam">' + escapeHtml(s.name) + '</span>' +
+                '<span class="school-suggestie-plaats">' + escapeHtml(s.city || 'plaats onbekend') + '</span>' +
+                '</button>'
+            ).join('');
+            mountEl.style.display = 'block';
+        }
+
+        mountEl.addEventListener('click', (e) => {
+            const btn = e.target.closest('.school-suggestie');
+            if (!btn) return;
+            nameInput.value = btn.dataset.naam;
+            cityInput.value = btn.dataset.plaats;
+            gekozenId = btn.dataset.id;
+            verberg();
+        });
+
+        // Zelf verder typen betekent: niet meer de school die je aanklikte.
+        nameInput.addEventListener('input', () => { gekozenId = null; toon(); });
+        cityInput.addEventListener('input', () => { gekozenId = null; toon(); });
+        nameInput.addEventListener('focus', toon);
+        document.addEventListener('click', (e) => {
+            if (e.target !== nameInput && !mountEl.contains(e.target)) verberg();
+        });
+
+        return { gekozenId: () => gekozenId, verberg: verberg };
+    }
+    window._schoolSuggestie = schoolSuggestie;
+
+    /* Vraag om bevestiging als de ingetikte naam anders geschreven is dan de
+       school die we gevonden hebben. Alleen binnen dezelfde plaats - over
+       plaatsgrenzen heen vragen we het niet eens, dan is het per definitie een
+       andere school.
+
+       Geeft terug: 'koppel' (gebruik de bestaande), 'nieuw' (maak een aparte),
+       of null (gebruiker koos niets - dan niet opslaan). */
+    function vraagSchoolBevestiging(ingetikt, bestaand) {
+        return new Promise((resolve) => {
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay school-bevestig-overlay';
+            overlay.innerHTML =
+                '<div class="modal" style="max-width:460px;">' +
+                    '<div class="modal-header"><h2>&#127979; Bedoel je deze school?</h2></div>' +
+                    '<div class="modal-body">' +
+                        '<p>Je typte <strong>' + escapeHtml(ingetikt) + '</strong>. In ' +
+                        escapeHtml(bestaand.city || 'dezelfde plaats') + ' staat al:</p>' +
+                        '<p class="school-bevestig-naam">' + escapeHtml(bestaand.name) + '</p>' +
+                        '<p class="school-bevestig-uitleg">Kies je deze, dan werk je in dezelfde school als je collega. ' +
+                        'Is het echt een andere school, dan zetten we jouw schrijfwijze apart neer.</p>' +
+                    '</div>' +
+                    '<div class="modal-footer">' +
+                        '<button class="btn-cancel" data-keuze="nieuw">Nee, andere school</button>' +
+                        '<button class="btn-primary" data-keuze="koppel">Ja, die is het</button>' +
+                    '</div>' +
+                '</div>';
+            document.body.appendChild(overlay);
+            requestAnimationFrame(() => overlay.classList.add('active'));
+
+            overlay.addEventListener('click', (e) => {
+                const btn = e.target.closest('[data-keuze]');
+                if (btn) {
+                    const keuze = btn.dataset.keuze;
+                    overlay.classList.remove('active');
+                    setTimeout(() => overlay.remove(), 250);
+                    resolve(keuze);
+                } else if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                    setTimeout(() => overlay.remove(), 250);
+                    resolve(null);
+                }
+            });
+        });
+    }
+    window._vraagSchoolBevestiging = vraagSchoolBevestiging;
+
+    /* De hele beslissing in een stap, zodat het profielscherm en de
+       schoolpopup op het dashboard exact hetzelfde doen.
+
+       Geeft het school-id terug, null (geen school ingevuld), of false als de
+       gebruiker de bevestigingsvraag wegklikte - dan hoort er niets opgeslagen
+       te worden. Gooit een fout met code GEEN_PLAATS als de plaats ontbreekt. */
+    async function kiesSchoolId(schoolName, schoolCity, gekozenId) {
+        if (!schoolName) return null;
+        // Uit de suggestielijst geklikt: dan weten we het zeker.
+        if (gekozenId) return gekozenId;
+
+        if (!schoolCity) {
+            const err = new Error('Vul ook de plaats in, anders kunnen we scholen met dezelfde naam niet uit elkaar houden.');
+            err.code = 'GEEN_PLAATS';
+            throw err;
+        }
+
+        const bestaand = await vindSchool(schoolName, schoolCity);
+        if (bestaand) {
+            // Zelfde school, zelfde schrijfwijze: niets te vragen.
+            if (MT.normName(bestaand.name) === MT.normName(schoolName)) return bestaand.id;
+
+            const keuze = await vraagSchoolBevestiging(schoolName, bestaand);
+            if (!keuze) return false;
+            if (keuze === 'koppel') return bestaand.id;
+            return resolveSchoolId(schoolName, schoolCity, true);
+        }
+        return resolveSchoolId(schoolName, schoolCity, false);
+    }
+    window._kiesSchoolId = kiesSchoolId;
 
     async function saveProfiel() {
         const btn = overlayEl.querySelector('#saveProfielBtn');
@@ -565,7 +746,13 @@
             // Leeg veld = koppeling verwijderen.
             const schoolName = overlayEl.querySelector('#profielSchool').value.trim();
             const schoolCity = overlayEl.querySelector('#profielPlaats').value.trim();
-            const schoolId = await resolveSchoolId(schoolName, schoolCity);
+            const schoolId = await kiesSchoolId(schoolName, schoolCity,
+                profielSchoolKiezer ? profielSchoolKiezer.gekozenId() : null);
+            if (schoolId === false) {          // gebruiker brak de vraag af
+                btn.disabled = false;
+                btn.textContent = 'Opslaan';
+                return;
+            }
 
             // Update profiles table
             const { data: { user } } = await supabase.auth.getUser();
@@ -584,7 +771,9 @@
 
             showMessage(msgEl, 'Profiel opgeslagen!', 'success');
         } catch (err) {
-            showMessage(msgEl, 'Fout: ' + err.message, 'error');
+            // Een ontbrekende plaats is geen storing maar een aanwijzing:
+            // die tekst tonen we zoals hij is, zonder 'Fout:' ervoor.
+            showMessage(msgEl, err.code === 'GEEN_PLAATS' ? err.message : 'Fout: ' + err.message, 'error');
         }
 
         btn.disabled = false;

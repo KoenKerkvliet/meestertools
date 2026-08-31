@@ -61,6 +61,58 @@
         return (prefix || '') + 'assets/avatars/monsters/monster-' + nn + '.webp';
     }
 
+    // ---------- Scholen op naam herkennen ----------
+    // "BS de Schatgraver", "obs Schatgraver" en "de Schatgraver" zijn dezelfde
+    // school, maar als losse tekst zijn het drie verschillende namen. Zonder
+    // deze normalisatie maakt elke collega die zijn eigen schrijfwijze intikt
+    // een nieuw schoolrecord aan.
+    //
+    // De sleutel is bewust grof: schoolsoort en lidwoorden eraf, accenten en
+    // leestekens weg, spaties dicht. Twee scholen kunnen daardoor op dezelfde
+    // sleutel uitkomen ("Het Talent" en "Talent"), en daarom is een gelijke
+    // sleutel nooit genoeg om ze samen te voegen - de gebruiker bevestigt het,
+    // en het moet bovendien dezelfde plaats zijn. Zie cityKey hieronder.
+    var SCHOOL_WORDS = [
+        'basisschool', 'bassisschool', 'basis', 'school',
+        'rkbs', 'pcbs', 'obs', 'kbs', 'ibs', 'sbo', 'vso', 'bs', 'so',
+        'de', 'het', 'een', 't'
+    ].sort(function (a, b) { return b.length - a.length; });
+
+    function stripAccents(t) {
+        return t.normalize ? t.normalize('NFD').replace(/[̀-ͯ]/g, '') : t;
+    }
+
+    function schoolKey(s) {
+        var t = stripAccents(String(s == null ? '' : s).toLowerCase());
+        t = t.replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+
+        // Voorvoegsels er net zolang afhalen als er nog iets overblijft:
+        // "bs de schatgraver" -> "de schatgraver" -> "schatgraver".
+        var verder = true;
+        while (verder) {
+            verder = false;
+            for (var i = 0; i < SCHOOL_WORDS.length; i++) {
+                var w = SCHOOL_WORDS[i];
+                if (t === w) continue;                    // niets overhouden mag niet
+                if (t.indexOf(w + ' ') === 0) {
+                    t = t.slice(w.length + 1);
+                    verder = true;
+                    break;
+                }
+            }
+        }
+        return t.replace(/\s+/g, '');
+    }
+
+    // Plaatsen vergelijken we alleen op schrijfwijze, niet op betekenis:
+    // "Den Haag" en "'s-Gravenhage" blijven verschillend. Dat is de veilige
+    // kant op - twee scholen ten onrechte gescheiden houden is een dubbeling,
+    // ten onrechte samenvoegen is gegevens van een andere school binnenhalen.
+    function cityKey(s) {
+        var t = stripAccents(String(s == null ? '' : s).toLowerCase());
+        return t.replace(/[^a-z0-9]+/g, '');
+    }
+
     // Sessiecode voor op het bord. Zonder I, O, 0, 1 en L, want die worden
     // door kinderen structureel verkeerd overgetypt.
     function genCode(len) {
@@ -79,6 +131,8 @@
         hashStr: hashStr,
         assignMonsters: assignMonsters,
         monsterPath: monsterPath,
-        genCode: genCode
+        genCode: genCode,
+        schoolKey: schoolKey,
+        cityKey: cityKey
     };
 })(window);

@@ -42,21 +42,16 @@
                 .single();
             if (!profRes.data || profRes.data.school_id) return;
 
-            // Suggesties van bestaande scholen voor de autocomplete
-            var schoolsRes = await supabase
-                .from('schools')
-                .select('name, city')
-                .eq('archived', false)
-                .order('name');
-
-            showModal(schoolsRes.data || [], session.user.id);
+            // De scholenlijst haalt de suggestiewidget zelf op (en cachet hem),
+            // dus die query hoeft hier niet meer.
+            showModal(session.user.id);
         } catch (e) {
             // Popup is een extraatje; fouten mogen het dashboard niet breken.
             console.error('School-popup check mislukt:', e);
         }
     }
 
-    function showModal(schools, userId) {
+    function showModal(userId) {
         var overlay = document.createElement('div');
         overlay.className = 'modal-overlay';
         overlay.id = 'schoolPopupModal';
@@ -69,18 +64,15 @@
                 '<div class="modal-body">' +
                     '<p class="sj-intro">Je profiel is bijna compleet! Vul de naam van je school in &mdash; ' +
                     'zo weten we welke scholen Meestertools gebruiken.</p>' +
-                    '<div class="sj-form-group">' +
+                    '<div class="sj-form-group school-veld">' +
                         '<label for="schoolPopupNaam">School</label>' +
-                        '<input type="text" id="schoolPopupNaam" placeholder="Naam van je school" list="schoolPopupSuggesties" autocomplete="off">' +
-                        '<datalist id="schoolPopupSuggesties">' +
-                        schools.map(function (s) {
-                            return '<option value="' + escapeHtml(s.name) + '">' + escapeHtml(s.city || '') + '</option>';
-                        }).join('') +
-                        '</datalist>' +
+                        '<input type="text" id="schoolPopupNaam" placeholder="Naam van je school" autocomplete="off">' +
+                        '<div class="school-suggesties" id="schoolPopupSuggesties"></div>' +
                     '</div>' +
                     '<div class="sj-form-group">' +
                         '<label for="schoolPopupPlaats">Plaats van de school</label>' +
                         '<input type="text" id="schoolPopupPlaats" placeholder="Bijv. Zwolle">' +
+                        '<p class="school-plaats-hint">Nodig om scholen met dezelfde naam uit elkaar te houden.</p>' +
                     '</div>' +
                     '<p class="sj-note">Je kunt dit later altijd aanpassen via Instellingen &rarr; Profiel.</p>' +
                     '<div class="sj-error" id="schoolPopupError"></div>' +
@@ -93,6 +85,16 @@
 
         document.body.appendChild(overlay);
         requestAnimationFrame(function () { overlay.classList.add('active'); });
+
+        // Dezelfde suggestielijst als in Instellingen -> Profiel: zoekt op de
+        // genormaliseerde naam (dus ook als je met "BS " begint) en toont de
+        // plaats erbij, zodat twee gelijknamige scholen te onderscheiden zijn.
+        var kiezer = window._schoolSuggestie
+            ? window._schoolSuggestie(
+                overlay.querySelector('#schoolPopupNaam'),
+                overlay.querySelector('#schoolPopupPlaats'),
+                overlay.querySelector('#schoolPopupSuggesties'))
+            : null;
 
         function close() {
             overlay.classList.remove('active');
@@ -123,7 +125,13 @@
             btn.textContent = 'Opslaan...';
 
             try {
-                var schoolId = await window._resolveSchoolId(name, city);
+                var schoolId = await window._kiesSchoolId(
+                    name, city, kiezer ? kiezer.gekozenId() : null);
+                if (schoolId === false) {      // bevestigingsvraag weggeklikt
+                    btn.disabled = false;
+                    btn.textContent = 'Opslaan';
+                    return;
+                }
                 var res = await supabase
                     .from('profiles')
                     .update({ school_id: schoolId })
@@ -134,7 +142,9 @@
                 console.error('School opslaan mislukt:', e);
                 btn.disabled = false;
                 btn.textContent = 'Opslaan';
-                showError('Opslaan is niet gelukt. Probeer het later opnieuw via Instellingen.');
+                showError(e && e.code === 'GEEN_PLAATS'
+                    ? e.message
+                    : 'Opslaan is niet gelukt. Probeer het later opnieuw via Instellingen.');
             }
         });
     }

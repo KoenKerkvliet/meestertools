@@ -2692,3 +2692,89 @@ body.mt-uc-admin .tool-card.uc-card {
 .mt-card-fav.active {
     color: #F4B400;
 }
+
+/* ---------- Schoolkiezer (profiel + schoolpopup) ----------
+   De oude <datalist> filterde op de hele veldinhoud, dus wie met "BS "
+   begon zag nooit een bestaande school en maakte er ongemerkt een nieuwe
+   bij. Deze lijst zoekt op de kern van de naam en toont de plaats erbij,
+   want twee scholen kunnen dezelfde naam hebben in verschillende plaatsen. */
+.school-veld {
+    position: relative;
+}
+
+.school-suggesties {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    margin-top: 4px;
+    background: var(--bg-white);
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+.school-suggestie {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 14px;
+    border: none;
+    border-bottom: 1px solid #F2F2F8;
+    background: none;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.school-suggestie:last-child {
+    border-bottom: none;
+}
+
+.school-suggestie:hover {
+    background: #F4F3FF;
+}
+
+.school-suggestie-naam {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* De plaats is hier geen bijzaak maar het onderscheid, dus altijd zichtbaar. */
+.school-suggestie-plaats {
+    flex-shrink: 0;
+    font-size: 12px;
+    color: var(--text-medium);
+}
+
+.school-plaats-hint {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+.school-bevestig-naam {
+    margin: 10px 0;
+    padding: 12px 14px;
+    background: #F4F3FF;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.school-bevestig-uitleg {
+    font-size: 13px;
+    color: var(--text-medium);
+    line-height: 1.55;
+}
