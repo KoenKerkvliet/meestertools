@@ -1305,6 +1305,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Oplopend opslaan. "4 3 2 1" en "1 2 3 4" zijn hetzelfde setje, maar
+        // zonder sorteren ziet de database (en de uniciteitsindex) er twee.
+        numbers.sort((a, b) => a - b);
+
         const difficulty = document.getElementById('game24Difficulty')?.value || 'gemiddeld';
 
         const { error } = await supabase
@@ -1312,7 +1316,10 @@ document.addEventListener('DOMContentLoaded', () => {
             .insert({ numbers: numbers, difficulty: difficulty });
 
         if (error) {
-            alert('Fout bij toevoegen: ' + error.message);
+            // 23505 = de uniciteitsindex; dat is geen storing maar een dubbel setje.
+            alert(error.code === '23505'
+                ? 'Dit setje staat er al: ' + numbers.join(', ') + '.'
+                : 'Fout bij toevoegen: ' + error.message);
             return;
         }
 
