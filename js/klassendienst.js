@@ -7,9 +7,10 @@
    is er geen klassendienst.
 
    - Gebruikt de globale actieve klas (MTActiveClass) voor de leerlingen.
-   - Schooljaar + vakanties komen uit tool_settings ('schooljaar').
-   - Eigen instellingen (kinderen per week, taken) uit tool_settings
-     ('klassendienst').
+   - Schooljaar + vakanties komen uit tool_settings ('schooljaar') van de
+     aanmaker van de klas, zodat een duo dezelfde weekindeling ziet.
+   - Instellingen (kinderen per week, taken) horen bij de klas en staan in
+     group_tool_settings ('klassendienst').
    - Taken bevatten een dag-veld { text, day } waarbij day 'all' of 1..5 is.
    - Toont: deze week (wie + taken per dag), sneak preview volgende week en
      een jaaroverzicht dat als pdf te downloaden is.
@@ -342,11 +343,16 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (e) { return null; }
     }
 
-    async function loadSettings(user) {
+    // De takenlijst hoort bij de klas en niet bij de leerkracht: deel je je
+    // klas met een duo, dan werken jullie in dezelfde lijst. Vandaar
+    // group_tool_settings (toegang via has_group_access) in plaats van
+    // tool_settings (toegang via user_id).
+    async function loadSettings(gid) {
+        if (!gid) { settings.tasks = DEFAULT_TASKS.slice(); return; }
         var res = await supabase
-            .from('tool_settings')
+            .from('group_tool_settings')
             .select('settings')
-            .eq('user_id', user.id)
+            .eq('group_id', gid)
             .eq('tool_name', TOOL_NAME)
             .maybeSingle();
         if (res.data && res.data.settings) {
@@ -368,22 +374,29 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    async function saveSettings(user) {
+    async function saveSettings(gid) {
+        if (!gid) return;
         await supabase
-            .from('tool_settings')
+            .from('group_tool_settings')
             .upsert({
-                user_id: user.id,
+                group_id: gid,
                 tool_name: TOOL_NAME,
                 settings: settings,
-                updated_at: new Date().toISOString()
-            }, { onConflict: 'user_id,tool_name' });
+                updated_at: new Date().toISOString(),
+                updated_by: currentUser ? currentUser.id : null
+            }, { onConflict: 'group_id,tool_name' });
     }
 
-    async function loadSchooljaar(user) {
+    // Welke weken schoolweken zijn bepaalt wie wanneer aan de beurt is. Dat mag
+    // niet afhangen van wie er kijkt: een duo dat zijn vakanties nog niet heeft
+    // ingevuld zou anders een andere rotatie zien dan de eigenaar van de klas.
+    // Daarom altijd het schooljaar van de aanmaker van de groep (RLS-policy
+    // "schooljaar van je duo lezen").
+    async function loadSchooljaar(ownerId) {
         var res = await supabase
             .from('tool_settings')
             .select('settings')
-            .eq('user_id', user.id)
+            .eq('user_id', ownerId)
             .eq('tool_name', 'schooljaar')
             .maybeSingle();
         if (res.data && res.data.settings) {
@@ -1115,8 +1128,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .map(function (t) { return { text: (t.text || '').trim(), day: t.day }; })
             .filter(function (t) { return t.text; });
         settings.perWeek = parseInt(perWeekSelect.value, 10) || 2;
-        var user = await getSessionUser();
-        if (user) await saveSettings(user);
+        await saveSettings(groupId);
         closeSettings();
         buildSchoolWeeks();
         render();
@@ -1194,8 +1206,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var order = chosen.concat(rest).map(function (s) { return s.id; });
 
         settings.manualPlan = { year: activeYearLabel(), anchorMonday: anchorMonday, order: order };
-        var user = await getSessionUser();
-        if (user) await saveSettings(user);
+        await saveSettings(groupId);
         closeChooseModal();
         buildSchoolWeeks();
         render();
@@ -1205,8 +1216,7 @@ document.addEventListener('DOMContentLoaded', function () {
     async function clearManualPlan() {
         if (!confirm('Terug naar de automatische rotatie op leerlingnummer? Je handmatig gekozen groepje vervalt.')) return;
         settings.manualPlan = null;
-        var user = await getSessionUser();
-        if (user) await saveSettings(user);
+        await saveSettings(groupId);
         buildSchoolWeeks();
         render();
         renderManualStatus();
@@ -1236,10 +1246,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!user) { container.innerHTML = noClassHtml(); return; }
         currentUser = user;
 
-        await loadSettings(user);
-        await loadSchooljaar(user);
-        await loadKlasseprestatieRewardTypes();
-
+        // Eerst de klas, dan pas de instellingen: die hangen nu aan de groep.
         if (window.MTActiveClass && window.MTActiveClass.ready) {
             try { await window.MTActiveClass.ready; } catch (e) {}
         }
@@ -1247,12 +1254,23 @@ document.addEventListener('DOMContentLoaded', function () {
         groupId = window.MTActiveClass ? window.MTActiveClass.getId() : '';
         groupName = window.MTActiveClass ? window.MTActiveClass.getName() : '';
 
+        await loadSettings(groupId);
+        await loadSchooljaar(await groupOwnerId(groupId) || user.id);
+        await loadKlasseprestatieRewardTypes();
+
         if (groupId) {
             await loadStudents(groupId);
             await loadDayState();
             buildSchoolWeeks();
         }
         render();
+    }
+
+    // Wie heeft deze klas aangemaakt? Bepaalt welk schooljaar de rotatie volgt.
+    async function groupOwnerId(gid) {
+        if (!gid) return null;
+        var res = await supabase.from('groups').select('user_id').eq('id', gid).maybeSingle();
+        return (res.data && res.data.user_id) || null;
     }
 
     init();

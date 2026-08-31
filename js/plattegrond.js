@@ -8,7 +8,8 @@
 
    Leerlingen van de actieve klas worden op de plekken gezet (automatisch op
    volgorde of gehusseld) en zijn handmatig te wisselen (tik-om-te-plaatsen).
-   Opslag in tool_settings ('plattegrond') per klas. Presenteren + printen.
+   Opslag per klas in group_tool_settings ('plattegrond'), zodat een duo-
+   collega dezelfde opstelling ziet. Presenteren + printen.
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -170,21 +171,30 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         sociogramConstraints = { mutualNeg: mutualNeg, oneWayNeg: oneWayNeg, mutualPos: mutualPos, session: session };
     }
+    // De opstelling hoort bij het lokaal van die klas, niet bij de leerkracht:
+    // een duo-collega hoort dezelfde tafels te zien. Vandaar
+    // group_tool_settings (toegang via has_group_access) in plaats van
+    // tool_settings (toegang via user_id). In het geheugen blijft de vorm
+    // store.byGroup[groepId], zodat restoreForGroup ongemoeid blijft - alleen
+    // staat er nu één klas in in plaats van allemaal.
     async function loadStore() {
-        var res = await supabase.from('tool_settings').select('settings')
-            .eq('user_id', currentUser.id).eq('tool_name', TOOL_NAME).maybeSingle();
-        store = (res.data && res.data.settings) ? res.data.settings : {};
-        if (!store.byGroup) store.byGroup = {};
+        store = { byGroup: {} };
+        if (!selectedGroupId) return;
+        var res = await supabase.from('group_tool_settings').select('settings')
+            .eq('group_id', selectedGroupId).eq('tool_name', TOOL_NAME).maybeSingle();
+        if (res.data && res.data.settings) store.byGroup[selectedGroupId] = res.data.settings;
     }
     function persist() {
+        if (!selectedGroupId) return;
         if (!store.byGroup) store.byGroup = {};
-        if (selectedGroupId) {
-            store.byGroup[selectedGroupId] = { layout: layout, placement: placement, sociogramMode: sociogramMode };
-        }
-        supabase.from('tool_settings').upsert({
-            user_id: currentUser.id, tool_name: TOOL_NAME, settings: store,
-            updated_at: new Date().toISOString()
-        }, { onConflict: 'user_id,tool_name' }).then(function (res) {
+        store.byGroup[selectedGroupId] = { layout: layout, placement: placement, sociogramMode: sociogramMode };
+
+        supabase.from('group_tool_settings').upsert({
+            group_id: selectedGroupId, tool_name: TOOL_NAME,
+            settings: store.byGroup[selectedGroupId],
+            updated_at: new Date().toISOString(),
+            updated_by: currentUser ? currentUser.id : null
+        }, { onConflict: 'group_id,tool_name' }).then(function (res) {
             if (res.error) console.error('plattegrond opslaan:', res.error.message);
         });
     }
@@ -790,10 +800,12 @@ document.addEventListener('DOMContentLoaded', function () {
         currentUser = await getUser();
         if (!currentUser) return;
 
-        await loadStore();
         await loadGroups();
         try { await MTActiveClass.ready; } catch (e) {}
         selectedGroupId = MTActiveClass.resolveDefault('', groups);
+
+        // Pas hierna laden: de opstelling wordt per klas opgehaald.
+        await loadStore();
 
         if (selectedGroupId) {
             await loadStudents();

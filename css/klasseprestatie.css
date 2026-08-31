@@ -472,10 +472,18 @@
 }
 
 /* ---------- Beloningspopup ---------- */
-.kpr-reward-modal,
 .kpr-settings-modal,
 .kpr-edit-modal {
     max-width: 720px;
+    width: 100%;
+}
+
+/* Iets breder dan de andere vensters: bij 720px bleef er per kaartje 131px
+   tekstruimte over en "Doorzettingsvermogen" heeft er 142 nodig. Met 780px
+   passen vier kaartjes op een rij én past de langste standaardbeloning op
+   één regel. width:100% houdt het op een telefoon ongemoeid. */
+.kpr-reward-modal {
+    max-width: 780px;
     width: 100%;
 }
 
@@ -517,14 +525,16 @@
     background: white;
     border: 2px solid #E8E8F0;
     border-radius: var(--radius-md);
-    padding: 14px 10px;
+    padding: 18px 12px 14px;
     cursor: pointer;
     text-align: center;
     transition: var(--transition);
     font-family: inherit;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    justify-content: center;
+    gap: 6px;
+    min-height: 118px;
 }
 
 .kpr-reward-card:hover {
@@ -534,19 +544,26 @@
 }
 
 .kpr-reward-icon {
-    font-size: 32px;
+    font-size: 34px;
     line-height: 1;
 }
 
 .kpr-reward-label {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--text-dark);
-    line-height: 1.3;
+    line-height: 1.35;
+    /* "Doorzettingsvermogen" past op geen enkele redelijke kaartbreedte in één
+       stuk. hyphens breekt het op een leesbare plek met een koppelteken
+       (Doorzettings-vermogen); break-word is het vangnet als de browser geen
+       Nederlands afbreekwoordenboek heeft. Zonder allebei loopt het woord
+       gewoon over de rand heen. */
+    hyphens: auto;
+    overflow-wrap: break-word;
 }
 
 .kpr-reward-value {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 800;
     margin-top: 2px;
 }
@@ -1205,8 +1222,8 @@
 /* ---------- Reward modal: kpr-reward-grid wrapper ---------- */
 .kpr-reward-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
     padding: 4px 2px;
 }
 
@@ -1225,8 +1242,8 @@
 /* ---------- Prijskaartjes ---------- */
 .kpr-prize-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
 }
 
 .kpr-prize-card {
@@ -1234,7 +1251,9 @@
     flex-direction: column;
     align-items: center;
     gap: 6px;
-    padding: 14px 8px 12px;
+    padding: 18px 12px 14px;
+    min-height: 118px;
+    justify-content: center;
     background: white;
     border: 2px solid #C8E6C9;
     border-radius: var(--radius-lg, 16px);
@@ -1248,16 +1267,17 @@
     border-color: #66BB6A;
 }
 .kpr-prize-icon {
-    font-size: 30px;
+    font-size: 34px;
     line-height: 1;
 }
 .kpr-prize-label {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--text-dark);
     text-align: center;
-    line-height: 1.3;
-    word-break: break-word;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+    hyphens: auto;
 }
 .kpr-prize-cost {
     font-size: 12px;
