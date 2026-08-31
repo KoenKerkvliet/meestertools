@@ -11,8 +11,9 @@
      Bij 2+ winnaars komen ze om de beurt aan de knop.
    - Logboek: welke leerling wanneer het huiswerk niet had (en welke prijs).
 
-   Opslag per gebruiker in tool_settings ('huiswerk'):
-     { prizes:[...], threshold:3, byGroup:{ [groupId]: { counts:{}, log:[] } } }
+   Opslag per klas in group_tool_settings ('huiswerk'), zodat een duo-collega
+   dezelfde tellers, prijzen en drempel ziet:
+     { prizes:[...], threshold:3, counts:{}, log:[] }
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -132,21 +133,44 @@ document.addEventListener('DOMContentLoaded', function () {
         students = res.data || [];
         monsterByStudentId = assignMonsters(students);
     }
+    // Alles hoort bij de klas: niet alleen de tellers en het logboek, maar ook
+    // de prijzenlijst en de drempel. Anders draait een duo-collega aan een
+    // ander prijzenrad en telt zij bij een ander aantal af. Vandaar
+    // group_tool_settings (toegang via has_group_access) in plaats van
+    // tool_settings (toegang via user_id).
+    //
+    // In het geheugen blijft de vorm byGroup[groepId] staan zodat gd() en de
+    // rest ongemoeid blijven - alleen zit er nu één klas in.
     async function loadStore() {
-        var res = await supabase.from('tool_settings').select('settings')
-            .eq('user_id', currentUser.id).eq('tool_name', TOOL_NAME).maybeSingle();
+        settings.prizes = DEFAULT_PRIZES.slice();
+        settings.threshold = 3;
+        settings.byGroup = {};
+        if (!selectedGroupId) return;
+
+        var res = await supabase.from('group_tool_settings').select('settings')
+            .eq('group_id', selectedGroupId).eq('tool_name', TOOL_NAME).maybeSingle();
         var s = (res.data && res.data.settings) ? res.data.settings : {};
-        settings.prizes = Array.isArray(s.prizes) ? s.prizes : DEFAULT_PRIZES.slice();
-        settings.threshold = s.threshold && s.threshold > 0 ? s.threshold : 3;
-        settings.byGroup = s.byGroup || {};
+        if (Array.isArray(s.prizes)) settings.prizes = s.prizes;
+        if (s.threshold && s.threshold > 0) settings.threshold = s.threshold;
+        settings.byGroup[selectedGroupId] = {
+            counts: s.counts || {},
+            log: Array.isArray(s.log) ? s.log : []
+        };
     }
     function persist() {
-        if (!currentUser) return;
-        supabase.from('tool_settings').upsert({
-            user_id: currentUser.id, tool_name: TOOL_NAME,
-            settings: settings,
-            updated_at: new Date().toISOString()
-        }, { onConflict: 'user_id,tool_name' }).then(function (res) {
+        if (!currentUser || !selectedGroupId) return;
+        var g = gd();
+        supabase.from('group_tool_settings').upsert({
+            group_id: selectedGroupId, tool_name: TOOL_NAME,
+            settings: {
+                prizes: settings.prizes,
+                threshold: settings.threshold,
+                counts: g.counts,
+                log: g.log
+            },
+            updated_at: new Date().toISOString(),
+            updated_by: currentUser.id
+        }, { onConflict: 'group_id,tool_name' }).then(function (res) {
             if (res.error) console.error('huiswerk opslaan:', res.error.message);
         });
     }
