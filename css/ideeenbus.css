@@ -205,6 +205,16 @@
     line-height: 1.6;
 }
 
+.ib-thanks a {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.ib-thanks a:hover {
+    text-decoration: underline;
+}
+
 /* ---------- Eigen inzendingen ---------- */
 .ib-mine-list {
     display: flex;
