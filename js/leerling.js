@@ -313,11 +313,19 @@
     let oefWacht = false;              // korte pauze na een fout antwoord
     let oefAantal = 0, oefGoedAantal = 0, oefTotaalMs = 0;
 
+    // De onderste fases hebben een voorbeeldsom als label ("5 + 2"). Alleen dat
+    // tonen, boven een echte som, leest als een tweede opgave. Met de fase
+    // ervoor is duidelijk dat het de naam van het steentje is.
     function blokLabel(id) {
         const blocks = (window.MT_REKENRACE_BLOCKS || []);
         for (const f of blocks) {
             for (const row of f.rows) {
-                for (const c of row) if (c.id === id) return c.label;
+                for (const c of row) {
+                    if (c.id === id) {
+                        const fase = (f.label || '').replace(/^FASE /, 'Fase ');
+                        return fase ? fase + ' · ' + c.label : c.label;
+                    }
+                }
             }
         }
         return 'Sommen';
