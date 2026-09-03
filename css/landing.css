@@ -507,3 +507,11 @@
     .lp-logo-text { display: none; }
     .lp-logo .logo-icon { font-size: 1.7rem; }
 }
+
+/* Premium-tool in het overzicht: wel laten zien dat het bestaat, maar niet
+   meetellen in "40 gratis tools" - want dat is hij niet. */
+.lp-chip-premium {
+    background: #FFF4D6;
+    color: #8A6100;
+    border: 1px solid #F0DFA8;
+}
