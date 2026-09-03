@@ -22,6 +22,7 @@
         wall: document.getElementById('screenWall'),
         oefenen: document.getElementById('screenOefenen'),
         oefenklaar: document.getElementById('screenOefenKlaar'),
+        weektaak: document.getElementById('screenWeektaak'),
         sociogram: document.getElementById('screenSociogram'),
         typetijger: document.getElementById('screenTypetijger')
     };
@@ -126,6 +127,22 @@
         showScreen('hub');
         loadSessions();
         startSessionsPoll();
+        checkWeektaak();
+    }
+
+    // De weektaaktegel verschijnt alleen als er ook echt iets klaarstaat. Een
+    // tegel die "je juf gebruikt dit niet" zegt is erger dan geen tegel.
+    let weektaakGecheckt = false;
+    async function checkWeektaak() {
+        if (weektaakGecheckt) return;
+        weektaakGecheckt = true;
+        const tegel = document.getElementById('tileWeektaak');
+        if (!tegel) return;
+        const res = await call('weektaak', { code: code });
+        if (res && res.ok && res.matched && res.premium && res.rooster) {
+            wtData = res;
+            tegel.style.display = '';
+        }
     }
 
     // ---------- Actieve sessies ("Doe nu mee!") ----------
@@ -456,6 +473,212 @@
     document.getElementById('oefNogEens').addEventListener('click', () => startOefenen(oefBlockId));
     document.getElementById('oefTerugMuur').addEventListener('click', () => showWall());
 
+    /* ---------- Weektaak ----------
+
+       Alles komt kant-en-klaar uit de edge function: het rooster, en alleen de
+       werkjes die voor dit kind bedoeld zijn. De filtering gebeurt daar en niet
+       hier, want werk voor het groeilab hoort niet in de paginabron van de rest
+       van de klas te staan.
+
+       Het percentage telt alleen moetwerk. Magwerk is een bonus; telde dat mee,
+       dan stond een kind op 90% terwijl het zijn spelling niet had gedaan. */
+    const DAGNAMEN_KORT = ['', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag'];
+    const MAANDEN = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
+    const WT_PAUZES = [
+        { naam: 'pauze', van: '10:15', tot: '10:30', dagen: [1, 2, 3, 4, 5] },
+        { naam: 'lunch', van: '12:30', tot: '13:00', dagen: [1, 2, 4, 5] },
+        { naam: 'grote pauze', van: '13:00', tot: '13:45', dagen: [1, 2, 4, 5] }
+    ];
+
+    let wtData = null;
+
+    function wtMin(t) {
+        const d = String(t || '').slice(0, 5).split(':');
+        return (parseInt(d[0], 10) || 0) * 60 + (parseInt(d[1], 10) || 0);
+    }
+    function wtHhmm(t) { return String(t || '').slice(0, 5); }
+
+    function wtItems(niveau, dag, lesId) {
+        return (wtData.items || []).filter(i => {
+            if (i.niveau !== niveau) return false;
+            if (niveau === 'week') return true;
+            if (i.dag !== dag) return false;
+            return niveau === 'dag' ? true : i.les_id === lesId;
+        });
+    }
+
+    function wtTaak(it) {
+        return '<button class="ll-taak' + (it.af ? ' af' : '') + '" data-vink="' + escapeHtml(it.id) + '">' +
+            '<span class="ll-vink">' + (it.af ? '&#10003;' : '') + '</span>' +
+            '<span class="ll-taak-tekst">' + escapeHtml(it.tekst) + '</span></button>';
+    }
+
+    async function showWeektaak() {
+        showScreen('weektaak');
+        document.getElementById('llWtLeeg').style.display = 'none';
+        document.getElementById('llWtInhoud').style.display = 'none';
+        document.getElementById('llWtVoortgang').style.display = 'none';
+
+        const res = await call('weektaak', { code: code });
+        if (!res || !res.ok || !res.matched) { showErr(document.getElementById('llWtLeeg'), 'Kon je weektaak niet laden.'); return; }
+        if (!res.premium) { showErr(document.getElementById('llWtLeeg'), 'Je meester of juf gebruikt de weektaak nog niet.'); return; }
+
+        document.getElementById('llWtWeek').textContent = 'Week ' + (res.weeknr || res.week || '');
+
+        if (!res.rooster) {
+            showErr(document.getElementById('llWtLeeg'), 'De weektaak van deze week staat nog niet klaar.');
+            return;
+        }
+
+        wtData = res;
+        renderWeektaak();
+        document.getElementById('llWtInhoud').style.display = '';
+        document.getElementById('llWtVoortgang').style.display = '';
+    }
+
+    function renderWeektaak() {
+        const v = wtData.voortgang || { procent: 0, moetAf: 0, moetTotaal: 0, magAf: 0 };
+        document.getElementById('llWtPct').textContent = v.procent + '%';
+        document.getElementById('llWtVul').style.width = v.procent + '%';
+        document.getElementById('llWtAantal').textContent = v.moetAf + ' van de ' + v.moetTotaal + ' klaar';
+        const mag = document.getElementById('llWtMag');
+        if (v.magAf > 0) {
+            mag.style.display = '';
+            mag.innerHTML = '&#11088; ' + v.magAf + ' magwerk' + (v.magAf === 1 ? 'je' : 'jes') + ' extra gedaan';
+        } else {
+            mag.style.display = 'none';
+        }
+
+        const datums = MT.weekDates(wtData.jaar, wtData.weeknr);
+        let html = '';
+        for (let dag = 1; dag <= 5; dag++) {
+            const lessen = (wtData.rooster || []).filter(l => l.dag === dag)
+                .sort((a, b) => wtMin(a.van) - wtMin(b.van));
+            const eind = lessen.length ? wtMin(lessen[lessen.length - 1].tot) : 0;
+
+            html += '<div class="ll-wt-dag"><div class="ll-wt-dagkop">' +
+                '<span class="ll-wt-dagnaam">' + DAGNAMEN_KORT[dag] + '</span>' +
+                '<span class="ll-wt-dagdatum">' + datums[dag - 1].getDate() + ' ' +
+                MAANDEN[datums[dag - 1].getMonth()] + '</span></div><div class="ll-wt-blokken">';
+
+            const stukken = lessen.map(l => ({ soort: 'les', van: wtMin(l.van), les: l }))
+                .concat(WT_PAUZES.filter(p => p.dagen.indexOf(dag) !== -1 && wtMin(p.van) < eind)
+                    .map(p => ({ soort: 'pauze', van: wtMin(p.van), pauze: p })))
+                .sort((a, b) => a.van - b.van);
+
+            if (!stukken.length) html += '<p class="ll-wt-leegregel" style="padding:8px 2px;">Vrij</p>';
+
+            stukken.forEach(st => {
+                if (st.soort === 'pauze') {
+                    html += '<div class="ll-wt-pauze">' + escapeHtml(st.pauze.naam) + '</div>';
+                    return;
+                }
+                const l = st.les;
+                const hoogte = Math.max(22, wtMin(l.tot) - wtMin(l.van));
+                const werk = wtItems('les', dag, l.les_id);
+                const open = werk.filter(w => !w.af).length;
+                const dot = werk.length
+                    ? '<span class="ll-wt-dot' + (open === 0 ? ' klaar' : '') + '">' +
+                      (open === 0 ? '&#10003;' : open) + '</span>' : '';
+                html += '<button class="ll-wt-blok wt-t-' + escapeHtml(l.lestype || 'overig') + '"' +
+                    ' style="height:' + hoogte + 'px" data-les="' + escapeHtml(l.les_id) + '" data-dag="' + dag + '">' +
+                    dot +
+                    '<span class="ll-wt-blok-tijd">' + wtHhmm(l.van) + ' – ' + wtHhmm(l.tot) + '</span>' +
+                    '<span class="ll-wt-blok-vak">' + escapeHtml(l.vak) + '</span></button>';
+            });
+
+            html += '</div>';
+
+            const dagWerk = wtItems('dag', dag);
+            if (dagWerk.length) {
+                html += '<div class="ll-wt-dagwerk"><div class="ll-wt-dagwerk-kop">Vandaag</div>' +
+                        dagWerk.map(wtTaak).join('') + '</div>';
+            } else {
+                html += '<div class="ll-wt-dagleeg"></div>';
+            }
+            html += '</div>';
+        }
+        document.getElementById('llWtRooster').innerHTML = html;
+
+        const week = wtItems('week');
+        const moet = week.filter(i => i.soort === 'moet');
+        const mg = week.filter(i => i.soort === 'mag');
+        document.getElementById('llWtWeekMoet').innerHTML = moet.length ? moet.map(wtTaak).join('')
+            : '<div class="ll-wt-leegregel">Niets extra&rsquo;s deze week.</div>';
+        document.getElementById('llWtWeekMag').innerHTML = mg.length ? mg.map(wtTaak).join('')
+            : '<div class="ll-wt-leegregel">Nog geen magwerk.</div>';
+    }
+
+    async function wtVink(itemId) {
+        const it = (wtData.items || []).filter(i => i.id === itemId)[0];
+        if (!it) return;
+        const nieuw = !it.af;
+        it.af = nieuw;                       // meteen in beeld; bij een fout draaien we terug
+
+        const v = wtData.voortgang;
+        if (it.soort === 'moet') v.moetAf += nieuw ? 1 : -1;
+        else v.magAf += nieuw ? 1 : -1;
+        v.procent = v.moetTotaal ? Math.round((v.moetAf / v.moetTotaal) * 100) : 0;
+
+        renderWeektaak();
+        if (document.getElementById('llWtLesModal').classList.contains('active')) toonLes(wtLaatsteLes);
+
+        const res = await call('weektaak_vink', { code: code, itemId: itemId, af: nieuw });
+        if (!res || !res.ok || !res.matched) {
+            it.af = !nieuw;
+            if (it.soort === 'moet') v.moetAf += nieuw ? -1 : 1;
+            else v.magAf += nieuw ? -1 : 1;
+            v.procent = v.moetTotaal ? Math.round((v.moetAf / v.moetTotaal) * 100) : 0;
+            renderWeektaak();
+        }
+    }
+
+    let wtLaatsteLes = null;
+    function toonLes(info) {
+        if (!info) return;
+        wtLaatsteLes = info;
+        const les = (wtData.rooster || []).filter(l => l.les_id === info.lesId)[0];
+        if (!les) return;
+        document.getElementById('llWtLesVak').textContent = les.vak;
+        document.getElementById('llWtLesTijd').textContent =
+            DAGNAMEN_KORT[info.dag].toLowerCase() + ' ' + wtHhmm(les.van) + ' – ' + wtHhmm(les.tot);
+
+        const werk = wtItems('les', info.dag, info.lesId);
+        const moet = werk.filter(w => w.soort === 'moet');
+        const mag = werk.filter(w => w.soort === 'mag');
+        let body = '';
+        if (!werk.length) {
+            body = '<p class="ll-wt-leegregel">Voor deze les staat er niets klaar. Werk anders verder ' +
+                   'aan je weektaak &mdash; die staat onderaan je scherm.</p>';
+        } else {
+            if (moet.length) body += '<h3>Dit moet je doen</h3>' + moet.map(wtTaak).join('');
+            if (mag.length) body += '<h3>Dit mag je doen</h3>' + mag.map(wtTaak).join('');
+        }
+        document.getElementById('llWtLesBody').innerHTML = body;
+        document.getElementById('llWtLesModal').classList.add('active');
+    }
+
+    document.getElementById('llWtRooster').addEventListener('click', (e) => {
+        const vink = e.target.closest('[data-vink]');
+        if (vink) { wtVink(vink.dataset.vink); return; }
+        const blok = e.target.closest('.ll-wt-blok');
+        if (blok) toonLes({ lesId: blok.dataset.les, dag: +blok.dataset.dag });
+    });
+    document.getElementById('llWtInhoud').addEventListener('click', (e) => {
+        const vink = e.target.closest('.ll-wt-paneel [data-vink]');
+        if (vink) wtVink(vink.dataset.vink);
+    });
+    document.getElementById('llWtLesBody').addEventListener('click', (e) => {
+        const vink = e.target.closest('[data-vink]');
+        if (vink) wtVink(vink.dataset.vink);
+    });
+    document.getElementById('llWtLesSluit').addEventListener('click', () => {
+        document.getElementById('llWtLesModal').classList.remove('active');
+    });
+    document.getElementById('llWtLesModal').addEventListener('click', (e) => {
+        if (e.target.id === 'llWtLesModal') e.target.classList.remove('active');
+    });
+
     // ---------- Typetijger (typcursus) ----------
     // Voortgang loopt per leerling via de edge function; het monster ligt vast
     // en de niveaus gaan pas open na 3 sterren per level op het vorige niveau.
@@ -518,6 +741,16 @@
         tileWall.addEventListener('click', showWall);
         tileWall.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showWall(); } });
         wallBack.addEventListener('click', showHub);
+        var tileWeektaak = document.getElementById('tileWeektaak');
+        if (tileWeektaak) {
+            tileWeektaak.addEventListener('click', showWeektaak);
+            tileWeektaak.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showWeektaak(); }
+            });
+        }
+        var wtTerug = document.getElementById('wtHubBack');
+        if (wtTerug) wtTerug.addEventListener('click', showHub);
+
         if (tileTypetijger) {
             tileTypetijger.addEventListener('click', showTypetijger);
             tileTypetijger.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showTypetijger(); } });

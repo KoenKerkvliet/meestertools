@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Weektaak: zet je basisrooster op, plan per week het moet- en magwerk en laat leerlingen zelf afvinken.">
+    <meta name="theme-color" content="#6C63FF">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://meestertools.nl/organisatie/weektaak">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>Meestertools - Weektaak</title>
+    <link rel="stylesheet" href="../css/style.css?v=1.57.0">
+    <link rel="stylesheet" href="../css/instellingen.css?v=1.57.0">
+    <link rel="stylesheet" href="../css/weektaak.css?v=1.57.0">
+</head>
+<body>
+    <div class="mt-page-loader" id="mtPageLoader"><div class="mt-spinner"></div></div>
+
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../organisatie" class="back-link">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Weektaak</h1>
+                <p>Zet je rooster klaar, plan het moet- en magwerk en laat de kinderen zelf afvinken.</p>
+            </div>
+            <button class="tool-settings-btn" id="wtBtnInstellingen" title="Rooster, vakken en groepjes">&#9881;&#65039;</button>
+        </div>
+
+        <div class="tool-page-body">
+
+            <div class="wt-geenklas" id="wtGeenKlas" style="display:none;">
+                <span class="wt-groot-icoon">&#128197;</span>
+                <p>Kies eerst een klas in de balk bovenaan.</p>
+            </div>
+
+            <div id="wtMain" style="display:none;">
+
+                <!-- Weekbalk -->
+                <div class="wt-balk">
+                    <div class="wt-weeknav">
+                        <button class="wt-navknop" id="wtVorige" title="Vorige week">&#8249;</button>
+                        <span class="wt-weeklabel" id="wtWeekLabel">Week</span>
+                        <button class="wt-navknop" id="wtVolgende" title="Volgende week">&#8250;</button>
+                        <button class="wt-vandaag" id="wtVandaag">Deze week</button>
+                    </div>
+                    <div class="wt-balk-rechts" id="wtBalkRechts"></div>
+                </div>
+
+                <!-- Week bestaat nog niet -->
+                <div class="wt-leeg" id="wtLeeg" style="display:none;">
+                    <span class="wt-groot-icoon">&#128465;&#65039;</span>
+                    <h2>Deze week staat nog niet klaar</h2>
+                    <p id="wtLeegUitleg">Neem je basisrooster over, of kopieer de vorige week met al het werk erin.</p>
+                    <div class="wt-leeg-knoppen">
+                        <button class="btn-primary" id="wtUitRooster">Uit mijn basisrooster</button>
+                        <button class="wt-btn" id="wtUitVorige">Vorige week overnemen</button>
+                    </div>
+                </div>
+
+                <!-- De week -->
+                <div id="wtWeek" style="display:none;">
+                    <div class="wt-rooster" id="wtRooster"></div>
+
+                    <div class="wt-weekwerk">
+                        <div class="wt-paneel wt-moet">
+                            <div class="wt-paneel-kop">
+                                <h2>&#128204; Moetwerk deze week</h2>
+                                <button class="wt-plus" data-niveau="week" data-soort="moet" title="Moetwerk toevoegen">&#10010;</button>
+                            </div>
+                            <p class="wt-paneel-sub">Moet voor vrijdag af. De kinderen plannen zelf wanneer.</p>
+                            <div id="wtWeekMoet"></div>
+                        </div>
+                        <div class="wt-paneel wt-mag">
+                            <div class="wt-paneel-kop">
+                                <h2>&#11088; Magwerk deze week</h2>
+                                <button class="wt-plus" data-niveau="week" data-soort="mag" title="Magwerk toevoegen">&#10010;</button>
+                            </div>
+                            <p class="wt-paneel-sub">Extra werk voor wie klaar is.</p>
+                            <div id="wtWeekMag"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="app-footer-slot"></footer>
+
+    <!-- Werk bij een les, dag of week -->
+    <div class="modal-overlay" id="wtWerkModal">
+        <div class="modal wt-modal">
+            <div class="modal-header">
+                <h2 id="wtWerkTitel">Werk</h2>
+                <button class="modal-close" id="wtWerkSluit">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="wt-werk-context" id="wtWerkContext"></p>
+
+                <div class="wt-werk-lijst" id="wtWerkLijst"></div>
+
+                <div class="wt-werk-nieuw">
+                    <div class="wt-soortkeuze" id="wtSoortKeuze">
+                        <button type="button" class="wt-soort active" data-soort="moet">&#128204; Moetwerk</button>
+                        <button type="button" class="wt-soort" data-soort="mag">&#11088; Magwerk</button>
+                    </div>
+                    <input type="text" id="wtWerkTekst" class="wt-input" maxlength="300"
+                           placeholder="Bijv. Rekenen bl. 12 t/m 15" autocomplete="off">
+
+                    <div class="wt-doel">
+                        <span class="wt-doel-label">Voor wie?</span>
+                        <div class="wt-doel-keuze" id="wtDoelKeuze"></div>
+                        <div class="wt-kinderen" id="wtKinderen" style="display:none;"></div>
+                    </div>
+
+                    <div class="wt-werk-actie">
+                        <button class="btn-primary" id="wtWerkToevoegen">Toevoegen</button>
+                        <span class="wt-fout" id="wtWerkFout"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instellingen: rooster, vakken, groepjes, schooltijden -->
+    <div class="modal-overlay" id="wtInstModal">
+        <div class="modal wt-inst-modal">
+            <div class="modal-header">
+                <h2>Weektaak instellen</h2>
+                <button class="modal-close" id="wtInstSluit">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="wt-tabs">
+                    <button class="wt-tab active" data-tab="rooster">Basisrooster</button>
+                    <button class="wt-tab" data-tab="vakken">Vakken</button>
+                    <button class="wt-tab" data-tab="groepjes">Groepjes</button>
+                    <button class="wt-tab" data-tab="tijden">Schooltijden</button>
+                </div>
+
+                <div class="wt-tabpaneel active" id="wtTabRooster">
+                    <p class="wt-hint">Dit is je gewone week. Elke nieuwe week begint hiermee, en wat je daarna in
+                       een week verschuift verandert dit rooster niet.</p>
+                    <div id="wtRoosterEdit"></div>
+                </div>
+
+                <div class="wt-tabpaneel" id="wtTabVakken">
+                    <p class="wt-hint">Het lestype bepaalt de kleur in het rooster.</p>
+                    <div id="wtVakkenLijst"></div>
+                    <div class="wt-nieuw-rij">
+                        <input type="text" id="wtVakNaam" class="wt-input" maxlength="40" placeholder="Naam van het vak">
+                        <select id="wtVakType" class="wt-input"></select>
+                        <button class="wt-btn wt-btn-primary" id="wtVakToevoegen">Toevoegen</button>
+                    </div>
+                </div>
+
+                <div class="wt-tabpaneel" id="wtTabGroepjes">
+                    <p class="wt-hint">Maak een groepje &eacute;&eacute;n keer aan, bijvoorbeeld je groeilab. Daarna zet je
+                       er met &eacute;&eacute;n klik werk voor klaar in plaats van elke week dezelfde kinderen aan te vinken.</p>
+                    <div id="wtGroepjesLijst"></div>
+                    <div class="wt-nieuw-rij">
+                        <input type="text" id="wtGroepjeNaam" class="wt-input" maxlength="40" placeholder="Bijv. Groeilab">
+                        <button class="wt-btn wt-btn-primary" id="wtGroepjeToevoegen">Toevoegen</button>
+                    </div>
+                </div>
+
+                <div class="wt-tabpaneel" id="wtTabTijden">
+                    <p class="wt-hint">Hoe lang je dag duurt bepaalt de hoogte van de kolommen. Pauzes worden als
+                       streepje getoond, zodat ze geen ruimte innemen die de lessen nodig hebben.</p>
+                    <div id="wtDagenEdit"></div>
+                    <h3 class="wt-subkop">Pauzes</h3>
+                    <div id="wtPauzesEdit"></div>
+                    <div class="wt-nieuw-rij">
+                        <input type="text" id="wtPauzeNaam" class="wt-input" maxlength="20" placeholder="Naam">
+                        <input type="time" id="wtPauzeVan" class="wt-input">
+                        <input type="time" id="wtPauzeTot" class="wt-input">
+                        <button class="wt-btn wt-btn-primary" id="wtPauzeToevoegen">Toevoegen</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="wtInstKlaar">Klaar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Les toevoegen of aanpassen in het basisrooster -->
+    <div class="modal-overlay" id="wtLesModal">
+        <div class="modal" style="max-width:420px;">
+            <div class="modal-header">
+                <h2 id="wtLesTitel">Les toevoegen</h2>
+                <button class="modal-close" id="wtLesSluit">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="wtLesVak">Vak</label>
+                    <select id="wtLesVak"></select>
+                </div>
+                <div class="form-group wt-tijdrij">
+                    <div><label for="wtLesVan">Van</label><input type="time" id="wtLesVan" class="wt-input"></div>
+                    <div><label for="wtLesTot">Tot</label><input type="time" id="wtLesTot" class="wt-input"></div>
+                </div>
+                <p class="wt-fout" id="wtLesFout"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel btn-delete" id="wtLesVerwijder" style="display:none;">Verwijderen</button>
+                <span style="flex:1;"></span>
+                <button class="btn-cancel" id="wtLesAnnuleer">Annuleren</button>
+                <button class="btn-primary" id="wtLesOpslaan">Opslaan</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="wt-toast" id="wtToast" role="status" aria-live="polite"></div>
+
+    <script src="/js/mt-shared.js?v=1.57.0"></script>
+    <script src="/js/template.js?v=1.57.0"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js?v=1.57.0"></script>
+    <script src="../js/app.js?v=1.57.0"></script>
+    <script src="/js/active-class.js?v=1.57.0"></script>
+    <script src="../js/instellingen.js?v=1.57.0"></script>
+    <script src="../js/weektaak.js?v=1.57.0"></script>
+</body>
+</html>

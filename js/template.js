@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.56.1';
+    const VERSION = 'v1.57.0';
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [
@@ -68,6 +68,7 @@
         // Organisatie
         { id: 'klassendienst', name: 'Klassendienst', url: 'organisatie/klassendienst', icon: '&#129529;' },
         { id: 'huiswerk', name: 'Huiswerk controleren', url: 'organisatie/huiswerk', icon: '&#128218;' },
+        { id: 'weektaak', name: 'Weektaak', url: 'organisatie/weektaak', icon: '&#128197;', premium: true },
         { id: 'plattegrond', name: 'Plattegrond', url: 'organisatie/plattegrond', icon: '&#128205;' },
         { id: 'naamkaarten', name: 'Naamkaarten', url: 'organisatie/naamkaarten', icon: '&#128219;' },
         { id: 'visiespel', name: 'Visiespel digitale geletterdheid', url: 'organisatie/visiespel', icon: '&#129461;' }
@@ -85,22 +86,26 @@
         return path.split('?')[0].split('#')[0].replace(/^\/+/, '').replace(/\.html$/, '').replace(/\/+$/, '');
     }
 
-    function ucToolForHref(href) {
+    function toolForHref(href, vlag) {
         var path = normalizePath(href);
         if (!path) return null;
         for (var i = 0; i < MT_ALL_TOOLS.length; i++) {
             var t = MT_ALL_TOOLS[i];
-            if (t.uc && (path === t.url || path.indexOf(t.url + '/') === 0)) return t;
+            if (t[vlag] && (path === t.url || path.indexOf(t.url + '/') === 0)) return t;
         }
         return null;
     }
+    function ucToolForHref(href) { return toolForHref(href, 'uc'); }
+    function premiumToolForHref(href) { return toolForHref(href, 'premium'); }
     window.MT_UC_TOOL_FOR_PATH = ucToolForHref;
+    window.MT_PREMIUM_TOOL_FOR_PATH = premiumToolForHref;
 
-    // Body-class waarmee CSS de kaarten voor super admins weer activeert
+    // Body-classes waarmee CSS de kaarten weer activeert: uc voor de super
+    // admin, premium voor wie een abonnement heeft.
     window.addEventListener('userRoleReady', function (e) {
-        if (e.detail && e.detail.role === 'super_admin') {
-            document.body.classList.add('mt-uc-admin');
-        }
+        if (!e.detail) return;
+        if (e.detail.role === 'super_admin') document.body.classList.add('mt-uc-admin');
+        if (e.detail.premium) document.body.classList.add('mt-premium');
     });
 
     // Globale klik-blokkade: vangt tool-kaarten, zoekresultaten en
@@ -108,10 +113,13 @@
     document.addEventListener('click', function (e) {
         var a = e.target && e.target.closest ? e.target.closest('a') : null;
         if (!a) return;
-        if (!ucToolForHref(a.getAttribute('href'))) return;
-        if (window.userRole === 'super_admin') return;
-        e.preventDefault();
-        e.stopPropagation();
+        var href = a.getAttribute('href');
+        if (ucToolForHref(href) && window.userRole !== 'super_admin') {
+            e.preventDefault(); e.stopPropagation(); return;
+        }
+        if (premiumToolForHref(href) && !window.isPremium) {
+            e.preventDefault(); e.stopPropagation();
+        }
     }, true);
 
     const headerHtml = `

@@ -8,8 +8,8 @@
     <meta name="robots" content="noindex">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>Leerling - Meestertools</title>
-    <link rel="stylesheet" href="css/style.css?v=1.56.1">
-    <link rel="stylesheet" href="css/typetijger.css?v=1.56.1">
+    <link rel="stylesheet" href="css/style.css?v=1.57.0">
+    <link rel="stylesheet" href="css/typetijger.css?v=1.57.0">
     <style>
         /* ---- Eigen, account-loze kop-balk (geen leerkracht-header) ---- */
         .ll-header {
@@ -98,6 +98,85 @@
             .md-wall .rr-cell.is-clickable:hover { transform: none; }
             .md-key:active { transform: none; }
         }
+        /* Weektaak. Zelfde raster en kleuren als aan de leerkrachtkant, zodat
+           een kind precies ziet wat de meester heeft klaargezet. */
+        .ll-wt-top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+        .ll-wt-week { font-weight: 800; font-size: 15px; color: var(--text-dark); }
+        .ll-wt-voortgang { background: #fff; border: 1px solid #E8E8F0; border-radius: 16px;
+            padding: 12px 18px; display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+        .ll-wt-pct { font-size: 22px; font-weight: 800; color: var(--primary); }
+        .ll-wt-tekst { font-size: 13.5px; font-weight: 700; }
+        .ll-wt-tekst span { color: var(--text-medium); font-weight: 500; }
+        .ll-wt-balk { flex: 1; min-width: 160px; height: 12px; background: #EFEFF6; border-radius: 999px; overflow: hidden; }
+        .ll-wt-vul { height: 100%; background: linear-gradient(90deg, #6C63FF, #8B83FF); border-radius: 999px; transition: width .3s ease; }
+        .ll-wt-mag { font-size: 12px; color: var(--text-medium); background: #F4F3FF; border-radius: 999px; padding: 5px 12px; font-weight: 700; }
+
+        .ll-wt-rooster { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; margin-bottom: 20px; }
+        .ll-wt-dag { background: #fff; border: 1px solid #E8E8F0; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+        .ll-wt-dagkop { padding: 9px 12px; border-bottom: 1px solid #E8E8F0; display: flex; align-items: baseline; gap: 6px; }
+        .ll-wt-dagnaam { font-weight: 800; font-size: 14px; }
+        .ll-wt-dagdatum { font-size: 11px; color: var(--text-light); }
+        .ll-wt-blokken { padding: 8px; display: flex; flex-direction: column; }
+        .ll-wt-blok + .ll-wt-blok, .ll-wt-blok + .ll-wt-pauze, .ll-wt-pauze + .ll-wt-blok { margin-top: 2px; }
+        .ll-wt-blok { position: relative; border: none; border-left: 3px solid; border-radius: 8px; padding: 5px 8px;
+            min-height: 22px; width: 100%; text-align: left; font-family: inherit; cursor: pointer; overflow: hidden; }
+        .ll-wt-blok:hover { filter: brightness(.96); }
+        .ll-wt-blok-tijd { display: block; font-size: 9.5px; font-weight: 600; opacity: .75; line-height: 1.1; }
+        .ll-wt-blok-vak { display: block; font-size: 12px; font-weight: 700; line-height: 1.15; margin-top: 1px; }
+        .ll-wt-dot { position: absolute; top: 5px; right: 6px; background: rgba(255,255,255,.8);
+            border-radius: 999px; font-size: 9px; font-weight: 800; padding: 1px 6px; line-height: 1.4; }
+        .ll-wt-dot.klaar { background: #4CAF50; color: #fff; }
+        .ll-wt-pauze { background: repeating-linear-gradient(45deg,#F4F4F8,#F4F4F8 6px,#EDEDF4 6px,#EDEDF4 12px);
+            border-radius: 6px; height: 18px; display: flex; align-items: center; justify-content: center;
+            font-size: 9.5px; font-weight: 700; color: #8B87A8; }
+        .ll-wt-dagleeg { flex: 1; min-height: 8px; }
+        .ll-wt-dagwerk { border-top: 1px dashed #E8E8F0; padding: 8px 10px; margin-top: auto; }
+        .ll-wt-dagwerk-kop { font-size: 10px; font-weight: 800; color: var(--text-light);
+            text-transform: uppercase; letter-spacing: .04em; margin-bottom: 5px; }
+
+        .wt-t-instructie  { background:#EDEBFF; border-color:#6C63FF; color:#3F37A8; }
+        .wt-t-zelfstandig { background:#E3F8E6; border-color:#4CAF50; color:#2C7A3F; }
+        .wt-t-gym         { background:#FFEBDD; border-color:#FF8C42; color:#A34A0A; }
+        .wt-t-creatief    { background:#FFE7F1; border-color:#FF6B9D; color:#9E2A5E; }
+        .wt-t-toets       { background:#FFE5E5; border-color:#EF5350; color:#B03030; }
+        .wt-t-overig      { background:#E7F5FF; border-color:#45B7D1; color:#1A6188; }
+        .wt-t-start       { background:#F4F4F8; border-color:#C9C9D6; color:#5A5A6E; }
+
+        .ll-wt-panelen { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 16px; }
+        .ll-wt-paneel { background: #fff; border: 1px solid #E8E8F0; border-radius: 16px; padding: 15px 18px; }
+        .ll-wt-paneel h2 { font-size: 15px; font-weight: 800; margin: 0 0 2px; }
+        .ll-wt-sub { font-size: 12px; color: var(--text-medium); margin: 0 0 10px; }
+        .ll-wt-moet { border-top: 4px solid #6C63FF; }
+        .ll-wt-mag { border-top: 4px solid #4CAF50; }
+
+        .ll-taak { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; font-size: 13px;
+            line-height: 1.4; cursor: pointer; text-align: left; background: none; border: none;
+            font-family: inherit; width: 100%; color: var(--text-dark); }
+        .ll-vink { flex-shrink: 0; width: 18px; height: 18px; border: 2px solid #C9C9D6; border-radius: 5px;
+            margin-top: 1px; display: flex; align-items: center; justify-content: center;
+            font-size: 11px; color: #fff; background: #fff; }
+        .ll-taak.af .ll-vink { background: #4CAF50; border-color: #4CAF50; }
+        .ll-taak.af .ll-taak-tekst { color: var(--text-light); text-decoration: line-through; }
+        .ll-taak-tekst { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+        .ll-wt-leegregel { font-size: 12px; color: var(--text-light); font-style: italic; }
+
+        .ll-wt-lesmodal { max-width: 460px; }
+        .ll-wt-lestijd { font-size: 13px; color: var(--text-medium); margin-top: 2px; }
+        .ll-wt-lesmodal h3 { font-size: 11px; font-weight: 800; color: var(--text-light);
+            text-transform: uppercase; letter-spacing: .04em; margin: 14px 0 2px; }
+        .ll-wt-lesmodal h3:first-child { margin-top: 0; }
+        .ll-wt-lesmodal .ll-taak { font-size: 14px; }
+
+        @media (max-width: 900px) {
+            .ll-wt-rooster { grid-template-columns: repeat(2, minmax(0,1fr)); }
+            .ll-wt-panelen { grid-template-columns: minmax(0,1fr); }
+        }
+        @media (max-width: 600px) { .ll-wt-rooster { grid-template-columns: minmax(0,1fr); } }
+        @media (prefers-reduced-motion: reduce) {
+            .ll-wt-blok:hover { filter: none; }
+            .ll-wt-vul { transition: none; }
+        }
+
         .md-wall { display: flex; flex-direction: column; gap: 6px; }
         .md-wall .rr-fase { display: flex; gap: 6px; align-items: stretch; }
         .md-wall .rr-fase-label { flex-shrink: 0; width: 44px; border-radius: 9px; background: #F08C1E; color: #fff; font-weight: 800; font-size: 10px; display: flex; align-items: center; justify-content: center; text-align: center; }
@@ -221,6 +300,11 @@
                     <span class="card-icon">&#128047;</span>
                     <h3>Typetijger</h3>
                     <p>Leer blind typen en verover de route, level voor level.</p>
+                </div>
+                <div class="tool-card" id="tileWeektaak" role="button" tabindex="0" style="display:none;">
+                    <span class="card-icon">&#128197;</span>
+                    <h3>Mijn weektaak</h3>
+                    <p>Kijk wat je deze week doet en vink af wat je af hebt.</p>
                 </div>
                 <div class="tool-card ll-soon">
                     <span class="card-icon">&#10024;</span>
@@ -349,6 +433,54 @@
             </div>
         </section>
 
+        <!-- 4d. Weektaak -->
+        <section class="ll-screen" id="screenWeektaak">
+            <div class="ll-wt-top">
+                <button class="ll-back" id="wtHubBack">&larr; Terug naar mijn pagina</button>
+                <span class="ll-wt-week" id="llWtWeek"></span>
+            </div>
+
+            <div class="ll-wt-voortgang" id="llWtVoortgang" style="display:none;">
+                <span class="ll-wt-pct" id="llWtPct">0%</span>
+                <span class="ll-wt-tekst">van je moetwerk af<br><span id="llWtAantal"></span></span>
+                <div class="ll-wt-balk"><div class="ll-wt-vul" id="llWtVul"></div></div>
+                <span class="ll-wt-mag" id="llWtMag" style="display:none;"></span>
+            </div>
+
+            <div class="ll-error" id="llWtLeeg" style="display:none;"></div>
+
+            <div id="llWtInhoud" style="display:none;">
+                <div class="ll-wt-rooster" id="llWtRooster"></div>
+
+                <div class="ll-wt-panelen">
+                    <div class="ll-wt-paneel ll-wt-moet">
+                        <h2>&#128204; Moetwerk deze week</h2>
+                        <p class="ll-wt-sub">Dit moet voor vrijdag af. Jij bepaalt zelf wanneer.</p>
+                        <div id="llWtWeekMoet"></div>
+                    </div>
+                    <div class="ll-wt-paneel ll-wt-mag">
+                        <h2>&#11088; Magwerk deze week</h2>
+                        <p class="ll-wt-sub">Klaar met je moetwerk? Kies hier iets uit.</p>
+                        <div id="llWtWeekMag"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4e. Wat er in één les te doen is -->
+        <div class="modal-overlay" id="llWtLesModal">
+            <div class="modal ll-wt-lesmodal">
+                <div class="modal-header">
+                    <div>
+                        <h2 id="llWtLesVak">Les</h2>
+                        <div class="ll-wt-lestijd" id="llWtLesTijd"></div>
+                    </div>
+                    <button class="modal-close" id="llWtLesSluit">&times;</button>
+                </div>
+                <div class="modal-body" id="llWtLesBody"></div>
+            </div>
+        </div>
+
         <!-- 5. Typetijger (typcursus) -->
         <section class="ll-screen" id="screenTypetijger">
             <div class="ll-tt-topbar">
@@ -425,11 +557,11 @@
     <footer class="ll-foot">Meestertools is gratis voor leerkrachten &middot; <a href="/" target="_blank" rel="noopener">meestertools.nl</a></footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="/js/mt-shared.js?v=1.56.1"></script>
-    <script src="js/supabase-config.js?v=1.56.1"></script>
-    <script src="js/rekenrace-blocks.js?v=1.56.1"></script>
+    <script src="/js/mt-shared.js?v=1.57.0"></script>
+    <script src="js/supabase-config.js?v=1.57.0"></script>
+    <script src="js/rekenrace-blocks.js?v=1.57.0"></script>
     <script>window.TT_NO_AUTOSTART = true;</script>
-    <script src="js/typetijger.js?v=1.56.1"></script>
-    <script src="js/leerling.js?v=1.56.1"></script>
+    <script src="js/typetijger.js?v=1.57.0"></script>
+    <script src="js/leerling.js?v=1.57.0"></script>
 </body>
 </html>

@@ -334,19 +334,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if (nameEl) nameEl.textContent = fullName;
         if (emailEl) emailEl.textContent = user.email;
 
-        // Fetch role from profiles table
+        // Fetch role + abonnement from profiles table
         const { data: profile } = await supabase
             .from('profiles')
-            .select('role')
+            .select('role, plan')
             .eq('id', user.id)
             .single();
 
         if (profile) {
             // Store role globally for other scripts
             window.userRole = profile.role;
+            // Premium: de super admin hoort er altijd bij, anders kan de bouwer
+            // zijn eigen tool niet in. Dit is alléén voor de weergave - het
+            // échte slot zit in de database (is_premium / group_has_premium),
+            // want een vlag in de browser is met devtools zo omzeild.
+            window.userPlan = profile.plan || 'gratis';
+            window.isPremium = (profile.role === 'super_admin' || window.userPlan === 'premium');
 
             // Dispatch event so admin.js and other scripts can react
-            window.dispatchEvent(new CustomEvent('userRoleReady', { detail: { role: profile.role } }));
+            window.dispatchEvent(new CustomEvent('userRoleReady', {
+                detail: { role: profile.role, plan: window.userPlan, premium: window.isPremium }
+            }));
 
             // Add admin link if super_admin
             if (profile.role === 'super_admin') {
@@ -363,6 +371,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (profile.role !== 'super_admin' &&
                 typeof window.MT_UC_TOOL_FOR_PATH === 'function' &&
                 window.MT_UC_TOOL_FOR_PATH(window.location.pathname)) {
+                window.location.href = getBasePath() + 'dashboard';
+            }
+
+            // Premium-tools: zonder abonnement terug naar het dashboard. Dit is
+            // de vriendelijke variant; de database weigert het hoe dan ook.
+            if (!window.isPremium &&
+                typeof window.MT_PREMIUM_TOOL_FOR_PATH === 'function' &&
+                window.MT_PREMIUM_TOOL_FOR_PATH(window.location.pathname)) {
                 window.location.href = getBasePath() + 'dashboard';
             }
         }

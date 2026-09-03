@@ -1,0 +1,611 @@
+/* ============================================
+   MEESTERTOOLS - Weektaak (leerkrachtkant)
+
+   De weekweergave is bewust dezelfde als die op de leerlingpagina: hetzelfde
+   raster, dezelfde kleuren, dezelfde hoogtes. Zo weet je bij het plannen precies
+   wat een kind straks ziet.
+
+   Twee keuzes die de hele opmaak bepalen:
+   - Lesblokken zijn op schaal (1 px per lesminuut), dus gym van anderhalf uur
+     is echt drie keer zo hoog als een halfuurles.
+   - Pauzes zijn NIET op schaal maar een streepje. Bij een dag van 8:30 tot
+     15:15 is 90 van de 405 minuten pauze; op schaal kost dat een vijfde van
+     het scherm aan grijze balken waar niets in staat.
+   ============================================ */
+
+/* ---------- Lege toestanden ---------- */
+.wt-geenklas,
+.wt-leeg {
+    text-align: center;
+    padding: 44px 20px;
+    background: var(--bg-white);
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-lg);
+}
+
+.wt-groot-icoon {
+    display: block;
+    font-size: 44px;
+    line-height: 1;
+    margin-bottom: 14px;
+}
+
+.wt-leeg h2 {
+    font-size: 19px;
+    font-weight: 800;
+    margin: 0 0 6px;
+    color: var(--text-dark);
+}
+
+.wt-leeg p {
+    font-size: 14px;
+    color: var(--text-medium);
+    max-width: 460px;
+    margin: 0 auto 20px;
+    line-height: 1.6;
+}
+
+.wt-leeg-knoppen {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ---------- Weekbalk ---------- */
+.wt-balk {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.wt-weeknav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wt-navknop {
+    width: 34px;
+    height: 34px;
+    border: 1px solid #E8E8F0;
+    background: var(--bg-white);
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    color: var(--text-medium);
+    cursor: pointer;
+    font-family: inherit;
+    transition: var(--transition);
+}
+
+.wt-navknop:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.wt-weeklabel {
+    font-weight: 700;
+    font-size: 14px;
+    background: var(--bg-white);
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    padding: 8px 16px;
+    min-width: 210px;
+    text-align: center;
+}
+
+.wt-vandaag {
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary);
+    cursor: pointer;
+    padding: 6px 4px;
+}
+
+.wt-vandaag:hover { text-decoration: underline; }
+
+.wt-balk-rechts {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Zichtbaar voor de kinderen, ja of nee. Zo kun je op zondagavond klaarzetten
+   zonder dat het halve werk al op hun scherm staat. */
+.wt-zichtbaar {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: var(--bg-white);
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-medium);
+    cursor: pointer;
+}
+
+.wt-zichtbaar input { accent-color: var(--primary); width: 16px; height: 16px; }
+.wt-zichtbaar.aan { color: #2C7A3F; border-color: #C8E6C9; background: #F4FCF5; }
+
+/* ---------- Het weekrooster ---------- */
+.wt-rooster {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.wt-dag {
+    background: var(--bg-white);
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.wt-dagkop {
+    padding: 9px 12px;
+    border-bottom: 1px solid #E8E8F0;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.wt-dagnaam { font-weight: 800; font-size: 14px; }
+.wt-dagdatum { font-size: 11px; color: var(--text-light); }
+.wt-dagkort {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 700;
+    color: #A34A0A;
+    background: #FFEBDD;
+    border-radius: 999px;
+    padding: 2px 7px;
+}
+
+.wt-blokken { padding: 8px; display: flex; flex-direction: column; }
+/* Geen tussenruimte: lessen sluiten in het echt op elkaar aan. */
+.wt-blok + .wt-blok,
+.wt-blok + .wt-pauze,
+.wt-pauze + .wt-blok { margin-top: 2px; }
+
+.wt-blok {
+    position: relative;
+    border: none;
+    border-left: 3px solid;
+    border-radius: 8px;
+    padding: 5px 8px;
+    min-height: 22px;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+    overflow: hidden;
+    transition: filter 0.12s ease;
+}
+
+.wt-blok:hover { filter: brightness(0.96); }
+.wt-blok-tijd { display: block; font-size: 9.5px; font-weight: 600; opacity: 0.75; line-height: 1.1; }
+.wt-blok-vak { display: block; font-size: 12px; font-weight: 700; line-height: 1.15; margin-top: 1px; }
+.wt-blok-soort { display: block; font-size: 9.5px; opacity: 0.8; }
+
+/* Aantal werkjes in deze les. Zonder dit moet je elke les openklikken om te
+   zien of er iets in staat. */
+.wt-werkdot {
+    position: absolute;
+    top: 5px;
+    right: 6px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 1px 6px;
+    line-height: 1.4;
+}
+
+/* Lestypes. Instructie en zelfstandig werken zijn de twee die het meest doen,
+   dus die krijgen de duidelijkste kleuren. */
+.wt-t-instructie  { background: #EDEBFF; border-color: #6C63FF; color: #3F37A8; }
+.wt-t-zelfstandig { background: #E3F8E6; border-color: #4CAF50; color: #2C7A3F; }
+.wt-t-gym         { background: #FFEBDD; border-color: #FF8C42; color: #A34A0A; }
+.wt-t-creatief    { background: #FFE7F1; border-color: #FF6B9D; color: #9E2A5E; }
+.wt-t-toets       { background: #FFE5E5; border-color: #EF5350; color: #B03030; }
+.wt-t-overig      { background: #E7F5FF; border-color: #45B7D1; color: #1A6188; }
+.wt-t-start       { background: #F4F4F8; border-color: #C9C9D6; color: #5A5A6E; }
+
+.wt-pauze {
+    background: repeating-linear-gradient(45deg, #F4F4F8, #F4F4F8 6px, #EDEDF4 6px, #EDEDF4 12px);
+    border-radius: 6px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #8B87A8;
+}
+
+.wt-dagleeg { flex: 1; min-height: 8px; }
+
+/* ---------- Werk onder een dag ---------- */
+.wt-dagwerk {
+    border-top: 1px dashed #E8E8F0;
+    padding: 8px 10px;
+    margin-top: auto;
+}
+
+.wt-dagwerk-kop {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 5px;
+}
+
+.wt-dagwerk-kop .wt-plus { margin-left: auto; }
+
+/* ---------- Taakregels ---------- */
+.wt-taak {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    padding: 4px 0;
+    font-size: 12px;
+    line-height: 1.35;
+}
+
+.wt-taak-soort { flex-shrink: 0; font-size: 11px; line-height: 1.3; }
+.wt-taak-tekst { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+
+.wt-doelbadge {
+    display: inline-block;
+    font-size: 9.5px;
+    font-weight: 800;
+    border-radius: 999px;
+    padding: 1px 7px;
+    margin-left: 5px;
+    vertical-align: middle;
+    background: #EDEBFF;
+    color: #4A42C4;
+    white-space: nowrap;
+}
+
+.wt-leeg-regel { font-size: 11px; color: var(--text-light); font-style: italic; }
+
+/* ---------- Weekpanelen ---------- */
+.wt-weekwerk {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+}
+
+.wt-paneel {
+    background: var(--bg-white);
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-lg);
+    padding: 15px 18px;
+}
+
+.wt-paneel.wt-moet { border-top: 4px solid var(--primary); }
+.wt-paneel.wt-mag  { border-top: 4px solid #4CAF50; }
+
+.wt-paneel-kop { display: flex; align-items: center; gap: 8px; }
+.wt-paneel-kop h2 { font-size: 15px; font-weight: 800; margin: 0; }
+.wt-paneel-kop .wt-plus { margin-left: auto; }
+.wt-paneel-sub { font-size: 12px; color: var(--text-medium); margin: 2px 0 10px; }
+
+.wt-plus {
+    width: 24px;
+    height: 24px;
+    border: 1px solid #E8E8F0;
+    background: var(--bg-white);
+    border-radius: 8px;
+    color: var(--primary);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.wt-plus:hover { background: #F4F3FF; border-color: var(--primary); }
+
+.wt-weg {
+    border: none;
+    background: none;
+    color: var(--text-light);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0 2px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.wt-weg:hover { color: var(--secondary); }
+
+/* ---------- Formulieronderdelen ---------- */
+.wt-input {
+    padding: 9px 12px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text-dark);
+    background: var(--bg-white);
+    outline: none;
+    transition: var(--transition);
+}
+
+.wt-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.1); }
+
+.wt-btn {
+    border: 1px solid #E8E8F0;
+    background: var(--bg-white);
+    border-radius: var(--radius-md);
+    padding: 9px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.wt-btn:hover { border-color: var(--primary); color: var(--primary); }
+.wt-btn-primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+.wt-btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); color: #fff; }
+
+.wt-fout { font-size: 13px; font-weight: 600; color: var(--secondary); }
+.wt-hint { font-size: 13px; color: var(--text-medium); line-height: 1.55; margin: 0 0 14px; }
+.wt-subkop { font-size: 13px; font-weight: 800; margin: 20px 0 8px; color: var(--text-dark); }
+
+/* ---------- Werkvenster ---------- */
+.wt-modal { max-width: 540px; }
+.wt-werk-context { font-size: 13px; color: var(--text-medium); margin: 0 0 14px; }
+
+.wt-werk-lijst { margin-bottom: 16px; }
+.wt-werk-lijst:empty { display: none; }
+
+.wt-werk-nieuw {
+    border-top: 1px solid #F0F0F5;
+    padding-top: 14px;
+}
+
+.wt-soortkeuze { display: flex; gap: 8px; margin-bottom: 10px; }
+
+.wt-soort {
+    flex: 1;
+    border: 2px solid #E8E8F0;
+    background: var(--bg-white);
+    border-radius: var(--radius-md);
+    padding: 9px 10px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-medium);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.wt-soort.active { border-color: var(--primary); background: #F4F3FF; color: var(--primary-dark); }
+
+#wtWerkTekst { width: 100%; }
+
+.wt-doel { margin-top: 12px; }
+.wt-doel-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 7px; }
+.wt-doel-keuze { display: flex; gap: 7px; flex-wrap: wrap; }
+
+.wt-doelknop {
+    border: 2px solid #E8E8F0;
+    background: var(--bg-white);
+    border-radius: 999px;
+    padding: 6px 13px;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-medium);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.wt-doelknop.active { border-color: var(--primary); background: #F4F3FF; color: var(--primary-dark); }
+
+.wt-kinderen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+    padding: 4px;
+}
+
+.wt-kind {
+    border: 2px solid #E8E8F0;
+    background: var(--bg-white);
+    border-radius: 999px;
+    padding: 5px 11px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-medium);
+    cursor: pointer;
+}
+
+.wt-kind.active { border-color: #4CAF50; background: #F1FBF2; color: #2C7A3F; }
+
+.wt-werk-actie { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
+
+/* ---------- Instellingen ---------- */
+.wt-inst-modal { max-width: 720px; }
+
+.wt-tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 2px solid #E8E8F0;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+.wt-tab {
+    border: none;
+    background: none;
+    padding: 9px 14px;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-medium);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+}
+
+.wt-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+.wt-tabpaneel { display: none; }
+.wt-tabpaneel.active { display: block; }
+
+.wt-nieuw-rij {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+
+.wt-nieuw-rij .wt-input { flex: 1; min-width: 120px; }
+
+/* Basisrooster per dag */
+.wt-roosterdag { margin-bottom: 16px; }
+
+.wt-roosterdag-kop {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 7px;
+}
+
+.wt-roosterdag-kop .wt-plus { margin-left: auto; }
+.wt-roosterdag-uren { font-size: 11px; font-weight: 600; color: var(--text-light); }
+
+.wt-roosterrij {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 11px;
+    border: 1px solid #EDEDF4;
+    border-radius: var(--radius-md);
+    margin-bottom: 5px;
+    background: #FCFCFF;
+    font-size: 13px;
+}
+
+.wt-roosterrij-tijd { font-variant-numeric: tabular-nums; color: var(--text-medium); font-size: 12px; flex-shrink: 0; }
+.wt-roosterrij-vak { font-weight: 700; flex: 1; min-width: 0; }
+.wt-roosterrij-duur { font-size: 11px; color: var(--text-light); flex-shrink: 0; }
+
+.wt-vakrij,
+.wt-groepjerij {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border: 1px solid #EDEDF4;
+    border-radius: var(--radius-md);
+    margin-bottom: 6px;
+    background: #FCFCFF;
+}
+
+.wt-vakkleur {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    border-left: 3px solid;
+    flex-shrink: 0;
+}
+
+.wt-vaknaam, .wt-groepjenaam { font-weight: 700; font-size: 13.5px; flex: 1; min-width: 0; }
+.wt-vaktype { font-size: 11.5px; color: var(--text-medium); }
+.wt-groepje-aantal { font-size: 11.5px; color: var(--text-medium); }
+
+.wt-groepje-leden { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 12px 12px; }
+
+.wt-tijdrij { display: flex; gap: 12px; }
+.wt-tijdrij > div { flex: 1; }
+.wt-tijdrij .wt-input { width: 100%; }
+
+.wt-dagrij {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    font-size: 13px;
+}
+
+.wt-dagrij-naam { font-weight: 700; width: 90px; flex-shrink: 0; }
+.wt-dagrij .wt-input { width: 110px; }
+
+.wt-pauzerij {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border: 1px solid #EDEDF4;
+    border-radius: var(--radius-md);
+    margin-bottom: 5px;
+    background: #FCFCFF;
+    font-size: 13px;
+}
+
+.wt-pauzerij-naam { font-weight: 700; flex: 1; }
+
+/* ---------- Toast ---------- */
+.wt-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%) translateY(16px);
+    background: var(--text-dark);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 3000;
+}
+
+.wt-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+    .wt-rooster { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .wt-weekwerk { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 600px) {
+    .wt-rooster { grid-template-columns: minmax(0, 1fr); }
+    .wt-weeklabel { min-width: 0; flex: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wt-blok:hover { filter: none; }
+    .wt-toast { transition: opacity 0.01ms; }
+}

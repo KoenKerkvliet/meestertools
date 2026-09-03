@@ -2818,3 +2818,39 @@ body.mt-uc-admin .tool-card.uc-card {
 .wb-coming-link:hover {
     text-decoration: underline;
 }
+
+/* ---------- Premium-tools ----------
+   De kaart blijft zichtbaar met een slotje: mensen mogen zien dat het bestaat.
+   Klikken is geblokkeerd in template.js, en de database weigert het hoe dan
+   ook - een vlag in de browser is geen slot. */
+.tool-card.premium-card {
+    position: relative;
+}
+
+.tool-card.premium-card:not(.uc-card) {
+    opacity: 0.75;
+}
+
+body.mt-premium .tool-card.premium-card:not(.uc-card) {
+    opacity: 1;
+}
+
+.premium-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #FFF4D6;
+    color: #8A6100;
+    border: 1px solid #F0DFA8;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    border-radius: 999px;
+    padding: 3px 9px;
+}
+
+/* Wie het abonnement heeft, hoeft er niet meer aan herinnerd te worden dat het
+   premium is - dan is het gewoon een tool. */
+body.mt-premium .premium-badge {
+    display: none;
+}

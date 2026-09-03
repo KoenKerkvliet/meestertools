@@ -114,6 +114,19 @@
                 }
             }
 
+            // Premium: kaart blijft zichtbaar met een slotje, zodat mensen zien
+            // dat het bestaat. Zonder abonnement is klikken geblokkeerd
+            // (template.js) en weigert de database het alsnog.
+            if (tool.premium) {
+                a.classList.add('premium-card');
+                if (!a.querySelector('.premium-badge')) {
+                    var pBadge = document.createElement('span');
+                    pBadge.className = 'premium-badge';
+                    pBadge.innerHTML = '&#128274; Premium';
+                    a.appendChild(pBadge);
+                }
+            }
+
             var btn = a.querySelector('.mt-card-fav');
             if (!btn) {
                 btn = document.createElement('button');

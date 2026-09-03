@@ -20,6 +20,10 @@ import { ACTIVE_BLOCKS, computeVerdict, upsertMastery } from '../_shared/rekenmu
  *   - wall             -> het rekenmuurtje (mastery) van die leerling
  *   - wall_oefenen { blockId, answered, correct, totalMs }
  *                      -> zelf geoefend op een steentje; werkt de muur bij
+ *   - weektaak { jaar?, week? }
+ *                      -> de weektaak van deze leerling (premium)
+ *   - weektaak_vink { itemId, af }
+ *                      -> een werkje af- of weer aanvinken
  *   - typetijger_load  -> voortgang van de typcursus
  *   - typetijger_save { lessonId, stars, apm, acc } -> voortgang opslaan (best)
  */
@@ -155,6 +159,112 @@ serve(async (req) => {
         .select('block_id, status, regressed, best_per_min, best_accuracy, last_per_min, last_accuracy, last_answered')
         .eq('student_id', student.id)
       return json({ ok: true, matched: true, mastery, wall: wall || [] })
+    }
+
+    /* ---------------- weektaak ----------------
+       Premium-tool. De filtering op "wat is voor dit kind" gebeurt hier en
+       niet in de browser: stond het groeilab-werk gewoon in het antwoord met
+       een vlaggetje erbij, dan las een nieuwsgierig kind het in de paginabron.
+
+       Een week is pas zichtbaar als de leerkracht hem heeft vrijgegeven, zodat
+       er op zondagavond rustig klaargezet kan worden. */
+    if (action === 'weektaak' || action === 'weektaak_vink') {
+      if (!valid) return json({ ok: true, matched: false })
+
+      // Hangt deze klas aan een premium-account?
+      const { data: groep } = await admin
+        .from('groups').select('user_id').eq('id', student.group_id).maybeSingle()
+      if (!groep) return json({ ok: true, matched: false })
+      const { data: eigenaar } = await admin
+        .from('profiles').select('role, plan').eq('id', groep.user_id).maybeSingle()
+      const premium = !!eigenaar && (eigenaar.role === 'super_admin' || eigenaar.plan === 'premium')
+      if (!premium) return json({ ok: true, matched: true, premium: false })
+
+      // In welke groepjes zit dit kind? Bepaalt welk extra werk het ziet.
+      const { data: lidmaatschap } = await admin
+        .from('klas_groepje_leden').select('groepje_id').eq('student_id', student.id)
+      const mijnGroepjes = new Set((lidmaatschap || []).map((l: any) => l.groepje_id))
+
+      const voorMij = (doel: any) => {
+        if (!doel || doel.type === 'klas') return true
+        if (doel.type === 'groepje') return mijnGroepjes.has(doel.id)
+        if (doel.type === 'leerlingen') return Array.isArray(doel.ids) && doel.ids.includes(student.id)
+        return false
+      }
+
+      // ---- afvinken ----
+      if (action === 'weektaak_vink') {
+        const itemId = String(body?.itemId || '')
+        if (!itemId) return json({ ok: false, error: 'Geen opdracht opgegeven.' }, 400)
+
+        // Alleen een werkje uit de eigen klas dat ook echt voor dit kind is.
+        const { data: item } = await admin
+          .from('weektaak_items').select('id, group_id, doelgroep').eq('id', itemId).maybeSingle()
+        if (!item || item.group_id !== student.group_id || !voorMij(item.doelgroep)) {
+          return json({ ok: true, matched: false })
+        }
+
+        if (body?.af) {
+          await admin.from('weektaak_afgevinkt')
+            .upsert({ item_id: itemId, student_id: student.id }, { onConflict: 'item_id,student_id' })
+        } else {
+          await admin.from('weektaak_afgevinkt')
+            .delete().eq('item_id', itemId).eq('student_id', student.id)
+        }
+        return json({ ok: true, matched: true })
+      }
+
+      // ---- de week ophalen ----
+      const nu = new Date()
+      const jaar = Number(body?.jaar) || isoJaarWeek(nu).jaar
+      const weeknr = Number(body?.week) || isoJaarWeek(nu).week
+
+      const { data: wk } = await admin
+        .from('weektaak_weken').select('id, jaar, week, rooster, zichtbaar')
+        .eq('group_id', student.group_id).eq('jaar', jaar).eq('week', weeknr).maybeSingle()
+
+      if (!wk || !wk.zichtbaar) {
+        return json({ ok: true, matched: true, premium: true, week: null, jaar, weeknr })
+      }
+
+      const { data: alle } = await admin
+        .from('weektaak_items')
+        .select('id, niveau, les_id, dag, soort, tekst, doelgroep, sort_order')
+        .eq('week_id', wk.id).order('sort_order')
+
+      const mijn = (alle || []).filter((i: any) => voorMij(i.doelgroep))
+      const ids = mijn.map((i: any) => i.id)
+
+      let afgevinkt: string[] = []
+      if (ids.length) {
+        const { data: vinkjes } = await admin
+          .from('weektaak_afgevinkt').select('item_id')
+          .eq('student_id', student.id).in('item_id', ids)
+        afgevinkt = (vinkjes || []).map((v: any) => v.item_id)
+      }
+      const afSet = new Set(afgevinkt)
+
+      // Percentage over moetwerk. Magwerk telt bewust niet mee: anders staat
+      // een kind op 90% terwijl het zijn spelling niet heeft gedaan.
+      const moet = mijn.filter((i: any) => i.soort === 'moet')
+      const moetAf = moet.filter((i: any) => afSet.has(i.id)).length
+      const magAf = mijn.filter((i: any) => i.soort === 'mag' && afSet.has(i.id)).length
+
+      return json({
+        ok: true, matched: true, premium: true,
+        jaar: wk.jaar, weeknr: wk.week,
+        rooster: wk.rooster || [],
+        items: mijn.map((i: any) => ({
+          id: i.id, niveau: i.niveau, les_id: i.les_id, dag: i.dag,
+          soort: i.soort, tekst: i.tekst, af: afSet.has(i.id),
+        })),
+        voortgang: {
+          moetTotaal: moet.length,
+          moetAf,
+          magAf,
+          procent: moet.length ? Math.round((moetAf / moet.length) * 100) : 0,
+        },
+      })
     }
 
     // ---------------- typetijger: voortgang laden ----------------
@@ -487,6 +597,20 @@ function normCode(raw: unknown): string {
 function cleanText(raw: unknown, max: number): string {
   return String(raw || '').replace(/\s+/g, ' ').trim().slice(0, max)
 }
+// ISO-weeknummer, gelijk aan MT.isoWeek in js/mt-shared.js. Bewust een eigen
+// kopie: de edge function kan geen browserbestand inladen, en dit is vier
+// regels rekenwerk dat nooit verandert.
+function isoJaarWeek(d: Date): { jaar: number; week: number } {
+  const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
+  const dagnr = (t.getUTCDay() + 6) % 7
+  t.setUTCDate(t.getUTCDate() - dagnr + 3)
+  const jaar = t.getUTCFullYear()
+  const eersteDo = new Date(Date.UTC(jaar, 0, 4))
+  eersteDo.setUTCDate(eersteDo.getUTCDate() - ((eersteDo.getUTCDay() + 6) % 7) + 3)
+  const week = 1 + Math.round((t.getTime() - eersteDo.getTime()) / (7 * 24 * 3600 * 1000))
+  return { jaar, week }
+}
+
 function clampInt(raw: unknown, min: number, max: number): number {
   const n = Math.round(Number(raw))
   if (!isFinite(n)) return min

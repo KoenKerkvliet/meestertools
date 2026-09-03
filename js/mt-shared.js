@@ -113,6 +113,41 @@
         return t.replace(/[^a-z0-9]+/g, '');
     }
 
+    // ---------- Weeknummers ----------
+    // De weektaak rekent in ISO-weken (maandag als eerste dag), niet in
+    // schoolweken zoals de klassendienst: "week 36" is een datum op de
+    // kalender, "schoolweek 3" is er een die je zelf telt en waar vakanties
+    // uit weggelaten zijn. Twee verschillende dingen, dus bewust niet gedeeld.
+    function isoWeek(d) {
+        var t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        // Donderdag van deze week bepaalt bij welk jaar de week hoort.
+        var dagnr = (t.getUTCDay() + 6) % 7;          // ma=0 ... zo=6
+        t.setUTCDate(t.getUTCDate() - dagnr + 3);
+        var jaar = t.getUTCFullYear();
+        var eersteDonderdag = new Date(Date.UTC(jaar, 0, 4));
+        var offset = (eersteDonderdag.getUTCDay() + 6) % 7;
+        eersteDonderdag.setUTCDate(eersteDonderdag.getUTCDate() - offset + 3);
+        var week = 1 + Math.round((t - eersteDonderdag) / (7 * 24 * 3600 * 1000));
+        return { jaar: jaar, week: week };
+    }
+
+    // De maandag van een ISO-week, als lokale datum.
+    function mondayOfIsoWeek(jaar, week) {
+        var d = new Date(jaar, 0, 4);                  // 4 januari zit altijd in week 1
+        var dagnr = (d.getDay() + 6) % 7;
+        d.setDate(d.getDate() - dagnr + (week - 1) * 7);
+        return d;
+    }
+
+    // Maandag t/m vrijdag van een ISO-week.
+    function weekDates(jaar, week) {
+        var ma = mondayOfIsoWeek(jaar, week), uit = [];
+        for (var i = 0; i < 5; i++) {
+            uit.push(new Date(ma.getFullYear(), ma.getMonth(), ma.getDate() + i));
+        }
+        return uit;
+    }
+
     // Sessiecode voor op het bord. Zonder I, O, 0, 1 en L, want die worden
     // door kinderen structureel verkeerd overgetypt.
     function genCode(len) {
@@ -133,6 +168,9 @@
         monsterPath: monsterPath,
         genCode: genCode,
         schoolKey: schoolKey,
-        cityKey: cityKey
+        cityKey: cityKey,
+        isoWeek: isoWeek,
+        mondayOfIsoWeek: mondayOfIsoWeek,
+        weekDates: weekDates
     };
 })(window);
