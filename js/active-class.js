@@ -70,8 +70,8 @@
         getGroups: function () { return groups.slice(); },
         // Eigenaar van een groep. Voor een duo-collega is dat een ander dan zijzelf.
         // Nodig bij instellingen die aan de eigenaar hangen, zoals de
-        // beloningsknoppen van Klasseprestatie: die gebruikt zij wel, maar
-        // beheert alleen de eigenaar.
+        // beloningsknoppen van Klasseprestatie: die staan op naam van de
+        // eigenaar, ook als de duo-collega ze toevoegt.
         getOwnerId: function (groupId) {
             var id = groupId || getId();
             for (var i = 0; i < groups.length; i++) {

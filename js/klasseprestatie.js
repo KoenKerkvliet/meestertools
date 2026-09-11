@@ -200,12 +200,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Beloningstypes en prijzen hangen aan de eigenaar van de klas. Werk je als
-    // duo-collega mee, dan gebruik je diens knoppen: zien en gebruiken mag,
-    // wijzigen niet (dat regelt RLS). Val terug op jezelf zolang er nog geen
-    // klas gekozen is.
+    // duo-collega mee, dan gebruik én beheer je diens set: nieuwe rijen krijgen
+    // dus ownerId(), niet je eigen id, anders verdwijnen ze uit beeld. Val terug
+    // op jezelf zolang er nog geen klas gekozen is. De eigenaar komt uit onze
+    // eigen groepenlijst: die van MTActiveClass laadt los van ons en kan bij het
+    // opstarten nog leeg zijn.
     function ownerId() {
-        var o = (window.MTActiveClass && selectedGroupId)
-            ? window.MTActiveClass.getOwnerId(selectedGroupId) : null;
+        var g = selectedGroupId && groups.find(function (x) { return x.id === selectedGroupId; });
+        var o = (g && g.user_id)
+            || ((window.MTActiveClass && selectedGroupId) ? window.MTActiveClass.getOwnerId(selectedGroupId) : null);
         return o || (currentUser ? currentUser.id : null);
     }
     function isEigenaar() {
@@ -216,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadGroups() {
         var { data } = await supabase
             .from('groups')
-            .select('id, name')
+            .select('id, name, user_id')
             .eq('archived', false)
             .order('name');
         groups = data || [];
@@ -244,8 +247,9 @@ document.addEventListener('DOMContentLoaded', () => {
             .order('sort_order');
         rewardTypes = data || [];
 
-        // Eerste keer: seed defaults
-        if (rewardTypes.length === 0) {
+        // Eerste keer: seed defaults. De seed schrijft op auth.uid(), dus alleen
+        // voor de eigenaar; een duo zou anders een eigen, onzichtbare set krijgen.
+        if (rewardTypes.length === 0 && isEigenaar()) {
             await supabase.rpc('seed_klasseprestatie_defaults');
             var { data: d2 } = await supabase
                 .from('klasseprestatie_reward_types')
@@ -1535,9 +1539,8 @@ document.addEventListener('DOMContentLoaded', () => {
         var sel = await supabase.from('klasseprestatie_reward_types')
             .select('id').eq('user_id', ownerId()).eq('label', ADJUST_LABEL).limit(1).maybeSingle();
         if (sel.data && sel.data.id) { adjustRewardTypeId = sel.data.id; return adjustRewardTypeId; }
-        if (!isEigenaar()) return null; // alleen de eigenaar beheert beloningstypes
         var ins = await supabase.from('klasseprestatie_reward_types')
-            .insert({ user_id: currentUser.id, type: 'positief', icon: '✏️', label: ADJUST_LABEL, points: 1, archived: true, sort_order: 999 })
+            .insert({ user_id: ownerId(), type: 'positief', icon: '✏️', label: ADJUST_LABEL, points: 1, archived: true, sort_order: 999 })
             .select('id').single();
         if (ins.error) { console.error('adjust reward type:', ins.error.message); return null; }
         adjustRewardTypeId = ins.data ? ins.data.id : null;
@@ -1946,7 +1949,7 @@ document.addEventListener('DOMContentLoaded', () => {
             var { error } = await supabase
                 .from('klasseprestatie_reward_types')
                 .insert({
-                    user_id: currentUser.id,
+                    user_id: ownerId(),
                     type: activeSettingsTab,
                     icon: icon,
                     label: label,
@@ -2375,7 +2378,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (error) { prizeEditError.textContent = leesbareFout(error); prizeEditError.style.display = 'block'; return; }
         } else {
             var { error } = await supabase.from('klasseprestatie_prizes')
-                .insert({ user_id: currentUser.id, icon: icon, label: label, cost: cost, is_group: isGroup, sort_order: prizes.length });
+                .insert({ user_id: ownerId(), icon: icon, label: label, cost: cost, is_group: isGroup, sort_order: prizes.length });
             if (error) { prizeEditError.textContent = leesbareFout(error); prizeEditError.style.display = 'block'; return; }
         }
         await loadPrizes();
