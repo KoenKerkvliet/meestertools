@@ -20,9 +20,14 @@ lesmap om naar de site, zodat elke les op dezelfde manier binnenkomt:
     - tekstblokken met "Schatgraver" (voettekst) eruit
 
 Gebruik:
-  python scripts/tien-minuten-les.py <les.html> <werkblad.pdf> <slug>
+  python scripts/tien-minuten-les.py <les.html> <werkblad.pdf> <vak> <slug>
 
-Daarna nog met de hand: kaart in lesmateriaal/10-minuten-didactiek.html.
+  vak = rekenen, spelling, taal, ... (map onder lesmateriaal/10-minuten-didactiek/)
+
+Daarna nog met de hand: kaart in lesmateriaal/10-minuten-didactiek/<vak>.html.
+Eerste les van een nieuw vak? Kopieer rekenen.html naar <vak>.html (titel,
+icoon en kaarten aanpassen) en maak de vakkaart in
+lesmateriaal/10-minuten-didactiek.html klikbaar (is-soon eraf, <a href>).
 Vereist: pypdf, Pillow.
 """
 
@@ -35,7 +40,7 @@ from pypdf import PdfReader, PdfWriter
 from pypdf.generic import ContentStream
 
 ROOT = Path(__file__).resolve().parent.parent
-LESMAP = ROOT / 'lesmateriaal' / '10-minuten-didactiek'
+DIDACTIEK = ROOT / 'lesmateriaal' / '10-minuten-didactiek'
 LOGO = ROOT / 'assets' / 'logo-meestertools.png'
 VERSION = re.search(r"const VERSION = 'v([^']+)'", (ROOT / 'js' / 'template.js').read_text(encoding='utf-8')).group(1)
 
@@ -70,7 +75,7 @@ def titel_alleen_eerste_dia(s):
                    '  nu=i; onthuld=0;\n  document.body.classList.toggle("eerste-dia",nu===0);\n')
 
 
-def les(src, slug):
+def les(src, vak, slug):
     s = Path(src).read_text(encoding='utf-8')
     s = vervang(s, '<meta name="viewport" content="width=device-width, initial-scale=1">',
                 '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
@@ -82,7 +87,7 @@ def les(src, slug):
                 '  header .terug{font-weight:900;font-size:20px;color:var(--zacht);text-decoration:none;background:#fff;border-radius:14px;padding:8px 16px;box-shadow:0 4px 0 var(--lijn)}\n'
                 '  header .terug:hover{color:var(--inkt)}')
     s = vervang(s, '<header>\n  <img',
-                '<header>\n  <a class="terug" href="../10-minuten-didactiek" title="Terug naar de lessen">&larr; Lessen</a>\n  <img')
+                '<header>\n  <a class="terug" href="/lesmateriaal/10-minuten-didactiek/' + vak + '" title="Terug naar de lessen">&larr; Lessen</a>\n  <img')
     s = doel_stapsgewijs(s)
     s = titel_alleen_eerste_dia(s)
     s = vervang(s, 'alt="Logo de Schatgraver"', 'alt="Meestertools"')
@@ -108,12 +113,13 @@ def les(src, slug):
 
     if 'chatgraver' in s.lower().replace('alt="meestertools"', ''):
         print('LET OP: "Schatgraver" staat nog ergens in de les, even nakijken.')
-    uit = LESMAP / (slug + '.html')
+    uit = DIDACTIEK / vak / (slug + '.html')
+    uit.parent.mkdir(exist_ok=True)
     uit.write_text(s, encoding='utf-8', newline='\n')
     print('les  ->', uit.relative_to(ROOT))
 
 
-def werkblad(src, slug):
+def werkblad(src, vak, slug):
     w = PdfWriter(clone_from=src)
 
     wit = Image.new('RGB', (2297, 735), 'white')
@@ -155,8 +161,8 @@ def werkblad(src, slug):
     for p in w.pages:
         p.compress_content_streams()
     w.compress_identical_objects(remove_duplicates=True, remove_unreferenced=True)
-    uit = LESMAP / 'werkbladen' / (slug + '.pdf')
-    uit.parent.mkdir(exist_ok=True)
+    uit = DIDACTIEK / vak / 'werkbladen' / (slug + '.pdf')
+    uit.parent.mkdir(parents=True, exist_ok=True)
     w.write(uit)
 
     r = PdfReader(uit)
@@ -167,7 +173,7 @@ def werkblad(src, slug):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 4:
+    if len(sys.argv) != 5:
         raise SystemExit(__doc__)
-    les(sys.argv[1], sys.argv[3])
-    werkblad(sys.argv[2], sys.argv[3])
+    les(sys.argv[1], sys.argv[3], sys.argv[4])
+    werkblad(sys.argv[2], sys.argv[3], sys.argv[4])

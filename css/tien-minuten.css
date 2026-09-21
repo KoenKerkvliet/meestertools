@@ -5,6 +5,24 @@
    wrapper eromheen in plaats van in de kaart.
    ============================================ */
 
+/* Vakkeuze: vakken zonder lessen staan er wel, maar zijn niet klikbaar
+   (zelfde "binnenkort"-stijl als op de groepsvorming-pagina). */
+.tool-card.is-soon { cursor: default; opacity: .7; }
+.tool-card.is-soon:hover { transform: none; box-shadow: var(--shadow-sm); border-color: transparent; }
+.soon-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--bg-light);
+    color: var(--text-medium);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+}
+
 .les-card {
     position: relative;
     display: flex;

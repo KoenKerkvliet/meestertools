@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<title>10 minuten rekenen – Tijd als kommagetal</title>
+<title>10 minuten rekenen – Lijngrafieken: de grootste toename</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
 <style>
@@ -126,43 +126,15 @@
   @keyframes pop{0%{transform:scale(.6)}70%{transform:scale(1.12)}100%{transform:scale(1)}}
   .beurtknoppen{display:flex;gap:16px;justify-content:center}
   #beurtInfo{font-size:22px;color:var(--zacht);margin-top:18px;font-weight:800}
-
-  /* ---------- extra voor deze les ---------- */
-  .opdracht{grid-template-columns:820px 1fr}
-  .visueel{background:var(--kaart);border-radius:26px;padding:22px 26px;box-shadow:0 6px 0 var(--lijn);align-self:start;display:flex;flex-direction:column;gap:22px;align-items:center}
-  .visueel .vtitel{font-weight:900;font-size:22px;color:var(--zacht);align-self:flex-start;text-transform:uppercase;letter-spacing:1px}
-  .klokken{display:flex;gap:22px;justify-content:center;flex-wrap:wrap}
-  .klok{display:flex;flex-direction:column;align-items:center;gap:6px}
-  .klok svg{width:170px;height:170px}
-  .klokken.klein .klok svg{width:130px;height:130px}
-  .klok .kl{font-weight:900;font-size:24px;opacity:0;transition:opacity .4s}
-  .klok .vulling{opacity:0;transition:opacity .5s}
-  .klokken.gevuld .vulling,.klokken.gevuld .kl{opacity:1}
-  table.vt{border-collapse:separate;border-spacing:0;font-size:34px;font-weight:900}
-  table.vt th{background:#F2EEFB;color:var(--paars);padding:10px 20px;text-align:left;border-radius:14px 0 0 14px;font-size:28px}
-  table.vt td{background:#fff;border:3px solid var(--lijn);min-width:120px;height:66px;text-align:center;padding:0 12px}
-  table.vt tr.op td{border:none;background:none;height:42px;font-size:24px;color:var(--oranje)}
-  table.vt tr.op td span{background:#fff3e6;border-radius:999px;padding:2px 14px}
-  table.vt td.leeg{color:#c9bfd6}
-  .vergelijk{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-bottom:26px}
-  .vergelijk .kaart{text-align:center}
-  .vergelijk .groot{font-size:58px;font-weight:900;margin:8px 0}
-  .valkuilbalk{background:#fff0f8;border:4px dashed var(--roze);border-radius:24px;padding:20px 30px;font-size:32px;font-weight:900;text-align:center}
-  .feiten{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
-  .feit{background:#fff;border-radius:24px;padding:18px 12px;text-align:center;box-shadow:0 6px 0 var(--lijn)}
-  .feit b{display:block;font-size:40px;font-weight:900;color:var(--oranje)}
-  .feit span{font-size:24px;font-weight:800;display:block;line-height:1.3}
-  .feit .klokken .kl{display:none}
-  .klokken.verborgen:not(.gevuld){visibility:hidden}
 </style>
 </head>
 <body>
 <div id="wrap"><div id="stage">
 
 <header>
-  <a class="terug" href="../10-minuten-didactiek" title="Terug naar de lessen">&larr; Lessen</a>
+  <a class="terug" href="/lesmateriaal/10-minuten-didactiek/rekenen" title="Terug naar de lessen">&larr; Lessen</a>
   <img src="/assets/logo-meestertools.png" alt="Meestertools" onerror="this.style.display='none'">
-  <div class="titel">10 minuten rekenen · Tijd als kommagetal</div>
+  <div class="titel">10 minuten rekenen · Lijngrafieken</div>
   <div id="fase" class="fase hidden">Ik</div>
 </header>
 
@@ -170,8 +142,8 @@
 <section class="slide" data-fase="">
   <div class="titeldia">
     <img src="/assets/logo-meestertools.png" alt="" onerror="this.style.display='none'">
-    <h1>Hoeveel minuten is 2,5 uur?</h1>
-    <div class="sub">Tijd als kommagetal · 10 minuten rekenen · groep 8</div>
+    <h1>Lijngrafieken: wanneer groeit het het méést?</h1>
+    <div class="sub">10 minuten rekenen · groep 8</div>
     <div class="badge-rij">
       <span style="background:var(--oranje)">Ik</span>
       <span style="background:var(--groen)">Wij</span>
@@ -179,7 +151,7 @@
       <span style="background:var(--roze)">Jij</span>
     </div>
   </div>
-  <div class="notitie"><b>Leerkracht:</b> pijltje → of spatie = volgende stap, <b>B</b> = beurt, <b>T</b> = timer, <b>F</b> = volledig scherm, <b>N</b> = notities aan/uit.<br>Start eventueel met de vraag op deze dia: laat iedereen een antwoord op het wisbordje zetten. Je ziet meteen wie "2 uur en 50 minuten" of "250 minuten" schrijft.</div>
+  <div class="notitie"><b>Leerkracht:</b> pijltje → of spatie = volgende stap, <b>B</b> = beurt, <b>T</b> = timer, <b>F</b> = volledig scherm, <b>N</b> = notities aan/uit.</div>
 </section>
 
 <!-- ============ 2. DOEL ============ -->
@@ -187,335 +159,236 @@
   <h2>Ons doel van vandaag</h2>
   <div class="doelzin">
     <div class="icoon"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="#fff"/></svg></div>
-    Ik kan een tijd als kommagetal schrijven en een kommagetal omzetten naar uren en minuten.
+    Ik kan in een lijngrafiek aflezen wanneer iets het méést is toegenomen.
   </div>
   <div class="twee">
     <div class="kaart step" style="border-top:10px solid var(--paars)">
-      <h3><span class="label" style="background:var(--paars)">Concept</span> Wat moet ik snappen?</h3>
-      <p>Een uur heeft <b>60 minuten</b>, geen 100.<br>Daarom is <b>0,5 uur</b> een half uur = <b>30 minuten</b>.</p>
+      <h3><span class="label" style="background:var(--paars)">Concept</span> Wat is een toename?</h3>
+      <p>Een <b>toename</b> is hoeveel er <b>bij</b> is gekomen tussen twee momenten.<br>Het is het <b>verschil</b>, niet het hoogste punt!</p>
     </div>
     <div class="kaart step" style="border-top:10px solid var(--oranje)">
       <h3><span class="label" style="background:var(--oranje)">Vaardigheid</span> Wat ga ik doen?</h3>
-      <p>Ik reken om met een <b>verhoudingstabel</b>:<br><b>1 uur = 60 minuten</b></p>
+      <p>Ik zoek het <b>steilste stuk omhoog</b>, lees de twee punten af en reken uit:<br><b>later − eerder = toename</b></p>
     </div>
   </div>
-  <div class="notitie"><b>Uit de overdracht:</b> tijd omzetten lukt wel, maar dat je tijd als kommagetal kunt schrijven is niet blijven hangen. Veel kinderen schreven "2 uur" of "2,30".</div>
+  <div class="notitie"><b>Tip:</b> laat een leerling het doel in eigen woorden herhalen (beurt met B). Vraag: "Is het hoogste punt altijd de grootste toename?"</div>
 </section>
 
-<!-- ============ 3. TIJD IS GEEN GELD ============ -->
+<!-- ============ 3. REKENTAAL ============ -->
 <section class="slide" data-fase="doel">
-  <h2>Pas op: tijd werkt anders dan geld!</h2>
-  <div class="vergelijk">
-    <div class="kaart" style="border-top:10px solid var(--groen)">
-      <h3 style="justify-content:center">Geld: 1 euro = 100 cent</h3>
-      <div class="groot">€ 2,50</div>
-      <p>= 2 euro en <b>50 cent</b></p>
-    </div>
-    <div class="kaart" style="border-top:10px solid var(--oranje)">
-      <h3 style="justify-content:center">Tijd: 1 uur = 60 minuten</h3>
-      <div class="groot">2,5 uur</div>
-      <p>= 2 uur en <b>30 minuten</b></p>
-    </div>
+  <h2>Rekentaal: welke woorden zie je in de vraag?</h2>
+  <div class="woorden">
+    <div class="woord"><b>toegenomen · gestegen · gegroeid</b><span>er is iets bij gekomen, de lijn gaat omhoog ↗</span></div>
+    <div class="woord af"><b>afgenomen · gedaald · minder geworden</b><span>er is iets af gegaan, de lijn gaat omlaag ↘</span></div>
+    <div class="woord meest"><b>het méést toegenomen</b><span>de grootste stijging = het steilste stuk omhoog</span></div>
+    <div class="woord kw"><b>kwartaal</b><span>een periode van 3 maanden. Een jaar heeft 4 kwartalen.</span></div>
   </div>
-  <div class="valkuilbalk step">Valkuil: 2,30 uur is níet 2 uur en 30 minuten!<br><span style="font-size:26px;font-weight:800">2 uur en 30 minuten schrijf je als 2,5 uur.</span></div>
-  <div class="notitie"><b>Vraag aan de klas:</b> "Waarom mag het bij geld wel zo en bij tijd niet?" Laat een kind het verschil tussen 100 en 60 uitleggen.</div>
+  <div class="notitie"><b>Tip:</b> uit de overdracht: rekentaal is een valkuil voor deze groep. Laat kinderen bij elk woord met hun arm de richting van de lijn laten zien.</div>
 </section>
 
-<!-- ============ 4. HANDIGE FEITEN ============ -->
-<section class="slide" data-fase="doel">
-  <h2>Deze moet je paraat hebben</h2>
-  <div class="feiten">
-    <div class="feit"><div class="klokken klein gevuld" data-klok="60"></div><b>1 uur</b><span>= 60 minuten</span></div>
-    <div class="feit"><div class="klokken klein gevuld" data-klok="30"></div><b>0,5 uur</b><span>half uur<br>= 30 minuten</span></div>
-    <div class="feit"><div class="klokken klein gevuld" data-klok="15"></div><b>0,25 uur</b><span>kwartier<br>= 15 minuten</span></div>
-    <div class="feit"><div class="klokken klein gevuld" data-klok="45"></div><b>0,75 uur</b><span>drie kwartier<br>= 45 minuten</span></div>
-  </div>
-  <div class="notitie"><b>Tip:</b> laat de klas in koor antwoorden: "Een kwartier is…?" → "nul komma vijfentwintig uur!"</div>
-</section>
-
-<!-- ============ 5. STAPPENPLAN ============ -->
+<!-- ============ 4. STAPPENPLAN ============ -->
 <section class="slide" data-fase="doel">
   <h2>Zo pak ik het aan</h2>
   <ol class="stappen">
-    <li><span class="nr">1</span><span><b>Welke kant op?</b> Van kommagetal naar minuten, of andersom?</span></li>
-    <li><span class="nr">2</span><span><b>Hele uren eerst.</b> Wat staat er vóór de komma?</span></li>
-    <li><span class="nr">3</span><span><b>Verhoudingstabel</b> voor het stukje achter de komma: 1 uur = 60 min.</span></li>
-    <li><span class="nr">4</span><span><b>Zet het samen</b> en controleer met de klok: klopt het?</span></li>
+    <li><span class="nr">1</span><span><b>Lees de vraag.</b> Zoek het signaalwoord: toegenomen? afgenomen?</span></li>
+    <li><span class="nr">2</span><span><b>Kijk naar de assen.</b> Wat staat erop, en hoe groot is één hokje?</span></li>
+    <li><span class="nr">3</span><span><b>Zoek het steilste stuk</b> omhoog (of omlaag bij afgenomen).</span></li>
+    <li><span class="nr">4</span><span><b>Lees beide punten af</b> en reken: later − eerder. Past dit bij de vraag?</span></li>
   </ol>
 </section>
 
-<!-- ============ 6. IK 1 : 2,5 uur ============ -->
+<!-- ============ 5. IK – opdracht 1 ============ -->
 <section class="slide" data-fase="ik">
   <div class="opdracht">
-    <div class="visueel">
-      <div class="vtitel">Klok</div>
-      <div class="klokken" data-klok="150"></div>
-      <div class="vtitel">Verhoudingstabel</div>
-      <table class="vt">
-        <tr class="op"><td></td><td></td><td class="step" data-volg="3"><span>: 2</span></td></tr>
-        <tr><th>uur</th><td>1</td><td class="step" data-volg="3">0,5</td></tr>
-        <tr><th>min</th><td>60</td><td class="step" data-volg="4">30</td></tr>
-      </table>
-    </div>
+    <div class="grafiekkaart"><div class="gtitel">Lengte van de zonnebloem</div><div class="chart" data-chart="zonnebloem"></div></div>
     <div class="rechts">
       <span class="nummer" style="background:var(--oranje)">Opdracht 1 · ik doe het voor</span>
-      <p class="vraag">Hoeveel uur en minuten is 2,5 uur?</p>
+      <p class="vraag">In welke week is de zonnebloem het méést gegroeid?</p>
       <ul class="denk">
-        <li class="step" data-volg="1">"Vóór de komma staat een 2. Dat zijn <b>2 hele uren</b>."</li>
-        <li class="step" data-volg="2" data-show="vul">"Achter de komma staat 0,5 uur. Dat is een <b>half uur</b>."</li>
-        <li class="step" data-volg="4">"In mijn tabel: 1 uur is 60 min. De helft: 0,5 uur is <b>30 min</b>."</li>
-        <li class="step valkuil" data-volg="5">"Het is níet 2 uur en 5 minuten, en ook niet 2 uur en 50 minuten!"</li>
-        <li class="step antw" data-volg="6">2,5 uur = 2 uur en 30 minuten</li>
+        <li class="step">"Signaalwoord: <b>het meest gegroeid</b>. Ik zoek dus de grootste toename."</li>
+        <li class="step valkuil" data-show="max">"Pas op! In week 6 is hij het hóógst, maar daar groeit hij bijna niet meer."</li>
+        <li class="step" data-show="1-2">"Waar is de lijn het steilst omhoog? Tussen week 2 en week 3."</li>
+        <li class="step">"Week 2: 35 cm. Week 3: 60 cm. 60 − 35 = <b>25 cm</b>."</li>
+        <li class="step antw">Tussen week 2 en week 3: 25 cm gegroeid.</li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke kant op?</span><span><b>2</b> hele uren</span><span><b>3</b> tabel</span><span><b>4</b> samen + check</span></div>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
     </div>
   </div>
-  <div class="notitie"><b>Hardop denken:</b> wijs bij "2 hele uren" de twee volle klokken aan en pas daarna het halve klokje.</div>
+  <div class="notitie"><b>Hardop denken:</b> benoem expliciet de valkuil (hoogste punt ≠ grootste toename). Dat is dé fout uit de toetsanalyse van groep 7.</div>
 </section>
 
-<!-- ============ 7. IK 2 : 0,25 uur ============ -->
+<!-- ============ 6. IK – opdracht 2 ============ -->
 <section class="slide" data-fase="ik">
   <div class="opdracht">
-    <div class="visueel">
-      <div class="vtitel">Klok</div>
-      <div class="klokken" data-klok="15"></div>
-      <div class="vtitel">Verhoudingstabel</div>
-      <table class="vt">
-        <tr class="op"><td></td><td></td><td class="step" data-volg="2"><span>: 2</span></td><td class="step" data-volg="3"><span>: 2</span></td></tr>
-        <tr><th>uur</th><td>1</td><td class="step" data-volg="2">0,5</td><td class="step" data-volg="3">0,25</td></tr>
-        <tr><th>min</th><td>60</td><td class="step" data-volg="2">30</td><td class="step" data-volg="3">15</td></tr>
-      </table>
-    </div>
+    <div class="grafiekkaart"><div class="gtitel">Bezoekers van het zwembad</div><div class="chart" data-chart="zwembad"></div></div>
     <div class="rechts">
       <span class="nummer" style="background:var(--oranje)">Opdracht 2 · ik doe het voor</span>
-      <p class="vraag">Hoeveel minuten is 0,25 uur?</p>
+      <p class="vraag">Tussen welke maanden kwamen er de meeste bezoekers bij? En wanneer is het aantal het meest <u>afgenomen</u>?</p>
       <ul class="denk">
-        <li class="step" data-volg="1">"Vóór de komma staat 0: er is <b>geen heel uur</b>. Ik heb alleen de tabel nodig."</li>
-        <li class="step" data-volg="2">"Ik halveer: 0,5 uur = 30 min."</li>
-        <li class="step" data-volg="3">"Nog een keer halveren: 0,25 uur = <b>15 min</b>."</li>
-        <li class="step" data-volg="4" data-show="vul">"Check op de klok: een kwart van de klok is een <b>kwartier</b>. Klopt!"</li>
-        <li class="step antw" data-volg="5">0,25 uur = 15 minuten (een kwartier)</li>
+        <li class="step">"Eerst de assen: één hokje is <b>500 bezoekers</b>."</li>
+        <li class="step" data-show="1-2">"Steilste stuk omhoog: juni → juli. 3200 − 1500 = <b>1700 bezoekers erbij</b>."</li>
+        <li class="step" data-show="3-4">"Afgenomen = omlaag. Steilste stuk omlaag: augustus → september. 3600 − 1200 = <b>2400 minder</b>."</li>
+        <li class="step antw">Meest toegenomen: juni → juli (+1700).<br>Meest afgenomen: aug → sept (−2400).</li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke kant op?</span><span><b>2</b> hele uren</span><span><b>3</b> tabel</span><span><b>4</b> samen + check</span></div>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 8. IK 3 : 1,75 uur ============ -->
+<!-- ============ 7. IK – opdracht 3 ============ -->
 <section class="slide" data-fase="ik">
   <div class="opdracht">
-    <div class="visueel">
-      <div class="vtitel">Klok</div>
-      <div class="klokken" data-klok="105"></div>
-      <div class="vtitel">Verhoudingstabel</div>
-      <table class="vt">
-        <tr class="op"><td></td><td></td><td class="step" data-volg="2"><span>: 4</span></td><td class="step" data-volg="3"><span>× 3</span></td></tr>
-        <tr><th>uur</th><td>1</td><td class="step" data-volg="2">0,25</td><td class="step" data-volg="3">0,75</td></tr>
-        <tr><th>min</th><td>60</td><td class="step" data-volg="2">15</td><td class="step" data-volg="3">45</td></tr>
-      </table>
-    </div>
+    <div class="grafiekkaart"><div class="gtitel">Temperatuur op een zomerdag</div><div class="chart" data-chart="temp1"></div></div>
     <div class="rechts">
       <span class="nummer" style="background:var(--oranje)">Opdracht 3 · ik doe het voor</span>
-      <p class="vraag">Een film duurt 1,75 uur. Hoeveel uur en minuten is dat?</p>
+      <p class="vraag">Tussen welke twee tijdstippen is de temperatuur het méést gestegen?</p>
       <ul class="denk">
-        <li class="step" data-volg="1">"Vóór de komma: <b>1 heel uur</b>. Achter de komma: 0,75 uur."</li>
-        <li class="step" data-volg="2">"0,75 is drie keer 0,25. Eerst één kwartier: 60 : 4 = 15 min."</li>
-        <li class="step" data-volg="3">"Drie kwartier: 3 × 15 = <b>45 min</b>."</li>
-        <li class="step" data-volg="4" data-show="vul">"Samen: 1 uur en 45 minuten. Check: één volle klok en drie kwart."</li>
-        <li class="step antw" data-volg="5">1,75 uur = 1 uur en 45 minuten</li>
+        <li class="step">"Assen: elk hokje is <b>2 graden</b>. Een punt tussen twee lijnen is dus een oneven getal."</li>
+        <li class="step" data-show="1-2">"Steilste stuk omhoog: 08:00 → 10:00."</li>
+        <li class="step">"08:00 is 11 °C, 10:00 is 17 °C. 17 − 11 = <b>6 graden</b>."</li>
+        <li class="step antw">Tussen 08:00 en 10:00: 6 graden gestegen.</li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke kant op?</span><span><b>2</b> hele uren</span><span><b>3</b> tabel</span><span><b>4</b> samen + check</span></div>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 9. WIJ 4 : 45 min ============ -->
+<!-- ============ 8. WIJ – opdracht 4 ============ -->
 <section class="slide" data-fase="wij">
   <div class="opdracht">
-    <div class="visueel">
-      <div class="vtitel">Klok</div>
-      <div class="klokken" data-klok="45"></div>
-      <div class="vtitel">Verhoudingstabel</div>
-      <table class="vt">
-        <tr class="op"><td></td><td></td><td class="step" data-volg="2"><span>: 4</span></td><td class="step" data-volg="4"><span>× 3</span></td></tr>
-        <tr><th>min</th><td>60</td><td class="step" data-volg="2">15</td><td class="step" data-volg="4">45</td></tr>
-        <tr><th>uur</th><td>1</td><td class="step" data-volg="3">0,25</td><td class="step" data-volg="4">0,75</td></tr>
-      </table>
-    </div>
+    <div class="grafiekkaart"><div class="gtitel">Spaargeld van Sem</div><div class="chart" data-chart="spaar"></div></div>
     <div class="rechts">
       <span class="nummer" style="background:var(--groen)">Opdracht 4 · samen</span>
-      <p class="vraag">Schrijf 45 minuten als kommagetal.</p>
+      <p class="vraag">In welke maand is het spaargeld van Sem het méést toegenomen?</p>
       <ul class="denk">
-        <li><span class="q">Welke kant op?</span> <span class="step ans" data-volg="1">van minuten naar een kommagetal</span></li>
-        <li><span class="q">Hoeveel minuten is een kwartier?</span> <span class="step ans" data-volg="2">15 minuten</span></li>
-        <li><span class="q">Een kwartier is hoeveel uur?</span> <span class="step ans" data-volg="3">0,25 uur</span></li>
-        <li><span class="q">45 min = … kwartier = … uur?</span> <span class="step ans" data-volg="4" data-show="vul">3 kwartier = 0,75 uur</span></li>
+        <li><span class="q">Wat is het signaalwoord?</span> <span class="step ans">het meest toegenomen</span></li>
+        <li><span class="q">Hoe groot is één hokje?</span> <span class="step ans">€ 20</span></li>
+        <li><span class="q">Waar is de lijn het steilst?</span> <span class="step ans" data-show="2-3">maart → april</span></li>
+        <li><span class="q">Reken uit.</span> <span class="step ans">€ 90 − € 60 = € 30</span></li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke kant op?</span><span><b>2</b> hele uren</span><span><b>3</b> tabel</span><span><b>4</b> samen + check</span></div>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
     </div>
   </div>
   <div class="notitie"><b>Wij-fase:</b> stel elke vraag aan de hele groep, geef denktijd, kies dan een naam met <b>B</b>. Pas daarna het antwoord tonen (→).</div>
 </section>
 
-<!-- ============ 10. WIJ 5 : 90 min ============ -->
+<!-- ============ 9. WIJ – opdracht 5 ============ -->
 <section class="slide" data-fase="wij">
   <div class="opdracht">
-    <div class="visueel">
-      <div class="vtitel">Klok</div>
-      <div class="klokken" data-klok="90"></div>
-      <div class="vtitel">Verhoudingstabel</div>
-      <table class="vt">
-        <tr class="op"><td></td><td></td><td class="step" data-volg="3"><span>: 2</span></td></tr>
-        <tr><th>min</th><td>60</td><td class="step" data-volg="3">30</td></tr>
-        <tr><th>uur</th><td>1</td><td class="step" data-volg="3">0,5</td></tr>
-      </table>
-    </div>
+    <div class="grafiekkaart"><div class="gtitel">Water in de regenton</div><div class="chart" data-chart="regenton"></div></div>
     <div class="rechts">
       <span class="nummer" style="background:var(--groen)">Opdracht 5 · samen</span>
-      <p class="vraag">De voetbalwedstrijd duurt 90 minuten. Hoeveel uur is dat, als kommagetal?</p>
+      <p class="vraag">Tussen welke dagen is het water het méést gestegen? Hoeveel cm?</p>
       <ul class="denk">
-        <li><span class="q">Hoeveel hele uren passen erin?</span> <span class="step ans" data-volg="1">1 uur (60 minuten)</span></li>
-        <li><span class="q">Hoeveel minuten blijven er over?</span> <span class="step ans" data-volg="2">90 − 60 = 30 minuten</span></li>
-        <li><span class="q">30 minuten is hoeveel uur?</span> <span class="step ans" data-volg="3">0,5 uur</span></li>
-        <li><span class="q">Zet het samen.</span> <span class="step ans" data-volg="4" data-show="vul">90 min = 1,5 uur</span></li>
+        <li><span class="q">Hoe groot is één hokje?</span> <span class="step ans">10 cm</span></li>
+        <li><span class="q">Waar is het steilste stuk omhoog?</span> <span class="step ans" data-show="2-3">woensdag → donderdag</span></li>
+        <li><span class="q">Reken uit.</span> <span class="step ans">58 − 40 = 18 cm</span></li>
+        <li><span class="q">Denkvraag: wanneer is het water gedaald? Hoe kan dat?</span> <span class="step ans" data-show="1-2">di → wo, 2 cm (zon, water gebruikt)</span></li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke kant op?</span><span><b>2</b> hele uren</span><span><b>3</b> tabel</span><span><b>4</b> samen + check</span></div>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 11. JULLIE 6 : klopt het? ============ -->
+<!-- ============ 10. JULLIE – opdracht 6 ============ -->
 <section class="slide" data-fase="jullie">
   <div class="opdracht">
-    <div class="visueel">
-      <div class="vtitel">Klok</div>
-      <div class="klokken" data-klok="135"></div>
-      <div class="vtitel">Verhoudingstabel</div>
-      <table class="vt">
-        <tr class="op"><td></td><td></td><td class="step" data-volg="2"><span>: 4</span></td></tr>
-        <tr><th>min</th><td>60</td><td class="step" data-volg="2">15</td></tr>
-        <tr><th>uur</th><td>1</td><td class="step" data-volg="2">0,25</td></tr>
-      </table>
-    </div>
+    <div class="grafiekkaart"><div class="gtitel">Verkochte ijsjes per kwartaal</div><div class="chart" data-chart="ijs"></div></div>
     <div class="rechts">
       <span class="nummer" style="background:var(--blauw)">Opdracht 6 · met je schoudermaatje</span>
-      <p class="vraag">Sanne zegt: "De film duurt 2 uur en 15 minuten. Dat is 2,15 uur."</p>
-      <p class="vraag" style="font-size:28px">Klopt dat? Wat is het goede kommagetal?</p>
+      <p class="vraag">In welk kwartaal zijn de verkochte ijsjes het méést toegenomen, vergeleken met het kwartaal ervoor?</p>
       <p class="opdracht-hint">Overleg samen, schrijf het antwoord op je wisbordje. Je hebt 2 minuten.</p>
       <ul class="denk">
-        <li class="step valkuil" data-volg="1">Dat klopt niet! Sanne rekent alsof een uur 100 minuten heeft.</li>
-        <li class="step" data-volg="2">15 minuten = een kwartier = <b>0,25 uur</b></li>
-        <li class="step antw" data-volg="3" data-show="vul">2 uur en 15 minuten = 2,25 uur</li>
+        <li class="step valkuil" data-show="max">Kwartaal 3 heeft de meeste ijsjes, maar is dat ook de grootste toename?</li>
+        <li class="step" data-show="0-1">K1 → K2: 4500 − 1200 = <b>3300</b></li>
+        <li class="step" data-show="1-2">K2 → K3: 6800 − 4500 = <b>2300</b></li>
+        <li class="step antw">Kwartaal 2: daar kwamen er 3300 ijsjes bij.</li>
       </ul>
     </div>
   </div>
-  <div class="notitie"><b>Jullie-fase:</b> start de timer met <b>T</b>. Borden omhoog → snel scannen. Laat een duo met <b>B</b> uitleggen wat Sanne fout doet.</div>
+  <div class="notitie"><b>Jullie-fase:</b> start de timer met <b>T</b>. Borden omhoog → snel scannen. Vraag een duo met <b>B</b> om uit te leggen hoe ze het deden.</div>
 </section>
 
-<!-- ============ 12. JIJ 7 ============ -->
+<!-- ============ 11. JIJ – opdracht 7 ============ -->
 <section class="slide" data-fase="jij">
   <div class="opdracht">
-    <div class="visueel">
-      <div class="vtitel">Hulp: verhoudingstabel</div>
-      <table class="vt">
-        <tr><th>uur</th><td>1</td><td class="step" data-volg="1">0,5</td></tr>
-        <tr><th>min</th><td>60</td><td class="step" data-volg="1">30</td></tr>
-      </table>
-      <div class="klokken verborgen" data-klok="90"></div>
-    </div>
+    <div class="grafiekkaart"><div class="gtitel">Gewicht van puppy Bo</div><div class="chart" data-chart="puppy"></div></div>
     <div class="rechts">
       <span class="nummer" style="background:var(--roze)">Opdracht 7 · zelf</span>
-      <p class="vraag">De busreis naar Maastricht duurt 1,5 uur. Hoeveel minuten is dat?</p>
-      <p class="opdracht-hint">Maak de opdrachten op je werkblad.</p>
+      <p class="vraag">In welke maand is Bo het méést zwaarder geworden? Hoeveel kg?</p>
+      <p class="opdracht-hint">Schrijf je antwoord in je uitrekenschrift.</p>
       <ul class="denk">
-        <li class="step antw" data-volg="1" data-show="vul">1 uur = 60 min, 0,5 uur = 30 min.<br>60 + 30 = 90 minuten</li>
+        <li class="step antw" data-show="2-3">Van maand 2 naar maand 3: 12 − 7 = 5 kg</li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke kant op?</span><span><b>2</b> hele uren</span><span><b>3</b> tabel</span><span><b>4</b> samen + check</span></div>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
     </div>
   </div>
-  <div class="notitie"><b>Jij-fase:</b> de kinderen maken opdracht 7 t/m 10 op het werkblad. Daarna bespreek je ze hier na: → toont het antwoord.</div>
+  <div class="notitie"><b>Jij-fase:</b> opdracht 7 t/m 10 zelf maken. Je kunt ze één voor één tonen of snel doorklikken en laten maken. Antwoord verschijnt pas bij →.</div>
 </section>
 
-<!-- ============ 13. JIJ 8 ============ -->
+<!-- ============ 12. JIJ – opdracht 8 ============ -->
 <section class="slide" data-fase="jij">
   <div class="opdracht">
-    <div class="visueel">
-      <div class="vtitel">Hulp: verhoudingstabel</div>
-      <table class="vt">
-        <tr><th>min</th><td>60</td><td class="step" data-volg="1">15</td><td class="step" data-volg="1">45</td></tr>
-        <tr><th>uur</th><td>1</td><td class="step" data-volg="1">0,25</td><td class="step" data-volg="1">0,75</td></tr>
-      </table>
-      <div class="klokken verborgen" data-klok="165"></div>
-    </div>
+    <div class="grafiekkaart"><div class="gtitel">Kinderen die op de fiets naar school komen</div><div class="chart" data-chart="fiets"></div></div>
     <div class="rechts">
       <span class="nummer" style="background:var(--roze)">Opdracht 8 · zelf</span>
-      <p class="vraag">De hockeytraining duurt 2 uur en 45 minuten. Schrijf dit als kommagetal.</p>
+      <p class="vraag">Tussen welke maanden kwamen er de meeste fietsers bij?</p>
+      <p class="opdracht-hint">Extra: wanneer is het aantal het meest afgenomen?</p>
       <ul class="denk">
-        <li class="step antw" data-volg="1" data-show="vul">45 min = 0,75 uur, dus 2 uur en 45 min = 2,75 uur</li>
+        <li class="step antw" data-show="5-6">Februari → maart: 170 − 120 = 50 fietsers erbij</li>
+        <li class="step antw" data-show="1-2">Extra: oktober → november: 40 minder</li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke kant op?</span><span><b>2</b> hele uren</span><span><b>3</b> tabel</span><span><b>4</b> samen + check</span></div>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 14. JIJ 9 ============ -->
+<!-- ============ 13. JIJ – opdracht 9 ============ -->
 <section class="slide" data-fase="jij">
   <div class="opdracht">
-    <div class="visueel">
-      <div class="vtitel">Hulp: verhoudingstabel</div>
-      <table class="vt">
-        <tr><th>uur</th><td>1</td><td class="step" data-volg="1">0,5</td></tr>
-        <tr><th>min</th><td>60</td><td class="step" data-volg="1">30</td></tr>
-      </table>
-      <div class="klokken verborgen" data-klok="90"></div>
-    </div>
+    <div class="grafiekkaart"><div class="gtitel">Temperatuur op zaterdag</div><div class="chart" data-chart="temp2"></div></div>
     <div class="rechts">
       <span class="nummer" style="background:var(--roze)">Opdracht 9 · zelf</span>
-      <p class="vraag">Tim fietst 0,75 uur naar zijn opa en 0,75 uur terug. Hoe lang fietst hij in totaal? Geef je antwoord in uren en minuten.</p>
+      <p class="vraag">Hoeveel graden is de temperatuur tussen 10:00 en 14:00 in totaal gestegen?</p>
+      <p class="opdracht-hint">Let op: nu gaat het over een langere tijd!</p>
       <ul class="denk">
-        <li class="step antw" data-volg="1" data-show="vul">0,75 + 0,75 = 1,5 uur = 1 uur en 30 minuten<br><span style="font-weight:800">(of: 45 + 45 = 90 minuten)</span></li>
+        <li class="step antw" data-show="1-3">14:00 is 22 °C, 10:00 is 12 °C. 22 − 12 = 10 graden</li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke kant op?</span><span><b>2</b> hele uren</span><span><b>3</b> tabel</span><span><b>4</b> samen + check</span></div>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 15. JIJ 10 : denkvraag ============ -->
+<!-- ============ 14. JIJ – opdracht 10 (denkvraag) ============ -->
 <section class="slide" data-fase="jij">
   <div class="opdracht">
-    <div class="visueel">
-      <div class="vtitel">Hulp: verhoudingstabel</div>
-      <table class="vt">
-        <tr><th>min</th><td>60</td><td class="step" data-volg="2">15</td><td class="step" data-volg="2">45</td></tr>
-        <tr><th>uur</th><td>1</td><td class="step" data-volg="2">0,25</td><td class="step" data-volg="2">0,75</td></tr>
-      </table>
-      <div class="klokken verborgen" data-klok="225"></div>
-    </div>
+    <div class="grafiekkaart"><div class="gtitel">Bezoekers van het museum per jaar</div><div class="chart" data-chart="museum"></div></div>
     <div class="rechts">
       <span class="nummer" style="background:var(--roze)">Opdracht 10 · denkvraag</span>
-      <p class="vraag">Noor zegt: "3,45 uur is hetzelfde als 3 uur en 45 minuten."</p>
-      <p class="vraag" style="font-size:28px">Klopt dat? Leg uit.</p>
+      <p class="vraag">Sanne zegt: "In 2024 was de toename het grootst, want toen kwamen er de meeste bezoekers."</p>
+      <p class="vraag" style="font-size:28px">Wat is Sannes fout? Wat is het goede antwoord?</p>
       <ul class="denk">
-        <li class="step valkuil" data-volg="1">Nee! Noor denkt dat er 100 minuten in een uur zitten.</li>
-        <li class="step antw" data-volg="2" data-show="vul">3 uur en 45 minuten = 3,75 uur</li>
+        <li class="step valkuil" data-show="max">Sanne kijkt naar het hóógste punt, niet naar het verschil. In 2024 kwamen er maar 50 bij.</li>
+        <li class="step antw" data-show="0-1">Goed antwoord: 2020 → 2021, 900 − 400 = 500 bezoekers erbij.</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- ============ 16. AFSLUITING ============ -->
+<!-- ============ 15. AFSLUITING ============ -->
 <section class="slide" data-fase="doel">
   <h2>Terug naar ons doel</h2>
-  <div class="doelzin" style="font-size:32px">
+  <div class="doelzin" style="font-size:34px">
     <div class="icoon"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="#fff"/></svg></div>
-    Ik kan een tijd als kommagetal schrijven en een kommagetal omzetten naar uren en minuten.
+    Ik kan in een lijngrafiek aflezen wanneer iets het méést is toegenomen.
   </div>
   <div class="duimen">
     <div class="duim"><svg viewBox="0 0 24 24" fill="var(--groen)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Ik kan het!</b></div>
     <div class="duim"><svg viewBox="0 0 24 24" fill="var(--oranje)" style="transform:rotate(-90deg)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Bijna</b></div>
     <div class="duim"><svg viewBox="0 0 24 24" fill="var(--roze)" style="transform:rotate(180deg)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Nog lastig</b></div>
   </div>
-  <p style="text-align:center;font-weight:800">Leg aan je schoudermaatje uit: waarom is 2,30 uur níet 2 uur en 30 minuten?</p>
+  <p style="text-align:center;font-weight:800">Vertel je schoudermaatje: wat is het verschil tussen <b>het hoogste punt</b> en <b>de grootste toename</b>?</p>
+  <div class="notitie"><b>Na de les:</b> de kinderen met duim omlaag en de namen uit de week-4-planning kunnen morgen in het groeiblok nog een keer aanschuiven.</div>
 </section>
 
 <!-- ---------- voet ---------- -->
@@ -549,31 +422,81 @@
 <script src="/js/supabase-config.js?v=1.57.2"></script>
 <script src="/js/tien-minuten-les.js?v=1.57.2"></script>
 <script>
-/* ================= KLOKKEN ================= */
+/* ================= GRAFIEKGEGEVENS ================= */
+const GRAFIEKEN = {
+  zonnebloem:{labels:["week 1","week 2","week 3","week 4","week 5","week 6"],values:[20,35,60,70,75,78],yMax:90,yStep:10,eenheid:"cm",yTitel:"lengte (cm)"},
+  zwembad:{labels:["mei","juni","juli","aug","sept"],values:[800,1500,3200,3600,1200],yMax:4000,yStep:500,eenheid:"",yTitel:"aantal bezoekers"},
+  temp1:{labels:["06:00","08:00","10:00","12:00","14:00","16:00","18:00"],values:[8,11,17,20,21,18,14],yMax:24,yStep:2,eenheid:"°C",yTitel:"temperatuur (°C)"},
+  spaar:{labels:["jan","feb","mrt","apr","mei","jun"],values:[40,55,60,90,95,110],yMax:120,yStep:20,eenheid:"",prefix:"€ ",yTitel:"spaargeld (€)"},
+  regenton:{labels:["ma","di","wo","do","vr","za"],values:[30,42,40,58,60,61],yMax:70,yStep:10,eenheid:"cm",yTitel:"waterhoogte (cm)"},
+  ijs:{labels:["kwartaal 1","kwartaal 2","kwartaal 3","kwartaal 4"],values:[1200,4500,6800,1900],yMax:8000,yStep:1000,eenheid:"",yTitel:"aantal ijsjes"},
+  puppy:{labels:["0","1","2","3","4","5"],values:[2,4,7,12,15,17],yMax:20,yStep:2,eenheid:"kg",yTitel:"gewicht (kg)",xTitel:"leeftijd in maanden"},
+  fiets:{labels:["sep","okt","nov","dec","jan","feb","mrt"],values:[180,150,110,90,85,120,170],yMax:200,yStep:20,eenheid:"",yTitel:"aantal fietsers"},
+  temp2:{labels:["08:00","10:00","12:00","14:00","16:00"],values:[9,12,18,22,20],yMax:24,yStep:2,eenheid:"°C",yTitel:"temperatuur (°C)"},
+  museum:{labels:["2020","2021","2022","2023","2024"],values:[400,900,1100,1250,1300],yMax:1400,yStep:200,eenheid:"",yTitel:"aantal bezoekers"}
+};
+
+/* ================= GRAFIEK TEKENEN ================= */
 const NS="http://www.w3.org/2000/svg";
+const W=900,H=540,M={l:100,r:40,t:50,b:70};
 function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
-function sector(min){ // pad van 12 uur rechtsom
-  if(min>=60) return null;
-  const a=min/60*2*Math.PI, r=86, x=100+r*Math.sin(a), y=100-r*Math.cos(a);
-  return `M100,100 L100,14 A${r},${r} 0 ${min>30?1:0} 1 ${x.toFixed(1)},${y.toFixed(1)} Z`;
+const fmt=v=>v.toLocaleString("nl-NL");
+function schaal(c){
+  const pw=W-M.l-M.r, ph=H-M.t-M.b, n=c.labels.length, pad=45;
+  return {x:i=>M.l+pad+i*(pw-2*pad)/(n-1), y:v=>M.t+ph-v/c.yMax*ph, ph, pw};
 }
-function tekenKlok(parent,min){
-  const w=document.createElement("div"); w.className="klok"; parent.appendChild(w);
-  const svg=el("svg",{viewBox:"0 0 200 200"},w);
-  el("circle",{cx:100,cy:100,r:92,fill:"#fff",stroke:"#26263A","stroke-width":6},svg);
-  const g=el("g",{class:"vulling"},svg);
-  if(min>=60) el("circle",{cx:100,cy:100,r:86,fill:"#EB6B0A",opacity:.8},g);
-  else el("path",{d:sector(min),fill:"#EB6B0A",opacity:.8},g);
-  for(let i=0;i<60;i+=5){const a=i/60*2*Math.PI, r1=i%15===0?70:78;
-    el("line",{x1:100+r1*Math.sin(a),y1:100-r1*Math.cos(a),x2:100+86*Math.sin(a),y2:100-86*Math.cos(a),stroke:"#26263A","stroke-width":i%15===0?5:2.5,"stroke-linecap":"round"},svg);}
-  [[12,0],[3,15],[6,30],[9,45]].forEach(([n,m])=>{const a=m/60*2*Math.PI;const t=el("text",{x:100+52*Math.sin(a),y:100-52*Math.cos(a)+9,"text-anchor":"middle","font-size":26,"font-weight":900,fill:"#26263A"},svg);t.textContent=n;});
-  el("circle",{cx:100,cy:100,r:6,fill:"#26263A"},svg);
-  const l=document.createElement("div"); l.className="kl"; l.textContent=min>=60?"1 uur":`${min} min`; w.appendChild(l);
+function tekenGrafiek(div){
+  const c=GRAFIEKEN[div.dataset.chart]; const s=schaal(c);
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img"}); div.appendChild(svg); div._svg=svg; div._c=c;
+  // raster
+  for(let v=0;v<=c.yMax+1e-9;v+=c.yStep){
+    el("line",{x1:M.l,x2:W-M.r,y1:s.y(v),y2:s.y(v),stroke:v===0?"#26263A":"#E4DCCB","stroke-width":v===0?3:2},svg);
+    const t=el("text",{x:M.l-14,y:s.y(v)+8,"text-anchor":"end","font-size":22,"font-weight":800,fill:"#6B6B80"},svg); t.textContent=fmt(v);
+  }
+  el("line",{x1:M.l,x2:M.l,y1:M.t-10,y2:M.t+s.ph,stroke:"#26263A","stroke-width":3},svg);
+  const yt=el("text",{x:M.l-10,y:M.t-22,"text-anchor":"start","font-size":22,"font-weight":900,fill:"#26263A"},svg); yt.textContent=c.yTitel;
+  c.labels.forEach((lab,i)=>{
+    el("line",{x1:s.x(i),x2:s.x(i),y1:M.t+s.ph,y2:M.t+s.ph+10,stroke:"#26263A","stroke-width":3},svg);
+    const t=el("text",{x:s.x(i),y:M.t+s.ph+38,"text-anchor":"middle","font-size":22,"font-weight":800,fill:"#26263A"},svg); t.textContent=lab;
+  });
+  if(c.xTitel){const t=el("text",{x:(M.l+W-M.r)/2,y:H-4,"text-anchor":"middle","font-size":20,"font-weight":800,fill:"#6B6B80"},svg);t.textContent=c.xTitel;}
+  svg._laag=el("g",{},svg); // markeringen onder de lijn
+  const pts=c.values.map((v,i)=>`${s.x(i)},${s.y(v)}`).join(" ");
+  el("polyline",{points:pts,fill:"none",stroke:"var(--lijngrafiek)","stroke-width":6,"stroke-linejoin":"round","stroke-linecap":"round"},svg);
+  svg._boven=el("g",{},svg);
+  c.values.forEach((v,i)=>el("circle",{cx:s.x(i),cy:s.y(v),r:9,fill:"#fff",stroke:"var(--lijngrafiek)","stroke-width":5},svg));
+  svg._top=el("g",{},svg); // labels bovenop
 }
-document.querySelectorAll(".klokken[data-klok]").forEach(k=>{
-  let m=+k.dataset.klok; while(m>=60){tekenKlok(k,60);m-=60;} if(m>0)tekenKlok(k,m);
-  if(k.children.length>3)k.classList.add("klein");
-});
+function wisMarkering(div){const s=div._svg; if(!s)return; [s._laag,s._top].forEach(g=>{while(g.firstChild)g.removeChild(g.firstChild);});}
+function toonMarkering(div,wat){
+  const svg=div._svg,c=div._c,s=schaal(c);
+  if(wat==="max"){
+    const i=c.values.indexOf(Math.max(...c.values)), x=s.x(i), y=s.y(c.values[i]);
+    el("circle",{cx:x,cy:y,r:26,fill:"none",stroke:"var(--roze)","stroke-width":5,"stroke-dasharray":"8 6"},svg._top);
+    const lx=Math.min(Math.max(x,M.l+110),W-M.r-110), ly=Math.max(y-42,M.t+4);
+    bubbel(svg._top,lx,ly,"hoogste punt","#C41A81");
+    return;
+  }
+  const [a,b]=wat.split("-").map(Number);
+  const pts=[]; for(let i=a;i<=b;i++)pts.push(`${s.x(i)},${s.y(c.values[i])}`);
+  const stijgt=c.values[b]>=c.values[a], kleur=stijgt?"#EB6B0A":"#C41A81";
+  el("polyline",{points:pts.join(" "),fill:"none",stroke:kleur,"stroke-width":18,"stroke-linecap":"round","stroke-linejoin":"round",opacity:.55},svg._laag);
+  [a,b].forEach(i=>{
+    const x=s.x(i),y=s.y(c.values[i]);
+    el("line",{x1:M.l,x2:x,y1:y,y2:y,stroke:kleur,"stroke-width":3,"stroke-dasharray":"10 7"},svg._laag);
+    el("line",{x1:x,x2:x,y1:y,y2:M.t+s.ph,stroke:kleur,"stroke-width":3,"stroke-dasharray":"10 7"},svg._laag);
+    const t=el("text",{x:M.l+8,y:y-8,"font-size":22,"font-weight":900,fill:kleur},svg._top); t.textContent=(c.prefix||"")+fmt(c.values[i]);
+  });
+  const d=c.values[b]-c.values[a];
+  const tekst=(d>=0?"+ ":"− ")+(c.prefix||"")+fmt(Math.abs(d))+(c.eenheid?" "+c.eenheid:"");
+  const mx=(s.x(a)+s.x(b))/2, my=Math.min(s.y(c.values[a]),s.y(c.values[b]));
+  bubbel(svg._top,Math.min(Math.max(mx+40,M.l+90),W-M.r-90),Math.max(my-36,M.t+4),tekst,kleur);
+}
+function bubbel(g,x,y,tekst,kleur){
+  const t=el("text",{x:x,y:y+9,"text-anchor":"middle","font-size":28,"font-weight":900,fill:"#fff"},g); t.textContent=tekst;
+  const bb=t.getBBox(); const r=el("rect",{x:bb.x-14,y:bb.y-6,width:bb.width+28,height:bb.height+12,rx:14,fill:kleur});
+  g.insertBefore(r,t);
+}
 
 /* ================= NAVIGATIE ================= */
 const dias=[...document.querySelectorAll(".slide")];
@@ -581,13 +504,9 @@ const FASEN={ik:["Ik","var(--oranje)"],wij:["Wij","var(--groen)"],jullie:["Julli
 let nu=0, onthuld=0;
 const stippen=document.getElementById("stippen");
 dias.forEach((d,i)=>{const s=document.createElement("i");s.onclick=()=>ga(i);stippen.appendChild(s);});
+document.querySelectorAll(".chart").forEach(tekenGrafiek);
 
-// stappen per dia, gegroepeerd op data-volg (zelfde nummer = tegelijk tonen)
-function groepen(){
-  const st=[...dias[nu].querySelectorAll(".step")];
-  const m=new Map(); st.forEach((s,i)=>{const k=s.dataset.volg?+s.dataset.volg:i+1; if(!m.has(k))m.set(k,[]); m.get(k).push(s);});
-  return [...m.keys()].sort((a,b)=>a-b).map(k=>m.get(k));
-}
+function stappen(){return [...dias[nu].querySelectorAll(".step")];}
 function ga(i){
   if(i<0||i>=dias.length)return;
   dias[nu].classList.remove("actief");
@@ -595,21 +514,22 @@ function ga(i){
   document.body.classList.toggle("eerste-dia",nu===0);
   const d=dias[nu]; d.classList.add("actief");
   d.querySelectorAll(".step").forEach(s=>s.classList.remove("shown"));
-  d.querySelectorAll(".klokken[data-klok]").forEach(k=>{ if(!k.closest(".feit")) k.classList.remove("gevuld"); });
+  d.querySelectorAll(".chart").forEach(wisMarkering);
   const f=FASEN[d.dataset.fase], fb=document.getElementById("fase");
   if(f){fb.textContent=f[0];fb.style.background=f[1];fb.classList.remove("hidden");}else fb.classList.add("hidden");
   [...stippen.children].forEach((s,k)=>s.classList.toggle("nu",k===nu));
   updKnop();
 }
 function volgende(){
-  const g=groepen();
-  if(onthuld<g.length){
-    g[onthuld++].forEach(s=>{s.classList.add("shown"); if(s.dataset.show==="vul") dias[nu].querySelectorAll(".klokken").forEach(k=>k.classList.add("gevuld"));});
+  const st=stappen();
+  if(onthuld<st.length){
+    const s=st[onthuld++]; s.classList.add("shown");
+    if(s.dataset.show){const ch=dias[nu].querySelector(".chart"); if(ch){wisMarkering(ch); s.dataset.show.split(" ").forEach(w=>toonMarkering(ch,w));}}
     updKnop();
   } else ga(nu+1);
 }
 function updKnop(){
-  const rest=groepen().length-onthuld;
+  const rest=stappen().length-onthuld;
   document.getElementById("volgendeTekst").textContent = rest>0 ? "Laat zien" : (nu===dias.length-1?"Einde":"Volgende");
 }
 document.getElementById("volgende").onclick=volgende;
@@ -673,7 +593,6 @@ document.addEventListener("keydown",e=>{
 function pasAan(){const s=Math.min(innerWidth/1600,innerHeight/900);document.getElementById("stage").style.transform=`scale(${s})`;}
 addEventListener("resize",pasAan); pasAan();
 ga(0);
-
 </script>
 </body>
 </html>

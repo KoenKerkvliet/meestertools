@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<title>10 minuten rekenen – Gewicht omrekenen en toepassen</title>
+<title>10 minuten rekenen – Verhoudingen: deel, deel en geheel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
 <style>
@@ -128,58 +128,50 @@
   #beurtInfo{font-size:22px;color:var(--zacht);margin-top:18px;font-weight:800}
 
   /* ---------- extra voor deze les ---------- */
+  :root{--d0:#1F7BC1;--d1:#EB6B0A;--d2:#96BC0D}
   .opdracht{grid-template-columns:800px 1fr}
   .visueel{background:var(--kaart);border-radius:26px;padding:20px 26px;box-shadow:0 6px 0 var(--lijn);align-self:start;display:flex;flex-direction:column;gap:14px}
   .visueel .vtitel{font-weight:900;font-size:22px;color:var(--zacht);text-transform:uppercase;letter-spacing:1px}
-  /* maten-trap */
-  .trap{position:relative;width:740px;height:356px;margin:0 auto}
-  .pijlen{position:absolute;left:0;top:0;overflow:visible;pointer-events:none;z-index:2}
-  .pijl{opacity:0;animation:fadein .35s ease forwards}
-  @keyframes fadein{to{opacity:1}}
-  .sprong{translate:-50% -50%;z-index:3;opacity:0;animation:popin .35s ease forwards !important}
-  .totaal{opacity:0;animation:popin .35s ease forwards !important}
-  @keyframes popin{0%{opacity:0;transform:scale(.6)}70%{opacity:1;transform:scale(1.1)}100%{opacity:1;transform:scale(1)}}
-  .trap.klein{transform:scale(.82);transform-origin:top left;height:292px;margin:0}
-  .trede{position:absolute;width:98px;border-radius:14px 14px 4px 4px;background:#F6F2EA;border:4px solid #CFC6B6;display:flex;justify-content:center;padding-top:8px;font-size:30px;font-weight:900;color:#8a8398;transition:background .3s,color .3s,border-color .3s}
-  .trede.hoofd{background:#fff;border-color:var(--paars);color:var(--inkt)}
-  .trede.pad{background:var(--oranje);border-color:#b44f00;color:#fff}
-  .trede.pad.op{background:var(--blauw);border-color:#125a8f}
-  .trede.start{background:var(--paars);border-color:#4a3590;color:#fff}
-  .sprong{position:absolute;background:#fff3e6;color:var(--oranje);font-weight:900;font-size:21px;border-radius:999px;padding:2px 10px;border:3px solid var(--oranje);white-space:nowrap;animation:pop .4s ease}
-  .sprong.op{color:var(--blauw);border-color:var(--blauw);background:#e8f3fb}
-  .totaal{position:absolute;right:0;top:0;background:var(--oranje);color:#fff;font-weight:900;font-size:28px;border-radius:18px;padding:8px 18px;animation:pop .4s ease}
-  .totaal.op{background:var(--blauw)}
-  .tontag{position:absolute;left:0;top:-4px;font-size:20px;font-weight:900;color:var(--roze);background:#fff0f8;border:3px dashed var(--roze);border-radius:12px;padding:2px 10px}
-  .trap .tontag{display:none}
-  .trap.metton .tontag{display:block}
-  .trap.metton .trede{margin-top:34px}
-  .trap.metton{height:390px}
-  .trap.metton.klein{height:320px}
-  /* rekenstrook */
-  .reken{display:flex;flex-direction:column;gap:8px}
-  .reken div{font-size:30px;font-weight:900;background:#F2EEFB;border-radius:14px;padding:8px 18px}
-  .reken div.eind{background:#f3f9e0;color:#2f6d00}
-  /* feiten */
-  .feiten{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
-  .feit{background:#fff;border-radius:24px;padding:24px 14px;text-align:center;box-shadow:0 6px 0 var(--lijn)}
-  .feit .ico{height:110px;display:grid;place-items:center}
-  .feit b{display:block;font-size:40px;font-weight:900;color:var(--oranje)}
-  .feit span{font-size:24px;font-weight:800;display:block;line-height:1.3}
-  .valkuilbalk{background:#fff0f8;border:4px dashed var(--roze);border-radius:24px;padding:18px 30px;font-size:30px;font-weight:900;text-align:center;margin-top:24px}
-  .trapdia{display:grid;grid-template-columns:780px 1fr;gap:40px;align-items:start}
+  /* strookmodel */
+  .strook{width:fit-content;max-width:740px;margin:0 auto;position:relative}
+  .s-top{display:flex;flex-direction:column;align-items:center;margin-bottom:6px}
+  .s-top .tt{font-size:28px;font-weight:900;background:var(--paars);color:#fff;border-radius:14px;padding:2px 16px}
+  .s-top .tt .na{display:none}
+  .strook.top .s-top .tt .voor{display:none}
+  .strook.top .s-top .tt .na{display:inline}
+  .s-top .haak{width:100%;height:18px;border:4px solid var(--paars);border-bottom:none;border-radius:10px 10px 0 0;margin-top:6px}
+  .s-rij{display:flex;gap:10px}
+  .s-deel{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .s-blokken{display:flex;gap:4px}
+  .s-blok{height:74px;border-radius:10px;display:grid;place-items:center;font-size:28px;font-weight:900;color:#fff}
+  .s-blok span{opacity:0;transition:opacity .4s}
+  .strook.per .s-blok span{opacity:1}
+  .s-naam{font-size:22px;font-weight:900;text-align:center;line-height:1.15}
+  .s-deel{min-width:0}
+  .s-som{font-size:24px;font-weight:900;border-radius:12px;padding:2px 12px;color:#fff;opacity:0;transition:opacity .4s}
+  .strook.delen .s-som,.s-som.bekend{opacity:1}
+  /* verhoudingstabel */
+  table.vt{border-collapse:separate;border-spacing:0;font-size:32px;font-weight:900;margin:0 auto}
+  table.vt th{padding:6px 18px;text-align:left;border-radius:14px 0 0 14px;font-size:26px;color:#fff}
+  table.vt td{background:#fff;border:3px solid var(--lijn);min-width:130px;height:58px;text-align:center;padding:0 12px}
+  table.vt tr.op td{border:none;background:none;height:40px;font-size:24px;color:var(--paars)}
+  table.vt tr.op td span{background:#F2EEFB;border-radius:999px;padding:2px 14px}
+  table.vt tr.samen td{border-color:var(--paars);background:#F2EEFB}
+  table.vt tr.kopstaart td{border:none;background:none;height:30px;font-size:18px;color:var(--zacht);text-transform:uppercase;letter-spacing:1px}
+  .valkuilbalk{background:#fff0f8;border:4px dashed var(--roze);border-radius:24px;padding:18px 30px;font-size:30px;font-weight:900;text-align:center;margin-top:20px}
+  .uitlegdia{display:grid;grid-template-columns:800px 1fr;gap:40px;align-items:start}
   .regels{display:flex;flex-direction:column;gap:18px}
   .regel{background:#fff;border-radius:22px;padding:18px 24px;box-shadow:0 6px 0 var(--lijn);font-size:28px;font-weight:800;line-height:1.35}
   .regel b{font-size:32px}
-  @keyframes pop{0%{transform:scale(.6)}70%{transform:scale(1.1)}100%{transform:scale(1)}}
 </style>
 </head>
 <body>
 <div id="wrap"><div id="stage">
 
 <header>
-  <a class="terug" href="../10-minuten-didactiek" title="Terug naar de lessen">&larr; Lessen</a>
+  <a class="terug" href="/lesmateriaal/10-minuten-didactiek/rekenen" title="Terug naar de lessen">&larr; Lessen</a>
   <img src="/assets/logo-meestertools.png" alt="Meestertools" onerror="this.style.display='none'">
-  <div class="titel">10 minuten rekenen · Gewicht</div>
+  <div class="titel">10 minuten rekenen · Verhoudingen</div>
   <div id="fase" class="fase hidden">Ik</div>
 </header>
 
@@ -187,8 +179,8 @@
 <section class="slide" data-fase="">
   <div class="titeldia">
     <img src="/assets/logo-meestertools.png" alt="" onerror="this.style.display='none'">
-    <h1>Wat is zwaarder: 0,8 kg of 750 g?</h1>
-    <div class="sub">Gewicht omrekenen en toepassen · 10 minuten rekenen · groep 8</div>
+    <h1>30 kinderen, jongens : meisjes = 2 : 3.<br>Hoeveel meisjes?</h1>
+    <div class="sub">Verhoudingen: deel, deel en geheel · 10 minuten rekenen · groep 8</div>
     <div class="badge-rij">
       <span style="background:var(--oranje)">Ik</span>
       <span style="background:var(--groen)">Wij</span>
@@ -196,7 +188,7 @@
       <span style="background:var(--roze)">Jij</span>
     </div>
   </div>
-  <div class="notitie"><b>Leerkracht:</b> pijltje → of spatie = volgende stap, <b>B</b> = beurt, <b>T</b> = timer, <b>F</b> = volledig scherm, <b>N</b> = notities aan/uit.<br>Start met de vraag op deze dia op de wisbordjes. Wie "750 g" kiest omdat 750 groter is dan 0,8, vergelijkt verschillende maten.</div>
+  <div class="notitie"><b>Leerkracht:</b> pijltje → of spatie = volgende stap, <b>B</b> = beurt, <b>T</b> = timer, <b>F</b> = volledig scherm, <b>N</b> = notities aan/uit.<br>Start met de vraag op deze dia op de wisbordjes. Veelgemaakte fouten: 10 (30 : 3) of 15 (30 : 2).</div>
 </section>
 
 <!-- ============ 2. DOEL ============ -->
@@ -204,291 +196,320 @@
   <h2>Ons doel van vandaag</h2>
   <div class="doelzin">
     <div class="icoon"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="#fff"/></svg></div>
-    Ik kan gewichten omrekenen met de maten-trap en ermee rekenen in een verhaalsom.
+    Ik kan een verhoudingssom oplossen waarin ik de delen en het geheel moet vinden.
   </div>
   <div class="twee">
     <div class="kaart step" style="border-top:10px solid var(--paars)">
       <h3><span class="label" style="background:var(--paars)">Concept</span> Wat moet ik snappen?</h3>
-      <p>Elke trede van de maten-trap is <b>10 keer</b> zo klein.<br>En: je kunt alleen rekenen met <b>dezelfde maat</b>. Grammen en kilo's tel je niet zomaar op!</p>
+      <p><b>2 : 3</b> betekent: bij elke 2 jongens horen 3 meisjes. Samen is dat een groepje van <b>5</b>.<br>Het geheel bestaat uit een aantal van die groepjes.</p>
     </div>
     <div class="kaart step" style="border-top:10px solid var(--oranje)">
       <h3><span class="label" style="background:var(--oranje)">Vaardigheid</span> Wat ga ik doen?</h3>
-      <p>Ik maak eerst <b>alles dezelfde maat</b> met de trap:<br>omlaag = <b>× 10</b> per trede, omhoog = <b>: 10</b> per trede.<br>Daarna reken ik de som uit.</p>
+      <p>In de <b>verhoudingstabel</b> zet ik ook een rij <b>samen</b>.<br>Van <b>kop</b> naar <b>staart</b>: ik zoek hoe vaak het groepje in het geheel past.</p>
     </div>
   </div>
-  <div class="notitie"><b>Uit de overdracht:</b> gewicht zit net onder de norm. Vooral het <b>toepassen</b> in een verhaalsom gaat mis, minder het kale omrekenen.</div>
+  <div class="notitie"><b>Uit de overdracht:</b> de verhoudingstabel wordt vaak vergeten of verkeerd ingezet. Zodra de kinderen de tabel pakken, valt het meestal op zijn plek.</div>
 </section>
 
-<!-- ============ 3. DE MATEN-TRAP ============ -->
+<!-- ============ 3. UITLEG MODEL ============ -->
 <section class="slide" data-fase="doel">
-  <h2>De maten-trap voor gewicht</h2>
-  <div class="trapdia">
-    <div class="visueel"><div class="trap metton" data-sprong="kg-g"></div></div>
+  <h2>Kop en staart</h2>
+  <div class="uitlegdia">
+    <div class="visueel">
+      <div class="vtitel">Strook</div>
+      <div class="strook" data-delen="2,3" data-namen="jongens,meisjes" data-top="samen 5"></div>
+      <div class="vtitel">Verhoudingstabel</div>
+      <table class="vt">
+        <tr class="kopstaart"><td></td><td>kop</td><td>staart</td></tr>
+        <tr><th style="background:var(--d0)">jongens</th><td>2</td><td>…</td></tr>
+        <tr><th style="background:var(--d1)">meisjes</th><td>3</td><td>…</td></tr>
+        <tr class="samen"><th style="background:var(--paars)">samen</th><td>5</td><td>…</td></tr>
+      </table>
+    </div>
     <div class="regels">
-      <div class="regel">Trap <b>omlaag</b> ↘<br>de maat wordt kleiner, het getal groter: <b style="color:var(--oranje)">× 10</b> per trede</div>
-      <div class="regel">Trap <b>omhoog</b> ↗<br>de maat wordt groter, het getal kleiner: <b style="color:var(--blauw)">: 10</b> per trede</div>
-      <div class="regel step" data-show="sprong">kg → g = 3 treden omlaag<br>= × 10 × 10 × 10 = <b style="color:var(--oranje)">× 1000</b></div>
-      <div class="regel">Boven de trap: <b style="color:var(--roze)">1 ton = 1000 kg</b></div>
+      <div class="regel"><b>Kop</b> = de verhouding zelf.<br>Eén groepje: 2 jongens en 3 meisjes.</div>
+      <div class="regel"><b>Samen</b> = het groepje bij elkaar opgeteld: 2 + 3 = 5.</div>
+      <div class="regel"><b>Staart</b> = de echte aantallen. Die vind je door het groepje te vermenigvuldigen.</div>
     </div>
   </div>
-  <div class="notitie"><b>Tip:</b> de paarse treden (kg, g, mg) kom je het meest tegen. Laat de klas de trap in koor opzeggen: "kilo, hecto, deka, gram, deci, centi, milli".</div>
+  <div class="valkuilbalk step">Valkuil: 30 : 3 = 10 meisjes? Nee! Je deelt het geheel door <u>samen</u>, niet door één deel.</div>
 </section>
 
-<!-- ============ 4. REKENTAAL + HANDIG OM TE WETEN ============ -->
+<!-- ============ 4. STAPPENPLAN ============ -->
 <section class="slide" data-fase="doel">
-  <h2>Handig om te weten</h2>
-  <div class="feiten">
-    <div class="feit"><div class="ico"><svg width="70" height="70" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2" fill="#26263A"/></svg></div><b>1 mg</b><span>een zandkorrel</span></div>
-    <div class="feit"><div class="ico"><svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#26263A" stroke-width="1.6" stroke-linecap="round"><path d="M8 19V6a3 3 0 0 1 6 0v11a2 2 0 0 1-4 0V7"/><path d="M14 8v9a4 4 0 0 1-8 0"/></svg></div><b>1 g</b><span>een paperclip</span></div>
-    <div class="feit"><div class="ico"><svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#26263A" stroke-width="1.6" stroke-linejoin="round"><path d="M6 7h12l-1 14H7L6 7z"/><path d="M8 7l1-4h6l1 4"/><path d="M9 13h6"/></svg></div><b>1 kg</b><span>een pak suiker</span></div>
-    <div class="feit"><div class="ico"><svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#26263A" stroke-width="1.6" stroke-linejoin="round"><path d="M3 15v-3l2-4h9l3 4h3a1 1 0 0 1 1 1v2H3z"/><circle cx="7" cy="16" r="2" fill="#fff"/><circle cx="17" cy="16" r="2" fill="#fff"/></svg></div><b>1 ton</b><span>een kleine auto<br>= 1000 kg</span></div>
-  </div>
-  <div class="valkuilbalk">Rekentaal: <span style="color:var(--oranje)">bruto</span> = mét verpakking · <span style="color:var(--groen)">netto</span> = zónder verpakking · <span style="color:var(--blauw)">maximaal</span> = niet meer dan</div>
-</section>
-
-<!-- ============ 5. STAPPENPLAN ============ -->
-<section class="slide" data-fase="doel">
-  <h2>Zo pak ik een verhaalsom aan</h2>
+  <h2>Zo pak ik het aan</h2>
   <ol class="stappen">
-    <li><span class="nr">1</span><span><b>Lees de vraag.</b> In welke maat moet het antwoord?</span></li>
-    <li><span class="nr">2</span><span><b>Maak alles dezelfde maat</b> met de maten-trap.</span></li>
-    <li><span class="nr">3</span><span><b>Reken de som uit.</b> Plus, min, keer of gedeeld?</span></li>
-    <li><span class="nr">4</span><span><b>Check:</b> kan dit? Denk aan het pak suiker of de auto.</span></li>
+    <li><span class="nr">1</span><span><b>Lees de vraag.</b> Welke verhouding? Weet ik het geheel of een deel?</span></li>
+    <li><span class="nr">2</span><span><b>Maak de kop</b> van de tabel, mét een rij <b>samen</b>.</span></li>
+    <li><span class="nr">3</span><span><b>Zoek het getal</b> dat ik bij de staart ken. Hoe vaak past de kop erin?</span></li>
+    <li><span class="nr">4</span><span><b>Vul de hele staart in</b> en check: kloppen de delen samen met het geheel?</span></li>
   </ol>
 </section>
 
-<!-- ============ 6. IK 1 ============ -->
+<!-- ============ 5. IK 1 ============ -->
 <section class="slide" data-fase="ik">
   <div class="opdracht">
     <div class="visueel">
-      <div class="vtitel">Maten-trap</div>
-      <div class="trap" data-sprong="kg-g"></div>
-      <div class="reken">
-        <div class="step" data-volg="3">2,5 → 25 → 250 → 2500</div>
-      </div>
+      <div class="vtitel">Strook</div>
+      <div class="strook" data-delen="2,3" data-namen="jongens,meisjes" data-top="30 kinderen" data-per="6" data-som="12 jongens|18 meisjes"></div>
+      <div class="vtitel">Verhoudingstabel</div>
+      <table class="vt">
+        <tr class="op"><td></td><td></td><td class="step" data-volg="3"><span>× 6</span></td></tr>
+        <tr><th style="background:var(--d0)">jongens</th><td>2</td><td class="step" data-volg="4">12</td></tr>
+        <tr><th style="background:var(--d1)">meisjes</th><td>3</td><td class="step" data-volg="4">18</td></tr>
+        <tr class="samen"><th style="background:var(--paars)">samen</th><td class="step" data-volg="2">5</td><td class="step" data-volg="3">30</td></tr>
+      </table>
     </div>
     <div class="rechts">
       <span class="nummer" style="background:var(--oranje)">Opdracht 1 · ik doe het voor</span>
-      <p class="vraag">Een watermeloen weegt 2,5 kg. Hoeveel gram is dat?</p>
+      <p class="vraag">In groep 8 zitten 30 kinderen. De verhouding jongens : meisjes = 2 : 3. Hoeveel meisjes zijn er?</p>
       <ul class="denk">
-        <li class="step" data-volg="1">"Van kg naar g. Ik zoek ze op de trap."</li>
-        <li class="step" data-volg="2" data-show="sprong">"g staat 3 treden lager. Omlaag = × 10, drie keer. Dat is <b>× 1000</b>."</li>
-        <li class="step" data-volg="3">"2,5 × 1000: de komma schuift 3 plaatsen naar rechts."</li>
-        <li class="step" data-volg="4">"Check: een meloen is zwaarder dan 2 pakken suiker. 2500 g kan!"</li>
-        <li class="step antw" data-volg="5">2,5 kg = 2500 g</li>
+        <li class="step" data-volg="1">"Ik weet het geheel: 30 kinderen. Ik maak de kop: 2 jongens, 3 meisjes."</li>
+        <li class="step" data-volg="2">"Samen is één groepje <b>5</b> kinderen."</li>
+        <li class="step" data-volg="3" data-show="per">"Hoe vaak past 5 in 30? 30 : 5 = <b>6</b>. Dus alles × 6."</li>
+        <li class="step" data-volg="4" data-show="delen">"2 × 6 = 12 jongens, 3 × 6 = 18 meisjes. Check: 12 + 18 = 30."</li>
+        <li class="step antw" data-volg="5">Er zijn 18 meisjes.</li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
     </div>
   </div>
-  <div class="notitie"><b>Hardop denken:</b> tel de treden hardop met je vinger op het bord. Zo zien de kinderen waar "× 1000" vandaan komt.</div>
+  <div class="notitie"><b>Hardop denken:</b> wijs in de strook aan dat elk blokje nu 6 kinderen is. Terug naar de titelvraag: wie had 10 of 15?</div>
 </section>
 
-<!-- ============ 7. IK 2 ============ -->
+<!-- ============ 6. IK 2 ============ -->
 <section class="slide" data-fase="ik">
   <div class="opdracht">
     <div class="visueel">
-      <div class="vtitel">Maten-trap</div>
-      <div class="trap" data-sprong="kg-g"></div>
-      <div class="reken">
-        <div class="step" data-volg="3">1,2 kg = 1200 g</div>
-        <div class="step" data-volg="4">1200 g + 350 g = 1550 g</div>
-        <div class="step eind" data-volg="5">1550 g = 1,55 kg</div>
-      </div>
+      <div class="vtitel">Strook</div>
+      <div class="strook" data-delen="1,4" data-namen="siroop,water" data-top="1500 ml limonade" data-per="300" data-som="300 ml|1200 ml"></div>
+      <div class="vtitel">Verhoudingstabel</div>
+      <table class="vt">
+        <tr class="op"><td></td><td></td><td class="step" data-volg="3"><span>× 300</span></td></tr>
+        <tr><th style="background:var(--d0)">siroop</th><td>1</td><td class="step" data-volg="4">300</td></tr>
+        <tr><th style="background:var(--d1)">water</th><td>4</td><td class="step" data-volg="4">1200</td></tr>
+        <tr class="samen"><th style="background:var(--paars)">samen</th><td class="step" data-volg="2">5</td><td class="step" data-volg="3">1500</td></tr>
+      </table>
     </div>
     <div class="rechts">
       <span class="nummer" style="background:var(--oranje)">Opdracht 2 · ik doe het voor</span>
-      <p class="vraag">Sem koopt 1,2 kg gehakt en 350 g kaas. Hoeveel weegt dat samen?</p>
+      <p class="vraag">Voor limonade gebruik je siroop : water = 1 : 4. Je maakt 1,5 liter limonade. Hoeveel ml siroop heb je nodig?</p>
       <ul class="denk">
-        <li class="step valkuil" data-volg="1">"Ik mag níet 1,2 + 350 doen! Dan tel ik kilo's en grammen bij elkaar."</li>
-        <li class="step" data-volg="2">"Eerst dezelfde maat. Ik kies gram, want dan heb ik geen komma meer."</li>
-        <li class="step" data-volg="3" data-show="sprong">"kg → g = × 1000. 1,2 kg is dus 1200 g."</li>
-        <li class="step" data-volg="4">"Nu kan ik optellen: 1200 + 350 = <b>1550 g</b>."</li>
-        <li class="step antw" data-volg="5">Samen 1550 g (= 1,55 kg)</li>
+        <li class="step" data-volg="1">"1,5 liter is <b>1500 ml</b>. Dat is het geheel."</li>
+        <li class="step" data-volg="2">"Kop: 1 deel siroop, 4 delen water, samen <b>5</b> delen."</li>
+        <li class="step" data-volg="3" data-show="per">"1500 : 5 = <b>300</b>. Eén deel is 300 ml."</li>
+        <li class="step" data-volg="4" data-show="delen">"Siroop = 1 × 300 = 300 ml, water = 4 × 300 = 1200 ml. Check: 1500!"</li>
+        <li class="step antw" data-volg="5">Je hebt 300 ml siroop nodig.</li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 8. IK 3 ============ -->
+<!-- ============ 7. IK 3 ============ -->
 <section class="slide" data-fase="ik">
   <div class="opdracht">
     <div class="visueel">
-      <div class="vtitel">Boven de trap</div>
-      <div class="trap metton klein" data-sprong=""></div>
-      <div class="reken">
-        <div class="step" data-volg="2">12 ton = 12 × 1000 = 12 000 kg</div>
-        <div class="step" data-volg="3">12 000 kg − 7500 kg = 4500 kg</div>
-      </div>
+      <div class="vtitel">Strook</div>
+      <div class="strook" data-delen="4,5" data-namen="Sam,Eva" data-top="€ 45" data-per="€5" data-som="€ 20|€ 25"></div>
+      <div class="vtitel">Verhoudingstabel</div>
+      <table class="vt">
+        <tr class="op"><td></td><td></td><td class="step" data-volg="3"><span>× 5</span></td></tr>
+        <tr><th style="background:var(--d0)">Sam</th><td>4</td><td class="step" data-volg="4">€ 20</td></tr>
+        <tr><th style="background:var(--d1)">Eva</th><td>5</td><td class="step" data-volg="4">€ 25</td></tr>
+        <tr class="samen"><th style="background:var(--paars)">samen</th><td class="step" data-volg="2">9</td><td class="step" data-volg="3">€ 45</td></tr>
+      </table>
     </div>
     <div class="rechts">
       <span class="nummer" style="background:var(--oranje)">Opdracht 3 · ik doe het voor</span>
-      <p class="vraag">Een vrachtwagen mag <u>maximaal</u> 12 ton wegen. Leeg weegt hij 7500 kg. Hoeveel kg lading mag erin?</p>
+      <p class="vraag">Sam werkte 4 uur en Eva 5 uur. Ze verdelen de € 45 die ze verdienden in de verhouding 4 : 5. Hoeveel krijgt Eva?</p>
       <ul class="denk">
-        <li class="step" data-volg="1">"Maximaal = niet meer dan. Het antwoord moet in <b>kg</b>."</li>
-        <li class="step" data-volg="2">"Ton staat boven de trap: 1 ton = 1000 kg. Dus 12 ton = <b>12 000 kg</b>."</li>
-        <li class="step" data-volg="3">"Wat er nog bij mag: 12 000 − 7500 = <b>4500 kg</b>."</li>
-        <li class="step" data-volg="4">"Check: 4500 kg is 4,5 ton. Dat past bij een vrachtwagen."</li>
-        <li class="step antw" data-volg="5">Er mag maximaal 4500 kg lading in.</li>
+        <li class="step" data-volg="1">"Het geheel is € 45. De verhouding is 4 : 5."</li>
+        <li class="step" data-volg="2">"Samen: 4 + 5 = <b>9</b> delen."</li>
+        <li class="step" data-volg="3" data-show="per">"45 : 9 = <b>5</b>. Eén deel is € 5."</li>
+        <li class="step" data-volg="4" data-show="delen">"Eva: 5 × € 5 = € 25. Sam: 4 × € 5 = € 20. Check: 20 + 25 = 45."</li>
+        <li class="step antw" data-volg="5">Eva krijgt € 25.</li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 9. WIJ 4 ============ -->
+<!-- ============ 8. WIJ 4 ============ -->
 <section class="slide" data-fase="wij">
   <div class="opdracht">
     <div class="visueel">
-      <div class="vtitel">Maten-trap</div>
-      <div class="trap" data-sprong="kg-g"></div>
+      <div class="vtitel">Strook</div>
+      <div class="strook" data-delen="3,1" data-namen="rood,blauw" data-top="48 knikkers" data-per="12" data-som="36 rood|12 blauw"></div>
+      <div class="vtitel">Verhoudingstabel</div>
+      <table class="vt">
+        <tr class="op"><td></td><td></td><td class="step" data-volg="3"><span>× 12</span></td></tr>
+        <tr><th style="background:var(--d0)">rood</th><td>3</td><td class="step" data-volg="4">36</td></tr>
+        <tr><th style="background:var(--d1)">blauw</th><td>1</td><td class="step" data-volg="4">12</td></tr>
+        <tr class="samen"><th style="background:var(--paars)">samen</th><td class="step" data-volg="2">4</td><td class="step" data-volg="3">48</td></tr>
+      </table>
     </div>
     <div class="rechts">
       <span class="nummer" style="background:var(--groen)">Opdracht 4 · samen</span>
-      <p class="vraag">Mila heeft een pak bloem van 1 kg. Voor één keer koekjes bakken gebruikt ze 250 g. Hoe vaak kan ze koekjes bakken?</p>
+      <p class="vraag">In een zak zitten 48 knikkers. Rood : blauw = 3 : 1. Hoeveel blauwe knikkers zitten erin?</p>
       <ul class="denk">
-        <li><span class="q">Welke maten zie je?</span> <span class="step ans" data-volg="1">kg en g</span></li>
-        <li><span class="q">Maak het dezelfde maat.</span> <span class="step ans" data-volg="2" data-show="sprong">1 kg = 1000 g</span></li>
-        <li><span class="q">Welke som maak je?</span> <span class="step ans" data-volg="3">1000 : 250 = 4</span></li>
-        <li><span class="q">Antwoord?</span> <span class="step ans" data-volg="4">Ze kan 4 keer bakken.</span></li>
+        <li><span class="q">Weten we het geheel of een deel?</span> <span class="step ans" data-volg="1">het geheel: 48</span></li>
+        <li><span class="q">Hoeveel is samen in de kop?</span> <span class="step ans" data-volg="2">3 + 1 = 4</span></li>
+        <li><span class="q">Hoe vaak past 4 in 48?</span> <span class="step ans" data-volg="3" data-show="per">48 : 4 = 12</span></li>
+        <li><span class="q">Vul de staart in.</span> <span class="step ans" data-volg="4" data-show="delen">36 rood, 12 blauw</span></li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
     </div>
   </div>
   <div class="notitie"><b>Wij-fase:</b> stel elke vraag aan de hele groep, geef denktijd, kies dan een naam met <b>B</b>. Pas daarna het antwoord tonen (→).</div>
 </section>
 
-<!-- ============ 10. WIJ 5 ============ -->
+<!-- ============ 9. WIJ 5 : omgekeerd ============ -->
 <section class="slide" data-fase="wij">
   <div class="opdracht">
     <div class="visueel">
-      <div class="vtitel">Maten-trap</div>
-      <div class="trap" data-sprong="kg-g"></div>
+      <div class="vtitel">Strook</div>
+      <div class="strook" data-delen="2,3" data-namen="geel,blauw" data-top="? liter groen|10 liter groen" data-per="2" data-som="4 liter|6 liter" data-bekend="1"></div>
+      <div class="vtitel">Verhoudingstabel</div>
+      <table class="vt">
+        <tr class="op"><td></td><td></td><td class="step" data-volg="2"><span>× 2</span></td></tr>
+        <tr><th style="background:var(--d0)">geel</th><td>2</td><td class="step" data-volg="3">4</td></tr>
+        <tr><th style="background:var(--d1)">blauw</th><td>3</td><td>6</td></tr>
+        <tr class="samen"><th style="background:var(--paars)">samen</th><td>5</td><td class="step" data-volg="4">10</td></tr>
+      </table>
     </div>
     <div class="rechts">
       <span class="nummer" style="background:var(--groen)">Opdracht 5 · samen</span>
-      <p class="vraag">Een pot pindakaas weegt <u>bruto</u> 450 g. De lege pot weegt 0,12 kg. Hoeveel gram pindakaas zit erin (<u>netto</u>)?</p>
+      <p class="vraag">Groene verf maak je met geel : blauw = 2 : 3. Tim gebruikt 6 liter blauw. Hoeveel liter groene verf krijgt hij?</p>
       <ul class="denk">
-        <li><span class="q">Wat betekent bruto? En netto?</span> <span class="step ans" data-volg="1">bruto = met pot, netto = alleen pindakaas</span></li>
-        <li><span class="q">0,12 kg is hoeveel gram?</span> <span class="step ans" data-volg="2" data-show="sprong">0,12 × 1000 = 120 g</span></li>
-        <li><span class="q">Welke som maak je?</span> <span class="step ans" data-volg="3">450 − 120 = 330</span></li>
-        <li><span class="q">Antwoord?</span> <span class="step ans" data-volg="4">Er zit 330 g pindakaas in.</span></li>
+        <li><span class="q">Wat is er anders dan net?</span> <span class="step ans" data-volg="1">nu weten we een <u>deel</u> (blauw), niet het geheel</span></li>
+        <li><span class="q">Hoe vaak past 3 in 6?</span> <span class="step ans" data-volg="2" data-show="per">6 : 3 = 2, dus alles × 2</span></li>
+        <li><span class="q">Hoeveel geel?</span> <span class="step ans" data-volg="3" data-show="delen">2 × 2 = 4 liter</span></li>
+        <li><span class="q">Hoeveel groen samen?</span> <span class="step ans" data-volg="4" data-show="top">4 + 6 = 10 liter</span></li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
     </div>
   </div>
-  <div class="notitie"><b>Let op:</b> 0,12 kg → g gaat vaak mis (12 g of 1200 g). Laat de komma echt 3 plaatsen schuiven: 0,12 → 1,2 → 12 → 120.</div>
+  <div class="notitie"><b>Let op:</b> hier ken je niet het geheel maar een deel. Dezelfde tabel werkt, je start alleen in een andere rij.</div>
 </section>
 
-<!-- ============ 11. JULLIE 6 ============ -->
+<!-- ============ 10. JULLIE 6 ============ -->
 <section class="slide" data-fase="jullie">
   <div class="opdracht">
     <div class="visueel">
-      <div class="vtitel">Maten-trap</div>
-      <div class="trap" data-sprong="kg-g"></div>
+      <div class="vtitel">Strook</div>
+      <div class="strook" data-delen="1,2" data-namen="jongens,meisjes" data-top="24 kinderen" data-per="8" data-som="8 jongens|16 meisjes"></div>
+      <div class="vtitel">Verhoudingstabel</div>
+      <table class="vt">
+        <tr class="op"><td></td><td></td><td class="step" data-volg="2"><span>× 8</span></td></tr>
+        <tr><th style="background:var(--d0)">jongens</th><td>1</td><td class="step" data-volg="3">8</td></tr>
+        <tr><th style="background:var(--d1)">meisjes</th><td>2</td><td class="step" data-volg="3">16</td></tr>
+        <tr class="samen"><th style="background:var(--paars)">samen</th><td class="step" data-volg="2">3</td><td class="step" data-volg="2">24</td></tr>
+      </table>
     </div>
     <div class="rechts">
       <span class="nummer" style="background:var(--blauw)">Opdracht 6 · met je schoudermaatje</span>
-      <p class="vraag">Bas zegt: "Een zak chips van 0,2 kg is lichter dan een reep chocola van 150 g, want 0,2 is kleiner dan 150."</p>
-      <p class="vraag" style="font-size:28px">Klopt dat? Leg uit.</p>
+      <p class="vraag">In een klas van 24 kinderen is jongens : meisjes = 1 : 2. Mees zegt: "24 : 2 = 12, dus er zijn 12 meisjes."</p>
+      <p class="vraag" style="font-size:28px">Klopt dat? Wat is het goede antwoord?</p>
       <p class="opdracht-hint">Overleg samen, schrijf het antwoord op je wisbordje. Je hebt 2 minuten.</p>
       <ul class="denk">
-        <li class="step valkuil" data-volg="1">Nee! Bas vergelijkt getallen met verschillende maten.</li>
-        <li class="step" data-volg="2" data-show="sprong">0,2 kg = 0,2 × 1000 = <b>200 g</b></li>
-        <li class="step antw" data-volg="3">200 g is zwaarder dan 150 g. De chips zijn dus zwaarder!</li>
+        <li class="step valkuil" data-volg="1">Nee! Mees deelt door één deel in plaats van door samen.</li>
+        <li class="step" data-volg="2" data-show="per">Samen: 1 + 2 = 3. 24 : 3 = <b>8</b></li>
+        <li class="step antw" data-volg="3" data-show="delen">8 jongens en 16 meisjes (8 + 16 = 24)</li>
       </ul>
     </div>
   </div>
-  <div class="notitie"><b>Jullie-fase:</b> start de timer met <b>T</b>. Terugkoppeling naar de titelvraag: wat is zwaarder, 0,8 kg of 750 g? (800 g!)</div>
+  <div class="notitie"><b>Jullie-fase:</b> start de timer met <b>T</b>. Laat een duo met <b>B</b> uitleggen waarom Mees' antwoord niet kan kloppen: 12 + 12 is wel 24, maar dan zijn er evenveel jongens als meisjes.</div>
 </section>
 
-<!-- ============ 12. JIJ 7 ============ -->
+<!-- ============ 11. JIJ 7 ============ -->
 <section class="slide" data-fase="jij">
   <div class="opdracht">
     <div class="visueel">
-      <div class="vtitel">Hulp: maten-trap</div>
-      <div class="trap" data-sprong="kg-g"></div>
+      <div class="vtitel">Hulp: strook</div>
+      <div class="strook" data-delen="3,2" data-namen="appels,peren" data-top="25 stuks fruit" data-per="5" data-som="15 appels|10 peren"></div>
     </div>
     <div class="rechts">
       <span class="nummer" style="background:var(--roze)">Opdracht 7 · zelf</span>
-      <p class="vraag">Een pompoen weegt 3,4 kg. Hoeveel gram is dat?</p>
+      <p class="vraag">In een fruitschaal liggen 25 stuks fruit. Appels : peren = 3 : 2. Hoeveel appels liggen er in de schaal?</p>
       <p class="opdracht-hint">Maak de opdrachten op je werkblad.</p>
       <ul class="denk">
-        <li class="step antw" data-volg="1" data-show="sprong">3,4 × 1000 = 3400 g</li>
+        <li class="step antw" data-volg="1" data-show="per delen">Samen 5. 25 : 5 = 5. Appels: 3 × 5 = 15</li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
     </div>
   </div>
   <div class="notitie"><b>Jij-fase:</b> de kinderen maken opdracht 7 t/m 10 op het werkblad. Daarna bespreek je ze hier na: → toont het antwoord.</div>
 </section>
 
-<!-- ============ 13. JIJ 8 ============ -->
+<!-- ============ 12. JIJ 8 ============ -->
 <section class="slide" data-fase="jij">
   <div class="opdracht">
     <div class="visueel">
-      <div class="vtitel">Hulp: maten-trap</div>
-      <div class="trap" data-sprong="g-kg"></div>
+      <div class="vtitel">Hulp: strook</div>
+      <div class="strook" data-delen="1,3" data-namen="cement,zand" data-top="20 kg mengsel" data-per="5" data-som="5 kg|15 kg"></div>
     </div>
     <div class="rechts">
       <span class="nummer" style="background:var(--roze)">Opdracht 8 · zelf</span>
-      <p class="vraag">In Fleurs rugzak zitten een fles water van 1,5 kg, een broodtrommel van 400 g en een boek van 0,6 kg. Hoeveel kg weegt dat samen?</p>
+      <p class="vraag">Voor beton meng je cement : zand = 1 : 3. Je maakt 20 kg mengsel. Hoeveel kg zand heb je nodig?</p>
       <ul class="denk">
-        <li class="step antw" data-volg="1" data-show="sprong">400 g = 0,4 kg<br>1,5 + 0,4 + 0,6 = 2,5 kg<br><span style="font-weight:800">(of: 1500 + 400 + 600 = 2500 g = 2,5 kg)</span></li>
+        <li class="step antw" data-volg="1" data-show="per delen">Samen 4. 20 : 4 = 5. Zand: 3 × 5 = 15 kg</li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 14. JIJ 9 ============ -->
+<!-- ============ 13. JIJ 9 ============ -->
 <section class="slide" data-fase="jij">
   <div class="opdracht">
     <div class="visueel">
-      <div class="vtitel">Hulp: boven de trap</div>
-      <div class="trap metton klein" data-sprong=""></div>
+      <div class="vtitel">Hulp: strook</div>
+      <div class="strook" data-delen="1,2" data-namen="rijst,water" data-top="? bekers|9 bekers" data-per="3" data-som="3 bekers|6 bekers" data-bekend="0"></div>
     </div>
     <div class="rechts">
       <span class="nummer" style="background:var(--roze)">Opdracht 9 · zelf</span>
-      <p class="vraag">Een lift mag <u>maximaal</u> 1 ton dragen. Er staan 12 mensen in van gemiddeld 75 kg. Mag er nog iemand van 80 kg bij?</p>
+      <p class="vraag">Rijst kook je met rijst : water = 1 : 2. Je gebruikt 3 bekers rijst. Hoeveel bekers rijst en water gaan er samen in de pan?</p>
+      <p class="opdracht-hint">Let op: weet je hier het geheel of een deel?</p>
       <ul class="denk">
-        <li class="step antw" data-volg="1">12 × 75 = 900 kg. 900 + 80 = 980 kg.<br>1 ton = 1000 kg, dus ja, dat mag nog!</li>
+        <li class="step antw" data-volg="1" data-show="per delen top">Een deel: 3 bekers rijst = 1 × 3. Water: 2 × 3 = 6. Samen 3 + 6 = 9 bekers</li>
       </ul>
-      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 15. JIJ 10 ============ -->
+<!-- ============ 14. JIJ 10 ============ -->
 <section class="slide" data-fase="jij">
   <div class="opdracht">
     <div class="visueel">
-      <div class="vtitel">Hulp: maten-trap</div>
-      <div class="trap" data-sprong="g-mg"></div>
+      <div class="vtitel">Hulp: strook</div>
+      <div class="strook" data-delen="8,1" data-namen="kinderen,begeleiders" data-top="36 mensen" data-per="4" data-som="32|4"></div>
     </div>
     <div class="rechts">
       <span class="nummer" style="background:var(--roze)">Opdracht 10 · denkvraag</span>
-      <p class="vraag">Een zak snoep weegt 1 kg. Er zitten 400 snoepjes in. Hoeveel weegt één snoepje? Schrijf je antwoord in gram én in milligram.</p>
+      <p class="vraag">Op schoolreis gaan in totaal 36 mensen mee: kinderen en begeleiders. Op elke 8 kinderen gaat 1 begeleider mee. Hoeveel begeleiders gaan er mee?</p>
       <ul class="denk">
-        <li class="step" data-volg="1">1 kg = 1000 g. 1000 : 400 = <b>2,5 g</b></li>
-        <li class="step antw" data-volg="2" data-show="sprong">2,5 g = 2,5 × 1000 = 2500 mg</li>
+        <li class="step" data-volg="1">"Op elke 8 kinderen 1 begeleider" = kinderen : begeleiders = 8 : 1</li>
+        <li class="step antw" data-volg="2" data-show="per delen">Samen 9. 36 : 9 = 4. Er gaan 4 begeleiders mee (en 32 kinderen).</li>
       </ul>
     </div>
   </div>
+  <div class="notitie"><b>Denkvraag:</b> hier staat de verhouding in woorden ("op elke …"). Dat is rekentaal die de kinderen moeten leren herkennen.</div>
 </section>
 
-<!-- ============ 16. AFSLUITING ============ -->
+<!-- ============ 15. AFSLUITING ============ -->
 <section class="slide" data-fase="doel">
   <h2>Terug naar ons doel</h2>
   <div class="doelzin" style="font-size:32px">
     <div class="icoon"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="#fff"/></svg></div>
-    Ik kan gewichten omrekenen met de maten-trap en ermee rekenen in een verhaalsom.
+    Ik kan een verhoudingssom oplossen waarin ik de delen en het geheel moet vinden.
   </div>
   <div class="duimen">
     <div class="duim"><svg viewBox="0 0 24 24" fill="var(--groen)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Ik kan het!</b></div>
     <div class="duim"><svg viewBox="0 0 24 24" fill="var(--oranje)" style="transform:rotate(-90deg)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Bijna</b></div>
     <div class="duim"><svg viewBox="0 0 24 24" fill="var(--roze)" style="transform:rotate(180deg)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Nog lastig</b></div>
   </div>
-  <p style="text-align:center;font-weight:800">Terug naar de startvraag: wat is zwaarder, 0,8 kg of 750 g? Leg het uit aan je schoudermaatje.</p>
+  <p style="text-align:center;font-weight:800">Leg aan je schoudermaatje uit: waarom deel je het geheel door <b>samen</b> en niet door één deel?</p>
 </section>
 
 <!-- ---------- voet ---------- -->
@@ -517,46 +538,27 @@
 
 </div></div>
 
+
 <!-- MeesterTools: inlogcontrole + namen uit de actieve klas (js/tien-minuten-les.js). -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
 <script src="/js/supabase-config.js?v=1.57.2"></script>
 <script src="/js/tien-minuten-les.js?v=1.57.2"></script>
 <script>
-/* ================= MATEN-TRAP ================= */
-const MATEN=["kg","hg","dag","g","dg","cg","mg"], HOOFD=["kg","g","mg"];
-const TH=356, X=i=>6+i*105, Y=i=>76+i*38;
-function bouwTrap(t){
-  t.innerHTML='<div class="tontag">1 ton = 1000 kg ↑</div>';
-  MATEN.forEach((m,i)=>{const d=document.createElement("div");d.className="trede"+(HOOFD.includes(m)?" hoofd":"");d.dataset.m=m;
-    d.style.left=X(i)+"px";d.style.top=Y(i)+"px";d.style.height=(TH-Y(i))+"px";d.textContent=m;t.appendChild(d);});
-}
-function wisSprong(t){t.querySelectorAll(".sprong,.totaal,.pijlen").forEach(e=>e.remove());t.querySelectorAll(".trede").forEach(d=>d.classList.remove("pad","start","op"));}
-function toonSprong(t){
-  const s=t.dataset.sprong; if(!s)return; wisSprong(t);
-  const [van,naar]=s.split("-"), a=MATEN.indexOf(van), b=MATEN.indexOf(naar), omlaag=b>a, n=Math.abs(b-a), dir=omlaag?1:-1;
-  const off=t.classList.contains("metton")?34:0, kleur=omlaag?"#EB6B0A":"#1F7BC1";
-  const tr=[...t.querySelectorAll(".trede")];
-  tr[a].classList.add("start");
-  const NS="http://www.w3.org/2000/svg";
-  const svg=document.createElementNS(NS,"svg"); svg.setAttribute("class","pijlen"); svg.setAttribute("width",740); svg.setAttribute("height",TH+off);
-  const mid="pijlkop"+Math.random().toString(36).slice(2,7);
-  svg.innerHTML=`<defs><marker id="${mid}" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${kleur}"/></marker></defs>`;
-  t.appendChild(svg);
-  for(let k=1;k<=n;k++){
-    const f=a+(k-1)*dir, i=a+k*dir; tr[i].classList.add("pad"); if(!omlaag)tr[i].classList.add("op");
-    const x1=X(f)+49+dir*16, y1=Y(f)+off-6, x2=X(i)+49-dir*16, y2=Y(i)+off-6;
-    const cx=(x1+x2)/2, cy=Math.min(y1,y2)-58;
-    const g=document.createElementNS(NS,"g"); g.setAttribute("class","pijl"); g.style.animationDelay=(k*0.35)+"s";
-    g.innerHTML=`<path d="M${x1},${y1} Q${cx},${cy} ${x2},${y2}" fill="none" stroke="${kleur}" stroke-width="5" stroke-linecap="round" marker-end="url(#${mid})"/>`;
-    svg.appendChild(g);
-    const my=0.25*y1+0.5*cy+0.25*y2;
-    const l=document.createElement("div"); l.className="sprong"+(omlaag?"":" op"); l.textContent=omlaag?"× 10":": 10";
-    l.style.left=cx+"px"; l.style.top=(my-20)+"px"; l.style.animationDelay=(k*0.35)+"s"; t.appendChild(l);
-  }
-  const tot=document.createElement("div"); tot.className="totaal"+(omlaag?"":" op");
-  tot.textContent=`${van} → ${naar}: ${omlaag?"×":":"} ${10**n}`; tot.style.animationDelay=((n+1)*0.35)+"s"; t.appendChild(tot);
-}
-document.querySelectorAll(".trap").forEach(bouwTrap);
+/* ================= STROOKMODEL ================= */
+const KLEUR=["var(--d0)","var(--d1)","var(--d2)"];
+document.querySelectorAll(".strook").forEach(s=>{
+  const delen=s.dataset.delen.split(",").map(Number), namen=(s.dataset.namen||"").split(","), som=(s.dataset.som||"").split("|");
+  const [voor,na]=(s.dataset.top||"").split("|");
+  const tot=delen.reduce((a,b)=>a+b,0), bw=Math.min(110,(660-10*(delen.length-1)-4*tot)/tot);
+  s.innerHTML=`<div class="s-top"><span class="tt"><span class="voor">${voor}</span><span class="na">${na||voor}</span></span><div class="haak"></div></div><div class="s-rij"></div>`;
+  const rij=s.querySelector(".s-rij");
+  delen.forEach((n,i)=>{
+    const d=document.createElement("div"); d.className="s-deel";
+    let b='<div class="s-blokken">'; for(let k=0;k<n;k++) b+=`<div class="s-blok" style="width:${bw}px;background:${KLEUR[i]}"><span>${s.dataset.per||""}</span></div>`; b+='</div>';
+    d.innerHTML=b+`<div class="s-naam" style="color:${KLEUR[i]}">${namen[i]||""} (${n})</div>`+(som[i]?`<div class="s-som${String(i)===s.dataset.bekend?" bekend":""}" style="background:${KLEUR[i]}">${som[i]}</div>`:"");
+    rij.appendChild(d);
+  });
+});
 
 /* ================= NAVIGATIE ================= */
 const dias=[...document.querySelectorAll(".slide")];
@@ -576,7 +578,7 @@ function ga(i){
   document.body.classList.toggle("eerste-dia",nu===0);
   const d=dias[nu]; d.classList.add("actief");
   d.querySelectorAll(".step").forEach(s=>s.classList.remove("shown"));
-  d.querySelectorAll(".trap").forEach(wisSprong);
+  d.querySelectorAll(".strook").forEach(x=>x.classList.remove("per","delen","top"));
   const f=FASEN[d.dataset.fase], fb=document.getElementById("fase");
   if(f){fb.textContent=f[0];fb.style.background=f[1];fb.classList.remove("hidden");}else fb.classList.add("hidden");
   [...stippen.children].forEach((s,k)=>s.classList.toggle("nu",k===nu));
@@ -585,7 +587,7 @@ function ga(i){
 function volgende(){
   const g=groepen();
   if(onthuld<g.length){
-    g[onthuld++].forEach(s=>{s.classList.add("shown"); if(s.dataset.show==="sprong") dias[nu].querySelectorAll(".trap").forEach(toonSprong);});
+    g[onthuld++].forEach(s=>{s.classList.add("shown"); if(s.dataset.show) s.dataset.show.split(" ").forEach(c=>dias[nu].querySelectorAll(".strook").forEach(x=>x.classList.add(c)));});
     updKnop();
   } else ga(nu+1);
 }
@@ -595,6 +597,7 @@ function updKnop(){
 }
 document.getElementById("volgende").onclick=volgende;
 document.getElementById("vorige").onclick=()=>ga(nu-1);
+
 
 /* ================= BEURTENKIEZER ================= */
 let NAMEN=[], KLAS=null;
