@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>10 minuten rekenen – Verhoudingen: deel, deel en geheel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --groen:#96BC0D; --oranje:#EB6B0A; --roze:#C41A81; --blauw:#1F7BC1; --paars:#6A4FB3;
+    --inkt:#26263A; --zacht:#6B6B80; --papier:#FFF9EF; --kaart:#FFFFFF; --lijn:#E9E1D2;
+    --lijngrafiek:#1F5FA8;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#2d2a3e;font-family:Nunito,"Segoe UI",Arial,sans-serif;color:var(--inkt);overflow:hidden}
+  #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  #stage{flex:none;width:1600px;height:900px;background:var(--papier);position:relative;transform-origin:center center;border-radius:18px;overflow:hidden;
+    background-image:radial-gradient(circle at 95% 8%, #fde6cf 0 120px, transparent 121px),radial-gradient(circle at 3% 96%, #e6f1c4 0 150px, transparent 151px)}
+
+  /* ---------- kop ---------- */
+  header{position:absolute;top:0;left:0;right:0;height:96px;display:flex;align-items:center;gap:24px;padding:0 40px;z-index:5}
+  header img{height:58px}
+  header .terug{font-weight:900;font-size:20px;color:var(--zacht);text-decoration:none;background:#fff;border-radius:14px;padding:8px 16px;box-shadow:0 4px 0 var(--lijn)}
+  header .terug:hover{color:var(--inkt)}
+  header .titel{font-weight:800;font-size:22px;color:var(--zacht);flex:1}
+  .fase{font-weight:900;font-size:26px;letter-spacing:1px;padding:10px 26px;border-radius:999px;color:#fff;text-transform:uppercase;box-shadow:0 4px 0 rgba(0,0,0,.15)}
+  .fase.hidden{visibility:hidden}
+
+  /* ---------- dia's ---------- */
+  .slide{position:absolute;top:96px;left:0;right:0;bottom:96px;padding:10px 60px 0;display:none}
+  .slide.actief{display:block;animation:in .35s ease}
+  @keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  h1{font-size:66px;font-weight:900;margin:0 0 10px;line-height:1.1}
+  h2{font-size:46px;font-weight:900;margin:0 0 22px;line-height:1.15}
+  p,li{font-size:30px;line-height:1.4}
+  .klein{font-size:24px;color:var(--zacht)}
+
+  /* titel */
+  .titeldia{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%}
+  .titeldia img{height:150px;margin-bottom:30px}
+  .titeldia .sub{font-size:34px;color:var(--zacht);font-weight:800}
+  .badge-rij{display:flex;gap:16px;margin-top:34px}
+  .badge-rij span{font-weight:900;color:#fff;padding:10px 24px;border-radius:999px;font-size:24px}
+
+  /* doel */
+  .doelzin{background:var(--kaart);border:5px solid var(--paars);border-radius:26px;padding:26px 36px;font-size:40px;font-weight:900;margin-bottom:30px;display:flex;gap:22px;align-items:center}
+  .doelzin .icoon{flex:none;width:74px;height:74px;border-radius:50%;background:var(--paars);display:grid;place-items:center}
+  .twee{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+  .kaart{background:var(--kaart);border-radius:26px;padding:26px 32px;box-shadow:0 6px 0 var(--lijn)}
+  .kaart h3{margin:0 0 10px;font-size:30px;font-weight:900;display:flex;align-items:center;gap:12px}
+  .kaart h3 .label{font-size:20px;color:#fff;padding:4px 14px;border-radius:999px}
+  .kaart p{margin:0;font-size:28px}
+
+  /* woorden */
+  .woorden{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .woord{background:var(--kaart);border-radius:24px;padding:22px 28px;border-left:14px solid var(--groen);box-shadow:0 6px 0 var(--lijn)}
+  .woord b{font-size:34px;font-weight:900;display:block}
+  .woord span{font-size:26px;color:var(--zacht)}
+  .woord.af{border-color:var(--roze)} .woord.meest{border-color:var(--oranje)} .woord.kw{border-color:var(--blauw)}
+
+  /* stappenplan */
+  .stappen{list-style:none;padding:0;margin:0;display:grid;gap:18px}
+  .stappen li{background:var(--kaart);border-radius:22px;padding:18px 26px;display:flex;align-items:center;gap:24px;box-shadow:0 6px 0 var(--lijn);font-size:32px}
+  .stappen .nr{flex:none;width:62px;height:62px;border-radius:50%;background:var(--oranje);color:#fff;font-weight:900;font-size:34px;display:grid;place-items:center}
+
+  /* opdrachtdia's */
+  .opdracht{display:grid;grid-template-columns:900px 1fr;gap:34px;height:100%}
+  .grafiekkaart{background:var(--kaart);border-radius:26px;padding:16px 18px 8px;box-shadow:0 6px 0 var(--lijn);align-self:start}
+  .grafiekkaart .gtitel{font-weight:900;font-size:26px;text-align:center;margin:4px 0 0}
+  .grafiekkaart svg{width:100%;height:auto;display:block}
+  .rechts{display:flex;flex-direction:column;gap:14px;min-width:0}
+  .nummer{display:inline-block;font-weight:900;font-size:22px;color:#fff;border-radius:12px;padding:4px 14px;align-self:flex-start}
+  .vraag{font-size:32px;font-weight:900;line-height:1.3;margin:0}
+  .denk{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+  .denk li{font-size:25px;line-height:1.35;background:#fff;border-radius:18px;padding:12px 18px;border-left:8px solid var(--oranje)}
+  .denk li.valkuil{border-color:var(--roze);background:#fff0f8}
+  .denk li.antw{border-color:var(--groen);background:#f3f9e0;font-weight:900}
+  .denk .q{font-weight:800}
+  .denk .ans{color:#2f6d00;font-weight:900}
+  .step{visibility:hidden;opacity:0;transition:opacity .3s}
+  .step.shown{visibility:visible;opacity:1}
+  li.step{display:list-item}
+  .mini-plan{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-bottom:6px}
+  .mini-plan span{font-size:18px;font-weight:800;background:#fff;border:2px solid var(--lijn);border-radius:999px;padding:4px 12px;color:var(--zacht)}
+  .mini-plan span b{color:var(--oranje)}
+  .opdracht-hint{font-size:22px;color:var(--zacht);font-weight:800}
+
+  /* afsluiting */
+  .duimen{display:flex;gap:40px;justify-content:center;margin:26px 0}
+  .duim{background:#fff;border-radius:26px;padding:22px 30px;text-align:center;box-shadow:0 6px 0 var(--lijn);width:300px}
+  .duim svg{width:90px;height:90px}
+  .duim b{display:block;font-size:26px;margin-top:8px}
+
+  /* leerkrachtnotitie */
+  .notitie{position:absolute;right:60px;bottom:6px;max-width:720px;background:#fffbe0;border:3px dashed #d9c77b;border-radius:16px;padding:12px 18px;font-size:20px;line-height:1.4;display:none;z-index:4}
+  body.notities .notitie{display:block}
+  .notitie b{color:#8a6d00}
+
+  /* ---------- voet ---------- */
+  footer{position:absolute;left:0;right:0;bottom:0;height:96px;display:flex;align-items:center;gap:16px;padding:0 40px;z-index:5}
+  .knop{font-family:inherit;font-weight:900;font-size:24px;border:none;border-radius:18px;padding:14px 24px;cursor:pointer;background:#fff;color:var(--inkt);box-shadow:0 5px 0 var(--lijn);display:flex;align-items:center;gap:10px}
+  .knop:active{transform:translateY(3px);box-shadow:0 2px 0 var(--lijn)}
+  .knop.hoofd{background:var(--oranje);color:#fff;box-shadow:0 5px 0 #b44f00}
+  .knop.beurt{background:var(--roze);color:#fff;box-shadow:0 5px 0 #8c0f5b}
+  .knop svg{width:28px;height:28px}
+  .stippen{flex:1;display:flex;justify-content:center;gap:8px}
+  .stippen i{width:16px;height:16px;border-radius:50%;background:#ddd3c2;cursor:pointer}
+  .stippen i.nu{background:var(--oranje);transform:scale(1.3)}
+  #timer{min-width:130px;justify-content:center}
+  #timer.loopt{background:var(--blauw);color:#fff;box-shadow:0 5px 0 #125a8f}
+  #timer.klaar{background:var(--roze);color:#fff;animation:puls 0.8s infinite}
+  @keyframes puls{50%{transform:scale(1.08)}}
+
+  /* ---------- beurtenkiezer ---------- */
+  #beurtLaag{position:absolute;inset:0;background:rgba(38,38,58,.72);display:none;align-items:center;justify-content:center;z-index:20}
+  #beurtLaag.open{display:flex}
+  .beurtkaart{background:#fff;border-radius:36px;width:900px;padding:44px;text-align:center;box-shadow:0 14px 0 rgba(0,0,0,.2)}
+  .beurtkaart .kop{font-size:30px;font-weight:900;color:var(--zacht)}
+  #beurtNaam{font-size:130px;font-weight:900;color:var(--roze);margin:24px 0;min-height:170px;line-height:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #beurtNaam.rollen{color:#c9bfd6}
+  #beurtNaam.klaar{animation:pop .45s ease}
+  @keyframes pop{0%{transform:scale(.6)}70%{transform:scale(1.12)}100%{transform:scale(1)}}
+  .beurtknoppen{display:flex;gap:16px;justify-content:center}
+  #beurtInfo{font-size:22px;color:var(--zacht);margin-top:18px;font-weight:800}
+
+  /* ---------- extra voor deze les ---------- */
+  :root{--d0:#1F7BC1;--d1:#EB6B0A;--d2:#96BC0D}
+  .opdracht{grid-template-columns:800px 1fr}
+  .visueel{background:var(--kaart);border-radius:26px;padding:20px 26px;box-shadow:0 6px 0 var(--lijn);align-self:start;display:flex;flex-direction:column;gap:14px}
+  .visueel .vtitel{font-weight:900;font-size:22px;color:var(--zacht);text-transform:uppercase;letter-spacing:1px}
+  /* strookmodel */
+  .strook{width:fit-content;max-width:740px;margin:0 auto;position:relative}
+  .s-top{display:flex;flex-direction:column;align-items:center;margin-bottom:6px}
+  .s-top .tt{font-size:28px;font-weight:900;background:var(--paars);color:#fff;border-radius:14px;padding:2px 16px}
+  .s-top .tt .na{display:none}
+  .strook.top .s-top .tt .voor{display:none}
+  .strook.top .s-top .tt .na{display:inline}
+  .s-top .haak{width:100%;height:18px;border:4px solid var(--paars);border-bottom:none;border-radius:10px 10px 0 0;margin-top:6px}
+  .s-rij{display:flex;gap:10px}
+  .s-deel{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .s-blokken{display:flex;gap:4px}
+  .s-blok{height:74px;border-radius:10px;display:grid;place-items:center;font-size:28px;font-weight:900;color:#fff}
+  .s-blok span{opacity:0;transition:opacity .4s}
+  .strook.per .s-blok span{opacity:1}
+  .s-naam{font-size:22px;font-weight:900;text-align:center;line-height:1.15}
+  .s-deel{min-width:0}
+  .s-som{font-size:24px;font-weight:900;border-radius:12px;padding:2px 12px;color:#fff;opacity:0;transition:opacity .4s}
+  .strook.delen .s-som,.s-som.bekend{opacity:1}
+  /* verhoudingstabel */
+  table.vt{border-collapse:separate;border-spacing:0;font-size:32px;font-weight:900;margin:0 auto}
+  table.vt th{padding:6px 18px;text-align:left;border-radius:14px 0 0 14px;font-size:26px;color:#fff}
+  table.vt td{background:#fff;border:3px solid var(--lijn);min-width:130px;height:58px;text-align:center;padding:0 12px}
+  table.vt tr.op td{border:none;background:none;height:40px;font-size:24px;color:var(--paars)}
+  table.vt tr.op td span{background:#F2EEFB;border-radius:999px;padding:2px 14px}
+  table.vt tr.samen td{border-color:var(--paars);background:#F2EEFB}
+  table.vt tr.kopstaart td{border:none;background:none;height:30px;font-size:18px;color:var(--zacht);text-transform:uppercase;letter-spacing:1px}
+  .valkuilbalk{background:#fff0f8;border:4px dashed var(--roze);border-radius:24px;padding:18px 30px;font-size:30px;font-weight:900;text-align:center;margin-top:20px}
+  .uitlegdia{display:grid;grid-template-columns:800px 1fr;gap:40px;align-items:start}
+  .regels{display:flex;flex-direction:column;gap:18px}
+  .regel{background:#fff;border-radius:22px;padding:18px 24px;box-shadow:0 6px 0 var(--lijn);font-size:28px;font-weight:800;line-height:1.35}
+  .regel b{font-size:32px}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage">
+
+<header>
+  <a class="terug" href="../10-minuten-didactiek" title="Terug naar de lessen">&larr; Lessen</a>
+  <img src="/assets/logo-meestertools.png" alt="Meestertools" onerror="this.style.display='none'">
+  <div class="titel">10 minuten rekenen · Verhoudingen</div>
+  <div id="fase" class="fase hidden">Ik</div>
+</header>
+
+<!-- ============ 1. TITEL ============ -->
+<section class="slide" data-fase="">
+  <div class="titeldia">
+    <img src="/assets/logo-meestertools.png" alt="" onerror="this.style.display='none'">
+    <h1>30 kinderen, jongens : meisjes = 2 : 3.<br>Hoeveel meisjes?</h1>
+    <div class="sub">Verhoudingen: deel, deel en geheel · 10 minuten rekenen · groep 8</div>
+    <div class="badge-rij">
+      <span style="background:var(--oranje)">Ik</span>
+      <span style="background:var(--groen)">Wij</span>
+      <span style="background:var(--blauw)">Jullie</span>
+      <span style="background:var(--roze)">Jij</span>
+    </div>
+  </div>
+  <div class="notitie"><b>Leerkracht:</b> pijltje → of spatie = volgende stap, <b>B</b> = beurt, <b>T</b> = timer, <b>F</b> = volledig scherm, <b>N</b> = notities aan/uit.<br>Start met de vraag op deze dia op de wisbordjes. Veelgemaakte fouten: 10 (30 : 3) of 15 (30 : 2).</div>
+</section>
+
+<!-- ============ 2. DOEL ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Ons doel van vandaag</h2>
+  <div class="doelzin">
+    <div class="icoon"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="#fff"/></svg></div>
+    Ik kan een verhoudingssom oplossen waarin ik de delen en het geheel moet vinden.
+  </div>
+  <div class="twee">
+    <div class="kaart" style="border-top:10px solid var(--paars)">
+      <h3><span class="label" style="background:var(--paars)">Concept</span> Wat moet ik snappen?</h3>
+      <p><b>2 : 3</b> betekent: bij elke 2 jongens horen 3 meisjes. Samen is dat een groepje van <b>5</b>.<br>Het geheel bestaat uit een aantal van die groepjes.</p>
+    </div>
+    <div class="kaart" style="border-top:10px solid var(--oranje)">
+      <h3><span class="label" style="background:var(--oranje)">Vaardigheid</span> Wat ga ik doen?</h3>
+      <p>In de <b>verhoudingstabel</b> zet ik ook een rij <b>samen</b>.<br>Van <b>kop</b> naar <b>staart</b>: ik zoek hoe vaak het groepje in het geheel past.</p>
+    </div>
+  </div>
+  <div class="notitie"><b>Uit de overdracht:</b> de verhoudingstabel wordt vaak vergeten of verkeerd ingezet. Zodra de kinderen de tabel pakken, valt het meestal op zijn plek.</div>
+</section>
+
+<!-- ============ 3. UITLEG MODEL ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Kop en staart</h2>
+  <div class="uitlegdia">
+    <div class="visueel">
+      <div class="vtitel">Strook</div>
+      <div class="strook" data-delen="2,3" data-namen="jongens,meisjes" data-top="samen 5"></div>
+      <div class="vtitel">Verhoudingstabel</div>
+      <table class="vt">
+        <tr class="kopstaart"><td></td><td>kop</td><td>staart</td></tr>
+        <tr><th style="background:var(--d0)">jongens</th><td>2</td><td>…</td></tr>
+        <tr><th style="background:var(--d1)">meisjes</th><td>3</td><td>…</td></tr>
+        <tr class="samen"><th style="background:var(--paars)">samen</th><td>5</td><td>…</td></tr>
+      </table>
+    </div>
+    <div class="regels">
+      <div class="regel"><b>Kop</b> = de verhouding zelf.<br>Eén groepje: 2 jongens en 3 meisjes.</div>
+      <div class="regel"><b>Samen</b> = het groepje bij elkaar opgeteld: 2 + 3 = 5.</div>
+      <div class="regel"><b>Staart</b> = de echte aantallen. Die vind je door het groepje te vermenigvuldigen.</div>
+    </div>
+  </div>
+  <div class="valkuilbalk step">Valkuil: 30 : 3 = 10 meisjes? Nee! Je deelt het geheel door <u>samen</u>, niet door één deel.</div>
+</section>
+
+<!-- ============ 4. STAPPENPLAN ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Zo pak ik het aan</h2>
+  <ol class="stappen">
+    <li><span class="nr">1</span><span><b>Lees de vraag.</b> Welke verhouding? Weet ik het geheel of een deel?</span></li>
+    <li><span class="nr">2</span><span><b>Maak de kop</b> van de tabel, mét een rij <b>samen</b>.</span></li>
+    <li><span class="nr">3</span><span><b>Zoek het getal</b> dat ik bij de staart ken. Hoe vaak past de kop erin?</span></li>
+    <li><span class="nr">4</span><span><b>Vul de hele staart in</b> en check: kloppen de delen samen met het geheel?</span></li>
+  </ol>
+</section>
+
+<!-- ============ 5. IK 1 ============ -->
+<section class="slide" data-fase="ik">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Strook</div>
+      <div class="strook" data-delen="2,3" data-namen="jongens,meisjes" data-top="30 kinderen" data-per="6" data-som="12 jongens|18 meisjes"></div>
+      <div class="vtitel">Verhoudingstabel</div>
+      <table class="vt">
+        <tr class="op"><td></td><td></td><td class="step" data-volg="3"><span>× 6</span></td></tr>
+        <tr><th style="background:var(--d0)">jongens</th><td>2</td><td class="step" data-volg="4">12</td></tr>
+        <tr><th style="background:var(--d1)">meisjes</th><td>3</td><td class="step" data-volg="4">18</td></tr>
+        <tr class="samen"><th style="background:var(--paars)">samen</th><td class="step" data-volg="2">5</td><td class="step" data-volg="3">30</td></tr>
+      </table>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--oranje)">Opdracht 1 · ik doe het voor</span>
+      <p class="vraag">In groep 8 zitten 30 kinderen. De verhouding jongens : meisjes = 2 : 3. Hoeveel meisjes zijn er?</p>
+      <ul class="denk">
+        <li class="step" data-volg="1">"Ik weet het geheel: 30 kinderen. Ik maak de kop: 2 jongens, 3 meisjes."</li>
+        <li class="step" data-volg="2">"Samen is één groepje <b>5</b> kinderen."</li>
+        <li class="step" data-volg="3" data-show="per">"Hoe vaak past 5 in 30? 30 : 5 = <b>6</b>. Dus alles × 6."</li>
+        <li class="step" data-volg="4" data-show="delen">"2 × 6 = 12 jongens, 3 × 6 = 18 meisjes. Check: 12 + 18 = 30."</li>
+        <li class="step antw" data-volg="5">Er zijn 18 meisjes.</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Hardop denken:</b> wijs in de strook aan dat elk blokje nu 6 kinderen is. Terug naar de titelvraag: wie had 10 of 15?</div>
+</section>
+
+<!-- ============ 6. IK 2 ============ -->
+<section class="slide" data-fase="ik">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Strook</div>
+      <div class="strook" data-delen="1,4" data-namen="siroop,water" data-top="1500 ml limonade" data-per="300" data-som="300 ml|1200 ml"></div>
+      <div class="vtitel">Verhoudingstabel</div>
+      <table class="vt">
+        <tr class="op"><td></td><td></td><td class="step" data-volg="3"><span>× 300</span></td></tr>
+        <tr><th style="background:var(--d0)">siroop</th><td>1</td><td class="step" data-volg="4">300</td></tr>
+        <tr><th style="background:var(--d1)">water</th><td>4</td><td class="step" data-volg="4">1200</td></tr>
+        <tr class="samen"><th style="background:var(--paars)">samen</th><td class="step" data-volg="2">5</td><td class="step" data-volg="3">1500</td></tr>
+      </table>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--oranje)">Opdracht 2 · ik doe het voor</span>
+      <p class="vraag">Voor limonade gebruik je siroop : water = 1 : 4. Je maakt 1,5 liter limonade. Hoeveel ml siroop heb je nodig?</p>
+      <ul class="denk">
+        <li class="step" data-volg="1">"1,5 liter is <b>1500 ml</b>. Dat is het geheel."</li>
+        <li class="step" data-volg="2">"Kop: 1 deel siroop, 4 delen water, samen <b>5</b> delen."</li>
+        <li class="step" data-volg="3" data-show="per">"1500 : 5 = <b>300</b>. Eén deel is 300 ml."</li>
+        <li class="step" data-volg="4" data-show="delen">"Siroop = 1 × 300 = 300 ml, water = 4 × 300 = 1200 ml. Check: 1500!"</li>
+        <li class="step antw" data-volg="5">Je hebt 300 ml siroop nodig.</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. IK 3 ============ -->
+<section class="slide" data-fase="ik">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Strook</div>
+      <div class="strook" data-delen="4,5" data-namen="Sam,Eva" data-top="€ 45" data-per="€5" data-som="€ 20|€ 25"></div>
+      <div class="vtitel">Verhoudingstabel</div>
+      <table class="vt">
+        <tr class="op"><td></td><td></td><td class="step" data-volg="3"><span>× 5</span></td></tr>
+        <tr><th style="background:var(--d0)">Sam</th><td>4</td><td class="step" data-volg="4">€ 20</td></tr>
+        <tr><th style="background:var(--d1)">Eva</th><td>5</td><td class="step" data-volg="4">€ 25</td></tr>
+        <tr class="samen"><th style="background:var(--paars)">samen</th><td class="step" data-volg="2">9</td><td class="step" data-volg="3">€ 45</td></tr>
+      </table>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--oranje)">Opdracht 3 · ik doe het voor</span>
+      <p class="vraag">Sam werkte 4 uur en Eva 5 uur. Ze verdelen de € 45 die ze verdienden in de verhouding 4 : 5. Hoeveel krijgt Eva?</p>
+      <ul class="denk">
+        <li class="step" data-volg="1">"Het geheel is € 45. De verhouding is 4 : 5."</li>
+        <li class="step" data-volg="2">"Samen: 4 + 5 = <b>9</b> delen."</li>
+        <li class="step" data-volg="3" data-show="per">"45 : 9 = <b>5</b>. Eén deel is € 5."</li>
+        <li class="step" data-volg="4" data-show="delen">"Eva: 5 × € 5 = € 25. Sam: 4 × € 5 = € 20. Check: 20 + 25 = 45."</li>
+        <li class="step antw" data-volg="5">Eva krijgt € 25.</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. WIJ 4 ============ -->
+<section class="slide" data-fase="wij">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Strook</div>
+      <div class="strook" data-delen="3,1" data-namen="rood,blauw" data-top="48 knikkers" data-per="12" data-som="36 rood|12 blauw"></div>
+      <div class="vtitel">Verhoudingstabel</div>
+      <table class="vt">
+        <tr class="op"><td></td><td></td><td class="step" data-volg="3"><span>× 12</span></td></tr>
+        <tr><th style="background:var(--d0)">rood</th><td>3</td><td class="step" data-volg="4">36</td></tr>
+        <tr><th style="background:var(--d1)">blauw</th><td>1</td><td class="step" data-volg="4">12</td></tr>
+        <tr class="samen"><th style="background:var(--paars)">samen</th><td class="step" data-volg="2">4</td><td class="step" data-volg="3">48</td></tr>
+      </table>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--groen)">Opdracht 4 · samen</span>
+      <p class="vraag">In een zak zitten 48 knikkers. Rood : blauw = 3 : 1. Hoeveel blauwe knikkers zitten erin?</p>
+      <ul class="denk">
+        <li><span class="q">Weten we het geheel of een deel?</span> <span class="step ans" data-volg="1">het geheel: 48</span></li>
+        <li><span class="q">Hoeveel is samen in de kop?</span> <span class="step ans" data-volg="2">3 + 1 = 4</span></li>
+        <li><span class="q">Hoe vaak past 4 in 48?</span> <span class="step ans" data-volg="3" data-show="per">48 : 4 = 12</span></li>
+        <li><span class="q">Vul de staart in.</span> <span class="step ans" data-volg="4" data-show="delen">36 rood, 12 blauw</span></li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Wij-fase:</b> stel elke vraag aan de hele groep, geef denktijd, kies dan een naam met <b>B</b>. Pas daarna het antwoord tonen (→).</div>
+</section>
+
+<!-- ============ 9. WIJ 5 : omgekeerd ============ -->
+<section class="slide" data-fase="wij">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Strook</div>
+      <div class="strook" data-delen="2,3" data-namen="geel,blauw" data-top="? liter groen|10 liter groen" data-per="2" data-som="4 liter|6 liter" data-bekend="1"></div>
+      <div class="vtitel">Verhoudingstabel</div>
+      <table class="vt">
+        <tr class="op"><td></td><td></td><td class="step" data-volg="2"><span>× 2</span></td></tr>
+        <tr><th style="background:var(--d0)">geel</th><td>2</td><td class="step" data-volg="3">4</td></tr>
+        <tr><th style="background:var(--d1)">blauw</th><td>3</td><td>6</td></tr>
+        <tr class="samen"><th style="background:var(--paars)">samen</th><td>5</td><td class="step" data-volg="4">10</td></tr>
+      </table>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--groen)">Opdracht 5 · samen</span>
+      <p class="vraag">Groene verf maak je met geel : blauw = 2 : 3. Tim gebruikt 6 liter blauw. Hoeveel liter groene verf krijgt hij?</p>
+      <ul class="denk">
+        <li><span class="q">Wat is er anders dan net?</span> <span class="step ans" data-volg="1">nu weten we een <u>deel</u> (blauw), niet het geheel</span></li>
+        <li><span class="q">Hoe vaak past 3 in 6?</span> <span class="step ans" data-volg="2" data-show="per">6 : 3 = 2, dus alles × 2</span></li>
+        <li><span class="q">Hoeveel geel?</span> <span class="step ans" data-volg="3" data-show="delen">2 × 2 = 4 liter</span></li>
+        <li><span class="q">Hoeveel groen samen?</span> <span class="step ans" data-volg="4" data-show="top">4 + 6 = 10 liter</span></li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Let op:</b> hier ken je niet het geheel maar een deel. Dezelfde tabel werkt, je start alleen in een andere rij.</div>
+</section>
+
+<!-- ============ 10. JULLIE 6 ============ -->
+<section class="slide" data-fase="jullie">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Strook</div>
+      <div class="strook" data-delen="1,2" data-namen="jongens,meisjes" data-top="24 kinderen" data-per="8" data-som="8 jongens|16 meisjes"></div>
+      <div class="vtitel">Verhoudingstabel</div>
+      <table class="vt">
+        <tr class="op"><td></td><td></td><td class="step" data-volg="2"><span>× 8</span></td></tr>
+        <tr><th style="background:var(--d0)">jongens</th><td>1</td><td class="step" data-volg="3">8</td></tr>
+        <tr><th style="background:var(--d1)">meisjes</th><td>2</td><td class="step" data-volg="3">16</td></tr>
+        <tr class="samen"><th style="background:var(--paars)">samen</th><td class="step" data-volg="2">3</td><td class="step" data-volg="2">24</td></tr>
+      </table>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--blauw)">Opdracht 6 · met je schoudermaatje</span>
+      <p class="vraag">In een klas van 24 kinderen is jongens : meisjes = 1 : 2. Mees zegt: "24 : 2 = 12, dus er zijn 12 meisjes."</p>
+      <p class="vraag" style="font-size:28px">Klopt dat? Wat is het goede antwoord?</p>
+      <p class="opdracht-hint">Overleg samen, schrijf het antwoord op je wisbordje. Je hebt 2 minuten.</p>
+      <ul class="denk">
+        <li class="step valkuil" data-volg="1">Nee! Mees deelt door één deel in plaats van door samen.</li>
+        <li class="step" data-volg="2" data-show="per">Samen: 1 + 2 = 3. 24 : 3 = <b>8</b></li>
+        <li class="step antw" data-volg="3" data-show="delen">8 jongens en 16 meisjes (8 + 16 = 24)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notitie"><b>Jullie-fase:</b> start de timer met <b>T</b>. Laat een duo met <b>B</b> uitleggen waarom Mees' antwoord niet kan kloppen: 12 + 12 is wel 24, maar dan zijn er evenveel jongens als meisjes.</div>
+</section>
+
+<!-- ============ 11. JIJ 7 ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Hulp: strook</div>
+      <div class="strook" data-delen="3,2" data-namen="appels,peren" data-top="25 stuks fruit" data-per="5" data-som="15 appels|10 peren"></div>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 7 · zelf</span>
+      <p class="vraag">In een fruitschaal liggen 25 stuks fruit. Appels : peren = 3 : 2. Hoeveel appels liggen er in de schaal?</p>
+      <p class="opdracht-hint">Maak de opdrachten op je werkblad.</p>
+      <ul class="denk">
+        <li class="step antw" data-volg="1" data-show="per delen">Samen 5. 25 : 5 = 5. Appels: 3 × 5 = 15</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Jij-fase:</b> de kinderen maken opdracht 7 t/m 10 op het werkblad. Daarna bespreek je ze hier na: → toont het antwoord.</div>
+</section>
+
+<!-- ============ 12. JIJ 8 ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Hulp: strook</div>
+      <div class="strook" data-delen="1,3" data-namen="cement,zand" data-top="20 kg mengsel" data-per="5" data-som="5 kg|15 kg"></div>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 8 · zelf</span>
+      <p class="vraag">Voor beton meng je cement : zand = 1 : 3. Je maakt 20 kg mengsel. Hoeveel kg zand heb je nodig?</p>
+      <ul class="denk">
+        <li class="step antw" data-volg="1" data-show="per delen">Samen 4. 20 : 4 = 5. Zand: 3 × 5 = 15 kg</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13. JIJ 9 ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Hulp: strook</div>
+      <div class="strook" data-delen="1,2" data-namen="rijst,water" data-top="? bekers|9 bekers" data-per="3" data-som="3 bekers|6 bekers" data-bekend="0"></div>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 9 · zelf</span>
+      <p class="vraag">Rijst kook je met rijst : water = 1 : 2. Je gebruikt 3 bekers rijst. Hoeveel bekers rijst en water gaan er samen in de pan?</p>
+      <p class="opdracht-hint">Let op: weet je hier het geheel of een deel?</p>
+      <ul class="denk">
+        <li class="step antw" data-volg="1" data-show="per delen top">Een deel: 3 bekers rijst = 1 × 3. Water: 2 × 3 = 6. Samen 3 + 6 = 9 bekers</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> lees</span><span><b>2</b> kop + samen</span><span><b>3</b> hoe vaak?</span><span><b>4</b> staart + check</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14. JIJ 10 ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Hulp: strook</div>
+      <div class="strook" data-delen="8,1" data-namen="kinderen,begeleiders" data-top="36 mensen" data-per="4" data-som="32|4"></div>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 10 · denkvraag</span>
+      <p class="vraag">Op schoolreis gaan in totaal 36 mensen mee: kinderen en begeleiders. Op elke 8 kinderen gaat 1 begeleider mee. Hoeveel begeleiders gaan er mee?</p>
+      <ul class="denk">
+        <li class="step" data-volg="1">"Op elke 8 kinderen 1 begeleider" = kinderen : begeleiders = 8 : 1</li>
+        <li class="step antw" data-volg="2" data-show="per delen">Samen 9. 36 : 9 = 4. Er gaan 4 begeleiders mee (en 32 kinderen).</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notitie"><b>Denkvraag:</b> hier staat de verhouding in woorden ("op elke …"). Dat is rekentaal die de kinderen moeten leren herkennen.</div>
+</section>
+
+<!-- ============ 15. AFSLUITING ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Terug naar ons doel</h2>
+  <div class="doelzin" style="font-size:32px">
+    <div class="icoon"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="#fff"/></svg></div>
+    Ik kan een verhoudingssom oplossen waarin ik de delen en het geheel moet vinden.
+  </div>
+  <div class="duimen">
+    <div class="duim"><svg viewBox="0 0 24 24" fill="var(--groen)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Ik kan het!</b></div>
+    <div class="duim"><svg viewBox="0 0 24 24" fill="var(--oranje)" style="transform:rotate(-90deg)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Bijna</b></div>
+    <div class="duim"><svg viewBox="0 0 24 24" fill="var(--roze)" style="transform:rotate(180deg)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Nog lastig</b></div>
+  </div>
+  <p style="text-align:center;font-weight:800">Leg aan je schoudermaatje uit: waarom deel je het geheel door <b>samen</b> en niet door één deel?</p>
+</section>
+
+<!-- ---------- voet ---------- -->
+<footer>
+  <button class="knop" id="vorige" title="Vorige (←)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <button class="knop hoofd" id="volgende" title="Volgende (→ of spatie)"><span id="volgendeTekst">Volgende</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+  <button class="knop" id="timer" title="Timer 2 minuten (T). Dubbelklik = opnieuw.">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg><span id="timerTekst">2:00</span></button>
+  <div class="stippen" id="stippen"></div>
+  <button class="knop beurt" id="beurtKnop" title="Kies een naam (B)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.4" fill="currentColor"/><circle cx="16" cy="8" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/><circle cx="8" cy="16" r="1.4" fill="currentColor"/><circle cx="16" cy="16" r="1.4" fill="currentColor"/></svg>Beurt</button>
+</footer>
+
+<!-- ---------- beurtenkiezer ---------- -->
+<div id="beurtLaag">
+  <div class="beurtkaart">
+    <div class="kop">Wie is er aan de beurt?</div>
+    <div id="beurtNaam">…</div>
+    <div class="beurtknoppen">
+      <button class="knop beurt" id="nogEen">Nog een naam</button>
+      <button class="knop" id="sluit">Sluiten</button>
+    </div>
+    <div id="beurtInfo"></div>
+  </div>
+</div>
+
+</div></div>
+
+
+<!-- MeesterTools: inlogcontrole + namen uit de actieve klas (js/tien-minuten-les.js). -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+<script src="/js/supabase-config.js?v=1.57.2"></script>
+<script src="/js/tien-minuten-les.js?v=1.57.2"></script>
+<script>
+/* ================= STROOKMODEL ================= */
+const KLEUR=["var(--d0)","var(--d1)","var(--d2)"];
+document.querySelectorAll(".strook").forEach(s=>{
+  const delen=s.dataset.delen.split(",").map(Number), namen=(s.dataset.namen||"").split(","), som=(s.dataset.som||"").split("|");
+  const [voor,na]=(s.dataset.top||"").split("|");
+  const tot=delen.reduce((a,b)=>a+b,0), bw=Math.min(110,(660-10*(delen.length-1)-4*tot)/tot);
+  s.innerHTML=`<div class="s-top"><span class="tt"><span class="voor">${voor}</span><span class="na">${na||voor}</span></span><div class="haak"></div></div><div class="s-rij"></div>`;
+  const rij=s.querySelector(".s-rij");
+  delen.forEach((n,i)=>{
+    const d=document.createElement("div"); d.className="s-deel";
+    let b='<div class="s-blokken">'; for(let k=0;k<n;k++) b+=`<div class="s-blok" style="width:${bw}px;background:${KLEUR[i]}"><span>${s.dataset.per||""}</span></div>`; b+='</div>';
+    d.innerHTML=b+`<div class="s-naam" style="color:${KLEUR[i]}">${namen[i]||""} (${n})</div>`+(som[i]?`<div class="s-som${String(i)===s.dataset.bekend?" bekend":""}" style="background:${KLEUR[i]}">${som[i]}</div>`:"");
+    rij.appendChild(d);
+  });
+});
+
+/* ================= NAVIGATIE ================= */
+const dias=[...document.querySelectorAll(".slide")];
+const FASEN={ik:["Ik","var(--oranje)"],wij:["Wij","var(--groen)"],jullie:["Jullie","var(--blauw)"],jij:["Jij","var(--roze)"],doel:["Doel","var(--paars)"]};
+let nu=0, onthuld=0;
+const stippen=document.getElementById("stippen");
+dias.forEach((d,i)=>{const s=document.createElement("i");s.onclick=()=>ga(i);stippen.appendChild(s);});
+function groepen(){
+  const st=[...dias[nu].querySelectorAll(".step")];
+  const m=new Map(); st.forEach((s,i)=>{const k=s.dataset.volg?+s.dataset.volg:i+1; if(!m.has(k))m.set(k,[]); m.get(k).push(s);});
+  return [...m.keys()].sort((a,b)=>a-b).map(k=>m.get(k));
+}
+function ga(i){
+  if(i<0||i>=dias.length)return;
+  dias[nu].classList.remove("actief");
+  nu=i; onthuld=0;
+  const d=dias[nu]; d.classList.add("actief");
+  d.querySelectorAll(".step").forEach(s=>s.classList.remove("shown"));
+  d.querySelectorAll(".strook").forEach(x=>x.classList.remove("per","delen","top"));
+  const f=FASEN[d.dataset.fase], fb=document.getElementById("fase");
+  if(f){fb.textContent=f[0];fb.style.background=f[1];fb.classList.remove("hidden");}else fb.classList.add("hidden");
+  [...stippen.children].forEach((s,k)=>s.classList.toggle("nu",k===nu));
+  updKnop();
+}
+function volgende(){
+  const g=groepen();
+  if(onthuld<g.length){
+    g[onthuld++].forEach(s=>{s.classList.add("shown"); if(s.dataset.show) s.dataset.show.split(" ").forEach(c=>dias[nu].querySelectorAll(".strook").forEach(x=>x.classList.add(c)));});
+    updKnop();
+  } else ga(nu+1);
+}
+function updKnop(){
+  const rest=groepen().length-onthuld;
+  document.getElementById("volgendeTekst").textContent = rest>0 ? "Laat zien" : (nu===dias.length-1?"Einde":"Volgende");
+}
+document.getElementById("volgende").onclick=volgende;
+document.getElementById("vorige").onclick=()=>ga(nu-1);
+
+
+/* ================= BEURTENKIEZER ================= */
+let NAMEN=[], KLAS=null;
+MTLes.namen.then(n=>{NAMEN=n;});
+MTLes.klas.then(k=>{KLAS=k;});
+let pot=[];
+const laag=document.getElementById("beurtLaag"), naamEl=document.getElementById("beurtNaam"), info=document.getElementById("beurtInfo");
+function schud(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+let rolt=false;
+function kiesNaam(){
+  laag.classList.add("open");
+  if(!NAMEN.length){naamEl.textContent="Geen namen";info.textContent=KLAS?`Er staan nog geen leerlingen in ${KLAS}.`:"Kies eerst een klas in MeesterTools.";return;}
+  if(rolt)return;
+  if(!pot.length)pot=schud([...NAMEN]);
+  const gekozen=pot.pop(); rolt=true; let k=0; const stappenRol=14;
+  naamEl.className="rollen";
+  (function rol(){
+    naamEl.textContent=NAMEN[Math.floor(Math.random()*NAMEN.length)];
+    if(++k<stappenRol){setTimeout(rol,40+k*9);}
+    else{naamEl.textContent=gekozen;naamEl.className="klaar";rolt=false;
+      info.textContent=(KLAS?KLAS+" · ":"")+(pot.length?`Nog ${pot.length} ${pot.length===1?"kind":"kinderen"} niet geweest`:"Iedereen is geweest. De volgende ronde begint opnieuw.");}
+  })();
+}
+document.getElementById("beurtKnop").onclick=kiesNaam;
+document.getElementById("nogEen").onclick=kiesNaam;
+document.getElementById("sluit").onclick=()=>laag.classList.remove("open");
+laag.addEventListener("click",e=>{if(e.target===laag)laag.classList.remove("open");});
+
+/* ================= TIMER ================= */
+const TIMER_SEC=120; let tijd=TIMER_SEC, tik=null;
+const tKnop=document.getElementById("timer"), tTekst=document.getElementById("timerTekst");
+function toonTijd(){tTekst.textContent=`${Math.floor(tijd/60)}:${String(tijd%60).padStart(2,"0")}`;}
+function timerStartStop(){
+  if(tijd<=0){timerReset();}
+  if(tik){clearInterval(tik);tik=null;tKnop.classList.remove("loopt");return;}
+  tKnop.classList.add("loopt");
+  tik=setInterval(()=>{tijd--;toonTijd();if(tijd<=0){clearInterval(tik);tik=null;tKnop.classList.remove("loopt");tKnop.classList.add("klaar");}},1000);
+}
+function timerReset(){clearInterval(tik);tik=null;tijd=TIMER_SEC;tKnop.classList.remove("loopt","klaar");toonTijd();}
+tKnop.onclick=timerStartStop; tKnop.ondblclick=timerReset;
+
+/* ================= TOETSEN & SCHALEN ================= */
+document.addEventListener("keydown",e=>{
+  const k=e.key;
+  if(laag.classList.contains("open")){
+    if(k==="Escape")laag.classList.remove("open");
+    else if(k==="b"||k==="B"||k===" "||k==="Enter"){e.preventDefault();kiesNaam();}
+    return;
+  }
+  if(["ArrowRight","PageDown"," ","Enter"].includes(k)){e.preventDefault();volgende();}
+  else if(["ArrowLeft","PageUp"].includes(k)){e.preventDefault();ga(nu-1);}
+  else if(k==="b"||k==="B")kiesNaam();
+  else if(k==="t"||k==="T")timerStartStop();
+  else if(k==="n"||k==="N")document.body.classList.toggle("notities");
+  else if(k==="f"||k==="F"){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+});
+function pasAan(){const s=Math.min(innerWidth/1600,innerHeight/900);document.getElementById("stage").style.transform=`scale(${s})`;}
+addEventListener("resize",pasAan); pasAan();
+ga(0);
+
+</script>
+</body>
+</html>
