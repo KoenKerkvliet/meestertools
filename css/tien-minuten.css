@@ -55,6 +55,21 @@
 
 .les-card[hidden] { display: none; }
 
+/* Compacte lesgrid: zoveel kolommen als passen (5 op een normaal scherm,
+   minder op kleinere schermen), zodat je veel lessen in één oogopslag ziet. */
+.tools-grid.les-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 18px;
+}
+
+.les-grid .tool-card { padding: 22px 16px 18px; }
+.les-grid .tool-card .card-icon { font-size: 34px; margin-bottom: 10px; }
+.les-grid .tool-card h3 { font-size: 15px; line-height: 1.3; margin-bottom: 8px; }
+.les-grid .tool-card p { font-size: 13px; line-height: 1.45; }
+.les-grid .les-cat { font-size: 11px; margin: 0 0 8px; }
+.les-grid .les-menu-btn { top: 8px; right: 6px; width: 32px; height: 32px; font-size: 20px; }
+.les-grid .les-menu { top: 44px; right: 6px; }
+
 .les-cat {
     display: inline-block;
     margin: -4px 0 10px;
