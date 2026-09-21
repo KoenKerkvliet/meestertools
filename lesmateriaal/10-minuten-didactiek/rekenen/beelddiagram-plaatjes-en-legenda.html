@@ -1,446 +1,599 @@
-<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><link rel="icon" type="image/svg+xml" href="/favicon.svg"></head><body style="margin:0">
-<title>Wat is één plaatje waard?</title>
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>10 minuten rekenen – Beelddiagrammen: wat is één plaatje waard?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;800&family=Kalam:wght@700&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#F6F7F2; --grid:#E3E8EE; --ink:#1C2A44; --ink-soft:#56647C;
-    --blue:#2F6BD8; --blue-soft:#DCE7FA; --red:#E04E2A; --red-soft:#FCE3DA;
-    --green:#1F8A5B; --green-soft:#DDF1E6; --amber:#B7791F; --amber-soft:#FBEFD9;
-    --card:#FFFFFF; --line:#CFD7E2;
-    color-scheme: light;
+    --groen:#96BC0D; --oranje:#EB6B0A; --roze:#C41A81; --blauw:#1F7BC1; --paars:#6A4FB3;
+    --inkt:#26263A; --zacht:#6B6B80; --papier:#FFF9EF; --kaart:#FFFFFF; --lijn:#E9E1D2;
+    --lijngrafiek:#1F5FA8;
   }
-  html,body{height:100%}
-  body{
-    background:var(--paper);
-    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
-    background-size:28px 28px;
-    color:var(--ink); font-family:"Lexend",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:18px; line-height:1.45;
-  }
-  .app{display:flex;flex-direction:column;min-height:100%;padding-inline:clamp(16px,2.5vw,40px);padding-block:14px;gap:14px;box-sizing:border-box;max-width:1500px;margin:0 auto}
-  header{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;justify-content:space-between}
-  .brand{font-weight:800;font-size:1.15rem;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
-  .brand svg{flex:none}
-  .phases{display:flex;flex-wrap:wrap;gap:6px}
-  .chip{border:2px solid var(--line);background:var(--card);color:var(--ink-soft);border-radius:999px;padding:4px 14px;font:inherit;font-size:.85rem;font-weight:500;cursor:pointer}
-  .chip.on{border-color:var(--ink);background:var(--ink);color:#fff}
-  .chip:focus-visible,.btn:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-  main{flex:1;display:flex}
-  .screen{flex:1;display:grid;gap:clamp(16px,2vw,28px);align-content:start}
-  .card{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:clamp(16px,2vw,28px)}
-  .tag{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:6px}
-  .tag.voordoen{background:var(--blue-soft);color:var(--blue)}
-  .tag.samen{background:var(--amber-soft);color:var(--amber)}
-  .tag.zelf{background:var(--green-soft);color:var(--green)}
-  h1{font-size:clamp(2rem,4.4vw,3.6rem);line-height:1.05;margin:0;letter-spacing:-.02em;text-wrap:balance}
-  h2{font-size:clamp(1.3rem,2.3vw,2rem);line-height:1.2;margin:0;text-wrap:balance}
-  p{margin:0}
-  /* opdracht layout */
-  .task{grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);align-items:start}
-  .chartbox{padding:12px 12px 4px}
-  .chartbox .ctitle{font-weight:700;font-size:1.05rem;padding:4px 8px 0;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-  button.chartbox{font:inherit;color:inherit;text-align:left;cursor:zoom-in;width:100%}
-  button.chartbox:hover{border-color:var(--blue)}
-  button.chartbox:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-  .zoomhint{font-weight:500;font-size:.85rem;color:var(--blue)}
-  .zoom{position:fixed;inset:0;z-index:50;background:var(--paper);display:flex;flex-direction:column;gap:10px;
-    padding:calc(12px + env(safe-area-inset-top,0px)) clamp(16px,2vw,32px) calc(12px + env(safe-area-inset-bottom,0px))}
-  .zbar{display:flex;justify-content:space-between;align-items:center;gap:12px 20px;flex-wrap:wrap}
-  .zq{font-size:clamp(1.2rem,2vw,1.8rem);font-weight:700;line-height:1.25;flex:1 1 30ch}
-  .zq .tag{vertical-align:middle;margin-right:6px}
-  .zchart{flex:1;min-height:0;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px;cursor:zoom-out;display:flex}
-  .zchart svg{width:100%;height:100%;display:block}
-  .zstep{font-family:"Kalam",cursive;color:var(--red);font-size:clamp(1.4rem,2.6vw,2.2rem);line-height:1.2;text-align:center}
-  .chartbox svg{width:100%;height:auto;display:block}
-  .side{display:grid;gap:16px}
-  .q{font-size:clamp(1.25rem,2.1vw,1.9rem);font-weight:700;line-height:1.25;text-wrap:balance}
-  .q small{display:block;font-size:.62em;font-weight:500;color:var(--ink-soft);margin-top:6px}
-  .steps{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-  .steps li{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start;padding:10px 12px;border-radius:10px;background:var(--paper);border:2px solid transparent;font-size:1.02rem}
-  .steps li .n{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--card);border:2px solid var(--line);color:var(--ink-soft)}
-  .steps li .t b{display:block;font-size:.95rem}
-  .steps li .t span{color:var(--ink)}
-  .steps li.hide .t span{visibility:hidden}
-  .steps li.cur{border-color:var(--red);background:var(--red-soft)}
-  .steps li.done .n,.steps li.cur .n{background:var(--ink);border-color:var(--ink);color:#fff}
-  .note{border-left:5px solid var(--blue);background:var(--blue-soft);padding:10px 14px;border-radius:0 10px 10px 0;font-size:.95rem}
-  .note b{display:block;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
-  .answer{font-family:"Kalam",cursive;font-size:clamp(1.3rem,2.2vw,1.9rem);color:var(--red);line-height:1.2}
-  .actions{display:flex;flex-wrap:wrap;gap:10px}
-  .btn{font:inherit;font-weight:700;border-radius:10px;padding:10px 18px;cursor:pointer;border:2px solid var(--ink);background:var(--card);color:var(--ink)}
-  .btn.primary{background:var(--red);border-color:var(--red);color:#fff}
-  .btn:disabled{opacity:.4;cursor:default}
-  footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-  .count{color:var(--ink-soft);font-size:.9rem;font-variant-numeric:tabular-nums}
-  .keys{color:var(--ink-soft);font-size:.8rem}
-  /* intro */
-  .intro{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:stretch}
-  .goal{font-size:clamp(1.15rem,1.9vw,1.6rem);font-weight:500;margin-top:14px;max-width:34ch}
-  .words{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-  .word{border-radius:12px;padding:14px 16px;border:2px solid var(--line);background:var(--card)}
-  .word .w{font-weight:800;font-size:1.25rem}
-  .word .m{color:var(--ink-soft);font-size:.95rem}
-  .word.up{border-color:#9FD3B8;background:var(--green-soft)}
-  .word.down{border-color:#F3B5A3;background:var(--red-soft)}
-  .word.wide{grid-column:1/-1}
-  .plan{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-  .plan .card{display:grid;gap:8px;align-content:start}
-  .plan .big{font-size:2.4rem;font-weight:800;color:var(--red);line-height:1}
-  .plan h2{font-size:clamp(1.1rem,1.7vw,1.45rem)}
-  .answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-  .answers .card{display:grid;gap:6px}
-  .hand{font-family:"Kalam",cursive;color:var(--red);font-size:1.35rem;line-height:1.2}
-  @media (max-width:900px){
-    .task,.intro{grid-template-columns:1fr}
-    .plan{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .answers{grid-template-columns:1fr}
-    .keys{display:none}
-  }
-  @media (max-width:520px){ .plan,.words{grid-template-columns:1fr} }
-  @media (prefers-reduced-motion:no-preference){
-    .hl{animation:draw .6s ease-out both}
-    @keyframes draw{from{stroke-dashoffset:400}to{stroke-dashoffset:0}}
-  }
-  /* MeesterTools */
-  .mt-kop{display:flex;align-items:center;gap:14px}
-  .mt-kop .terug{font-weight:700;font-size:.95rem;color:var(--ink-soft);text-decoration:none;background:var(--card);border:2px solid var(--line);border-radius:10px;padding:6px 12px}
-  .mt-kop .terug:hover{color:var(--ink);border-color:var(--ink)}
-  .mt-kop img{height:46px;display:block;margin:-6px 0}
-  body:not(.eerste-dia) .brand{visibility:hidden}
-</style>
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#2d2a3e;font-family:Nunito,"Segoe UI",Arial,sans-serif;color:var(--inkt);overflow:hidden}
+  #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  #stage{flex:none;width:1600px;height:900px;background:var(--papier);position:relative;transform-origin:center center;border-radius:18px;overflow:hidden;
+    background-image:radial-gradient(circle at 95% 8%, #fde6cf 0 120px, transparent 121px),radial-gradient(circle at 3% 96%, #e6f1c4 0 150px, transparent 151px)}
 
-<div class="app">
-  <header>
-    <div class="mt-kop"><a class="terug" href="/lesmateriaal/10-minuten-didactiek/rekenen" title="Terug naar de lessen">&larr; Lessen</a><img src="/assets/logo-meestertools.png" alt="Meestertools"></div>
-    <div class="brand">
-      <svg width="34" height="26" viewBox="0 0 34 26" aria-hidden="true"><circle cx="6" cy="8" r="4" fill="#1F8A5B"/><rect x="2" y="13" width="8" height="10" rx="3" fill="#1F8A5B"/><circle cx="17" cy="8" r="4" fill="#1F8A5B"/><rect x="13" y="13" width="8" height="10" rx="3" fill="#1F8A5B"/><circle cx="28" cy="8" r="4" fill="#E04E2A"/><rect x="24" y="13" width="4" height="10" rx="2" fill="#E04E2A"/></svg>
-      Wat is één plaatje waard?
+  /* ---------- kop ---------- */
+  header{position:absolute;top:0;left:0;right:0;height:96px;display:flex;align-items:center;gap:24px;padding:0 40px;z-index:5}
+  header img{height:58px}
+  header .terug{font-weight:900;font-size:20px;color:var(--zacht);text-decoration:none;background:#fff;border-radius:14px;padding:8px 16px;box-shadow:0 4px 0 var(--lijn)}
+  header .terug:hover{color:var(--inkt)}
+  header .titel{font-weight:800;font-size:22px;color:var(--zacht);flex:1}
+  body:not(.eerste-dia) header .titel{visibility:hidden}
+  .fase{font-weight:900;font-size:26px;letter-spacing:1px;padding:10px 26px;border-radius:999px;color:#fff;text-transform:uppercase;box-shadow:0 4px 0 rgba(0,0,0,.15)}
+  .fase.hidden{visibility:hidden}
+
+  /* ---------- dia's ---------- */
+  .slide{position:absolute;top:96px;left:0;right:0;bottom:96px;padding:10px 60px 0;display:none}
+  .slide.actief{display:block;animation:in .35s ease}
+  @keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  h1{font-size:66px;font-weight:900;margin:0 0 10px;line-height:1.1}
+  h2{font-size:46px;font-weight:900;margin:0 0 22px;line-height:1.15}
+  p,li{font-size:30px;line-height:1.4}
+  .klein{font-size:24px;color:var(--zacht)}
+
+  /* titel */
+  .titeldia{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%}
+  .titeldia img{height:150px;margin-bottom:30px}
+  .titeldia .sub{font-size:34px;color:var(--zacht);font-weight:800}
+  .badge-rij{display:flex;gap:16px;margin-top:34px}
+  .badge-rij span{font-weight:900;color:#fff;padding:10px 24px;border-radius:999px;font-size:24px}
+
+  /* doel */
+  .doelzin{background:var(--kaart);border:5px solid var(--paars);border-radius:26px;padding:26px 36px;font-size:40px;font-weight:900;margin-bottom:30px;display:flex;gap:22px;align-items:center}
+  .doelzin .icoon{flex:none;width:74px;height:74px;border-radius:50%;background:var(--paars);display:grid;place-items:center}
+  .twee{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+  .kaart{background:var(--kaart);border-radius:26px;padding:26px 32px;box-shadow:0 6px 0 var(--lijn)}
+  .kaart h3{margin:0 0 10px;font-size:30px;font-weight:900;display:flex;align-items:center;gap:12px}
+  .kaart h3 .label{font-size:20px;color:#fff;padding:4px 14px;border-radius:999px}
+  .kaart p{margin:0;font-size:28px}
+
+  /* woorden */
+  .woorden{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .woord{background:var(--kaart);border-radius:24px;padding:22px 28px;border-left:14px solid var(--groen);box-shadow:0 6px 0 var(--lijn)}
+  .woord b{font-size:34px;font-weight:900;display:block}
+  .woord span{font-size:26px;color:var(--zacht)}
+  .woord.af{border-color:var(--roze)} .woord.meest{border-color:var(--oranje)} .woord.kw{border-color:var(--blauw)}
+
+  /* stappenplan */
+  .stappen{list-style:none;padding:0;margin:0;display:grid;gap:18px}
+  .stappen li{background:var(--kaart);border-radius:22px;padding:18px 26px;display:flex;align-items:center;gap:24px;box-shadow:0 6px 0 var(--lijn);font-size:32px}
+  .stappen .nr{flex:none;width:62px;height:62px;border-radius:50%;background:var(--oranje);color:#fff;font-weight:900;font-size:34px;display:grid;place-items:center}
+
+  /* opdrachtdia's */
+  .opdracht{display:grid;grid-template-columns:900px 1fr;gap:34px;height:100%}
+  .grafiekkaart{background:var(--kaart);border-radius:26px;padding:16px 18px 8px;box-shadow:0 6px 0 var(--lijn);align-self:start}
+  .grafiekkaart .gtitel{font-weight:900;font-size:26px;text-align:center;margin:4px 0 0}
+  .grafiekkaart svg{width:100%;height:auto;display:block}
+  .rechts{display:flex;flex-direction:column;gap:14px;min-width:0}
+  .nummer{display:inline-block;font-weight:900;font-size:22px;color:#fff;border-radius:12px;padding:4px 14px;align-self:flex-start}
+  .vraag{font-size:32px;font-weight:900;line-height:1.3;margin:0}
+  .denk{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+  .denk li{font-size:25px;line-height:1.35;background:#fff;border-radius:18px;padding:12px 18px;border-left:8px solid var(--oranje)}
+  .denk li.valkuil{border-color:var(--roze);background:#fff0f8}
+  .denk li.antw{border-color:var(--groen);background:#f3f9e0;font-weight:900}
+  .denk .q{font-weight:800}
+  .denk .ans{color:#2f6d00;font-weight:900}
+  .step{visibility:hidden;opacity:0;transition:opacity .3s}
+  .step.shown{visibility:visible;opacity:1}
+  li.step{display:list-item}
+  .mini-plan{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-bottom:6px}
+  .mini-plan span{font-size:18px;font-weight:800;background:#fff;border:2px solid var(--lijn);border-radius:999px;padding:4px 12px;color:var(--zacht)}
+  .mini-plan span b{color:var(--oranje)}
+  .opdracht-hint{font-size:22px;color:var(--zacht);font-weight:800}
+
+  /* afsluiting */
+  .duimen{display:flex;gap:40px;justify-content:center;margin:26px 0}
+  .duim{background:#fff;border-radius:26px;padding:22px 30px;text-align:center;box-shadow:0 6px 0 var(--lijn);width:300px}
+  .duim svg{width:90px;height:90px}
+  .duim b{display:block;font-size:26px;margin-top:8px}
+
+  /* leerkrachtnotitie */
+  .notitie{position:absolute;right:60px;bottom:6px;max-width:720px;background:#fffbe0;border:3px dashed #d9c77b;border-radius:16px;padding:12px 18px;font-size:20px;line-height:1.4;display:none;z-index:4}
+  body.notities .notitie{display:block}
+  .notitie b{color:#8a6d00}
+
+  /* ---------- voet ---------- */
+  footer{position:absolute;left:0;right:0;bottom:0;height:96px;display:flex;align-items:center;gap:16px;padding:0 40px;z-index:5}
+  .knop{font-family:inherit;font-weight:900;font-size:24px;border:none;border-radius:18px;padding:14px 24px;cursor:pointer;background:#fff;color:var(--inkt);box-shadow:0 5px 0 var(--lijn);display:flex;align-items:center;gap:10px}
+  .knop:active{transform:translateY(3px);box-shadow:0 2px 0 var(--lijn)}
+  .knop.hoofd{background:var(--oranje);color:#fff;box-shadow:0 5px 0 #b44f00}
+  .knop.beurt{background:var(--roze);color:#fff;box-shadow:0 5px 0 #8c0f5b}
+  .knop svg{width:28px;height:28px}
+  .stippen{flex:1;display:flex;justify-content:center;gap:8px}
+  .stippen i{width:16px;height:16px;border-radius:50%;background:#ddd3c2;cursor:pointer}
+  .stippen i.nu{background:var(--oranje);transform:scale(1.3)}
+  #timer{min-width:130px;justify-content:center}
+  #timer.loopt{background:var(--blauw);color:#fff;box-shadow:0 5px 0 #125a8f}
+  #timer.klaar{background:var(--roze);color:#fff;animation:puls 0.8s infinite}
+  @keyframes puls{50%{transform:scale(1.08)}}
+
+  /* ---------- beurtenkiezer ---------- */
+  #beurtLaag{position:absolute;inset:0;background:rgba(38,38,58,.72);display:none;align-items:center;justify-content:center;z-index:20}
+  #beurtLaag.open{display:flex}
+  .beurtkaart{background:#fff;border-radius:36px;width:900px;padding:44px;text-align:center;box-shadow:0 14px 0 rgba(0,0,0,.2)}
+  .beurtkaart .kop{font-size:30px;font-weight:900;color:var(--zacht)}
+  #beurtNaam{font-size:130px;font-weight:900;color:var(--roze);margin:24px 0;min-height:170px;line-height:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #beurtNaam.rollen{color:#c9bfd6}
+  #beurtNaam.klaar{animation:pop .45s ease}
+  @keyframes pop{0%{transform:scale(.6)}70%{transform:scale(1.12)}100%{transform:scale(1)}}
+  .beurtknoppen{display:flex;gap:16px;justify-content:center}
+  #beurtInfo{font-size:22px;color:var(--zacht);margin-top:18px;font-weight:800}
+  .woord.wide{grid-column:1/-1;border-color:var(--paars)}
+  .grafiekkaart .chart svg{font-family:Nunito,"Segoe UI",Arial,sans-serif}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage">
+
+<header>
+  <a class="terug" href="/lesmateriaal/10-minuten-didactiek/rekenen" title="Terug naar de lessen">&larr; Lessen</a>
+  <img src="/assets/logo-meestertools.png" alt="Meestertools" onerror="this.style.display='none'">
+  <div class="titel">10 minuten rekenen · Beelddiagrammen</div>
+  <div id="fase" class="fase hidden">Ik</div>
+</header>
+
+<!-- ============ 1. TITEL ============ -->
+<section class="slide" data-fase="">
+  <div class="titeldia">
+    <img src="/assets/logo-meestertools.png" alt="" onerror="this.style.display='none'">
+    <h1>Beelddiagrammen: wat is één plaatje waard?</h1>
+    <div class="sub">10 minuten rekenen · groep 8</div>
+    <div class="badge-rij">
+      <span style="background:var(--oranje)">Ik</span>
+      <span style="background:var(--groen)">Wij</span>
+      <span style="background:var(--blauw)">Jullie</span>
+      <span style="background:var(--roze)">Jij</span>
     </div>
-    <nav class="phases" id="phases" aria-label="Fasen van de les"></nav>
-  </header>
-  <main id="main"></main>
-  <footer>
-    <span class="actions"><button class="btn" id="prev" type="button">← Vorige</button><button class="btn" id="mtTimer" type="button" title="Timer 2 minuten (T). Dubbelklik of Shift+T = opnieuw.">⏱ 2:00</button><button class="btn primary" id="mtBeurt" type="button" title="Kies een naam (B)">🎲 Beurt</button></span>
-    <span class="count" id="count"></span>
-    <span class="keys">Pijltjes ← → = ander scherm · Spatie = volgende stap · Z = grafiek groot · B = beurt · T = timer</span>
-    <button class="btn" id="next" type="button">Volgende →</button>
-  </footer>
+  </div>
+  <div class="notitie"><b>Leerkracht:</b> pijltje → of spatie = volgende stap, <b>B</b> = beurt, <b>T</b> = timer, <b>F</b> = volledig scherm, <b>N</b> = notities aan/uit.</div>
+</section>
+
+<!-- ============ 2. DOEL ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Ons doel van vandaag</h2>
+  <div class="doelzin">
+    <div class="icoon"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="#fff"/></svg></div>
+    Ik kan een beelddiagram aflezen met de legenda, ook met halve en kwart plaatjes.
+  </div>
+  <div class="twee">
+    <div class="kaart step" style="border-top:10px solid var(--paars)">
+      <h3><span class="label" style="background:var(--paars)">Concept</span> Wat is een legenda?</h3>
+      <p>In een beelddiagram staat <b>één plaatje voor een aantal</b>. De <b>legenda</b> vertelt hoeveel.<br>Een half plaatje is de <b>helft</b> daarvan.</p>
+    </div>
+    <div class="kaart step" style="border-top:10px solid var(--oranje)">
+      <h3><span class="label" style="background:var(--oranje)">Vaardigheid</span> Wat ga ik doen?</h3>
+      <p>Ik lees <b>éérst de legenda</b>, tel de plaatjes (ook halve en kwart) en reken:<br><b>aantal plaatjes × waarde</b></p>
+    </div>
+  </div>
+  <div class="notitie"><b>Tip:</b> laat een leerling het doel in eigen woorden herhalen (beurt met B). Vraag: "Staan er 4 boeken in de rij, zijn het dan 4 boeken?"</div>
+</section>
+
+<!-- ============ 3. REKENTAAL ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Rekentaal: welke woorden zie je in de vraag?</h2>
+  <div class="woorden">
+    <div class="woord"><b>legenda</b><span>de uitleg bij het diagram: 1 plaatje = …</span></div>
+    <div class="woord kw"><b>half · kwart · driekwart</b><span>half = : 2 · kwart = : 4 · driekwart = : 4 en dan × 3</span></div>
+    <div class="woord meest"><b>samen · in totaal</b><span>optellen +</span></div>
+    <div class="woord af"><b>meer dan · minder dan · verschil</b><span>aftrekken: groot − klein</span></div>
+  </div>
+  <div class="notitie"><b>Tip:</b> rekentaal is een valkuil voor deze groep. Laat bij elk woord zien welke som erbij hoort (+ of −) met een gebaar.</div>
+</section>
+
+<!-- ============ 4. STAPPENPLAN ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Zo pak ik het aan</h2>
+  <ol class="stappen">
+    <li><span class="nr">1</span><span><b>Lees de legenda.</b> Hoeveel is 1 plaatje waard? En een half of kwart plaatje?</span></li>
+    <li><span class="nr">2</span><span><b>Tel de plaatjes</b> in de rij die je nodig hebt, ook de halve en kwart.</span></li>
+    <li><span class="nr">3</span><span><b>Reken uit:</b> aantal plaatjes × wat 1 plaatje waard is.</span></li>
+    <li><span class="nr">4</span><span><b>Beantwoord de vraag.</b> Samen → optellen. Verschil → aftrekken.</span></li>
+  </ol>
+</section>
+
+<!-- ============ 5. IK – opdracht 1 ============ -->
+<section class="slide" data-fase="ik">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Gelezen boeken per groep</div><div class="chart" data-chart="boeken"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--oranje)">Opdracht 1 · ik doe het voor</span>
+      <p class="vraag">Hoeveel boeken heeft groep 6 gelezen?</p>
+      <ul class="denk">
+        <li class="step" data-show="legenda">"Eerst de legenda: 1 boek = <b>10 boeken</b>. Een half boek is dus 5."</li>
+        <li class="step valkuil" data-show="legenda rij:1">"Pas op! Ik tel 4½ plaatje. Maar het antwoord is níet 4½, want één plaatje is 10 boeken."</li>
+        <li class="step" data-show="legenda rij:1 reken:1">"4 × 10 = 40. Half plaatje = 5. 40 + 5 = <b>45</b>."</li>
+        <li class="step antw">Groep 6 heeft 45 boeken gelezen.</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> legenda</span><span><b>2</b> tellen</span><span><b>3</b> × waarde</span><span><b>4</b> samen of verschil?</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Hardop denken:</b> benoem expliciet de valkuil: alleen de plaatjes tellen. "Ik tel 4½. Is het antwoord dan 4½? Nee! Eerst kijk ik naar de legenda."</div>
+</section>
+
+<!-- ============ 6. IK – opdracht 2 ============ -->
+<section class="slide" data-fase="ik">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Bezoekers van de bibliotheek</div><div class="chart" data-chart="bieb"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--oranje)">Opdracht 2 · ik doe het voor</span>
+      <p class="vraag">Hoeveel bezoekers kwamen er op woensdag méér dan op dinsdag?</p>
+      <ul class="denk">
+        <li class="step">"Signaalwoord: <b>meer dan</b>. Ik moet dus het verschil uitrekenen."</li>
+        <li class="step" data-show="legenda">"Legenda: 1 poppetje = <b>20 bezoekers</b>. Een half poppetje = 10."</li>
+        <li class="step" data-show="legenda rij:1,2 reken:1,2">"Woensdag: 4 × 20 = <b>80</b>. Dinsdag: 2½ × 20 = <b>50</b>."</li>
+        <li class="step antw">80 − 50 = 30. Op woensdag kwamen er 30 bezoekers meer.</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> legenda</span><span><b>2</b> tellen</span><span><b>3</b> × waarde</span><span><b>4</b> samen of verschil?</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Controleren:</b> "Ik kan ook de plaatjes vergelijken: woensdag heeft 1½ poppetje meer. 1½ × 20 = 30. Zelfde antwoord!"</div>
+</section>
+
+<!-- ============ 7. IK – opdracht 3 ============ -->
+<section class="slide" data-fase="ik">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Verkochte appels op de markt</div><div class="chart" data-chart="appels"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--oranje)">Opdracht 3 · ik doe het voor</span>
+      <p class="vraag">Hoeveel appels heeft kraam B verkocht?</p>
+      <ul class="denk">
+        <li class="step" data-show="legenda">"Legenda: 1 appel = <b>40 appels</b>. Een kwart is 40 : 4 = <b>10</b>."</li>
+        <li class="step" data-show="legenda rij:1">"Kraam B: 2 hele appels en een stukje dat groter is dan een halve. Dat is <b>driekwart</b>."</li>
+        <li class="step" data-show="legenda rij:1 reken:1">"2 × 40 = 80. Driekwart = 3 × 10 = 30. 80 + 30 = <b>110</b>."</li>
+        <li class="step antw">Kraam B verkocht 110 appels.</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> legenda</span><span><b>2</b> tellen</span><span><b>3</b> × waarde</span><span><b>4</b> samen of verschil?</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Hardop denken:</b> "Hoeveel is een kwart van 40? En driekwart is dan keer 3." Laat de kinderen met hun handen een kwart en driekwart laten zien.</div>
+</section>
+
+<!-- ============ 8. WIJ – opdracht 4 ============ -->
+<section class="slide" data-fase="wij">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Auto’s in de Hoofdstraat</div><div class="chart" data-chart="autos"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--groen)">Opdracht 4 · samen</span>
+      <p class="vraag">Hoeveel auto’s reden er om 8 uur en om 9 uur samen?</p>
+      <ul class="denk">
+        <li><span class="q">Wat is het signaalwoord?</span> <span class="step ans">samen = optellen</span></li>
+        <li><span class="q">Wat is 1 plaatje waard? En een half?</span> <span class="step ans" data-show="legenda">10 auto’s · half = 5</span></li>
+        <li><span class="q">Hoeveel plaatjes om 8 en om 9 uur?</span> <span class="step ans" data-show="legenda rij:0,1">6 en 3½</span></li>
+        <li><span class="q">Reken uit.</span> <span class="step ans" data-show="legenda rij:0,1 reken:0,1">60 + 35 = 95 auto’s</span></li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> legenda</span><span><b>2</b> tellen</span><span><b>3</b> × waarde</span><span><b>4</b> samen of verschil?</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Wij-fase:</b> stel elke vraag aan de hele groep, geef denktijd, kies dan een naam met <b>B</b>. Pas daarna het antwoord tonen (→). Slimme route: 9½ plaatje × 10 = 95.</div>
+</section>
+
+<!-- ============ 9. WIJ – opdracht 5 ============ -->
+<section class="slide" data-fase="wij">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Sportclubs van groep 8</div><div class="chart" data-chart="sport"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--groen)">Opdracht 5 · samen</span>
+      <p class="vraag">Hoeveel leerlingen zitten er in totaal op een van deze sporten?</p>
+      <ul class="denk">
+        <li><span class="q">Wat is 1 poppetje waard? Half? Kwart?</span> <span class="step ans" data-show="legenda">4 · 2 · 1</span></li>
+        <li><span class="q">Reken per sport uit.</span> <span class="step ans" data-show="legenda rij:0,1,2,3 reken:0,1,2,3">20 + 14 + 10 + 7</span></li>
+        <li><span class="q">Hoeveel in totaal?</span> <span class="step ans">51 leerlingen</span></li>
+        <li><span class="q">Denkvraag: kan het ook sneller?</span> <span class="step ans">alle plaatjes samen: 12¾ × 4 = 51</span></li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> legenda</span><span><b>2</b> tellen</span><span><b>3</b> × waarde</span><span><b>4</b> samen of verschil?</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10. JULLIE – opdracht 6 ============ -->
+<section class="slide" data-fase="jullie">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Sportclubs van groep 8</div><div class="chart" data-chart="sport2"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--blauw)">Opdracht 6 · met je schoudermaatje</span>
+      <p class="vraag">6 leerlingen zitten op tennis. Hoeveel poppetjes teken je bij tennis?</p>
+      <p class="opdracht-hint">Nu werk je andersom: van aantal naar plaatjes. Overleg samen, schrijf het antwoord op je wisbordje. Je hebt 2 minuten.</p>
+      <ul class="denk">
+        <li class="step" data-show="legenda rij:4">1 poppetje = 4 leerlingen. Hoe vaak past 4 in 6?</li>
+        <li class="step" data-show="legenda rij:4 reken:4">6 : 4 = 1 rest 2. En 2 leerlingen is een <b>half</b> poppetje.</li>
+        <li class="step antw" data-show="legenda rij:4 reken:4 teken:4">Bij tennis teken je 1½ poppetje.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notitie"><b>Jullie-fase:</b> start de timer met <b>T</b>. Borden omhoog → snel scannen. Vraag een duo met <b>B</b> om het halve poppetje op het bord te tekenen.</div>
+</section>
+
+<!-- ============ 11. JIJ – opdracht 7 ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Verkochte ijsjes per maand</div><div class="chart" data-chart="ijs"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 7 · zelf</span>
+      <p class="vraag">Hoeveel ijsjes zijn er in juli verkocht?</p>
+      <p class="opdracht-hint">Schrijf je antwoord op je werkblad.</p>
+      <ul class="denk">
+        <li class="step antw" data-show="legenda rij:1 reken:1">Juli: 6 × 20 = 120, plus een half = 10. Samen 130 ijsjes</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> legenda</span><span><b>2</b> tellen</span><span><b>3</b> × waarde</span><span><b>4</b> samen of verschil?</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Jij-fase:</b> opdracht 7 t/m 10 staan op het werkblad. Je kunt ze één voor één tonen of snel doorklikken en laten maken. Antwoord verschijnt pas bij →.</div>
+</section>
+
+<!-- ============ 12. JIJ – opdracht 8 ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Fietsen in de fietsenstalling</div><div class="chart" data-chart="fietsen"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 8 · zelf</span>
+      <p class="vraag">Hoeveel fietsen stonden er op donderdag méér dan op woensdag?</p>
+      <p class="opdracht-hint">Let op: hier staan ook kwart plaatjes!</p>
+      <ul class="denk">
+        <li class="step antw" data-show="legenda rij:2,3 reken:2,3">Donderdag 44, woensdag 26. 44 − 26 = 18 fietsen meer</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> legenda</span><span><b>2</b> tellen</span><span><b>3</b> × waarde</span><span><b>4</b> samen of verschil?</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13. JIJ – opdracht 9 ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Bezoekers van de dierentuin</div><div class="chart" data-chart="dierentuin"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 9 · zelf</span>
+      <p class="vraag">Hoeveel bezoekers kwamen er in totaal op deze drie dagen?</p>
+      <p class="opdracht-hint">Tip: wat is een kwart van 100?</p>
+      <ul class="denk">
+        <li class="step antw" data-show="legenda rij:0,1,2 reken:0,1,2">750 + 900 + 325 = 1975 bezoekers</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> legenda</span><span><b>2</b> tellen</span><span><b>3</b> × waarde</span><span><b>4</b> samen of verschil?</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14. JIJ – opdracht 10 (denkvraag) ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Eieren van de kippen</div><div class="chart" data-chart="eieren"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 10 · denkvraag</span>
+      <p class="vraag">Kip Bep legde 42 eieren en kip Dora 27. Hoeveel plaatjes teken je bij Bep en bij Dora?</p>
+      <p class="opdracht-hint">Andersom werken: van aantal naar plaatjes.</p>
+      <ul class="denk">
+        <li class="step antw" data-show="legenda rij:2,3 reken:2,3 teken:2,3">Bep: 42 : 6 = 7 plaatjes. Dora: 27 : 6 = 4 rest 3, en 3 is een half ei → 4½ plaatje</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 15. AFSLUITING ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Terug naar ons doel</h2>
+  <div class="doelzin" style="font-size:34px">
+    <div class="icoon"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="#fff"/></svg></div>
+    Ik kan een beelddiagram aflezen met de legenda, ook met halve en kwart plaatjes.
+  </div>
+  <div class="duimen">
+    <div class="duim"><svg viewBox="0 0 24 24" fill="var(--groen)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Ik kan het!</b></div>
+    <div class="duim"><svg viewBox="0 0 24 24" fill="var(--oranje)" style="transform:rotate(-90deg)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Bijna</b></div>
+    <div class="duim"><svg viewBox="0 0 24 24" fill="var(--roze)" style="transform:rotate(180deg)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Nog lastig</b></div>
+  </div>
+  <p style="text-align:center;font-weight:800">Vertel je schoudermaatje: waarom kijk je <b>éérst naar de legenda</b>, voordat je de plaatjes telt?</p>
+  <div class="notitie"><b>Na de les:</b> klaar met het werkblad? Achterkant: zelf een beelddiagram maken van hoe groep 8 naar school komt. Kinderen met duim omlaag kunnen morgen in het groeiblok nog een keer aanschuiven.</div>
+</section>
+
+<!-- ---------- voet ---------- -->
+<footer>
+  <button class="knop" id="vorige" title="Vorige (←)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <button class="knop hoofd" id="volgende" title="Volgende (→ of spatie)"><span id="volgendeTekst">Volgende</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+  <button class="knop" id="timer" title="Timer 2 minuten (T). Dubbelklik = opnieuw.">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg><span id="timerTekst">2:00</span></button>
+  <div class="stippen" id="stippen"></div>
+  <button class="knop beurt" id="beurtKnop" title="Kies een naam (B)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.4" fill="currentColor"/><circle cx="16" cy="8" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/><circle cx="8" cy="16" r="1.4" fill="currentColor"/><circle cx="16" cy="16" r="1.4" fill="currentColor"/></svg>Beurt</button>
+</footer>
+
+<!-- ---------- beurtenkiezer ---------- -->
+<div id="beurtLaag">
+  <div class="beurtkaart">
+    <div class="kop">Wie is er aan de beurt?</div>
+    <div id="beurtNaam">…</div>
+    <div class="beurtknoppen">
+      <button class="knop beurt" id="nogEen">Nog een naam</button>
+      <button class="knop" id="sluit">Sluiten</button>
+    </div>
+    <div id="beurtInfo"></div>
+  </div>
 </div>
 
-<!-- MeesterTools: inlogcontrole, namen uit de actieve klas, beurtenkiezer + timer. -->
+</div></div>
+
+<!-- MeesterTools: inlogcontrole + namen uit de actieve klas (js/tien-minuten-les.js). -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
 <script src="/js/supabase-config.js?v=1.57.5"></script>
 <script src="/js/tien-minuten-les.js?v=1.57.5"></script>
-<script src="/js/tien-minuten-beurt.js?v=1.57.5"></script>
 <script>
-const INTRO = {
-  h1:'Wat is één plaatje waard?',
-  goal:'Ik kan een beelddiagram aflezen met de legenda, ook als er halve of kwart plaatjes staan.',
-  valkuil:'Niet alleen de plaatjes tellen! Kijk altijd eerst naar de <em>legenda</em>: hoeveel is één plaatje waard?',
-  words:[
-    ['legenda','de uitleg: 1 plaatje = …','up'],
-    ['half plaatje','de helft van wat 1 plaatje waard is','down'],
-    ['kwart · driekwart','kwart = : 4 · driekwart = : 4 en dan × 3',''],
-    ['samen · in totaal','optellen',''],
-    ['meer dan · minder dan = verschil','groot − klein','wide']
-  ]
-};
-const PLAN = [
-  ['Lees de legenda','Hoeveel is 1 plaatje waard? En een half of een kwart plaatje?'],
-  ['Tel de plaatjes','Tel de hele en de halve plaatjes in de rij die je nodig hebt.'],
-  ['Reken uit','Aantal plaatjes × wat 1 plaatje waard is. Schrijf het in je schrift.'],
-  ['Beantwoord de vraag','Moet je nog iets doen? Samen → optellen. Verschil → aftrekken.']
-];
-const STEPNAMES = ['Legenda','Plaatjes tellen','Uitrekenen','Antwoord'];
-const DENK = {
-  h2:'Maak een beelddiagram van onze klas: hoe komen we naar school?',
-  p:'Kies zelf wat één plaatje waard is. Wat gebeurt er als 1 plaatje 1 leerling is? En als 1 plaatje 4 leerlingen is?'
+/* ================= GRAFIEKGEGEVENS ================= */
+/* rijen: [label, aantal plaatjes, verborgen?]  (verborgen = kinderen moeten zelf bedenken hoeveel plaatjes) */
+const GRAFIEKEN = {
+  boeken:{icon:"boek",per:10,noun:"boeken",rows:[["groep 5",3],["groep 6",4.5],["groep 7",2.5],["groep 8",5]]},
+  bieb:{icon:"persoon",per:20,noun:"bezoekers",rows:[["maandag",3],["dinsdag",2.5],["woensdag",4],["donderdag",1.5],["vrijdag",3.5]]},
+  appels:{icon:"appel",per:40,noun:"appels",rows:[["kraam A",3],["kraam B",2.75],["kraam C",4.5],["kraam D",1.25]]},
+  autos:{icon:"auto",per:10,noun:"auto’s",rows:[["8 uur",6],["9 uur",3.5],["10 uur",2],["11 uur",2.5]]},
+  sport:{icon:"persoon",per:4,noun:"leerlingen",rows:[["voetbal",5],["hockey",3.5],["dansen",2.5],["zwemmen",1.75]]},
+  sport2:{icon:"persoon",per:4,noun:"leerlingen",rows:[["voetbal",5],["hockey",3.5],["dansen",2.5],["zwemmen",1.75],["tennis (6)",1.5,true]]},
+  ijs:{icon:"ijsje",per:20,noun:"ijsjes",rows:[["juni",4],["juli",6.5],["augustus",7],["september",2.5]]},
+  fietsen:{icon:"fiets",per:8,noun:"fietsen",rows:[["maandag",4.5],["dinsdag",5],["woensdag",3.25],["donderdag",5.5]]},
+  dierentuin:{icon:"persoon",per:100,noun:"bezoekers",rows:[["zaterdag",7.5],["zondag",9],["maandag",3.25]]},
+  eieren:{icon:"ei",per:6,noun:"eieren",rows:[["Anna",5],["Cor",3.5],["Bep (42)",7,true],["Dora (27)",4.5,true]]}
 };
 
-const ITEMS = [
-  // ---------- VOORDOEN ----------
-  { phase:'voordoen', title:'Gelezen boeken per groep', icon:'boek', per:10, noun:'boeken',
-    rows:[['groep 5',3],['groep 6',4.5],['groep 7',2.5],['groep 8',5]], hi:[1],
-    q:'Hoeveel boeken heeft groep 6 gelezen?',
-    steps:[
-      'Legenda: 1 plaatje = 10 boeken. Een half plaatje is de helft: 5 boeken.',
-      'Bij groep 6 staan 4 hele boeken en een half boek: 4½ plaatje.',
-      '4 × 10 = 40. Half plaatje = 5. Samen 45.',
-      'Groep 6 heeft 45 boeken gelezen.'
-    ],
-    answer:'Groep 6 las 45 boeken.',
-    note:'Zeg hardop: „Ik tel 4 en een half boek. Is het antwoord dan 4½? Nee! Eerst kijk ik naar de legenda: één plaatje betekent 10 boeken.”' },
-
-  { phase:'voordoen', title:'Bezoekers van de bibliotheek', icon:'persoon', per:20, noun:'bezoekers',
-    rows:[['maandag',3],['dinsdag',2.5],['woensdag',4],['donderdag',1.5],['vrijdag',3.5]], hi:[1,2],
-    q:'Hoeveel bezoekers kwamen er op woensdag meer dan op dinsdag?',
-    steps:[
-      'Legenda: 1 poppetje = 20 bezoekers. Een half poppetje = 10.',
-      'Woensdag: 4 poppetjes. Dinsdag: 2½ poppetje.',
-      'Woensdag: 4 × 20 = 80. Dinsdag: 2 × 20 + 10 = 50.',
-      '„Meer dan” = verschil: 80 − 50 = 30 bezoekers.'
-    ],
-    answer:'Op woensdag kwamen er 30 bezoekers meer.',
-    note:'Zeg hardop: „Ik kan ook de plaatjes vergelijken: woensdag heeft 1½ poppetje meer. 1½ × 20 = 30. Zo controleer ik mijn antwoord.”' },
-
-  { phase:'voordoen', title:'Verkochte appels op de markt', icon:'appel', per:40, noun:'appels',
-    rows:[['kraam A',3],['kraam B',2.75],['kraam C',4.5],['kraam D',1.25]], hi:[1],
-    q:'Hoeveel appels heeft kraam B verkocht?',
-    steps:[
-      'Legenda: 1 appel = 40 appels. Een kwart appel = 40 : 4 = 10.',
-      'Kraam B: 2 hele appels en een driekwart appel: 2¾ plaatje.',
-      '2 × 40 = 80. Driekwart van 40 = 3 × 10 = 30. Samen 110.',
-      'Kraam B verkocht 110 appels.'
-    ],
-    answer:'Kraam B verkocht 110 appels.',
-    note:'Zeg hardop: „Dit laatste stukje is groter dan een halve appel. Het is driekwart. Hoeveel is een kwart van 40? En dan keer 3.”' },
-
-  // ---------- SAMEN DOEN ----------
-  { phase:'samen', title:'Auto’s in de Hoofdstraat', icon:'auto', per:10, noun:'auto’s',
-    rows:[['8 uur',6],['9 uur',3.5],['10 uur',2],['11 uur',2.5]], hi:[0,1],
-    q:'Hoeveel auto’s reden er om 8 uur en om 9 uur samen?',
-    steps:[
-      'Legenda: 1 auto = 10 auto’s. Een halve auto = 5.',
-      '8 uur: 6 plaatjes. 9 uur: 3½ plaatje.',
-      '8 uur: 6 × 10 = 60. 9 uur: 3 × 10 + 5 = 35.',
-      '„Samen” = optellen: 60 + 35 = 95 auto’s.'
-    ],
-    answer:'Samen reden er 95 auto’s.',
-    note:'Vraag de klas: „Welk woord in de vraag vertelt je wat je moet doen?” (samen → optellen). Slimme route: 9½ plaatje × 10 = 95.' },
-
-  { phase:'samen', title:'Sportclubs van groep 8', icon:'persoon', per:4, noun:'leerlingen',
-    rows:[['voetbal',5],['hockey',3.5],['dansen',2.5],['zwemmen',1.75]], hi:[0,1,2,3],
-    q:'Hoeveel leerlingen zitten er in totaal op een van deze sporten?',
-    steps:[
-      'Legenda: 1 poppetje = 4 leerlingen. Half = 2, kwart = 1.',
-      'Voetbal 5, hockey 3½, dansen 2½, zwemmen 1¾ poppetje.',
-      '20 + 14 + 10 + 7',
-      'In totaal: 51 leerlingen.'
-    ],
-    answer:'In totaal 51 leerlingen.',
-    note:'Vraag de klas: „Kan het ook sneller?” Alle plaatjes samen: 12¾ × 4 = 51.' },
-
-  { phase:'samen', title:'Sportclubs van groep 8', icon:'persoon', per:4, noun:'leerlingen',
-    rows:[['voetbal',5],['hockey',3.5],['dansen',2.5],['zwemmen',1.75],['tennis (6)',1.5,true]], hi:[4],
-    q:'6 leerlingen zitten op tennis. Hoeveel poppetjes teken je bij tennis?',
-    sub:'Nu werk je andersom: van aantal naar plaatjes.',
-    steps:[
-      'Legenda: 1 poppetje = 4 leerlingen.',
-      'Hoe vaak past 4 in 6?',
-      '6 : 4 = 1 rest 2. 2 leerlingen is een half poppetje.',
-      'Je tekent 1½ poppetje.'
-    ],
-    answer:'Bij tennis teken je 1½ poppetje.',
-    note:'Vraag de klas: „Hoe teken je 2 leerlingen?” Laat een leerling het halve poppetje op het bord tekenen.' },
-
-  // ---------- ZELF MAKEN ----------
-  { phase:'zelf', title:'Verkochte ijsjes per maand', icon:'ijsje', per:20, noun:'ijsjes',
-    rows:[['juni',4],['juli',6.5],['augustus',7],['september',2.5]], hi:[1],
-    q:'Hoeveel ijsjes zijn er in juli verkocht?',
-    steps:[
-      '1 ijsje = 20 ijsjes. Half = 10.',
-      'Juli: 6½ plaatje.',
-      '6 × 20 = 120, plus 10 = 130.',
-      'In juli zijn 130 ijsjes verkocht.'
-    ],
-    answer:'Juli: 130 ijsjes.' },
-
-  { phase:'zelf', title:'Fietsen in de fietsenstalling', icon:'fiets', per:8, noun:'fietsen',
-    rows:[['maandag',4.5],['dinsdag',5],['woensdag',3.25],['donderdag',5.5]], hi:[2,3],
-    q:'Hoeveel fietsen stonden er op donderdag meer dan op woensdag?',
-    steps:[
-      '1 fiets = 8 fietsen. Half = 4, kwart = 2.',
-      'Donderdag 5½, woensdag 3¼ plaatje.',
-      'Donderdag: 40 + 4 = 44. Woensdag: 24 + 2 = 26.',
-      '44 − 26 = 18 fietsen meer.'
-    ],
-    answer:'Donderdag: 18 fietsen meer.' },
-
-  { phase:'zelf', title:'Bezoekers van de dierentuin', icon:'persoon', per:100, noun:'bezoekers',
-    rows:[['zaterdag',7.5],['zondag',9],['maandag',3.25]], hi:[0,1,2],
-    q:'Hoeveel bezoekers kwamen er in totaal op deze drie dagen?',
-    steps:[
-      '1 poppetje = 100 bezoekers. Half = 50, kwart = 25.',
-      'Zaterdag 7½, zondag 9, maandag 3¼.',
-      '750 + 900 + 325',
-      'In totaal 1975 bezoekers.'
-    ],
-    answer:'In totaal 1975 bezoekers.' },
-
-  { phase:'zelf', title:'Eieren van de kippen', icon:'ei', per:6, noun:'eieren',
-    rows:[['Anna',5],['Cor',3.5],['Bep (42)',7,true],['Dora (27)',4.5,true]], hi:[2,3],
-    q:'Kip Bep legde 42 eieren en kip Dora 27. Hoeveel plaatjes teken je bij Bep en bij Dora?',
-    sub:'Andersom werken: van aantal naar plaatjes.',
-    steps:[
-      '1 ei = 6 eieren. Een half ei = 3.',
-      'Hoe vaak past 6 in 42? En in 27?',
-      '42 : 6 = 7. 27 : 6 = 4 rest 3, en 3 is een half ei.',
-      'Bep: 7 plaatjes. Dora: 4½ plaatje.'
-    ],
-    answer:'Bep: 7 plaatjes · Dora: 4½ plaatje' }
-];
-
-
-const SCREENS = [{kind:'intro',phase:'start'},{kind:'plan',phase:'start'}]
-  .concat(ITEMS.map((it,i)=>({kind:'task',phase:it.phase,idx:i})))
-  .concat([{kind:'end',phase:'nabespreken'}]);
-
-const PHASES = [
-  {key:'start',label:'Start'},{key:'voordoen',label:'Voordoen 1–3'},{key:'samen',label:'Samen 4–6'},
-  {key:'zelf',label:'Zelf 7–10'},{key:'nabespreken',label:'Nabespreken'}];
-const PHASE_NAME = {voordoen:'Ik doe het voor',samen:'We doen het samen',zelf:'Zelf maken'};
-
-let cur = 0, stage = 0, zoom = false;
-
-function fmt(v){ return v.toLocaleString('nl-NL'); }
-
+/* ================= PLAATJES (kleuren uit het lespalet) ================= */
 const ICONS = {
-  boek:'<rect x="6" y="4" width="28" height="32" rx="3" fill="#2F6BD8"/><rect x="10" y="4" width="4" height="32" fill="#1C2A44" opacity=".35"/><rect x="17" y="11" width="12" height="3" rx="1.5" fill="#FFFFFF"/>',
-  persoon:'<circle cx="20" cy="10" r="7" fill="#1F8A5B"/><path d="M8 38 V28 a12 12 0 0 1 24 0 V38 Z" fill="#1F8A5B"/>',
-  appel:'<circle cx="20" cy="24" r="14" fill="#E04E2A"/><path d="M20 11 q1 -6 7 -8" stroke="#1C2A44" stroke-width="2.5" fill="none"/><ellipse cx="13" cy="8" rx="5" ry="2.6" fill="#1F8A5B"/>',
-  auto:'<path d="M10 18 l4 -8 h12 l4 8 z" fill="#2F6BD8"/><rect x="3" y="17" width="34" height="13" rx="4" fill="#2F6BD8"/><rect x="15" y="12" width="4" height="5" fill="#DCE7FA"/><rect x="21" y="12" width="4" height="5" fill="#DCE7FA"/><circle cx="11" cy="31" r="4.5" fill="#1C2A44"/><circle cx="29" cy="31" r="4.5" fill="#1C2A44"/>',
-  ijsje:'<path d="M12 19 L20 38 L28 19 Z" fill="#D9A13B"/><circle cx="20" cy="14" r="10" fill="#E04E2A"/>',
-  fiets:'<circle cx="9" cy="27" r="7.5" fill="none" stroke="#1C2A44" stroke-width="3"/><circle cx="31" cy="27" r="7.5" fill="none" stroke="#1C2A44" stroke-width="3"/><path d="M9 27 L16 15 H28 L31 27 M16 15 L20 27 L28 15 M14 10 H19" stroke="#2F6BD8" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>',
-  ei:'<ellipse cx="20" cy="21" rx="12" ry="16" fill="#F1D08A" stroke="#B7791F" stroke-width="2.5"/>'
+  boek:'<rect x="6" y="4" width="28" height="32" rx="3" fill="#1F7BC1"/><rect x="10" y="4" width="4" height="32" fill="#26263A" opacity=".35"/><rect x="17" y="11" width="12" height="3" rx="1.5" fill="#fff"/>',
+  persoon:'<circle cx="20" cy="10" r="7" fill="#6A4FB3"/><path d="M8 38 V28 a12 12 0 0 1 24 0 V38 Z" fill="#6A4FB3"/>',
+  appel:'<circle cx="20" cy="24" r="14" fill="#D93A2B"/><path d="M20 11 q1 -6 7 -8" stroke="#26263A" stroke-width="2.5" fill="none"/><ellipse cx="13" cy="8" rx="5" ry="2.6" fill="#96BC0D"/>',
+  auto:'<path d="M10 18 l4 -8 h12 l4 8 z" fill="#1F7BC1"/><rect x="3" y="17" width="34" height="13" rx="4" fill="#1F7BC1"/><rect x="15" y="12" width="4" height="5" fill="#D6E8F6"/><rect x="21" y="12" width="4" height="5" fill="#D6E8F6"/><circle cx="11" cy="31" r="4.5" fill="#26263A"/><circle cx="29" cy="31" r="4.5" fill="#26263A"/>',
+  ijsje:'<path d="M12 19 L20 38 L28 19 Z" fill="#E0A84A"/><circle cx="20" cy="14" r="10" fill="#C41A81"/>',
+  fiets:'<circle cx="9" cy="27" r="7.5" fill="none" stroke="#26263A" stroke-width="3"/><circle cx="31" cy="27" r="7.5" fill="none" stroke="#26263A" stroke-width="3"/><path d="M9 27 L16 15 H28 L31 27 M16 15 L20 27 L28 15 M14 10 H19" stroke="#1F7BC1" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>',
+  ei:'<ellipse cx="20" cy="21" rx="12" ry="16" fill="#F6D98B" stroke="#C9962B" stroke-width="2.5"/>'
 };
-let CLIP = 0;
-function frac(n){
-  const w=Math.floor(n), f=n-w, m={0.25:'¼',0.5:'½',0.75:'¾'}[f]||'';
-  return (w||!m?String(w):'')+m;
-}
 
-function chartSVG(it, st){
-  const rowH=66, top=96, W=860, L=190, S=52, I=44;
-  const H=top+it.rows.length*rowH+16;
-  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Beelddiagram: ${it.title}">`;
-  s+=`<rect x="0" y="0" width="${W}" height="${H}" fill="#FFFFFF"/>`;
+/* linker- en rechterrand van elk plaatje (op 40 breed), zodat een kwart plaatje ook echt een kwart is */
+const RAND={boek:[6,34],persoon:[8,32],appel:[6,34],auto:[3,37],ijsje:[10,30],fiets:[1,39],ei:[8,32]};
+
+/* ================= GRAFIEK TEKENEN =================
+   Markeringen (data-show, met spaties te combineren):
+   legenda        = legenda oplichten
+   rij:1,2        = rijen oplichten
+   reken:1,2      = berekening naast de rij tonen
+   teken:2        = verborgen rij tonen (andersom werken)                        */
+const fmt=v=>v.toLocaleString("nl-NL");
+let CLIP=0;
+function frac(n){const w=Math.floor(n),f=n-w,m={0.25:"¼",0.5:"½",0.75:"¾"}[f]||"";return (w||!m?String(w):"")+m;}
+function tekenGrafiek(div){div._c=GRAFIEKEN[div.dataset.chart];div._st={};teken(div);}
+function wisMarkering(div){if(!div._c)return;div._st={};teken(div);}
+function toonMarkering(div,wat){const [k,v]=wat.split(":");div._st[k]=v?v.split(",").map(Number):true;teken(div);}
+function teken(div){
+  const c=div._c, st=div._st, heeft=(k,i)=>Array.isArray(st[k])&&st[k].includes(i);
+  const W=900, top=108, rowH=74, L=200, I=48, S=Math.min(56,(W-L-240)/Math.max(...c.rows.map(r=>Math.ceil(r[1])))), H=top+c.rows.length*rowH+12;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img">`;
   // legenda
-  const legTxt=`= ${fmt(it.per)} ${it.noun}`, legW=96+legTxt.length*12.5;
-  const on=st>=1;
-  s+=`<text x="18" y="18" font-size="13" font-weight="700" fill="#56647C" font-family="Lexend" letter-spacing="1.5">LEGENDA</text>`;
-  s+=`<rect x="16" y="26" width="${legW}" height="54" rx="10" fill="${on?'#FCE3DA':'#F6F7F2'}" stroke="${on?'#E04E2A':'#CFD7E2'}" stroke-width="${on?3:2}"/>`;
-  s+=`<g transform="translate(28,31) scale(1.1)">${ICONS[it.icon]}</g>`;
-  s+=`<text x="82" y="61" font-size="22" font-weight="700" fill="#1C2A44" font-family="Lexend">${legTxt}</text>`;
-  it.rows.forEach((r,i)=>{
-    const [label,n,hidden]=r, y0=top+i*rowH, hot=st>=2&&it.hi.includes(i), cy=y0+rowH/2;
-    if(hot) s+=`<rect x="8" y="${y0+3}" width="${W-16}" height="${rowH-6}" rx="10" fill="#FCE3DA"/>`;
-    s+=`<line x1="16" x2="${W-16}" y1="${y0+rowH}" y2="${y0+rowH}" stroke="#E6EBF1" stroke-width="1.5"/>`;
-    s+=`<text x="${L-18}" y="${cy+7}" text-anchor="end" font-size="20" font-weight="${hot?700:500}" fill="#1C2A44" font-family="Lexend">${label}</text>`;
-    const showIcons = !hidden || st>=4;
-    if(showIcons){
+  const legTxt=`= ${fmt(c.per)} ${c.noun}`, legW=110+legTxt.length*14, on=!!st.legenda;
+  s+=`<text x="22" y="24" font-size="18" font-weight="900" fill="#6B6B80" letter-spacing="2">LEGENDA</text>`;
+  s+=`<rect x="18" y="34" width="${legW}" height="62" rx="16" fill="${on?"#FDE6CF":"#FFF9EF"}" stroke="${on?"#EB6B0A":"#E9E1D2"}" stroke-width="${on?5:3}"/>`;
+  s+=`<g transform="translate(32,40) scale(1.25)">${ICONS[c.icon]}</g>`;
+  s+=`<text x="94" y="75" font-size="28" font-weight="900" fill="#26263A">${legTxt}</text>`;
+  c.rows.forEach((r,i)=>{
+    const [label,n,verborgen]=r, y0=top+i*rowH, cy=y0+rowH/2, hot=heeft("rij",i);
+    if(hot) s+=`<rect x="8" y="${y0+4}" width="${W-16}" height="${rowH-8}" rx="16" fill="#FDE6CF"/>`;
+    s+=`<line x1="18" x2="${W-18}" y1="${y0+rowH}" y2="${y0+rowH}" stroke="#E9E1D2" stroke-width="2"/>`;
+    s+=`<text x="${L-20}" y="${cy+8}" text-anchor="end" font-size="24" font-weight="${hot?900:800}" fill="${hot?"#EB6B0A":"#26263A"}">${label}</text>`;
+    const zichtbaar=!verborgen||heeft("teken",i);
+    if(zichtbaar){
       for(let k=0;k<Math.ceil(n);k++){
-        const f=Math.min(1,n-k), x=L+k*S, y=cy-I/2;
-        if(f<1){
-          const id='c'+(++CLIP);
-          s+=`<clipPath id="${id}"><rect x="${x}" y="${y}" width="${I*0.15+I*0.7*f}" height="${I}"/></clipPath>`;
-          s+=`<g clip-path="url(#${id})"><g transform="translate(${x},${y}) scale(${I/40})">${ICONS[it.icon]}</g></g>`;
-        } else {
-          s+=`<g transform="translate(${x},${y}) scale(${I/40})">${ICONS[it.icon]}</g>`;
-        }
+        const f=Math.min(1,n-k), x=L+k*S, y=cy-I/2, g=`<g transform="translate(${x},${y}) scale(${I/40})">${ICONS[c.icon]}</g>`;
+        if(f<1){const id="clip"+(++CLIP);
+          s+=`<clipPath id="${id}"><rect x="${x}" y="${y}" width="${(RAND[c.icon][0]+(RAND[c.icon][1]-RAND[c.icon][0])*f)/40*I}" height="${I}"/></clipPath><g clip-path="url(#${id})">${g}</g>`;
+        } else s+=g;
       }
     } else {
-      s+=`<text x="${L+6}" y="${cy+12}" font-size="34" font-weight="800" fill="#E04E2A" font-family="Lexend">?</text>`;
+      s+=`<rect x="${L}" y="${cy-26}" width="${S*4}" height="52" rx="12" fill="#fff" stroke="#C41A81" stroke-width="3" stroke-dasharray="8 6"/>`;
+      s+=`<text x="${L+S*2}" y="${cy+12}" text-anchor="middle" font-size="36" font-weight="900" fill="#C41A81">?</text>`;
     }
-    const ax = showIcons ? L+Math.ceil(n)*S+10 : L+44;
-    const val=n*it.per;
-    if(st>=3 && it.hi.includes(i)){
-      const t = hidden
-        ? (st>=4 ? `${fmt(val)} : ${it.per} = ${frac(n)}` : `${fmt(val)} : ${it.per} = …`)
-        : `${frac(n)} × ${fmt(it.per)} = ${fmt(val)}`;
-      s+=`<text x="${ax}" y="${cy+9}" font-size="26" font-weight="700" fill="#E04E2A" font-family="Kalam">${t}</text>`;
+    if(heeft("reken",i)){
+      const ax=zichtbaar?L+Math.ceil(n)*S+14:L+S*4+18, val=n*c.per;
+      const t=verborgen?`${fmt(val)} : ${fmt(c.per)} = ${zichtbaar?frac(n):"…"}`:`${frac(n)} × ${fmt(c.per)} = ${fmt(val)}`;
+      s+=`<text x="${ax}" y="${cy+10}" font-size="28" font-weight="900" fill="#EB6B0A">${t}</text>`;
     }
   });
-  return s+'</svg>';
+  div.innerHTML=s+"</svg>";
 }
 
-function renderPhases(){
-  const ph = SCREENS[cur].phase;
-  document.getElementById('phases').innerHTML = PHASES.map(p=>
-    `<button type="button" class="chip ${p.key===ph?'on':''}" data-phase="${p.key}">${p.label}</button>`).join('');
-}
+/* ================= NAVIGATIE ================= */
+const dias=[...document.querySelectorAll(".slide")];
+const FASEN={ik:["Ik","var(--oranje)"],wij:["Wij","var(--groen)"],jullie:["Jullie","var(--blauw)"],jij:["Jij","var(--roze)"],doel:["Doel","var(--paars)"]};
+let nu=0, onthuld=0;
+const stippen=document.getElementById("stippen");
+dias.forEach((d,i)=>{const s=document.createElement("i");s.onclick=()=>ga(i);stippen.appendChild(s);});
+document.querySelectorAll(".chart").forEach(tekenGrafiek);
 
-function render(){
-  const sc=SCREENS[cur], m=document.getElementById('main');
-  if(sc.kind==='intro'){
-    m.innerHTML=`<section class="screen intro">
-      <div class="card" style="display:grid;gap:14px;align-content:start">
-        <span class="tag voordoen" style="justify-self:start">Lesdoel</span>
-        <h1>${INTRO.h1}</h1>
-        <p class="goal">${INTRO.goal}</p>
-        <div class="note"><b>Valkuil</b>${INTRO.valkuil}</div>
-      </div>
-      <div class="words">${INTRO.words.map(w=>`<div class="word ${w[2]}"><div class="w">${w[0]}</div><div class="m">${w[1]}</div></div>`).join('')}</div></section>`;
-  } else if(sc.kind==='plan'){
-    const P=PLAN;
-    m.innerHTML=`<section class="screen"><div style="display:grid;gap:6px"><span class="tag voordoen" style="justify-self:start">Stappenplan</span><h1>Zo pak je het aan</h1></div>
-      <div class="plan">${P.map((p,i)=>`<div class="card"><div class="big">${i+1}</div><h2>${p[0]}</h2><p>${p[1]}</p></div>`).join('')}</div></section>`;
-  } else if(sc.kind==='task'){
-    const it=ITEMS[sc.idx], n=sc.idx+1;
-    const stepNames=STEPNAMES;
-    m.innerHTML=`<section class="screen task">
-      <button type="button" class="card chartbox" id="zoomOpen" aria-label="Grafiek groot in beeld"><div class="ctitle"><span>${it.title}</span><span class="zoomhint">⤢ Klik om te vergroten</span></div>${chartSVG(it,stage)}</button>
-      <div class="side">
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="tag ${it.phase}">${PHASE_NAME[it.phase]}</span><strong>Opdracht ${n}</strong></div>
-        <div class="q">${it.q}${it.sub?`<small>${it.sub}</small>`:''}</div>
-        <ol class="steps">${it.steps.map((t,i)=>{
-          const c = i<stage-1?'done':(i===stage-1?'cur':'hide');
-          return `<li class="${c}"><span class="n">${i+1}</span><span class="t"><b>${stepNames[i]}</b><span>${t}</span></span></li>`;}).join('')}</ol>
-        ${stage>=4?`<div class="answer">${it.answer}</div>`:''}
-        <div class="actions">
-          <button class="btn primary" id="stepBtn" type="button" ${stage>=4?'disabled':''}>${it.phase==='zelf'&&stage===0?'Nabespreken: stap 1':'Volgende stap'}</button>
-          <button class="btn" id="resetBtn" type="button" ${stage===0?'disabled':''}>Opnieuw</button>
-        </div>
-        ${it.note?`<div class="note"><b>${it.phase==='voordoen'?'Hardop denken (leerkracht)':'Tip voor het samen doen'}</b>${it.note}</div>`:''}
-      </div></section>`;
-    document.getElementById('stepBtn').onclick=()=>{ if(stage<4){stage++;render();} };
-    document.getElementById('resetBtn').onclick=()=>{ stage=0;render(); };
-    document.getElementById('zoomOpen').onclick=()=>{ zoom=true; render(); };
-    if(zoom){
-      const ov=document.createElement('div');
-      ov.className='zoom'; ov.setAttribute('role','dialog'); ov.setAttribute('aria-label','Grafiek groot');
-      ov.innerHTML=`<div class="zbar">
-          <div class="zq"><span class="tag ${it.phase}">Opdracht ${n}</span> ${it.q}</div>
-          <div class="actions">
-            <button class="btn primary" id="zStep" type="button" ${stage>=4?'disabled':''}>Volgende stap</button>
-            <button class="btn" id="zClose" type="button">✕ Sluiten</button>
-          </div></div>
-        <div class="zchart">${chartSVG(it,stage)}</div>
-        ${stage>=1?`<div class="zstep">${stage>=4?it.answer:it.steps[stage-1]}</div>`:''}`;
-      m.appendChild(ov);
-      document.getElementById('zStep').onclick=()=>{ if(stage<4){stage++;render();} };
-      document.getElementById('zClose').onclick=()=>{ zoom=false; render(); };
-      ov.querySelector('.zchart').onclick=()=>{ zoom=false; render(); };
-    }
-  } else {
-    const Z=ITEMS.slice(6);
-    m.innerHTML=`<section class="screen"><div style="display:grid;gap:6px"><span class="tag zelf" style="justify-self:start">Nabespreken</span><h1>Antwoorden 7 t/m 10</h1></div>
-      <div class="answers">${Z.map((it,i)=>`<div class="card"><strong>Opdracht ${i+7} · ${it.title}</strong><div class="hand">${it.answer}</div></div>`).join('')}</div>
-      <h2>${DENK.h2}</h2>
-      <p>${DENK.p}</p></div></section>`;
+function stappen(){return [...dias[nu].querySelectorAll(".step")];}
+function ga(i){
+  if(i<0||i>=dias.length)return;
+  dias[nu].classList.remove("actief");
+  nu=i; onthuld=0;
+  document.body.classList.toggle("eerste-dia",nu===0);
+  const d=dias[nu]; d.classList.add("actief");
+  d.querySelectorAll(".step").forEach(s=>s.classList.remove("shown"));
+  d.querySelectorAll(".chart").forEach(wisMarkering);
+  const f=FASEN[d.dataset.fase], fb=document.getElementById("fase");
+  if(f){fb.textContent=f[0];fb.style.background=f[1];fb.classList.remove("hidden");}else fb.classList.add("hidden");
+  [...stippen.children].forEach((s,k)=>s.classList.toggle("nu",k===nu));
+  updKnop();
+}
+function volgende(){
+  const st=stappen();
+  if(onthuld<st.length){
+    const s=st[onthuld++]; s.classList.add("shown");
+    if(s.dataset.show){const ch=dias[nu].querySelector(".chart"); if(ch){wisMarkering(ch); s.dataset.show.split(" ").forEach(w=>toonMarkering(ch,w));}}
+    updKnop();
+  } else ga(nu+1);
+}
+function updKnop(){
+  const rest=stappen().length-onthuld;
+  document.getElementById("volgendeTekst").textContent = rest>0 ? "Laat zien" : (nu===dias.length-1?"Einde":"Volgende");
+}
+document.getElementById("volgende").onclick=volgende;
+document.getElementById("vorige").onclick=()=>ga(nu-1);
+
+/* ================= BEURTENKIEZER ================= */
+let NAMEN=[], KLAS=null;
+MTLes.namen.then(n=>{NAMEN=n;});
+MTLes.klas.then(k=>{KLAS=k;});
+let pot=[];
+const laag=document.getElementById("beurtLaag"), naamEl=document.getElementById("beurtNaam"), info=document.getElementById("beurtInfo");
+function schud(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+let rolt=false;
+function kiesNaam(){
+  laag.classList.add("open");
+  if(!NAMEN.length){naamEl.textContent="Geen namen";info.textContent=KLAS?`Er staan nog geen leerlingen in ${KLAS}.`:"Kies eerst een klas in MeesterTools.";return;}
+  if(rolt)return;
+  if(!pot.length)pot=schud([...NAMEN]);
+  const gekozen=pot.pop(); rolt=true; let k=0; const stappenRol=14;
+  naamEl.className="rollen";
+  (function rol(){
+    naamEl.textContent=NAMEN[Math.floor(Math.random()*NAMEN.length)];
+    if(++k<stappenRol){setTimeout(rol,40+k*9);}
+    else{naamEl.textContent=gekozen;naamEl.className="klaar";rolt=false;
+      info.textContent=(KLAS?KLAS+" · ":"")+(pot.length?`Nog ${pot.length} ${pot.length===1?"kind":"kinderen"} niet geweest`:"Iedereen is geweest. De volgende ronde begint opnieuw.");}
+  })();
+}
+document.getElementById("beurtKnop").onclick=kiesNaam;
+document.getElementById("nogEen").onclick=kiesNaam;
+document.getElementById("sluit").onclick=()=>laag.classList.remove("open");
+laag.addEventListener("click",e=>{if(e.target===laag)laag.classList.remove("open");});
+
+/* ================= TIMER ================= */
+const TIMER_SEC=120; let tijd=TIMER_SEC, tik=null;
+const tKnop=document.getElementById("timer"), tTekst=document.getElementById("timerTekst");
+function toonTijd(){tTekst.textContent=`${Math.floor(tijd/60)}:${String(tijd%60).padStart(2,"0")}`;}
+function timerStartStop(){
+  if(tijd<=0){timerReset();}
+  if(tik){clearInterval(tik);tik=null;tKnop.classList.remove("loopt");return;}
+  tKnop.classList.add("loopt");
+  tik=setInterval(()=>{tijd--;toonTijd();if(tijd<=0){clearInterval(tik);tik=null;tKnop.classList.remove("loopt");tKnop.classList.add("klaar");}},1000);
+}
+function timerReset(){clearInterval(tik);tik=null;tijd=TIMER_SEC;tKnop.classList.remove("loopt","klaar");toonTijd();}
+tKnop.onclick=timerStartStop; tKnop.ondblclick=timerReset;
+
+/* ================= TOETSEN & SCHALEN ================= */
+document.addEventListener("keydown",e=>{
+  const k=e.key;
+  if(laag.classList.contains("open")){
+    if(k==="Escape")laag.classList.remove("open");
+    else if(k==="b"||k==="B"||k===" "||k==="Enter"){e.preventDefault();kiesNaam();}
+    return;
   }
-  document.getElementById('count').textContent=`${cur+1} / ${SCREENS.length}`;
-  document.getElementById('prev').disabled = cur===0;
-  document.getElementById('next').disabled = cur===SCREENS.length-1;
-  renderPhases();
-  document.body.classList.toggle("eerste-dia",cur===0);
-}
-
-function go(i){ if(i<0||i>=SCREENS.length) return; cur=i; stage=0; if(SCREENS[i].kind!=='task') zoom=false; render(); window.scrollTo(0,0); }
-document.getElementById('prev').onclick=()=>go(cur-1);
-document.getElementById('next').onclick=()=>go(cur+1);
-document.getElementById('phases').addEventListener('click',e=>{
-  const b=e.target.closest('[data-phase]'); if(!b) return;
-  go(SCREENS.findIndex(s=>s.phase===b.dataset.phase));
+  if(["ArrowRight","PageDown"," ","Enter"].includes(k)){e.preventDefault();volgende();}
+  else if(["ArrowLeft","PageUp"].includes(k)){e.preventDefault();ga(nu-1);}
+  else if(k==="b"||k==="B")kiesNaam();
+  else if(k==="t"||k==="T")timerStartStop();
+  else if(k==="n"||k==="N")document.body.classList.toggle("notities");
+  else if(k==="f"||k==="F"){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
 });
-document.addEventListener('keydown',e=>{
-  if(e.key==='Escape' && zoom){ zoom=false; render(); }
-  else if((e.key==='z'||e.key==='Z') && SCREENS[cur].kind==='task'){ zoom=!zoom; render(); }
-  else if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); go(cur+1); }
-  else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(cur-1); }
-  else if((e.key===' '||e.key==='Enter') && SCREENS[cur].kind==='task' && !(e.target.closest&&e.target.closest('button'))){
-    e.preventDefault(); if(stage<4){stage++;render();}
-  }
-});
-render();
+function pasAan(){const s=Math.min(innerWidth/1600,innerHeight/900);document.getElementById("stage").style.transform=`scale(${s})`;}
+addEventListener("resize",pasAan); pasAan();
+ga(0);
 </script>
-</body></html>
+</body>
+</html>
