@@ -26,6 +26,7 @@
   header .terug{font-weight:900;font-size:20px;color:var(--zacht);text-decoration:none;background:#fff;border-radius:14px;padding:8px 16px;box-shadow:0 4px 0 var(--lijn)}
   header .terug:hover{color:var(--inkt)}
   header .titel{font-weight:800;font-size:22px;color:var(--zacht);flex:1}
+  body:not(.eerste-dia) header .titel{visibility:hidden}
   .fase{font-weight:900;font-size:26px;letter-spacing:1px;padding:10px 26px;border-radius:999px;color:#fff;text-transform:uppercase;box-shadow:0 4px 0 rgba(0,0,0,.15)}
   .fase.hidden{visibility:hidden}
 
@@ -572,6 +573,7 @@ function ga(i){
   if(i<0||i>=dias.length)return;
   dias[nu].classList.remove("actief");
   nu=i; onthuld=0;
+  document.body.classList.toggle("eerste-dia",nu===0);
   const d=dias[nu]; d.classList.add("actief");
   d.querySelectorAll(".step").forEach(s=>s.classList.remove("shown"));
   d.querySelectorAll(".trap").forEach(wisSprong);

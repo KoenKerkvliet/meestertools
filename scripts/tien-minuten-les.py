@@ -12,6 +12,7 @@ lesmap om naar de site, zodat elke les op dezelfde manier binnenkomt:
     - Meestertools-logo i.p.v. het schoollogo, terug-knop in de kop
     - timer links naast "Laat zien"
     - doeldia: concept- en vaardigheidsvak verschijnen pas met Volgende
+    - "10 minuten rekenen · onderwerp" in de kop alleen op de titeldia
     - namen uit de actieve klas (js/tien-minuten-les.js) i.p.v. namen.js
 
   werkblad-pdf:
@@ -58,6 +59,17 @@ def doel_stapsgewijs(s):
     return s.replace(blok.group(0), nieuw)
 
 
+def titel_alleen_eerste_dia(s):
+    """"10 minuten rekenen · <onderwerp>" in de kop alleen op de titeldia;
+    daarna minder afleiding. visibility (niet display), zodat de fase-badge
+    rechts blijft staan."""
+    s = vervang(s, '  header .titel{font-weight:800;font-size:22px;color:var(--zacht);flex:1}',
+                '  header .titel{font-weight:800;font-size:22px;color:var(--zacht);flex:1}\n'
+                '  body:not(.eerste-dia) header .titel{visibility:hidden}')
+    return vervang(s, '  nu=i; onthuld=0;\n',
+                   '  nu=i; onthuld=0;\n  document.body.classList.toggle("eerste-dia",nu===0);\n')
+
+
 def les(src, slug):
     s = Path(src).read_text(encoding='utf-8')
     s = vervang(s, '<meta name="viewport" content="width=device-width, initial-scale=1">',
@@ -72,6 +84,7 @@ def les(src, slug):
     s = vervang(s, '<header>\n  <img',
                 '<header>\n  <a class="terug" href="../10-minuten-didactiek" title="Terug naar de lessen">&larr; Lessen</a>\n  <img')
     s = doel_stapsgewijs(s)
+    s = titel_alleen_eerste_dia(s)
     s = vervang(s, 'alt="Logo de Schatgraver"', 'alt="Meestertools"')
     s = vervang(s, '../logo-schatgraver.png', '/assets/logo-meestertools.png')
 
