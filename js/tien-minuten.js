@@ -29,4 +29,63 @@
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') sluitAlles(null);
     });
+
+    // ---------- Categorieën + filter ----------
+    // Elke .les-card heeft data-categorie. De chips worden daaruit opgebouwd,
+    // dus een nieuwe les = alleen het attribuut invullen. De gekozen filter
+    // wordt per vak-pagina onthouden.
+    var filters = document.getElementById('lesFilters');
+    var kaarten = [].slice.call(document.querySelectorAll('.les-card'));
+    if (!filters || !kaarten.length) return;
+
+    var tellers = {};
+    kaarten.forEach(function (k) {
+        var cat = k.dataset.categorie || 'Overig';
+        tellers[cat] = (tellers[cat] || 0) + 1;
+        // Label op de kaart, onder de titel.
+        var h3 = k.querySelector('.tool-card h3');
+        if (h3 && !k.querySelector('.les-cat')) {
+            var lbl = document.createElement('span');
+            lbl.className = 'les-cat';
+            lbl.textContent = cat;
+            h3.insertAdjacentElement('afterend', lbl);
+        }
+    });
+
+    var KEY = 'mt_10min_filter:' + location.pathname.replace(/\.html$/, '');
+    var gekozen = 'alles';
+    try { gekozen = localStorage.getItem(KEY) || 'alles'; } catch (e) {}
+    if (gekozen !== 'alles' && !tellers[gekozen]) gekozen = 'alles';
+
+    function chip(waarde, tekst) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'les-filter';
+        b.dataset.waarde = waarde;
+        b.textContent = tekst;
+        filters.appendChild(b);
+    }
+    chip('alles', 'Alles (' + kaarten.length + ')');
+    Object.keys(tellers).sort(function (a, b) { return a.localeCompare(b, 'nl'); })
+        .forEach(function (cat) { chip(cat, cat + ' (' + tellers[cat] + ')'); });
+
+    function pasToe() {
+        kaarten.forEach(function (k) {
+            k.hidden = gekozen !== 'alles' && (k.dataset.categorie || 'Overig') !== gekozen;
+        });
+        [].forEach.call(filters.children, function (b) {
+            var aan = b.dataset.waarde === gekozen;
+            b.classList.toggle('active', aan);
+            b.setAttribute('aria-pressed', aan ? 'true' : 'false');
+        });
+    }
+
+    filters.addEventListener('click', function (e) {
+        var b = e.target.closest('.les-filter');
+        if (!b) return;
+        gekozen = b.dataset.waarde;
+        try { localStorage.setItem(KEY, gekozen); } catch (err) {}
+        pasToe();
+    });
+    pasToe();
 })();
