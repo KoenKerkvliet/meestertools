@@ -5,7 +5,7 @@ MEESTERTOOLS - 10-minuten-didactiek: les + werkblad overnemen
 Zet een losse les (HTML) en het bijbehorende werkblad (pdf) uit Koens
 lesmap om naar de site, zodat elke les op dezelfde manier binnenkomt:
 
-  les-html:
+  les-html, format "dia" (vaste 1600x900-dia, eigen beurtenkiezer/timer):
     - noindex + favicon
     - #stage{flex:none} (anders krimpt de 1600px-dia mee in een smal
       venster en loopt de rechterkolom over de knoppenbalk)
@@ -14,6 +14,13 @@ lesmap om naar de site, zodat elke les op dezelfde manier binnenkomt:
     - doeldia: concept- en vaardigheidsvak verschijnen pas met Volgende
     - "10 minuten rekenen · onderwerp" in de kop alleen op de titeldia
     - namen uit de actieve klas (js/tien-minuten-les.js) i.p.v. namen.js
+
+  les-html, format "app" (responsive, Voordoen/Samen/Zelf, geen eigen
+  beurtenkiezer/timer) - wordt automatisch herkend:
+    - noindex + favicon, "← Lessen" + Meestertools-logo in de kop
+    - lestitel in de kop alleen op het eerste scherm
+    - Timer + Beurt in de voet via js/tien-minuten-beurt.js (B / T)
+    - inlogcontrole + namen uit de actieve klas (js/tien-minuten-les.js)
 
   werkblad-pdf:
     - schoollogo-afbeelding (2297x735) vervangen door het Meestertools-logo
@@ -75,8 +82,47 @@ def titel_alleen_eerste_dia(s):
                    '  nu=i; onthuld=0;\n  document.body.classList.toggle("eerste-dia",nu===0);\n')
 
 
-def les(src, vak, slug):
-    s = Path(src).read_text(encoding='utf-8')
+def les_app(s, vak):
+    """Het tweede lesformat: responsive "app" (Voordoen/Samen/Zelf, schermen
+    via render()). Geen vaste dia, geen eigen beurtenkiezer of timer; die
+    komen uit js/tien-minuten-beurt.js."""
+    s = vervang(s, '<meta name="viewport" content="width=device-width, initial-scale=1">',
+                '<meta name="viewport" content="width=device-width, initial-scale=1">'
+                '<meta name="robots" content="noindex">'
+                '<link rel="icon" type="image/svg+xml" href="/favicon.svg">')
+    s = vervang(s, '</style>',
+                '  /* MeesterTools */\n'
+                '  .mt-kop{display:flex;align-items:center;gap:14px}\n'
+                '  .mt-kop .terug{font-weight:700;font-size:.95rem;color:var(--ink-soft);text-decoration:none;background:var(--card);border:2px solid var(--line);border-radius:10px;padding:6px 12px}\n'
+                '  .mt-kop .terug:hover{color:var(--ink);border-color:var(--ink)}\n'
+                '  .mt-kop img{height:46px;display:block;margin:-6px 0}\n'
+                '  body:not(.eerste-dia) .brand{visibility:hidden}\n'
+                '</style>')
+    s = vervang(s, '<header>\n    <div class="brand">',
+                '<header>\n    <div class="mt-kop"><a class="terug" href="/lesmateriaal/10-minuten-didactiek/' + vak
+                + '" title="Terug naar de lessen">&larr; Lessen</a><img src="/assets/logo-meestertools.png" alt="Meestertools"></div>\n'
+                '    <div class="brand">')
+    # Titel alleen op het eerste scherm (zelfde wens als bij het dia-format).
+    s = vervang(s, '  renderPhases();\n}\n',
+                '  renderPhases();\n  document.body.classList.toggle("eerste-dia",cur===0);\n}\n')
+    # Timer en Beurt in de voet, links naast Vorige.
+    s = vervang(s, '<button class="btn" id="prev" type="button">← Vorige</button>',
+                '<span class="actions"><button class="btn" id="prev" type="button">← Vorige</button>'
+                '<button class="btn" id="mtTimer" type="button" title="Timer 2 minuten (T). Dubbelklik of Shift+T = opnieuw.">⏱ 2:00</button>'
+                '<button class="btn primary" id="mtBeurt" type="button" title="Kies een naam (B)">🎲 Beurt</button></span>')
+    s = vervang(s, 'Z = grafiek groot</span>', 'Z = grafiek groot · B = beurt · T = timer</span>')
+    s = vervang(s, '<script>\nconst INTRO',
+                '<!-- MeesterTools: inlogcontrole, namen uit de actieve klas, beurtenkiezer + timer. -->\n'
+                '<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>\n'
+                f'<script src="/js/supabase-config.js?v={VERSION}"></script>\n'
+                f'<script src="/js/tien-minuten-les.js?v={VERSION}"></script>\n'
+                f'<script src="/js/tien-minuten-beurt.js?v={VERSION}"></script>\n'
+                '<script>\nconst INTRO')
+    return s
+
+
+def les_dia(s, vak):
+    """Het eerste lesformat: vaste 1600x900-dia met eigen beurtenkiezer/timer."""
     s = vervang(s, '<meta name="viewport" content="width=device-width, initial-scale=1">',
                 '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
                 '<meta name="robots" content="noindex">\n'
@@ -110,6 +156,19 @@ def les(src, vak, slug):
     s = vervang(s, 'info.textContent=pot.length?`Nog', 'info.textContent=(KLAS?KLAS+" · ":"")+(pot.length?`Nog')
     s = vervang(s, '"Iedereen is geweest. De volgende ronde begint opnieuw.";}',
                 '"Iedereen is geweest. De volgende ronde begint opnieuw.");}')
+    return s
+
+
+def les(src, vak, slug):
+    s = Path(src).read_text(encoding='utf-8')
+    if '#stage{width:1600px;' in s:
+        print('les  format: dia (1600x900)')
+        s = les_dia(s, vak)
+    elif 'class="app"' in s and 'const ITEMS' in s and 'function render()' in s:
+        print('les  format: app (Voordoen/Samen/Zelf)')
+        s = les_app(s, vak)
+    else:
+        raise SystemExit('Onbekend lesformat: geen 1600px-dia en geen app-format. Met de hand bekijken.')
 
     if 'chatgraver' in s.lower().replace('alt="meestertools"', ''):
         print('LET OP: "Schatgraver" staat nog ergens in de les, even nakijken.')

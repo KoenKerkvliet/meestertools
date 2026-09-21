@@ -1,0 +1,463 @@
+<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><link rel="icon" type="image/svg+xml" href="/favicon.svg"></head><body style="margin:0">
+<title>Welk stuk van de taart?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;800&family=Kalam:wght@700&display=swap">
+<style>
+  :root{
+    --paper:#F6F7F2; --grid:#E3E8EE; --ink:#1C2A44; --ink-soft:#56647C;
+    --blue:#2F6BD8; --blue-soft:#DCE7FA; --red:#E04E2A; --red-soft:#FCE3DA;
+    --green:#1F8A5B; --green-soft:#DDF1E6; --amber:#B7791F; --amber-soft:#FBEFD9;
+    --card:#FFFFFF; --line:#CFD7E2;
+    color-scheme: light;
+  }
+  html,body{height:100%}
+  body{
+    background:var(--paper);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:28px 28px;
+    color:var(--ink); font-family:"Lexend",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:18px; line-height:1.45;
+  }
+  .app{display:flex;flex-direction:column;min-height:100%;padding-inline:clamp(16px,2.5vw,40px);padding-block:14px;gap:14px;box-sizing:border-box;max-width:1500px;margin:0 auto}
+  header{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;justify-content:space-between}
+  .brand{font-weight:800;font-size:1.15rem;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+  .brand svg{flex:none}
+  .phases{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{border:2px solid var(--line);background:var(--card);color:var(--ink-soft);border-radius:999px;padding:4px 14px;font:inherit;font-size:.85rem;font-weight:500;cursor:pointer}
+  .chip.on{border-color:var(--ink);background:var(--ink);color:#fff}
+  .chip:focus-visible,.btn:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+  main{flex:1;display:flex}
+  .screen{flex:1;display:grid;gap:clamp(16px,2vw,28px);align-content:start}
+  .card{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:clamp(16px,2vw,28px)}
+  .tag{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:6px}
+  .tag.voordoen{background:var(--blue-soft);color:var(--blue)}
+  .tag.samen{background:var(--amber-soft);color:var(--amber)}
+  .tag.zelf{background:var(--green-soft);color:var(--green)}
+  h1{font-size:clamp(2rem,4.4vw,3.6rem);line-height:1.05;margin:0;letter-spacing:-.02em;text-wrap:balance}
+  h2{font-size:clamp(1.3rem,2.3vw,2rem);line-height:1.2;margin:0;text-wrap:balance}
+  p{margin:0}
+  /* opdracht layout */
+  .task{grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);align-items:start}
+  .chartbox{padding:12px 12px 4px}
+  .chartbox .ctitle{font-weight:700;font-size:1.05rem;padding:4px 8px 0;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  button.chartbox{font:inherit;color:inherit;text-align:left;cursor:zoom-in;width:100%}
+  button.chartbox:hover{border-color:var(--blue)}
+  button.chartbox:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+  .zoomhint{font-weight:500;font-size:.85rem;color:var(--blue)}
+  .zoom{position:fixed;inset:0;z-index:50;background:var(--paper);display:flex;flex-direction:column;gap:10px;
+    padding:calc(12px + env(safe-area-inset-top,0px)) clamp(16px,2vw,32px) calc(12px + env(safe-area-inset-bottom,0px))}
+  .zbar{display:flex;justify-content:space-between;align-items:center;gap:12px 20px;flex-wrap:wrap}
+  .zq{font-size:clamp(1.2rem,2vw,1.8rem);font-weight:700;line-height:1.25;flex:1 1 30ch}
+  .zq .tag{vertical-align:middle;margin-right:6px}
+  .zchart{flex:1;min-height:0;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px;cursor:zoom-out;display:flex}
+  .zchart svg{width:100%;height:100%;display:block}
+  .zstep{font-family:"Kalam",cursive;color:var(--red);font-size:clamp(1.4rem,2.6vw,2.2rem);line-height:1.2;text-align:center}
+  .chartbox svg{width:100%;height:auto;display:block}
+  .side{display:grid;gap:16px}
+  .q{font-size:clamp(1.25rem,2.1vw,1.9rem);font-weight:700;line-height:1.25;text-wrap:balance}
+  .q small{display:block;font-size:.62em;font-weight:500;color:var(--ink-soft);margin-top:6px}
+  .steps{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .steps li{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start;padding:10px 12px;border-radius:10px;background:var(--paper);border:2px solid transparent;font-size:1.02rem}
+  .steps li .n{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--card);border:2px solid var(--line);color:var(--ink-soft)}
+  .steps li .t b{display:block;font-size:.95rem}
+  .steps li .t span{color:var(--ink)}
+  .steps li.hide .t span{visibility:hidden}
+  .steps li.cur{border-color:var(--red);background:var(--red-soft)}
+  .steps li.done .n,.steps li.cur .n{background:var(--ink);border-color:var(--ink);color:#fff}
+  .note{border-left:5px solid var(--blue);background:var(--blue-soft);padding:10px 14px;border-radius:0 10px 10px 0;font-size:.95rem}
+  .note b{display:block;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+  .answer{font-family:"Kalam",cursive;font-size:clamp(1.3rem,2.2vw,1.9rem);color:var(--red);line-height:1.2}
+  .actions{display:flex;flex-wrap:wrap;gap:10px}
+  .btn{font:inherit;font-weight:700;border-radius:10px;padding:10px 18px;cursor:pointer;border:2px solid var(--ink);background:var(--card);color:var(--ink)}
+  .btn.primary{background:var(--red);border-color:var(--red);color:#fff}
+  .btn:disabled{opacity:.4;cursor:default}
+  footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .count{color:var(--ink-soft);font-size:.9rem;font-variant-numeric:tabular-nums}
+  .keys{color:var(--ink-soft);font-size:.8rem}
+  /* intro */
+  .intro{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:stretch}
+  .goal{font-size:clamp(1.15rem,1.9vw,1.6rem);font-weight:500;margin-top:14px;max-width:34ch}
+  .words{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .word{border-radius:12px;padding:14px 16px;border:2px solid var(--line);background:var(--card)}
+  .word .w{font-weight:800;font-size:1.25rem}
+  .word .m{color:var(--ink-soft);font-size:.95rem}
+  .word.up{border-color:#9FD3B8;background:var(--green-soft)}
+  .word.down{border-color:#F3B5A3;background:var(--red-soft)}
+  .word.wide{grid-column:1/-1}
+  .plan{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+  .plan .card{display:grid;gap:8px;align-content:start}
+  .plan .big{font-size:2.4rem;font-weight:800;color:var(--red);line-height:1}
+  .plan h2{font-size:clamp(1.1rem,1.7vw,1.45rem)}
+  .answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .answers .card{display:grid;gap:6px}
+  .hand{font-family:"Kalam",cursive;color:var(--red);font-size:1.35rem;line-height:1.2}
+  @media (max-width:900px){
+    .task,.intro{grid-template-columns:1fr}
+    .plan{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .answers{grid-template-columns:1fr}
+    .keys{display:none}
+  }
+  @media (max-width:520px){ .plan,.words{grid-template-columns:1fr} }
+  @media (prefers-reduced-motion:no-preference){
+    .hl{animation:draw .6s ease-out both}
+    @keyframes draw{from{stroke-dashoffset:400}to{stroke-dashoffset:0}}
+  }
+  /* MeesterTools */
+  .mt-kop{display:flex;align-items:center;gap:14px}
+  .mt-kop .terug{font-weight:700;font-size:.95rem;color:var(--ink-soft);text-decoration:none;background:var(--card);border:2px solid var(--line);border-radius:10px;padding:6px 12px}
+  .mt-kop .terug:hover{color:var(--ink);border-color:var(--ink)}
+  .mt-kop img{height:46px;display:block;margin:-6px 0}
+  body:not(.eerste-dia) .brand{visibility:hidden}
+</style>
+
+<div class="app">
+  <header>
+    <div class="mt-kop"><a class="terug" href="/lesmateriaal/10-minuten-didactiek/rekenen" title="Terug naar de lessen">&larr; Lessen</a><img src="/assets/logo-meestertools.png" alt="Meestertools"></div>
+    <div class="brand">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="12" fill="#2F6BD8"/><path d="M14 14 L14 2 A12 12 0 0 1 26 14 Z" fill="#E04E2A"/></svg>
+      Welk stuk van de taart?
+    </div>
+    <nav class="phases" id="phases" aria-label="Fasen van de les"></nav>
+  </header>
+  <main id="main"></main>
+  <footer>
+    <span class="actions"><button class="btn" id="prev" type="button">← Vorige</button><button class="btn" id="mtTimer" type="button" title="Timer 2 minuten (T). Dubbelklik of Shift+T = opnieuw.">⏱ 2:00</button><button class="btn primary" id="mtBeurt" type="button" title="Kies een naam (B)">🎲 Beurt</button></span>
+    <span class="count" id="count"></span>
+    <span class="keys">Pijltjes ← → = ander scherm · Spatie = volgende stap · Z = grafiek groot · B = beurt · T = timer</span>
+    <button class="btn" id="next" type="button">Volgende →</button>
+  </footer>
+</div>
+
+<!-- MeesterTools: inlogcontrole, namen uit de actieve klas, beurtenkiezer + timer. -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+<script src="/js/supabase-config.js?v=1.57.5"></script>
+<script src="/js/tien-minuten-les.js?v=1.57.5"></script>
+<script src="/js/tien-minuten-beurt.js?v=1.57.5"></script>
+<script>
+const INTRO = {
+  h1:'Welk stuk van de taart?',
+  goal:'Ik kan in een cirkeldiagram zien hoe groot een deel is, en ik kan dat deel uitrekenen met een verhoudingstabel.',
+  valkuil:'Een percentage is geen aantal! 25% van 200 leerlingen is niet 25 leerlingen. Reken het altijd uit.',
+  words:[
+    ['het geheel','de hele cirkel = 100% = alles','up'],
+    ['de helft','50% = ½ → gedeeld door 2','down'],
+    ['een kwart','25% = ¼ → gedeeld door 4',''],
+    ['10%','gedeeld door 10',''],
+    ['alle stukken samen = 100%','Mist er een stuk? 100 − de rest.','wide']
+  ]
+};
+const PLAN = [
+  ['Wat is het geheel?','Hoeveel is 100%? Kijk in de titel: leerlingen, euro, uren…'],
+  ['Welk deel?','Zoek het stuk dat bij de vraag hoort. Welk percentage of welke breuk staat erbij?'],
+  ['Verhoudingstabel','Van 100% naar 10% (: 10) of naar ¼ (: 4). Reken dan verder.'],
+  ['Controleer','Kan het? Een kwart van de cirkel is ook ongeveer een kwart van het totaal.']
+];
+const STEPNAMES = ['Het geheel','Welk deel?','Verhoudingstabel','Antwoord'];
+const DENK = {
+  h2:'Maak een cirkeldiagram van jouw dag: slapen, school, vrije tijd en eten.',
+  p:'Hoeveel uur is een kwart van de dag? En een achtste? Laat je schoudermaatje een vraag over jouw diagram beantwoorden.'
+};
+
+const ITEMS = [
+  // ---------- VOORDOEN ----------
+  { phase:'voordoen', title:'Zo komen 200 leerlingen naar school',
+    slices:[['fiets',50,'50%'],['lopen',25,'25%'],['auto',15,'15%'],['bus',10,'10%']], hi:[1],
+    table:{h:['%','leerlingen'], r:[['100%','200'],['25%','?']], ans:'50'},
+    q:'Hoeveel leerlingen komen lopend naar school?',
+    steps:[
+      'Het geheel = 100% = 200 leerlingen.',
+      'Lopen = 25%. Dat is precies een kwart van de cirkel.',
+      '100% → 200, dus 25% → 200 : 4.',
+      '50 leerlingen komen lopend.'
+    ],
+    answer:'50 leerlingen komen lopend.',
+    note:'Zeg hardop: „25% is een kwart. Dat zie je ook: het stuk is een kwart van de taart. Een kwart van 200 is 200 gedeeld door 4.”' },
+
+  { phase:'voordoen', title:'Zakgeld van Noor: € 40',
+    slices:[['sparen',40,'40%'],['kleding',30,'30%'],['games',20,'20%'],['snoep',10,'10%']], hi:[1],
+    table:{h:['%','euro'], r:[['100%','40'],['10%','4'],['30%','?']], ans:'12'},
+    q:'Hoeveel euro geeft Noor uit aan kleding?',
+    steps:[
+      'Het geheel = 100% = € 40.',
+      'Kleding = 30%.',
+      'Eerst 10% (: 10) = € 4. Dan × 3.',
+      'Noor geeft € 12 uit aan kleding.'
+    ],
+    answer:'Noor geeft € 12 uit aan kleding.',
+    note:'Zeg hardop: „30% weet ik niet meteen. Maar 10% is makkelijk: gedeeld door 10. Daarna doe ik keer 3.” Dit is de verhoudingstabel die de kinderen vaak vergeten.' },
+
+  { phase:'voordoen', title:'Lievelingsfruit van 60 kinderen',
+    slices:[['appel',35,'35%'],['banaan',25,'25%'],['peer',25,'?'],['druiven',15,'15%']], hi:[2], unknown:2, reveal:'25%',
+    table:{h:['%','kinderen'], r:[['100%','60'],['25%','?']], ans:'15'},
+    q:'Hoeveel procent koos peer? En hoeveel kinderen zijn dat?',
+    steps:[
+      'Het geheel = 100% = 60 kinderen.',
+      'Peer staat er niet bij: 100 − 35 − 25 − 15 = 25%.',
+      '25% = een kwart: 60 : 4.',
+      'Peer: 25% = 15 kinderen.'
+    ],
+    answer:'Peer: 25% = 15 kinderen.',
+    note:'Zeg hardop: „Alle stukken samen zijn altijd 100%. Dus het stuk dat ontbreekt, kan ik uitrekenen.”' },
+
+  // ---------- SAMEN DOEN ----------
+  { phase:'samen', title:'Een dag van Mila (24 uur)',
+    slices:[['slapen',37.5,'⅜'],['school',25,'¼'],['vrije tijd',25,'¼'],['eten',12.5,'⅛']], hi:[0],
+    table:{h:['deel','uren'], r:[['hele dag','24'],['⅛','3'],['⅜','?']], ans:'9'},
+    q:'Hoeveel uur slaapt Mila?',
+    steps:[
+      'Het geheel = de hele dag = 24 uur.',
+      'Slapen = ⅜ van de cirkel.',
+      '⅛ = 24 : 8 = 3 uur. Dan ⅜ = 3 × 3.',
+      'Mila slaapt 9 uur.'
+    ],
+    answer:'Mila slaapt 9 uur.',
+    note:'Vraag de klas: „Hoe reken je ⅜ uit?” Eerst ⅛ (: 8), dan × 3. Hetzelfde trucje als bij procenten.' },
+
+  { phase:'samen', title:'Stemmen voor de schoolreis (80 stemmen)',
+    slices:[['pretpark',45,'45%'],['dierentuin',30,'30%'],['zwembad',25,'25%']], hi:[0,2],
+    table:{h:['%','stemmen'], r:[['100%','80'],['10%','8'],['20%','?']], ans:'16'},
+    q:'Hoeveel stemmen kreeg het pretpark meer dan het zwembad?',
+    steps:[
+      'Het geheel = 100% = 80 stemmen.',
+      'Pretpark 45%, zwembad 25%. Verschil: 45 − 25 = 20%.',
+      '10% van 80 = 8, dus 20% = 16.',
+      'Het pretpark kreeg 16 stemmen meer.'
+    ],
+    answer:'Het pretpark kreeg 16 stemmen meer.',
+    note:'Vraag de klas: „Kan het ook anders?” Pretpark 36 stemmen, zwembad 20 stemmen, verschil 16. Zelfde antwoord!' },
+
+  { phase:'samen', title:'Huisdieren in een klas van 25 kinderen',
+    slices:[['hond',40,'10'],['kat',20,'5'],['konijn',20,'5'],['geen huisdier',20,'5']], hi:[0],
+    table:{h:['kinderen','%'], r:[['25','100%'],['5','20%'],['10','?']], ans:'40%'},
+    q:'Hoeveel procent van de klas heeft een hond?',
+    sub:'Let op: nu staan er aantallen in het diagram, geen procenten.',
+    steps:[
+      'Het geheel = 25 kinderen = 100%.',
+      'Hond = 10 kinderen.',
+      '25 → 100%, dus 5 → 20% en 10 → 40%.',
+      '40% van de klas heeft een hond.'
+    ],
+    answer:'40% van de klas heeft een hond.',
+    note:'Vraag de klas: „Klopt dat met het plaatje?” 40% is iets minder dan de helft van de cirkel.' },
+
+  // ---------- ZELF MAKEN ----------
+  { phase:'zelf', title:'Sportdag: 300 kinderen',
+    slices:[['voetbal',40,'40%'],['atletiek',30,'30%'],['turnen',20,'20%'],['tennis',10,'10%']], hi:[1],
+    table:{h:['%','kinderen'], r:[['100%','300'],['10%','30'],['30%','?']], ans:'90'},
+    q:'Hoeveel kinderen deden mee aan atletiek?',
+    steps:[
+      '100% = 300 kinderen.',
+      'Atletiek = 30%.',
+      '10% = 30, dus 30% = 90.',
+      '90 kinderen deden mee aan atletiek.'
+    ],
+    answer:'90 kinderen deden atletiek.' },
+
+  { phase:'zelf', title:'Klassenfeest: € 60',
+    slices:[['eten',50,'½'],['drinken',25,'¼'],['versiering',100/6,'⅙'],['prijsjes',100/12,'¹⁄₁₂']], hi:[2],
+    table:{h:['deel','euro'], r:[['alles','60'],['⅙','?']], ans:'10'},
+    q:'Hoeveel euro gaat er naar de versiering?',
+    steps:[
+      'Het geheel = € 60.',
+      'Versiering = ⅙.',
+      '60 : 6 = 10.',
+      '€ 10 gaat naar de versiering.'
+    ],
+    answer:'€ 10 voor de versiering.' },
+
+  { phase:'zelf', title:'Lievelingsseizoen van 120 kinderen',
+    slices:[['zomer',45,'45%'],['lente',25,'25%'],['herfst',20,'?'],['winter',10,'10%']], hi:[2], unknown:2, reveal:'20%',
+    table:{h:['%','kinderen'], r:[['100%','120'],['10%','12'],['20%','?']], ans:'24'},
+    q:'Hoeveel kinderen kozen de herfst?',
+    steps:[
+      '100% = 120 kinderen.',
+      'Herfst: 100 − 45 − 25 − 10 = 20%.',
+      '10% = 12, dus 20% = 24.',
+      '24 kinderen kozen de herfst.'
+    ],
+    answer:'24 kinderen kozen de herfst.' },
+
+  { phase:'zelf', title:'Vervoer in een klas van 32 kinderen',
+    slices:[['fiets',50,'16'],['lopen',25,'8'],['auto',12.5,'4'],['bus',12.5,'4']], hi:[0,2],
+    table:{h:['kinderen','%'], r:[['32','100%'],['16','50%'],['8','25%'],['4','?']], ans:'12,5%'},
+    q:'Hoeveel procent van de klas fietst? En hoeveel procent komt met de auto?',
+    sub:'Hier staan weer aantallen in het diagram.',
+    steps:[
+      'Het geheel = 32 kinderen = 100%.',
+      'Fiets: 16 kinderen. Auto: 4 kinderen.',
+      '16 is de helft → 50%. Halveren: 8 → 25%, 4 → 12,5%.',
+      'Fiets: 50%. Auto: 12,5%.'
+    ],
+    answer:'Fiets: 50% · auto: 12,5%' }
+];
+
+
+const SCREENS = [{kind:'intro',phase:'start'},{kind:'plan',phase:'start'}]
+  .concat(ITEMS.map((it,i)=>({kind:'task',phase:it.phase,idx:i})))
+  .concat([{kind:'end',phase:'nabespreken'}]);
+
+const PHASES = [
+  {key:'start',label:'Start'},{key:'voordoen',label:'Voordoen 1–3'},{key:'samen',label:'Samen 4–6'},
+  {key:'zelf',label:'Zelf 7–10'},{key:'nabespreken',label:'Nabespreken'}];
+const PHASE_NAME = {voordoen:'Ik doe het voor',samen:'We doen het samen',zelf:'Zelf maken'};
+
+let cur = 0, stage = 0, zoom = false;
+
+function fmt(v){ return v.toLocaleString('nl-NL'); }
+
+const COLORS = ['#2F6BD8','#1F8A5B','#D9A13B','#7B5CC4'];
+const TEXTC  = ['#FFFFFF','#FFFFFF','#1C2A44','#FFFFFF'];
+
+function chartSVG(it, st){
+  const W=900, H=470, cx=215, cy=240, r=190;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Cirkeldiagram: ${it.title}">`;
+  s+=`<rect x="0" y="0" width="${W}" height="${H}" fill="#FFFFFF"/>`;
+  const P=(a,rr)=>[cx+rr*Math.cos(a), cy+rr*Math.sin(a)];
+  let a=-Math.PI/2;
+  const lab=[];
+  // whole-circle ring when "het geheel" is the step
+  if(st===1) s+=`<circle cx="${cx}" cy="${cy}" r="${r+9}" fill="none" stroke="#E04E2A" stroke-width="6"/>`;
+  it.slices.forEach((sl,i)=>{
+    const [name,v,txt]=sl, a1=a+v/100*2*Math.PI, big=(a1-a)>Math.PI?1:0;
+    const [x0,y0]=P(a,r), [x1,y1]=P(a1,r);
+    const hot=it.hi.includes(i), dim=st>=2&&!hot;
+    s+=`<path d="M${cx},${cy} L${x0},${y0} A${r},${r} 0 ${big} 1 ${x1},${y1} Z" fill="${COLORS[i%4]}" opacity="${dim?.22:1}" stroke="#FFFFFF" stroke-width="3"/>`;
+    const mid=(a+a1)/2, rr = v<10?r*0.74:r*0.62;
+    let t = txt;
+    if(it.unknown===i && st>=2) t = it.reveal;
+    lab.push([mid,rr,t,i,dim,a,a1]);
+    a=a1;
+  });
+  // outline of highlighted slices on top
+  if(st>=2){
+    lab.forEach(([mid,rr,t,i,dim,a0,a1])=>{
+      if(!it.hi.includes(i)) return;
+      const [x0,y0]=P(a0,r), [x1,y1]=P(a1,r), big=(a1-a0)>Math.PI?1:0;
+      s+=`<path d="M${cx},${cy} L${x0},${y0} A${r},${r} 0 ${big} 1 ${x1},${y1} Z" fill="none" stroke="#E04E2A" stroke-width="6" stroke-linejoin="round"/>`;
+    });
+  }
+  lab.forEach(([mid,rr,t,i,dim])=>{
+    const [x,y]=P(mid,rr), unk = t==='?';
+    s+=`<text x="${x}" y="${y+10}" text-anchor="middle" font-size="${unk?34:28}" font-weight="800" fill="${unk?'#E04E2A':TEXTC[i%4]}" opacity="${dim?.45:1}" font-family="Lexend"${unk?' stroke="#FFFFFF" stroke-width="5" paint-order="stroke"':''}>${t}</text>`;
+  });
+  // legenda
+  const lx=470;
+  s+=`<text x="${lx}" y="40" font-size="13" font-weight="700" fill="#56647C" font-family="Lexend" letter-spacing="1.5">LEGENDA</text>`;
+  it.slices.forEach((sl,i)=>{
+    const y=58+i*38, hot=st>=2&&it.hi.includes(i);
+    s+=`<rect x="${lx}" y="${y}" width="26" height="26" rx="5" fill="${COLORS[i%4]}"/>`;
+    s+=`<text x="${lx+38}" y="${y+20}" font-size="21" font-weight="${hot?800:500}" fill="${hot?'#E04E2A':'#1C2A44'}" font-family="Lexend">${sl[0]}</text>`;
+  });
+  // verhoudingstabel
+  if(st>=3){
+    const tb=it.table, cols=tb.r.length, cw=Math.min(110, (W-16-(lx+100))/cols), tx=lx, ty=76+it.slices.length*38, rh=46, hw=0;
+    s+=`<text x="${tx}" y="${ty}" font-size="13" font-weight="700" fill="#56647C" font-family="Lexend" letter-spacing="1.5">VERHOUDINGSTABEL</text>`;
+    const y0=ty+12, x0=tx+100;
+    // row headers
+    tb.h.forEach((h,ri)=>{
+      s+=`<rect x="${tx}" y="${y0+ri*rh}" width="100" height="${rh}" fill="#1C2A44"/>`;
+      s+=`<text x="${tx+50}" y="${y0+ri*rh+30}" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFFFF" font-family="Lexend">${h}</text>`;
+    });
+    tb.r.forEach((c,ci)=>{
+      [0,1].forEach(ri=>{
+        const x=x0+ci*cw, y=y0+ri*rh;
+        let v=c[ri], q=v==='?';
+        if(q && st>=4) v=tb.ans;
+        s+=`<rect x="${x}" y="${y}" width="${cw}" height="${rh}" fill="${q?'#FCE3DA':'#FFFFFF'}" stroke="#CFD7E2" stroke-width="2"/>`;
+        s+=`<text x="${x+cw/2}" y="${y+(q?33:30)}" text-anchor="middle" font-size="${q?26:18}" font-weight="700" fill="${q?'#E04E2A':'#1C2A44'}" font-family="${q?'Kalam':'Lexend'}">${v}</text>`;
+      });
+    });
+  }
+  return s+'</svg>';
+}
+
+function renderPhases(){
+  const ph = SCREENS[cur].phase;
+  document.getElementById('phases').innerHTML = PHASES.map(p=>
+    `<button type="button" class="chip ${p.key===ph?'on':''}" data-phase="${p.key}">${p.label}</button>`).join('');
+}
+
+function render(){
+  const sc=SCREENS[cur], m=document.getElementById('main');
+  if(sc.kind==='intro'){
+    m.innerHTML=`<section class="screen intro">
+      <div class="card" style="display:grid;gap:14px;align-content:start">
+        <span class="tag voordoen" style="justify-self:start">Lesdoel</span>
+        <h1>${INTRO.h1}</h1>
+        <p class="goal">${INTRO.goal}</p>
+        <div class="note"><b>Valkuil</b>${INTRO.valkuil}</div>
+      </div>
+      <div class="words">${INTRO.words.map(w=>`<div class="word ${w[2]}"><div class="w">${w[0]}</div><div class="m">${w[1]}</div></div>`).join('')}</div></section>`;
+  } else if(sc.kind==='plan'){
+    const P=PLAN;
+    m.innerHTML=`<section class="screen"><div style="display:grid;gap:6px"><span class="tag voordoen" style="justify-self:start">Stappenplan</span><h1>Zo pak je het aan</h1></div>
+      <div class="plan">${P.map((p,i)=>`<div class="card"><div class="big">${i+1}</div><h2>${p[0]}</h2><p>${p[1]}</p></div>`).join('')}</div></section>`;
+  } else if(sc.kind==='task'){
+    const it=ITEMS[sc.idx], n=sc.idx+1;
+    const stepNames=STEPNAMES;
+    m.innerHTML=`<section class="screen task">
+      <button type="button" class="card chartbox" id="zoomOpen" aria-label="Grafiek groot in beeld"><div class="ctitle"><span>${it.title}</span><span class="zoomhint">⤢ Klik om te vergroten</span></div>${chartSVG(it,stage)}</button>
+      <div class="side">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="tag ${it.phase}">${PHASE_NAME[it.phase]}</span><strong>Opdracht ${n}</strong></div>
+        <div class="q">${it.q}${it.sub?`<small>${it.sub}</small>`:''}</div>
+        <ol class="steps">${it.steps.map((t,i)=>{
+          const c = i<stage-1?'done':(i===stage-1?'cur':'hide');
+          return `<li class="${c}"><span class="n">${i+1}</span><span class="t"><b>${stepNames[i]}</b><span>${t}</span></span></li>`;}).join('')}</ol>
+        ${stage>=4?`<div class="answer">${it.answer}</div>`:''}
+        <div class="actions">
+          <button class="btn primary" id="stepBtn" type="button" ${stage>=4?'disabled':''}>${it.phase==='zelf'&&stage===0?'Nabespreken: stap 1':'Volgende stap'}</button>
+          <button class="btn" id="resetBtn" type="button" ${stage===0?'disabled':''}>Opnieuw</button>
+        </div>
+        ${it.note?`<div class="note"><b>${it.phase==='voordoen'?'Hardop denken (leerkracht)':'Tip voor het samen doen'}</b>${it.note}</div>`:''}
+      </div></section>`;
+    document.getElementById('stepBtn').onclick=()=>{ if(stage<4){stage++;render();} };
+    document.getElementById('resetBtn').onclick=()=>{ stage=0;render(); };
+    document.getElementById('zoomOpen').onclick=()=>{ zoom=true; render(); };
+    if(zoom){
+      const ov=document.createElement('div');
+      ov.className='zoom'; ov.setAttribute('role','dialog'); ov.setAttribute('aria-label','Grafiek groot');
+      ov.innerHTML=`<div class="zbar">
+          <div class="zq"><span class="tag ${it.phase}">Opdracht ${n}</span> ${it.q}</div>
+          <div class="actions">
+            <button class="btn primary" id="zStep" type="button" ${stage>=4?'disabled':''}>Volgende stap</button>
+            <button class="btn" id="zClose" type="button">✕ Sluiten</button>
+          </div></div>
+        <div class="zchart">${chartSVG(it,stage)}</div>
+        ${stage>=1?`<div class="zstep">${stage>=4?it.answer:it.steps[stage-1]}</div>`:''}`;
+      m.appendChild(ov);
+      document.getElementById('zStep').onclick=()=>{ if(stage<4){stage++;render();} };
+      document.getElementById('zClose').onclick=()=>{ zoom=false; render(); };
+      ov.querySelector('.zchart').onclick=()=>{ zoom=false; render(); };
+    }
+  } else {
+    const Z=ITEMS.slice(6);
+    m.innerHTML=`<section class="screen"><div style="display:grid;gap:6px"><span class="tag zelf" style="justify-self:start">Nabespreken</span><h1>Antwoorden 7 t/m 10</h1></div>
+      <div class="answers">${Z.map((it,i)=>`<div class="card"><strong>Opdracht ${i+7} · ${it.title}</strong><div class="hand">${it.answer}</div></div>`).join('')}</div>
+      <h2>${DENK.h2}</h2>
+      <p>${DENK.p}</p></div></section>`;
+  }
+  document.getElementById('count').textContent=`${cur+1} / ${SCREENS.length}`;
+  document.getElementById('prev').disabled = cur===0;
+  document.getElementById('next').disabled = cur===SCREENS.length-1;
+  renderPhases();
+  document.body.classList.toggle("eerste-dia",cur===0);
+}
+
+function go(i){ if(i<0||i>=SCREENS.length) return; cur=i; stage=0; if(SCREENS[i].kind!=='task') zoom=false; render(); window.scrollTo(0,0); }
+document.getElementById('prev').onclick=()=>go(cur-1);
+document.getElementById('next').onclick=()=>go(cur+1);
+document.getElementById('phases').addEventListener('click',e=>{
+  const b=e.target.closest('[data-phase]'); if(!b) return;
+  go(SCREENS.findIndex(s=>s.phase===b.dataset.phase));
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && zoom){ zoom=false; render(); }
+  else if((e.key==='z'||e.key==='Z') && SCREENS[cur].kind==='task'){ zoom=!zoom; render(); }
+  else if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); go(cur+1); }
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(cur-1); }
+  else if((e.key===' '||e.key==='Enter') && SCREENS[cur].kind==='task' && !(e.target.closest&&e.target.closest('button'))){
+    e.preventDefault(); if(stage<4){stage++;render();}
+  }
+});
+render();
+</script>
+</body></html>
