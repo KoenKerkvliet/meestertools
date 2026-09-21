@@ -11,6 +11,7 @@ lesmap om naar de site, zodat elke les op dezelfde manier binnenkomt:
       venster en loopt de rechterkolom over de knoppenbalk)
     - Meestertools-logo i.p.v. het schoollogo, terug-knop in de kop
     - timer links naast "Laat zien"
+    - doeldia: concept- en vaardigheidsvak verschijnen pas met Volgende
     - namen uit de actieve klas (js/tien-minuten-les.js) i.p.v. namen.js
 
   werkblad-pdf:
@@ -45,6 +46,18 @@ def vervang(s, oud, nieuw, regex=False):
     return re.sub(oud, lambda m: nieuw, s) if regex else s.replace(oud, nieuw)
 
 
+def doel_stapsgewijs(s):
+    """Op de doeldia eerst alleen de doelzin; concept en vaardigheid
+    (de twee kaarten in .twee) komen één voor één met Volgende."""
+    blok = re.search(r'<div class="twee">.*?\n  </div>\n', s, re.S)
+    if not blok:
+        raise SystemExit('Geen <div class="twee"> (doeldia) gevonden in de les')
+    nieuw = blok.group(0).replace('<div class="kaart" ', '<div class="kaart step" ')
+    if nieuw.count('kaart step') != 2:
+        raise SystemExit('Doeldia heeft niet precies twee uitlegvakken, even nakijken')
+    return s.replace(blok.group(0), nieuw)
+
+
 def les(src, slug):
     s = Path(src).read_text(encoding='utf-8')
     s = vervang(s, '<meta name="viewport" content="width=device-width, initial-scale=1">',
@@ -58,6 +71,7 @@ def les(src, slug):
                 '  header .terug:hover{color:var(--inkt)}')
     s = vervang(s, '<header>\n  <img',
                 '<header>\n  <a class="terug" href="../10-minuten-didactiek" title="Terug naar de lessen">&larr; Lessen</a>\n  <img')
+    s = doel_stapsgewijs(s)
     s = vervang(s, 'alt="Logo de Schatgraver"', 'alt="Meestertools"')
     s = vervang(s, '../logo-schatgraver.png', '/assets/logo-meestertools.png')
 
