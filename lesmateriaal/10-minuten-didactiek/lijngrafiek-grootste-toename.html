@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>10 minuten rekenen – Lijngrafieken: de grootste toename</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --groen:#96BC0D; --oranje:#EB6B0A; --roze:#C41A81; --blauw:#1F7BC1; --paars:#6A4FB3;
+    --inkt:#26263A; --zacht:#6B6B80; --papier:#FFF9EF; --kaart:#FFFFFF; --lijn:#E9E1D2;
+    --lijngrafiek:#1F5FA8;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#2d2a3e;font-family:Nunito,"Segoe UI",Arial,sans-serif;color:var(--inkt);overflow:hidden}
+  #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  #stage{width:1600px;height:900px;background:var(--papier);position:relative;transform-origin:center center;border-radius:18px;overflow:hidden;
+    background-image:radial-gradient(circle at 95% 8%, #fde6cf 0 120px, transparent 121px),radial-gradient(circle at 3% 96%, #e6f1c4 0 150px, transparent 151px)}
+
+  /* ---------- kop ---------- */
+  header{position:absolute;top:0;left:0;right:0;height:96px;display:flex;align-items:center;gap:24px;padding:0 40px;z-index:5}
+  header img{height:58px}
+  header .terug{font-weight:900;font-size:20px;color:var(--zacht);text-decoration:none;background:#fff;border-radius:14px;padding:8px 16px;box-shadow:0 4px 0 var(--lijn)}
+  header .terug:hover{color:var(--inkt)}
+  header .titel{font-weight:800;font-size:22px;color:var(--zacht);flex:1}
+  .fase{font-weight:900;font-size:26px;letter-spacing:1px;padding:10px 26px;border-radius:999px;color:#fff;text-transform:uppercase;box-shadow:0 4px 0 rgba(0,0,0,.15)}
+  .fase.hidden{visibility:hidden}
+
+  /* ---------- dia's ---------- */
+  .slide{position:absolute;top:96px;left:0;right:0;bottom:96px;padding:10px 60px 0;display:none}
+  .slide.actief{display:block;animation:in .35s ease}
+  @keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  h1{font-size:66px;font-weight:900;margin:0 0 10px;line-height:1.1}
+  h2{font-size:46px;font-weight:900;margin:0 0 22px;line-height:1.15}
+  p,li{font-size:30px;line-height:1.4}
+  .klein{font-size:24px;color:var(--zacht)}
+
+  /* titel */
+  .titeldia{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%}
+  .titeldia img{height:150px;margin-bottom:30px}
+  .titeldia .sub{font-size:34px;color:var(--zacht);font-weight:800}
+  .badge-rij{display:flex;gap:16px;margin-top:34px}
+  .badge-rij span{font-weight:900;color:#fff;padding:10px 24px;border-radius:999px;font-size:24px}
+
+  /* doel */
+  .doelzin{background:var(--kaart);border:5px solid var(--paars);border-radius:26px;padding:26px 36px;font-size:40px;font-weight:900;margin-bottom:30px;display:flex;gap:22px;align-items:center}
+  .doelzin .icoon{flex:none;width:74px;height:74px;border-radius:50%;background:var(--paars);display:grid;place-items:center}
+  .twee{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+  .kaart{background:var(--kaart);border-radius:26px;padding:26px 32px;box-shadow:0 6px 0 var(--lijn)}
+  .kaart h3{margin:0 0 10px;font-size:30px;font-weight:900;display:flex;align-items:center;gap:12px}
+  .kaart h3 .label{font-size:20px;color:#fff;padding:4px 14px;border-radius:999px}
+  .kaart p{margin:0;font-size:28px}
+
+  /* woorden */
+  .woorden{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .woord{background:var(--kaart);border-radius:24px;padding:22px 28px;border-left:14px solid var(--groen);box-shadow:0 6px 0 var(--lijn)}
+  .woord b{font-size:34px;font-weight:900;display:block}
+  .woord span{font-size:26px;color:var(--zacht)}
+  .woord.af{border-color:var(--roze)} .woord.meest{border-color:var(--oranje)} .woord.kw{border-color:var(--blauw)}
+
+  /* stappenplan */
+  .stappen{list-style:none;padding:0;margin:0;display:grid;gap:18px}
+  .stappen li{background:var(--kaart);border-radius:22px;padding:18px 26px;display:flex;align-items:center;gap:24px;box-shadow:0 6px 0 var(--lijn);font-size:32px}
+  .stappen .nr{flex:none;width:62px;height:62px;border-radius:50%;background:var(--oranje);color:#fff;font-weight:900;font-size:34px;display:grid;place-items:center}
+
+  /* opdrachtdia's */
+  .opdracht{display:grid;grid-template-columns:900px 1fr;gap:34px;height:100%}
+  .grafiekkaart{background:var(--kaart);border-radius:26px;padding:16px 18px 8px;box-shadow:0 6px 0 var(--lijn);align-self:start}
+  .grafiekkaart .gtitel{font-weight:900;font-size:26px;text-align:center;margin:4px 0 0}
+  .grafiekkaart svg{width:100%;height:auto;display:block}
+  .rechts{display:flex;flex-direction:column;gap:14px;min-width:0}
+  .nummer{display:inline-block;font-weight:900;font-size:22px;color:#fff;border-radius:12px;padding:4px 14px;align-self:flex-start}
+  .vraag{font-size:32px;font-weight:900;line-height:1.3;margin:0}
+  .denk{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+  .denk li{font-size:25px;line-height:1.35;background:#fff;border-radius:18px;padding:12px 18px;border-left:8px solid var(--oranje)}
+  .denk li.valkuil{border-color:var(--roze);background:#fff0f8}
+  .denk li.antw{border-color:var(--groen);background:#f3f9e0;font-weight:900}
+  .denk .q{font-weight:800}
+  .denk .ans{color:#2f6d00;font-weight:900}
+  .step{visibility:hidden;opacity:0;transition:opacity .3s}
+  .step.shown{visibility:visible;opacity:1}
+  li.step{display:list-item}
+  .mini-plan{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-bottom:6px}
+  .mini-plan span{font-size:18px;font-weight:800;background:#fff;border:2px solid var(--lijn);border-radius:999px;padding:4px 12px;color:var(--zacht)}
+  .mini-plan span b{color:var(--oranje)}
+  .opdracht-hint{font-size:22px;color:var(--zacht);font-weight:800}
+
+  /* afsluiting */
+  .duimen{display:flex;gap:40px;justify-content:center;margin:26px 0}
+  .duim{background:#fff;border-radius:26px;padding:22px 30px;text-align:center;box-shadow:0 6px 0 var(--lijn);width:300px}
+  .duim svg{width:90px;height:90px}
+  .duim b{display:block;font-size:26px;margin-top:8px}
+
+  /* leerkrachtnotitie */
+  .notitie{position:absolute;right:60px;bottom:6px;max-width:720px;background:#fffbe0;border:3px dashed #d9c77b;border-radius:16px;padding:12px 18px;font-size:20px;line-height:1.4;display:none;z-index:4}
+  body.notities .notitie{display:block}
+  .notitie b{color:#8a6d00}
+
+  /* ---------- voet ---------- */
+  footer{position:absolute;left:0;right:0;bottom:0;height:96px;display:flex;align-items:center;gap:16px;padding:0 40px;z-index:5}
+  .knop{font-family:inherit;font-weight:900;font-size:24px;border:none;border-radius:18px;padding:14px 24px;cursor:pointer;background:#fff;color:var(--inkt);box-shadow:0 5px 0 var(--lijn);display:flex;align-items:center;gap:10px}
+  .knop:active{transform:translateY(3px);box-shadow:0 2px 0 var(--lijn)}
+  .knop.hoofd{background:var(--oranje);color:#fff;box-shadow:0 5px 0 #b44f00}
+  .knop.beurt{background:var(--roze);color:#fff;box-shadow:0 5px 0 #8c0f5b}
+  .knop svg{width:28px;height:28px}
+  .stippen{flex:1;display:flex;justify-content:center;gap:8px}
+  .stippen i{width:16px;height:16px;border-radius:50%;background:#ddd3c2;cursor:pointer}
+  .stippen i.nu{background:var(--oranje);transform:scale(1.3)}
+  #timer{min-width:130px;justify-content:center}
+  #timer.loopt{background:var(--blauw);color:#fff;box-shadow:0 5px 0 #125a8f}
+  #timer.klaar{background:var(--roze);color:#fff;animation:puls 0.8s infinite}
+  @keyframes puls{50%{transform:scale(1.08)}}
+
+  /* ---------- beurtenkiezer ---------- */
+  #beurtLaag{position:absolute;inset:0;background:rgba(38,38,58,.72);display:none;align-items:center;justify-content:center;z-index:20}
+  #beurtLaag.open{display:flex}
+  .beurtkaart{background:#fff;border-radius:36px;width:900px;padding:44px;text-align:center;box-shadow:0 14px 0 rgba(0,0,0,.2)}
+  .beurtkaart .kop{font-size:30px;font-weight:900;color:var(--zacht)}
+  #beurtNaam{font-size:130px;font-weight:900;color:var(--roze);margin:24px 0;min-height:170px;line-height:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #beurtNaam.rollen{color:#c9bfd6}
+  #beurtNaam.klaar{animation:pop .45s ease}
+  @keyframes pop{0%{transform:scale(.6)}70%{transform:scale(1.12)}100%{transform:scale(1)}}
+  .beurtknoppen{display:flex;gap:16px;justify-content:center}
+  #beurtInfo{font-size:22px;color:var(--zacht);margin-top:18px;font-weight:800}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage">
+
+<header>
+  <a class="terug" href="../10-minuten-didactiek" title="Terug naar de lessen">&larr; Lessen</a>
+  <img src="/assets/logo-schatgraver.png" alt="Logo de Schatgraver" onerror="this.style.display='none'">
+  <div class="titel">10 minuten rekenen · Lijngrafieken</div>
+  <div id="fase" class="fase hidden">Ik</div>
+</header>
+
+<!-- ============ 1. TITEL ============ -->
+<section class="slide" data-fase="">
+  <div class="titeldia">
+    <img src="/assets/logo-schatgraver.png" alt="" onerror="this.style.display='none'">
+    <h1>Lijngrafieken: wanneer groeit het het méést?</h1>
+    <div class="sub">10 minuten rekenen · groep 8</div>
+    <div class="badge-rij">
+      <span style="background:var(--oranje)">Ik</span>
+      <span style="background:var(--groen)">Wij</span>
+      <span style="background:var(--blauw)">Jullie</span>
+      <span style="background:var(--roze)">Jij</span>
+    </div>
+  </div>
+  <div class="notitie"><b>Leerkracht:</b> pijltje → of spatie = volgende stap, <b>B</b> = beurt, <b>T</b> = timer, <b>F</b> = volledig scherm, <b>N</b> = notities aan/uit.</div>
+</section>
+
+<!-- ============ 2. DOEL ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Ons doel van vandaag</h2>
+  <div class="doelzin">
+    <div class="icoon"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="#fff"/></svg></div>
+    Ik kan in een lijngrafiek aflezen wanneer iets het méést is toegenomen.
+  </div>
+  <div class="twee">
+    <div class="kaart" style="border-top:10px solid var(--paars)">
+      <h3><span class="label" style="background:var(--paars)">Concept</span> Wat is een toename?</h3>
+      <p>Een <b>toename</b> is hoeveel er <b>bij</b> is gekomen tussen twee momenten.<br>Het is het <b>verschil</b>, niet het hoogste punt!</p>
+    </div>
+    <div class="kaart" style="border-top:10px solid var(--oranje)">
+      <h3><span class="label" style="background:var(--oranje)">Vaardigheid</span> Wat ga ik doen?</h3>
+      <p>Ik zoek het <b>steilste stuk omhoog</b>, lees de twee punten af en reken uit:<br><b>later − eerder = toename</b></p>
+    </div>
+  </div>
+  <div class="notitie"><b>Tip:</b> laat een leerling het doel in eigen woorden herhalen (beurt met B). Vraag: "Is het hoogste punt altijd de grootste toename?"</div>
+</section>
+
+<!-- ============ 3. REKENTAAL ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Rekentaal: welke woorden zie je in de vraag?</h2>
+  <div class="woorden">
+    <div class="woord"><b>toegenomen · gestegen · gegroeid</b><span>er is iets bij gekomen, de lijn gaat omhoog ↗</span></div>
+    <div class="woord af"><b>afgenomen · gedaald · minder geworden</b><span>er is iets af gegaan, de lijn gaat omlaag ↘</span></div>
+    <div class="woord meest"><b>het méést toegenomen</b><span>de grootste stijging = het steilste stuk omhoog</span></div>
+    <div class="woord kw"><b>kwartaal</b><span>een periode van 3 maanden. Een jaar heeft 4 kwartalen.</span></div>
+  </div>
+  <div class="notitie"><b>Tip:</b> uit de overdracht: rekentaal is een valkuil voor deze groep. Laat kinderen bij elk woord met hun arm de richting van de lijn laten zien.</div>
+</section>
+
+<!-- ============ 4. STAPPENPLAN ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Zo pak ik het aan</h2>
+  <ol class="stappen">
+    <li><span class="nr">1</span><span><b>Lees de vraag.</b> Zoek het signaalwoord: toegenomen? afgenomen?</span></li>
+    <li><span class="nr">2</span><span><b>Kijk naar de assen.</b> Wat staat erop, en hoe groot is één hokje?</span></li>
+    <li><span class="nr">3</span><span><b>Zoek het steilste stuk</b> omhoog (of omlaag bij afgenomen).</span></li>
+    <li><span class="nr">4</span><span><b>Lees beide punten af</b> en reken: later − eerder. Past dit bij de vraag?</span></li>
+  </ol>
+</section>
+
+<!-- ============ 5. IK – opdracht 1 ============ -->
+<section class="slide" data-fase="ik">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Lengte van de zonnebloem</div><div class="chart" data-chart="zonnebloem"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--oranje)">Opdracht 1 · ik doe het voor</span>
+      <p class="vraag">In welke week is de zonnebloem het méést gegroeid?</p>
+      <ul class="denk">
+        <li class="step">"Signaalwoord: <b>het meest gegroeid</b>. Ik zoek dus de grootste toename."</li>
+        <li class="step valkuil" data-show="max">"Pas op! In week 6 is hij het hóógst, maar daar groeit hij bijna niet meer."</li>
+        <li class="step" data-show="1-2">"Waar is de lijn het steilst omhoog? Tussen week 2 en week 3."</li>
+        <li class="step">"Week 2: 35 cm. Week 3: 60 cm. 60 − 35 = <b>25 cm</b>."</li>
+        <li class="step antw">Tussen week 2 en week 3: 25 cm gegroeid.</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Hardop denken:</b> benoem expliciet de valkuil (hoogste punt ≠ grootste toename). Dat is dé fout uit de toetsanalyse van groep 7.</div>
+</section>
+
+<!-- ============ 6. IK – opdracht 2 ============ -->
+<section class="slide" data-fase="ik">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Bezoekers van het zwembad</div><div class="chart" data-chart="zwembad"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--oranje)">Opdracht 2 · ik doe het voor</span>
+      <p class="vraag">Tussen welke maanden kwamen er de meeste bezoekers bij? En wanneer is het aantal het meest <u>afgenomen</u>?</p>
+      <ul class="denk">
+        <li class="step">"Eerst de assen: één hokje is <b>500 bezoekers</b>."</li>
+        <li class="step" data-show="1-2">"Steilste stuk omhoog: juni → juli. 3200 − 1500 = <b>1700 bezoekers erbij</b>."</li>
+        <li class="step" data-show="3-4">"Afgenomen = omlaag. Steilste stuk omlaag: augustus → september. 3600 − 1200 = <b>2400 minder</b>."</li>
+        <li class="step antw">Meest toegenomen: juni → juli (+1700).<br>Meest afgenomen: aug → sept (−2400).</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. IK – opdracht 3 ============ -->
+<section class="slide" data-fase="ik">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Temperatuur op een zomerdag</div><div class="chart" data-chart="temp1"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--oranje)">Opdracht 3 · ik doe het voor</span>
+      <p class="vraag">Tussen welke twee tijdstippen is de temperatuur het méést gestegen?</p>
+      <ul class="denk">
+        <li class="step">"Assen: elk hokje is <b>2 graden</b>. Een punt tussen twee lijnen is dus een oneven getal."</li>
+        <li class="step" data-show="1-2">"Steilste stuk omhoog: 08:00 → 10:00."</li>
+        <li class="step">"08:00 is 11 °C, 10:00 is 17 °C. 17 − 11 = <b>6 graden</b>."</li>
+        <li class="step antw">Tussen 08:00 en 10:00: 6 graden gestegen.</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. WIJ – opdracht 4 ============ -->
+<section class="slide" data-fase="wij">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Spaargeld van Sem</div><div class="chart" data-chart="spaar"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--groen)">Opdracht 4 · samen</span>
+      <p class="vraag">In welke maand is het spaargeld van Sem het méést toegenomen?</p>
+      <ul class="denk">
+        <li><span class="q">Wat is het signaalwoord?</span> <span class="step ans">het meest toegenomen</span></li>
+        <li><span class="q">Hoe groot is één hokje?</span> <span class="step ans">€ 20</span></li>
+        <li><span class="q">Waar is de lijn het steilst?</span> <span class="step ans" data-show="2-3">maart → april</span></li>
+        <li><span class="q">Reken uit.</span> <span class="step ans">€ 90 − € 60 = € 30</span></li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Wij-fase:</b> stel elke vraag aan de hele groep, geef denktijd, kies dan een naam met <b>B</b>. Pas daarna het antwoord tonen (→).</div>
+</section>
+
+<!-- ============ 9. WIJ – opdracht 5 ============ -->
+<section class="slide" data-fase="wij">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Water in de regenton</div><div class="chart" data-chart="regenton"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--groen)">Opdracht 5 · samen</span>
+      <p class="vraag">Tussen welke dagen is het water het méést gestegen? Hoeveel cm?</p>
+      <ul class="denk">
+        <li><span class="q">Hoe groot is één hokje?</span> <span class="step ans">10 cm</span></li>
+        <li><span class="q">Waar is het steilste stuk omhoog?</span> <span class="step ans" data-show="2-3">woensdag → donderdag</span></li>
+        <li><span class="q">Reken uit.</span> <span class="step ans">58 − 40 = 18 cm</span></li>
+        <li><span class="q">Denkvraag: wanneer is het water gedaald? Hoe kan dat?</span> <span class="step ans" data-show="1-2">di → wo, 2 cm (zon, water gebruikt)</span></li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10. JULLIE – opdracht 6 ============ -->
+<section class="slide" data-fase="jullie">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Verkochte ijsjes per kwartaal</div><div class="chart" data-chart="ijs"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--blauw)">Opdracht 6 · met je schoudermaatje</span>
+      <p class="vraag">In welk kwartaal zijn de verkochte ijsjes het méést toegenomen, vergeleken met het kwartaal ervoor?</p>
+      <p class="opdracht-hint">Overleg samen, schrijf het antwoord op je wisbordje. Je hebt 2 minuten.</p>
+      <ul class="denk">
+        <li class="step valkuil" data-show="max">Kwartaal 3 heeft de meeste ijsjes, maar is dat ook de grootste toename?</li>
+        <li class="step" data-show="0-1">K1 → K2: 4500 − 1200 = <b>3300</b></li>
+        <li class="step" data-show="1-2">K2 → K3: 6800 − 4500 = <b>2300</b></li>
+        <li class="step antw">Kwartaal 2: daar kwamen er 3300 ijsjes bij.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notitie"><b>Jullie-fase:</b> start de timer met <b>T</b>. Borden omhoog → snel scannen. Vraag een duo met <b>B</b> om uit te leggen hoe ze het deden.</div>
+</section>
+
+<!-- ============ 11. JIJ – opdracht 7 ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Gewicht van puppy Bo</div><div class="chart" data-chart="puppy"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 7 · zelf</span>
+      <p class="vraag">In welke maand is Bo het méést zwaarder geworden? Hoeveel kg?</p>
+      <p class="opdracht-hint">Schrijf je antwoord in je uitrekenschrift.</p>
+      <ul class="denk">
+        <li class="step antw" data-show="2-3">Van maand 2 naar maand 3: 12 − 7 = 5 kg</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Jij-fase:</b> opdracht 7 t/m 10 zelf maken. Je kunt ze één voor één tonen of snel doorklikken en laten maken. Antwoord verschijnt pas bij →.</div>
+</section>
+
+<!-- ============ 12. JIJ – opdracht 8 ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Kinderen die op de fiets naar school komen</div><div class="chart" data-chart="fiets"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 8 · zelf</span>
+      <p class="vraag">Tussen welke maanden kwamen er de meeste fietsers bij?</p>
+      <p class="opdracht-hint">Extra: wanneer is het aantal het meest afgenomen?</p>
+      <ul class="denk">
+        <li class="step antw" data-show="5-6">Februari → maart: 170 − 120 = 50 fietsers erbij</li>
+        <li class="step antw" data-show="1-2">Extra: oktober → november: 40 minder</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13. JIJ – opdracht 9 ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Temperatuur op zaterdag</div><div class="chart" data-chart="temp2"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 9 · zelf</span>
+      <p class="vraag">Hoeveel graden is de temperatuur tussen 10:00 en 14:00 in totaal gestegen?</p>
+      <p class="opdracht-hint">Let op: nu gaat het over een langere tijd!</p>
+      <ul class="denk">
+        <li class="step antw" data-show="1-3">14:00 is 22 °C, 10:00 is 12 °C. 22 − 12 = 10 graden</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> vraag</span><span><b>2</b> assen</span><span><b>3</b> steilste stuk</span><span><b>4</b> later − eerder</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14. JIJ – opdracht 10 (denkvraag) ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="grafiekkaart"><div class="gtitel">Bezoekers van het museum per jaar</div><div class="chart" data-chart="museum"></div></div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 10 · denkvraag</span>
+      <p class="vraag">Sanne zegt: "In 2024 was de toename het grootst, want toen kwamen er de meeste bezoekers."</p>
+      <p class="vraag" style="font-size:28px">Wat is Sannes fout? Wat is het goede antwoord?</p>
+      <ul class="denk">
+        <li class="step valkuil" data-show="max">Sanne kijkt naar het hóógste punt, niet naar het verschil. In 2024 kwamen er maar 50 bij.</li>
+        <li class="step antw" data-show="0-1">Goed antwoord: 2020 → 2021, 900 − 400 = 500 bezoekers erbij.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 15. AFSLUITING ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Terug naar ons doel</h2>
+  <div class="doelzin" style="font-size:34px">
+    <div class="icoon"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="#fff"/></svg></div>
+    Ik kan in een lijngrafiek aflezen wanneer iets het méést is toegenomen.
+  </div>
+  <div class="duimen">
+    <div class="duim"><svg viewBox="0 0 24 24" fill="var(--groen)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Ik kan het!</b></div>
+    <div class="duim"><svg viewBox="0 0 24 24" fill="var(--oranje)" style="transform:rotate(-90deg)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Bijna</b></div>
+    <div class="duim"><svg viewBox="0 0 24 24" fill="var(--roze)" style="transform:rotate(180deg)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Nog lastig</b></div>
+  </div>
+  <p style="text-align:center;font-weight:800">Vertel je schoudermaatje: wat is het verschil tussen <b>het hoogste punt</b> en <b>de grootste toename</b>?</p>
+  <div class="notitie"><b>Na de les:</b> de kinderen met duim omlaag en de namen uit de week-4-planning kunnen morgen in het groeiblok nog een keer aanschuiven.</div>
+</section>
+
+<!-- ---------- voet ---------- -->
+<footer>
+  <button class="knop" id="vorige" title="Vorige (←)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <button class="knop hoofd" id="volgende" title="Volgende (→ of spatie)"><span id="volgendeTekst">Volgende</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+  <div class="stippen" id="stippen"></div>
+  <button class="knop" id="timer" title="Timer 2 minuten (T). Dubbelklik = opnieuw.">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg><span id="timerTekst">2:00</span></button>
+  <button class="knop beurt" id="beurtKnop" title="Kies een naam (B)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.4" fill="currentColor"/><circle cx="16" cy="8" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/><circle cx="8" cy="16" r="1.4" fill="currentColor"/><circle cx="16" cy="16" r="1.4" fill="currentColor"/></svg>Beurt</button>
+</footer>
+
+<!-- ---------- beurtenkiezer ---------- -->
+<div id="beurtLaag">
+  <div class="beurtkaart">
+    <div class="kop">Wie is er aan de beurt?</div>
+    <div id="beurtNaam">…</div>
+    <div class="beurtknoppen">
+      <button class="knop beurt" id="nogEen">Nog een naam</button>
+      <button class="knop" id="sluit">Sluiten</button>
+    </div>
+    <div id="beurtInfo"></div>
+  </div>
+</div>
+
+</div></div>
+
+<!-- MeesterTools: inlogcontrole + namen uit de actieve klas (js/tien-minuten-les.js). -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+<script src="/js/supabase-config.js?v=1.57.2"></script>
+<script src="/js/tien-minuten-les.js?v=1.57.2"></script>
+<script>
+/* ================= GRAFIEKGEGEVENS ================= */
+const GRAFIEKEN = {
+  zonnebloem:{labels:["week 1","week 2","week 3","week 4","week 5","week 6"],values:[20,35,60,70,75,78],yMax:90,yStep:10,eenheid:"cm",yTitel:"lengte (cm)"},
+  zwembad:{labels:["mei","juni","juli","aug","sept"],values:[800,1500,3200,3600,1200],yMax:4000,yStep:500,eenheid:"",yTitel:"aantal bezoekers"},
+  temp1:{labels:["06:00","08:00","10:00","12:00","14:00","16:00","18:00"],values:[8,11,17,20,21,18,14],yMax:24,yStep:2,eenheid:"°C",yTitel:"temperatuur (°C)"},
+  spaar:{labels:["jan","feb","mrt","apr","mei","jun"],values:[40,55,60,90,95,110],yMax:120,yStep:20,eenheid:"",prefix:"€ ",yTitel:"spaargeld (€)"},
+  regenton:{labels:["ma","di","wo","do","vr","za"],values:[30,42,40,58,60,61],yMax:70,yStep:10,eenheid:"cm",yTitel:"waterhoogte (cm)"},
+  ijs:{labels:["kwartaal 1","kwartaal 2","kwartaal 3","kwartaal 4"],values:[1200,4500,6800,1900],yMax:8000,yStep:1000,eenheid:"",yTitel:"aantal ijsjes"},
+  puppy:{labels:["0","1","2","3","4","5"],values:[2,4,7,12,15,17],yMax:20,yStep:2,eenheid:"kg",yTitel:"gewicht (kg)",xTitel:"leeftijd in maanden"},
+  fiets:{labels:["sep","okt","nov","dec","jan","feb","mrt"],values:[180,150,110,90,85,120,170],yMax:200,yStep:20,eenheid:"",yTitel:"aantal fietsers"},
+  temp2:{labels:["08:00","10:00","12:00","14:00","16:00"],values:[9,12,18,22,20],yMax:24,yStep:2,eenheid:"°C",yTitel:"temperatuur (°C)"},
+  museum:{labels:["2020","2021","2022","2023","2024"],values:[400,900,1100,1250,1300],yMax:1400,yStep:200,eenheid:"",yTitel:"aantal bezoekers"}
+};
+
+/* ================= GRAFIEK TEKENEN ================= */
+const NS="http://www.w3.org/2000/svg";
+const W=900,H=540,M={l:100,r:40,t:50,b:70};
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+const fmt=v=>v.toLocaleString("nl-NL");
+function schaal(c){
+  const pw=W-M.l-M.r, ph=H-M.t-M.b, n=c.labels.length, pad=45;
+  return {x:i=>M.l+pad+i*(pw-2*pad)/(n-1), y:v=>M.t+ph-v/c.yMax*ph, ph, pw};
+}
+function tekenGrafiek(div){
+  const c=GRAFIEKEN[div.dataset.chart]; const s=schaal(c);
+  const svg=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img"}); div.appendChild(svg); div._svg=svg; div._c=c;
+  // raster
+  for(let v=0;v<=c.yMax+1e-9;v+=c.yStep){
+    el("line",{x1:M.l,x2:W-M.r,y1:s.y(v),y2:s.y(v),stroke:v===0?"#26263A":"#E4DCCB","stroke-width":v===0?3:2},svg);
+    const t=el("text",{x:M.l-14,y:s.y(v)+8,"text-anchor":"end","font-size":22,"font-weight":800,fill:"#6B6B80"},svg); t.textContent=fmt(v);
+  }
+  el("line",{x1:M.l,x2:M.l,y1:M.t-10,y2:M.t+s.ph,stroke:"#26263A","stroke-width":3},svg);
+  const yt=el("text",{x:M.l-10,y:M.t-22,"text-anchor":"start","font-size":22,"font-weight":900,fill:"#26263A"},svg); yt.textContent=c.yTitel;
+  c.labels.forEach((lab,i)=>{
+    el("line",{x1:s.x(i),x2:s.x(i),y1:M.t+s.ph,y2:M.t+s.ph+10,stroke:"#26263A","stroke-width":3},svg);
+    const t=el("text",{x:s.x(i),y:M.t+s.ph+38,"text-anchor":"middle","font-size":22,"font-weight":800,fill:"#26263A"},svg); t.textContent=lab;
+  });
+  if(c.xTitel){const t=el("text",{x:(M.l+W-M.r)/2,y:H-4,"text-anchor":"middle","font-size":20,"font-weight":800,fill:"#6B6B80"},svg);t.textContent=c.xTitel;}
+  svg._laag=el("g",{},svg); // markeringen onder de lijn
+  const pts=c.values.map((v,i)=>`${s.x(i)},${s.y(v)}`).join(" ");
+  el("polyline",{points:pts,fill:"none",stroke:"var(--lijngrafiek)","stroke-width":6,"stroke-linejoin":"round","stroke-linecap":"round"},svg);
+  svg._boven=el("g",{},svg);
+  c.values.forEach((v,i)=>el("circle",{cx:s.x(i),cy:s.y(v),r:9,fill:"#fff",stroke:"var(--lijngrafiek)","stroke-width":5},svg));
+  svg._top=el("g",{},svg); // labels bovenop
+}
+function wisMarkering(div){const s=div._svg; if(!s)return; [s._laag,s._top].forEach(g=>{while(g.firstChild)g.removeChild(g.firstChild);});}
+function toonMarkering(div,wat){
+  const svg=div._svg,c=div._c,s=schaal(c);
+  if(wat==="max"){
+    const i=c.values.indexOf(Math.max(...c.values)), x=s.x(i), y=s.y(c.values[i]);
+    el("circle",{cx:x,cy:y,r:26,fill:"none",stroke:"var(--roze)","stroke-width":5,"stroke-dasharray":"8 6"},svg._top);
+    const lx=Math.min(Math.max(x,M.l+110),W-M.r-110), ly=Math.max(y-42,M.t+4);
+    bubbel(svg._top,lx,ly,"hoogste punt","#C41A81");
+    return;
+  }
+  const [a,b]=wat.split("-").map(Number);
+  const pts=[]; for(let i=a;i<=b;i++)pts.push(`${s.x(i)},${s.y(c.values[i])}`);
+  const stijgt=c.values[b]>=c.values[a], kleur=stijgt?"#EB6B0A":"#C41A81";
+  el("polyline",{points:pts.join(" "),fill:"none",stroke:kleur,"stroke-width":18,"stroke-linecap":"round","stroke-linejoin":"round",opacity:.55},svg._laag);
+  [a,b].forEach(i=>{
+    const x=s.x(i),y=s.y(c.values[i]);
+    el("line",{x1:M.l,x2:x,y1:y,y2:y,stroke:kleur,"stroke-width":3,"stroke-dasharray":"10 7"},svg._laag);
+    el("line",{x1:x,x2:x,y1:y,y2:M.t+s.ph,stroke:kleur,"stroke-width":3,"stroke-dasharray":"10 7"},svg._laag);
+    const t=el("text",{x:M.l+8,y:y-8,"font-size":22,"font-weight":900,fill:kleur},svg._top); t.textContent=(c.prefix||"")+fmt(c.values[i]);
+  });
+  const d=c.values[b]-c.values[a];
+  const tekst=(d>=0?"+ ":"− ")+(c.prefix||"")+fmt(Math.abs(d))+(c.eenheid?" "+c.eenheid:"");
+  const mx=(s.x(a)+s.x(b))/2, my=Math.min(s.y(c.values[a]),s.y(c.values[b]));
+  bubbel(svg._top,Math.min(Math.max(mx+40,M.l+90),W-M.r-90),Math.max(my-36,M.t+4),tekst,kleur);
+}
+function bubbel(g,x,y,tekst,kleur){
+  const t=el("text",{x:x,y:y+9,"text-anchor":"middle","font-size":28,"font-weight":900,fill:"#fff"},g); t.textContent=tekst;
+  const bb=t.getBBox(); const r=el("rect",{x:bb.x-14,y:bb.y-6,width:bb.width+28,height:bb.height+12,rx:14,fill:kleur});
+  g.insertBefore(r,t);
+}
+
+/* ================= NAVIGATIE ================= */
+const dias=[...document.querySelectorAll(".slide")];
+const FASEN={ik:["Ik","var(--oranje)"],wij:["Wij","var(--groen)"],jullie:["Jullie","var(--blauw)"],jij:["Jij","var(--roze)"],doel:["Doel","var(--paars)"]};
+let nu=0, onthuld=0;
+const stippen=document.getElementById("stippen");
+dias.forEach((d,i)=>{const s=document.createElement("i");s.onclick=()=>ga(i);stippen.appendChild(s);});
+document.querySelectorAll(".chart").forEach(tekenGrafiek);
+
+function stappen(){return [...dias[nu].querySelectorAll(".step")];}
+function ga(i){
+  if(i<0||i>=dias.length)return;
+  dias[nu].classList.remove("actief");
+  nu=i; onthuld=0;
+  const d=dias[nu]; d.classList.add("actief");
+  d.querySelectorAll(".step").forEach(s=>s.classList.remove("shown"));
+  d.querySelectorAll(".chart").forEach(wisMarkering);
+  const f=FASEN[d.dataset.fase], fb=document.getElementById("fase");
+  if(f){fb.textContent=f[0];fb.style.background=f[1];fb.classList.remove("hidden");}else fb.classList.add("hidden");
+  [...stippen.children].forEach((s,k)=>s.classList.toggle("nu",k===nu));
+  updKnop();
+}
+function volgende(){
+  const st=stappen();
+  if(onthuld<st.length){
+    const s=st[onthuld++]; s.classList.add("shown");
+    if(s.dataset.show){const ch=dias[nu].querySelector(".chart"); if(ch){wisMarkering(ch); s.dataset.show.split(" ").forEach(w=>toonMarkering(ch,w));}}
+    updKnop();
+  } else ga(nu+1);
+}
+function updKnop(){
+  const rest=stappen().length-onthuld;
+  document.getElementById("volgendeTekst").textContent = rest>0 ? "Laat zien" : (nu===dias.length-1?"Einde":"Volgende");
+}
+document.getElementById("volgende").onclick=volgende;
+document.getElementById("vorige").onclick=()=>ga(nu-1);
+
+/* ================= BEURTENKIEZER ================= */
+let NAMEN=[], KLAS=null;
+MTLes.namen.then(n=>{NAMEN=n;});
+MTLes.klas.then(k=>{KLAS=k;});
+let pot=[];
+const laag=document.getElementById("beurtLaag"), naamEl=document.getElementById("beurtNaam"), info=document.getElementById("beurtInfo");
+function schud(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+let rolt=false;
+function kiesNaam(){
+  laag.classList.add("open");
+  if(!NAMEN.length){naamEl.textContent="Geen namen";info.textContent=KLAS?`Er staan nog geen leerlingen in ${KLAS}.`:"Kies eerst een klas in MeesterTools.";return;}
+  if(rolt)return;
+  if(!pot.length)pot=schud([...NAMEN]);
+  const gekozen=pot.pop(); rolt=true; let k=0; const stappenRol=14;
+  naamEl.className="rollen";
+  (function rol(){
+    naamEl.textContent=NAMEN[Math.floor(Math.random()*NAMEN.length)];
+    if(++k<stappenRol){setTimeout(rol,40+k*9);}
+    else{naamEl.textContent=gekozen;naamEl.className="klaar";rolt=false;
+      info.textContent=(KLAS?KLAS+" · ":"")+(pot.length?`Nog ${pot.length} ${pot.length===1?"kind":"kinderen"} niet geweest`:"Iedereen is geweest. De volgende ronde begint opnieuw.");}
+  })();
+}
+document.getElementById("beurtKnop").onclick=kiesNaam;
+document.getElementById("nogEen").onclick=kiesNaam;
+document.getElementById("sluit").onclick=()=>laag.classList.remove("open");
+laag.addEventListener("click",e=>{if(e.target===laag)laag.classList.remove("open");});
+
+/* ================= TIMER ================= */
+const TIMER_SEC=120; let tijd=TIMER_SEC, tik=null;
+const tKnop=document.getElementById("timer"), tTekst=document.getElementById("timerTekst");
+function toonTijd(){tTekst.textContent=`${Math.floor(tijd/60)}:${String(tijd%60).padStart(2,"0")}`;}
+function timerStartStop(){
+  if(tijd<=0){timerReset();}
+  if(tik){clearInterval(tik);tik=null;tKnop.classList.remove("loopt");return;}
+  tKnop.classList.add("loopt");
+  tik=setInterval(()=>{tijd--;toonTijd();if(tijd<=0){clearInterval(tik);tik=null;tKnop.classList.remove("loopt");tKnop.classList.add("klaar");}},1000);
+}
+function timerReset(){clearInterval(tik);tik=null;tijd=TIMER_SEC;tKnop.classList.remove("loopt","klaar");toonTijd();}
+tKnop.onclick=timerStartStop; tKnop.ondblclick=timerReset;
+
+/* ================= TOETSEN & SCHALEN ================= */
+document.addEventListener("keydown",e=>{
+  const k=e.key;
+  if(laag.classList.contains("open")){
+    if(k==="Escape")laag.classList.remove("open");
+    else if(k==="b"||k==="B"||k===" "||k==="Enter"){e.preventDefault();kiesNaam();}
+    return;
+  }
+  if(["ArrowRight","PageDown"," ","Enter"].includes(k)){e.preventDefault();volgende();}
+  else if(["ArrowLeft","PageUp"].includes(k)){e.preventDefault();ga(nu-1);}
+  else if(k==="b"||k==="B")kiesNaam();
+  else if(k==="t"||k==="T")timerStartStop();
+  else if(k==="n"||k==="N")document.body.classList.toggle("notities");
+  else if(k==="f"||k==="F"){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+});
+function pasAan(){const s=Math.min(innerWidth/1600,innerHeight/900);document.getElementById("stage").style.transform=`scale(${s})`;}
+addEventListener("resize",pasAan); pasAan();
+ga(0);
+</script>
+</body>
+</html>

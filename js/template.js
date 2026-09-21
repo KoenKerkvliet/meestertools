@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.57.1';
+    const VERSION = 'v1.57.2';
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [
@@ -47,6 +47,7 @@
         { id: 'vraagvandedag', name: 'Vraag van de Dag', url: 'lesmateriaal/vraagvandedag', icon: '&#10067;' },
         { id: 'woordenflitsen', name: 'Woorden Flitsen', url: 'lesmateriaal/woordenflitsen', icon: '&#9889;' },
         { id: 'werkbladen', name: 'Werkbladen', url: 'lesmateriaal/werkbladen', icon: '&#128196;' },
+        { id: '10-minuten-didactiek', name: '10-minuten-didactiek', url: 'lesmateriaal/10-minuten-didactiek', icon: '&#9201;&#65039;', uc: true },
         // Ontspanning
         { id: 'naamkleurplaat', name: 'Naamkleurplaat', url: 'ontspanning/naamkleurplaat', icon: '&#127912;' },
         // Groepsvorming
