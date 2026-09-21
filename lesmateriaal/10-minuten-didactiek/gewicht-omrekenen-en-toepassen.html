@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>10 minuten rekenen – Gewicht omrekenen en toepassen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --groen:#96BC0D; --oranje:#EB6B0A; --roze:#C41A81; --blauw:#1F7BC1; --paars:#6A4FB3;
+    --inkt:#26263A; --zacht:#6B6B80; --papier:#FFF9EF; --kaart:#FFFFFF; --lijn:#E9E1D2;
+    --lijngrafiek:#1F5FA8;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#2d2a3e;font-family:Nunito,"Segoe UI",Arial,sans-serif;color:var(--inkt);overflow:hidden}
+  #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  #stage{flex:none;width:1600px;height:900px;background:var(--papier);position:relative;transform-origin:center center;border-radius:18px;overflow:hidden;
+    background-image:radial-gradient(circle at 95% 8%, #fde6cf 0 120px, transparent 121px),radial-gradient(circle at 3% 96%, #e6f1c4 0 150px, transparent 151px)}
+
+  /* ---------- kop ---------- */
+  header{position:absolute;top:0;left:0;right:0;height:96px;display:flex;align-items:center;gap:24px;padding:0 40px;z-index:5}
+  header img{height:58px}
+  header .terug{font-weight:900;font-size:20px;color:var(--zacht);text-decoration:none;background:#fff;border-radius:14px;padding:8px 16px;box-shadow:0 4px 0 var(--lijn)}
+  header .terug:hover{color:var(--inkt)}
+  header .titel{font-weight:800;font-size:22px;color:var(--zacht);flex:1}
+  .fase{font-weight:900;font-size:26px;letter-spacing:1px;padding:10px 26px;border-radius:999px;color:#fff;text-transform:uppercase;box-shadow:0 4px 0 rgba(0,0,0,.15)}
+  .fase.hidden{visibility:hidden}
+
+  /* ---------- dia's ---------- */
+  .slide{position:absolute;top:96px;left:0;right:0;bottom:96px;padding:10px 60px 0;display:none}
+  .slide.actief{display:block;animation:in .35s ease}
+  @keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  h1{font-size:66px;font-weight:900;margin:0 0 10px;line-height:1.1}
+  h2{font-size:46px;font-weight:900;margin:0 0 22px;line-height:1.15}
+  p,li{font-size:30px;line-height:1.4}
+  .klein{font-size:24px;color:var(--zacht)}
+
+  /* titel */
+  .titeldia{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%}
+  .titeldia img{height:150px;margin-bottom:30px}
+  .titeldia .sub{font-size:34px;color:var(--zacht);font-weight:800}
+  .badge-rij{display:flex;gap:16px;margin-top:34px}
+  .badge-rij span{font-weight:900;color:#fff;padding:10px 24px;border-radius:999px;font-size:24px}
+
+  /* doel */
+  .doelzin{background:var(--kaart);border:5px solid var(--paars);border-radius:26px;padding:26px 36px;font-size:40px;font-weight:900;margin-bottom:30px;display:flex;gap:22px;align-items:center}
+  .doelzin .icoon{flex:none;width:74px;height:74px;border-radius:50%;background:var(--paars);display:grid;place-items:center}
+  .twee{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+  .kaart{background:var(--kaart);border-radius:26px;padding:26px 32px;box-shadow:0 6px 0 var(--lijn)}
+  .kaart h3{margin:0 0 10px;font-size:30px;font-weight:900;display:flex;align-items:center;gap:12px}
+  .kaart h3 .label{font-size:20px;color:#fff;padding:4px 14px;border-radius:999px}
+  .kaart p{margin:0;font-size:28px}
+
+  /* woorden */
+  .woorden{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .woord{background:var(--kaart);border-radius:24px;padding:22px 28px;border-left:14px solid var(--groen);box-shadow:0 6px 0 var(--lijn)}
+  .woord b{font-size:34px;font-weight:900;display:block}
+  .woord span{font-size:26px;color:var(--zacht)}
+  .woord.af{border-color:var(--roze)} .woord.meest{border-color:var(--oranje)} .woord.kw{border-color:var(--blauw)}
+
+  /* stappenplan */
+  .stappen{list-style:none;padding:0;margin:0;display:grid;gap:18px}
+  .stappen li{background:var(--kaart);border-radius:22px;padding:18px 26px;display:flex;align-items:center;gap:24px;box-shadow:0 6px 0 var(--lijn);font-size:32px}
+  .stappen .nr{flex:none;width:62px;height:62px;border-radius:50%;background:var(--oranje);color:#fff;font-weight:900;font-size:34px;display:grid;place-items:center}
+
+  /* opdrachtdia's */
+  .opdracht{display:grid;grid-template-columns:900px 1fr;gap:34px;height:100%}
+  .grafiekkaart{background:var(--kaart);border-radius:26px;padding:16px 18px 8px;box-shadow:0 6px 0 var(--lijn);align-self:start}
+  .grafiekkaart .gtitel{font-weight:900;font-size:26px;text-align:center;margin:4px 0 0}
+  .grafiekkaart svg{width:100%;height:auto;display:block}
+  .rechts{display:flex;flex-direction:column;gap:14px;min-width:0}
+  .nummer{display:inline-block;font-weight:900;font-size:22px;color:#fff;border-radius:12px;padding:4px 14px;align-self:flex-start}
+  .vraag{font-size:32px;font-weight:900;line-height:1.3;margin:0}
+  .denk{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+  .denk li{font-size:25px;line-height:1.35;background:#fff;border-radius:18px;padding:12px 18px;border-left:8px solid var(--oranje)}
+  .denk li.valkuil{border-color:var(--roze);background:#fff0f8}
+  .denk li.antw{border-color:var(--groen);background:#f3f9e0;font-weight:900}
+  .denk .q{font-weight:800}
+  .denk .ans{color:#2f6d00;font-weight:900}
+  .step{visibility:hidden;opacity:0;transition:opacity .3s}
+  .step.shown{visibility:visible;opacity:1}
+  li.step{display:list-item}
+  .mini-plan{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-bottom:6px}
+  .mini-plan span{font-size:18px;font-weight:800;background:#fff;border:2px solid var(--lijn);border-radius:999px;padding:4px 12px;color:var(--zacht)}
+  .mini-plan span b{color:var(--oranje)}
+  .opdracht-hint{font-size:22px;color:var(--zacht);font-weight:800}
+
+  /* afsluiting */
+  .duimen{display:flex;gap:40px;justify-content:center;margin:26px 0}
+  .duim{background:#fff;border-radius:26px;padding:22px 30px;text-align:center;box-shadow:0 6px 0 var(--lijn);width:300px}
+  .duim svg{width:90px;height:90px}
+  .duim b{display:block;font-size:26px;margin-top:8px}
+
+  /* leerkrachtnotitie */
+  .notitie{position:absolute;right:60px;bottom:6px;max-width:720px;background:#fffbe0;border:3px dashed #d9c77b;border-radius:16px;padding:12px 18px;font-size:20px;line-height:1.4;display:none;z-index:4}
+  body.notities .notitie{display:block}
+  .notitie b{color:#8a6d00}
+
+  /* ---------- voet ---------- */
+  footer{position:absolute;left:0;right:0;bottom:0;height:96px;display:flex;align-items:center;gap:16px;padding:0 40px;z-index:5}
+  .knop{font-family:inherit;font-weight:900;font-size:24px;border:none;border-radius:18px;padding:14px 24px;cursor:pointer;background:#fff;color:var(--inkt);box-shadow:0 5px 0 var(--lijn);display:flex;align-items:center;gap:10px}
+  .knop:active{transform:translateY(3px);box-shadow:0 2px 0 var(--lijn)}
+  .knop.hoofd{background:var(--oranje);color:#fff;box-shadow:0 5px 0 #b44f00}
+  .knop.beurt{background:var(--roze);color:#fff;box-shadow:0 5px 0 #8c0f5b}
+  .knop svg{width:28px;height:28px}
+  .stippen{flex:1;display:flex;justify-content:center;gap:8px}
+  .stippen i{width:16px;height:16px;border-radius:50%;background:#ddd3c2;cursor:pointer}
+  .stippen i.nu{background:var(--oranje);transform:scale(1.3)}
+  #timer{min-width:130px;justify-content:center}
+  #timer.loopt{background:var(--blauw);color:#fff;box-shadow:0 5px 0 #125a8f}
+  #timer.klaar{background:var(--roze);color:#fff;animation:puls 0.8s infinite}
+  @keyframes puls{50%{transform:scale(1.08)}}
+
+  /* ---------- beurtenkiezer ---------- */
+  #beurtLaag{position:absolute;inset:0;background:rgba(38,38,58,.72);display:none;align-items:center;justify-content:center;z-index:20}
+  #beurtLaag.open{display:flex}
+  .beurtkaart{background:#fff;border-radius:36px;width:900px;padding:44px;text-align:center;box-shadow:0 14px 0 rgba(0,0,0,.2)}
+  .beurtkaart .kop{font-size:30px;font-weight:900;color:var(--zacht)}
+  #beurtNaam{font-size:130px;font-weight:900;color:var(--roze);margin:24px 0;min-height:170px;line-height:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #beurtNaam.rollen{color:#c9bfd6}
+  #beurtNaam.klaar{animation:pop .45s ease}
+  @keyframes pop{0%{transform:scale(.6)}70%{transform:scale(1.12)}100%{transform:scale(1)}}
+  .beurtknoppen{display:flex;gap:16px;justify-content:center}
+  #beurtInfo{font-size:22px;color:var(--zacht);margin-top:18px;font-weight:800}
+
+  /* ---------- extra voor deze les ---------- */
+  .opdracht{grid-template-columns:800px 1fr}
+  .visueel{background:var(--kaart);border-radius:26px;padding:20px 26px;box-shadow:0 6px 0 var(--lijn);align-self:start;display:flex;flex-direction:column;gap:14px}
+  .visueel .vtitel{font-weight:900;font-size:22px;color:var(--zacht);text-transform:uppercase;letter-spacing:1px}
+  /* maten-trap */
+  .trap{position:relative;width:740px;height:356px;margin:0 auto}
+  .pijlen{position:absolute;left:0;top:0;overflow:visible;pointer-events:none;z-index:2}
+  .pijl{opacity:0;animation:fadein .35s ease forwards}
+  @keyframes fadein{to{opacity:1}}
+  .sprong{translate:-50% -50%;z-index:3;opacity:0;animation:popin .35s ease forwards !important}
+  .totaal{opacity:0;animation:popin .35s ease forwards !important}
+  @keyframes popin{0%{opacity:0;transform:scale(.6)}70%{opacity:1;transform:scale(1.1)}100%{opacity:1;transform:scale(1)}}
+  .trap.klein{transform:scale(.82);transform-origin:top left;height:292px;margin:0}
+  .trede{position:absolute;width:98px;border-radius:14px 14px 4px 4px;background:#F6F2EA;border:4px solid #CFC6B6;display:flex;justify-content:center;padding-top:8px;font-size:30px;font-weight:900;color:#8a8398;transition:background .3s,color .3s,border-color .3s}
+  .trede.hoofd{background:#fff;border-color:var(--paars);color:var(--inkt)}
+  .trede.pad{background:var(--oranje);border-color:#b44f00;color:#fff}
+  .trede.pad.op{background:var(--blauw);border-color:#125a8f}
+  .trede.start{background:var(--paars);border-color:#4a3590;color:#fff}
+  .sprong{position:absolute;background:#fff3e6;color:var(--oranje);font-weight:900;font-size:21px;border-radius:999px;padding:2px 10px;border:3px solid var(--oranje);white-space:nowrap;animation:pop .4s ease}
+  .sprong.op{color:var(--blauw);border-color:var(--blauw);background:#e8f3fb}
+  .totaal{position:absolute;right:0;top:0;background:var(--oranje);color:#fff;font-weight:900;font-size:28px;border-radius:18px;padding:8px 18px;animation:pop .4s ease}
+  .totaal.op{background:var(--blauw)}
+  .tontag{position:absolute;left:0;top:-4px;font-size:20px;font-weight:900;color:var(--roze);background:#fff0f8;border:3px dashed var(--roze);border-radius:12px;padding:2px 10px}
+  .trap .tontag{display:none}
+  .trap.metton .tontag{display:block}
+  .trap.metton .trede{margin-top:34px}
+  .trap.metton{height:390px}
+  .trap.metton.klein{height:320px}
+  /* rekenstrook */
+  .reken{display:flex;flex-direction:column;gap:8px}
+  .reken div{font-size:30px;font-weight:900;background:#F2EEFB;border-radius:14px;padding:8px 18px}
+  .reken div.eind{background:#f3f9e0;color:#2f6d00}
+  /* feiten */
+  .feiten{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .feit{background:#fff;border-radius:24px;padding:24px 14px;text-align:center;box-shadow:0 6px 0 var(--lijn)}
+  .feit .ico{height:110px;display:grid;place-items:center}
+  .feit b{display:block;font-size:40px;font-weight:900;color:var(--oranje)}
+  .feit span{font-size:24px;font-weight:800;display:block;line-height:1.3}
+  .valkuilbalk{background:#fff0f8;border:4px dashed var(--roze);border-radius:24px;padding:18px 30px;font-size:30px;font-weight:900;text-align:center;margin-top:24px}
+  .trapdia{display:grid;grid-template-columns:780px 1fr;gap:40px;align-items:start}
+  .regels{display:flex;flex-direction:column;gap:18px}
+  .regel{background:#fff;border-radius:22px;padding:18px 24px;box-shadow:0 6px 0 var(--lijn);font-size:28px;font-weight:800;line-height:1.35}
+  .regel b{font-size:32px}
+  @keyframes pop{0%{transform:scale(.6)}70%{transform:scale(1.1)}100%{transform:scale(1)}}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage">
+
+<header>
+  <a class="terug" href="../10-minuten-didactiek" title="Terug naar de lessen">&larr; Lessen</a>
+  <img src="/assets/logo-meestertools.png" alt="Meestertools" onerror="this.style.display='none'">
+  <div class="titel">10 minuten rekenen · Gewicht</div>
+  <div id="fase" class="fase hidden">Ik</div>
+</header>
+
+<!-- ============ 1. TITEL ============ -->
+<section class="slide" data-fase="">
+  <div class="titeldia">
+    <img src="/assets/logo-meestertools.png" alt="" onerror="this.style.display='none'">
+    <h1>Wat is zwaarder: 0,8 kg of 750 g?</h1>
+    <div class="sub">Gewicht omrekenen en toepassen · 10 minuten rekenen · groep 8</div>
+    <div class="badge-rij">
+      <span style="background:var(--oranje)">Ik</span>
+      <span style="background:var(--groen)">Wij</span>
+      <span style="background:var(--blauw)">Jullie</span>
+      <span style="background:var(--roze)">Jij</span>
+    </div>
+  </div>
+  <div class="notitie"><b>Leerkracht:</b> pijltje → of spatie = volgende stap, <b>B</b> = beurt, <b>T</b> = timer, <b>F</b> = volledig scherm, <b>N</b> = notities aan/uit.<br>Start met de vraag op deze dia op de wisbordjes. Wie "750 g" kiest omdat 750 groter is dan 0,8, vergelijkt verschillende maten.</div>
+</section>
+
+<!-- ============ 2. DOEL ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Ons doel van vandaag</h2>
+  <div class="doelzin">
+    <div class="icoon"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="#fff"/></svg></div>
+    Ik kan gewichten omrekenen met de maten-trap en ermee rekenen in een verhaalsom.
+  </div>
+  <div class="twee">
+    <div class="kaart" style="border-top:10px solid var(--paars)">
+      <h3><span class="label" style="background:var(--paars)">Concept</span> Wat moet ik snappen?</h3>
+      <p>Elke trede van de maten-trap is <b>10 keer</b> zo klein.<br>En: je kunt alleen rekenen met <b>dezelfde maat</b>. Grammen en kilo's tel je niet zomaar op!</p>
+    </div>
+    <div class="kaart" style="border-top:10px solid var(--oranje)">
+      <h3><span class="label" style="background:var(--oranje)">Vaardigheid</span> Wat ga ik doen?</h3>
+      <p>Ik maak eerst <b>alles dezelfde maat</b> met de trap:<br>omlaag = <b>× 10</b> per trede, omhoog = <b>: 10</b> per trede.<br>Daarna reken ik de som uit.</p>
+    </div>
+  </div>
+  <div class="notitie"><b>Uit de overdracht:</b> gewicht zit net onder de norm. Vooral het <b>toepassen</b> in een verhaalsom gaat mis, minder het kale omrekenen.</div>
+</section>
+
+<!-- ============ 3. DE MATEN-TRAP ============ -->
+<section class="slide" data-fase="doel">
+  <h2>De maten-trap voor gewicht</h2>
+  <div class="trapdia">
+    <div class="visueel"><div class="trap metton" data-sprong="kg-g"></div></div>
+    <div class="regels">
+      <div class="regel">Trap <b>omlaag</b> ↘<br>de maat wordt kleiner, het getal groter: <b style="color:var(--oranje)">× 10</b> per trede</div>
+      <div class="regel">Trap <b>omhoog</b> ↗<br>de maat wordt groter, het getal kleiner: <b style="color:var(--blauw)">: 10</b> per trede</div>
+      <div class="regel step" data-show="sprong">kg → g = 3 treden omlaag<br>= × 10 × 10 × 10 = <b style="color:var(--oranje)">× 1000</b></div>
+      <div class="regel">Boven de trap: <b style="color:var(--roze)">1 ton = 1000 kg</b></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Tip:</b> de paarse treden (kg, g, mg) kom je het meest tegen. Laat de klas de trap in koor opzeggen: "kilo, hecto, deka, gram, deci, centi, milli".</div>
+</section>
+
+<!-- ============ 4. REKENTAAL + HANDIG OM TE WETEN ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Handig om te weten</h2>
+  <div class="feiten">
+    <div class="feit"><div class="ico"><svg width="70" height="70" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2" fill="#26263A"/></svg></div><b>1 mg</b><span>een zandkorrel</span></div>
+    <div class="feit"><div class="ico"><svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#26263A" stroke-width="1.6" stroke-linecap="round"><path d="M8 19V6a3 3 0 0 1 6 0v11a2 2 0 0 1-4 0V7"/><path d="M14 8v9a4 4 0 0 1-8 0"/></svg></div><b>1 g</b><span>een paperclip</span></div>
+    <div class="feit"><div class="ico"><svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#26263A" stroke-width="1.6" stroke-linejoin="round"><path d="M6 7h12l-1 14H7L6 7z"/><path d="M8 7l1-4h6l1 4"/><path d="M9 13h6"/></svg></div><b>1 kg</b><span>een pak suiker</span></div>
+    <div class="feit"><div class="ico"><svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#26263A" stroke-width="1.6" stroke-linejoin="round"><path d="M3 15v-3l2-4h9l3 4h3a1 1 0 0 1 1 1v2H3z"/><circle cx="7" cy="16" r="2" fill="#fff"/><circle cx="17" cy="16" r="2" fill="#fff"/></svg></div><b>1 ton</b><span>een kleine auto<br>= 1000 kg</span></div>
+  </div>
+  <div class="valkuilbalk">Rekentaal: <span style="color:var(--oranje)">bruto</span> = mét verpakking · <span style="color:var(--groen)">netto</span> = zónder verpakking · <span style="color:var(--blauw)">maximaal</span> = niet meer dan</div>
+</section>
+
+<!-- ============ 5. STAPPENPLAN ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Zo pak ik een verhaalsom aan</h2>
+  <ol class="stappen">
+    <li><span class="nr">1</span><span><b>Lees de vraag.</b> In welke maat moet het antwoord?</span></li>
+    <li><span class="nr">2</span><span><b>Maak alles dezelfde maat</b> met de maten-trap.</span></li>
+    <li><span class="nr">3</span><span><b>Reken de som uit.</b> Plus, min, keer of gedeeld?</span></li>
+    <li><span class="nr">4</span><span><b>Check:</b> kan dit? Denk aan het pak suiker of de auto.</span></li>
+  </ol>
+</section>
+
+<!-- ============ 6. IK 1 ============ -->
+<section class="slide" data-fase="ik">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Maten-trap</div>
+      <div class="trap" data-sprong="kg-g"></div>
+      <div class="reken">
+        <div class="step" data-volg="3">2,5 → 25 → 250 → 2500</div>
+      </div>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--oranje)">Opdracht 1 · ik doe het voor</span>
+      <p class="vraag">Een watermeloen weegt 2,5 kg. Hoeveel gram is dat?</p>
+      <ul class="denk">
+        <li class="step" data-volg="1">"Van kg naar g. Ik zoek ze op de trap."</li>
+        <li class="step" data-volg="2" data-show="sprong">"g staat 3 treden lager. Omlaag = × 10, drie keer. Dat is <b>× 1000</b>."</li>
+        <li class="step" data-volg="3">"2,5 × 1000: de komma schuift 3 plaatsen naar rechts."</li>
+        <li class="step" data-volg="4">"Check: een meloen is zwaarder dan 2 pakken suiker. 2500 g kan!"</li>
+        <li class="step antw" data-volg="5">2,5 kg = 2500 g</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Hardop denken:</b> tel de treden hardop met je vinger op het bord. Zo zien de kinderen waar "× 1000" vandaan komt.</div>
+</section>
+
+<!-- ============ 7. IK 2 ============ -->
+<section class="slide" data-fase="ik">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Maten-trap</div>
+      <div class="trap" data-sprong="kg-g"></div>
+      <div class="reken">
+        <div class="step" data-volg="3">1,2 kg = 1200 g</div>
+        <div class="step" data-volg="4">1200 g + 350 g = 1550 g</div>
+        <div class="step eind" data-volg="5">1550 g = 1,55 kg</div>
+      </div>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--oranje)">Opdracht 2 · ik doe het voor</span>
+      <p class="vraag">Sem koopt 1,2 kg gehakt en 350 g kaas. Hoeveel weegt dat samen?</p>
+      <ul class="denk">
+        <li class="step valkuil" data-volg="1">"Ik mag níet 1,2 + 350 doen! Dan tel ik kilo's en grammen bij elkaar."</li>
+        <li class="step" data-volg="2">"Eerst dezelfde maat. Ik kies gram, want dan heb ik geen komma meer."</li>
+        <li class="step" data-volg="3" data-show="sprong">"kg → g = × 1000. 1,2 kg is dus 1200 g."</li>
+        <li class="step" data-volg="4">"Nu kan ik optellen: 1200 + 350 = <b>1550 g</b>."</li>
+        <li class="step antw" data-volg="5">Samen 1550 g (= 1,55 kg)</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. IK 3 ============ -->
+<section class="slide" data-fase="ik">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Boven de trap</div>
+      <div class="trap metton klein" data-sprong=""></div>
+      <div class="reken">
+        <div class="step" data-volg="2">12 ton = 12 × 1000 = 12 000 kg</div>
+        <div class="step" data-volg="3">12 000 kg − 7500 kg = 4500 kg</div>
+      </div>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--oranje)">Opdracht 3 · ik doe het voor</span>
+      <p class="vraag">Een vrachtwagen mag <u>maximaal</u> 12 ton wegen. Leeg weegt hij 7500 kg. Hoeveel kg lading mag erin?</p>
+      <ul class="denk">
+        <li class="step" data-volg="1">"Maximaal = niet meer dan. Het antwoord moet in <b>kg</b>."</li>
+        <li class="step" data-volg="2">"Ton staat boven de trap: 1 ton = 1000 kg. Dus 12 ton = <b>12 000 kg</b>."</li>
+        <li class="step" data-volg="3">"Wat er nog bij mag: 12 000 − 7500 = <b>4500 kg</b>."</li>
+        <li class="step" data-volg="4">"Check: 4500 kg is 4,5 ton. Dat past bij een vrachtwagen."</li>
+        <li class="step antw" data-volg="5">Er mag maximaal 4500 kg lading in.</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. WIJ 4 ============ -->
+<section class="slide" data-fase="wij">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Maten-trap</div>
+      <div class="trap" data-sprong="kg-g"></div>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--groen)">Opdracht 4 · samen</span>
+      <p class="vraag">Mila heeft een pak bloem van 1 kg. Voor één keer koekjes bakken gebruikt ze 250 g. Hoe vaak kan ze koekjes bakken?</p>
+      <ul class="denk">
+        <li><span class="q">Welke maten zie je?</span> <span class="step ans" data-volg="1">kg en g</span></li>
+        <li><span class="q">Maak het dezelfde maat.</span> <span class="step ans" data-volg="2" data-show="sprong">1 kg = 1000 g</span></li>
+        <li><span class="q">Welke som maak je?</span> <span class="step ans" data-volg="3">1000 : 250 = 4</span></li>
+        <li><span class="q">Antwoord?</span> <span class="step ans" data-volg="4">Ze kan 4 keer bakken.</span></li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Wij-fase:</b> stel elke vraag aan de hele groep, geef denktijd, kies dan een naam met <b>B</b>. Pas daarna het antwoord tonen (→).</div>
+</section>
+
+<!-- ============ 10. WIJ 5 ============ -->
+<section class="slide" data-fase="wij">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Maten-trap</div>
+      <div class="trap" data-sprong="kg-g"></div>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--groen)">Opdracht 5 · samen</span>
+      <p class="vraag">Een pot pindakaas weegt <u>bruto</u> 450 g. De lege pot weegt 0,12 kg. Hoeveel gram pindakaas zit erin (<u>netto</u>)?</p>
+      <ul class="denk">
+        <li><span class="q">Wat betekent bruto? En netto?</span> <span class="step ans" data-volg="1">bruto = met pot, netto = alleen pindakaas</span></li>
+        <li><span class="q">0,12 kg is hoeveel gram?</span> <span class="step ans" data-volg="2" data-show="sprong">0,12 × 1000 = 120 g</span></li>
+        <li><span class="q">Welke som maak je?</span> <span class="step ans" data-volg="3">450 − 120 = 330</span></li>
+        <li><span class="q">Antwoord?</span> <span class="step ans" data-volg="4">Er zit 330 g pindakaas in.</span></li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Let op:</b> 0,12 kg → g gaat vaak mis (12 g of 1200 g). Laat de komma echt 3 plaatsen schuiven: 0,12 → 1,2 → 12 → 120.</div>
+</section>
+
+<!-- ============ 11. JULLIE 6 ============ -->
+<section class="slide" data-fase="jullie">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Maten-trap</div>
+      <div class="trap" data-sprong="kg-g"></div>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--blauw)">Opdracht 6 · met je schoudermaatje</span>
+      <p class="vraag">Bas zegt: "Een zak chips van 0,2 kg is lichter dan een reep chocola van 150 g, want 0,2 is kleiner dan 150."</p>
+      <p class="vraag" style="font-size:28px">Klopt dat? Leg uit.</p>
+      <p class="opdracht-hint">Overleg samen, schrijf het antwoord op je wisbordje. Je hebt 2 minuten.</p>
+      <ul class="denk">
+        <li class="step valkuil" data-volg="1">Nee! Bas vergelijkt getallen met verschillende maten.</li>
+        <li class="step" data-volg="2" data-show="sprong">0,2 kg = 0,2 × 1000 = <b>200 g</b></li>
+        <li class="step antw" data-volg="3">200 g is zwaarder dan 150 g. De chips zijn dus zwaarder!</li>
+      </ul>
+    </div>
+  </div>
+  <div class="notitie"><b>Jullie-fase:</b> start de timer met <b>T</b>. Terugkoppeling naar de titelvraag: wat is zwaarder, 0,8 kg of 750 g? (800 g!)</div>
+</section>
+
+<!-- ============ 12. JIJ 7 ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Hulp: maten-trap</div>
+      <div class="trap" data-sprong="kg-g"></div>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 7 · zelf</span>
+      <p class="vraag">Een pompoen weegt 3,4 kg. Hoeveel gram is dat?</p>
+      <p class="opdracht-hint">Maak de opdrachten op je werkblad.</p>
+      <ul class="denk">
+        <li class="step antw" data-volg="1" data-show="sprong">3,4 × 1000 = 3400 g</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+    </div>
+  </div>
+  <div class="notitie"><b>Jij-fase:</b> de kinderen maken opdracht 7 t/m 10 op het werkblad. Daarna bespreek je ze hier na: → toont het antwoord.</div>
+</section>
+
+<!-- ============ 13. JIJ 8 ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Hulp: maten-trap</div>
+      <div class="trap" data-sprong="g-kg"></div>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 8 · zelf</span>
+      <p class="vraag">In Fleurs rugzak zitten een fles water van 1,5 kg, een broodtrommel van 400 g en een boek van 0,6 kg. Hoeveel kg weegt dat samen?</p>
+      <ul class="denk">
+        <li class="step antw" data-volg="1" data-show="sprong">400 g = 0,4 kg<br>1,5 + 0,4 + 0,6 = 2,5 kg<br><span style="font-weight:800">(of: 1500 + 400 + 600 = 2500 g = 2,5 kg)</span></li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 14. JIJ 9 ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Hulp: boven de trap</div>
+      <div class="trap metton klein" data-sprong=""></div>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 9 · zelf</span>
+      <p class="vraag">Een lift mag <u>maximaal</u> 1 ton dragen. Er staan 12 mensen in van gemiddeld 75 kg. Mag er nog iemand van 80 kg bij?</p>
+      <ul class="denk">
+        <li class="step antw" data-volg="1">12 × 75 = 900 kg. 900 + 80 = 980 kg.<br>1 ton = 1000 kg, dus ja, dat mag nog!</li>
+      </ul>
+      <div class="mini-plan"><span><b>1</b> welke maat?</span><span><b>2</b> dezelfde maat</span><span><b>3</b> uitrekenen</span><span><b>4</b> check</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 15. JIJ 10 ============ -->
+<section class="slide" data-fase="jij">
+  <div class="opdracht">
+    <div class="visueel">
+      <div class="vtitel">Hulp: maten-trap</div>
+      <div class="trap" data-sprong="g-mg"></div>
+    </div>
+    <div class="rechts">
+      <span class="nummer" style="background:var(--roze)">Opdracht 10 · denkvraag</span>
+      <p class="vraag">Een zak snoep weegt 1 kg. Er zitten 400 snoepjes in. Hoeveel weegt één snoepje? Schrijf je antwoord in gram én in milligram.</p>
+      <ul class="denk">
+        <li class="step" data-volg="1">1 kg = 1000 g. 1000 : 400 = <b>2,5 g</b></li>
+        <li class="step antw" data-volg="2" data-show="sprong">2,5 g = 2,5 × 1000 = 2500 mg</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 16. AFSLUITING ============ -->
+<section class="slide" data-fase="doel">
+  <h2>Terug naar ons doel</h2>
+  <div class="doelzin" style="font-size:32px">
+    <div class="icoon"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="#fff"/></svg></div>
+    Ik kan gewichten omrekenen met de maten-trap en ermee rekenen in een verhaalsom.
+  </div>
+  <div class="duimen">
+    <div class="duim"><svg viewBox="0 0 24 24" fill="var(--groen)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Ik kan het!</b></div>
+    <div class="duim"><svg viewBox="0 0 24 24" fill="var(--oranje)" style="transform:rotate(-90deg)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Bijna</b></div>
+    <div class="duim"><svg viewBox="0 0 24 24" fill="var(--roze)" style="transform:rotate(180deg)"><path d="M2 21h4V9H2v12zm20-11c0-1.1-.9-2-2-2h-6.3l1-4.6v-.3c0-.4-.2-.8-.4-1.1L13.2 1 6.6 7.6C6.2 8 6 8.5 6 9v10c0 1.1.9 2 2 2h9c.8 0 1.5-.5 1.8-1.2l3-7.1c.1-.2.2-.5.2-.7v-2z"/></svg><b>Nog lastig</b></div>
+  </div>
+  <p style="text-align:center;font-weight:800">Terug naar de startvraag: wat is zwaarder, 0,8 kg of 750 g? Leg het uit aan je schoudermaatje.</p>
+</section>
+
+<!-- ---------- voet ---------- -->
+<footer>
+  <button class="knop" id="vorige" title="Vorige (←)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <button class="knop hoofd" id="volgende" title="Volgende (→ of spatie)"><span id="volgendeTekst">Volgende</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+  <button class="knop" id="timer" title="Timer 2 minuten (T). Dubbelklik = opnieuw.">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg><span id="timerTekst">2:00</span></button>
+  <div class="stippen" id="stippen"></div>
+  <button class="knop beurt" id="beurtKnop" title="Kies een naam (B)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.4" fill="currentColor"/><circle cx="16" cy="8" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/><circle cx="8" cy="16" r="1.4" fill="currentColor"/><circle cx="16" cy="16" r="1.4" fill="currentColor"/></svg>Beurt</button>
+</footer>
+
+<!-- ---------- beurtenkiezer ---------- -->
+<div id="beurtLaag">
+  <div class="beurtkaart">
+    <div class="kop">Wie is er aan de beurt?</div>
+    <div id="beurtNaam">…</div>
+    <div class="beurtknoppen">
+      <button class="knop beurt" id="nogEen">Nog een naam</button>
+      <button class="knop" id="sluit">Sluiten</button>
+    </div>
+    <div id="beurtInfo"></div>
+  </div>
+</div>
+
+</div></div>
+
+<!-- MeesterTools: inlogcontrole + namen uit de actieve klas (js/tien-minuten-les.js). -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+<script src="/js/supabase-config.js?v=1.57.2"></script>
+<script src="/js/tien-minuten-les.js?v=1.57.2"></script>
+<script>
+/* ================= MATEN-TRAP ================= */
+const MATEN=["kg","hg","dag","g","dg","cg","mg"], HOOFD=["kg","g","mg"];
+const TH=356, X=i=>6+i*105, Y=i=>76+i*38;
+function bouwTrap(t){
+  t.innerHTML='<div class="tontag">1 ton = 1000 kg ↑</div>';
+  MATEN.forEach((m,i)=>{const d=document.createElement("div");d.className="trede"+(HOOFD.includes(m)?" hoofd":"");d.dataset.m=m;
+    d.style.left=X(i)+"px";d.style.top=Y(i)+"px";d.style.height=(TH-Y(i))+"px";d.textContent=m;t.appendChild(d);});
+}
+function wisSprong(t){t.querySelectorAll(".sprong,.totaal,.pijlen").forEach(e=>e.remove());t.querySelectorAll(".trede").forEach(d=>d.classList.remove("pad","start","op"));}
+function toonSprong(t){
+  const s=t.dataset.sprong; if(!s)return; wisSprong(t);
+  const [van,naar]=s.split("-"), a=MATEN.indexOf(van), b=MATEN.indexOf(naar), omlaag=b>a, n=Math.abs(b-a), dir=omlaag?1:-1;
+  const off=t.classList.contains("metton")?34:0, kleur=omlaag?"#EB6B0A":"#1F7BC1";
+  const tr=[...t.querySelectorAll(".trede")];
+  tr[a].classList.add("start");
+  const NS="http://www.w3.org/2000/svg";
+  const svg=document.createElementNS(NS,"svg"); svg.setAttribute("class","pijlen"); svg.setAttribute("width",740); svg.setAttribute("height",TH+off);
+  const mid="pijlkop"+Math.random().toString(36).slice(2,7);
+  svg.innerHTML=`<defs><marker id="${mid}" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${kleur}"/></marker></defs>`;
+  t.appendChild(svg);
+  for(let k=1;k<=n;k++){
+    const f=a+(k-1)*dir, i=a+k*dir; tr[i].classList.add("pad"); if(!omlaag)tr[i].classList.add("op");
+    const x1=X(f)+49+dir*16, y1=Y(f)+off-6, x2=X(i)+49-dir*16, y2=Y(i)+off-6;
+    const cx=(x1+x2)/2, cy=Math.min(y1,y2)-58;
+    const g=document.createElementNS(NS,"g"); g.setAttribute("class","pijl"); g.style.animationDelay=(k*0.35)+"s";
+    g.innerHTML=`<path d="M${x1},${y1} Q${cx},${cy} ${x2},${y2}" fill="none" stroke="${kleur}" stroke-width="5" stroke-linecap="round" marker-end="url(#${mid})"/>`;
+    svg.appendChild(g);
+    const my=0.25*y1+0.5*cy+0.25*y2;
+    const l=document.createElement("div"); l.className="sprong"+(omlaag?"":" op"); l.textContent=omlaag?"× 10":": 10";
+    l.style.left=cx+"px"; l.style.top=(my-20)+"px"; l.style.animationDelay=(k*0.35)+"s"; t.appendChild(l);
+  }
+  const tot=document.createElement("div"); tot.className="totaal"+(omlaag?"":" op");
+  tot.textContent=`${van} → ${naar}: ${omlaag?"×":":"} ${10**n}`; tot.style.animationDelay=((n+1)*0.35)+"s"; t.appendChild(tot);
+}
+document.querySelectorAll(".trap").forEach(bouwTrap);
+
+/* ================= NAVIGATIE ================= */
+const dias=[...document.querySelectorAll(".slide")];
+const FASEN={ik:["Ik","var(--oranje)"],wij:["Wij","var(--groen)"],jullie:["Jullie","var(--blauw)"],jij:["Jij","var(--roze)"],doel:["Doel","var(--paars)"]};
+let nu=0, onthuld=0;
+const stippen=document.getElementById("stippen");
+dias.forEach((d,i)=>{const s=document.createElement("i");s.onclick=()=>ga(i);stippen.appendChild(s);});
+function groepen(){
+  const st=[...dias[nu].querySelectorAll(".step")];
+  const m=new Map(); st.forEach((s,i)=>{const k=s.dataset.volg?+s.dataset.volg:i+1; if(!m.has(k))m.set(k,[]); m.get(k).push(s);});
+  return [...m.keys()].sort((a,b)=>a-b).map(k=>m.get(k));
+}
+function ga(i){
+  if(i<0||i>=dias.length)return;
+  dias[nu].classList.remove("actief");
+  nu=i; onthuld=0;
+  const d=dias[nu]; d.classList.add("actief");
+  d.querySelectorAll(".step").forEach(s=>s.classList.remove("shown"));
+  d.querySelectorAll(".trap").forEach(wisSprong);
+  const f=FASEN[d.dataset.fase], fb=document.getElementById("fase");
+  if(f){fb.textContent=f[0];fb.style.background=f[1];fb.classList.remove("hidden");}else fb.classList.add("hidden");
+  [...stippen.children].forEach((s,k)=>s.classList.toggle("nu",k===nu));
+  updKnop();
+}
+function volgende(){
+  const g=groepen();
+  if(onthuld<g.length){
+    g[onthuld++].forEach(s=>{s.classList.add("shown"); if(s.dataset.show==="sprong") dias[nu].querySelectorAll(".trap").forEach(toonSprong);});
+    updKnop();
+  } else ga(nu+1);
+}
+function updKnop(){
+  const rest=groepen().length-onthuld;
+  document.getElementById("volgendeTekst").textContent = rest>0 ? "Laat zien" : (nu===dias.length-1?"Einde":"Volgende");
+}
+document.getElementById("volgende").onclick=volgende;
+document.getElementById("vorige").onclick=()=>ga(nu-1);
+
+/* ================= BEURTENKIEZER ================= */
+let NAMEN=[], KLAS=null;
+MTLes.namen.then(n=>{NAMEN=n;});
+MTLes.klas.then(k=>{KLAS=k;});
+let pot=[];
+const laag=document.getElementById("beurtLaag"), naamEl=document.getElementById("beurtNaam"), info=document.getElementById("beurtInfo");
+function schud(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+let rolt=false;
+function kiesNaam(){
+  laag.classList.add("open");
+  if(!NAMEN.length){naamEl.textContent="Geen namen";info.textContent=KLAS?`Er staan nog geen leerlingen in ${KLAS}.`:"Kies eerst een klas in MeesterTools.";return;}
+  if(rolt)return;
+  if(!pot.length)pot=schud([...NAMEN]);
+  const gekozen=pot.pop(); rolt=true; let k=0; const stappenRol=14;
+  naamEl.className="rollen";
+  (function rol(){
+    naamEl.textContent=NAMEN[Math.floor(Math.random()*NAMEN.length)];
+    if(++k<stappenRol){setTimeout(rol,40+k*9);}
+    else{naamEl.textContent=gekozen;naamEl.className="klaar";rolt=false;
+      info.textContent=(KLAS?KLAS+" · ":"")+(pot.length?`Nog ${pot.length} ${pot.length===1?"kind":"kinderen"} niet geweest`:"Iedereen is geweest. De volgende ronde begint opnieuw.");}
+  })();
+}
+document.getElementById("beurtKnop").onclick=kiesNaam;
+document.getElementById("nogEen").onclick=kiesNaam;
+document.getElementById("sluit").onclick=()=>laag.classList.remove("open");
+laag.addEventListener("click",e=>{if(e.target===laag)laag.classList.remove("open");});
+
+/* ================= TIMER ================= */
+const TIMER_SEC=120; let tijd=TIMER_SEC, tik=null;
+const tKnop=document.getElementById("timer"), tTekst=document.getElementById("timerTekst");
+function toonTijd(){tTekst.textContent=`${Math.floor(tijd/60)}:${String(tijd%60).padStart(2,"0")}`;}
+function timerStartStop(){
+  if(tijd<=0){timerReset();}
+  if(tik){clearInterval(tik);tik=null;tKnop.classList.remove("loopt");return;}
+  tKnop.classList.add("loopt");
+  tik=setInterval(()=>{tijd--;toonTijd();if(tijd<=0){clearInterval(tik);tik=null;tKnop.classList.remove("loopt");tKnop.classList.add("klaar");}},1000);
+}
+function timerReset(){clearInterval(tik);tik=null;tijd=TIMER_SEC;tKnop.classList.remove("loopt","klaar");toonTijd();}
+tKnop.onclick=timerStartStop; tKnop.ondblclick=timerReset;
+
+/* ================= TOETSEN & SCHALEN ================= */
+document.addEventListener("keydown",e=>{
+  const k=e.key;
+  if(laag.classList.contains("open")){
+    if(k==="Escape")laag.classList.remove("open");
+    else if(k==="b"||k==="B"||k===" "||k==="Enter"){e.preventDefault();kiesNaam();}
+    return;
+  }
+  if(["ArrowRight","PageDown"," ","Enter"].includes(k)){e.preventDefault();volgende();}
+  else if(["ArrowLeft","PageUp"].includes(k)){e.preventDefault();ga(nu-1);}
+  else if(k==="b"||k==="B")kiesNaam();
+  else if(k==="t"||k==="T")timerStartStop();
+  else if(k==="n"||k==="N")document.body.classList.toggle("notities");
+  else if(k==="f"||k==="F"){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+});
+function pasAan(){const s=Math.min(innerWidth/1600,innerHeight/900);document.getElementById("stage").style.transform=`scale(${s})`;}
+addEventListener("resize",pasAan); pasAan();
+ga(0);
+
+</script>
+</body>
+</html>
