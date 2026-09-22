@@ -14,6 +14,7 @@
    - voortgang per fase in de kop, in plaats van een stip per dia; vaste
      breedte per fase, zodat er niets verspringt bij een volgende stap
    - denkstappen: geweest = vinkje, huidige = oranje balk
+   - timer en Beurt pas vanaf de wij-fase in beeld
    - knoptekst: "Start les" op dia 1, daarna "Volgende stap" / "Volgende"
 
    Alles wat de les zelf verandert (stap tonen, dia wisselen) wordt met een
@@ -132,6 +133,16 @@
         balk.appendChild(groep);
     });
 
+    // Vanaf welke dia horen timer en Beurt in beeld? Vanaf de wij-fase; heeft
+    // een les die niet, dan vanaf jullie of jij.
+    var drempel = dias.length;
+    ['wij', 'jullie', 'jij'].some(function (f) {
+        for (var i = 0; i < dias.length; i++) {
+            if (dias[i].dataset.fase === f) { drempel = i; return true; }
+        }
+        return false;
+    });
+
     function nuDia() {
         for (var i = 0; i < dias.length; i++) if (dias[i].classList.contains('actief')) return i;
         return 0;
@@ -186,6 +197,7 @@
         obs.disconnect();
         var nu = nuDia(), d = dias[nu];
         document.body.classList.toggle('eerste-dia', nu === 0);
+        document.body.classList.toggle('mt-hulp', nu >= drempel);
         titeldia();
         stappen(d);
         voortgang(nu);

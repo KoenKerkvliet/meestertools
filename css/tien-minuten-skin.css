@@ -257,7 +257,11 @@ footer { height: 152px; padding: 0 56px; gap: 24px; }
 #timer { min-width: 150px; margin-left: auto; }
 #timer.loopt { background: var(--blauw); box-shadow: 0 5px 0 #145C95; }
 #timer.klaar { background: var(--roze); box-shadow: 0 5px 0 var(--roze-diep); }
-body.eerste-dia #timer { display: none; }   /* op de startdia hoort geen tijd */
+/* Timer en Beurt horen bij het samen werken: ze verschijnen pas vanaf de
+   wij-fase. Daarvoor (start, doel, ik) staat de voet leeg. De sneltoetsen
+   T en B blijven wel werken. */
+body:not(.mt-hulp) #timer,
+body:not(.mt-hulp) .knop.beurt { display: none; }
 
 /* Voortgang per fase, in plaats van losse stipjes */
 .stippen { display: none; }
