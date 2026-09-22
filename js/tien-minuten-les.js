@@ -74,4 +74,52 @@
         klasResolve(null);
         namenResolve([]);
     });
+
+    // ---------- Presenter (klikker) ----------
+    // Een presenter is een toetsenbord: vooruit stuurt meestal Page Down of
+    // pijltje rechts, terug Page Up of pijltje links. Dat luistert de les al
+    // af. Twee dingen zaten nog in de weg:
+    //
+    // 1. Klik je met de muis op een knop, dan houdt die knop de focus. De
+    //    volgende druk op de presenter ging dan naar díe knop (en opende
+    //    bijvoorbeeld steeds de beurtenkiezer). Na een muisklik halen we de
+    //    focus daarom weg.
+    // 2. Veel presenters hebben een knop voor "zwart scherm" (stuurt een punt)
+    //    en voor starten/stoppen (F5 en Escape). F5 herlaadde de pagina.
+    document.addEventListener('click', function (e) {
+        var knop = e.target && e.target.closest ? e.target.closest('button') : null;
+        if (knop) knop.blur();
+    });
+
+    var zwart = null;
+    function zwartScherm() {
+        if (zwart) { zwart.remove(); zwart = null; return; }
+        zwart = document.createElement('div');
+        zwart.className = 'mt-zwart';
+        zwart.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#000;cursor:none';
+        zwart.title = 'Klik of druk op een toets om verder te gaan';
+        zwart.addEventListener('click', zwartScherm);
+        document.body.appendChild(zwart);
+    }
+
+    document.addEventListener('keydown', function (e) {
+        var k = e.key;
+        if (zwart) {                       // zwart scherm: elke toets haalt hem weg
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            zwartScherm();
+            return;
+        }
+        if (k === '.') {                   // punt = zwart scherm, net als in PowerPoint
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            zwartScherm();
+        } else if (k === 'F5') {           // start presentatie: volledig scherm i.p.v. herladen
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen().catch(function () {});
+            }
+        }
+    }, true);
 })();
