@@ -62,12 +62,13 @@
     gap: 18px;
 }
 
-/* Rustige hover: geen omhoog-schuiven, alleen een paarse rand met een
-   zachte gloed. Ook als je op het drie-puntjes-menu staat (hover op de
-   wrapper), en voor toetsenbordfocus. Geldt ook voor de vakkaarten. */
+/* Rustige hover: de kaart blijft precies staan en wordt niet groter (geen
+   verschuiving, geen extra schaduw of gloed). Alleen de rand kleurt paars.
+   Ook als je op het drie-puntjes-menu staat (hover op de wrapper), en voor
+   toetsenbordfocus. Geldt ook voor de vakkaarten. */
 .les-grid .tool-card,
 .vak-card {
-    transition: border-color .2s ease, box-shadow .2s ease;
+    transition: border-color .15s ease;
 }
 .les-card:hover > .tool-card,
 .les-grid .tool-card:focus-visible,
@@ -75,7 +76,7 @@
 .vak-card:focus-visible {
     transform: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.14), var(--shadow-sm);
+    box-shadow: var(--shadow-sm);
     outline: none;
 }
 
