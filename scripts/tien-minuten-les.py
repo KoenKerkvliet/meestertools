@@ -33,8 +33,8 @@ Gebruik:
   vak = rekenen, spelling, taal, ... (map onder lesmateriaal/10-minuten-didactiek/)
 
 Daarna nog met de hand: kaart in lesmateriaal/10-minuten-didactiek/<vak>.html.
-Eerste les van een nieuw vak? Kopieer rekenen.html naar <vak>.html (titel,
-icoon en kaarten aanpassen) en maak de vakkaart in
+Eerste les van een nieuw vak? Kopieer rekenen.html naar <vak>.html (titel
+en kaarten aanpassen) en maak de vakkaart in
 lesmateriaal/10-minuten-didactiek.html klikbaar (is-soon eraf, <a href>).
 Vereist: pypdf, Pillow.
 """

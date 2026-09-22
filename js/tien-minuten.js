@@ -38,6 +38,18 @@
     var kaarten = [].slice.call(document.querySelectorAll('.les-card'));
     if (!filters || !kaarten.length) return;
 
+    // Vaste volgorde, ongeacht de volgorde in de HTML: eerst op categorie,
+    // binnen een categorie op onderwerp (de titel), allebei alfabetisch.
+    function titel(k) {
+        var h = k.querySelector('.tool-card h3');
+        return h ? h.textContent.trim() : '';
+    }
+    kaarten.sort(function (a, b) {
+        return (a.dataset.categorie || 'Overig').localeCompare(b.dataset.categorie || 'Overig', 'nl')
+            || titel(a).localeCompare(titel(b), 'nl');
+    });
+    kaarten.forEach(function (k) { k.parentNode.appendChild(k); });
+
     var tellers = {};
     kaarten.forEach(function (k) {
         var cat = k.dataset.categorie || 'Overig';
