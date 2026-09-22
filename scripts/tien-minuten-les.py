@@ -15,6 +15,8 @@ lesmap om naar de site, zodat elke les op dezelfde manier binnenkomt:
     - "10 minuten rekenen · onderwerp" in de kop alleen op de titeldia
     - denkstappen iets strakker, zodat 5-6 stappen boven de knoppenbalk blijven
     - namen uit de actieve klas (js/tien-minuten-les.js) i.p.v. namen.js
+    - de nieuwe lesstijl (css/tien-minuten-skin.css + js/tien-minuten-skin.js):
+      dia 1920x1080, lege kop met fasebalk, denkstappen met vinkje/huidige stap
 
   les-html, format "app" (responsive, Voordoen/Samen/Zelf, geen eigen
   beurtenkiezer/timer) - wordt automatisch herkend:
@@ -31,12 +33,6 @@ Gebruik:
   python scripts/tien-minuten-les.py <les.html> <werkblad.pdf> <vak> <slug>
 
   vak = rekenen, spelling, taal, ... (map onder lesmateriaal/10-minuten-didactiek/)
-
-LET OP: de nieuwe lesstijl (css/tien-minuten-skin.css + js/tien-minuten-skin.js)
-wordt hier nog NIET gekoppeld; dat gebeurt per les met de hand (link vlak voor
-</head>, script vlak voor </body>). Zet een les die de skin al heeft dus niet
-zomaar opnieuw om, of koppel de twee regels daarna opnieuw. Zodra de stijl
-bevalt, wordt dit een vaste stap.
 
 Daarna nog met de hand: kaart in lesmateriaal/10-minuten-didactiek/<vak>.html.
 Eerste les van een nieuw vak? Kopieer rekenen.html naar <vak>.html (titel
@@ -138,6 +134,18 @@ def les_app(s, vak):
     return s
 
 
+def skin(s):
+    """De nieuwe lesstijl erover heen: één stylesheet en één script. De les
+    zelf blijft zoals hij is; de skin regelt kop, fasebalk, maten en stappen.
+    Alleen voor het dia-format."""
+    if 'tien-minuten-skin' in s:
+        return s
+    s = vervang(s, '</head>',
+                f'<link rel="stylesheet" href="/css/tien-minuten-skin.css?v={VERSION}">\n</head>')
+    return vervang(s, '</body>',
+                   f'<script src="/js/tien-minuten-skin.js?v={VERSION}"></script>\n</body>')
+
+
 def les_dia(s, vak):
     """Het eerste lesformat: vaste 1600x900-dia met eigen beurtenkiezer/timer."""
     s = vervang(s, '<meta name="viewport" content="width=device-width, initial-scale=1">',
@@ -174,7 +182,7 @@ def les_dia(s, vak):
     s = vervang(s, 'info.textContent=pot.length?`Nog', 'info.textContent=(KLAS?KLAS+" · ":"")+(pot.length?`Nog')
     s = vervang(s, '"Iedereen is geweest. De volgende ronde begint opnieuw.";}',
                 '"Iedereen is geweest. De volgende ronde begint opnieuw.");}')
-    return s
+    return skin(s)
 
 
 def les(src, vak, slug):
