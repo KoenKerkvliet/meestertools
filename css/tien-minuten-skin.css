@@ -1,0 +1,305 @@
+/* ============================================
+   MEESTERTOOLS - 10-minuten-didactiek: nieuwe lesstijl (skin)
+   Versie: v0.0.1
+
+   Gaat over de bestaande les heen: zelfde inhoud en zelfde werking, maar
+   rustiger en groter voor het digibord. Volgt het ontwerpvoorstel:
+   - dia van 1920x1080 (was 1600x900), zodat alles groter mag
+   - logo en lestitel nog maar één keer in beeld
+   - fase-label linksboven op elke dia, op een vaste plek
+   - voortgang per fase (Start · Doel · Ik · Wij · Jullie · Jij · Klaar)
+   - opdrachtdia: grote vraag, denkstappen eronder met de huidige stap
+     gemarkeerd, en een duidelijk antwoordvak
+   - geen decoratieve cirkels meer achter de knoppen
+
+   Laadt ná de eigen <style> van de les (link vlak voor </head>), samen met
+   js/tien-minuten-skin.js.
+   ============================================ */
+
+:root {
+    --oranje: #E8690B;
+    --oranje-diep: #B24F06;
+    --groen: #86A90B;
+    --roze: #C8177F;
+    --roze-diep: #8F0F5A;
+    --blauw: #1F7BC4;
+    --paars: #6B4FBB;
+    --inkt: #25233A;
+    --zacht: #5C5870;
+    --papier: #FFF7EE;
+    --kaart: #FFFFFF;
+    --lijn: #E3D9CC;
+}
+
+html, body { background: #E9E3DA; }
+
+#stage {
+    width: 1920px;
+    height: 1080px;
+    border-radius: 24px;
+    background-image: none; /* decoratieve cirkels weg */
+    box-shadow: 0 8px 40px rgba(37, 35, 58, .12);
+}
+
+/* ---------- kop ---------- */
+header { height: 112px; padding: 0 56px; gap: 20px; }
+header img { height: 52px; }
+
+header .terug {
+    order: -1;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--zacht);
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+}
+
+header .titel {
+    order: 2;
+    flex: 1;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--zacht);
+}
+
+/* Lestitel juist wél op de dia's ná de titeldia (naast het fase-label),
+   en het logo alleen op de titeldia. */
+body:not(.eerste-dia) header .titel { visibility: visible; }
+body.eerste-dia header .titel { visibility: hidden; }
+body:not(.eerste-dia) header img { display: none; }
+
+.fase {
+    order: 1;
+    height: 56px;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    border-radius: 28px;
+    font-size: 26px;
+    letter-spacing: .04em;
+    box-shadow: none;
+}
+
+/* ---------- dia's ---------- */
+.slide { top: 112px; bottom: 152px; padding: 8px 56px 0; }
+h2 { font-size: 56px; margin-bottom: 32px; }
+
+/* ---------- titeldia ---------- */
+.titeldia { gap: 0; }
+.titeldia img { display: none; }
+.titeldia h1 { font-size: 0; margin: 0; }          /* JS vult topic + haak */
+.titeldia .mt-vak { font-size: 28px; font-weight: 800; color: var(--zacht); letter-spacing: .02em; }
+.titeldia .mt-onderwerp { font-size: 108px; font-weight: 900; line-height: 1.05; margin-top: 14px; }
+.titeldia .mt-haak { font-size: 52px; font-weight: 800; color: var(--paars); margin-top: 10px; }
+.titeldia .sub { display: none; }                   /* staat nu bovenaan */
+
+.badge-rij {
+    display: grid;
+    grid-template-columns: repeat(4, 300px);
+    gap: 28px;
+    margin-top: 72px;
+}
+
+.badge-rij > span {
+    background: var(--kaart) !important;
+    color: var(--inkt);
+    border-radius: 28px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: flex-start;
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: left;
+}
+
+.badge-rij > span > .mt-bol {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 26px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ---------- doeldia ---------- */
+.doelzin {
+    border: 6px solid var(--paars);
+    border-radius: 48px;
+    box-shadow: 0 12px 0 #D9D0F0;
+    padding: 48px 72px;
+    font-size: 68px;
+    line-height: 1.12;
+    gap: 32px;
+    margin-bottom: 36px;
+}
+
+.doelzin .icoon { width: 88px; height: 88px; }
+.doelzin .icoon svg { width: 52px; height: 52px; }
+
+.twee { gap: 36px; }
+.kaart { border-radius: 32px; padding: 32px 38px; box-shadow: 0 8px 0 var(--lijn); }
+.kaart h3 { font-size: 34px; margin-bottom: 14px; }
+.kaart h3 .label { font-size: 22px; padding: 5px 16px; }
+.kaart p { font-size: 32px; line-height: 1.35; }
+
+/* ---------- rekentaal ---------- */
+.woorden { gap: 30px; }
+.woord { border-radius: 28px; padding: 26px 32px; box-shadow: 0 8px 0 var(--lijn); border-left-width: 16px; }
+.woord b { font-size: 40px; }
+.woord span { font-size: 30px; }
+
+/* ---------- stappenplan ---------- */
+.stappen { gap: 22px; }
+.stappen li { border-radius: 26px; padding: 22px 32px; font-size: 38px; gap: 28px; box-shadow: 0 8px 0 var(--lijn); }
+.stappen .nr { width: 72px; height: 72px; font-size: 40px; }
+
+/* ---------- opdrachtdia ---------- */
+.opdracht { grid-template-columns: 1120px 1fr; gap: 56px; }
+.grafiekkaart { border-radius: 40px; padding: 32px 40px 24px; box-shadow: 0 8px 0 var(--lijn); }
+.grafiekkaart .gtitel { font-size: 30px; }
+.rechts { gap: 28px; padding-top: 8px; }
+
+.nummer { display: none; }          /* staat nu als fase-label in de kop */
+.vraag { font-size: 46px; line-height: 1.15; }
+.vraag u { text-decoration-thickness: 4px; text-underline-offset: 6px; }
+.opdracht-hint { font-size: 28px; }
+
+.denk { gap: 12px; }
+
+.denk li {
+    position: relative;
+    font-size: 28px;
+    line-height: 1.3;
+    font-weight: 800;
+    color: var(--zacht);
+    background: none;
+    border: none;
+    border-radius: 24px;
+    padding: 12px 20px 12px 82px;
+}
+
+/* Bolletje met stapnummer, vinkje als de stap geweest is. Absoluut
+   geplaatst, zodat de tekst gewoon doorloopt (geen kolommen). */
+.denk li::before {
+    content: counter(mt-stap);
+    counter-increment: mt-stap;
+    position: absolute;
+    left: 16px;
+    top: 10px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 3px solid #D8CDBE;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--zacht);
+}
+
+.denk { counter-reset: mt-stap; }
+.denk li.mt-af::before { content: '\2713'; background: #F3E3D3; border-color: #F3E3D3; color: var(--oranje-diep); }
+
+/* Besproken stappen blijven leesbaar, maar nemen minder ruimte: kleiner en
+   hoogstens twee regels. Zo past ook een dia met zes denkstappen. */
+.denk li.mt-af {
+    font-size: 26px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.denk li.mt-af::before { top: 4px; width: 40px; height: 40px; font-size: 20px; }
+.denk li.mt-nu { background: var(--oranje); color: #fff; font-size: 32px; font-weight: 900; }
+.denk li.mt-nu::before { background: #fff; border-color: #fff; color: var(--oranje); }
+.denk li b { color: inherit; }
+
+/* Valkuil en antwoord houden hun eigen kleur. */
+.denk li.valkuil { background: #FCE7F3; color: #8F0F5A; }
+.denk li.valkuil.mt-nu { background: var(--roze); color: #fff; }
+.denk li.valkuil.mt-nu::before { color: var(--roze); }
+.denk li.valkuil::before { content: '!'; border-color: var(--roze); color: var(--roze); }
+
+.denk li.antw,
+.denk li.antw.mt-nu {
+    background: #F1F7DD;
+    border: 4px dashed var(--groen);
+    color: #43590A;
+    font-size: 36px;
+    font-weight: 900;
+    padding: 18px 22px 18px 82px;
+}
+
+.denk li.antw::before { content: '\2605'; background: var(--groen); border-color: var(--groen); color: #fff; }
+
+/* Vraag-en-antwoord-regels (wij-fase) */
+.denk .q { font-weight: 800; }
+.denk .ans { color: #43590A; font-weight: 900; }
+.denk li.mt-nu .ans { color: #fff; }
+
+/* Het mini-stappenplan verdwijnt: de denkstappen zijn nu zelf de stappen. */
+.mini-plan { display: none; }
+
+/* ---------- afsluiting ---------- */
+.duimen { gap: 48px; margin: 36px 0; }
+.duim { border-radius: 32px; padding: 26px 34px; width: 360px; box-shadow: 0 8px 0 var(--lijn); }
+.duim svg { width: 104px; height: 104px; }
+.duim b { font-size: 30px; }
+
+/* ---------- voet ---------- */
+footer { height: 152px; padding: 0 56px; gap: 24px; }
+
+.knop {
+    height: 88px;
+    padding: 0 28px;
+    border-radius: 24px;
+    font-size: 32px;
+    box-shadow: 0 5px 0 var(--lijn);
+}
+
+#vorige { width: 88px; padding: 0; justify-content: center; color: #B7AFA3; }
+#volgende { padding: 0 36px; font-size: 34px; background: var(--oranje); box-shadow: 0 5px 0 var(--oranje-diep); }
+.knop.beurt { background: var(--roze); box-shadow: 0 5px 0 var(--roze-diep); }
+#timer { min-width: 150px; }
+#timer.loopt { background: var(--blauw); box-shadow: 0 5px 0 #145C95; }
+#timer.klaar { background: var(--roze); box-shadow: 0 5px 0 var(--roze-diep); }
+body.eerste-dia #timer { display: none; }   /* op de startdia hoort geen tijd */
+
+/* Voortgang per fase, in plaats van losse stipjes */
+.stippen { display: none; }
+
+.mt-voortgang {
+    flex: 1;
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.mt-fase-groep { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+.mt-fase-stippen { display: flex; gap: 6px; }
+.mt-fase-stippen i { width: 34px; height: 14px; border-radius: 7px; background: #E7DFD3; cursor: pointer; }
+.mt-fase-label { font-size: 18px; font-weight: 700; color: #6E6A7E; }
+.mt-fase-groep.nu .mt-fase-label { font-weight: 900; }
+
+/* ---------- beurtenkiezer ---------- */
+.beurtkaart { border-radius: 40px; width: 1040px; padding: 52px; }
+.beurtkaart .kop { font-size: 34px; }
+#beurtNaam { font-size: 150px; min-height: 190px; line-height: 190px; color: var(--roze); }
+#beurtInfo { font-size: 26px; }
+
+/* ---------- leerkrachtnotitie ---------- */
+.notitie { right: 56px; max-width: 840px; font-size: 22px; }

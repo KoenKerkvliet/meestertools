@@ -32,6 +32,12 @@ Gebruik:
 
   vak = rekenen, spelling, taal, ... (map onder lesmateriaal/10-minuten-didactiek/)
 
+LET OP: de nieuwe lesstijl (css/tien-minuten-skin.css + js/tien-minuten-skin.js)
+wordt hier nog NIET gekoppeld; dat gebeurt per les met de hand (link vlak voor
+</head>, script vlak voor </body>). Zet een les die de skin al heeft dus niet
+zomaar opnieuw om, of koppel de twee regels daarna opnieuw. Zodra de stijl
+bevalt, wordt dit een vaste stap.
+
 Daarna nog met de hand: kaart in lesmateriaal/10-minuten-didactiek/<vak>.html.
 Eerste les van een nieuw vak? Kopieer rekenen.html naar <vak>.html (titel
 en kaarten aanpassen) en maak de vakkaart in
