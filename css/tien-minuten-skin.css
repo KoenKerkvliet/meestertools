@@ -56,31 +56,12 @@ header .terug {
     padding: 0;
 }
 
-header .titel {
-    order: 2;
-    flex: 1;
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--zacht);
-}
-
-/* Lestitel juist wél op de dia's ná de titeldia (naast het fase-label),
-   en het logo alleen op de titeldia. */
-body:not(.eerste-dia) header .titel { visibility: visible; }
-body.eerste-dia header .titel { visibility: hidden; }
+/* De kop blijft leeg: alleen de terug-link, de fasebalk en (op de titeldia)
+   het logo. Lestitel en fase-label staan al in de balk zelf. */
+header .titel { display: none; }
+header img { order: 9; margin-left: auto; }
 body:not(.eerste-dia) header img { display: none; }
-
-.fase {
-    order: 1;
-    height: 56px;
-    padding: 0 28px;
-    display: flex;
-    align-items: center;
-    border-radius: 28px;
-    font-size: 26px;
-    letter-spacing: .04em;
-    box-shadow: none;
-}
+.fase { display: none; }
 
 /* ---------- dia's ---------- */
 .slide { top: 112px; bottom: 152px; padding: 8px 56px 0; }
@@ -273,7 +254,7 @@ footer { height: 152px; padding: 0 56px; gap: 24px; }
 #vorige { width: 88px; padding: 0; justify-content: center; color: #B7AFA3; }
 #volgende { padding: 0 36px; font-size: 34px; background: var(--oranje); box-shadow: 0 5px 0 var(--oranje-diep); }
 .knop.beurt { background: var(--roze); box-shadow: 0 5px 0 var(--roze-diep); }
-#timer { min-width: 150px; }
+#timer { min-width: 150px; margin-left: auto; }
 #timer.loopt { background: var(--blauw); box-shadow: 0 5px 0 #145C95; }
 #timer.klaar { background: var(--roze); box-shadow: 0 5px 0 var(--roze-diep); }
 body.eerste-dia #timer { display: none; }   /* op de startdia hoort geen tijd */
@@ -282,18 +263,26 @@ body.eerste-dia #timer { display: none; }   /* op de startdia hoort geen tijd */
 .stippen { display: none; }
 
 .mt-voortgang {
-    flex: 1;
+    order: 1;
     display: flex;
-    gap: 14px;
-    justify-content: center;
+    gap: 20px;
     align-items: flex-start;
+    margin-left: 12px;
 }
 
-.mt-fase-groep { display: flex; flex-direction: column; gap: 10px; align-items: center; }
-.mt-fase-stippen { display: flex; gap: 6px; }
-.mt-fase-stippen i { width: 34px; height: 14px; border-radius: 7px; background: #E7DFD3; cursor: pointer; }
-.mt-fase-label { font-size: 18px; font-weight: 700; color: #6E6A7E; }
-.mt-fase-groep.nu .mt-fase-label { font-weight: 900; }
+/* Vaste breedte per fase en altijd hetzelfde lettergewicht: zo staat de balk
+   stil terwijl je door de les klikt. Alleen de kleur verandert. */
+.mt-fase-groep {
+    width: 132px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+.mt-fase-stippen { display: flex; gap: 6px; justify-content: center; }
+.mt-fase-stippen i { width: 30px; height: 12px; border-radius: 6px; background: #E7DFD3; cursor: pointer; }
+.mt-fase-label { font-size: 18px; font-weight: 800; color: #6E6A7E; white-space: nowrap; }
 
 /* ---------- beurtenkiezer ---------- */
 .beurtkaart { border-radius: 40px; width: 1040px; padding: 52px; }

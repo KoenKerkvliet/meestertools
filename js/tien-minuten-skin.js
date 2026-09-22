@@ -9,8 +9,10 @@
    - dia schaalt naar 1920x1080 (eigen resize-listener, loopt ná die van de les)
    - titeldia: vak-regel, onderwerp en haak uit elkaar, en Ik/Wij/Jullie/Jij
      als vier routekaartjes met uitleg
-   - fase-label in de kop krijgt de uitleg erbij (IK · ik doe het voor)
-   - voortgang per fase onderin, in plaats van een stip per dia
+   - kop blijft leeg: alleen "← Lessen" en de fasebalk (en op de titeldia
+     het logo)
+   - voortgang per fase in de kop, in plaats van een stip per dia; vaste
+     breedte per fase, zodat er niets verspringt bij een volgende stap
    - denkstappen: geweest = vinkje, huidige = oranje balk
    - knoptekst: "Start les" op dia 1, daarna "Volgende stap" / "Volgende"
 
@@ -106,7 +108,9 @@
     var balk = document.createElement('div');
     balk.className = 'mt-voortgang';
     var stippen = document.getElementById('stippen');
-    if (stippen && stippen.parentNode) stippen.parentNode.insertBefore(balk, stippen);
+    var kop = document.querySelector('header');
+    if (kop) kop.appendChild(balk);
+    else if (stippen && stippen.parentNode) stippen.parentNode.insertBefore(balk, stippen);
 
     groepen.forEach(function (g) {
         var groep = document.createElement('div');
@@ -146,14 +150,6 @@
         });
     }
 
-    // ---------- Fase-label met uitleg ----------
-    function faseLabel(d) {
-        var fb = document.getElementById('fase');
-        if (!fb) return;
-        var f = d.dataset.fase, r = ROUTE[f];
-        if (r) fb.textContent = r[1] ? r[0] + ' · ' + r[1] : r[0];
-    }
-
     // ---------- Denkstappen: geweest / nu ----------
     function stappen(d) {
         var getoond = [].slice.call(d.querySelectorAll('.step.shown'));
@@ -191,7 +187,6 @@
         var nu = nuDia(), d = dias[nu];
         document.body.classList.toggle('eerste-dia', nu === 0);
         titeldia();
-        faseLabel(d);
         stappen(d);
         voortgang(nu);
         knop(d);
