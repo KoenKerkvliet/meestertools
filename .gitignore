@@ -1,3 +1,5 @@
 
 # Supabase CLI tijdelijke bestanden
 supabase/.temp/
+__pycache__/
+*.pyc
