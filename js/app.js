@@ -552,8 +552,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---------- Card hover animation ----------
+    // Een raster met data-no-lift doet niet mee (bv. 10-minuten-didactiek:
+    // daar kleurt bij hover alleen de rand, zie css/tien-minuten.css).
     const toolCards = document.querySelectorAll('.tool-card');
     toolCards.forEach((card) => {
+        if (card.closest('[data-no-lift]')) return;
         card.addEventListener('mouseenter', () => {
             card.style.transform = 'translateY(-6px) scale(1.02)';
         });
