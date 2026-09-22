@@ -13,6 +13,7 @@ lesmap om naar de site, zodat elke les op dezelfde manier binnenkomt:
     - timer links naast "Laat zien"
     - doeldia: concept- en vaardigheidsvak verschijnen pas met Volgende
     - "10 minuten rekenen · onderwerp" in de kop alleen op de titeldia
+    - denkstappen iets strakker, zodat 5-6 stappen boven de knoppenbalk blijven
     - namen uit de actieve klas (js/tien-minuten-les.js) i.p.v. namen.js
 
   les-html, format "app" (responsive, Voordoen/Samen/Zelf, geen eigen
@@ -82,6 +83,16 @@ def titel_alleen_eerste_dia(s):
                    '  nu=i; onthuld=0;\n  document.body.classList.toggle("eerste-dia",nu===0);\n')
 
 
+def denkstappen_compacter(s):
+    """Denkstappen iets strakker (padding 12->9, tussenruimte 10->8). Bij 5-6
+    stappen liep de kolom anders tot ~40px over de knoppenbalk. Lettergrootte
+    blijft gelijk."""
+    s = vervang(s, '.denk{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}',
+                '.denk{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}')
+    return vervang(s, 'border-radius:18px;padding:12px 18px;border-left:8px solid var(--oranje)}',
+                   'border-radius:18px;padding:9px 18px;border-left:8px solid var(--oranje)}')
+
+
 def les_app(s, vak):
     """Het tweede lesformat: responsive "app" (Voordoen/Samen/Zelf, schermen
     via render()). Geen vaste dia, geen eigen beurtenkiezer of timer; die
@@ -136,6 +147,7 @@ def les_dia(s, vak):
                 '<header>\n  <a class="terug" href="/lesmateriaal/10-minuten-didactiek/' + vak + '" title="Terug naar de lessen">&larr; Lessen</a>\n  <img')
     s = doel_stapsgewijs(s)
     s = titel_alleen_eerste_dia(s)
+    s = denkstappen_compacter(s)
     s = vervang(s, 'alt="Logo de Schatgraver"', 'alt="Meestertools"')
     s = vervang(s, '../logo-schatgraver.png', '/assets/logo-meestertools.png')
 
