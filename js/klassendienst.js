@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var signed = rt.type === 'positief' ? rt.points : -rt.points;
         var rows = dutyStudents.map(function (s) {
             return {
-                user_id: currentUser.id,
+                user_id: groupOwnerId() || currentUser.id,
                 student_id: s.id,
                 reward_type_id: rt.id,
                 points: signed
@@ -418,13 +418,15 @@ document.addEventListener('DOMContentLoaded', function () {
         monsterByStudentId = assignMonsters(students);
     }
 
+    // Beloningstypes horen bij de eigenaar van de klas, niet bij de ingelogde
+    // leerkracht: een duo heeft er zelf geen en kreeg anders nooit de knop.
     async function loadKlasseprestatieRewardTypes() {
         if (!currentUser) return;
         try {
             var res = await supabase
                 .from('klasseprestatie_reward_types')
                 .select('id, icon, label, points, type')
-                .eq('user_id', currentUser.id)
+                .eq('user_id', groupOwnerId() || currentUser.id)
                 .eq('type', 'positief')
                 .eq('archived', false)
                 .order('sort_order');
