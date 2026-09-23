@@ -127,20 +127,29 @@
     gap: 14px;
     flex-wrap: wrap;
 }
+/* Ronde monsterkoppen met een witte rand, afwisselend klein en groot,
+   op één middenlijn. */
 .lp-hero-monsters {
     display: flex;
     justify-content: center;
-    align-items: flex-end;
-    gap: 6px;
-    margin-top: 40px;
+    align-items: center;
+    gap: 18px;
+    margin-top: 56px;
 }
 .lp-hero-monsters img {
-    width: 54px;
-    height: 54px;
-    object-fit: contain;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    width: 76px;
+    height: 76px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.92);
+    box-shadow: 0 10px 24px rgba(30, 20, 90, 0.28);
+    background: #fff;
 }
-.lp-hero-monsters img:nth-child(2n) { width: 62px; height: 62px; }
+.lp-hero-monsters img:nth-child(2) { width: 100px; height: 100px; }
+.lp-hero-monsters img:nth-child(3) { width: 70px;  height: 70px; }
+.lp-hero-monsters img:nth-child(4) { width: 106px; height: 106px; }
+.lp-hero-monsters img:nth-child(5) { width: 74px;  height: 74px; }
+.lp-hero-monsters img:nth-child(6) { width: 94px;  height: 94px; }
 
 /* ---------- Stats-strook ---------- */
 .lp-stats {
@@ -500,8 +509,13 @@
     .lp-logo { font-size: 1.1rem; gap: 8px; }
     .lp-hero { padding: 52px 18px 44px; }
     .lp-section { padding: 48px 18px; }
-    .lp-hero-monsters img { width: 44px; height: 44px; }
-    .lp-hero-monsters img:nth-child(2n) { width: 50px; height: 50px; }
+    .lp-hero-monsters { gap: 8px; margin-top: 40px; }
+    .lp-hero-monsters img,
+    .lp-hero-monsters img:nth-child(3),
+    .lp-hero-monsters img:nth-child(5) { width: 44px; height: 44px; border-width: 3px; }
+    .lp-hero-monsters img:nth-child(2),
+    .lp-hero-monsters img:nth-child(4) { width: 58px; height: 58px; }
+    .lp-hero-monsters img:nth-child(6) { width: 52px; height: 52px; }
 }
 @media (max-width: 420px) {
     .lp-logo-text { display: none; }
