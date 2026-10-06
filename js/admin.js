@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Idem voor de ideeënbus: die zoekt de naam van de inzender hierin op.
         renderIdeas();
         renderFeedback();
+        renderOpruimen();
     }
 
     // ---------- Render Schools ----------
@@ -2688,11 +2689,133 @@ document.addEventListener('DOMContentLoaded', () => {
         renderFeedback();
     });
 
+    // ---------- OPRUIMEN ----------
+    // Accounts die nooit gebruikt zijn: eerst een mail, daarna verwijderen. De
+    // regels staan in de database (public._opruim_kandidaten); dit tabblad laat
+    // zien wie er aan de beurt komt en zet de modus.
+    let opruimRijen = [];
+    let opruimModus = 'lijst';
+    let opruimFout = '';
+
+    const OPRUIM_ACTIE = {
+        'mail_zetje': 'Zetje-mail',
+        'mail_spook': 'Waarschuwingsmail',
+        'verwijder_spook': 'Verwijderen na waarschuwing',
+        'verwijder_onbevestigd': 'Verwijderen, e-mail nooit bevestigd'
+    };
+
+    async function loadOpruimen() {
+        const [rijen, inst, log, mails] = await Promise.all([
+            supabase.rpc('admin_opruim_overzicht'),
+            supabase.from('opruim_instellingen').select('modus').maybeSingle(),
+            supabase.from('opruim_log').select('id', { count: 'exact', head: true }),
+            supabase.from('opruim_mails').select('soort')
+        ]);
+
+        opruimFout = '';
+        if (rijen.error) {
+            console.error('Error loading opruim overzicht:', rijen.error);
+            opruimFout = 'De opruimfunctie is nog niet in de database geinstalleerd.';
+            opruimRijen = [];
+        } else {
+            opruimRijen = rijen.data || [];
+        }
+        opruimModus = inst.data?.modus || 'lijst';
+        const select = document.getElementById('opruimModus');
+        if (select) select.value = opruimModus;
+
+        const zetjes = (mails.data || []).filter(m => m.soort === 'zetje').length;
+        const waarschuwingen = (mails.data || []).filter(m => m.soort === 'spook').length;
+        const stats = document.getElementById('opruimStats');
+        if (stats) {
+            stats.innerHTML = `
+                <div><strong>${zetjes}</strong><span>zetje-mails verstuurd</span></div>
+                <div><strong>${waarschuwingen}</strong><span>waarschuwingen verstuurd</span></div>
+                <div><strong>${log.count ?? 0}</strong><span>accounts opgeruimd</span></div>`;
+        }
+        renderOpruimen();
+    }
+
+    function opruimWanneer(r) {
+        const datum = new Date(r.stap_datum);
+        const nu = Date.now();
+        if (r.due) return '<strong>Nu aan de beurt</strong>';
+        if (datum.getTime() <= nu) return 'Wacht op het einde van de zomerstop';
+        const dagen = Math.ceil((datum.getTime() - nu) / DAG);
+        return userDateShort(datum) + ' <span class="fb-time">(over ' + dagen + ' ' + (dagen === 1 ? 'dag' : 'dagen') + ')</span>';
+    }
+
+    function renderOpruimen() {
+        const tbody = document.getElementById('opruimTableBody');
+        if (!tbody) return;
+
+        const filter = document.getElementById('filterOpruimen')?.value || '';
+        const rijen = opruimRijen.filter(r => !filter || r.actie === filter);
+
+        const teller = document.getElementById('opruimCount');
+        if (teller) teller.textContent = rijen.length + ' van ' + opruimRijen.length;
+
+        if (rijen.length === 0) {
+            tbody.innerHTML = `
+                <tr><td colspan="5">
+                    <div class="admin-empty">
+                        <span class="empty-icon">&#129529;</span>
+                        <p>${opruimFout || (opruimRijen.length === 0 ? 'Er komt op dit moment niemand aan de beurt.' : 'Niemand bij deze stap.')}</p>
+                    </div>
+                </td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = rijen.map(r => {
+            const u = allUsers.find(p => p.id === r.user_id);
+            const naam = u?.full_name || r.naam || 'Onbekend';
+            const verwijderen = r.actie.startsWith('verwijder');
+            return `
+                <tr>
+                    <td>
+                        <strong>${escapeHtml(naam)}</strong>
+                        <div class="fb-email">${escapeHtml(r.email || '')}</div>
+                    </td>
+                    <td class="user-date">${userDateShort(new Date(r.aangemeld))}</td>
+                    <td class="user-date">${formatLaatstActief(r.laatst_actief)}</td>
+                    <td><span class="badge ${verwijderen ? 'badge-onbevestigd' : 'badge-nieuw'}">${escapeHtml(OPRUIM_ACTIE[r.actie] || r.actie)}</span></td>
+                    <td>${opruimWanneer(r)}</td>
+                </tr>`;
+        }).join('');
+    }
+
+    document.getElementById('filterOpruimen')?.addEventListener('change', renderOpruimen);
+
+    document.getElementById('opruimModus')?.addEventListener('change', async (e) => {
+        const select = e.target;
+        const nieuw = select.value;
+
+        async function opslaan() {
+            const { error } = await supabase.from('opruim_instellingen').update({ modus: nieuw }).eq('id', true);
+            if (error) {
+                alert('Opslaan mislukt: ' + error.message);
+                select.value = opruimModus;
+                return;
+            }
+            opruimModus = nieuw;
+        }
+
+        if (nieuw === 'volledig') {
+            // Verwijderen kan niet ongedaan worden gemaakt, dus eerst bevestigen.
+            select.value = opruimModus;
+            showConfirm('Automatisch verwijderen aanzetten',
+                'Accounts die gewaarschuwd zijn en niet zijn teruggekomen worden dan automatisch en definitief verwijderd. Ook ongebruikte accounts waarvan het e-mailadres nooit is bevestigd. Weet je het zeker?',
+                async () => { await opslaan(); select.value = opruimModus; });
+        } else {
+            await opslaan();
+        }
+    });
+
     // ---------- Initial Load ----------
     async function initAdminData() {
         if (window.userRole !== 'super_admin') return;
         try {
-            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets(), loadSpellingSentences(), loadEscaperooms(), loadRoadmap(), loadIdeas(), loadFeedback()]);
+            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets(), loadSpellingSentences(), loadEscaperooms(), loadRoadmap(), loadIdeas(), loadFeedback(), loadOpruimen()]);
         } catch (e) {
             console.error('Error during initial load:', e);
         }

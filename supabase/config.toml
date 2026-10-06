@@ -26,6 +26,11 @@ verify_jwt = true
 [functions.send-password-reset-email]
 verify_jwt = true
 
+# Wordt door pg_cron (via pg_net) aangeroepen, dus zonder JWT. De functie
+# controleert zelf een gedeeld geheim uit public.opruim_geheim.
+[functions.account-opruiming]
+verify_jwt = false
+
 # Wordt extern aangeroepen (keepalive), dus zonder JWT.
 [functions.send-keepalive-notification]
 verify_jwt = false

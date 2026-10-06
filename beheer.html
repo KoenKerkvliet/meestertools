@@ -23,9 +23,9 @@
     <meta name="twitter:image" content="https://meestertools.nl/assets/og-image.png">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>Meestertools - Beheer</title>
-    <link rel="stylesheet" href="css/style.css?v=1.59.0">
-    <link rel="stylesheet" href="css/instellingen.css?v=1.59.0">
-    <link rel="stylesheet" href="css/ideeenbus.css?v=1.59.0">
+    <link rel="stylesheet" href="css/style.css?v=1.60.0">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.60.0">
+    <link rel="stylesheet" href="css/ideeenbus.css?v=1.60.0">
 </head>
 <body>
     <!-- Header -->
@@ -48,6 +48,7 @@
             <button class="admin-tab" data-tab="escaperooms">Escape rooms</button>
             <button class="admin-tab" data-tab="ideas">Idee&euml;nbus <span class="admin-tab-badge" id="ideasBadge" hidden>0</span></button>
             <button class="admin-tab" data-tab="feedback">Feedback</button>
+            <button class="admin-tab" data-tab="opruimen">Opruimen</button>
             <button class="admin-tab" data-tab="roadmap">Roadmap</button>
         </div>
 
@@ -453,6 +454,63 @@
             </div>
         </div>
 
+        <!-- Opruimen Tab -->
+        <div class="admin-tab-panel" id="tab-opruimen">
+            <div class="op-card">
+                <div class="op-card-head">
+                    <div>
+                        <h3>Accounts opruimen</h3>
+                        <p class="admin-toolbar-note">Accounts die nooit gebruikt zijn krijgen eerst een mail en worden daarna verwijderd.
+                            Accounts met een klas worden nooit automatisch verwijderd. In juli en augustus staat alles stil.</p>
+                    </div>
+                    <div class="op-mode">
+                        <label for="opruimModus">Wat mag er gebeuren?</label>
+                        <select class="search-input" id="opruimModus">
+                            <option value="lijst">Alleen de lijst (er gebeurt niets)</option>
+                            <option value="mails">Mails versturen, nog niets verwijderen</option>
+                            <option value="volledig">Mails versturen &eacute;n verwijderen</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="op-stats" id="opruimStats"></div>
+            </div>
+
+            <div class="admin-toolbar">
+                <select class="search-input" id="filterOpruimen" style="max-width:300px;" aria-label="Filter op stap">
+                    <option value="">Alle stappen</option>
+                    <option value="mail_zetje">Zetje-mail</option>
+                    <option value="mail_spook">Waarschuwingsmail</option>
+                    <option value="verwijder_spook">Verwijderen na waarschuwing</option>
+                    <option value="verwijder_onbevestigd">Verwijderen, e-mail nooit bevestigd</option>
+                </select>
+                <span class="admin-toolbar-note" id="opruimCount"></span>
+            </div>
+
+            <div class="admin-table-wrapper scroll-x">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Gebruiker</th>
+                            <th>Aangemeld</th>
+                            <th>Laatst actief</th>
+                            <th>Volgende stap</th>
+                            <th>Wanneer</th>
+                        </tr>
+                    </thead>
+                    <tbody id="opruimTableBody">
+                        <tr>
+                            <td colspan="5">
+                                <div class="admin-empty">
+                                    <span class="empty-icon">&#129529;</span>
+                                    <p>Wordt geladen...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- Roadmap Tab -->
         <div class="admin-tab-panel" id="tab-roadmap">
             <div class="admin-toolbar">
@@ -814,13 +872,13 @@
     <!-- Footer -->
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.59.0"></script>
-    <script src="/js/template.js?v=1.59.0"></script>
+    <script src="/js/mt-shared.js?v=1.60.0"></script>
+    <script src="/js/template.js?v=1.60.0"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.59.0"></script>
-    <script src="js/app.js?v=1.59.0"></script>
-    <script src="js/instellingen.js?v=1.59.0"></script>
-    <script src="js/admin.js?v=1.59.0"></script>
+    <script src="js/supabase-config.js?v=1.60.0"></script>
+    <script src="js/app.js?v=1.60.0"></script>
+    <script src="js/instellingen.js?v=1.60.0"></script>
+    <script src="js/admin.js?v=1.60.0"></script>
 </body>
 </html>
