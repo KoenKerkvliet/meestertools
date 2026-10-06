@@ -16,39 +16,51 @@
    ============================================ */
 
 (function () {
-    if (typeof supabase === 'undefined') return;
+    // Volgende popups (feedback.js) wachten hierop, zodat er nooit twee
+    // popups tegelijk staan. Resolve't true als deze popup getoond is.
+    var resolveShown;
+    window.mtSchoolPopupShown = new Promise(function (r) { resolveShown = r; });
+
+    if (typeof supabase === 'undefined') { resolveShown(false); return; }
 
     function escapeHtml(s) { return MT.escapeHtml(s); }
 
-    async function init() {
-        if (!document.querySelector('.dashboard-content')) return;
+    // true = de popup is getoond.
+    async function check() {
+        if (!document.querySelector('.dashboard-content')) return false;
 
         try {
             // Eerst de schooljaar-popup laten beslissen; toont die zich,
             // dan stellen we de schoolvraag pas bij een volgende login.
             if (window.mtSchooljaarPopupShown) {
                 var archiefShown = await window.mtSchooljaarPopupShown;
-                if (archiefShown) return;
+                if (archiefShown) return false;
             }
 
             var sessionRes = await supabase.auth.getSession();
             var session = sessionRes && sessionRes.data ? sessionRes.data.session : null;
-            if (!session) return;
+            if (!session) return false;
 
             var profRes = await supabase
                 .from('profiles')
                 .select('school_id')
                 .eq('id', session.user.id)
                 .single();
-            if (!profRes.data || profRes.data.school_id) return;
+            if (!profRes.data || profRes.data.school_id) return false;
 
             // De scholenlijst haalt de suggestiewidget zelf op (en cachet hem),
             // dus die query hoeft hier niet meer.
             showModal(session.user.id);
+            return true;
         } catch (e) {
             // Popup is een extraatje; fouten mogen het dashboard niet breken.
             console.error('School-popup check mislukt:', e);
+            return false;
         }
+    }
+
+    async function init() {
+        resolveShown(await check());
     }
 
     function showModal(userId) {

@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderSchools();
         // Idem voor de ideeënbus: die zoekt de naam van de inzender hierin op.
         renderIdeas();
+        renderFeedback();
     }
 
     // ---------- Render Schools ----------
@@ -2515,11 +2516,183 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('closeRoadmapModal')?.addEventListener('click', () => closeModal('roadmapModal'));
     document.getElementById('cancelRoadmapModal')?.addEventListener('click', () => closeModal('roadmapModal'));
 
+    // ---------- FEEDBACK ----------
+    // Beoordelingen uit de dashboard-popup (js/feedback.js). Naam en school komen
+    // uit allUsers; die zijn er pas na loadUsers, dus die roept renderFeedback
+    // opnieuw aan (zoals bij de ideeënbus).
+    let allFeedback = [];
+
+    const FB_LABELS = ['Valt tegen', 'Kan beter', 'Prima', 'Goed', 'Geweldig'];
+
+    function fbStars(n) {
+        return '<span class="fb-stars" title="' + n + ' van 5: ' + FB_LABELS[n - 1] + '">' +
+            '&#9733;'.repeat(n) + '<span class="fb-stars-off">' + '&#9733;'.repeat(5 - n) + '</span></span>';
+    }
+
+    function fbAvg(rows) {
+        if (!rows.length) return 0;
+        return rows.reduce((s, r) => s + r.rating, 0) / rows.length;
+    }
+
+    function fbNum(n) {
+        return n.toLocaleString('nl-NL', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    }
+
+    function fbPerson(userId) {
+        const u = userId ? allUsers.find(p => p.id === userId) : null;
+        return {
+            name: u ? (u.full_name || u.email || 'Onbekend') : 'Account verwijderd',
+            email: u?.email || '',
+            school: u?.schools?.name || ''
+        };
+    }
+
+    async function loadFeedback() {
+        const { data, error } = await supabase
+            .from('feedback')
+            .select('id, user_id, rating, comment, created_at')
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.error('Error loading feedback:', error);
+            return;
+        }
+        allFeedback = data || [];
+        renderFeedback();
+    }
+
+    function renderFeedbackSummary() {
+        const box = document.getElementById('fbSummary');
+        if (!box) return;
+
+        if (allFeedback.length === 0) {
+            box.innerHTML = '';
+            return;
+        }
+
+        const total = allFeedback.length;
+        const withText = allFeedback.filter(f => (f.comment || '').trim()).length;
+        const active = document.getElementById('filterFeedbackStars')?.value || '';
+
+        const bars = [5, 4, 3, 2, 1].map(n => {
+            const count = allFeedback.filter(f => f.rating === n).length;
+            const pct = Math.round(count / total * 100);
+            return `<button type="button" class="fb-bar${active === String(n) ? ' active' : ''}" data-stars="${n}" title="Toon alleen ${n} ${n === 1 ? 'ster' : 'sterren'}">
+                <span class="fb-bar-label">${n} &#9733;</span>
+                <span class="fb-bar-track"><span class="fb-bar-fill" style="width:${pct}%"></span></span>
+                <span class="fb-bar-count">${count}</span>
+            </button>`;
+        }).join('');
+
+        // Gemiddelde per maand van de laatste zes maanden waarin er iets binnenkwam.
+        const perMonth = {};
+        allFeedback.forEach(f => {
+            const d = new Date(f.created_at);
+            const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+            (perMonth[key] = perMonth[key] || []).push(f);
+        });
+        const months = Object.keys(perMonth).sort().reverse().slice(0, 6).map(key => {
+            const [y, m] = key.split('-');
+            const label = new Date(Number(y), Number(m) - 1, 1)
+                .toLocaleDateString('nl-NL', { month: 'short', year: 'numeric' });
+            return `<div class="fb-month"><span>${label}</span><strong>${fbNum(fbAvg(perMonth[key]))}</strong><span class="fb-month-n">${perMonth[key].length}&times;</span></div>`;
+        }).join('');
+
+        box.innerHTML = `
+            <div class="fb-card fb-card-avg">
+                <div class="fb-avg">${fbNum(fbAvg(allFeedback))}</div>
+                <div class="fb-avg-stars">${fbStars(Math.round(fbAvg(allFeedback)))}</div>
+                <div class="fb-avg-sub">${total} ${total === 1 ? 'beoordeling' : 'beoordelingen'}<br>${withText} met toelichting</div>
+            </div>
+            <div class="fb-card fb-card-bars">${bars}</div>
+            <div class="fb-card fb-card-months">
+                <div class="fb-card-title">Gemiddelde per maand</div>
+                ${months}
+            </div>`;
+    }
+
+    function renderFeedback() {
+        const tbody = document.getElementById('feedbackTableBody');
+        if (!tbody) return;
+
+        const search = document.getElementById('searchFeedback')?.value?.toLowerCase() || '';
+        const stars = document.getElementById('filterFeedbackStars')?.value || '';
+        const text = document.getElementById('filterFeedbackText')?.value || '';
+        const sort = document.getElementById('sortFeedback')?.value || 'nieuwste';
+
+        renderFeedbackSummary();
+
+        const filtered = allFeedback.filter(f => {
+            if (stars && f.rating !== Number(stars)) return false;
+            const hasText = !!(f.comment || '').trim();
+            if (text === 'tekst' && !hasText) return false;
+            if (text === 'zonder' && hasText) return false;
+            if (!search) return true;
+            const p = fbPerson(f.user_id);
+            return p.name.toLowerCase().includes(search) ||
+                   p.email.toLowerCase().includes(search) ||
+                   p.school.toLowerCase().includes(search) ||
+                   (f.comment || '').toLowerCase().includes(search);
+        });
+
+        filtered.sort((a, b) => {
+            if (sort === 'oudste') return new Date(a.created_at) - new Date(b.created_at);
+            if (sort === 'laagste') return a.rating - b.rating || new Date(b.created_at) - new Date(a.created_at);
+            if (sort === 'hoogste') return b.rating - a.rating || new Date(b.created_at) - new Date(a.created_at);
+            return new Date(b.created_at) - new Date(a.created_at);
+        });
+
+        const teller = document.getElementById('fbCount');
+        if (teller) teller.textContent = filtered.length + ' van ' + allFeedback.length;
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = `
+                <tr><td colspan="5">
+                    <div class="admin-empty">
+                        <span class="empty-icon">&#11088;</span>
+                        <p>${allFeedback.length === 0
+                            ? 'Nog geen feedback binnen. Gebruikers worden twee weken na aanmelden gevraagd.'
+                            : 'Geen feedback die hierop past.'}</p>
+                    </div>
+                </td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(f => {
+            const p = fbPerson(f.user_id);
+            const d = new Date(f.created_at);
+            const comment = (f.comment || '').trim();
+            return `
+                <tr>
+                    <td class="user-date">${shortDate(f.created_at)}<br><span class="fb-time">${d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })}</span></td>
+                    <td>
+                        <strong>${escapeHtml(p.name)}</strong>
+                        ${p.email && p.email !== p.name ? `<div class="fb-email">${escapeHtml(p.email)}</div>` : ''}
+                    </td>
+                    <td>${p.school ? escapeHtml(p.school) : '<span class="no-school">Geen school</span>'}</td>
+                    <td>${fbStars(f.rating)}</td>
+                    <td class="fb-comment">${comment ? escapeHtml(comment) : '<span class="no-school">Geen toelichting</span>'}</td>
+                </tr>`;
+        }).join('');
+    }
+
+    ['searchFeedback'].forEach(id => document.getElementById(id)?.addEventListener('input', renderFeedback));
+    ['filterFeedbackStars', 'filterFeedbackText', 'sortFeedback'].forEach(id =>
+        document.getElementById(id)?.addEventListener('change', renderFeedback));
+    // De staafjes in de samenvatting werken als snelfilter; nogmaals klikken zet het weer uit.
+    document.getElementById('fbSummary')?.addEventListener('click', (e) => {
+        const bar = e.target.closest('[data-stars]');
+        if (!bar) return;
+        const select = document.getElementById('filterFeedbackStars');
+        select.value = select.value === bar.dataset.stars ? '' : bar.dataset.stars;
+        renderFeedback();
+    });
+
     // ---------- Initial Load ----------
     async function initAdminData() {
         if (window.userRole !== 'super_admin') return;
         try {
-            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets(), loadSpellingSentences(), loadEscaperooms(), loadRoadmap(), loadIdeas()]);
+            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets(), loadSpellingSentences(), loadEscaperooms(), loadRoadmap(), loadIdeas(), loadFeedback()]);
         } catch (e) {
             console.error('Error during initial load:', e);
         }

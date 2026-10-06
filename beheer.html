@@ -23,9 +23,9 @@
     <meta name="twitter:image" content="https://meestertools.nl/assets/og-image.png">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>Meestertools - Beheer</title>
-    <link rel="stylesheet" href="css/style.css?v=1.58.7">
-    <link rel="stylesheet" href="css/instellingen.css?v=1.58.7">
-    <link rel="stylesheet" href="css/ideeenbus.css?v=1.58.7">
+    <link rel="stylesheet" href="css/style.css?v=1.59.0">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.59.0">
+    <link rel="stylesheet" href="css/ideeenbus.css?v=1.59.0">
 </head>
 <body>
     <!-- Header -->
@@ -47,6 +47,7 @@
             <button class="admin-tab" data-tab="game24">24 Game</button>
             <button class="admin-tab" data-tab="escaperooms">Escape rooms</button>
             <button class="admin-tab" data-tab="ideas">Idee&euml;nbus <span class="admin-tab-badge" id="ideasBadge" hidden>0</span></button>
+            <button class="admin-tab" data-tab="feedback">Feedback</button>
             <button class="admin-tab" data-tab="roadmap">Roadmap</button>
         </div>
 
@@ -389,6 +390,61 @@
                                 <div class="admin-empty">
                                     <span class="empty-icon">&#128161;</span>
                                     <p>Idee&euml;n worden geladen...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Feedback Tab -->
+        <div class="admin-tab-panel" id="tab-feedback">
+            <div class="fb-summary" id="fbSummary"></div>
+
+            <div class="admin-toolbar">
+                <input type="text" class="search-input" id="searchFeedback" placeholder="Zoek op naam, school of tekst...">
+                <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                    <span class="admin-toolbar-note" id="fbCount"></span>
+                    <select class="search-input" id="filterFeedbackStars" style="max-width:160px;" aria-label="Filter op sterren">
+                        <option value="">Alle sterren</option>
+                        <option value="5">5 sterren</option>
+                        <option value="4">4 sterren</option>
+                        <option value="3">3 sterren</option>
+                        <option value="2">2 sterren</option>
+                        <option value="1">1 ster</option>
+                    </select>
+                    <select class="search-input" id="filterFeedbackText" style="max-width:200px;" aria-label="Filter op toelichting">
+                        <option value="">Met en zonder tekst</option>
+                        <option value="tekst">Alleen met tekst</option>
+                        <option value="zonder">Alleen sterren</option>
+                    </select>
+                    <select class="search-input" id="sortFeedback" style="max-width:200px;" aria-label="Sorteren">
+                        <option value="nieuwste">Nieuwste eerst</option>
+                        <option value="oudste">Oudste eerst</option>
+                        <option value="laagste">Laagste score eerst</option>
+                        <option value="hoogste">Hoogste score eerst</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="admin-table-wrapper scroll-x">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Datum</th>
+                            <th>Van</th>
+                            <th>School</th>
+                            <th>Beoordeling</th>
+                            <th>Toelichting</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feedbackTableBody">
+                        <tr>
+                            <td colspan="5">
+                                <div class="admin-empty">
+                                    <span class="empty-icon">&#11088;</span>
+                                    <p>Feedback wordt geladen...</p>
                                 </div>
                             </td>
                         </tr>
@@ -758,13 +814,13 @@
     <!-- Footer -->
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.58.7"></script>
-    <script src="/js/template.js?v=1.58.7"></script>
+    <script src="/js/mt-shared.js?v=1.59.0"></script>
+    <script src="/js/template.js?v=1.59.0"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.58.7"></script>
-    <script src="js/app.js?v=1.58.7"></script>
-    <script src="js/instellingen.js?v=1.58.7"></script>
-    <script src="js/admin.js?v=1.58.7"></script>
+    <script src="js/supabase-config.js?v=1.59.0"></script>
+    <script src="js/app.js?v=1.59.0"></script>
+    <script src="js/instellingen.js?v=1.59.0"></script>
+    <script src="js/admin.js?v=1.59.0"></script>
 </body>
 </html>

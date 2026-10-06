@@ -1775,6 +1775,265 @@ a {
     color: var(--accent-green);
 }
 
+/* ---------- Feedback-popup (dashboard) ---------- */
+.feedback-overlay [hidden] {
+    display: none !important;
+}
+
+.feedback-modal {
+    max-width: 460px;
+    outline: none;
+}
+
+.feedback-stars {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin: 8px 0 4px;
+}
+
+.feedback-star {
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    border: none;
+    background: none;
+    font-size: 42px;
+    line-height: 1;
+    color: #D5D8E4;
+    cursor: pointer;
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.feedback-star.on {
+    color: #F5B301;
+}
+
+.feedback-star:hover {
+    transform: scale(1.12);
+}
+
+.feedback-star:focus-visible {
+    outline: 3px solid rgba(108, 99, 255, 0.4);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+.feedback-star-label {
+    min-height: 22px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.feedback-comment-label {
+    display: block;
+    margin: 4px 0 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.feedback-comment-label span {
+    font-weight: 500;
+    color: var(--text-medium);
+}
+
+.feedback-modal textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #E8E8F0;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: inherit;
+    line-height: 1.5;
+    resize: vertical;
+    outline: none;
+    margin-bottom: 8px;
+    transition: var(--transition);
+}
+
+.feedback-modal textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.1);
+}
+
+.feedback-modal .sj-note {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-medium);
+    line-height: 1.5;
+}
+
+.feedback-thanks {
+    margin: 12px 0;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Feedback-tabblad in /beheer */
+.fb-summary {
+    display: grid;
+    grid-template-columns: 220px minmax(260px, 1fr) 240px;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.fb-summary:empty {
+    display: none;
+}
+
+.fb-card {
+    background: var(--bg-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: 18px 20px;
+}
+
+.fb-card-avg {
+    text-align: center;
+}
+
+.fb-avg {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text-dark);
+}
+
+.fb-avg-sub {
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--text-medium);
+    line-height: 1.5;
+}
+
+.fb-stars {
+    color: #F5B301;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.fb-stars-off {
+    color: #D5D8E4;
+}
+
+.fb-card-bars {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+}
+
+.fb-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 6px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: none;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text-medium);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.fb-bar:hover,
+.fb-bar.active {
+    background: #EEF0FF;
+}
+
+.fb-bar.active {
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+
+.fb-bar-label {
+    width: 34px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.fb-bar-track {
+    flex: 1;
+    height: 10px;
+    border-radius: 999px;
+    background: var(--bg-light);
+    overflow: hidden;
+}
+
+.fb-bar-fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: #F5B301;
+}
+
+.fb-bar-count {
+    width: 28px;
+    text-align: right;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.fb-card-title {
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--text-medium);
+}
+
+.fb-month {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 3px 0;
+    font-size: 13px;
+    color: var(--text-medium);
+}
+
+.fb-month span:first-child {
+    flex: 1;
+}
+
+.fb-month strong {
+    color: var(--text-dark);
+}
+
+.fb-month-n {
+    width: 32px;
+    text-align: right;
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+.fb-time,
+.fb-email {
+    font-size: 12px;
+    color: var(--text-medium);
+}
+
+.admin-table td.fb-comment {
+    min-width: 280px;
+    max-width: 520px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+    .fb-summary {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Labels in de gebruikerslijst van /beheer */
 .badge-nieuw {
     background: #E8F8EC;
