@@ -1775,6 +1775,123 @@ a {
     color: var(--accent-green);
 }
 
+/* Labels in de gebruikerslijst van /beheer */
+.badge-nieuw {
+    background: #E8F8EC;
+    color: #2E8B45;
+}
+
+/* Inactief is een rustig label, geen alarm: grijs met een dun randje. */
+.badge-inactief {
+    background: #F1F2F6;
+    color: var(--text-medium);
+    box-shadow: inset 0 0 0 1px #DADCE6;
+}
+
+.badge-onbevestigd {
+    background: #FFF4E5;
+    color: #C26A0A;
+}
+
+.user-name-cell {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+}
+
+.user-date {
+    white-space: nowrap;
+    color: var(--text-medium);
+}
+
+.admin-table-wrapper.scroll-x {
+    overflow-x: auto;
+}
+
+/* Filterbalk boven de gebruikerslijst */
+.user-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.user-chips,
+.user-letters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.user-chip {
+    padding: 6px 14px;
+    border: 2px solid #E8E8F0;
+    border-radius: 999px;
+    background: var(--bg-white);
+    color: var(--text-medium);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.user-chip:hover {
+    border-color: var(--primary-light);
+    color: var(--primary);
+}
+
+.user-chip.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+.user-chip-count {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: rgba(108, 99, 255, 0.1);
+    font-size: 11px;
+}
+
+.user-chip.active .user-chip-count {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.user-letter {
+    min-width: 30px;
+    padding: 4px 8px;
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-sm);
+    background: var(--bg-white);
+    color: var(--text-dark);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.user-letter:hover:not(:disabled) {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.user-letter.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+.user-letter:disabled {
+    color: var(--text-light);
+    background: var(--bg-light);
+    cursor: default;
+}
+
 /* No school badge */
 .no-school {
     color: var(--text-light);

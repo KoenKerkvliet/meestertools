@@ -23,9 +23,9 @@
     <meta name="twitter:image" content="https://meestertools.nl/assets/og-image.png">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title>Meestertools - Beheer</title>
-    <link rel="stylesheet" href="css/style.css?v=1.58.6">
-    <link rel="stylesheet" href="css/instellingen.css?v=1.58.6">
-    <link rel="stylesheet" href="css/ideeenbus.css?v=1.58.6">
+    <link rel="stylesheet" href="css/style.css?v=1.58.7">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.58.7">
+    <link rel="stylesheet" href="css/ideeenbus.css?v=1.58.7">
 </head>
 <body>
     <!-- Header -->
@@ -93,14 +93,29 @@
         <div class="admin-tab-panel" id="tab-users">
             <div class="admin-toolbar">
                 <input type="text" class="search-input" id="searchUsers" placeholder="Zoek gebruiker...">
+                <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                    <span class="admin-toolbar-note" id="userCount"></span>
+                    <select class="search-input" id="sortUsers" style="max-width:220px;" aria-label="Sorteren">
+                        <option value="nieuwste">Nieuwste aanmelding eerst</option>
+                        <option value="actief">Laatst actief eerst</option>
+                        <option value="naam">Naam A-Z</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="admin-table-wrapper">
+            <div class="user-filters">
+                <div class="user-chips" id="userStatusChips" role="group" aria-label="Filter op status"></div>
+                <div class="user-letters" id="userLetterStrip" role="group" aria-label="Filter op beginletter"></div>
+            </div>
+
+            <div class="admin-table-wrapper scroll-x">
                 <table class="admin-table">
                     <thead>
                         <tr>
                             <th>Naam</th>
                             <th>E-mail</th>
+                            <th>Aangemeld</th>
+                            <th>Laatst actief</th>
                             <th>Rol</th>
                             <th>School</th>
                             <th>Acties</th>
@@ -108,7 +123,7 @@
                     </thead>
                     <tbody id="usersTableBody">
                         <tr>
-                            <td colspan="5">
+                            <td colspan="7">
                                 <div class="admin-empty">
                                     <span class="empty-icon">&#128100;</span>
                                     <p>Gebruikers worden geladen...</p>
@@ -743,13 +758,13 @@
     <!-- Footer -->
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.58.6"></script>
-    <script src="/js/template.js?v=1.58.6"></script>
+    <script src="/js/mt-shared.js?v=1.58.7"></script>
+    <script src="/js/template.js?v=1.58.7"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.58.6"></script>
-    <script src="js/app.js?v=1.58.6"></script>
-    <script src="js/instellingen.js?v=1.58.6"></script>
-    <script src="js/admin.js?v=1.58.6"></script>
+    <script src="js/supabase-config.js?v=1.58.7"></script>
+    <script src="js/app.js?v=1.58.7"></script>
+    <script src="js/instellingen.js?v=1.58.7"></script>
+    <script src="js/admin.js?v=1.58.7"></script>
 </body>
 </html>

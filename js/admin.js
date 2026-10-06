@@ -58,16 +58,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function loadUsers() {
-        const { data, error } = await supabase
-            .from('profiles')
-            .select('*, schools(name)')
-            .order('full_name');
+        const [profRes, actRes] = await Promise.all([
+            supabase.from('profiles').select('*, schools(name)').order('full_name'),
+            // laatst actief / bevestigd / heeft klas: staat in auth.*, dus via een functie
+            supabase.rpc('admin_gebruikersactiviteit')
+        ]);
 
-        if (error) {
-            console.error('Error loading users:', error);
+        if (profRes.error) {
+            console.error('Error loading users:', profRes.error);
             return;
         }
-        allUsers = data || [];
+        // Zonder de activiteitsgegevens blijft de lijst werken, alleen zonder labels.
+        if (actRes.error) console.error('Error loading user activity:', actRes.error);
+        const activity = new Map((actRes.data || []).map(a => [a.user_id, a]));
+
+        allUsers = (profRes.data || []).map(u => {
+            const a = activity.get(u.id);
+            return {
+                ...u,
+                laatstActief: a?.laatst_actief || null,
+                emailBevestigd: a ? a.email_bevestigd : true,
+                heeftKlas: a ? a.heeft_klas : true,
+                heeftActiviteit: !!a
+            };
+        });
         renderUsers();
         // De schollentabel toont gebruikers-per-school; opnieuw renderen nu
         // de gebruikers binnen zijn (scholen en gebruikers laden parallel).
@@ -130,18 +144,147 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---------- Render Users ----------
+    // Labels en filters voor de gebruikerslijst. De drempels staan hier bij elkaar
+    // zodat ze makkelijk bij te stellen zijn.
+    const DAG = 24 * 60 * 60 * 1000;
+    const NIEUW_BINNEN_DAGEN = 7;     // "Nieuw"-badge
+    const INACTIEF_NA_DAGEN = 30;     // zo lang niet gezien = inactief
+
+    const USER_STATUS_FILTERS = [
+        { key: 'alle', label: 'Alle' },
+        { key: 'nieuw', label: 'Nieuw' },
+        { key: 'inactief', label: 'Inactief' },
+        { key: 'onbevestigd', label: 'Niet bevestigd' },
+        { key: 'zonder-klas', label: 'Zonder klas' },
+        { key: 'met-klas', label: 'Met klas' }
+    ];
+    let userStatusFilter = 'alle';
+    let userLetterFilter = '';
+
+    // Inactief = aangemeld langer dan een week geleden, en dan óf nooit meer
+    // teruggekomen zonder een klas aan te maken, óf langer dan een maand niet gezien.
+    function userLabels(u) {
+        const now = Date.now();
+        const aangemeld = new Date(u.created_at).getTime();
+        const laatst = u.laatstActief ? new Date(u.laatstActief).getTime() : null;
+        const nieuw = now - aangemeld <= NIEUW_BINNEN_DAGEN * DAG;
+
+        let inactiefReden = '';
+        if (u.heeftActiviteit && !nieuw && u.role !== 'super_admin') {
+            if (laatst === null || (!u.heeftKlas && laatst - aangemeld < DAG)) {
+                inactiefReden = 'Na het aanmelden niet meer teruggekomen';
+            } else if (now - laatst > INACTIEF_NA_DAGEN * DAG) {
+                inactiefReden = 'Al ' + Math.floor((now - laatst) / DAG) + ' dagen niet gezien';
+            }
+        }
+        return { nieuw, inactiefReden, onbevestigd: !u.emailBevestigd };
+    }
+
+    function userMatchesStatus(u, l, key) {
+        switch (key) {
+            case 'nieuw': return l.nieuw;
+            case 'inactief': return !!l.inactiefReden;
+            case 'onbevestigd': return l.onbevestigd;
+            case 'zonder-klas': return !u.heeftKlas;
+            case 'met-klas': return u.heeftKlas;
+            default: return true;
+        }
+    }
+
+    // A-Z op de eerste letter van de naam (accenten weggehaald), anders van het
+    // e-mailadres. Alles wat geen letter is komt onder #.
+    function userLetter(u) {
+        const bron = (u.full_name || u.email || '').trim();
+        const l = bron.normalize('NFD').replace(/[̀-ͯ]/g, '').charAt(0).toUpperCase();
+        return /[A-Z]/.test(l) ? l : '#';
+    }
+
+    function userTime(d) {
+        return d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function userDateShort(d) {
+        return d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    function dagenGeleden(d) {
+        return Math.round((new Date().setHours(0, 0, 0, 0) - new Date(d).setHours(0, 0, 0, 0)) / DAG);
+    }
+
+    // "Vandaag 14:32", "Gisteren 09:10", anders de datum.
+    function formatAangemeld(iso) {
+        if (!iso) return '-';
+        const d = new Date(iso);
+        const dagen = dagenGeleden(d);
+        if (dagen === 0) return 'Vandaag ' + userTime(d);
+        if (dagen === 1) return 'Gisteren ' + userTime(d);
+        return userDateShort(d);
+    }
+
+    function formatLaatstActief(iso) {
+        if (!iso) return '<span class="no-school">Nooit</span>';
+        const d = new Date(iso);
+        const dagen = dagenGeleden(d);
+        let tekst;
+        if (dagen <= 0) tekst = 'Vandaag';
+        else if (dagen === 1) tekst = 'Gisteren';
+        else if (dagen < 14) tekst = dagen + ' dagen geleden';
+        else if (dagen < 60) tekst = Math.floor(dagen / 7) + ' weken geleden';
+        else tekst = userDateShort(d);
+        return '<span title="' + escapeHtml(userDateShort(d) + ' ' + userTime(d)) + '">' + tekst + '</span>';
+    }
+
+    function renderUserFilters(bySearch, byStatus) {
+        const chips = document.getElementById('userStatusChips');
+        const letters = document.getElementById('userLetterStrip');
+        if (!chips || !letters) return;
+
+        chips.innerHTML = USER_STATUS_FILTERS.map(f => {
+            const n = bySearch.filter(d => userMatchesStatus(d.u, d.l, f.key)).length;
+            return `<button type="button" class="user-chip${userStatusFilter === f.key ? ' active' : ''}" data-status="${f.key}">
+                ${f.label} <span class="user-chip-count">${n}</span></button>`;
+        }).join('');
+
+        const perLetter = {};
+        byStatus.forEach(d => { perLetter[d.letter] = (perLetter[d.letter] || 0) + 1; });
+        letters.innerHTML =
+            `<button type="button" class="user-letter${userLetterFilter === '' ? ' active' : ''}" data-letter="">Alle</button>` +
+            'ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split('').map(l => {
+                const n = perLetter[l] || 0;
+                return `<button type="button" class="user-letter${userLetterFilter === l ? ' active' : ''}" data-letter="${l}"
+                    ${n === 0 ? 'disabled' : ''} title="${n} gebruiker${n === 1 ? '' : 's'}">${l}</button>`;
+            }).join('');
+    }
+
     function renderUsers() {
         const tbody = document.getElementById('usersTableBody');
         const search = document.getElementById('searchUsers')?.value?.toLowerCase() || '';
+        const sort = document.getElementById('sortUsers')?.value || 'nieuwste';
 
-        const filtered = allUsers.filter(u =>
-            (u.full_name || '').toLowerCase().includes(search) ||
-            (u.email || '').toLowerCase().includes(search)
+        const decorated = allUsers.map(u => ({ u, l: userLabels(u), letter: userLetter(u) }));
+        const bySearch = decorated.filter(d =>
+            (d.u.full_name || '').toLowerCase().includes(search) ||
+            (d.u.email || '').toLowerCase().includes(search)
         );
+        const byStatus = bySearch.filter(d => userMatchesStatus(d.u, d.l, userStatusFilter));
+
+        // Een gekozen letter zonder resultaat (na een ander filter) zou een lege lijst geven.
+        if (userLetterFilter && !byStatus.some(d => d.letter === userLetterFilter)) userLetterFilter = '';
+        const filtered = byStatus.filter(d => !userLetterFilter || d.letter === userLetterFilter);
+
+        filtered.sort((a, b) => {
+            if (sort === 'naam') return (a.u.full_name || a.u.email || '').localeCompare(b.u.full_name || b.u.email || '', 'nl');
+            if (sort === 'actief') return new Date(b.u.laatstActief || 0) - new Date(a.u.laatstActief || 0);
+            return new Date(b.u.created_at) - new Date(a.u.created_at);
+        });
+
+        renderUserFilters(bySearch, byStatus);
+        const teller = document.getElementById('userCount');
+        if (teller) teller.textContent = filtered.length + ' van ' + allUsers.length + ' gebruikers';
 
         if (filtered.length === 0) {
             tbody.innerHTML = `
-                <tr><td colspan="5">
+                <tr><td colspan="7">
                     <div class="admin-empty">
                         <span class="empty-icon">&#128100;</span>
                         <p>Geen gebruikers gevonden</p>
@@ -150,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        tbody.innerHTML = filtered.map(user => {
+        tbody.innerHTML = filtered.map(({ u: user, l }) => {
             const roleBadge = user.role === 'super_admin'
                 ? '<span class="badge badge-super">Super Admin</span>'
                 : user.role === 'admin'
@@ -161,10 +304,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? escapeHtml(user.schools.name)
                 : '<span class="no-school">Geen school</span>';
 
+            const labels = [
+                l.nieuw ? '<span class="badge badge-nieuw">Nieuw</span>' : '',
+                l.inactiefReden ? `<span class="badge badge-inactief" title="${escapeHtml(l.inactiefReden)}">Inactief</span>` : '',
+                l.onbevestigd ? '<span class="badge badge-onbevestigd" title="De bevestigingsmail is nog niet aangeklikt">Niet bevestigd</span>' : ''
+            ].join('');
+
             return `
                 <tr>
-                    <td><strong>${escapeHtml(user.full_name || 'Onbekend')}</strong></td>
+                    <td>
+                        <div class="user-name-cell">
+                            <strong>${escapeHtml(user.full_name || 'Onbekend')}</strong>
+                            ${labels}
+                        </div>
+                    </td>
                     <td>${escapeHtml(user.email || '-')}</td>
+                    <td class="user-date">${formatAangemeld(user.created_at)}</td>
+                    <td class="user-date">${formatLaatstActief(user.laatstActief)}</td>
                     <td>${roleBadge}</td>
                     <td>${schoolName}</td>
                     <td class="actions">
@@ -320,6 +476,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------- Search ----------
     document.getElementById('searchSchools')?.addEventListener('input', renderSchools);
     document.getElementById('searchUsers')?.addEventListener('input', renderUsers);
+    document.getElementById('sortUsers')?.addEventListener('change', renderUsers);
+    document.getElementById('userStatusChips')?.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-status]');
+        if (!btn) return;
+        userStatusFilter = btn.dataset.status;
+        renderUsers();
+    });
+    document.getElementById('userLetterStrip')?.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-letter]');
+        if (!btn || btn.disabled) return;
+        userLetterFilter = btn.dataset.letter;
+        renderUsers();
+    });
     document.getElementById('showArchivedSchools')?.addEventListener('change', loadSchools);
 
     // ---------- Confirm Modal ----------
