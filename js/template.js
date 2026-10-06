@@ -11,7 +11,7 @@
      zoekbalk in de header en door de favorieten op het dashboard.
    - een zoekbalk in de header waarmee je elke tool snel vindt.
 
-   Uses absolute paths (/dashboard, /changelog, /favicon.svg)
+   Uses absolute paths (/dashboard, /changelog, /favicon.ico)
    zodat 'ie vanuit elke nesting-diepte hetzelfde werkt.
 
    Runs synchronously — script tag staat na de placeholders maar
@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.60.0';
+    const VERSION = 'v1.60.1';
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [
@@ -126,7 +126,7 @@
     const headerHtml = `
 <header class="app-header">
     <a href="/dashboard" class="header-logo">
-        <span class="logo-icon">&#127891;</span>
+        <img class="logo-img" src="/assets/mascotte-96.png" width="36" height="36" alt="">
         Meestertools
     </a>
     <div class="header-favs" id="headerFavs"></div>
