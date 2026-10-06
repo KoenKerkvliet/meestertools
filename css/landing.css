@@ -27,7 +27,7 @@
     color: var(--text-dark);
     text-decoration: none;
 }
-.lp-logo .logo-img { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; }
+.lp-logo .logo-img { width: 44px; height: 44px; flex-shrink: 0; }
 .lp-header-actions {
     display: flex;
     align-items: center;
@@ -519,7 +519,7 @@
 }
 @media (max-width: 420px) {
     .lp-logo-text { display: none; }
-    .lp-logo .logo-img { width: 40px; height: 40px; }
+    .lp-logo .logo-img { width: 46px; height: 46px; }
 }
 
 /* Premium-tool in het overzicht: wel laten zien dat het bestaat, maar niet

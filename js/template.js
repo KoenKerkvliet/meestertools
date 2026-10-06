@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.60.1';
+    const VERSION = 'v1.60.2';
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [
@@ -126,7 +126,7 @@
     const headerHtml = `
 <header class="app-header">
     <a href="/dashboard" class="header-logo">
-        <img class="logo-img" src="/assets/mascotte-96.png" width="36" height="36" alt="">
+        <img class="logo-img" src="/assets/badge-96.png" width="44" height="44" alt="">
         Meestertools
     </a>
     <div class="header-favs" id="headerFavs"></div>
