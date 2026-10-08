@@ -10,6 +10,7 @@
 
 (function () {
     const POLL_MS = 2500;
+    const SLOW_POLL_MS = 10000;   // tijdens spelen / bekijkmodus
     const PROGRESS_EVERY = 3;     // elke 3 sommen stats pushen
     const PROGRESS_MAX_GAP = 4000; // of minstens elke 4s
 
@@ -204,16 +205,28 @@
     }
 
     // ---------- Polling ----------
+    // In de lobby snel (de start moet direct doorkomen). Tijdens het spelen en
+    // in de bekijkmodus kan het hooguit nog 'closed' worden, en elke
+    // progress-push brengt de status al mee; dan is een status-vraag pas nodig
+    // als er SLOW_POLL_MS lang geen contact was. Verborgen tabblad: niets.
+    let lastContact = 0;
+    async function pollStatus() {
+        if (document.hidden) return;
+        if ((playing || purpose === 'view') && Date.now() - lastContact < SLOW_POLL_MS) return;
+        lastContact = Date.now();
+        const res = await call('status');
+        if (!res || !res.ok) return;
+        if (!res.exists) { stopPolling(); return; }
+        applyPub(res);
+        if (res.status && res.status !== status) routeByStatus(res.status);
+    }
     function startPolling() {
         stopPolling();
-        pollTimer = setInterval(async () => {
-            const res = await call('status');
-            if (!res || !res.ok) return;
-            if (!res.exists) { stopPolling(); return; }
-            applyPub(res);
-            if (res.status && res.status !== status) routeByStatus(res.status);
-        }, POLL_MS);
+        pollTimer = setInterval(pollStatus, POLL_MS);
     }
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && pollTimer) { lastContact = 0; pollStatus(); }
+    });
     function stopPolling() { if (pollTimer) { clearInterval(pollTimer); pollTimer = null; } }
 
     // ---------- Aanmelden ----------
@@ -378,8 +391,13 @@
             (now - lastPushAt) >= PROGRESS_MAX_GAP;
         if (!due) return;
         lastPushAt = now; lastPushAnswered = answered;
-        // fire-and-forget; loop niet blokkeren
-        call('progress', { participantId, answered, correct, totalMs, finished: !!finished });
+        // fire-and-forget; loop niet blokkeren. Het antwoord bevat de status,
+        // dus dit telt als contact en scheelt een losse status-poll.
+        call('progress', { participantId, answered, correct, totalMs, finished: !!finished }).then(r => {
+            if (!r || !r.ok) return;
+            lastContact = Date.now();
+            if (r.status === 'closed' && status !== 'closed') routeByStatus('closed');
+        });
     }
 
     async function endGame(closedByTeacher) {

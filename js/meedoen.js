@@ -101,17 +101,22 @@
     function escapeHtml(s) { return MT.escapeHtml(s); }
 
     // ---------- Polling ----------
+    // Verborgen tabblad: niet pollen (elke vraag is een edge-function-aanroep).
+    // Bij terugkomen meteen kijken.
+    async function pollStatus() {
+        if (document.hidden) return;
+        const res = await call('status');
+        if (!res || !res.ok) return;
+        if (!res.exists) { stopPolling(); return; }
+        if (res.focusName) focusName = res.focusName;
+        if (res.status && res.status !== status) routeByStatus(res.status);
+    }
     function startPolling() {
         stopPolling();
-        pollTimer = setInterval(async () => {
-            const res = await call('status');
-            if (!res || !res.ok) return;
-            if (!res.exists) { stopPolling(); return; }
-            if (res.focusName) focusName = res.focusName;
-            if (res.status && res.status !== status) routeByStatus(res.status);
-        }, POLL_MS);
+        pollTimer = setInterval(pollStatus, POLL_MS);
     }
     function stopPolling() { if (pollTimer) { clearInterval(pollTimer); pollTimer = null; } }
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && pollTimer) pollStatus(); });
 
     // ---------- Aanmelden ----------
     function monsterUrl(p) { return '/' + String(p || '').replace(/^\/+/, ''); }

@@ -17,6 +17,7 @@
 
 (function () {
     const POLL_MS = 2500;
+    const SLOW_POLL_MS = 10000;   // tijdens het spelen
     const GOLD_NEEDED = 2;
     const COOLDOWN_MS = 60000;
     const STORE_KEY = 'mt_meedoen_er';
@@ -285,9 +286,17 @@
     }
 
     // ---------- Polling ----------
+    // In de lobby snel (de start moet direct doorkomen). Tijdens het spel telt
+    // de klok zelf af; dan hoeven we alleen nog te merken dat de leerkracht
+    // stopt of de tijd aanpast, en dat mag een paar tellen later. Een sessie
+    // duurt al gauw een half uur, dus dat scheelt flink in aanroepen.
+    let lastPoll = 0;
     function startPolling() {
         stopPolling();
         pollTimer = setInterval(async () => {
+            if (document.hidden) return;
+            if (status === 'playing' && Date.now() - lastPoll < SLOW_POLL_MS) return;
+            lastPoll = Date.now();
             const res = await call('status');
             if (!res || !res.ok || !res.exists) return;
             syncSessionInfo(res);
@@ -300,6 +309,7 @@
         }, POLL_MS);
     }
     function stopPolling() { if (pollTimer) { clearInterval(pollTimer); pollTimer = null; } }
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) lastPoll = 0; });
 
     // ---------- Server-check ----------
     async function serverCheck(q, answer) {

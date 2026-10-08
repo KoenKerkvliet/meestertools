@@ -147,9 +147,13 @@
 
     // ---------- Actieve sessies ("Doe nu mee!") ----------
     function stopSessionsPoll() { if (sessionsPoll) { clearInterval(sessionsPoll); sessionsPoll = null; } }
-    function startSessionsPoll() { stopSessionsPoll(); sessionsPoll = setInterval(loadSessions, 6000); }
+    // Elke vraag is een edge-function-aanroep (gratis plan: 500k per maand) en
+    // de hub staat soms een hele ochtend open. Daarom rustig pollen, niets doen
+    // als het tabblad niet zichtbaar is, en bij terugkomen meteen verversen.
+    function startSessionsPoll() { stopSessionsPoll(); sessionsPoll = setInterval(loadSessions, 15000); }
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && sessionsPoll) loadSessions(); });
     async function loadSessions() {
-        if (!code) return;
+        if (!code || document.hidden) return;
         const res = await call('sessions', { code: code });
         renderSessions((res && res.ok && res.sessions) || []);
     }

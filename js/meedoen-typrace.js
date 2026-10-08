@@ -104,9 +104,12 @@
     }
 
     // ---------- Poll (wachten op start / einde) ----------
-    function startPoll() { stopPoll(); pollTimer = setInterval(pollStatus, 2000); }
+    // Niet pollen als het tabblad verborgen is; bij terugkomen meteen kijken.
+    function startPoll() { stopPoll(); pollTimer = setInterval(pollStatus, 2500); }
     function stopPoll() { if (pollTimer) { clearInterval(pollTimer); pollTimer = null; } }
+    document.addEventListener('visibilitychange', function () { if (!document.hidden && pollTimer) pollStatus(); });
     async function pollStatus() {
+        if (document.hidden) return;
         var res = await call('status');
         if (!res.ok || !res.exists) return;
         if (res.status === 'playing' && phase === 'wait') { startGame(res.startedAt); }
@@ -161,12 +164,19 @@
         }
     }
 
-    async function reportScore() { if (participantId) await call('progress', { participantId: participantId, score: score }); }
+    // Alleen melden als de score veranderd is: een kind dat even stilzit kost
+    // dan geen aanroepen. De eindscore gaat altijd mee (force).
+    var lastReported = -1;
+    async function reportScore(force) {
+        if (!participantId || (force !== true && score === lastReported)) return;
+        lastReported = score;
+        await call('progress', { participantId: participantId, score: score });
+    }
 
     async function finishGame() {
         if (gameTimer) { clearInterval(gameTimer); gameTimer = null; }
         if (reportTimer) { clearInterval(reportTimer); reportTimer = null; }
-        await reportScore();
+        await reportScore(true);
         show('done');
         $('doneScore').textContent = score;
         $('doneText').textContent = 'Goed getypt! Kijk op het bord voor de ranglijst.';
