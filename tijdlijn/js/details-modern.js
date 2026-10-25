@@ -445,6 +445,26 @@ Object.assign(window.DETAILS, {
   'In Suriname moesten de vrijgemaakten nog tien jaar onder staatstoezicht verplicht werken, vaak op dezelfde plantages. Pas in 1873 waren ze echt vrij. Daarna haalden planters contractarbeiders uit Brits-Indië en later uit Java.',
   'Op 1 juli wordt Keti Koti gevierd, Surinaams voor de verbroken ketenen. In december 2022 bood premier Rutte namens de regering excuses aan voor het slavernijverleden. Koning Willem-Alexander deed dat op 1 juli 2023.'
  ],
+ gevolgen: [
+  "Na 1873 vertrokken veel vrijgemaakten van de plantages naar Paramaribo of trokken naar het binnenland. Om toch arbeiders te hebben, haalde Nederland contractarbeiders naar Suriname: vanaf 1873 uit Brits-Indië, de voorouders van de Hindoestaanse Surinamers, en vanaf 1890 uit Java. Zo werd Suriname het veelkleurige land dat het nu is.",
+  "De gevolgen van eeuwen slavernij werkten lang door, in armoede, achterstelling en racisme. Daarover wordt in Nederland pas de laatste decennia breed gesproken. In 2002 werd in het Oosterpark in Amsterdam het Nationaal Monument Slavernijverleden onthuld."
+ ],
+ perspectieven: [
+  "Lang werd de afschaffing in Nederland verteld als een daad van Nederlandse beschaving. Historici en nazaten wijzen erop dat de slavernij hier later werd afgeschaft dan in veel andere landen, dat de eigenaren werden betaald en de vrijgemaakten niets kregen, en dat tot slaaf gemaakten zich zelf altijd hebben verzet: door te vluchten, opstanden en dagelijks verzet. De Marrons in Suriname stichtten zelfs eigen gemeenschappen in het binnenland."
+ ],
+ misverstanden: [
+  ["“Nederlandse slavernij bestond alleen in Suriname en op de Antillen.”","Ook in Azië en Zuid-Afrika, in de gebieden van de VOC, werden mensen tot slaaf gemaakt. Daar werden zelfs meer mensen verhandeld dan in de gebieden van de WIC."],
+  ["“Op 1 juli 1863 waren alle tot slaaf gemaakten vrij.”","Formeel wel, maar in Suriname moesten ze nog tien jaar onder staatstoezicht verplicht doorwerken, vaak op dezelfde plantage. Daarom wordt ook 1873 genoemd als het echte einde."]
+ ],
+ hoeWeten: [
+  "Er zijn plantage-archieven, slavenregisters en de stukken van de WIC en de overheid. Daarin staan de tot slaaf gemaakten vaak alleen als bezit vermeld. Hun eigen stem is moeilijker te vinden, maar komt naar voren in rechtszaken, verhalen die mondeling zijn doorgegeven en de geschiedenis van de Marrons. De registers van 1863 zijn online te doorzoeken."
+ ],
+ nu: [
+  "Op 1 juli wordt Keti Koti gevierd en herdacht, met een nationale herdenking in Amsterdam. In december 2022 bood premier Rutte excuses aan namens de regering, en op 1 juli 2023 deed koning Willem-Alexander dat ook. Steeds meer musea, steden en bedrijven onderzoeken hun eigen betrokkenheid bij het slavernijverleden."
+ ],
+ vertellen: "Bij de afschaffing in 1863 kregen de eigenaren van de plantages een vergoeding van de Nederlandse staat voor ieder vrijgemaakt mens. De vrijgemaakten zelf kregen niets, en moesten nog tien jaar verplicht doorwerken.",
+ verbanden: [["Slavernij","de geschiedenis die voorafging"],["Anton de Kom","hij schreef de geschiedenis vanuit de tot slaaf gemaakten"],["Suriname onafhankelijk","de latere geschiedenis van Suriname"],["Max Havelaar","nog een aanklacht tegen koloniale uitbuiting"]],
+ onderwijs: {"ka":["Uitbouw van de Europese overheersing, met name in de vorm van plantagekoloniën en de daarmee verbonden trans-Atlantische slavenhandel, en de opkomst van het abolitionisme. (tijdvak 7)","Het modern imperialisme dat verband hield met de industrialisatie."],"venster":"23. Slavernij"},
  cijfers: [['Emancipatiewet','1862'],['Afschaffing','1 juli 1863'],['Einde staatstoezicht','1873'],['Excuses van de koning','1 juli 2023']],
  figuren: [['Wolter Robert van Hoëvell','predikant en politicus, pleitte voor afschaffing'],['Mark Rutte','premier, excuses in 2022'],['Koning Willem-Alexander','excuses in 2023']],
  bronnen: [CANON,['Wikipedia: Keti Koti',W('Keti Koti')],['NiNsee','https://www.ninsee.nl/']]
@@ -460,6 +480,26 @@ Object.assign(window.DETAILS, {
   'Bij het Verdrag van Londen van 11 mei 1867 werd Luxemburg neutraal verklaard. In hetzelfde verdrag werd vastgelegd dat Limburg volledig bij Nederland hoorde. De band met Duitsland was daarmee voorbij.',
   'Het woord hertogdom bleef nog lang in officiële stukken staan. Een herinnering aan die bijzondere geschiedenis is dat de commissaris van de Koning in Limburg nog altijd gouverneur wordt genoemd.'
  ],
+ gevolgen: [
+  "Vanaf 1867 was Limburg een gewone Nederlandse provincie. De provincie werd stap voor stap sterker aan de rest van het land verbonden, onder meer door spoorlijnen, zoals de lijn van Maastricht naar het noorden, en later door de mijnen, die werkers uit heel Nederland aantrokken.",
+  "De Luxemburgse kwestie liet zien dat het Nederlandse koningshuis ook buitenlandse bezittingen had die tot conflicten konden leiden. Toen Willem III in 1890 overleed zonder zoon, ging Luxemburg naar een andere tak van de familie Nassau, omdat daar alleen mannen de troon mochten erven."
+ ],
+ perspectieven: [
+  "In Den Haag zag men Limburg vaak als een verre, katholieke provincie die anders was dan Holland. Veel Limburgers voelden zich op hun beurt niet altijd begrepen door het noorden. Dat gevoel van “wij hier beneden” en “zij daar boven” is in Limburg nog steeds herkenbaar, al voelen Limburgers zich ook volop Nederlander."
+ ],
+ misverstanden: [
+  ["“Limburg was tot 1867 een Duitse provincie.”","Limburg was ook vóór 1867 een Nederlandse provincie. Het was daarnaast als hertogdom lid van de Duitse Bond, een los samenwerkingsverband van Duitse staten. Maastricht en Venlo vielen daar overigens buiten."],
+  ["“De gouverneur van Limburg heeft meer macht dan andere commissarissen.”","De titel gouverneur is een herinnering aan de geschiedenis, maar de functie is gelijk aan die van de commissaris van de Koning in andere provincies."]
+ ],
+ hoeWeten: [
+  "De tekst van het Verdrag van Londen van 1867 en de diplomatieke correspondentie over de Luxemburgse kwestie zijn bewaard. Ook de verslagen van het Nederlandse parlement laten zien hoe er toen over Limburg en Luxemburg werd gedacht. Kranten uit Maastricht en Den Haag tonen de verschillende standpunten."
+ ],
+ nu: [
+  "De commissaris van de Koning in Limburg heet nog steeds gouverneur. Limburg heeft een eigen volkslied, een eigen vlag en een sterke eigen identiteit, met carnaval, schutterijen en het Limburgs, dat als streektaal erkend is."
+ ],
+ vertellen: "In 1867 wilde koning Willem III het groothertogdom Luxemburg verkopen aan de Franse keizer Napoleon III. Pruisen was woedend, en er dreigde een oorlog. Op een conferentie in Londen werd de kwestie opgelost, en terloops werd daar ook geregeld dat Limburg voortaan helemaal bij Nederland hoorde.",
+ verbanden: [["Limburg gesplitst","het begin van Nederlands Limburg"],["Steenkoolmijnen in Parkstad","de mijnen verbonden Limburg met de rest van het land"],["Het Congres van Wenen","waar Luxemburg aan de Oranjes werd gegeven"]],
+ onderwijs: {"ka":["De opkomst van politiek-maatschappelijke stromingen: liberalisme, nationalisme, socialisme, confessionalisme en feminisme."]},
  cijfers: [['Lid van de Duitse Bond','1839 – 1866'],['Einde Duitse Bond','1866'],['Verdrag van Londen','11 mei 1867'],['Titel commissaris','gouverneur']],
  figuren: [['Koning Willem III','koning der Nederlanden en groothertog van Luxemburg'],['Napoleon III','Franse keizer, wilde Luxemburg kopen'],['Otto von Bismarck','Pruisisch minister-president']],
  bronnen: [['Wikipedia: Hertogdom Limburg',W('Hertogdom Limburg 1839-1867')],['Wikipedia: Verdrag van Londen 1867',W('Verdrag van Londen 1867')]]
@@ -478,6 +518,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Bell wordt vaak genoemd als uitvinder van de telefoon, maar het was een gedeelde uitvinding. Ook Antonio Meucci, Elisha Gray en Philipp Reis leverden een bijdrage. Over wie het octrooi toekwam, volgden jarenlang rechtszaken.'
  ],
+ gevolgen: [
+  "De telefoon veranderde het zakenleven: handelaren, banken en kranten konden direct met elkaar praten in plaats van brieven of telegrammen te sturen. Later kwamen er telefooncellen op straat en kregen steeds meer gezinnen een eigen toestel.",
+  "Telefonistes, bijna allemaal jonge vrouwen, verbonden gesprekken met de hand in de telefooncentrales. Het was een van de eerste kantoorberoepen voor vrouwen. Met de automatische centrales verdween dat werk weer."
+ ],
+ misverstanden: [
+  ["“Bell vond de telefoon in zijn eentje uit.”","Meerdere uitvinders werkten tegelijk aan het idee. Elisha Gray diende op dezelfde dag als Bell een aanvraag in, en Antonio Meucci en Philipp Reis hadden eerder vergelijkbare toestellen gemaakt. Bell kreeg het octrooi."],
+  ["“De eerste telefoons hadden een kiesschijf.”","Bij de eerste telefoons kon je geen nummer kiezen. Je draaide aan een slinger of nam de hoorn op, en een telefoniste in de centrale verbond je met de persoon die je wilde spreken."]
+ ],
+ hoeWeten: [
+  "De octrooiaanvragen, de notitieboekjes van Bell en de verslagen van de rechtszaken zijn bewaard. Ook de reclame en telefoonboeken van vroeger laten zien hoe de telefoon zich verspreidde. Oude toestellen en centrales staan in musea."
+ ],
+ nu: [
+  "Bijna iedereen heeft een smartphone, die veel meer kan dan bellen: het is ook camera, computer en kaart in één. Vaste telefoonlijnen worden steeds minder gebruikt. Het internet ging in de beginjaren via de telefoonlijn."
+ ],
+ vertellen: "De eerste woorden die Bell door de telefoon sprak, waren geen plechtige zin, maar een verzoek: “Mr. Watson, come here, I want to see you.” Volgens het verhaal had hij net zuur op zijn kleding gemorst.",
+ verbanden: [["De gloeilamp","nog een uitvinding van elektriciteit"],["Internet en het world wide web","de opvolger van de telefoonlijn"],["De televisie","nog een manier om op afstand te communiceren"]],
+ onderwijs: {"ka":["De industriële revolutie en het ontstaan van een industriële samenleving in de westerse wereld."]},
  cijfers: [['Octrooiaanvraag','14 februari 1876'],['Eerste woorden','10 maart 1876'],['Bell Telephone Company','1877'],['Automatisch in Nederland','vanaf 1925, Haarlem']],
  figuren: [['Alexander Graham Bell','Schots-Amerikaans uitvinder'],['Thomas Watson','Bells assistent, hoorde de eerste woorden'],['Antonio Meucci','werkte ook aan een telefoon']],
  bronnen: [['Wikipedia: Alexander Graham Bell',W('Alexander Graham Bell')],['Wikipedia: Telefonie',W('Telefonie')]]
@@ -496,6 +553,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Edison wordt vaak “de uitvinder van de gloeilamp” genoemd, maar hij bouwde voort op het werk van anderen. Zijn verdienste was dat hij een lamp en een systeem maakte dat in de praktijk werkte.'
  ],
+ gevolgen: [
+  "Met elektrisch licht werd de nacht korter. Fabrieken konden langer doorwerken, straten werden veiliger en mensen konden ’s avonds lezen zonder roet en brandgevaar van olie- en gaslampen. Om lampen te laten branden, werden elektriciteitscentrales en stroomnetten aangelegd.",
+  "Philips groeide van een kleine gloeilampenfabriek uit tot een wereldwijd bedrijf dat ook radio’s, televisies en medische apparatuur maakte. Eindhoven groeide mee: van een klein stadje tot een grote stad met duizenden werknemers en een eigen voetbalclub, PSV."
+ ],
+ misverstanden: [
+  ["“Edison heeft de gloeilamp in zijn eentje uitgevonden.”","Edison bouwde voort op het werk van anderen, zoals Joseph Swan in Engeland. Zijn bijdrage was dat hij een lamp maakte die lang genoeg brandde, en een heel systeem om elektriciteit naar huizen te brengen."],
+  ["“Philips was vanaf het begin een groot bedrijf.”","Philips begon in 1891 in een leegstaande fabriek in Eindhoven en had het de eerste jaren moeilijk. Pas toen Anton Philips de verkoop ging doen, groeide het bedrijf snel."]
+ ],
+ hoeWeten: [
+  "De notitieboekjes van Edison en zijn medewerkers zijn bewaard, net als de octrooien van de verschillende uitvinders. Het archief van Philips laat zien hoe het bedrijf begon. In het Philips Museum in Eindhoven staan oude lampen en machines."
+ ],
+ nu: [
+  "De klassieke gloeilamp is in Europa grotendeels verdwenen, omdat hij veel energie verspilt. In de plaats kwamen spaarlampen en led-lampen. In Eindhoven herinneren de Lichttoren en het jaarlijkse lichtfestival GLOW aan de lichtstad."
+ ],
+ vertellen: "Edison en zijn medewerkers probeerden duizenden materialen uit voor de gloeidraad, van katoen tot bamboe. Edison zou gezegd hebben: “Ik heb niet gefaald. Ik heb alleen tienduizend manieren gevonden die niet werken.”",
+ verbanden: [["De telefoon","nog een elektrische uitvinding"],["De televisie","Philips maakte later ook televisies"],["Aardgas in Slochteren","energie voor het moderne huishouden"]],
+ onderwijs: {"ka":["De industriële revolutie en het ontstaan van een industriële samenleving in de westerse wereld."]},
  cijfers: [['Woodward en Evans','octrooi in 1874'],['Edison','oktober 1879, ruim 14 uur'],['Philips opgericht','1891, Eindhoven'],['Anton Philips','in het bedrijf vanaf 1895']],
  figuren: [['Thomas Edison','bracht de gloeilamp op de markt'],['Joseph Swan','Britse uitvinder van een kooldraadlamp'],['Gerard Philips','richtte met zijn vader Philips op']],
  bronnen: [['Wikipedia: Gloeilamp',W('Gloeilamp')],['Wikipedia: Philips',W('Koninklijke Philips')]]
@@ -511,6 +585,26 @@ Object.assign(window.DETAILS, {
   'Op 5 augustus 1888 maakte Bertha Benz, de vrouw van Carl, de eerste lange rit met een auto, van Mannheim naar Pforzheim.',
   'In Nederland begonnen de smeden Hendrik-Jan en Jacobus Spijker in 1880 in Hilversum een rijtuigenfabriek, die in 1886 naar Amsterdam verhuisde. Ze bouwden onder meer de Gouden Koets, een geschenk aan koningin Wilhelmina (1897–1898). In 1898 kochten ze een auto van Benz en een jaar later mochten ze die in licentie bouwen. Zo ontstond het Nederlandse automerk Spyker, dat tot 1925 auto’s maakte.'
  ],
+ gevolgen: [
+  "In het begin was de auto een speeltje voor rijke mensen. Met de lopende band van Henry Ford in de Verenigde Staten, vanaf 1913, werd hij veel goedkoper. Vanaf de jaren zestig kregen ook in Nederland steeds meer gezinnen een auto.",
+  "De auto veranderde steden en landschap. Er kwamen geasfalteerde wegen, verkeersregels, rijbewijzen, benzinestations en later snelwegen. Tegelijk bracht de auto verkeersongelukken, files en luchtvervuiling."
+ ],
+ perspectieven: [
+  "Voor de eerste automobilisten was de auto een avontuur en een teken van vooruitgang. Voetgangers, fietsers en mensen met paard en wagen ervoeren de snelle, lawaaiige voertuigen als gevaarlijk. In de jaren zeventig kwamen in Nederland acties, zoals “Stop de Kindermoord”, tegen de vele verkeersdoden onder kinderen."
+ ],
+ misverstanden: [
+  ["“Henry Ford heeft de auto uitgevonden.”","Carl Benz bouwde de eerste echte auto met een benzinemotor in 1886. Ford maakte de auto later goedkoop door massaproductie met de lopende band."],
+  ["“De eerste auto had vier wielen.”","De Benz Patent-Motorwagen had drie wielen: één voorwiel en twee achterwielen."]
+ ],
+ hoeWeten: [
+  "Het octrooi van Benz en zijn bouwtekeningen zijn bewaard. In het Mercedes-Benz Museum in Stuttgart staat een replica van de eerste auto. Kranten berichtten over de rit van Bertha Benz. In het Louwman Museum in Den Haag staan oude auto’s, ook van Spyker."
+ ],
+ nu: [
+  "Er rijden in Nederland miljoenen auto’s. Steeds meer daarvan zijn elektrisch, waarmee de auto weer terugkeert naar een idee uit het begin: rond 1900 reden er ook al elektrische auto’s. Het logo van Spyker, een propeller in een spaakwiel, bestaat nog steeds."
+ ],
+ vertellen: "In 1888 nam Bertha Benz, zonder het haar man te vertellen, met haar twee zonen de auto mee voor een tocht van ruim honderd kilometer naar haar moeder. Onderweg kocht ze benzine bij een apotheek en repareerde ze zelf het voertuig. Zo bewees ze dat de auto echt bruikbaar was.",
+ verbanden: [["De eerste spoorlijn","het vorige grote vervoermiddel"],["Het eerste vliegtuig","de motor bracht ook vliegen dichterbij"],["Aardgas in Slochteren","energie en brandstof in de 20e eeuw"]],
+ onderwijs: {"ka":["De industriële revolutie en het ontstaan van een industriële samenleving in de westerse wereld."]},
  cijfers: [['Benz-octrooi','29 januari 1886'],['Eerste lange rit','5 augustus 1888'],['Spijker in Amsterdam','vanaf 1886'],['Spyker-auto’s','1898 – 1925']],
  figuren: [['Carl Benz','bouwde de Motorwagen'],['Bertha Benz','maakte de eerste lange autorit'],['Jacobus en Hendrik-Jan Spijker','bouwden Spyker-auto’s in Amsterdam']],
  bronnen: [['Wikipedia: Carl Benz',W('Carl Benz')],['Wikipedia: Spyker',W('Spyker automerk')]]
@@ -617,13 +711,34 @@ Object.assign(window.DETAILS, {
 
 'Monet en het impressionisme': {
  aanloop: [
-  'Franse schilders zoals Claude Monet wilden niet meer alleen strakke, gladde schilderijen maken. Ze gingen naar buiten en schilderden het licht van het moment: een mistige haven, een rivier, een veld.'
+  'Franse schilders zoals Claude Monet wilden niet meer alleen strakke, gladde schilderijen maken. Ze gingen naar buiten en schilderden het licht van het moment: een mistige haven, een rivier, een veld.',
+  "De schilders konden buiten werken dankzij een nieuwe uitvinding: verf in tubes. Daardoor hoefden ze hun verf niet meer zelf te mengen in het atelier. Ook de fotografie speelde mee: een realistisch beeld kon nu door een camera worden gemaakt, dus zochten schilders naar wat een foto niet kon laten zien, zoals licht, kleur en sfeer."
  ],
  verloop: [
   'In 1872 schilderde Monet de haven van Le Havre op een mistige dag, met heel losse verftoetsen. Het schilderij heet Impression, soleil levant (Impressie, opkomende zon). Het onderwerp wordt eerder gesuggereerd dan precies getekend.',
   'Op 15 april 1874 hing het in de eerste tentoonstelling van deze schilders, in het oude atelier van de fotograaf Nadar in Parijs. De titel gaf de stroming haar naam: impressionisme. In het begin was de naam spottend bedoeld.',
   'Het schilderij hangt sinds 1940 in het Musée Marmottan Monet in Parijs.'
  ],
+ gevolgen: [
+  "Het impressionisme opende de deur voor de moderne kunst. Schilders als Van Gogh, Cézanne en Gauguin bouwden erop voort en gingen nog verder in het gebruik van kleur en vorm. Daarna volgden stromingen die steeds verder van het realisme af gingen, tot aan de abstracte kunst van Mondriaan.",
+  "Monet bleef zijn hele leven het licht schilderen. In zijn tuin in Giverny maakte hij tientallen schilderijen van zijn vijver met waterlelies, vaak op enorme doeken."
+ ],
+ perspectieven: [
+  "De officiële kunstwereld van Parijs, met de jaarlijkse Salon, vond het werk van de impressionisten slordig en onaf. Een criticus noemde het spottend het werk van een scholier die voor het eerst met verf kladde. Voor de schilders zelf was het juist een bevrijding van strenge regels. Pas later werden hun werken door verzamelaars en musea gewaardeerd."
+ ],
+ misverstanden: [
+  ["“De impressionisten werden meteen bewonderd.”","In het begin werden ze uitgelachen. De naam impressionisme komt zelfs uit een spottende recensie van criticus Louis Leroy over de tentoonstelling van 1874."],
+  ["“Impressionisten schilderden snel en zonder nadenken.”","Ze werkten snel om het wisselende licht te vangen, maar dachten goed na over kleur en compositie. Monet schilderde hetzelfde onderwerp vaak tientallen keren, op verschillende momenten van de dag."]
+ ],
+ hoeWeten: [
+  "De schilderijen zelf zijn de belangrijkste bron. Daarnaast zijn er de catalogi van de tentoonstellingen, recensies uit kranten zoals die van Louis Leroy, en de brieven van de schilders aan elkaar en aan hun handelaren. Foto’s laten zien hoe Monet buiten werkte."
+ ],
+ nu: [
+  "Impressionistische schilderijen behoren tot de populairste kunst ter wereld en zijn onbetaalbaar geworden. De tuin van Monet in Giverny is een trekpleister. In Nederlandse musea, zoals het Rijksmuseum en het Kröller-Müller Museum, hangt ook impressionistisch werk."
+ ],
+ vertellen: "Monet woonde in 1871 vier maanden in Zaandam, op de vlucht voor de Frans-Duitse oorlog. Hij schilderde er molens, grachten en houten huisjes. En het schilderij dat de stroming haar naam gaf, Impression, soleil levant, werd in 1985 uit het museum gestolen. Pas in 1990 werd het teruggevonden.",
+ verbanden: [["Vincent van Gogh","hij leerde in Parijs van de impressionisten"],["Eiffeltoren","het Parijs van de late 19e eeuw"],["Mondriaan en De Stijl","een latere stap in de moderne kunst"]],
+ onderwijs: {},
  cijfers: [['Schilderij','Impression, soleil levant, 1872'],['Eerste tentoonstelling','15 april 1874, Parijs'],['Nu te zien in','Musée Marmottan Monet'],['Stroming','impressionisme']],
  figuren: [['Claude Monet','Franse schilder'],['Nadar','fotograaf, in zijn atelier was de eerste tentoonstelling']],
  bronnen: [['Wikipedia: Impression, soleil levant',W('Impression, soleil levant')],['Wikipedia: Claude Monet',W('Claude Monet')]]
@@ -638,6 +753,26 @@ Object.assign(window.DETAILS, {
   'Het gebouw staat aan de Van Baerlestraat, tegenover het Museumplein, en heeft vier zalen: de Grote Zaal, de Kleine Zaal, de Koorzaal en de Spiegelzaal.',
   'Tijdens de Tweede Wereldoorlog werd het verboden werken van Joodse componisten als Mahler en Mendelssohn uit te voeren. De zeventien Joodse leden van het orkest, bijna een vijfde van alle musici, moesten worden ontslagen.'
  ],
+ gevolgen: [
+  "In 1888 werd ook het Concertgebouworkest opgericht, dat onder dirigent Willem Mengelberg uitgroeide tot een van de beste orkesten ter wereld. Componisten als Gustav Mahler en Richard Strauss kwamen zelf naar Amsterdam om hun werk te dirigeren.",
+  "Het Concertgebouw maakte Amsterdam tot een muziekstad. Rond het gebouw ontstond een nieuwe, rijke wijk, met het Rijksmuseum en later het Stedelijk Museum en het Van Gogh Museum aan het Museumplein."
+ ],
+ perspectieven: [
+  "Het Concertgebouw werd gebouwd door rijke Amsterdammers, en klassieke muziek was lang vooral voor de gegoede burgerij. Arbeiders gingen er zelden naartoe. In de 20e eeuw kwamen er goedkopere concerten, zoals de gratis lunchconcerten, om ook ander publiek te trekken."
+ ],
+ misverstanden: [
+  ["“Het Concertgebouw is altijd van de staat geweest.”","Het Concertgebouw werd opgericht en betaald door particuliere Amsterdammers, als naamloze vennootschap. Het predicaat Koninklijk kreeg het pas later."],
+  ["“Het gebouw staat stevig op de grond.”","Het staat op 2186 houten heipalen in de slappe Amsterdamse bodem. Toen die gingen rotten, moest het gebouw in de jaren tachtig met een grote operatie op nieuwe palen worden gezet."]
+ ],
+ hoeWeten: [
+  "Het archief van het Concertgebouw bewaart bouwtekeningen, programma’s en kaartverkoop sinds 1888. Opnames van het orkest uit de 20e eeuw laten horen hoe het klonk. Verslagen in kranten beschrijven de feestelijke opening."
+ ],
+ nu: [
+  "De Grote Zaal geldt als een van de beste concertzalen ter wereld, vanwege de akoestiek. Elk jaar zijn er honderden concerten, en bekende tradities zoals het kerstmatineeconcert worden op radio en televisie uitgezonden."
+ ],
+ vertellen: "Het Concertgebouw werd in 1888 aan de rand van de stad gebouwd, midden in de weilanden. Toen de eerste concerten werden gegeven, moesten bezoekers nog over modderige wegen naar het gebouw komen.",
+ verbanden: [["Ludwig van Beethoven","zijn muziek klonk bij de opening"],["Het Rijksmuseum","de buurman aan het Museumplein"],["Vincent van Gogh","het Van Gogh Museum staat aan hetzelfde plein"]],
+ onderwijs: {},
  cijfers: [['Commissie','1881'],['Geopend','11 april 1888'],['Concertzalen','4'],['Orkest','Koninklijk Concertgebouworkest']],
  figuren: [['Jerôme Alexander Sillem','richtte de bouwcommissie op'],['Koninklijk Concertgebouworkest','vast orkest van de zaal']],
  bronnen: [['Wikipedia: Koninklijk Concertgebouw',W('Koninklijk Concertgebouw')]]
@@ -653,6 +788,26 @@ Object.assign(window.DETAILS, {
   'In 1889 schilderde hij Sterrennacht, vanuit zijn kamer in Saint-Rémy. Hij had last van psychische problemen en werd daar behandeld.',
   'Op 29 juli 1890 overleed hij in Auvers-sur-Oise. Zijn broer Theo erfde zijn werk, daarna Theo’s weduwe Jo van Gogh-Bonger. Zij zorgde ervoor dat het werk bekend werd. Het Van Gogh Museum in Amsterdam opende op 2 juni 1973.'
  ],
+ gevolgen: [
+  "Na zijn dood zorgde Jo van Gogh-Bonger, de weduwe van Theo, ervoor dat zijn werk bekend werd. Ze organiseerde tentoonstellingen en gaf in 1914 zijn brieven aan Theo uit. Langzaam groeide zijn roem.",
+  "Van Gogh werd een van de bekendste kunstenaars ter wereld. Zijn manier van schilderen, met felle kleuren en zichtbare penseelstreken, inspireerde later expressionisten. Helene Kröller-Müller verzamelde veel van zijn werk, dat nu in het Kröller-Müller Museum in Otterlo hangt."
+ ],
+ perspectieven: [
+  "Er bestaat een romantisch beeld van Van Gogh als arm, miskend genie dat gek werd. Historici laten zien dat hij een bewust en hardwerkend kunstenaar was, die zich goed verdiepte in kunst en techniek. Zijn psychische problemen waren echt, maar zijn werk is niet alleen het product van “waanzin”."
+ ],
+ misverstanden: [
+  ["“Van Gogh verkocht in zijn leven maar één schilderij.”","Dat wordt vaak gezegd, maar hij verkocht meer. Het bekendste voorbeeld is De rode wijngaard, in 1890 gekocht door Anna Boch. Ook enkele andere werken en tekeningen werden verkocht of geruild. Wel was het heel weinig."],
+  ["“Van Gogh sneed zijn hele oor eraf.”","In december 1888, na een ruzie met de schilder Paul Gauguin in Arles, sneed hij een groot deel van zijn linkeroor af. Hoeveel precies, daarover zijn de bronnen het niet eens."]
+ ],
+ hoeWeten: [
+  "Van Gogh schreef meer dan achthonderd brieven, vooral aan Theo, waarvan er honderden bewaard zijn. Ze geven een unieke blik in zijn gedachten en werk. Het Van Gogh Museum onderzoekt zijn schilderijen ook met röntgenfoto’s en verfanalyse, en vond zo soms een ander schilderij onder het zichtbare."
+ ],
+ nu: [
+  "Het Van Gogh Museum in Amsterdam heeft de grootste verzameling van zijn werk ter wereld en trekt jaarlijks miljoenen bezoekers. In Zundert, Nuenen en Otterlo kun je zijn sporen volgen. Zijn schilderijen behoren tot de duurste ter wereld."
+ ],
+ vertellen: "Van Gogh schilderde in de laatste tien jaar van zijn leven meer dan achthonderd schilderijen. In zijn laatste maanden in Auvers-sur-Oise maakte hij er gemiddeld bijna één per dag.",
+ verbanden: [["De Aardappeleters","zijn eerste grote werk"],["Monet en het impressionisme","zijn tijd in Parijs"],["Mondriaan en De Stijl","Mondriaan liet zich door hem inspireren"]],
+ onderwijs: {"venster":"33. Vincent van Gogh"},
  cijfers: [['Geboren','30 maart 1853, Zundert'],['Verkocht bij leven','2 schilderijen'],['Overleden','29 juli 1890, Auvers-sur-Oise'],['Van Gogh Museum','geopend op 2 juni 1973']],
  figuren: [['Vincent van Gogh','schilder uit Zundert'],['Theo van Gogh','zijn broer, steunde hem'],['Jo van Gogh-Bonger','Theo’s weduwe, bewaarde het werk']],
  bronnen: [['Wikipedia: Vincent van Gogh',W('Vincent van Gogh')],['Wikipedia: Van Gogh Museum',W('Van Gogh Museum')]]
@@ -667,6 +822,26 @@ Object.assign(window.DETAILS, {
   'Hij weegt 7300 ton (zonder fundering) en was na de bouw de hoogste toren ter wereld, ruim 300 meter. In Europa bleef hij, afgezien van televisietorens, 126 jaar lang de hoogste toren.',
   'Veel Parijzenaars vonden de toren eerst lelijk. Nu is hij het symbool van Parijs en een van de meest bezochte bezienswaardigheden van Frankrijk.'
  ],
+ gevolgen: [
+  "De toren was eigenlijk bedoeld om na twintig jaar weer af te breken. Hij werd gered doordat hij nuttig bleek als antenne voor de radio en het telegraafverkeer, ook voor het leger. Later kwamen er ook televisieantennes op.",
+  "De Eiffeltoren liet zien wat er met ijzer en staal mogelijk was. Hij werd een voorbeeld voor latere bouwwerken in staal, zoals bruggen en wolkenkrabbers."
+ ],
+ perspectieven: [
+  "Bij de bouw protesteerden ongeveer driehonderd bekende kunstenaars en schrijvers, onder wie Émile Zola en Guy de Maupassant, tegen de “nutteloze en monsterlijke” toren. Voor ingenieurs en het grote publiek was het juist een wonder van techniek. Inmiddels is de toren voor iedereen het symbool van Parijs."
+ ],
+ misverstanden: [
+  ["“Gustave Eiffel heeft de toren zelf ontworpen.”","Het eerste ontwerp kwam van zijn ingenieurs Maurice Koechlin en Émile Nouguier. Eiffel kocht hun rechten, verbeterde het plan en liet de toren door zijn bedrijf bouwen."],
+  ["“De toren was altijd bedoeld als blijvend monument.”","De vergunning gold in het begin voor twintig jaar. Daarna zou hij worden afgebroken, maar de radio redde hem."]
+ ],
+ hoeWeten: [
+  "Er zijn duizenden bouwtekeningen en foto’s van de bouw, die laten zien hoe de toren stuk voor stuk werd opgebouwd. De petitie van de kunstenaars werd in een krant gepubliceerd. Ook de bezoekersaantallen sinds 1889 zijn bewaard."
+ ],
+ nu: [
+  "De toren trekt elk jaar miljoenen bezoekers en is het meest bezochte monument ter wereld waar je een kaartje voor moet kopen. Hij wordt om de zoveel jaar opnieuw geschilderd om roest te voorkomen. ’s Avonds fonkelen er duizenden lampjes."
+ ],
+ vertellen: "Tijdens de wereldtentoonstelling van 1889 beklommen ongeveer twee miljoen mensen de toren. Daarna daalde de belangstelling snel: in 1899 kwamen er nog maar zo’n 150.000 bezoekers. Pas later werd de toren weer een publiekstrekker.",
+ verbanden: [["De Franse Revolutie","de toren vierde honderd jaar revolutie"],["Monet en het impressionisme","het Parijs van dezelfde tijd"],["Het Concertgebouw","nog een groot bouwwerk uit 1888–1889"]],
+ onderwijs: {"ka":["De industriële revolutie en het ontstaan van een industriële samenleving in de westerse wereld."]},
  cijfers: [['Gebouwd','1887 – 1889'],['Gewicht','7300 ton (zonder fundering)'],['Hoogte in 1889','ruim 300 meter'],['Aanleiding','wereldtentoonstelling 1889']],
  figuren: [['Gustave Eiffel','ingenieur, naar wie de toren is genoemd'],['Maurice Koechlin','ontwierp de toren'],['Émile Nouguier','ontwierp de toren']],
  bronnen: [['Wikipedia: Eiffeltoren',W('Eiffeltoren')]]
@@ -796,10 +971,30 @@ Object.assign(window.DETAILS, {
   'Ze haalde in 1870 het examen voor assistent-apotheker. Daarna schreef ze een brief aan minister-president Thorbecke met de vraag of ze colleges mocht volgen aan de universiteit.'
  ],
  verloop: [
-  'In 1871 kreeg ze toestemming en begon ze aan de Rijksuniversiteit Groningen. Ze werd de eerste vrouwelijke student aan een Nederlandse universiteit. In 1878 werd ze de eerste vrouwelijke arts van Nederland en in 1879 promoveerde ze.',
+  'In 1871 kreeg ze toestemming en begon ze aan de Rijksuniversiteit Groningen. Ze werd de eerste vrouw die aan een Nederlandse universiteit een studie volledig afrondde. In 1878 werd ze de eerste vrouwelijke arts van Nederland en in 1879 promoveerde ze.',
   'In Amsterdam hield ze gratis spreekuren voor arme vrouwen en kinderen. Ze gaf voorlichting over hygiëne en anticonceptie, wat toen zeer omstreden was. In 1883 probeerde ze zich als kiezer te laten inschrijven, maar dat werd geweigerd.',
   'Van 1903 tot 1919 was ze voorzitter van de Vereeniging voor Vrouwenkiesrecht. Ze reisde de wereld rond voor de vrouwenbeweging en de vrede. Ze maakte in 1919 mee dat vrouwen kiesrecht kregen en stierf in 1929.'
  ],
+ gevolgen: [
+  "Na Aletta Jacobs gingen steeds meer vrouwen studeren. Rond 1900 waren vrouwelijke artsen, juristen en leraren nog uitzonderingen, maar het werd steeds gewoner. Haar voorlichting over anticonceptie, onder meer met het pessarium, gaf vrouwen meer controle over het aantal kinderen dat ze kregen.",
+  "In 1915, midden in de Eerste Wereldoorlog, organiseerde ze in Den Haag een internationaal vrouwencongres voor vrede, met meer dan 1200 vrouwen uit twaalf landen. Daarna reisde ze naar de Verenigde Staten om haar voorstellen voor vrede aan president Wilson voor te leggen."
+ ],
+ perspectieven: [
+  "Voor veel tijdgenoten was Aletta Jacobs een schandaal: een vrouw die studeerde, over voorbehoedmiddelen sprak en kiesrecht eiste. Kerken en artsen waren fel tegen haar anticonceptievoorlichting. Binnen de vrouwenbeweging zelf was er ook verschil van mening, bijvoorbeeld tussen vrouwen die vooral stemrecht wilden en vrouwen die meer nadruk legden op werk, onderwijs of het gezin."
+ ],
+ misverstanden: [
+  ["“Aletta Jacobs was de eerste vrouw die ooit aan een Nederlandse universiteit studeerde.”","Al in de 17e eeuw volgde Anna Maria van Schurman colleges in Utrecht, verborgen achter een scherm. Aletta Jacobs was wel de eerste vrouw die een universitaire studie volledig afrondde en arts werd."],
+  ["“Aletta Jacobs streed alleen voor het vrouwenkiesrecht.”","Ze zette zich in voor veel meer: gezondheidszorg voor arme vrouwen, anticonceptie, betere arbeidsomstandigheden voor winkelmeisjes en vrede tussen landen."]
+ ],
+ hoeWeten: [
+  "Aletta Jacobs schreef haar herinneringen op en voerde een uitgebreide correspondentie, die bewaard is gebleven. Haar brief aan Thorbecke is een beroemde bron. Atria, het kennisinstituut voor emancipatie en vrouwengeschiedenis in Amsterdam, beheert veel archieven van de vrouwenbeweging."
+ ],
+ nu: [
+  "In veel steden zijn scholen, straten en zorginstellingen naar haar genoemd. Meer dan de helft van de studenten aan Nederlandse universiteiten is nu vrouw, en de meeste nieuwe artsen zijn vrouw."
+ ],
+ vertellen: "Aletta Jacobs was zestien toen ze in 1870 een brief schreef aan minister-president Thorbecke, met de vraag of ze aan de universiteit mocht studeren. Thorbecke gaf haar toestemming, eerst voor een proefjaar. Ze bleek zo goed dat ze daarna gewoon verder mocht.",
+ verbanden: [["Vrouwenkiesrecht","haar strijd voor het stemrecht"],["De Grondwet","het woord “mannelijke” werd na haar actie in de Grondwet gezet"],["De Eerste Wereldoorlog","het vrouwencongres voor vrede in 1915"]],
+ onderwijs: {"ka":["De opkomst van emancipatiebewegingen.","De opkomst van politiek-maatschappelijke stromingen: liberalisme, nationalisme, socialisme, confessionalisme en feminisme."],"venster":"34. Aletta Jacobs"},
  cijfers: [['Toestemming om te studeren','1871'],['Eerste vrouwelijke arts','1878'],['Voorzitter Vrouwenkiesrecht','1903 – 1919'],['Overleden','1929']],
  figuren: [['Aletta Jacobs','arts en feministe'],['Johan Rudolph Thorbecke','minister-president, gaf toestemming'],['Carel Victor Gerritsen','haar echtgenoot, politicus']],
  bronnen: [CANON,['Wikipedia: Aletta Jacobs',W('Aletta Jacobs')],['Atria','https://www.atria.nl/']]
@@ -815,6 +1010,26 @@ Object.assign(window.DETAILS, {
   'De wet had grote gaten en er was weinig controle. Toch was het een doorbraak. Voor het eerst greep de overheid in om werknemers te beschermen. Het Kinderwetje geldt als de eerste sociale wet van Nederland.',
   'Er volgden meer maatregelen. De Arbeidswet van 1889 beperkte de werktijden van jongeren en vrouwen. Met de Leerplichtwet, die in 1901 inging, moesten kinderen van zes tot twaalf jaar naar school.'
  ],
+ gevolgen: [
+  "In de praktijk ging kinderarbeid in fabrieken op veel plaatsen gewoon door, omdat er nauwelijks controle was. Werk op het land, in de huisindustrie en in winkels bleef bovendien toegestaan. Daardoor werkten kinderen nog jarenlang.",
+  "De grootste verandering kwam met de Leerplichtwet van 1901. Daarbij werd wél streng gecontroleerd, door inspecteurs van het onderwijs. Kinderen die naar school moesten, konden niet tegelijk in de fabriek staan. Zo verdween de kinderarbeid in Nederland langzaam."
+ ],
+ perspectieven: [
+  "Fabrikanten waarschuwden dat de wet hun bedrijven zou schaden. Veel arme ouders hadden het loon van hun kinderen hard nodig. Liberalen als Van Houten vonden dat de overheid zwakken mocht beschermen. Later in de 19e eeuw groeide ook de invloed van socialisten en confessionele partijen, die nog verdergaande sociale wetten wilden."
+ ],
+ misverstanden: [
+  ["“Na 1874 werkten er geen kinderen meer.”","De wet verbood alleen werk in fabrieken en werkplaatsen voor kinderen onder de twaalf, en er was weinig controle. Op het land en thuis bleven kinderen werken. Pas met de leerplicht van 1901 nam kinderarbeid echt af."],
+  ["“Het Kinderwetje was een wet van de regering.”","Het was een initiatiefwet: Kamerlid Samuel van Houten diende het voorstel zelf in, zonder dat de regering het had voorbereid."]
+ ],
+ hoeWeten: [
+  "Er zijn rapporten en enquêtes uit de 19e eeuw waarin arbeiders, ook kinderen, vertelden over hun werk. De Arbeidsenquête van 1887 is een beroemde bron. Ook foto’s, kranten en de debatten in het parlement laten zien hoe het was."
+ ],
+ nu: [
+  "In Nederland gaan alle kinderen naar school, en er gelden strenge regels voor werk van jongeren onder de achttien. Wereldwijd werken nog steeds miljoenen kinderen, onder meer in de landbouw en in mijnen. Het VN-Verdrag inzake de Rechten van het Kind beschermt kinderen tegen uitbuiting."
+ ],
+ vertellen: "Rond 1870 stonden in Nederlandse fabrieken kinderen van zes of zeven jaar aan de machines, soms twaalf uur per dag. Ze waren klein genoeg om onder machines te kruipen om draden te knopen of vuil weg te halen, wat levensgevaarlijk was.",
+ verbanden: [["Marga Klompé","een latere sociale wet: de bijstand"],["De eerste spoorlijn","de industrialisatie van Nederland"],["Aletta Jacobs","ook zij streed voor betere omstandigheden"]],
+ onderwijs: {"ka":["Discussies over de ‘sociale kwestie’.","De industriële revolutie en het ontstaan van een industriële samenleving in de westerse wereld."],"venster":"32. Het Kinderwetje van Van Houten"},
  cijfers: [['Aangenomen','1874'],['Leeftijdsgrens','12 jaar'],['Arbeidswet','1889'],['Leerplicht ingevoerd','1901']],
  figuren: [['Samuel van Houten','liberaal Kamerlid, diende de wet in'],['Hendrik Goeman Borgesius','minister, bracht de Leerplichtwet tot stand']],
  bronnen: [CANON,['Wikipedia: Kinderwetje van Van Houten',W('Kinderwetje van Van Houten')],['Parlement.com','https://www.parlement.com/']]
@@ -830,6 +1045,26 @@ Object.assign(window.DETAILS, {
   'Hij beschouwde het schilderij als zijn eerste grote werk, maar kreeg er weinig waardering voor. Kort daarna vertrok hij naar Antwerpen en in 1886 naar Parijs. Daar en later in Arles kreeg zijn werk felle kleuren en een losse toets.',
   'Van Gogh verkocht tijdens zijn leven weinig. Hij stierf in 1890. Dankzij Theo’s weduwe Jo van Gogh-Bonger werd zijn werk bekend. Nu is hij een van de beroemdste schilders ter wereld.'
  ],
+ gevolgen: [
+  "Van Gogh zag De Aardappeleters als zijn eerste echte meesterwerk, maar de reacties vielen tegen. Zijn vriend en collega-schilder Anthon van Rappard schreef hem een harde brief met kritiek op de figuren. Hun vriendschap ging daardoor kapot.",
+  "Toch bleef het schilderij belangrijk in zijn werk. Het laat zien hoe Van Gogh begon: met donkere kleuren en aandacht voor het leven van arme mensen, in de traditie van de Haagse School. Daarna veranderde zijn stijl in Frankrijk volledig."
+ ],
+ perspectieven: [
+  "Van Gogh wilde de boeren laten zien zoals ze waren, ruw en eerlijk, en niet mooier dan in werkelijkheid. Critici vonden de figuren lelijk en slecht getekend. Tegenwoordig wordt het schilderij juist gewaardeerd om die eerlijkheid en de sterke sfeer van het lamplicht in een donkere kamer."
+ ],
+ misverstanden: [
+  ["“Er is maar één versie van De Aardappeleters.”","Van Gogh maakte eerst studies en een voorlopige versie, die nu in het Kröller-Müller Museum hangt, en daarna de definitieve versie in het Van Gogh Museum. Ook maakte hij een litho van de voorstelling."],
+  ["“Van Gogh schilderde altijd met felle kleuren.”","In zijn Nederlandse periode schilderde hij vooral donker, in bruin, grijs en groen. De felle kleuren kwamen pas in Parijs en Arles."]
+ ],
+ hoeWeten: [
+  "Van Gogh schreef honderden brieven aan zijn broer Theo, waarin hij uitlegt wat hij met De Aardappeleters wilde. Daarnaast zijn er de studies, schetsen en de litho. Met technisch onderzoek zien restauratoren hoe het schilderij in lagen is opgebouwd."
+ ],
+ nu: [
+  "Het schilderij hangt in het Van Gogh Museum in Amsterdam. In Nuenen kun je de plekken bezoeken waar Van Gogh woonde en werkte, zoals de pastorie en de oude watermolen, en is een museum over zijn tijd daar."
+ ],
+ vertellen: "In 1991 werd De Aardappeleters samen met negentien andere werken uit het Van Gogh Museum gestolen. De dieven lieten hun buit al snel achter in een auto, en alle schilderijen werden teruggevonden, al waren sommige beschadigd.",
+ verbanden: [["Vincent van Gogh","zijn hele leven en werk"],["Monet en het impressionisme","de kleuren die hij later in Parijs ontdekte"],["Het Kinderwetje","het harde leven van arbeiders in de 19e eeuw"]],
+ onderwijs: {"ka":["Discussies over de ‘sociale kwestie’."],"venster":"33. Vincent van Gogh"},
  cijfers: [['Geschilderd','voorjaar 1885'],['Periode in Nuenen','1883 – 1885'],['Overleden','1890'],['Te zien in','Van Gogh Museum, Amsterdam']],
  figuren: [['Vincent van Gogh','schilder'],['Theo van Gogh','broer en kunsthandelaar'],['Jo van Gogh-Bonger','schoonzus, maakte zijn werk bekend']],
  bronnen: [CANON,['Wikipedia: De aardappeleters',W('De aardappeleters')],['Van Gogh Museum','https://www.vangoghmuseum.nl/']]
@@ -845,6 +1080,26 @@ Object.assign(window.DETAILS, {
   'Rustige dorpen groeiden uit tot mijnsteden met eigen mijnwerkerskoloniën. Er kwamen mijnwerkers uit de rest van Nederland en uit landen als Polen, Slovenië, Duitsland en Italië. De katholieke kerk speelde een grote rol in het sociale leven, onder meer via priester Henri Poels.',
   'Na 1960 werden olie en aardgas goedkoper dan kolen. In december 1965 kondigde minister Joop den Uyl in Heerlen de sluiting van de mijnen aan. In 1974 sloot de laatste mijn. De streek moest een zware omschakeling maken.'
  ],
+ gevolgen: [
+  "De mijnen veranderden Zuid-Limburg van een agrarisch gebied in een industriegebied. Heerlen, Kerkrade, Brunssum en Geleen groeiden snel. Rond 1930 werkte een derde van de mijnwerkers uit het buitenland. Bij de Staatsmijnen ontstond later een chemische industrie, die als DSM bleef bestaan.",
+  "Priester Henri Poels zette vanaf 1910 katholieke organisaties op voor mijnwerkers, zoals vakbonden, verenigingen en woningbouw. Daarmee wilde hij de mijnwerkers helpen en tegelijk voorkomen dat ze socialist werden. De mijnstreek kreeg zo een sterk katholiek karakter."
+ ],
+ perspectieven: [
+  "Voor de mijndirecties en de staat ging het om energie en winst. Voor de mijnwerkers was het zwaar en gevaarlijk werk, diep onder de grond, met kans op ongelukken en de ziekte stoflong. Tegelijk gaf het werk zekerheid en een sterk gevoel van saamhorigheid, dat oud-mijnwerkers nog altijd koesteren."
+ ],
+ misverstanden: [
+  ["“De mijnwerkers kwamen allemaal uit Limburg.”","Er kwamen mijnwerkers uit heel Nederland en uit het buitenland, onder meer uit Polen, Slovenië, Duitsland, Italië en later Turkije en Marokko. Rond 1930 was een derde van de mijnwerkers buitenlander."],
+  ["“Steenkool werd in Limburg pas rond 1900 ontdekt.”","De kloosterlingen van Rolduc groeven al in de middeleeuwen steenkool. Rond 1900 begon wel de grootschalige winning met moderne mijnen."]
+ ],
+ hoeWeten: [
+  "De archieven van de Staatsmijnen en de particuliere mijnen, met personeelsregisters en kaarten van de mijngangen, zijn bewaard. Er zijn veel foto’s van het werk ondergronds. Oud-mijnwerkers hebben hun verhalen verteld, en mijnmusea houden die herinneringen levend."
+ ],
+ nu: [
+  "In Parkstad staan nog schachtbokken, mijnwerkerswoningen en monumenten. De regio heeft door de geschiedenis nog altijd een eigen karakter, met veel Poolse, Italiaanse en andere familienamen. In het Discovery Museum in Kerkrade wordt het mijnverleden verteld."
+ ],
+ vertellen: "Mijnwerkers zakten elke dag honderden meters de diepte in, met een liftkooi. Beneden werkten ze in donkere, warme en stoffige gangen. Bij het naar boven komen waren ze zwart van het kolenstof. Daarom kregen veel mijnwerkerswijken eigen badhuizen.",
+ verbanden: [["Sluiting van de mijnen","het einde van de mijnen"],["Gastarbeiders","veel mijnwerkers kwamen uit het buitenland"],["Limburg geheel Nederlands","Limburg werd een Nederlandse provincie"]],
+ onderwijs: {"ka":["De industriële revolutie en het ontstaan van een industriële samenleving in de westerse wereld.","Discussies over de ‘sociale kwestie’."]},
  cijfers: [['Start Oranje-Nassaumijn','1899'],['Oprichting Staatsmijnen','1902'],['Aankondiging sluiting','december 1965'],['Laatste mijn dicht','1974']],
  figuren: [['Henri Poels','priester, voorman van het katholieke sociale leven in de mijnstreek'],['Joop den Uyl','minister van Economische Zaken, kondigde de sluiting aan']],
  bronnen: [['Wikipedia: Oranje-Nassau Mijnen',W('Oranje-Nassau Mijnen')],['Wikipedia: Staatsmijnen',W('Staatsmijnen')]]
