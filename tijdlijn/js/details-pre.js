@@ -80,6 +80,24 @@ Object.assign(window.DETAILS, {
  bronnen: [['Wikipedia: Wiel',W('Wiel (voortbeweging)')],['Wikipedia: Wiel van Stare gmajne',W('Wiel van Stare gmajne')]]
 },
 
+'De Maashagedis': {
+ aanloop: [
+  'Ongeveer 75 tot 66 miljoen jaar geleden, aan het eind van het Krijt, lag het zuiden van Limburg onder een ondiepe, warme zee. In die tijd leefden er ook dinosaurussen op het land, maar mensen bestonden nog lang niet.',
+  'In die zee leefde de Mosasaurus. Het was geen dinosaurus, maar een reusachtig zeereptiel, familie van de varanen van nu. Mosasaurus hoffmannii werd naar schatting zo’n 17 tot 18 meter lang en was een toproofdier: hij at vissen, haaien, inktvissen en andere zeereptielen.'
+ ],
+ verloop: [
+  'Uit de kalk van de bodem van die zee ontstond later mergel. In de mergelgroeven van de Sint-Pietersberg bij Maastricht vonden arbeiders al eeuwenlang fossielen. Rond 1766 kwam er een schedel met kaken boven, die later in Teylers Museum in Haarlem terechtkwam. Daar ligt hij nog steeds.',
+  'In 1778 werd er een nog mooiere schedel gevonden. Die werd zo belangrijk gevonden dat Franse revolutionaire troepen hem in beslag namen en naar Parijs brachten.',
+  'In 1808 concludeerde de Franse natuuronderzoeker Georges Cuvier dat het om een reusachtige uitgestorven zeehagedis ging. Dat hielp hem bij een nieuw idee: dat dieren voorgoed kunnen uitsterven. Het dier kreeg de naam Mosasaurus, naar de Latijnse naam van de Maas. Ook het laatste deel van het Krijt heet naar Maastricht: het Maastrichtien.'
+ ],
+ perspectieven: [
+  'In de film Jurassic World is de Mosasaurus zo’n zestig meter lang. Het grootste exemplaar dat echt gevonden is, was ongeveer 17 meter: nog steeds zo lang als een flinke bus én een auto achter elkaar.'
+ ],
+ cijfers: [['Leefde','ca. 75 – 66 miljoen jaar geleden'],['Lengte','tot ca. 17 à 18 meter'],['Eerste schedel','rond 1766, nu in Teylers Museum'],['Tweede schedel','1778, nu in Parijs']],
+ figuren: [['Georges Cuvier','Franse natuuronderzoeker die het dier verklaarde'],['Johann Leonard Hoffmann','Maastrichtse fossielenverzamelaar, naar hem heet de soort'],['Martinus van Marum','eerste directeur van Teylers Museum']],
+ bronnen: [['Wikipedia: Mosasaurus',W('Mosasaurus')]]
+},
+
 'Hunebedden': {
  aanloop: [
   'Tijdens de voorlaatste ijstijd schoof landijs uit Scandinavië over het noorden van Nederland. Toen het smolt, bleven grote zwerfkeien achter op de Hondsrug en de rest van Drenthe.',

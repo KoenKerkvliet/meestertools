@@ -249,6 +249,35 @@ Object.assign(window.DETAILS, {
  bronnen: [['Wikipedia: Berlijnse Muur',W('Berlijnse Muur')]]
 },
 
+'Albert Einstein': {
+ aanloop: [
+  'Albert Einstein werd op 14 maart 1879 geboren in Ulm, in Duitsland, in een joodse familie. Als kind leerde hij viool spelen; muziek bleef zijn hele leven belangrijk voor hem.',
+  'Een baan aan een universiteit vond hij eerst niet. In 1902 ging hij werken bij het octrooibureau in Bern, in Zwitserland, waar hij uitvindingen beoordeelde. In zijn vrije tijd dacht hij na over natuurkunde.'
+ ],
+ verloop: [
+  'In 1905, zijn “wonderjaar”, publiceerde hij een paar artikelen die de natuurkunde veranderden, waaronder de speciale relativiteitstheorie. In 1915 volgde de algemene relativiteitstheorie, over de zwaartekracht. In 1921 kreeg hij de Nobelprijs voor Natuurkunde.',
+  'Einstein had een band met Nederland. Hij bewonderde de Leidse natuurkundige Hendrik Lorentz en was bevriend met Paul Ehrenfest. Van 1920 tot 1946 was hij bijzonder hoogleraar in Leiden en gaf hij daar enkele keren per jaar een gastcollege.',
+  'Toen Hitler in 1933 aan de macht kwam, verliet Einstein Duitsland en vestigde zich in de Verenigde Staten. In 1939 waarschuwde hij president Roosevelt in een brief dat Duitsland aan een atoombom werkte. Aan de Amerikaanse atoombom werkte hij zelf niet mee. Hij overleed op 18 april 1955 in Princeton.'
+ ],
+ cijfers: [['Geboren','14 maart 1879, Ulm'],['Wonderjaar','1905'],['Nobelprijs','1921'],['Overleden','18 april 1955, Princeton']],
+ figuren: [['Albert Einstein','natuurkundige'],['Hendrik Lorentz','Nederlandse natuurkundige die hij zeer bewonderde'],['Paul Ehrenfest','natuurkundige in Leiden en goede vriend']],
+ bronnen: [['Wikipedia: Albert Einstein',W('Albert Einstein')]]
+},
+
+'De kernramp van Tsjernobyl': {
+ aanloop: [
+  'Tsjernobyl ligt in het noorden van Oekraïne, dat toen bij de Sovjet-Unie hoorde. Vlak bij de kerncentrale lag de stad Pripjat, in 1970 gebouwd voor de mensen die er werkten. Er woonden bijna 50.000 mensen.'
+ ],
+ verloop: [
+  'In de nacht van 26 april 1986 deed de ploeg in reactor 4 een test. Daarbij liep het mis: de reactor ontplofte en er brak brand uit. Er kwamen enorme hoeveelheden radioactieve stoffen in de lucht. Pas 33 uur na de ramp kwam de evacuatie van de omgeving op gang.',
+  'De wind blies de radioactieve wolk naar het noorden en noordwesten, over Scandinavië. Rond 2 mei bereikte hij Nederland en België. Het RIVM ging extra meten, er kwam een graasverbod zodat koeien binnen moesten blijven, en net geoogste bladgroente zoals spinazie mocht niet verkocht worden.',
+  'Soldaten en arbeiders (liquidators) ruimden het puin op, vaak maar veertig seconden achter elkaar vanwege de straling. In november 1986 was er een betonnen omhulsel om de reactor. In 2000 ging de hele centrale dicht. Rond de centrale geldt nog steeds een verboden zone van 30 kilometer.'
+ ],
+ cijfers: [['Datum','26 april 1986'],['Wolk boven Nederland','rond 2 mei 1986'],['Verboden zone','30 km rond de centrale'],['Centrale gesloten','15 december 2000']],
+ figuren: [['Liquidators','soldaten en arbeiders die het puin opruimden'],['Inwoners van Pripjat','moesten hun stad voorgoed verlaten'],['RIVM','mat in Nederland de straling']],
+ bronnen: [['Wikipedia: Kernramp van Tsjernobyl',W('Kernramp van Tsjernobyl')]]
+},
+
 'Vrouwenkiesrecht': {
  aanloop: [
   'In de 19e eeuw mochten alleen mannen met genoeg bezit of inkomen stemmen. In 1883 probeerde Aletta Jacobs zich als kiezer te laten inschrijven, omdat de wet nergens zei dat een kiezer een man moest zijn. Ze werd afgewezen, en daarna werd in de Grondwet expliciet vastgelegd dat alleen mannen kiesrecht hadden.',
