@@ -17,11 +17,11 @@ const MARK = '<!-- gemaakt door scripts/bouw-paginas.mjs -->';
 const ctx = {};
 ctx.window = ctx;
 vm.createContext(ctx);
-const order = ['details-pre', 'details-mid', 'details-vroegmodern', 'details-modern', 'details-20e', 'details-nu',
+const order = ['details-pre', 'details-mid', 'details-vroegmodern', 'details-modern', 'details-20e', 'details-nu', 'verdieping',
   'war-ww1a', 'war-ww1b', 'war-ww2a', 'war-ww2b', 'images-20e', 'images-rest', 'videos', 'data', 'slugs'];
 for (const f of order) vm.runInContext(fs.readFileSync(path.join(DIR, 'js', f + '.js'), 'utf8'), ctx, { filename: f + '.js' });
-const D = vm.runInContext(`({EVENTS,WEV,ERAS,TILES,WARS,THEMES,CATL,DG,DGORDER,DETAILS:window.DETAILS,IMAGES:window.IMAGES,VIDEOS:window.VIDEOS,...makeSlugs(EVENTS.concat(WEV))})`, ctx);
-const { EVENTS, WEV, ERAS, TILES, WARS, THEMES, CATL, DG, DGORDER, DETAILS, IMAGES, VIDEOS, EVSLUG } = D;
+const D = vm.runInContext(`({VERDIEPING:window.VERDIEPING,SCHOOL,EVENTS,WEV,ERAS,TILES,WARS,THEMES,CATL,DG,DGORDER,DETAILS:window.DETAILS,IMAGES:window.IMAGES,VIDEOS:window.VIDEOS,...makeSlugs(EVENTS.concat(WEV))})`, ctx);
+const { VERDIEPING, SCHOOL, EVENTS, WEV, ERAS, TILES, WARS, THEMES, CATL, DG, DGORDER, DETAILS, IMAGES, VIDEOS, EVSLUG } = D;
 
 /* ---- hulpjes (zelfde opmaak als de leespagina in index.html) ---- */
 const esc = s => String(s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
@@ -106,10 +106,14 @@ ${MTBAR}
   <div class="pggrid">
     <article class="pgart"><h2>Aanloop en oorzaken</h2>${Dt.aanloop.map(p => `<p>${esc(p)}</p>`).join('')}
       <h2>Wat er gebeurde</h2>${Dt.verloop.map(p => `<p>${esc(p)}</p>`).join('')}
-      ${Dt.perspectieven ? `<h2>Andere perspectieven</h2>${Dt.perspectieven.map(p => `<p>${esc(p)}</p>`).join('')}` : ''}</article>
+      ${VERDIEPING.naVerloop(Dt, 'h2', esc)}
+      ${Dt.perspectieven ? `<h2>Andere perspectieven</h2>${Dt.perspectieven.map(p => `<p>${esc(p)}</p>`).join('')}` : ''}
+      ${VERDIEPING.naPerspectieven(Dt, 'h2', esc)}</article>
     <aside class="pgside">
+      ${VERDIEPING.zijBoven(Dt, 'h2', esc)}
       <div class="box"><h2>Kerncijfers</h2><dl class="facts">${Dt.cijfers.map(([a, b]) => `<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl></div>
       <div class="box"><h2>Sleutelfiguren</h2><ul class="people">${Dt.figuren.map(([n, r]) => `<li><span class="av" style="background:${H.bg};color:${H.ink}">${esc(ini(n))}</span><div><b>${esc(n)}</b><span>${esc(r)}</span></div></li>`).join('')}</ul></div>
+      ${VERDIEPING.zijOnder(Dt, 'h2', esc, { tijdvak: e.war ? null : SCHOOL.find(s => e.y >= s.s && e.y < s.e), href: t => { const x = EVENTS.concat(WEV).find(v => v.t === t); return x ? EVSLUG[x.id] : null; } })}
       <div class="box"><h2>Verder lezen</h2><ul class="links">${Dt.bronnen.map(([l, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a></li>`).join('')}</ul></div>
     </aside>
   </div>

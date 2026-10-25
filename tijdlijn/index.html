@@ -119,6 +119,7 @@
 <script src="js/details-modern.js"></script>
 <script src="js/details-20e.js"></script>
 <script src="js/details-nu.js"></script>
+<script src="js/verdieping.js"></script>
 <script src="js/war-ww1a.js"></script>
 <script src="js/war-ww1b.js"></script>
 <script src="js/war-ww2a.js"></script>
@@ -303,7 +304,7 @@ function openPanel(id){
   $('#pbd').innerHTML=`<div><div class="pmeta">${catPill(e)}<span class="yr">${esc(e.d)}</span></div><h2>${esc(e.t)}</h2></div>
    ${IMG(e.t)[0]?`<figure class="mimg"><div class="ph"><img src="${esc(IMG(e.t)[0].src)}" alt="${esc(IMG(e.t)[0].cap)}" referrerpolicy="no-referrer" onload="this.closest('figure').style.setProperty('--ar',(this.naturalWidth/this.naturalHeight).toFixed(3))" onerror="this.closest('figure').remove()"></div><figcaption>${esc(IMG(e.t)[0].cap)}${credit(IMG(e.t)[0])}</figcaption></figure>`:''}
    <p class="plong">${esc(e.x)}</p>
-   ${D?`<button class="readbtn" id="readmore"><span class="ri" style="background:${H.bg};color:${H.ink}">${svg('book')}</span><span><b>Lees meer</b><small>Aanloop, verloop${D.perspectieven?', andere perspectieven':''}, cijfers en bronnen${VID(e.t).length?` · ${VID(e.t).length} video${VID(e.t).length===1?'':"'s"}`:''}</small></span><span class="go">→</span></button>`:''}
+   ${D?`<button class="readbtn" id="readmore"><span class="ri" style="background:${H.bg};color:${H.ink}">${svg('book')}</span><span><b>Lees meer</b><small>Aanloop, verloop${D.gevolgen?', gevolgen':''}${D.perspectieven?', andere perspectieven':''}${D.misverstanden?', misverstanden':''}, cijfers en bronnen${VID(e.t).length?` · ${VID(e.t).length} video${VID(e.t).length===1?'':"'s"}`:''}</small></span><span class="go">→</span></button>`:''}
    ${WARLINK[e.t]&&WEV.some(w=>w.war===WARLINK[e.t])?`<button class="readbtn" id="towar"><span class="ri" style="background:#E4E2D5;color:#4A4A36">${svg(WARS[WARLINK[e.t]].ic)}</span><span><b>Open de oorlogstijdlijn</b><small>Alle fronten, maand voor maand</small></span><span class="go">→</span></button>`:''}`;
   $('#pbd').scrollTop=0;
   const rm=$('#readmore');rm&&(rm.onclick=()=>openPage(id));
@@ -332,10 +333,14 @@ function openPage(id){
    <div class="pggrid">
      <article class="pgart"><h3>Aanloop en oorzaken</h3>${D.aanloop.map(p=>`<p>${esc(p)}</p>`).join('')}
        <h3>Wat er gebeurde</h3>${D.verloop.map(p=>`<p>${esc(p)}</p>`).join('')}
-       ${D.perspectieven?`<h3>Andere perspectieven</h3>${D.perspectieven.map(p=>`<p>${esc(p)}</p>`).join('')}`:''}</article>
+       ${VERDIEPING.naVerloop(D,'h3',esc)}
+       ${D.perspectieven?`<h3>Andere perspectieven</h3>${D.perspectieven.map(p=>`<p>${esc(p)}</p>`).join('')}`:''}
+       ${VERDIEPING.naPerspectieven(D,'h3',esc)}</article>
      <aside class="pgside">
+       ${VERDIEPING.zijBoven(D,'h3',esc)}
        <div class="box"><h3>Kerncijfers</h3><dl class="facts">${D.cijfers.map(([a,b])=>`<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl></div>
        <div class="box"><h3>Sleutelfiguren</h3><ul class="people">${D.figuren.map(([n,r])=>`<li><span class="av" style="background:${H.bg};color:${H.ink}">${esc(ini(n))}</span><div><b>${esc(n)}</b><span>${esc(r)}</span></div></li>`).join('')}</ul></div>
+       ${VERDIEPING.zijOnder(D,'h3',esc,{tijdvak:e.war?null:SCHOOL.find(s=>e.y>=s.s&&e.y<s.e),href:t=>{const x=EVENTS.concat(WEV).find(v=>v.t===t);return x&&DETAILS[x.t]?'#'+EVSLUG[x.id]+'/lees':null}})}
        <div class="box"><h3>Verder lezen</h3><ul class="links">${D.bronnen.map(([l,u])=>`<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a></li>`).join('')}</ul></div>
      </aside>
    </div>
@@ -438,6 +443,7 @@ async function buildPdf(e,D){
   /* ---------- tekst ---------- */
   heading('Aanloop en oorzaken');D.aanloop.forEach(t=>{para(t);y+=2.8});
   heading('Wat er gebeurde');D.verloop.forEach(t=>{para(t);y+=2.8});
+  if(D.gevolgen&&D.gevolgen.length){heading('Gevolgen');D.gevolgen.forEach(t=>{para(t);y+=2.8})}
   // overige afbeeldingen naast elkaar
   const rest=imgs.slice(1);
   if(rest.length){const gap=5,ars=rest.map(m=>m.w/m.h);let rh=rest.length===1?78:58;let tw=ars.reduce((a,r)=>a+r*rh,0)+gap*(rest.length-1);
@@ -449,6 +455,10 @@ async function buildPdf(e,D){
       font(7.5,'normal',MUT);doc.text(lines(credit(m),7.5,Math.max(30,w))[0],x,yy,{baseline:'top'});x+=w+gap});
     y+=rh+ch+9}
   if(D.perspectieven&&D.perspectieven.length){heading('Andere perspectieven');D.perspectieven.forEach(t=>{para(t,{x:M+5,w:CW-5,bar:MID});y+=3.5})}
+  if(D.misverstanden&&D.misverstanden.length){heading('Veelvoorkomende misverstanden');D.misverstanden.forEach(([m,u])=>{para(m,{x:M+5,w:CW-5,bar:MID,color:INK});y+=1.2;para(u,{x:M+5,w:CW-5});y+=3.5})}
+  if(D.hoeWeten&&D.hoeWeten.length){heading('Hoe weten we dit?');D.hoeWeten.forEach(t=>{para(t);y+=2.8})}
+  if(D.nu&&D.nu.length){heading('Wat merk je er nu nog van?');D.nu.forEach(t=>{para(t);y+=2.8})}
+  if(D.vertellen){heading('Om te vertellen');para(D.vertellen,{x:M+5,w:CW-5,bar:C.acc});y+=3.5}
 
   /* ---------- sleutelfiguren als kaarten ---------- */
   if(D.figuren&&D.figuren.length){heading('Sleutelfiguren');
@@ -552,7 +562,7 @@ function closeWar(){$('#war').hidden=true;curWar=null;syncHash()}
 const norm=t=>String(t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[’‘']/g,"'");
 const SIDX=EVENTS.concat(WEV).map(e=>{const D=DETAILS[e.t]||{};
   const f=[['t',e.t,12],['d',e.d,6],['x',e.x,3]];(D.figuren||[]).forEach(([n,r])=>f.push(['f',n+', '+r,5]));(D.cijfers||[]).forEach(([a,b])=>f.push(['c',a+': '+b,2]));
-  [...(D.aanloop||[]),...(D.verloop||[]),...(D.perspectieven||[])].forEach(p=>f.push(['p',p,1]));return {e,f:f.map(([k,v,w])=>({k,v,w,n:norm(v)}))}});
+  [...(D.aanloop||[]),...(D.verloop||[]),...(D.perspectieven||[]),...VERDIEPING.teksten(D)].forEach(p=>f.push(['p',p,1]));return {e,f:f.map(([k,v,w])=>({k,v,w,n:norm(v)}))}});
 function search(s){const terms=norm(s).split(/\s+/).filter(Boolean);if(!terms.length)return[];const res=[];
   for(const it of SIDX){let score=0,ok=true,best=null;for(const t of terms){let hit=0;for(const x of it.f){if(x.n.includes(t)){const w=x.w*(x.n.startsWith(t)||x.n.includes(' '+t)?1.5:1);if(w>hit)hit=w;if(!best||x.w>best.w)best={...x,term:t}}}if(!hit){ok=false;break}score+=hit}
     if(ok)res.push({e:it.e,score,best,terms})}

@@ -270,6 +270,16 @@ button.dot{cursor:pointer}
 .people .av{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
 .people b{display:block;font-size:17px}
 .people span{font-size:15px;color:var(--muted2)}
+/* verdieping voor leerkrachten (js/verdieping.js) */
+.box.tell{background:var(--sunk);border-color:var(--sunk);box-shadow:none}
+.box.tell p{margin:0;font-size:17px;line-height:1.6;color:var(--ink2)}
+.box.les .ka{font-weight:400;font-size:16px;line-height:1.45}
+.mis{margin:0 0 16px;padding-left:16px;border-left:4px solid var(--line)}
+.mis p{margin:0 0 6px}
+.mis .misq{font-weight:700;color:var(--ink)}
+.mis .misq::before{content:"Misverstand: ";color:var(--muted2);font-weight:700}
+.samen li{display:flex;flex-direction:column;gap:2px}
+.samen span{font-size:15px;color:var(--muted2);line-height:1.4}
 .links{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
 .links a{font-weight:700;font-size:17px;text-decoration:none}
 .links a:hover{text-decoration:underline}
