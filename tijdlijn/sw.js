@@ -2,7 +2,7 @@
 // - Pagina en gegevens: eerst het netwerk (zo zie je updates meteen), offline uit de cache.
 // - Afbeeldingen: uit de cache zodra ze één keer bekeken zijn.
 // - Lettertypen en de pdf-maker (externe bronnen): cache, op de achtergrond ververst.
-const VERSION = 'v14';
+const VERSION = 'v15';
 const SHELL = 'tijdlijn-shell-' + VERSION;
 const IMG = 'tijdlijn-img-v2';
 const EXT = 'tijdlijn-ext-v1';
@@ -13,6 +13,7 @@ const PRECACHE = [
   './manifest.webmanifest',
   './js/data.js',
   './js/slugs.js',
+  './js/verhalen.js',
   './js/mtbar.js',
   './js/tlfooter.js',
   '/favicon.ico',

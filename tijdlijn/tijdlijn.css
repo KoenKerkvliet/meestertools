@@ -526,3 +526,20 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 .ovlist a{font-weight:700;font-size:17px;color:var(--ink);text-decoration:none}
 .ovlist a:hover{text-decoration:underline}
 @media print{.mtbar,.spcta,.crumbs,.pghero .btns{display:none}}
+
+/* verhalen om voor te lezen (boekknop op de eeuwkaart) */
+.cbtns{display:flex;gap:8px;flex:none}
+.vbtn{flex:none;width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;border:0;cursor:pointer;padding:0}
+.vbtn:hover{filter:brightness(.95)}
+.vbtn:focus-visible,.tog:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.cat.vcat{--tt:#fff;--ti:var(--ink)}
+.cat.vconcept{--tt:var(--red-tint);--ti:var(--red-ink)}
+.vgrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:40px;margin-top:40px;align-items:start}
+.vtekst p{font-size:22px;line-height:1.75;color:var(--ink);margin:0 0 20px;max-width:680px;text-wrap:pretty}
+.vside{display:flex;flex-direction:column;gap:16px;position:sticky;top:100px}
+.vklopt ul,.vlinks{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.vklopt li{font-size:16px;line-height:1.5;color:var(--ink2);padding-left:22px;position:relative}
+.vklopt li::before{content:"";position:absolute;left:2px;top:.55em;width:9px;height:9px;border-radius:50%;background:var(--muted2)}
+.vev{border:0;background:none;padding:0;font:inherit;font-weight:700;font-size:16px;color:var(--ink);cursor:pointer;text-align:left;text-decoration:underline;text-underline-offset:3px}
+@media (max-width:900px){.vgrid{grid-template-columns:1fr}.vside{position:static}.vtekst p{font-size:20px}}
+@media print{.vgrid{display:block;margin-top:20px}.vtekst p{font-size:13.5px;line-height:1.6;max-width:none}.vside{position:static;margin-top:18px}.vside .box:has(.vlinks){display:none}.vconcept{display:none}}
