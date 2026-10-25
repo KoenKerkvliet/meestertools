@@ -168,7 +168,7 @@ button.dot{cursor:pointer}
 
 /* oorlog */
 #war{padding-block:4px 40px}
-.wcard{max-width:1280px;background:var(--surface);border-radius:22px;border:2px solid var(--line2);box-shadow:0 4px 0 var(--shadow);padding:28px;animation:rise .3s ease}
+.wcard{background:var(--surface);border-radius:22px;border:2px solid var(--line2);box-shadow:0 4px 0 var(--shadow);padding:28px;animation:rise .3s ease}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .whead{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:flex-end;justify-content:space-between}
 .whead .pill{display:inline-flex;padding:4px 12px;border-radius:999px;background:#E4E2D5;color:#4A4A36;font-weight:700;font-size:15px}
