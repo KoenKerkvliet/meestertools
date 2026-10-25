@@ -59,6 +59,25 @@ h1{margin:0;font-family:var(--f-display);font-weight:800;font-size:clamp(44px,6v
 .chip[aria-pressed="false"] .dot{background:#C9CCD3;box-shadow:none}
 
 /* statusregel */
+/* tijdvakbalk: dunne lijn per periode, marker = waar je nu bent */
+.tvbar{padding-block:4px 16px}
+.tvb-track{position:relative;display:flex;gap:3px}
+.tvb-seg{position:relative;flex:1 1 0;min-width:0;height:24px;padding:0;border:0;background:none;cursor:pointer}
+.tvb-seg::before{content:"";position:absolute;left:0;right:0;top:50%;height:8px;margin-top:-4px;border-radius:3px;background:var(--sc);opacity:.42;transition:opacity .15s,height .15s,margin .15s}
+.tvb-seg.on::before{opacity:1}
+.tvb-seg:hover::before{opacity:1;height:12px;margin-top:-6px}
+.tvb-seg::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--ink);color:#fff;font-size:13px;font-weight:600;line-height:1.3;padding:5px 10px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .12s;z-index:6}
+.tvb-seg:first-child::after{left:0;transform:none}
+.tvb-seg:nth-last-child(2)::after{left:auto;right:0;transform:none}
+.tvb-seg:hover::after,.tvb-seg:focus-visible::after{opacity:1}
+.tvb-seg:focus-visible{outline-offset:1px;border-radius:4px}
+.tvb-mk{position:absolute;top:50%;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:#fff;border:3px solid var(--ink);box-shadow:0 1px 3px rgba(31,36,48,.25);pointer-events:none;z-index:2}
+.tvb-track.pin .tvb-mk{transition:left .35s ease}
+.tvb-lab{display:flex;justify-content:space-between;gap:12px;margin-top:2px;font-size:13px;color:var(--muted2)}
+.tvb-lab b{font-weight:700;color:var(--ink2);text-align:center}
+@media (hover:none) and (pointer:coarse){.tvb-seg::after{display:none}}
+@media (prefers-reduced-motion:reduce){.tvb-track.pin .tvb-mk{transition:none}}
+
 .status{padding-block:28px 12px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
 .stext{font-size:17px;color:var(--muted2)}
 .sright{display:flex;flex-wrap:wrap;align-items:center;gap:18px}
@@ -338,7 +357,7 @@ html.has-dl .printbtn{display:none}
   @page{size:A4;margin:16mm}
   html,body{background:#fff!important;overflow:visible!important}
   html.klas .app{zoom:1}
-  .site,.intro,.status,.scroller,#war,footer,.scrim,.panel,.pgbar,.pgnav{display:none!important}
+  .site,.intro,.status,.tvbar,.scroller,#war,footer,.scrim,.panel,.pgbar,.pgnav{display:none!important}
   .page{position:static!important;transform:none!important;visibility:visible!important;opacity:1!important;width:auto!important;box-shadow:none!important;border-radius:0!important;overflow:visible!important;background:#fff!important}
   .page:not(.on){display:none!important}
   .pgin{padding:0!important}
@@ -471,7 +490,7 @@ html.has-dl .printbtn{display:none}
 .mtsub{opacity:.85}
 .mtgo{margin-left:auto;font-weight:700;white-space:nowrap}
 .mtgo:hover{text-decoration:underline!important}
-@media (max-width:600px){.mtsub{display:none}}
+@media (max-width:600px){.mtsub{display:none}.mtlogo b{display:none}}
 
 /* ---- losse pagina's per gebeurtenis en het overzicht (gemaakt door scripts/bouw-paginas.mjs) ---- */
 .sp .spin{max-width:1180px;margin-inline:auto}
