@@ -75,6 +75,26 @@ Object.assign(window.DETAILS, {
   'In juni 1673, tijdens de oorlog die met het Rampjaar begon, belegerde Lodewijk XIV de stad zelf. Zijn vestingbouwer Vauban liet loopgraven aanleggen die zigzaggend naar de muren liepen. Die aanpak werd daarna overal in Europa nagevolgd.',
   'Bij een aanval sneuvelde op 25 juni 1673 Charles d’Artagnan, kapitein van de musketiers, later beroemd door de romans van Alexandre Dumas. Na enkele weken gaf de stad zich over. Bij de Vrede van Nijmegen in 1678 kreeg de Republiek Maastricht terug.'
  ],
+ gevolgen: [
+  "Het beleg van 1673 werd een voorbeeld voor de oorlogvoering in heel Europa. De methode van Vauban, met zigzaggende loopgraven en parallelle gangen, werd tot in de 19e eeuw gebruikt bij belegeringen. Vauban bouwde later in Frankrijk tientallen vestingen.",
+  "Maastricht bleef een belangrijke vestingstad en werd in de 18e eeuw nog verder versterkt. De vestingwerken en de gangenstelsels in de Sint-Pietersberg zijn deels bewaard gebleven."
+ ],
+ perspectieven: [
+  "Voor Lodewijk XIV was de verovering een prestigezaak: hij kwam zelf kijken en liet het beleg vastleggen in schilderijen en gedenkpenningen. Voor de inwoners van Maastricht betekenden de belegeringen honger, beschietingen en plunderingen. In 1579 vielen bij de inname door Parma zeer veel doden onder de burgers."
+ ],
+ misverstanden: [
+  ["“D’Artagnan is een verzonnen figuur.”","D’Artagnan bestond echt: Charles de Batz de Castelmore d’Artagnan, kapitein van de musketiers van de Franse koning. Hij sneuvelde in 1673 bij Maastricht. De avonturen in De drie musketiers van Alexandre Dumas zijn wel grotendeels verzonnen."],
+  ["“Maastricht werd maar één keer belegerd.”","Maastricht werd in zijn geschiedenis vele keren belegerd: in 1579 door Parma, in 1632 door Frederik Hendrik, in 1673 door Lodewijk XIV, en later onder meer in 1748 en 1794 door Franse legers."]
+ ],
+ hoeWeten: [
+  "Er zijn militaire rapporten, kaarten van de loopgraven en brieven van officieren. Lodewijk XIV liet het beleg vastleggen door hofschilders. Archeologisch onderzoek in Maastricht heeft resten van vestingwerken en loopgraven blootgelegd."
+ ],
+ nu: [
+  "In Maastricht zijn nog delen van de vestingwerken te zien, zoals de stadsmuur en het Fort Sint Pieter. In het park Aldenhof staat sinds 2003 een standbeeld van d’Artagnan, op de plek waar hij sneuvelde. De ondergrondse gangen in de Sint-Pietersberg kun je met een gids bezoeken."
+ ],
+ vertellen: "Volgens de overlevering sneuvelde d’Artagnan op 25 juni 1673 bij een aanval op een vestingwerk, met een kogel in de keel. Lodewijk XIV zou over hem hebben gezegd: “Ik verlies d’Artagnan, in wie ik het meeste vertrouwen had.”",
+ verbanden: [["Rampjaar","het beleg hoorde bij de oorlog van 1672"],["Partagetraktaat","Maastricht en de verdeling van het gebied"],["De Maashagedis","nog een vondst in de Sint-Pietersberg"]],
+ onderwijs: {"ka":["Het streven van vorsten naar absolute macht."]},
  cijfers: [['Inname door Parma','juni 1579'],['Verovering door Frederik Hendrik','1632'],['Franse verovering','juli 1673'],['Terug naar de Republiek','1678']],
  figuren: [['Alexander Farnese','hertog van Parma, veroverde Maastricht in 1579'],['Lodewijk XIV','Franse koning, leidde het beleg van 1673'],['Sébastien Le Prestre de Vauban','Franse vestingbouwer'],['Charles d’Artagnan','musketier, sneuvelde in 1673']],
  bronnen: [['Wikipedia: Beleg van Maastricht (1579)',W('Beleg van Maastricht 1579')],['Wikipedia: Beleg van Maastricht (1673)',W('Beleg van Maastricht 1673')]]
@@ -491,6 +511,26 @@ Object.assign(window.DETAILS, {
   'De bloeitijd was tussen 1650 en 1750, toen er in Delft ongeveer honderd aardewerkfabrieken actief waren. Ze maakten borden, vazen, tegels en hele tegeltableaus.',
   'Rond 1800 verdween de industrie bijna door goedkoper aardewerk uit Engeland. Nu zijn er nog maar weinig fabrieken die het ambacht op de traditionele manier doen, zoals De Porceleyne Fles en Heinen Delfts Blauw.'
  ],
+ gevolgen: [
+  "Delfts blauw werd een exportproduct dat in heel Europa gewild was. Tegels werden gebruikt in keukens, schouwen en zelfs in paleizen, zoals bij de Franse koning. De techniek verspreidde zich ook naar andere landen.",
+  "Door goedkoop Engels aardewerk en porselein uit Meissen verdween de bloei na 1750. Rond 1840 was er nog maar één fabriek over: De Porceleyne Fles. Die zorgde er later voor dat het ambacht niet verloren ging."
+ ],
+ perspectieven: [
+  "Delfts blauw was een product van de wereldhandel: de VOC bracht Chinees porselein, en Delftse pottenbakkers maakten het na. Ze namen motieven over als pagodes en Chinese figuren, gezien door Europese ogen. Later kwamen er ook Hollandse molens, schepen en landschappen op."
+ ],
+ misverstanden: [
+  ["“Delfts blauw is porselein.”","Delfts blauw is aardewerk met een wit tinglazuur, ook wel faience genoemd. Echt porselein is van een andere, fijnere klei en wordt veel heter gebakken. Delftse pottenbakkers konden dat nog niet maken."],
+  ["“Al het Delfts blauw in souvenirwinkels komt uit Delft.”","Veel goedkope souvenirs met blauwe molentjes worden elders gemaakt, vaak in Azië. Echt handgeschilderd Delfts blauw is herkenbaar aan het merk van de fabriek."]
+ ],
+ hoeWeten: [
+  "Bewaarde borden, vazen en tegels, met merktekens van de fabrieken, laten zien wat er werd gemaakt. Archieven van het Delftse Sint-Lucasgilde vertellen wie de pottenbakkers waren. Opgravingen in Delft hebben ook scherven en mislukte stukken opgeleverd."
+ ],
+ nu: [
+  "Bij De Porceleyne Fles in Delft kun je zien hoe Delfts blauw nog met de hand wordt beschilderd. Blauw-witte motieven zie je terug in mode, design en souvenirs. Het Rijksmuseum en het Prinsenhof in Delft hebben grote collecties."
+ ],
+ vertellen: "De blauwe verf ziet er vóór het bakken zwart uit. Pas in de oven, bij ongeveer duizend graden, verandert het in het bekende diepe blauw. De schilders moesten dus werken zonder te zien hoe het eindresultaat zou worden.",
+ verbanden: [["VOC","de VOC bracht Chinees porselein naar Europa"],["Vermeer en het Meisje met de parel","Vermeer werkte in dezelfde stad"],["Van Leeuwenhoek en de microscoop","nog een Delftenaar uit de Gouden Eeuw"]],
+ onderwijs: {"ka":["Het ontstaan van handelskapitalisme en het begin van een wereldeconomie.","De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek."]},
  cijfers: [['Ontstaan','einde 16e eeuw'],['Bloeitijd','1650 – 1750'],['Fabrieken','ca. 100 in Delft'],['Verval','omstreeks 1800']],
  figuren: [['Delftse pottenbakkers','maakten het aardewerk'],['Vlaamse pottenbakkers','brachten het tinglazuur mee'],['De Porceleyne Fles','fabriek die het ambacht voortzet']],
  bronnen: [['Wikipedia: Delfts blauw',W('Delfts blauw')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
@@ -505,6 +545,26 @@ Object.assign(window.DETAILS, {
   'Het Meisje met de parel is geen portret, maar een tronie: een fantasiekop. Het meisje draagt een blauwe tulband, geschilderd met kostbare ultramarijnverf. De “parel” is waarschijnlijk helemaal geen parel, maar een glazen druppeloorbel. Tot 1995 heette het schilderij Meisje met tulband. Sinds 1902 hangt het in het Mauritshuis in Den Haag.',
   'Vermeer werd op 15 december 1675 begraven. Antoni van Leeuwenhoek, die ook in Delft woonde, regelde zijn nalatenschap.'
  ],
+ gevolgen: [
+  "Na zijn dood raakte Vermeer bijna vergeten. Pas in de 19e eeuw werd hij herontdekt, vooral door de Franse kunstcriticus Théophile Thoré-Bürger. Daarna werd hij een van de bekendste schilders van de Gouden Eeuw.",
+  "Er worden maar 34 tot 37 schilderijen aan hem toegeschreven. Dat maakt elk werk bijzonder. In 2023 hield het Rijksmuseum een grote tentoonstelling met 28 van zijn schilderijen; alle kaarten waren binnen korte tijd uitverkocht."
+ ],
+ perspectieven: [
+  "Vermeer wordt vaak gezien als een stil, mysterieus genie. Archieven laten een gewone man zien met een groot gezin, schulden en een handel in schilderijen. Kunsthistorici discussiëren nog steeds over de vraag of hij een camera obscura gebruikte om licht en perspectief zo precies te schilderen."
+ ],
+ misverstanden: [
+  ["“Het Meisje met de parel is een portret van een echte vrouw.”","Het is een tronie, een studie van een fantasiefiguur met een bijzonder kostuum. Wie er model zat, is niet bekend. De film en het boek over het meisje zijn verzonnen verhalen."],
+  ["“Vermeer schilderde heel veel.”","Vermeer schilderde juist weinig, misschien twee à drie schilderijen per jaar. Daarom zijn er maar zo weinig werken van hem bewaard."]
+ ],
+ hoeWeten: [
+  "Over Vermeers leven is weinig bekend; de belangrijkste bronnen zijn archiefstukken uit Delft, zoals doop- en begraafregisters en schuldbekentenissen. Met moderne technieken, zoals röntgenfoto’s en verfonderzoek, hebben onderzoekers ontdekt hoe hij werkte en welke kostbare pigmenten hij gebruikte."
+ ],
+ nu: [
+  "Het Meisje met de parel is een van de topstukken van het Mauritshuis in Den Haag. Het melkmeisje hangt in het Rijksmuseum. In Delft is een Vermeer Centrum, en het boek en de film Girl with a Pearl Earring maakten het schilderij wereldberoemd."
+ ],
+ vertellen: "Na Vermeers dood gaf zijn weduwe twee schilderijen aan de bakker, als betaling voor een schuld van ruim zeshonderd gulden aan geleverd brood. De familie had dus jarenlang brood op de pof gekocht.",
+ verbanden: [["Rembrandt van Rijn","een tijdgenoot in Amsterdam"],["Van Leeuwenhoek en de microscoop","hij regelde Vermeers nalatenschap"],["Delfts blauw","Vermeer woonde in de stad van het Delfts blauw"]],
+ onderwijs: {"ka":["De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek."]},
  cijfers: [['Gedoopt','31 oktober 1632, Delft'],['Meisje met de parel','ca. 1665 – 1667'],['Mauritshuis','sinds 1902'],['Begraven','15 december 1675']],
  figuren: [['Johannes Vermeer','schilder uit Delft'],['Antoni van Leeuwenhoek','regelde Vermeers nalatenschap'],['Carel Fabritius','Delftse schilder, mogelijk zijn leermeester']],
  bronnen: [['Wikipedia: Johannes Vermeer',W('Johannes Vermeer')],['Wikipedia: Meisje met de parel',W('Meisje met de parel')],['Mauritshuis','https://www.mauritshuis.nl/']]
@@ -744,6 +804,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de Māori van Ngāti Tūmatakōkiri was de baai hun eigen gebied. Waarschijnlijk vatten ze de trompetsignalen van de Nederlanders op als een uitdaging tot een gevecht. Nu heet de baai Golden Bay. Tasmanië was al tienduizenden jaren bewoond door Aboriginals, Nieuw-Zeeland sinds ongeveer 1300 door de voorouders van de Māori.'
  ],
+ gevolgen: [
+  "In 1644 voer Tasman opnieuw uit, nu langs de noordkust van Australië. Daarmee werd duidelijk dat Nieuw-Holland een groot land was, maar niet dat het een eiland-continent was. De VOC zag er geen handel in en stuurde geen nieuwe grote expedities.",
+  "Ruim een eeuw later, in 1769 en 1770, bracht de Brit James Cook Nieuw-Zeeland en de oostkust van Australië in kaart. De Britten vestigden er daarna koloniën. De Nederlandse namen bleven gedeeltelijk bestaan: Tasmanië, de Tasmanzee en Nieuw-Zeeland."
+ ],
+ misverstanden: [
+  ["“Tasman ging in Nieuw-Zeeland aan land.”","Tasman zette geen voet aan wal in Nieuw-Zeeland. Na de botsing met de Māori in de baai voer hij verder zonder aan land te gaan. Op Tasmanië liet hij wel een timmerman naar de kust zwemmen om een vlag te planten."],
+  ["“Tasman ontdekte dat Australië een eiland is.”","Tasman voer om Australië heen zonder het te zien, en wist dus niet hoe het precies in elkaar zat. Dat Australië een continent is, werd pas later duidelijk."]
+ ],
+ hoeWeten: [
+  "Het scheepsjournaal van Tasman is bewaard gebleven, met tekeningen van de kust en van de ontmoeting met de Māori. Het ligt in het Nationaal Archief in Den Haag. De Māori van Golden Bay hebben hun eigen verhalen over de ontmoeting mondeling doorgegeven."
+ ],
+ nu: [
+  "In Nieuw-Zeeland zijn een nationaal park, een gletsjer, een rivier en een zee naar Tasman genoemd. In Lutjegast staat een museum over zijn leven. In 1988 onthulde koningin Beatrix in Hobart op Tasmanië een monument voor hem. Bij herdenkingen spelen ook de Māori-verhalen nu een belangrijke rol."
+ ],
+ vertellen: "Toen Tasman in 1642 Tasmanië bereikte, was de zee te ruw om aan land te gaan. Daarom zwom een timmerman met een vlag naar de kust en plantte die daar, als teken dat de VOC er was geweest.",
+ verbanden: [["Willem Janszoon in Australië","de eerste Nederlander in Australië"],["VOC","de opdrachtgever van Tasman"],["Roggeveen bij Paaseiland","de zoektocht naar het Zuidland ging door"]],
+ onderwijs: {"ka":["Het ontstaan van handelskapitalisme en het begin van een wereldeconomie."]},
  cijfers: [['Vertrek uit Batavia','14 augustus 1642'],['Tasmanië in zicht','24 november 1642'],['Nieuw-Zeeland in zicht','13 december 1642'],['Terug in Batavia','15 juni 1643']],
  figuren: [['Abel Tasman','commandeur van de expeditie'],['Antonio van Diemen','gouverneur-generaal, gaf de opdracht'],['Isaack Gilsemans','koopman en tekenaar aan boord']],
  bronnen: [['Wikipedia: Abel Tasman',W('Abel Tasman')],['Wikipedia: Golden Bay',W('Golden Bay Nieuw-Zeeland')]]
@@ -759,6 +836,26 @@ Object.assign(window.DETAILS, {
   'Spanje erkende de Republiek als onafhankelijke staat. De Republiek hield de veroverde gebieden in Brabant, Vlaanderen en Limburg. De Schelde bleef gesloten, wat gunstig was voor Amsterdam en slecht voor Antwerpen.',
   'De vrede maakte deel uit van de Vrede van Westfalen, die ook de Dertigjarige Oorlog beëindigde. De Republiek stond aan het begin van het hoogtepunt van haar macht en welvaart.'
  ],
+ gevolgen: [
+  "Met de vrede eindigde de Tachtigjarige Oorlog en was de Republiek der Zeven Verenigde Nederlanden ook officieel een onafhankelijke staat. De zuidelijke Nederlanden bleven Spaans. De grens tussen noord en zuid ligt nog grotendeels zoals toen, al werd hij later op een paar plaatsen aangepast.",
+  "De gebieden die de Republiek veroverd had in Brabant, Vlaanderen en Limburg werden “Generaliteitslanden”: ze werden direct bestuurd door de Staten-Generaal en hadden zelf weinig te zeggen. De katholieke bevolking daar werd lang achtergesteld."
+ ],
+ perspectieven: [
+  "In Holland werd de vrede uitbundig gevierd, maar niet iedereen was blij. Zeeland en stadhouder Willem II wilden doorvechten om ook Antwerpen en het zuiden te veroveren. Voor Antwerpen betekende de gesloten Schelde een economische ramp. En voor de katholieken in Brabant kwam er geen vrijheid van godsdienst."
+ ],
+ misverstanden: [
+  ["“De Tachtigjarige Oorlog duurde tachtig jaar onafgebroken.”","De oorlog duurde van 1568 tot 1648, maar met een pauze van twaalf jaar tijdens het Twaalfjarig Bestand (1609–1621). Er werd ook niet altijd en overal gevochten."],
+  ["“De Vrede van Munster maakte een einde aan alle oorlogen in Europa.”","De vrede was onderdeel van de Vrede van Westfalen, die ook de Dertigjarige Oorlog beëindigde. Maar Frankrijk en Spanje bleven tot 1659 met elkaar in oorlog."]
+ ],
+ hoeWeten: [
+  "De verdragstekst en de verslagen van de gezanten zijn bewaard, net als het schilderij van Gerard ter Borch van de beëdiging. Pamfletten, prenten en penningen laten zien hoe de vrede in de Republiek werd gevierd. De zaal in het stadhuis van Münster waar de vrede werd bezworen, is nog te bezoeken."
+ ],
+ nu: [
+  "De Vredeszaal in het stadhuis van Münster heet nog steeds Friedenssaal. Het schilderij van Ter Borch hangt in de National Gallery in Londen. In 1998, 350 jaar na de vrede, werd het jubileum in Münster en in Nederland herdacht."
+ ],
+ vertellen: "Op het schilderij van Gerard ter Borch staan de gezanten in het stadhuis van Münster met hun hand omhoog of op de bijbel, terwijl ze de vrede bezweren. Ter Borch schilderde zichzelf ook op het doek, links aan de rand, als ooggetuige.",
+ verbanden: [["Het Twaalfjarig Bestand","de eerdere wapenstilstand"],["Partagetraktaat","de verdeling van Limburgse gebieden daarna"],["Vrede van Utrecht","een latere grote vrede"]],
+ onderwijs: {"ka":["Het conflict in de Nederlanden dat resulteerde in de stichting van de Nederlandse staat. (tijdvak 5)","De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek."]},
  cijfers: [['Begin onderhandelingen','ca. 1643–1646'],['Ondertekend','30 januari 1648'],['Bezworen','15 mei 1648'],['Duur van de oorlog','80 jaar, met 12 jaar bestand']],
  figuren: [['Adriaan Pauw','Hollandse gezant'],['Graaf van Peñaranda','Spaanse gezant'],['Gerard ter Borch','schilderde de bezwering van de vrede']],
  bronnen: [['Wikipedia: Vrede van Münster',W('Vrede van Münster')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
@@ -774,6 +871,26 @@ Object.assign(window.DETAILS, {
   'Huygens deed ook belangrijk werk in de sterrenkunde. Met zelf geslepen lenzen ontdekte hij in 1655 Titan, de grootste maan van Saturnus. Hij verklaarde dat Saturnus omringd is door een dunne, platte ring.',
   'Later werkte hij aan de Franse Académie des Sciences in Parijs. Hij ontwikkelde een golftheorie van het licht. Huygens geldt als een van de belangrijkste wetenschappers van de 17e eeuw. Hij overleed in 1695.'
  ],
+ gevolgen: [
+  "Met het slingeruurwerk werd de tijdmeting ineens veel nauwkeuriger: van een afwijking van een kwartier per dag naar minder dan een minuut. Dat was belangrijk voor de wetenschap, maar ook voor het dagelijks leven. Slingerklokken kwamen in kerken, stadhuizen en huiskamers.",
+  "Huygens probeerde ook een klok te maken die op zee nauwkeurig bleef lopen, zodat zeelieden hun lengtegraad konden bepalen. Dat lukte niet goed door het schommelen van de schepen. Pas in de 18e eeuw maakte de Engelsman John Harrison zo’n klok."
+ ],
+ perspectieven: [
+  "Huygens was een typische geleerde van de wetenschappelijke revolutie: hij geloofde dat de natuur werkt volgens wiskundige wetten die je kunt ontdekken door waarneming en berekening. Met Engelse geleerden als Robert Hooke en Isaac Newton had hij soms felle meningsverschillen, bijvoorbeeld over wie wat het eerst had bedacht, en over de aard van licht."
+ ],
+ misverstanden: [
+  ["“Galileo heeft de slingerklok uitgevonden.”","Galileo ontdekte dat een slinger een vast ritme heeft en bedacht het idee van een slingerklok, maar bouwde er geen werkende. Huygens bedacht in 1656 als eerste een werkend ontwerp."],
+  ["“Huygens was alleen een klokkenmaker.”","Huygens was natuurkundige, wiskundige en sterrenkundige. De klokken liet hij bouwen door klokkenmaker Salomon Coster. Daarnaast ontdekte hij de maan Titan en verklaarde hij de ring van Saturnus."]
+ ],
+ hoeWeten: [
+  "Huygens publiceerde zijn ontdekkingen in boeken, zoals Horologium Oscillatorium uit 1673, en schreef duizenden brieven aan geleerden in heel Europa. Een van de vroegste slingerklokken van Coster staat in Rijksmuseum Boerhaave in Leiden."
+ ],
+ nu: [
+  "De Europese ruimtesonde Huygens, genoemd naar de ontdekker van Titan, landde in 2005 op die maan. Het buitenhuis van de familie Huygens, Hofwijck in Voorburg, is een museum. Slingerklokken zijn nog steeds te vinden in veel Nederlandse huiskamers."
+ ],
+ vertellen: "Huygens ontdekte dat twee slingerklokken die naast elkaar aan dezelfde balk hingen, na een tijdje precies in hetzelfde ritme gingen slingeren. Hoe hij ze ook verstoorde, ze kwamen weer gelijk. Hij noemde het “de sympathie van klokken”.",
+ verbanden: [["Van Leeuwenhoek en de microscoop","nog een Nederlandse wetenschapper met lenzen"],["Spinoza","Spinoza sleep lenzen die Huygens prees"],["Eise Eisinga","een latere Nederlandse sterrenkundige"]],
+ onderwijs: {"ka":["De wetenschappelijke revolutie."],"venster":"21. Christiaan Huygens"},
  cijfers: [['Geboren','1629, Den Haag'],['Titan ontdekt','1655'],['Slingeruurwerk','1656'],['Octrooi','1657']],
  figuren: [['Christiaan Huygens','natuurkundige, wiskundige en sterrenkundige'],['Constantijn Huygens','zijn vader, dichter en diplomaat'],['Salomon Coster','Haagse klokkenmaker']],
  bronnen: [CANON,['Wikipedia: Christiaan Huygens',W('Christiaan Huygens')],['Rijksmuseum Boerhaave','https://www.rijksmuseumboerhaave.nl/']]
@@ -789,6 +906,26 @@ Object.assign(window.DETAILS, {
   'Zo ontstond een lappendeken van dorpen en heerlijkheden met verschillende heren, soms vlak naast elkaar. Wie door het gebied reisde, kon op korte afstand meerdere grenzen passeren. In het Staatse deel werd de gereformeerde kerk de officiële kerk, terwijl de bevolking grotendeels katholiek bleef.',
   'Deze verdeling bleef met enkele wijzigingen bestaan tot de Franse tijd aan het eind van de 18e eeuw. Pas in de 19e eeuw groeide Zuid-Limburg samen tot een deel van de nieuwe provincie Limburg.'
  ],
+ gevolgen: [
+  "De verdeling maakte Zuid-Limburg tot een ingewikkeld gebied, met dorpen die bij de Republiek hoorden naast dorpen die Spaans en later Oostenrijks waren. Dat had gevolgen voor belastingen, rechtspraak en geloof. In de Staatse dorpen moesten katholieken hun kerken soms delen of afstaan aan de gereformeerden.",
+  "Die lappendeken maakte het gebied ook aantrekkelijk voor smokkelaars en rondtrekkende benden, omdat ze snel van het ene rechtsgebied naar het andere konden vluchten. Dat speelde later mee bij de processen tegen de Bokkenrijders."
+ ],
+ perspectieven: [
+  "Voor de Republiek en Spanje ging het om grenzen, inkomsten en veiligheid. Voor de inwoners betekende het dat hun dorp ineens een andere heer had, met andere regels, terwijl de buren aan de overkant van een beek nog onder de oude heer vielen. De bevolking bleef grotendeels katholiek, ook waar de gereformeerde kerk de officiële kerk werd."
+ ],
+ misverstanden: [
+  ["“De Landen van Overmaas lagen ten westen van de Maas.”","Overmaas betekent “over de Maas”, gezien vanuit Brabant. De landen lagen ten oosten van de Maas, in het huidige Zuid-Limburg en het aangrenzende Belgische en Duitse gebied."],
+  ["“Na 1661 was alles duidelijk geregeld.”","Ook na het verdrag bleven er onduidelijkheden en ruzies over grenzen en rechten. Pas met de Franse tijd verdween de lappendeken."]
+ ],
+ hoeWeten: [
+  "De tekst van het Partagetraktaat en de kaarten waarop de verdeling werd ingetekend, zijn bewaard in archieven in Den Haag, Maastricht en Brussel. Lokale archieven laten zien welk dorp bij welke heer hoorde."
+ ],
+ nu: [
+  "In Zuid-Limburg herinneren grenspalen en oude kerken nog aan de verdeling. Bij Kerkrade en Herzogenrath loopt de grens tussen Nederland en Duitsland dwars door de straat, de Nieuwstraat/Neustraße. Ook dat is een gevolg van eeuwen van verdeelde heerschappij."
+ ],
+ vertellen: "Een reiziger die in de 18e eeuw van Maastricht naar Aken liep, kon op een dag meerdere grenzen passeren: van Staats naar Oostenrijks gebied, door een vrije heerlijkheid en weer terug. Bij elke grens golden andere regels en tollen.",
+ verbanden: [["Vrede van Munster","de onduidelijkheid begon in 1648"],["De Bokkenrijders","de lappendeken hielp rovers ontsnappen"],["Departement Nedermaas","de Franse tijd maakte er één geheel van"]],
+ onderwijs: {"ka":["De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek."]},
  cijfers: [['Verdrag','26 december 1661'],['Verdeelde landen','3: Valkenburg, Dalhem, ’s-Hertogenrade'],['Einde verdeling','Franse tijd, 1794–1795']],
  figuren: [['Filips IV','koning van Spanje'],['Johan de Witt','raadpensionaris van Holland']],
  bronnen: [['Wikipedia: Partagetraktaat',W('Partagetraktaat')],['Wikipedia: Landen van Overmaas',W('Landen van Overmaas')]]
@@ -804,6 +941,26 @@ Object.assign(window.DETAILS, {
   'De atlas was een van de grootste en duurste boeken van de 17e eeuw. Rijke kopers lieten de kaarten met de hand inkleuren en de banden met goud versieren. Een exemplaar werd vaak als staatsgeschenk gegeven.',
   'In 1672 verwoestte een brand een groot deel van de drukkerij van Blaeu. Joan Blaeu overleed een jaar later. De Atlas Maior laat zien hoe sterk Amsterdam toen de kaartenwereld beheerste.'
  ],
+ gevolgen: [
+  "Amsterdam werd door uitgevers als Blaeu het centrum van de kaartenwereld. Kaarten en atlassen uit Amsterdam werden in heel Europa gebruikt door zeelieden, kooplieden en vorsten.",
+  "Na de brand van 1672 en de dood van Joan Blaeu raakte de Amsterdamse kaartproductie op haar retour. In de 18e eeuw namen Parijs en Londen de leiding over."
+ ],
+ perspectieven: [
+  "De kaarten lieten de wereld zien door Europese ogen. Gebieden waar Europeanen nog niet waren geweest, werden leeg gelaten of opgevuld met fantasie. Kaarten waren ook macht: de VOC hield haar beste kaarten geheim, en Blaeu moest als VOC-kaartenmaker zwijgen over wat hij wist."
+ ],
+ misverstanden: [
+  ["“Oude kaarten waren onnauwkeurig.”","Voor de kusten die zeelieden kenden, waren de kaarten van Blaeu verrassend nauwkeurig. Alleen het binnenland van verre continenten was vaak onbekend."],
+  ["“De Atlas Maior was een boek voor gewone mensen.”","De atlas was zo duur dat alleen rijke kooplieden, vorsten en instellingen hem konden kopen. Een ingekleurd exemplaar kostte een klein fortuin."]
+ ],
+ hoeWeten: [
+  "Er zijn nog tientallen exemplaren van de Atlas Maior bewaard in bibliotheken en musea. De Atlas Blaeu–Van der Hem in Wenen, een uitgebreide versie, staat op de UNESCO-lijst Memory of the World. Ook de archieven van de VOC laten zien hoe Blaeu aan zijn informatie kwam."
+ ],
+ nu: [
+  "Er zijn moderne facsimile-uitgaven van de Atlas Maior te koop. Kaarten van Blaeu hangen in musea en worden geveild voor hoge bedragen. In de Burgerzaal van het Paleis op de Dam ligt een grote wereldkaart in de vloer, in dezelfde trant als de kaarten van die tijd."
+ ],
+ vertellen: "Een volledig ingekleurde en in goud gebonden Atlas Maior was zo kostbaar dat de Staten-Generaal hem gebruikten als staatsgeschenk voor buitenlandse vorsten en gezanten. Het was het indrukwekkendste cadeau dat de Republiek kon geven.",
+ verbanden: [["VOC","Blaeu was kaartenmaker van de VOC"],["Abel Tasman","zijn ontdekkingen kwamen op de kaart"],["Nieuw-Amsterdam","ook Nieuw-Nederland stond in de atlas"]],
+ onderwijs: {"ka":["Het ontstaan van handelskapitalisme en het begin van een wereldeconomie.","De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek."],"venster":"19. De Atlas Maior van Blaeu"},
  cijfers: [['Verschenen','1662'],['Delen (Latijnse uitgave)','11'],['Aantal kaarten','bijna 600'],['Brand drukkerij','1672']],
  figuren: [['Joan Blaeu','kaartenmaker en uitgever'],['Willem Jansz. Blaeu','zijn vader, oprichter van het bedrijf']],
  bronnen: [CANON,['Wikipedia: Atlas Maior',W('Atlas Maior Blaeu')],['Wikipedia: Joan Blaeu',W('Joan Blaeu')]]
@@ -819,6 +976,26 @@ Object.assign(window.DETAILS, {
   'De Nederlanders doorbraken een zware ketting over de rivier en staken een reeks Engelse oorlogsschepen in brand. Het vlaggenschip Royal Charles werd buitgemaakt en meegenomen naar de Republiek. Het sierlijke achterschip is nu te zien in het Rijksmuseum.',
   'De aanval was een grote vernedering voor Engeland en wordt daar nog altijd gezien als een van de zwaarste nederlagen van de marine. Op 31 juli 1667 werd de Vrede van Breda gesloten. De Republiek behield Suriname, Engeland Nieuw-Amsterdam, het latere New York.'
  ],
+ gevolgen: [
+  "De aanval dwong de Engelsen tot een snelle vrede. Bij de Vrede van Breda behield de Republiek Suriname en het eilandje Run, en kreeg ze gunstiger regels voor de scheepvaart. Engeland behield Nieuw-Amsterdam.",
+  "De vernedering bleef in Engeland lang voelbaar. Engeland en Frankrijk sloten een paar jaar later een geheim verbond tegen de Republiek, wat in 1672 leidde tot het Rampjaar. Michiel de Ruyter werd in de Republiek een nationale held."
+ ],
+ perspectieven: [
+  "Voor de Republiek was de tocht een triomf en een bewijs van de kracht van de vloot. In Engeland zag men het als een schande; de dagboekschrijver Samuel Pepys schreef dat hij vreesde dat het hele koninkrijk verloren was. Voor de matrozen aan beide kanten was het, zoals elke zeeslag, gevaarlijk en bloedig werk."
+ ],
+ misverstanden: [
+  ["“De Ruyter voer zelf de Medway op.”","De Ruyter was opperbevelhebber, maar de aanval op Chatham zelf werd geleid door Willem Joseph van Ghent en kapitein Jan van Brakel, die de ketting doorbrak. Cornelis de Witt was als vertegenwoordiger van de Staten aan boord."],
+  ["“De Republiek veroverde Engeland.”","Het was een snelle aanval op een marinehaven, geen invasie. De vloot vernielde schepen, nam de Royal Charles mee en trok zich daarna terug."]
+ ],
+ hoeWeten: [
+  "Er zijn scheepsjournaals, brieven van de bevelhebbers en verslagen van Engelse ooggetuigen, zoals het dagboek van Samuel Pepys. Schilderijen en prenten tonen de brandende schepen. Het achterschip van de Royal Charles in het Rijksmuseum is zelf een bron."
+ ],
+ nu: [
+  "Het achterschip van de Royal Charles, met het wapen van de Engelse koning, is te zien in het Rijksmuseum. In Engeland wordt de aanval nog altijd herdacht als een van de zwaarste nederlagen van de Royal Navy. In 2015 verscheen de film Michiel de Ruyter."
+ ],
+ vertellen: "Kapitein Jan van Brakel voer met zijn schip recht op de zware ijzeren ketting af die de Medway afsloot, en brak er doorheen. Daarna lag de Engelse vloot open voor de aanval. Het vlaggenschip Royal Charles werd zonder veel tegenstand meegenomen naar Hellevoetsluis.",
+ verbanden: [["Nieuw-Amsterdam","de Vrede van Breda besliste over New York"],["Rampjaar","een paar jaar later kwam de wraak"],["Slavernij","Suriname bleef in Nederlandse handen"]],
+ onderwijs: {"ka":["De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek.","Het ontstaan van handelskapitalisme en het begin van een wereldeconomie."],"venster":"20. Michiel de Ruyter"},
  cijfers: [['Tocht','juni 1667'],['Buitgemaakt','de Royal Charles'],['Vrede van Breda','31 juli 1667']],
  figuren: [['Michiel de Ruyter','luitenant-admiraal, opperbevelhebber van de vloot'],['Johan de Witt','raadpensionaris, bedenker van het plan'],['Cornelis de Witt','vertegenwoordiger van de Staten aan boord'],['Willem Joseph van Ghent','leidde de aanval op de Medway']],
  bronnen: [CANON,['Rijksmuseum','https://www.rijksmuseum.nl/'],['Wikipedia: Tocht naar Chatham',W('Tocht naar Chatham')]]
@@ -834,6 +1011,26 @@ Object.assign(window.DETAILS, {
   'Spinoza betoogde dat de bijbel als een historisch boek gelezen moest worden. Volgens hem moest de staat vrijheid van denken en spreken toestaan. Kerkelijke en wereldlijke overheden vonden het boek gevaarlijk. In 1674 werd het in Holland verboden.',
   'Spinoza overleed in 1677. Kort daarna verscheen zijn hoofdwerk Ethica, waarin hij God en de natuur als één geheel beschreef. Hij geldt als een van de grondleggers van de Verlichting.'
  ],
+ gevolgen: [
+  "Spinoza’s ideeën werden in heel Europa gelezen, ondanks de verboden. Hij beïnvloedde filosofen van de Verlichting, zoals de Duitse denkers Lessing en Goethe, en later ook de wetenschapper Albert Einstein, die zei te geloven in de God van Spinoza.",
+  "Zijn pleidooi voor vrijheid van denken en meningsuiting werd een van de grondslagen van de moderne democratie. In de Republiek leidde zijn werk tot felle debatten tussen vrijdenkers en de gereformeerde kerk."
+ ],
+ perspectieven: [
+  "Voor de Joodse gemeente in Amsterdam waren Spinoza’s ideeën gevaarlijk, ook omdat ze bang was haar goede positie in de Republiek te verliezen. Voor de gereformeerde kerk was hij een godslasteraar. Voor zijn vrienden was hij een bescheiden, eerlijk denker. Nu wordt hij gezien als een van de belangrijkste filosofen uit de Nederlandse geschiedenis."
+ ],
+ misverstanden: [
+  ["“Spinoza was een atheïst.”","Spinoza ontkende dat hij atheïst was. Hij geloofde wel in God, maar niet in een God als persoon die ingrijpt. Voor hem waren God en de natuur hetzelfde, samengevat in de woorden “Deus sive Natura”: God oftewel de natuur."],
+  ["“De Republiek was in alles tolerant.”","De Republiek was voor die tijd vrij tolerant, maar niet onbegrensd. Spinoza’s boek werd verboden, en zijn vriend Adriaan Koerbagh stierf in 1669 in de gevangenis vanwege zijn vrijzinnige geschriften."]
+ ],
+ hoeWeten: [
+  "Spinoza’s boeken en zijn briefwisseling met geleerden als Henry Oldenburg en Leibniz zijn bewaard. Ook de tekst van de banvloek van 1656 ligt nog in het archief van de Portugees-Israëlietische Gemeente. Na zijn dood gaven vrienden zijn nagelaten werken uit."
+ ],
+ nu: [
+  "In Amsterdam staat sinds 2008 een standbeeld van Spinoza bij de Zwanenburgwal. Het Spinozahuis in Rijnsburg, waar hij lenzen sleep, is een klein museum. De Spinozapremie is de hoogste Nederlandse wetenschapsprijs."
+ ],
+ vertellen: "Spinoza verdiende zijn brood met het slijpen van lenzen voor brillen, microscopen en telescopen. Zijn lenzen waren zo goed dat Christiaan Huygens en Leibniz ze prezen. Waarschijnlijk droeg het fijne glasstof dat hij inademde bij aan zijn vroege dood op 44-jarige leeftijd.",
+ verbanden: [["Huygens en het slingeruurwerk","Huygens prees zijn lenzen"],["Albert Einstein","Einstein geloofde in de God van Spinoza"],["Van Leeuwenhoek en de microscoop","ook hij sleep lenzen"]],
+ onderwijs: {"ka":["De wetenschappelijke revolutie.","De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek."],"venster":"22. Spinoza"},
  cijfers: [['Geboren','1632, Amsterdam'],['Banvloek','1656'],['Tractatus','1670'],['Verbod in Holland','1674']],
  figuren: [['Baruch de Spinoza','filosoof'],['Jan Rieuwertsz','Amsterdamse uitgever'],['Franciscus van den Enden','leraar Latijn van Spinoza']],
  bronnen: [CANON,['Wikipedia: Baruch de Spinoza',W('Baruch de Spinoza')],['Wikipedia: Tractatus theologico-politicus',W('Tractatus theologico-politicus')]]
@@ -849,6 +1046,26 @@ Object.assign(window.DETAILS, {
   'Onder de bevolking heersten paniek en woede. De jonge Willem III werd stadhouder. Op 20 augustus 1672 werden Johan en Cornelis de Witt in Den Haag door een woedende menigte vermoord.',
   'Groningen doorstond eind augustus een beleg door de bisschop van Munster. In 1673 en 1674 trokken de vijanden zich geleidelijk terug. Willem III werd later ook koning van Engeland.'
  ],
+ gevolgen: [
+  "De Republiek overleefde, maar was na het Rampjaar minder machtig dan voorheen. Willem III werd stadhouder en leidde de strijd tegen Frankrijk. In 1688 stak hij met een groot leger over naar Engeland en werd hij samen met zijn vrouw Mary koning en koningin van Engeland.",
+  "De Hollandse Waterlinie, die het land redde, werd daarna versterkt en tot in de 20e eeuw gebruikt. De Republiek moest enorme bedragen uitgeven aan het leger, wat in de 18e eeuw bijdroeg aan de schulden."
+ ],
+ perspectieven: [
+  "Voor de orangisten was de moord op de De Witts een daad van verraad en hun eigen schuld, omdat ze het leger hadden verwaarloosd. Voor de staatsgezinden was het een gruwelijke moord op twee staatslieden. De meeste historici vermoeden nu dat er een complot achter zat en dat Willem III er op zijn minst van wist."
+ ],
+ misverstanden: [
+  ["“De Republiek werd in 1672 helemaal veroverd.”","Grote delen van het oosten en Utrecht werden bezet, maar Holland en Zeeland bleven vrij dankzij de Waterlinie. Groningen doorstond het beleg van de bisschop van Munster."],
+  ["“Het Rampjaar duurde één jaar.”","In 1672 begon de aanval, maar de oorlog met Frankrijk duurde tot 1678. De Fransen trokken zich pas in 1673 en 1674 geleidelijk terug."]
+ ],
+ hoeWeten: [
+  "Er zijn talloze pamfletten, spotprenten, brieven en dagboeken uit 1672, die laten zien hoe groot de paniek was. Het schilderij van de verminkte lichamen van de De Witts, toegeschreven aan Jan de Baen, hangt in het Rijksmuseum. Militaire archieven tonen hoe de Waterlinie werd ingezet."
+ ],
+ nu: [
+  "Het gezegde “het volk redeloos, de regering radeloos en het land reddeloos” wordt nog gebruikt. De Hollandse Waterlinie is als onderdeel van de Nieuwe Hollandse Waterlinie UNESCO-werelderfgoed. In 2022, 350 jaar na het Rampjaar, waren er tentoonstellingen en herdenkingen."
+ ],
+ vertellen: "Op 28 augustus 1672 moest het beleg van Groningen worden opgebroken. Groningen viert dat nog elk jaar op 28 augustus met Gronings Ontzet, een feestdag met vuurwerk en kermis. Het is een van de oudste stadsfeesten van Nederland.",
+ verbanden: [["Tocht naar Chatham","de aanleiding voor de Engelse wraak"],["Beleg van Maastricht","de oorlog ging door in het zuiden"],["De Watersnood","water als bedreiging, en hier als redding"]],
+ onderwijs: {"ka":["Het streven van vorsten naar absolute macht.","De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek."]},
  cijfers: [['Aanvallers','4: Frankrijk, Engeland, Munster, Keulen'],['Zeeslag bij Solebay','7 juni 1672'],['Moord op de De Witts','20 augustus 1672'],['Ontzet van Groningen','28 augustus 1672']],
  figuren: [['Johan de Witt','raadpensionaris, vermoord'],['Willem III','stadhouder vanaf 1672'],['Lodewijk XIV','koning van Frankrijk'],['Bernhard von Galen','bisschop van Munster']],
  bronnen: [['Wikipedia: Rampjaar',W('Rampjaar 1672')],['Wikipedia: Hollandse Waterlinie',W('Hollandse Waterlinie')]]
@@ -864,6 +1081,26 @@ Object.assign(window.DETAILS, {
   'Van Leeuwenhoek had niet gestudeerd en sprak alleen Nederlands. Hij schreef zijn waarnemingen op in honderden brieven, vooral aan de Royal Society in Londen. Daar geloofden de geleerden hem eerst niet, tot ze het zelf kwamen bekijken. In 1680 werd hij lid van dat wetenschappelijk genootschap.',
   'Hoe hij zijn lenzen maakte, hield hij geheim. Hij bleef onderzoek doen tot zijn dood in 1723. Hij wordt wel de vader van de microbiologie genoemd: de wetenschap van de kleinste levende wezens.'
  ],
+ gevolgen: [
+  "Van Leeuwenhoek liet als eerste zien dat er een hele wereld van leven bestaat die met het blote oog onzichtbaar is. Zijn ontdekkingen vormden de basis voor de microbiologie. Pas veel later, in de 19e eeuw, begreep men dat sommige van die “diertgens” ziektes veroorzaken.",
+  "Hij bestudeerde ook rode bloedcellen, zaadcellen en de bouw van spieren en planten, en weerlegde zo het idee dat kleine dieren vanzelf uit vuil ontstaan. Zijn werk was een belangrijk onderdeel van de wetenschappelijke revolutie."
+ ],
+ perspectieven: [
+  "De geleerden van de Royal Society vonden het eerst moeilijk te geloven dat een ongeschoolde lakenhandelaar uit Delft zulke ontdekkingen deed. Van Leeuwenhoek liet zijn methoden niet zien, wat wantrouwen opwekte. Later werd hij beroemd, en kwamen zelfs vorsten zoals tsaar Peter de Grote bij hem op bezoek om door zijn microscopen te kijken."
+ ],
+ misverstanden: [
+  ["“Van Leeuwenhoek heeft de microscoop uitgevonden.”","Microscopen bestonden al: brillenmakers in Middelburg maakten ze rond 1600. Van Leeuwenhoek maakte wel veel sterkere microscopen met één kleine lens, en gebruikte ze om nieuwe dingen te ontdekken."],
+  ["“Zijn microscopen leken op die van nu.”","Zijn microscopen waren piepklein, niet groter dan een hand, met één lensje tussen twee metalen plaatjes. Je moest ze vlak voor je oog houden en tegen het licht."]
+ ],
+ hoeWeten: [
+  "Van Leeuwenhoek schreef honderden brieven aan de Royal Society in Londen, die bewaard zijn en veel tekeningen bevatten van wat hij zag. Ook een handvol van zijn microscopen is bewaard gebleven, onder meer in Rijksmuseum Boerhaave in Leiden."
+ ],
+ nu: [
+  "Microscopen zijn onmisbaar in ziekenhuizen, laboratoria en op school. Onderzoek naar bacteriën en virussen bouwt voort op zijn werk. In Rijksmuseum Boerhaave kun je zijn originele microscopen zien."
+ ],
+ vertellen: "Van Leeuwenhoek bekeek ook het witte aanslag tussen zijn eigen tanden. Hij zag er tot zijn verbazing duizenden kleine levende wezentjes in bewegen. Hij schreef dat er in zijn mond meer “diertgens” leefden dan er mensen in de Republiek waren.",
+ verbanden: [["Huygens en het slingeruurwerk","nog een Nederlandse wetenschapper"],["Vermeer en het Meisje met de parel","hij regelde Vermeers nalatenschap"],["Spinoza","ook Spinoza sleep lenzen"]],
+ onderwijs: {"ka":["De wetenschappelijke revolutie."]},
  cijfers: [['Geboren','24 oktober 1632, Delft'],['Eerste diertgens','1674'],['Vergroting','tot ca. 270 keer'],['Lid Royal Society','1680']],
  figuren: [['Antoni van Leeuwenhoek','lakenhandelaar en onderzoeker'],['Reinier de Graaf','Delftse arts, bracht hem in contact met de Royal Society'],['Robert Hooke','Engelse onderzoeker, schreef het boek Micrographia']],
  bronnen: [['Wikipedia: Antoni van Leeuwenhoek',W('Antoni van Leeuwenhoek')],['Rijksmuseum Boerhaave','https://rijksmuseumboerhaave.nl/']]
