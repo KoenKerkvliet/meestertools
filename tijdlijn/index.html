@@ -32,7 +32,7 @@
   "about": ["Geschiedenis van Nederland", "Canon van Nederland", "Eerste Wereldoorlog", "Tweede Wereldoorlog"],
   "isAccessibleForFree": true,
   "publisher": { "@type": "Organization", "name": "Meestertools", "url": "https://meestertools.nl/" },
-  "creator": { "@type": "Person", "name": "Koen Kerkvliet" }
+  "creator": { "@type": "Organization", "name": "Meestertools", "url": "https://meestertools.nl/" }
 }
 </script>
 <link rel="manifest" href="manifest.webmanifest">
@@ -51,7 +51,7 @@
 
 
 <div class="app" id="app">
-  <nav class="mtbar px" aria-label="Meestertools"><a class="mtlogo" href="/"><img src="/assets/badge-96.png" alt="" width="26" height="26"><b>Meestertools</b></a><span class="mtsub">Gratis tools voor in de klas</span><a class="mtgo" href="/">Bekijk alle tools →</a></nav><script src="js/mtbar.js"></script>
+  <nav class="mtbar px" aria-label="Meestertools"><a class="mtlogo" href="/"><img src="/assets/badge-96.png" alt="" width="26" height="26"><b>Meestertools</b></a><span class="mtsub">Gratis tools voor in de klas</span><a class="mtgo" href="/">Bekijk alle tools →</a></nav><script src="js/mtbar.js"></script><script src="js/tlfooter.js"></script>
   <header class="site px" id="site">
     <a class="brand" href="#" id="brand" aria-label="Tijdlijn van Nederland, naar boven">
       <span class="mark" aria-hidden="true"><svg viewBox="0 0 32 32" width="26" height="26"><path d="M3 16h26" stroke="#5B6170" stroke-width="2.4" stroke-linecap="round"/><circle cx="7" cy="16" r="4" fill="#C9A04E"/><circle cx="16" cy="16" r="4" fill="#D7735F"/><circle cx="25" cy="16" r="4" fill="#6E9C66"/></svg></span>
@@ -92,7 +92,7 @@
 
   <section id="war" class="px" hidden aria-live="polite"></section>
 
-  <footer class="px">Basis: de 50 vensters van de <a href="https://www.canonvannederland.nl" target="_blank" rel="noopener">Canon van Nederland</a> (herijkt in 2020), aangevuld met andere gebeurtenissen, Limburgse geschiedenis en beide wereldoorlogen. Jaartallen in de prehistorie zijn benaderingen.<br>© 2026 Koen Kerkvliet · Afbeeldingen via Wikimedia Commons, met hun eigen licenties; maker en bron staan bij elke afbeelding.<br><a href="onderwerpen">Alle onderwerpen op een rij</a> · <a href="/">Meestertools</a> · <a href="/privacy">Privacy</a></footer>
+  <footer class="px tlfoot"><div class="tlfoot-rij"><span class="tlfoot-c">© 2026 <a href="/">Meestertools</a></span><nav class="tlfoot-nav" aria-label="Meer"><a href="onderwerpen">Alle onderwerpen</a><a href="/">Meestertools</a><a href="/privacy">Privacy</a></nav><details class="tlinfo"><summary aria-label="Over de bronnen en afbeeldingen" title="Over de bronnen en afbeeldingen"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6"/><circle cx="12" cy="7.6" r=".6" fill="currentColor"/></svg></summary><p>Basis: de 50 vensters van de <a href="https://www.canonvannederland.nl" target="_blank" rel="noopener">Canon van Nederland</a> (herijkt in 2020), aangevuld met andere gebeurtenissen, Limburgse geschiedenis en beide wereldoorlogen. Jaartallen in de prehistorie zijn benaderingen. Afbeeldingen via Wikimedia Commons, met hun eigen licenties; maker en bron staan bij elke afbeelding.</p></details></div></footer>
 
   <div class="scrim" id="scrim"></div>
   <aside class="panel" id="panel" role="dialog" aria-modal="true" aria-label="Gebeurtenis" aria-hidden="true">
