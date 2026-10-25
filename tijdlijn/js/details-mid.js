@@ -368,6 +368,21 @@ Object.assign(window.DETAILS, {
  bronnen: [['Wikipedia: Boekdrukkunst',W('Boekdrukkunst')],['Wikipedia: Johannes Gutenberg',W('Johannes Gutenberg')],['Wikipedia: Laurens Janszoon Coster',W('Laurens Janszoon Coster')]]
 },
 
+'Jan van Eyck en het Lam Gods': {
+ aanloop: [
+  'Jan van Eyck werd rond 1390 geboren in Maaseik. Hij werkte vooral in Brugge, in de tijd van de Bourgondische hertogen.',
+  'Hij stond al vroeg bekend als de “uitvinder” van de olieverfschilderkunst. Dat is een mythe, want olieverf bestond al. Maar zijn verfijnde techniek en zijn blik op de zichtbare werkelijkheid werden snel in heel Europa nagevolgd.'
+ ],
+ verloop: [
+  'In 1432 was het veelluik Het Lam Gods klaar, voor de Sint-Baafskathedraal in Gent. Het werk wordt ook toegeschreven aan zijn broer Hubert. Als het luik openstaat, zie je veel panelen, met in het midden een weide waar mensen naar het lam toe lopen, dat voor Christus staat.',
+  'Van Eyck schilderde zeer nauwkeurig: stoffen, juwelen, planten en glanzende oppervlakken. Hij signeerde en dateerde negen werken, soms op de lijst of verborgen in het schilderij zelf.',
+  'Het Lam Gods hangt nog steeds in de kathedraal in Gent. Van Eyck overleed op 9 juli 1441 in Brugge.'
+ ],
+ cijfers: [['Geboren','ca. 1390, Maaseik'],['Lam Gods','1432, Gent'],['Gesigneerde werken','ca. 9'],['Overleden','9 juli 1441, Brugge']],
+ figuren: [['Jan van Eyck','schilder in Brugge'],['Hubert van Eyck','zijn broer, volgens de overlevering medeschilder'],['Joris van der Paele','kanunnik op een ander beroemd schilderij van Van Eyck']],
+ bronnen: [['Wikipedia: Jan van Eyck',W('Jan van Eyck')],['Wikipedia: Het Lam Gods',W('Lam Gods')]]
+},
+
 'Jeroen Bosch': {
  aanloop: [
   'Jeroen Bosch heette eigenlijk Jheronimus van Aken. Hij werd rond 1450 geboren in ’s-Hertogenbosch, in een familie van schilders. Hij noemde zich later naar zijn stad. Den Bosch was toen een bloeiende stad in het hertogdom Brabant.',

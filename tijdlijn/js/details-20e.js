@@ -51,6 +51,90 @@ Object.assign(window.DETAILS, {
  bronnen: [['Wikipedia: Apollo 11',W('Apollo 11')],['Wikipedia: Wubbo Ockels',W('Wubbo Ockels')]]
 },
 
+'Mondriaan en De Stijl': {
+ aanloop: [
+  'Piet Mondriaan werd op 7 maart 1872 geboren in Amersfoort, als zoon van een onderwijzer. In 1908 werd hij lid van de Theosofische Vereniging. In 1912 vertrok hij naar Parijs en veranderde zijn naam in Mondrian.'
+ ],
+ verloop: [
+  'In 1917 werd in Leiden het tijdschrift De Stijl opgericht, vooral door Theo van Doesburg. Kunstenaars en architecten gaven daar hun ideeën over een nieuwe, eenvoudige vormgeving: een minimum aan kleuren (de primaire kleuren rood, geel en blauw, met zwart, wit en grijs) en vooral rechte lijnen.',
+  'Mondriaan schreef mee in het tijdschrift en noemde zijn eigen theorie neoplasticisme, “nieuwe beelding”. Zijn bekendste schilderijen bestaan uit horizontale en verticale zwarte lijnen met vlakken in primaire kleuren.',
+  'Het tijdschrift werd nooit in meer dan 300 exemplaren verkocht, maar had grote invloed in Nederland en daarbuiten. Mondriaan overleed op 1 februari 1944 in New York.'
+ ],
+ cijfers: [['Mondriaan geboren','7 maart 1872, Amersfoort'],['Tijdschrift De Stijl','1917, Leiden'],['Kleuren','rood, geel, blauw, zwart, wit'],['Mondriaan overleden','1 februari 1944, New York']],
+ figuren: [['Piet Mondriaan','schilder en kunsttheoreticus'],['Theo van Doesburg','oprichter van De Stijl'],['Gerrit Rietveld','meubelmaker en architect, lid van De Stijl']],
+ bronnen: [['Wikipedia: Piet Mondriaan',W('Piet Mondriaan')],['Wikipedia: De Stijl',W('De Stijl')]]
+},
+
+'Rietveld Schröderhuis': {
+ aanloop: [
+  'Na de dood van haar man in 1923 wilde Truus Schröder-Schräder een nieuw huis voor zichzelf en haar drie kinderen. Ze vroeg Gerrit Rietveld om te helpen zoeken, maar ze vonden niets geschikt.',
+  'Daarom ontwierpen ze samen een nieuw huis.'
+ ],
+ verloop: [
+  'Het Rietveld Schröderhuis in Utrecht werd in 1923–1924 ontworpen in de beeldtaal van De Stijl: rechte lijnen, vlakken en primaire kleuren. Het was Rietvelds eerste volledig nieuwe woonhuis, inclusief de inrichting.',
+  'Truus Schröder woonde er van januari 1925 tot haar dood in 1985. Sinds 2000 staat het huis op de Werelderfgoedlijst van UNESCO.'
+ ],
+ cijfers: [['Ontworpen','1923 – 1924'],['Bewoond','1925 – 1985'],['Stad','Utrecht'],['UNESCO-werelderfgoed','sinds 2000']],
+ figuren: [['Gerrit Rietveld','architect en meubelontwerper'],['Truus Schröder-Schräder','opdrachtgever en bewoner'],['Theo van Doesburg','voorman van De Stijl']],
+ bronnen: [['Wikipedia: Rietveld Schröderhuis',W('Rietveld Schröderhuis')]]
+},
+
+'Guernica van Picasso': {
+ aanloop: [
+  'Op 26 april 1937, tijdens de Spaanse Burgeroorlog, werd de stad Guernica in Spaans Baskenland gebombardeerd door het Duitse Condorlegioen en Italiaanse bommenwerpers. Over het aantal slachtoffers verschillen historici nog steeds van mening.'
+ ],
+ verloop: [
+  'De Spaanse kunstenaar Pablo Picasso begon na het bombardement aan zijn schilderij Guernica. Het is 3,49 meter hoog en 7,76 meter breed en heeft geen kleur: alleen zwart, wit en grijs.',
+  'Picasso wilde niet laten zien hoe het bombardement eruitzag, maar het gevoel overbrengen dat de gebeurtenis opriep. Daarom zijn mensen en dieren in scherpe, verwrongen vormen geschilderd.',
+  'Guernica hangt in het Museo Reina Sofía in Madrid. Later in de oorlog volgden meer bombardementen op Europese steden, zoals Rotterdam, Coventry en Dresden.'
+ ],
+ cijfers: [['Bombardement','26 april 1937'],['Formaat','3,49 × 7,76 meter'],['Kleuren','zwart, wit en grijs'],['Hangt in','Museo Reina Sofía, Madrid']],
+ figuren: [['Pablo Picasso','Spaanse schilder'],['Condorlegioen','Duitse eenheid die Guernica bombardeerde']],
+ bronnen: [['Wikipedia: Guernica (schilderij)',W('Guernica (schilderij)')]]
+},
+
+'Cobra': {
+ aanloop: [
+  'Na de Tweede Wereldoorlog wilden sommige kunstenaars een nieuwe, vrije manier van schilderen.'
+ ],
+ verloop: [
+  'Op 8 november 1948 werd de groep opgericht in Café Notre-Dame in Parijs. De naam CoBrA is een acroniem van Copenhague, Bruxelles en Amsterdam, de steden waar de oprichters vandaan kwamen.',
+  'Ze werkten spontaan en lieten zich inspireren door tekeningen van kinderen en van geesteszieken, en door oosterse kalligrafie. Ze vonden dat kunst niet alleen voor iedereen was, maar ook door iedereen gemaakt kon worden.',
+  'Karel Appel, Constant en Corneille uit Nederland werden internationaal beroemd, net als de Belg Pierre Alechinsky en de Deen Asger Jorn. De groep bestond van 1948 tot 1951, maar had daarna nog lang invloed.'
+ ],
+ cijfers: [['Opgericht','8 november 1948, Parijs'],['Actief','1948 – 1951'],['Naam','Copenhague, Bruxelles, Amsterdam'],['Nederlanders','Appel, Constant, Corneille']],
+ figuren: [['Karel Appel','Nederlandse schilder'],['Constant Nieuwenhuijs','Nederlandse kunstenaar'],['Asger Jorn','Deense kunstenaar']],
+ bronnen: [['Wikipedia: Cobra (kunst)',W('Cobra (kunst)')]]
+},
+
+'M.C. Escher': {
+ aanloop: [
+  'M.C. Escher werd op 17 juni 1898 geboren in Leeuwarden, in een pand dat nu het museum Princessehof is. Hij was goed in tekenen, maar geen goede leerling: hij bleef twee keer zitten.'
+ ],
+ verloop: [
+  'Escher maakte houtsneden, houtgravures en lithografieën waarin hij vaak speelde met wiskundige principes. Bekende voorbeelden zijn Tekenen, waarin twee handen elkaar tekenen, en Lucht en water, waarin vissen overgaan in vogels.',
+  'In 1941 verhuisde het gezin naar Baarn. Tijdens zijn wandelingen door de bossen ontstonden daar de ideeën voor werken als Drie Werelden.',
+  'In de jaren zestig werd zijn werk, tot zijn verbazing, omarmd door hippies en popsterren. Escher overleed op 27 maart 1972 in Hilversum. In Den Haag is het museum Escher in Het Paleis.'
+ ],
+ cijfers: [['Geboren','17 juni 1898, Leeuwarden'],['Naar Baarn','1941'],['Overleden','27 maart 1972, Hilversum'],['Museum','Escher in Het Paleis, Den Haag']],
+ figuren: [['M.C. Escher','graficus uit Leeuwarden']],
+ bronnen: [['Wikipedia: M.C. Escher',W('Maurits Cornelis Escher')]]
+},
+
+'Nijntje': {
+ aanloop: [
+  'Dick Bruna werd op 23 augustus 1927 geboren in Utrecht, als oudste zoon van uitgever Abs Bruna. Hij begon als ontwerper van boekomslagen.',
+  'In 1955 vertelde hij zijn zoontje van een jaar over een konijntje dat ze die dag in de duinen van Egmond aan Zee hadden gezien. Dat werd het eerste boekje over nijntje. Volgens andere bronnen was het gebaseerd op het pluchen konijn van zijn zoon.'
+ ],
+ verloop: [
+  'Bruna tekende nijntje heel eenvoudig, met enkele lijnen en een beperkt aantal kleuren: gedempt rood, geel, blauw, groen en bruin, met dikke zwarte randen. De boekjes zijn klein van formaat, omdat Bruna wilde dat kinderen voelden dat ze voor hen waren gemaakt en niet voor hun ouders.',
+  'In 2014 maakte Bruna bekend dat hij geen nieuwe boekjes meer zou maken. Hij overleed op 16 februari 2017 in Utrecht. In die stad staan het nijntje museum en een standbeeld van nijntje, gemaakt door Bruna’s zoon, de beeldhouwer Marc Bruna.'
+ ],
+ cijfers: [['Eerste boekje','1955'],['Bruna geboren','23 augustus 1927, Utrecht'],['Bruna overleden','16 februari 2017'],['Museum','nijntje museum, Utrecht']],
+ figuren: [['Dick Bruna','tekenaar en schrijver uit Utrecht'],['Abs Bruna','zijn vader, uitgever'],['Marc Bruna','zijn zoon, maakte het standbeeld']],
+ bronnen: [['Wikipedia: Nijntje',W('Nijntje')],['Wikipedia: Dick Bruna',W('Dick Bruna')]]
+},
+
 'Vrouwenkiesrecht': {
  aanloop: [
   'In de 19e eeuw mochten alleen mannen met genoeg bezit of inkomen stemmen. In 1883 probeerde Aletta Jacobs zich als kiezer te laten inschrijven, omdat de wet nergens zei dat een kiezer een man moest zijn. Ze werd afgewezen, en daarna werd in de Grondwet expliciet vastgelegd dat alleen mannen kiesrecht hadden.',

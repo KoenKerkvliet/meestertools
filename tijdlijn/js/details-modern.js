@@ -86,6 +86,20 @@ Object.assign(window.DETAILS, {
  bronnen: [['Wikipedia: Leidse fles',W('Leidse fles')],['Wikipedia: Pieter van Musschenbroek',W('Pieter van Musschenbroek')]]
 },
 
+'Johann Sebastian Bach': {
+ aanloop: [
+  'Bach werd op 21 maart 1685 geboren in Eisenach, in een familie met een lange muziektraditie: over zeven generaties waren er al muzikanten.',
+  'Hij werd organist, klavecinist, violist en leraar. Al op jonge leeftijd werkte hij als muzikant aan de hoven en in de kerken van Duitse steden.'
+ ],
+ verloop: [
+  'Bachs muziek omvat vrijwel alle vormen die in zijn tijd gangbaar waren, met uitzondering van opera. Zijn werk hoort bij de barok, net als dat van Bernini. Hij overleed op 28 juli 1750 in Leipzig.',
+  'In de 19e eeuw werd zijn muziek herontdekt. Bij de opening van het Concertgebouw in Amsterdam, in 1888, klonk ook muziek van Bach.'
+ ],
+ cijfers: [['Geboren','21 maart 1685, Eisenach'],['Muzikale familie','7 generaties'],['Soort muziek','barok, bijna alles behalve opera'],['Overleden','28 juli 1750, Leipzig']],
+ figuren: [['Johann Sebastian Bach','componist en organist'],['Johann Ambrosius Bach','zijn vader, ook muzikant']],
+ bronnen: [['Wikipedia: Johann Sebastian Bach',W('Johann Sebastian Bach')]]
+},
+
 'Eise Eisinga': {
  aanloop: [
   'Eise Eisinga werd in 1744 geboren in Dronrijp in Friesland. Hij was wolkammer, net als zijn vader, maar leerde zichzelf wiskunde en sterrenkunde. Hij vestigde zich in Franeker, een stad met een universiteit.',
@@ -360,6 +374,121 @@ Object.assign(window.DETAILS, {
  cijfers: [['Benz-octrooi','29 januari 1886'],['Eerste lange rit','5 augustus 1888'],['Spijker in Amsterdam','vanaf 1886'],['Spyker-auto’s','1898 – 1925']],
  figuren: [['Carl Benz','bouwde de Motorwagen'],['Bertha Benz','maakte de eerste lange autorit'],['Jacobus en Hendrik-Jan Spijker','bouwden Spyker-auto’s in Amsterdam']],
  bronnen: [['Wikipedia: Carl Benz',W('Carl Benz')],['Wikipedia: Spyker',W('Spyker automerk')]]
+},
+
+'Wolfgang Amadeus Mozart': {
+ aanloop: [
+  'Mozart werd op 27 januari 1756 geboren in Salzburg, als zevende en laatste kind van Leopold en Anna Maria Mozart. Alleen zijn zus Nannerl bleef in leven; de andere vijf kinderen overleden jong.',
+  'Zijn vader was componist en violist en leerde hem muziek.'
+ ],
+ verloop: [
+  'Mozart schreef in vrijwel elke muziekvorm van zijn tijd, vooral opera’s, symfonieën, pianoconcerten en kamermuziek. Later woonde hij vooral in Wenen.',
+  'Hij overleed op 5 december 1791 in Wenen, op 35-jarige leeftijd. Zijn muziek wordt nog steeds over de hele wereld gespeeld.'
+ ],
+ cijfers: [['Geboren','27 januari 1756, Salzburg'],['Soorten muziek','opera, symfonie, pianoconcert'],['Leeftijd','35 jaar'],['Overleden','5 december 1791, Wenen']],
+ figuren: [['Wolfgang Amadeus Mozart','componist en pianist'],['Leopold Mozart','zijn vader, componist en violist'],['Nannerl Mozart','zijn zus']],
+ bronnen: [['Wikipedia: Wolfgang Amadeus Mozart',W('Wolfgang Amadeus Mozart')]]
+},
+
+'Het Louvre': {
+ aanloop: [
+  'Het Louvre begon als middeleeuws kasteel, in 1190 gebouwd door koning Filips II. Later maakte koning Karel V het tot zijn paleis. In 1528 werd de oude donjon afgebroken om het in renaissancestijl te herbouwen.',
+  'In de 17e eeuw besloot koning Lodewijk XIV zijn residentie naar het Paleis van Versailles te verplaatsen. Het Louvre werd daardoor steeds minder een woonplaats voor de koning.'
+ ],
+ verloop: [
+  'Tijdens de Franse Revolutie was er geen koning meer. De nieuwe machthebbers zagen in dat de nationale kunstcollectie beschermd moest worden tegen de verwoestingen van de revolutie. Op 10 augustus 1793 werd het Louvre geopend als museum, een van de oudste ter wereld.',
+  'Onder Napoleon heette het Musée Napoléon. Dominique Vivant Denon was de eerste directeur; een van de vleugels draagt nog zijn naam.',
+  'In 1989 kwam er een glazen piramide bij als ingang, ontworpen door de architect I.M. Pei. In het museum hangt onder andere de Mona Lisa.'
+ ],
+ cijfers: [['Eerste kasteel','1190, Filips II'],['Geopend als museum','10 augustus 1793'],['Naam onder Napoleon','Musée Napoléon'],['Glazen piramide','1989']],
+ figuren: [['Filips II','bouwde het eerste kasteel'],['Dominique Vivant Denon','eerste directeur onder Napoleon'],['Lodewijk XIV','verhuisde naar Versailles']],
+ bronnen: [['Wikipedia: Louvre',W('Louvre')]]
+},
+
+'Het Rijksmuseum': {
+ aanloop: [
+  'De kunstverzameling van de stadhouders vormde de basis van het museum. Na hun val werd die verzameling nationaal bezit.'
+ ],
+ verloop: [
+  'Op 31 mei 1800 opende de Nationale Konst-Gallery haar deuren in het Huis ten Bosch bij Den Haag. In 1806 kreeg het de naam Koninklijk Museum, toen Lodewijk Napoleon koning van Holland werd.',
+  'In 1808 verhuisde het museum naar Amsterdam, naar het Paleis op de Dam. Daar kwam ook De Nachtwacht te hangen.',
+  'In 1885 was het huidige gebouw klaar, ontworpen door Pierre Cuypers. Tussen 2003 en 2013 werd het gerestaureerd en verbouwd. In het museum hangen onder meer De Nachtwacht van Rembrandt, Het melkmeisje van Vermeer en De vrolijke drinker van Frans Hals.'
+ ],
+ cijfers: [['Geopend','31 mei 1800, bij Den Haag'],['Naar Amsterdam','1808'],['Huidig gebouw','1885, Pierre Cuypers'],['Verbouwd','2003 – 2013']],
+ figuren: [['Pierre Cuypers','architect van het gebouw'],['Lodewijk Napoleon','liet het museum naar Amsterdam verhuizen'],['Rembrandt','schilder van De Nachtwacht']],
+ bronnen: [['Wikipedia: Rijksmuseum Amsterdam',W('Rijksmuseum Amsterdam')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
+},
+
+'Ludwig van Beethoven': {
+ aanloop: [
+  'Beethoven werd in december 1770 geboren in Bonn. Zijn vader was hofzanger. Zijn grootvader Lodewijck van Beethoven kwam uit Mechelen, in het huidige België, en vestigde zich in Bonn. De naam “van Beethoven” wijst op die Zuid-Nederlandse afkomst.',
+  'Als jongen kreeg hij les van hoforganist Christian Gottlob Neefe, die hem kennis liet maken met de muziek van Bach, Haydn en Mozart.'
+ ],
+ verloop: [
+  'Beethoven vestigde zich in 1792 in Wenen. In zijn eerste periode lijkt zijn muziek op die van Mozart en Haydn. Later werd ze persoonlijker en krachtiger. Hij maakte het classicisme af en leidde de romantiek in.',
+  'Beethoven werd steeds slechter horend en uiteindelijk doof. Toch bleef hij componeren. Zijn Negende Symfonie, met het koor “Ode aan de vreugde”, klonk in 1824 voor het eerst in Wenen. De melodie is nu het Europese volkslied.',
+  'Beethoven overleed op 26 maart 1827 in Wenen. Bij de opening van het Concertgebouw in 1888 werd ook muziek van hem gespeeld.'
+ ],
+ cijfers: [['Geboren','december 1770, Bonn'],['Naar Wenen','1792'],['Negende Symfonie','1824'],['Overleden','26 maart 1827, Wenen']],
+ figuren: [['Ludwig van Beethoven','componist en pianist'],['Christian Gottlob Neefe','zijn eerste orgelleraar in Bonn'],['Lodewijck van Beethoven','zijn grootvader uit Mechelen']],
+ bronnen: [['Wikipedia: Ludwig van Beethoven',W('Ludwig van Beethoven')]]
+},
+
+'Monet en het impressionisme': {
+ aanloop: [
+  'Franse schilders zoals Claude Monet wilden niet meer alleen strakke, gladde schilderijen maken. Ze gingen naar buiten en schilderden het licht van het moment: een mistige haven, een rivier, een veld.'
+ ],
+ verloop: [
+  'In 1872 schilderde Monet de haven van Le Havre op een mistige dag, met heel losse verftoetsen. Het schilderij heet Impression, soleil levant (Impressie, opkomende zon). Het onderwerp wordt eerder gesuggereerd dan precies getekend.',
+  'Op 15 april 1874 hing het in de eerste tentoonstelling van deze schilders, in het oude atelier van de fotograaf Nadar in Parijs. De titel gaf de stroming haar naam: impressionisme. In het begin was de naam spottend bedoeld.',
+  'Het schilderij hangt sinds 1940 in het Musée Marmottan Monet in Parijs.'
+ ],
+ cijfers: [['Schilderij','Impression, soleil levant, 1872'],['Eerste tentoonstelling','15 april 1874, Parijs'],['Nu te zien in','Musée Marmottan Monet'],['Stroming','impressionisme']],
+ figuren: [['Claude Monet','Franse schilder'],['Nadar','fotograaf, in zijn atelier was de eerste tentoonstelling']],
+ bronnen: [['Wikipedia: Impression, soleil levant',W('Impression, soleil levant')],['Wikipedia: Claude Monet',W('Claude Monet')]]
+},
+
+'Het Concertgebouw': {
+ aanloop: [
+  'In 1881 richtte Jerôme Alexander Sillem met vijf anderen een commissie op om een concertzaal te bouwen in Amsterdam. In 1882 volgde de oprichting van de naamloze vennootschap die het gebouw liet bouwen.'
+ ],
+ verloop: [
+  'Het Concertgebouw werd geopend op 11 april 1888, met een inwijdingsconcert door 120 musici en een koor van 500 personen. Er klonk muziek van Wagner, Händel, Bach en Beethoven.',
+  'Het gebouw staat aan de Van Baerlestraat, tegenover het Museumplein, en heeft vier zalen: de Grote Zaal, de Kleine Zaal, de Koorzaal en de Spiegelzaal.',
+  'Tijdens de Tweede Wereldoorlog werd het verboden werken van Joodse componisten als Mahler en Mendelssohn uit te voeren. De zeventien Joodse leden van het orkest, bijna een vijfde van alle musici, moesten worden ontslagen.'
+ ],
+ cijfers: [['Commissie','1881'],['Geopend','11 april 1888'],['Concertzalen','4'],['Orkest','Koninklijk Concertgebouworkest']],
+ figuren: [['Jerôme Alexander Sillem','richtte de bouwcommissie op'],['Koninklijk Concertgebouworkest','vast orkest van de zaal']],
+ bronnen: [['Wikipedia: Koninklijk Concertgebouw',W('Koninklijk Concertgebouw')]]
+},
+
+'Vincent van Gogh': {
+ aanloop: [
+  'Vincent van Gogh werd op 30 maart 1853 geboren in Zundert in Noord-Brabant, in de pastorie. Als kind verzamelde hij insecten en liep hij graag door de natuur.',
+  'In 1873 werkte hij korte tijd in Parijs en Londen, bij een kunsthandel. Pas later koos hij voor het schilderen.'
+ ],
+ verloop: [
+  'Van Gogh schilderde in korte tijd honderden werken, met dikke verf en sterke kleuren. In 1885 maakte hij De Aardappeleters, nog donker en aards. Later, in Frankrijk, werden zijn kleuren veel helderder.',
+  'In 1889 schilderde hij Sterrennacht, vanuit zijn kamer in Saint-Rémy. Hij had last van psychische problemen en werd daar behandeld.',
+  'Op 29 juli 1890 overleed hij in Auvers-sur-Oise. Zijn broer Theo erfde zijn werk, daarna Theo’s weduwe Jo van Gogh-Bonger. Zij zorgde ervoor dat het werk bekend werd. Het Van Gogh Museum in Amsterdam opende op 2 juni 1973.'
+ ],
+ cijfers: [['Geboren','30 maart 1853, Zundert'],['Verkocht bij leven','2 schilderijen'],['Overleden','29 juli 1890, Auvers-sur-Oise'],['Van Gogh Museum','geopend op 2 juni 1973']],
+ figuren: [['Vincent van Gogh','schilder uit Zundert'],['Theo van Gogh','zijn broer, steunde hem'],['Jo van Gogh-Bonger','Theo’s weduwe, bewaarde het werk']],
+ bronnen: [['Wikipedia: Vincent van Gogh',W('Vincent van Gogh')],['Wikipedia: Van Gogh Museum',W('Van Gogh Museum')]]
+},
+
+'Eiffeltoren': {
+ aanloop: [
+  'In 1889 was het honderd jaar geleden dat de Franse Revolutie begon. Parijs vierde dat met een wereldtentoonstelling, en daarvoor was een opvallend monument nodig als ingang.'
+ ],
+ verloop: [
+  'De toren werd ontworpen door de ingenieurs Maurice Koechlin en Émile Nouguier, medewerkers van Gustave Eiffel, en werd tussen 1887 en 1889 gebouwd.',
+  'Hij weegt 7300 ton (zonder fundering) en was na de bouw de hoogste toren ter wereld, ruim 300 meter. In Europa bleef hij, afgezien van televisietorens, 126 jaar lang de hoogste toren.',
+  'Veel Parijzenaars vonden de toren eerst lelijk. Nu is hij het symbool van Parijs en een van de meest bezochte bezienswaardigheden van Frankrijk.'
+ ],
+ cijfers: [['Gebouwd','1887 – 1889'],['Gewicht','7300 ton (zonder fundering)'],['Hoogte in 1889','ruim 300 meter'],['Aanleiding','wereldtentoonstelling 1889']],
+ figuren: [['Gustave Eiffel','ingenieur, naar wie de toren is genoemd'],['Maurice Koechlin','ontwierp de toren'],['Émile Nouguier','ontwierp de toren']],
+ bronnen: [['Wikipedia: Eiffeltoren',W('Eiffeltoren')]]
 },
 
 'Aletta Jacobs': {

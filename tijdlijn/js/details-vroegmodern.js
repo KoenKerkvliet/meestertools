@@ -254,6 +254,123 @@ Object.assign(window.DETAILS, {
  bronnen: [['Wikipedia: Nieuw-Amsterdam',W('Nieuw-Amsterdam Nieuw-Nederland')],['Wikipedia: Nieuw-Nederland',W('Nieuw-Nederland')]]
 },
 
+'Mona Lisa': {
+ aanloop: [
+  'Leonardo da Vinci was schilder, uitvinder en onderzoeker. Hij werkte in Italië in de tijd van de renaissance, toen kunstenaars de werkelijkheid steeds nauwkeuriger wilden weergeven.',
+  'Het schilderij is waarschijnlijk een portret van Lisa Gherardini, de derde vrouw van Francesco del Giocondo, die de opdracht waarschijnlijk gaf. Daarom heet het schilderij in het Italiaans La Gioconda.'
+ ],
+ verloop: [
+  'De Mona Lisa is geschilderd met olieverf op een paneel van populierenhout. Leonardo schilderde met zachte overgangen tussen licht en donker, waardoor de glimlach moeilijk te vatten lijkt. Het is een van de weinige werken waarvan we zeker weten dat Leonardo ze zelf maakte.',
+  'Het schilderij hangt in het Louvre in Parijs. Het trekt daar ongeveer 20.000 bezoekers per dag.'
+ ],
+ cijfers: [['Gemaakt','tussen 1503 en 1506'],['Techniek','olieverf op populierenhout'],['Hangt in','het Louvre, Parijs'],['Bezoekers','ca. 20.000 per dag']],
+ figuren: [['Leonardo da Vinci','schilder, uitvinder en onderzoeker'],['Lisa Gherardini','waarschijnlijk de geportretteerde'],['Francesco del Giocondo','waarschijnlijk de opdrachtgever']],
+ bronnen: [['Wikipedia: Mona Lisa',W('Mona Lisa')],['Wikipedia: Leonardo da Vinci',W('Leonardo da Vinci')]]
+},
+
+'Michelangelo en de Sixtijnse Kapel': {
+ aanloop: [
+  'Michelangelo Buonarroti werd op 6 maart 1475 geboren in Caprese in Italië en groeide op in Florence. Hij was beeldhouwer, schilder, architect en dichter.',
+  'Zijn meesterwerk uit zijn jonge jaren is de Pietà: een beeld van Maria met de dode Jezus op schoot, nu in de Sint-Pietersbasiliek. In Florence maakte hij ook het beroemde beeld David.'
+ ],
+ verloop: [
+  'De Sixtijnse Kapel in het Vaticaan werd tussen 1475 en 1483 gebouwd in opdracht van paus Sixtus IV, naar wie ze is vernoemd. Het is de plek waar de kardinalen bijeenkomen om een nieuwe paus te kiezen.',
+  'Tussen 1508 en 1512 schilderde Michelangelo op het gewelf een reeks fresco’s met profeten, sibillen en taferelen uit het begin van de Bijbel. Een van de bekendste is de scène waarin God de eerste mens, Adam, tot leven wekt.',
+  'Michelangelo overleed op 18 februari 1564 in Rome. De Sixtijnse Kapel is een van de bekendste binnenruimten ter wereld.'
+ ],
+ cijfers: [['Geboren','6 maart 1475, Caprese'],['Kapel gebouwd','1475 – 1483'],['Plafond geschilderd','1508 – 1512'],['Overleden','18 februari 1564, Rome']],
+ figuren: [['Michelangelo','beeldhouwer, schilder, architect en dichter'],['Paus Sixtus IV','liet de kapel bouwen'],['Paus Julius II','gaf opdracht voor het plafond']],
+ bronnen: [['Wikipedia: Michelangelo',W('Michelangelo Buonarroti')],['Wikipedia: Sixtijnse Kapel',W('Sixtijnse Kapel')]]
+},
+
+'Pieter Bruegel de Oude': {
+ aanloop: [
+  'Over het leven van Pieter Bruegel weten we weinig. Hij werd tussen 1525 en 1530 geboren, maar waar is niet bekend. Hij werkte in Antwerpen en behoorde tot de Noordelijke renaissance.'
+ ],
+ verloop: [
+  'In 1563 verhuisde Bruegel naar Brussel en trouwde daar met Mayken Coecke, de dochter van zijn vroegere leermeester Pieter Coecke van Aelst. In datzelfde jaar schilderde hij de Toren van Babel, nu in Wenen. Later schilderde hij een tweede, kleinere versie (1568), die in Rotterdam hangt.',
+  'Beroemd zijn ook zijn schilderijen van boeren en dorpsfeesten, zoals de Boerenbruiloft uit 1568. Zijn werk zit vol kleine figuurtjes en kijkt met humor naar gewone mensen.',
+  'Bruegel overleed op 9 september 1569 in Brussel. Zijn zonen Pieter en Jan werden ook schilder.'
+ ],
+ cijfers: [['Geboren','tussen 1525 en 1530'],['Naar Brussel','1563'],['Toren van Babel','1563 (Wenen), 1568 (Rotterdam)'],['Overleden','9 september 1569, Brussel']],
+ figuren: [['Pieter Bruegel de Oude','schilder uit de Nederlanden'],['Mayken Coecke','zijn vrouw'],['Pieter Coecke van Aelst','zijn leermeester']],
+ bronnen: [['Wikipedia: Pieter Bruegel de Oude',W('Pieter Bruegel de Oude')],['Wikipedia: Toren van Babel',W('Toren van Babel Bruegel')]]
+},
+
+'Bernini': {
+ aanloop: [
+  'De barok was een stijl uit de 17e eeuw met veel beweging, gevoel en pracht. Gian Lorenzo Bernini werd op 7 december 1598 geboren in Napels. Al jong was hij een begaafd beeldhouwer.',
+  'Kardinaal Scipione Borghese zag zijn talent. Bernini bleef tot 1624 bij hem in dienst en maakte beelden voor de Villa Borghese in Rome.'
+ ],
+ verloop: [
+  'Zijn David toont de Bijbelse held vlak voor hij met zijn slinger de steen werpt: gespannen spieren, een gedraaid lichaam en een strak gezicht. Het beeld staat in de Galleria Borghese in Rome.',
+  'Later werd Bernini architect voor de pausen. Hij ontwierp een baldakijn boven het graf van Petrus in de Sint-Pieter. Tussen 1656 en 1667 bouwde hij in opdracht van paus Alexander VII het Sint-Pietersplein, met zijn grote halfronde zuilengalerijen.',
+  'Bernini overleed op 28 november 1680 in Rome.'
+ ],
+ cijfers: [['Geboren','7 december 1598, Napels'],['David','1623 – 1624'],['Sint-Pietersplein','1656 – 1667'],['Overleden','28 november 1680, Rome']],
+ figuren: [['Gian Lorenzo Bernini','beeldhouwer en architect'],['Scipione Borghese','kardinaal en zijn eerste opdrachtgever'],['Paus Alexander VII','gaf opdracht voor het plein']],
+ bronnen: [['Wikipedia: Gian Lorenzo Bernini',W('Gian Lorenzo Bernini')],['Wikipedia: Sint-Pietersplein',W('Sint-Pietersplein')]]
+},
+
+'Frans Hals': {
+ aanloop: [
+  'Frans Hals werd in 1582 of 1583 geboren in Antwerpen. Na de val van Antwerpen verhuisde zijn gezin naar het noorden, zoals zoveel mensen uit het Zuiden. Vanaf 1591 woonde de familie in Haarlem.',
+  'In 1610 werd hij lid van het Haarlemse Sint-Lucasgilde, het gilde van de schilders. Vanaf dat moment mocht hij ook leerlingen opleiden.'
+ ],
+ verloop: [
+  'Hals werd beroemd om zijn levendige portretten en zijn losse, zichtbare penseelstreken. Zijn mensen lachen, kijken je aan en lijken in beweging.',
+  'Hij schilderde ook schuttersstukken: groepsportretten van leden van de schutterij. Zijn eerste maakte hij in 1616, zijn laatste in 1639. Zelf zat hij van 1612 tot 1624 in de schutterij. De magere compagnie werd afgemaakt door Pieter Codde.',
+  'De vrolijke drinker (ca. 1628–1630) hangt in het Rijksmuseum. Hals overleed op 26 augustus 1666 in Haarlem.'
+ ],
+ cijfers: [['Geboren','1582 of 1583, Antwerpen'],['Gilde in Haarlem','1610'],['Eerste schuttersstuk','1616'],['Overleden','26 augustus 1666, Haarlem']],
+ figuren: [['Frans Hals','portretschilder uit Haarlem'],['Rembrandt en Vermeer','de twee andere grote schilders van de Gouden Eeuw'],['Pieter Codde','maakte De magere compagnie af']],
+ bronnen: [['Wikipedia: Frans Hals',W('Frans Hals')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
+},
+
+'Delfts blauw': {
+ aanloop: [
+  'Chinees porselein was mooi en sterk, maar erg duur. Het kwam met schepen naar Europa. Nederlandse pottenbakkers wilden iets goedkopers maken.',
+  'In de 16e eeuw brachten Vlaamse pottenbakkers het tinglazuur naar de Noordelijke Nederlanden. Daarmee werd aardewerk wit en glad.'
+ ],
+ verloop: [
+  'Zo ontstond Delfts blauw: aardewerk (faience) met blauwe versiering, dat in Delft werd gemaakt. Het werd een goedkoop alternatief voor het blauw-witte Chinese porselein en was snel zeer populair.',
+  'De bloeitijd was tussen 1650 en 1750, toen er in Delft ongeveer honderd aardewerkfabrieken actief waren. Ze maakten borden, vazen, tegels en hele tegeltableaus.',
+  'Rond 1800 verdween de industrie bijna door goedkoper aardewerk uit Engeland. Nu zijn er nog maar weinig fabrieken die het ambacht op de traditionele manier doen, zoals De Porceleyne Fles en Heinen Delfts Blauw.'
+ ],
+ cijfers: [['Ontstaan','einde 16e eeuw'],['Bloeitijd','1650 – 1750'],['Fabrieken','ca. 100 in Delft'],['Verval','omstreeks 1800']],
+ figuren: [['Delftse pottenbakkers','maakten het aardewerk'],['Vlaamse pottenbakkers','brachten het tinglazuur mee'],['De Porceleyne Fles','fabriek die het ambacht voortzet']],
+ bronnen: [['Wikipedia: Delfts blauw',W('Delfts blauw')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
+},
+
+'Vermeer en het Meisje met de parel': {
+ aanloop: [
+  'Johannes Vermeer werd op 31 oktober 1632 gedoopt in Delft, waar zijn ouders een herberg dreven. Hij schilderde in de Gouden Eeuw, in dezelfde tijd als Rembrandt en Frans Hals.'
+ ],
+ verloop: [
+  'Vermeer schilderde vaak mensen binnenshuis, met licht dat door een raam valt. Bekende werken zijn Het melkmeisje, Gezicht op Delft en Meisje met de parel. Zijn kleuren en zijn licht worden nog steeds bewonderd en blijven raadselachtig.',
+  'Het Meisje met de parel is geen portret, maar een tronie: een fantasiekop. Het meisje draagt een blauwe tulband, geschilderd met kostbare ultramarijnverf. De “parel” is waarschijnlijk helemaal geen parel, maar een glazen druppeloorbel. Tot 1995 heette het schilderij Meisje met tulband. Sinds 1902 hangt het in het Mauritshuis in Den Haag.',
+  'Vermeer werd op 15 december 1675 begraven. Antoni van Leeuwenhoek, die ook in Delft woonde, regelde zijn nalatenschap.'
+ ],
+ cijfers: [['Gedoopt','31 oktober 1632, Delft'],['Meisje met de parel','ca. 1665 – 1667'],['Mauritshuis','sinds 1902'],['Begraven','15 december 1675']],
+ figuren: [['Johannes Vermeer','schilder uit Delft'],['Antoni van Leeuwenhoek','regelde Vermeers nalatenschap'],['Carel Fabritius','Delftse schilder, mogelijk zijn leermeester']],
+ bronnen: [['Wikipedia: Johannes Vermeer',W('Johannes Vermeer')],['Wikipedia: Meisje met de parel',W('Meisje met de parel')],['Mauritshuis','https://www.mauritshuis.nl/']]
+},
+
+'Rembrandt van Rijn': {
+ aanloop: [
+  'Rembrandt Harmenszoon van Rijn werd op 15 juli 1606 of 1607 geboren in Leiden. De bronnen spreken elkaar tegen over het jaar. Zijn vader was molenaar.',
+  'In 1620 werd hij ingeschreven als student aan de Leidse universiteit. Daarna leerde hij schilderen, onder meer bij Pieter Lastman in Amsterdam.'
+ ],
+ verloop: [
+  'Rembrandt vestigde zich in Amsterdam en werd een gevraagd portretschilder. In 1632 schilderde hij De anatomische les van Dr. Tulp, een groepsportret dat nu in het Mauritshuis in Den Haag hangt. Zijn beroemdste werk is De Nachtwacht (1642).',
+  'Hij maakte ongeveer honderd geschilderde en twintig geëtste zelfportretten, in alle fasen van zijn leven. Daardoor zie je hem als het ware ouder worden.',
+  'Zijn vrouw Saskia Uylenburgh, zijn zoon Titus en zijn huishoudster en vriendin Hendrickje Stoffels staan in veel van zijn schilderijen. Rembrandt overleed op 4 oktober 1669 in Amsterdam. Zijn huis aan de Jodenbreestraat is nu museum.'
+ ],
+ cijfers: [['Geboren','15 juli 1606 of 1607, Leiden'],['De anatomische les','1632'],['De Nachtwacht','1642'],['Overleden','4 oktober 1669, Amsterdam']],
+ figuren: [['Rembrandt van Rijn','schilder, etser en tekenaar'],['Saskia Uylenburgh','zijn vrouw'],['Hendrickje Stoffels','zijn huishoudster en vriendin']],
+ bronnen: [['Wikipedia: Rembrandt van Rijn',W('Rembrandt van Rijn')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
+},
+
 'Statenbijbel': {
  aanloop: [
   'Protestanten vonden dat gelovigen de bijbel zelf moesten kunnen lezen. In de Nederlanden circuleerden wel vertalingen, maar die waren vaak gebaseerd op andere vertalingen, zoals de Duitse van Luther, en niet op de oorspronkelijke teksten.',
