@@ -15,6 +15,26 @@ Object.assign(window.DETAILS, {
   'Filips van Anjou mocht koning van Spanje blijven, maar moest afzien van de Franse troon. De Zuidelijke Nederlanden gingen naar Oostenrijk. Groot-Brittannië kreeg onder meer Gibraltar en werd de grote winnaar. De Republiek kreeg het recht om in een reeks vestingen in het zuiden troepen te legeren, de zogeheten Barrière.',
   'Voor de Republiek was de vrede een keerpunt. Ze had zware schulden en speelde daarna geen leidende rol meer in de Europese politiek. Toch gold Utrecht als een vroeg voorbeeld van een groot internationaal vredesoverleg.'
  ],
+ gevolgen: [
+  "De vrede legde een machtsevenwicht in Europa vast: geen enkel land mocht te machtig worden. Dat idee speelde de hele 18e eeuw een grote rol in de Europese politiek.",
+  "Groot-Brittannië kreeg naast Gibraltar en gebieden in Noord-Amerika ook het asiento: het recht om dertig jaar lang tot slaaf gemaakte Afrikanen aan de Spaanse koloniën in Amerika te leveren. Daardoor werd Groot-Brittannië de grootste slavenhandelaar van de 18e eeuw."
+ ],
+ perspectieven: [
+  "Voor de Republiek was de vrede een opluchting na jaren van dure oorlog, maar ook een teken van verval: ze telde niet meer mee als grote mogendheid. Voor de Britten was het een triomf. Voor de Zuidelijke Nederlanden betekende het opnieuw een nieuwe heerser, nu Oostenrijk, zonder dat de inwoners iets te zeggen hadden."
+ ],
+ misverstanden: [
+  ["“De Vrede van Utrecht en de Unie van Utrecht zijn hetzelfde.”","De Unie van Utrecht was in 1579 een verbond van opstandige gewesten tegen Spanje. De Vrede van Utrecht was in 1713 een vredesverdrag tussen Europese mogendheden."],
+  ["“De Republiek was de grote winnaar.”","Groot-Brittannië won het meest. De Republiek kreeg vooral het recht om soldaten in een paar vestingen in de Zuidelijke Nederlanden te legeren, de Barrière, maar zat met grote schulden."]
+ ],
+ hoeWeten: [
+  "De verdragsteksten, de verslagen van de onderhandelaars en hun brieven aan hun regeringen zijn bewaard in archieven in heel Europa. Prenten en penningen uit 1713 laten zien hoe de vrede werd gevierd. In Utrecht zijn ook stadsarchieven over de vele buitenlandse gasten."
+ ],
+ nu: [
+  "Gibraltar is nog steeds Brits, een gevolg van deze vrede. In 2013 vierde Utrecht met een groot festival dat de vrede driehonderd jaar oud was. Utrecht noemt zichzelf graag een stad van vrede."
+ ],
+ vertellen: "Utrecht zat anderhalf jaar vol met diplomaten uit heel Europa, met hun bedienden, koetsen en koks. Er werd niet alleen onderhandeld, maar ook gefeest, gedanst en gegeten, en de Utrechtse herbergen en winkels verdienden er goed aan.",
+ verbanden: [["Vrede van Munster","een eerdere grote vrede"],["Het Congres van Wenen","een latere vredesconferentie"],["Slavernij","de Britse slavenhandel groeide door deze vrede"]],
+ onderwijs: {"ka":["Voortbestaan van het ancien régime met pogingen om het vorstelijk bestuur op eigentijdse verlichte wijze vorm te geven: verlicht absolutisme.","Uitbouw van de Europese overheersing, met name in de vorm van plantagekoloniën en de daarmee verbonden trans-Atlantische slavenhandel, en de opkomst van het abolitionisme."]},
  cijfers: [['Spaanse Successieoorlog','1701 – 1713/1714'],['Opening vredescongres','januari 1712'],['Belangrijkste verdragen','april 1713'],['Barrièretraktaat','1715']],
  figuren: [['Lodewijk XIV','koning van Frankrijk'],['Filips V','kleinzoon van Lodewijk XIV, koning van Spanje'],['Anthonie Heinsius','raadpensionaris van Holland']],
  bronnen: [['Wikipedia: Vrede van Utrecht',W('Vrede van Utrecht 1713')],['Wikipedia: Spaanse Successieoorlog',W('Spaanse Successieoorlog')]]
@@ -33,6 +53,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'De Rapanui woonden al eeuwen op het eiland. Ze hadden er akkers aangelegd en de moai opgericht als beelden van hun voorouders. Het bezoek van Roggeveen was hun eerste bekende contact met Europeanen, en het begon met doden. In de eeuw daarna volgden meer bezoekers, slavenhandelaren en ziektes, waardoor de bevolking sterk kromp.'
  ],
+ gevolgen: [
+  "De reis vond het Zuidland niet, maar bracht wel nieuwe eilanden in kaart. Na Paaseiland bezochten de schepen onder meer Makatea en de Samoa-eilanden. Roggeveen was de eerste Europeaan die Samoa zag.",
+  "Na Roggeveen kwamen andere Europeanen naar Paaseiland, zoals de Spanjaarden in 1770 en James Cook in 1774. In de 19e eeuw voerden slavenhandelaren duizenden Rapanui af, en ziektes deden de rest. Rond 1877 waren er nog maar ruim honderd Rapanui over. In 1888 werd het eiland door Chili ingelijfd."
+ ],
+ misverstanden: [
+  ["“Roggeveen ontdekte een onbewoond eiland.”","Het eiland werd al eeuwen bewoond door de Rapanui, die er de moai hadden gemaakt. Roggeveen was alleen de eerste Europeaan die er kwam."],
+  ["“De Rapanui vernielden zelf hun eiland door alle bomen om te hakken.”","Dat verhaal is lang verteld, maar onderzoekers twijfelen er nu aan. Ook ratten, die de zaden van palmen aten, en vooral de ziektes en slavenhandel na de komst van Europeanen speelden een grote rol in de achteruitgang."]
+ ],
+ hoeWeten: [
+  "Roggeveen en andere opvarenden hielden een scheepsjournaal bij, dat bewaard is gebleven. Daarnaast is er archeologisch onderzoek op het eiland zelf, en de mondelinge overlevering van de Rapanui. Samen geven ze een beeld van de eerste ontmoeting, al zijn de bronnen soms tegenstrijdig."
+ ],
+ nu: [
+  "Paaseiland, Rapa Nui, hoort bij Chili en is een nationaal park en UNESCO-werelderfgoed. De moai trekken veel toeristen. De Rapanui strijden voor de terugkeer van beelden en voorwerpen die in de 19e eeuw naar Europese musea zijn gebracht."
+ ],
+ vertellen: "Paaseiland is ongeveer even groot als Texel, maar ligt midden in de Grote Oceaan, meer dan tweeduizend kilometer van het dichtstbijzijnde bewoonde eiland. Roggeveen gaf het zijn naam omdat hij het op paaszondag 1722 zag.",
+ verbanden: [["Abel Tasman","een eerdere Nederlandse zoektocht naar het Zuidland"],["VOC","de VOC nam Roggeveens schepen in beslag"],["Columbus en Amerika","een andere eerste ontmoeting met grote gevolgen"]],
+ onderwijs: {"ka":["Uitbouw van de Europese overheersing, met name in de vorm van plantagekoloniën en de daarmee verbonden trans-Atlantische slavenhandel, en de opkomst van het abolitionisme."]},
  cijfers: [['Vertrek','1 augustus 1721, Texel'],['Schepen en bemanning','3 schepen, 244 man'],['Paaseiland','5 april 1722'],['Terug in Nederland','minder dan de helft']],
  figuren: [['Jacob Roggeveen','commandeur van de expeditie'],['Arent Roggeveen','zijn vader, bedacht de tocht'],['Cornelis Bouman','kapitein van de Tienhoven']],
  bronnen: [['Wikipedia: Jacob Roggeveen',W('Jacob Roggeveen')],['Wikipedia: Paaseiland',W('Paaseiland')]]
@@ -48,6 +85,26 @@ Object.assign(window.DETAILS, {
   'In de jaren 1770 volgde een tweede golf van processen in een groter gebied. Veel veroordeelden werden opgehangen of geradbraakt. Bij elkaar werden honderden mensen ter dood gebracht, onder wie ook mensen met een gewone baan en een goede naam.',
   'Historici zien veel vonnissen nu als gerechtelijke dwaling. Er waren wel echte rovers, maar het beeld van een grote geheime bende kwam vooral voort uit angst en marteling. De Bokkenrijders leven voort in sagen, straatnamen en beelden in Limburg.'
  ],
+ gevolgen: [
+  "In totaal werden ongeveer 1200 mensen beschuldigd en rond de 500 veroordeeld, van wie meer dan negen op de tien de doodstraf kregen. Hele families en dorpen raakten getekend door de processen, en wantrouwen tussen buren bleef lang hangen.",
+  "Al in 1774 schreef procureur-generaal Gaspard de Limpens dat de verklaringen vol tegenstrijdigheden zaten en dat de meeste veroordeelden onschuldig waren. Zijn kritiek droeg bij aan het einde van de processen en aan de discussie over het afschaffen van de foltering. In de Republiek werd foltering in 1798 afgeschaft."
+ ],
+ perspectieven: [
+  "Voor de rechters van toen waren de Bokkenrijders een gevaarlijke, goddeloze bende die met harde hand moest worden aangepakt. Voor de verdachten en hun families was het een nachtmerrie: wie werd genoemd, kon worden gemarteld tot hij bekende. Historici zien er nu een voorbeeld in van hoe angst, bijgeloof en foltering kunnen leiden tot rechterlijke dwalingen."
+ ],
+ misverstanden: [
+  ["“De Bokkenrijders reden echt op bokken door de lucht.”","Dat was volksgeloof. In de processen werd beweerd dat ze een verbond met de duivel sloten en op bokken vlogen, maar die “bekentenissen” werden onder marteling afgedwongen."],
+  ["“Alle Bokkenrijders waren gevaarlijke rovers.”","Er waren echte rovers en inbrekers, maar een groot deel van de veroordeelden was waarschijnlijk onschuldig. Onder hen waren ook gewone boeren, ambachtslieden en zelfs schepenen."]
+ ],
+ hoeWeten: [
+  "De verslagen van de schepenbanken, met de verhoren en vonnissen, zijn deels bewaard in Limburgse en Duitse archieven. Ook de geschriften van tijdgenoten, zoals pastoor Daniels van Schaesberg en procureur De Limpens, zijn bronnen. Historici vergelijken die documenten om te achterhalen wat waar was."
+ ],
+ nu: [
+  "De Bokkenrijders leven voort in Limburgse sagen, straatnamen, wandelroutes en beelden, bijvoorbeeld in Kerkrade. Er zijn boeken, toneelstukken en zelfs bieren over ze. Ze zijn een onderdeel van de Limburgse identiteit geworden."
+ ],
+ vertellen: "Volgens de verhalen zwoeren de Bokkenrijders ’s nachts bij een kruispunt of een kapel God af en de duivel trouw. Daarna zouden ze op een bok door de lucht naar hun volgende inbraak zijn gevlogen. Rechters namen zulke verhalen, afgedwongen door marteling, toen serieus.",
+ verbanden: [["Departement Nedermaas","de Franse tijd bracht nieuw strafrecht"],["Limburg gesplitst","de latere geschiedenis van het gebied"],["Bataafse Republiek","in 1798 werd de foltering afgeschaft"]],
+ onderwijs: {"ka":["Rationeel optimisme en ‘verlicht denken’ dat werd toegepast op alle terreinen van de samenleving: godsdienst, politiek, economie en sociale verhoudingen."]},
  cijfers: [['Begin processen','1743'],['Tweede golf','jaren 1770'],['Gebied','Landen van Overmaas'],['Terechtgesteld','honderden mensen']],
  figuren: [['Schepenbanken','lokale rechtbanken die de vonnissen velden'],['Anton Blok','historicus, schreef De Bokkerijders (1991)']],
  bronnen: [['Wikipedia: Bokkenrijders',W('Bokkenrijders')],['Wikipedia: Landen van Overmaas',W('Landen van Overmaas')]]
@@ -66,6 +123,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Stoom bracht welvaart en vooruitgang, maar ook vuile lucht en zwaar werk in fabrieken. Ook kinderen werkten lange dagen. In Nederland kwam daarom later het Kinderwetje van 1874.'
  ],
+ gevolgen: [
+  "Met de stoommachine van Watt begon in Engeland de industriële revolutie. Fabrieken hoefden niet meer bij een rivier te staan en konden in de steden komen. Textiel, ijzer en later allerlei producten werden in grote aantallen machinaal gemaakt.",
+  "Nederland industrialiseerde later dan Engeland en België, pas echt na 1850. Hier werd stoom eerst vooral gebruikt om water weg te pompen. De drooglegging van de Haarlemmermeer met de stoomgemalen De Leeghwater, De Lynden en De Cruquius liet zien wat stoom kon in een waterland."
+ ],
+ misverstanden: [
+  ["“James Watt heeft de stoommachine uitgevonden.”","Thomas Newcomen bouwde rond 1712 al een werkende stoommachine. Watt verbeterde die vanaf 1763 sterk, zodat ze veel minder brandstof verbruikte. De eenheid van vermogen, de watt, is wel naar hem genoemd."],
+  ["“Met de stoommachine begon in Nederland meteen de industrie.”","In Nederland bleven windmolens en paarden lang belangrijk. Pas in de tweede helft van de 19e eeuw kwamen er hier veel stoomfabrieken."]
+ ],
+ hoeWeten: [
+  "Er zijn tekeningen, octrooien en brieven van Newcomen, Watt en hun klanten. Machines uit die tijd staan in musea. Het gemaal De Cruquius is zelf een bewaard gebleven bron: de complete machine staat er nog en kan worden bekeken."
+ ],
+ nu: [
+  "Gemaal De Cruquius bij Heemstede is een museum, met de grootste stoommachine ter wereld. Ook elektriciteitscentrales werken vaak nog met stoom: water wordt verhit en de stoom drijft een turbine aan. En het woord “watt” staat op elke lamp en elk apparaat."
+ ],
+ vertellen: "De machine van Newcomen was zo groot als een huis en verbruikte enorme hoeveelheden steenkool. Dat was geen probleem: hij stond meestal bij een kolenmijn, waar brandstof genoeg was en waar hij het water uit de mijn pompte.",
+ verbanden: [["De eerste spoorlijn","stoom op het spoor"],["Het Kinderwetje","de keerzijde van de fabrieken"],["Steenkoolmijnen in Parkstad","steenkool voor de stoommachines"]],
+ onderwijs: {"ka":["De industriële revolutie en het ontstaan van een industriële samenleving in de westerse wereld. (tijdvak 8)"]},
  cijfers: [['Newcomen','ca. 1712'],['Watt','octrooi in 1769'],['Eerste in Nederland','9 maart 1776, Rotterdam'],['De Cruquius','1849, Haarlemmermeer']],
  figuren: [['Thomas Newcomen','bouwde de eerste bruikbare machine'],['James Watt','maakte haar zuinig en krachtig'],['Willem I','koos stoom om de Haarlemmermeer droog te malen']],
  bronnen: [['Wikipedia: Stoommachine',W('Stoommachine')],['Wikipedia: Gemaal De Cruquius',W('Gemaal De Cruquius')],['Wikipedia: James Watt',W('James Watt')]]
@@ -81,6 +155,26 @@ Object.assign(window.DETAILS, {
   'Een jaar eerder had de Duitser Ewald von Kleist iets vergelijkbaars bedacht. Maar Van Musschenbroek schreef erover, en daarom kreeg de uitvinding in heel Europa de naam Leidse fles. Het was de eerste condensator: een onderdeel dat elektrische lading opslaat, zoals ze tot op de dag van vandaag in elektronica zitten.',
   'Leidse flessen werden gebruikt voor proeven en voor shows. Soms kreeg het publiek bij het aanraken van een hele batterij flessen een schok. In 1752 gebruikte Benjamin Franklin een Leidse fles om te bewijzen dat bliksem elektriciteit is.'
  ],
+ gevolgen: [
+  "De Leidse fles maakte het voor het eerst mogelijk om elektriciteit op te slaan en te bestuderen. Wetenschappers in heel Europa gingen ermee experimenteren. Benjamin Franklin gebruikte hem bij zijn proeven met bliksem en vond daarna de bliksemafleider uit.",
+  "Leiden was in de 18e eeuw een centrum van natuurwetenschap. Hoogleraren als Van Musschenbroek en ’s Gravesande gaven er spectaculaire proefcolleges, en studenten uit heel Europa kwamen naar Leiden om ze bij te wonen."
+ ],
+ perspectieven: [
+  "Voor wetenschappers was de Leidse fles een doorbraak in het begrijpen van de natuur. Voor het publiek was elektriciteit vooral een spektakel: op beurzen en in salons kregen mensen voor de grap schokken. Sommige artsen dachten dat elektrische schokken ziektes konden genezen, wat meestal niet zo was."
+ ],
+ misverstanden: [
+  ["“Van Musschenbroek was de enige uitvinder.”","Ewald von Kleist in Duitsland deed een jaar eerder een vergelijkbare ontdekking. Omdat Van Musschenbroek erover schreef aan bekende wetenschappers, kreeg de fles de naam van Leiden."],
+  ["“Met de Leidse fles kon je stroom maken.”","De fles maakte zelf geen elektriciteit, maar sloeg op wat een elektriseermachine had opgewekt. Het is te vergelijken met een batterij die je alleen kunt opladen, niet met een stroombron."]
+ ],
+ hoeWeten: [
+  "Van Musschenbroek beschreef zijn proef in brieven aan andere geleerden, die bewaard zijn. Ook zijn leerboeken over natuurkunde zijn bewaard. In Rijksmuseum Boerhaave in Leiden staan Leidse flessen en elektriseermachines uit die tijd."
+ ],
+ nu: [
+  "Condensatoren, de opvolgers van de Leidse fles, zitten in vrijwel elk elektronisch apparaat, van telefoons tot computers en auto’s. In Rijksmuseum Boerhaave kun je de oude instrumenten zien."
+ ],
+ vertellen: "Van Musschenbroek kreeg bij zijn proef zelf een flinke schok. Aan zijn vriend Réaumur schreef hij dat zijn rechterhand heftig begon te schudden en zijn hele lichaam trilde. Hij was waarschijnlijk de eerste mens die kunstmatig een elektrische schok kreeg.",
+ verbanden: [["De gloeilamp","elektriciteit in huis"],["De telefoon","nog een toepassing van elektriciteit"],["Eise Eisinga","nog een Nederlandse wetenschapper uit de 18e eeuw"]],
+ onderwijs: {"ka":["Rationeel optimisme en ‘verlicht denken’ dat werd toegepast op alle terreinen van de samenleving: godsdienst, politiek, economie en sociale verhoudingen."]},
  cijfers: [['Uitgevonden','1746, Leiden'],['Eerder idee','1745, Von Kleist'],['Soort apparaat','de eerste condensator'],['Franklin','bliksem is elektriciteit (1752)']],
  figuren: [['Pieter van Musschenbroek','hoogleraar natuurkunde in Leiden'],['Ewald von Kleist','Duitser, bedacht iets vergelijkbaars een jaar eerder'],['Benjamin Franklin','bewees dat bliksem elektriciteit is']],
  bronnen: [['Wikipedia: Leidse fles',W('Leidse fles')],['Wikipedia: Pieter van Musschenbroek',W('Pieter van Musschenbroek')]]
@@ -89,12 +183,33 @@ Object.assign(window.DETAILS, {
 'Johann Sebastian Bach': {
  aanloop: [
   'Bach werd op 21 maart 1685 geboren in Eisenach, in een familie met een lange muziektraditie: over zeven generaties waren er al muzikanten.',
-  'Hij werd organist, klavecinist, violist en leraar. Al op jonge leeftijd werkte hij als muzikant aan de hoven en in de kerken van Duitse steden.'
+  'Hij werd organist, klavecinist, violist en leraar. Al op jonge leeftijd werkte hij als muzikant aan de hoven en in de kerken van Duitse steden.',
+  "In 1723 werd Bach cantor van de Thomaskerk in Leipzig. Hij moest elke zondag nieuwe kerkmuziek leveren, het koor leiden en lesgeven aan de Thomasschool. In die jaren schreef hij honderden cantates, en ook de Johannes-Passion en de Matthäus-Passion."
  ],
  verloop: [
   'Bachs muziek omvat vrijwel alle vormen die in zijn tijd gangbaar waren, met uitzondering van opera. Zijn werk hoort bij de barok, net als dat van Bernini. Hij overleed op 28 juli 1750 in Leipzig.',
   'In de 19e eeuw werd zijn muziek herontdekt. Bij de opening van het Concertgebouw in Amsterdam, in 1888, klonk ook muziek van Bach.'
  ],
+ gevolgen: [
+  "Na zijn dood raakte Bachs muziek grotendeels uit de mode; hij gold als ouderwets. In 1829 voerde de jonge componist Felix Mendelssohn de Matthäus-Passion opnieuw uit in Berlijn. Dat was het begin van een herontdekking, waarna Bach werd gezien als een van de grootste componisten ooit.",
+  "Componisten als Mozart, Beethoven en Chopin bestudeerden zijn werk. Zijn manier van componeren, met meerdere melodieën die tegelijk klinken, wordt nog steeds op conservatoria onderwezen."
+ ],
+ perspectieven: [
+  "Voor Bach zelf was muziek vooral een dienst aan God; hij zette vaak “Soli Deo Gloria” (alleen tot eer van God) onder zijn werk. Zijn werkgevers in Leipzig zagen hem als een lastige werknemer die zich niet aan de regels hield. Voor latere luisteraars, gelovig of niet, is zijn muziek een hoogtepunt van de westerse kunst."
+ ],
+ misverstanden: [
+  ["“Bach was in zijn eigen tijd een beroemde componist.”","Bach was vooral bekend als virtuoos organist. Als componist was hij buiten Duitsland nauwelijks bekend; tijdgenoten als Telemann waren veel beroemder."],
+  ["“De Matthäus-Passion wordt sinds Bachs tijd elk jaar uitgevoerd.”","Na Bachs dood werd het stuk bijna tachtig jaar niet gespeeld. Pas na de uitvoering van Mendelssohn in 1829 werd het weer bekend."]
+ ],
+ hoeWeten: [
+  "Veel van Bachs handschriften zijn bewaard, vooral in Berlijn en Leipzig. Daarnaast zijn er brieven, contracten en verslagen van de stad Leipzig. Het Bach-Archiv in Leipzig onderzoekt zijn leven en werk; af en toe wordt er nog een onbekend stuk van hem gevonden."
+ ],
+ nu: [
+  "In Nederland wordt de Matthäus-Passion elk jaar rond Pasen op tientallen plaatsen uitgevoerd, door profs en amateurs. De Nederlandse Bachvereniging voert hem sinds de jaren twintig uit in de Grote Kerk van Naarden, een traditie die veel mensen elk jaar bijwonen. Via het project “All of Bach” zijn al zijn werken online te zien en te horen."
+ ],
+ vertellen: "Toen Bach in 1717 ontslag wilde nemen bij de hertog van Weimar om een betere baan aan te nemen, liet de hertog hem een maand opsluiten. Pas daarna mocht hij vertrekken.",
+ verbanden: [["Wolfgang Amadeus Mozart","hij bestudeerde Bachs muziek"],["Ludwig van Beethoven","nog een grote componist uit Duitsland"],["Het Concertgebouw","Bach klonk bij de opening"]],
+ onderwijs: {},
  cijfers: [['Geboren','21 maart 1685, Eisenach'],['Muzikale familie','7 generaties'],['Soort muziek','barok, bijna alles behalve opera'],['Overleden','28 juli 1750, Leipzig']],
  figuren: [['Johann Sebastian Bach','componist en organist'],['Johann Ambrosius Bach','zijn vader, ook muzikant']],
  bronnen: [['Wikipedia: Johann Sebastian Bach',W('Johann Sebastian Bach')]]
@@ -110,6 +225,26 @@ Object.assign(window.DETAILS, {
   'In 1781 was het planetarium klaar. Bezoekers konden zien dat de planeten nooit tegen elkaar of tegen de aarde zouden botsen. In 1825 kocht de staat het planetarium. Eisinga mocht er blijven wonen. Hij stierf in 1828.',
   'Het planetarium draait nog steeds en geldt als het oudste werkende planetarium ter wereld. In 2023 werd het opgenomen op de Werelderfgoedlijst van UNESCO.'
  ],
+ gevolgen: [
+  "Het planetarium werd een bekende bezienswaardigheid en hielp mensen het zonnestelsel te begrijpen in een tijd waarin bijgeloof en angst voor hemelverschijnselen nog groot waren. Koning Willem I kocht het in 1825 voor de staat, zodat het bewaard bleef.",
+  "Eisinga was ook een patriot. Hij liet zien dat een gewone ambachtsman zonder universitaire opleiding kon bijdragen aan wetenschap, in de geest van de Verlichting."
+ ],
+ perspectieven: [
+  "De dominee die de ondergang voorspelde, haalde zijn ideeën uit een eigen uitleg van de Bijbel en de sterren. Eisinga wilde met wiskunde en waarneming laten zien dat er niets te vrezen was. Die botsing tussen angst en wetenschap is typisch voor de 18e eeuw, de tijd van de Verlichting."
+ ],
+ misverstanden: [
+  ["“Een planetarium is een koepel waarin sterren worden geprojecteerd.”","Moderne planetaria werken met projectie, maar het planetarium van Eisinga is een mechanisch model. De planeten zijn bolletjes die aan het plafond echt rond de zon bewegen, aangedreven door een uurwerk."],
+  ["“Eisinga was een geleerde hoogleraar.”","Hij was wolkammer, net als zijn vader, en leerde zichzelf wiskunde en sterrenkunde. Pas later kreeg hij erkenning en eervolle functies."]
+ ],
+ hoeWeten: [
+  "Het planetarium zelf is de belangrijkste bron: het draait nog steeds. Eisinga schreef een beschrijving van zijn werk en hield aantekeningen bij. Kranten en pamfletten uit 1774 laten zien hoe groot de paniek over de voorspelde ondergang was."
+ ],
+ nu: [
+  "Het Koninklijk Eise Eisinga Planetarium in Franeker is het oudste nog werkende planetarium ter wereld en sinds 2023 UNESCO-werelderfgoed. Bezoekers kunnen er de woonkamer zien met het zonnestelsel aan het plafond, en op zolder het raderwerk."
+ ],
+ vertellen: "Het raderwerk van het planetarium heeft wel tienduizend handgemaakte spijkers als tandjes. Eisinga bouwde het zeven jaar lang, naast zijn gewone werk, in zijn eigen huis. De kleinste planeet, Mercurius, draait in 88 dagen rond, net als in het echt.",
+ verbanden: [["De patriotten","Eisinga was zelf patriot"],["De Leidse fles","nog een Nederlandse wetenschapper uit de 18e eeuw"],["De maanlanding","eeuwen later reisden mensen echt de ruimte in"]],
+ onderwijs: {"ka":["Rationeel optimisme en ‘verlicht denken’ dat werd toegepast op alle terreinen van de samenleving: godsdienst, politiek, economie en sociale verhoudingen."],"venster":"24. Eise Eisinga"},
  cijfers: [['Bouwtijd','1774 – 1781'],['Aangekocht door de staat','1825'],['Overlijden Eisinga','1828'],['UNESCO-werelderfgoed','2023']],
  figuren: [['Eise Eisinga','wolkammer en bouwer van het planetarium'],['Koning Willem I','onder zijn bewind kocht de staat het planetarium']],
  bronnen: [CANON,['Wikipedia: Eise Eisinga',W('Eise Eisinga')],['Wikipedia: Eise Eisinga Planetarium',W('Eise Eisinga Planetarium')]]
@@ -125,6 +260,26 @@ Object.assign(window.DETAILS, {
   'Sara is een jonge wees die ontsnapt aan het strenge huishouden van haar tante en in Amsterdam op kamers gaat. Ze is vrolijk en wil zelf keuzes maken, maar door haar onervarenheid komt ze in gevaar. Het boek waarschuwt tegen zowel overdreven vroomheid als lichtzinnigheid.',
   'Sara Burgerhart wordt vaak de eerste moderne Nederlandse roman genoemd. Wolff en Deken schreven daarna nog meer briefromans. Ze stierven in 1804 kort na elkaar en liggen samen begraven.'
  ],
+ gevolgen: [
+  "Sara Burgerhart werd een succes en inspireerde andere schrijvers tot realistische romans over gewone mensen in eigen land. Wolff en Deken schreven daarna nog meer briefromans, zoals Historie van den heer Willem Leevend.",
+  "De schrijfsters waren ook patriot. Na de Pruisische inval van 1787 vertrokken ze in 1788 naar Trévoux bij Lyon in Frankrijk. Pas in 1797 kwamen ze, in geldnood, terug naar Holland. Daar vertaalden ze onder meer een boek tegen de slavernij."
+ ],
+ perspectieven: [
+  "Voor veel lezers was het boek een frisse, vrolijke verandering. Strenge gelovigen vonden het te vrijzinnig en lachten niet om de spot met overdreven vroomheid. Het boek laat ook zien hoe kwetsbaar jonge vrouwen waren in een wereld waarin hun eer en toekomst afhingen van hun reputatie."
+ ],
+ misverstanden: [
+  ["“Sara Burgerhart is een saai, belerend boek.”","Het boek is juist geestig, met levendige personages die elk hun eigen toon hebben. Het waarschuwt wel, maar met humor."],
+  ["“Betje Wolff en Aagje Deken waren zussen.”","Ze waren vriendinnen die na de dood van Wolffs man gingen samenwonen en samen schreven. Ze bleven hun hele verdere leven bij elkaar."]
+ ],
+ hoeWeten: [
+  "De eerste drukken van het boek zijn bewaard, net als brieven van Wolff en Deken aan elkaar en aan anderen. Daaruit is te zien hoe ze samenwerkten en wat ze dachten over geloof, politiek en opvoeding. Recensies uit die tijd tonen hoe het boek werd ontvangen."
+ ],
+ nu: [
+  "Sara Burgerhart wordt nog gelezen op school en in literatuurlessen, vaak in een hertaalde versie. In Beverwijk, waar de schrijfsters woonden, en in Den Haag, waar ze begraven liggen, zijn ze nog altijd bekend."
+ ],
+ vertellen: "Sara Burgerhart is geschreven als een verzameling brieven tussen verschillende personages. Zo leest de lezer als het ware stiekem mee met de post van anderen, en krijgt hij elk karakter in zijn eigen woorden te horen.",
+ verbanden: [["De patriotten","de schrijfsters waren patriot"],["Max Havelaar","een latere klassieker van de Nederlandse literatuur"],["Aletta Jacobs","de latere strijd voor de rechten van vrouwen"]],
+ onderwijs: {"ka":["Rationeel optimisme en ‘verlicht denken’ dat werd toegepast op alle terreinen van de samenleving: godsdienst, politiek, economie en sociale verhoudingen."],"venster":"25. Sara Burgerhart"},
  cijfers: [['Verschenen','1782'],['Vorm','briefroman in twee delen'],['Voorbeeld','Engelse briefromans'],['Overlijden schrijfsters','1804']],
  figuren: [['Betje Wolff','schrijfster'],['Aagje Deken','schrijfster en levensgezellin van Wolff'],['Samuel Richardson','Engelse schrijver van briefromans']],
  bronnen: [CANON,['Wikipedia: Sara Burgerhart',W('Sara Burgerhart')],['DBNL','https://www.dbnl.org/']]
@@ -140,6 +295,26 @@ Object.assign(window.DETAILS, {
   'In juni 1787 werd prinses Wilhelmina, de vrouw van Willem V, bij Goejanverwellesluis door een vrijkorps tegengehouden. Haar broer, de koning van Pruisen, gebruikte dit als aanleiding. In september 1787 viel een Pruisisch leger het land binnen en herstelde de macht van de stadhouder.',
   'Duizenden patriotten vluchtten naar Frankrijk. Hun ideeën over burgerrechten en volkssoevereiniteit verdwenen niet. In 1795 keerden ze met Franse troepen terug.'
  ],
+ gevolgen: [
+  "Na de Pruisische inval van 1787 volgde een periode van wraak op de patriotten, met plunderingen van hun huizen. Duizenden patriotten vluchtten naar Frankrijk, waar ze vanaf 1789 de Franse Revolutie van dichtbij meemaakten.",
+  "In 1795 keerden ze terug met de Franse legers en stichtten ze de Bataafse Republiek. Veel van hun ideeën, zoals volkssoevereiniteit, gelijke burgerrechten en een gekozen volksvertegenwoordiging, kwamen later terug in de Nederlandse Grondwet."
+ ],
+ perspectieven: [
+  "Patriotten zagen zichzelf als de ware vaderlanders, die de oude vrijheden wilden herstellen tegen een te machtige stadhouder. Orangisten, vooral uit de lagere klassen en de kerk, vonden juist dat de stadhouder het land bij elkaar hield. Het ging ook om geld en macht: rijke regenten in sommige steden steunden de patriotten vooral om hun eigen invloed te vergroten."
+ ],
+ misverstanden: [
+  ["“De patriotten wilden democratie voor iedereen.”","Veel patriotten wilden vooral inspraak voor de gegoede burgerij. Algemeen kiesrecht voor alle mannen, of voor vrouwen, stond voor de meesten nog niet op de agenda."],
+  ["“Patriot betekende toen hetzelfde als nu.”","Nu is een patriot iemand die van zijn land houdt. In de jaren 1780 was het de naam van een politieke partij die tegen de macht van de stadhouder streed. Hun tegenstanders, de orangisten, noemden hen spottend “Keezen”."]
+ ],
+ hoeWeten: [
+  "Er zijn honderden pamfletten, spotprenten en kranten uit die tijd, waarin patriotten en orangisten elkaar fel aanvielen. De archieven van de vrijkorpsen en de steden laten zien wie er meedeed. Ook brieven van prinses Wilhelmina en andere hoofdrolspelers zijn bewaard."
+ ],
+ nu: [
+  "Bij Goejanverwellesluis staat een monument dat herinnert aan het tegenhouden van prinses Wilhelmina. Het woord patriot wordt nog steeds gebruikt, maar met een andere betekenis. De discussie over hoeveel macht een staatshoofd mag hebben, bestaat nog steeds."
+ ],
+ vertellen: "Op 28 juni 1787 werd prinses Wilhelmina, op weg naar Den Haag, bij Goejanverwellesluis tegengehouden door een vrijkorps. Ze moest een nacht in een boerderij doorbrengen en werd daarna teruggestuurd. Haar broer, de koning van Pruisen, gebruikte die belediging als reden om met een leger het land binnen te vallen.",
+ verbanden: [["De Franse Revolutie","de patriotten maakten die in Frankrijk mee"],["Bataafse Republiek","hun terugkeer in 1795"],["Eise Eisinga","ook hij was patriot"]],
+ onderwijs: {"ka":["De democratische revoluties in westerse landen met als gevolg discussies over grondwetten, grondrechten en staatsburgerschap.","Rationeel optimisme en ‘verlicht denken’ dat werd toegepast op alle terreinen van de samenleving: godsdienst, politiek, economie en sociale verhoudingen."],"venster":"26. De patriotten"},
  cijfers: [['Vierde Engelse Oorlog','1780 – 1784'],['Pamflet Van der Capellen','1781'],['Goejanverwellesluis','28 juni 1787'],['Pruisische inval','september 1787']],
  figuren: [['Joan Derk van der Capellen tot den Pol','edelman en patriottenleider'],['Willem V','stadhouder'],['Wilhelmina van Pruisen','echtgenote van Willem V'],['Frederik Willem II','koning van Pruisen']],
  bronnen: [CANON,['Wikipedia: Patriottentijd',W('Patriottentijd')],['Wikipedia: Aan het Volk van Nederland',W('Aan het Volk van Nederland')]]
@@ -155,6 +330,26 @@ Object.assign(window.DETAILS, {
   'De vrijheid had een prijs. Bij het Verdrag van Den Haag moest de nieuwe republiek Frankrijk 100 miljoen gulden betalen en een Frans leger onderhouden. Ook stond ze gebied af, waaronder Maastricht en Venlo.',
   'Na jaren van strijd tussen unitarissen en federalisten kwam er in 1798 een eerste grondwet, de Staatsregeling. Het land werd een eenheidsstaat met gelijke rechten voor alle burgers en gescheiden kerk en staat. In 1806 maakte Napoleon er een koninkrijk van.'
  ],
+ gevolgen: [
+  "Op 1 maart 1796 kwam in Den Haag de Nationale Vergadering bijeen, het eerste door het volk gekozen nationale parlement van Nederland. Op 2 september 1796 besloot dit parlement dat Joden voortaan dezelfde burgerrechten hadden als andere burgers. In 1797 namen de eerste Joodse volksvertegenwoordigers van Europa er zitting.",
+  "De Staatsregeling van 1798 maakte van de losse provincies één eenheidsstaat, met gelijke rechten voor burgers en scheiding van kerk en staat. Er kwamen nationale belastingen, een nationaal onderwijsstelsel en eenheid in maten en gewichten."
+ ],
+ perspectieven: [
+  "Voor patriotten was 1795 een bevrijding: de stadhouder was weg en het volk kreeg inspraak. Voor orangisten was het een bezetting door een buitenlands leger. Ook onder de patriotten was er onenigheid: unitarissen wilden een sterke centrale staat, federalisten wilden de provincies hun zelfstandigheid laten houden. Er volgden meerdere staatsgrepen."
+ ],
+ misverstanden: [
+  ["“De Fransen veroverden de Republiek met geweld.”","Er was weinig verzet. Veel Nederlanders, vooral patriotten, verwelkomden de Fransen en plantten vrijheidsbomen. De rivieren waren bevroren, waardoor de Franse troepen snel konden oprukken."],
+  ["“De Bataafse Republiek was een zelfstandig land.”","Formeel wel, maar Frankrijk had grote invloed. De republiek moest een Frans leger onderhouden, grote bedragen betalen en meedoen aan Franse oorlogen."]
+ ],
+ hoeWeten: [
+  "De verslagen van de Nationale Vergadering, de Staatsregeling en de vele pamfletten en kranten uit die jaren zijn bewaard. Spotprenten laten zien hoe patriotten en orangisten over elkaar dachten. Ook in gemeentearchieven is te zien hoe het bestuur in de steden veranderde."
+ ],
+ nu: [
+  "De Tweede Kamer ziet de Nationale Vergadering van 1796 als haar begin. Veel vernieuwingen uit die tijd, zoals een nationaal bestuur, gelijke rechten voor burgers en scheiding van kerk en staat, zijn nog steeds de basis van het Nederlandse staatsbestel."
+ ],
+ vertellen: "In de winter van 1794 op 1795 was het zo koud dat de grote rivieren dichtvroren. Franse soldaten konden over het ijs het land in trekken. Bij Den Helder bestormde Franse cavalerie zelfs Nederlandse oorlogsschepen die in het ijs vastzaten.",
+ verbanden: [["De patriotten","ze kwamen in 1795 terug"],["De Franse Revolutie","het voorbeeld voor de Bataafse Republiek"],["Lodewijk Napoleon koning","in 1806 werd het een koninkrijk"],["De Grondwet","de eerste grondwet was de Staatsregeling van 1798"]],
+ onderwijs: {"ka":["De democratische revoluties in westerse landen met als gevolg discussies over grondwetten, grondrechten en staatsburgerschap."]},
  cijfers: [['Vlucht van Willem V','18 januari 1795'],['Oorlogsschatting','100 miljoen gulden'],['Eerste grondwet','1798'],['Einde republiek','1806']],
  figuren: [['Willem V','stadhouder, vluchtte naar Engeland'],['Charles Pichegru','Franse generaal'],['Herman Willem Daendels','patriot en generaal'],['Rutger Jan Schimmelpenninck','raadpensionaris in 1805']],
  bronnen: [['Wikipedia: Bataafse Republiek',W('Bataafse Republiek')],['Wikipedia: Staatsregeling 1798',W('Staatsregeling voor het Bataafsche Volk')]]
@@ -170,6 +365,26 @@ Object.assign(window.DETAILS, {
   'Het departement was ingedeeld in arrondissementen rond Maastricht, Hasselt en Roermond. Er gold Frans recht, met de burgerlijke stand en later de Code civil. Kloosters werden opgeheven en de oude standen en heerlijkheden verdwenen.',
   'Na de val van Napoleon in 1814 kwam er een einde aan het departement. In 1815 vormde het grotendeels de nieuwe provincie Limburg in het Verenigd Koninkrijk der Nederlanden. Zo legde de Franse tijd de basis voor één Limburg.'
  ],
+ gevolgen: [
+  "Onder Frans bestuur werden in Maastricht en omgeving de burgerlijke stand, het kadaster, de Franse rechtspraak en later de Code civil ingevoerd. De oude standen, privileges en kerkelijke rechtbanken verdwenen. Kloosters en abdijen werden opgeheven en hun bezittingen verkocht.",
+  "Het departement bracht gebieden samen die eeuwenlang verdeeld waren geweest. In 1815 vormde het grotendeels de nieuwe provincie Limburg. Zo legde de Franse tijd de basis voor de naam en de grenzen van Limburg."
+ ],
+ perspectieven: [
+  "Voor sommige inwoners bracht de Franse tijd vrijheid en gelijkheid voor de wet. Voor anderen, vooral katholieken, betekende het onderdrukking van de kerk, zware belastingen en de dienstplicht in Napoleons legers. Toen in 1798 jonge mannen werden opgeroepen, kwamen boeren in het zuiden in opstand in de Boerenkrijg."
+ ],
+ misverstanden: [
+  ["“Maastricht hoorde altijd bij de Republiek.”","Maastricht had tot 1794 twee heren tegelijk: de Republiek en de prins-bisschop van Luik. Daarna werd het Frans. Pas in 1815 kwam het definitief bij het Koninkrijk der Nederlanden."],
+  ["“Het departement Nedermaas was hetzelfde als het huidige Limburg.”","Het departement omvatte ook een groot deel van het huidige Belgisch Limburg, met Hasselt. Pas na de splitsing van 1839 ontstond de huidige grens."]
+ ],
+ hoeWeten: [
+  "De Franse archieven van het departement, met de akten van de burgerlijke stand, kadasterkaarten en verslagen van de prefect, zijn bewaard in Maastricht en Hasselt. Ze zijn een belangrijke bron voor stamboomonderzoek. Ook verslagen over het beleg van Maastricht in 1794 bestaan nog."
+ ],
+ nu: [
+  "De burgerlijke stand en het kadaster zijn nog steeds de basis van onze administratie. Wie in Limburg naar zijn voorouders zoekt, komt vaak uit bij Franse akten. Het Franse verleden is ook nog te horen in Limburgse dialectwoorden."
+ ],
+ vertellen: "Maastricht had eeuwenlang twee heren tegelijk: de Republiek en de prins-bisschop van Luik. Zelfs de stadspoorten en het bestuur werden gedeeld. Toen de Fransen in 1794 kwamen, maakten ze in één klap een einde aan die bijzondere situatie.",
+ verbanden: [["Limburg gesplitst","de latere verdeling van Limburg"],["Napoleon Bonaparte","de Franse tijd in Europa"],["De Bokkenrijders","het gebied vóór de Franse tijd"]],
+ onderwijs: {"ka":["De democratische revoluties in westerse landen met als gevolg discussies over grondwetten, grondrechten en staatsburgerschap."]},
  cijfers: [['Overgave Maastricht','november 1794'],['Inlijving bij Frankrijk','1 oktober 1795'],['Hoofdstad','Maastricht'],['Einde departement','1814']],
  figuren: [['Jean-Baptiste Kléber','Franse generaal, belegerde Maastricht'],['Napoleon Bonaparte','Frans staatshoofd vanaf 1799'],['Koning Willem I','vormde in 1815 de provincie Limburg']],
  bronnen: [['Wikipedia: Nedermaas',W('Nedermaas departement')],['Wikipedia: Geschiedenis van Limburg',W('Geschiedenis van Limburg')]]
@@ -185,6 +400,26 @@ Object.assign(window.DETAILS, {
   'Een priester probeerde te bemiddelen, maar het koloniale bestuur gaf niet toe. Na enkele weken werden de opstandelingen verslagen. Tula werd verraden en gevangengenomen. Op 3 oktober 1795 werd hij op wrede wijze terechtgesteld, net als andere leiders.',
   'Tula geldt nu als vrijheidsstrijder en nationale held op Curaçao. Op 17 augustus wordt jaarlijks de Dag van de Vrijheidsstrijd herdacht.'
  ],
+ gevolgen: [
+  "Na de opstand werden de leiders wreed gestraft en tientallen andere deelnemers opgehangen. Het koloniale bestuur verscherpte de controle.",
+  "De slavernij op Curaçao duurde nog tot 1863. De opstand werd lang vooral gezien als een gevaarlijke rebellie, maar werd later een symbool van verzet tegen onrecht."
+ ],
+ perspectieven: [
+  "Voor het koloniale bestuur was Tula een oproerkraaier die de orde verstoorde. In de officiële verslagen en zelfs in de mondelinge overlevering werd hij lang negatief neergezet. Voor nazaten van tot slaaf gemaakten is hij een vrijheidsstrijder die opkwam voor de idealen van vrijheid en gelijkheid, dezelfde idealen die in Europa zo werden geprezen."
+ ],
+ misverstanden: [
+  ["“Tot slaaf gemaakten accepteerden hun lot.”","Er was voortdurend verzet: van werkweigeringen en vluchten tot grote opstanden zoals die van Tula. Dat verzet werd in de geschiedschrijving lang onderbelicht."],
+  ["“De opstand was een plotselinge uitbarsting van geweld.”","Tula begon met een werkweigering en eiste gelijke rechten. Hij verwees naar de Franse Revolutie en de opstand op Saint-Domingue. De opstand was een bewuste politieke daad."]
+ ],
+ hoeWeten: [
+  "De verslagen van het koloniale bestuur en de processtukken tegen Tula en zijn medestanders zijn bewaard. Die zijn wel vanuit het perspectief van de overheersers geschreven. Daarom zijn ook de mondelinge overlevering op Curaçao en later historisch onderzoek belangrijk."
+ ],
+ nu: [
+  "Op Curaçao is 17 augustus de Dag van de Vrijheidsstrijd. In 2010 werd Tula uitgeroepen tot nationale held van Curaçao, en in 2023 werd hij door de Nederlandse regering officieel gerehabiliteerd. Op het eiland herinnert onder meer het Tula Museum bij plantage Knip aan de opstand."
+ ],
+ vertellen: "Tula kreeg tijdens de opstand de bijnaam Rigaud, naar André Rigaud, een van de leiders van de slavenopstand op Saint-Domingue. Hij zei dat als Nederland en Frankrijk nu bondgenoten waren, de Franse vrijheid ook voor de mensen op Curaçao moest gelden.",
+ verbanden: [["Slavernij","de geschiedenis van de Nederlandse slavernij"],["De Franse Revolutie","de idealen die Tula inspireerden"],["Afschaffing van de slavernij","het einde van de slavernij in 1863"],["Nieuw Koninkrijk","Curaçao nu"]],
+ onderwijs: {"ka":["Uitbouw van de Europese overheersing, met name in de vorm van plantagekoloniën en de daarmee verbonden trans-Atlantische slavenhandel, en de opkomst van het abolitionisme.","De democratische revoluties in westerse landen met als gevolg discussies over grondwetten, grondrechten en staatsburgerschap."],"venster":"23. Slavernij"},
  cijfers: [['Begin opstand','17 augustus 1795'],['Startpunt','plantage Knip'],['Terechtstelling Tula','3 oktober 1795'],['Herdenking','17 augustus']],
  figuren: [['Tula','leider van de opstand'],['Bastiaan Karpata','medeleider'],['Louis Mercier','medeleider'],['Pedro Wakao','medeleider']],
  bronnen: [['Wikipedia: Tula',W('Tula vrijheidsstrijder Curaçao')],['Wikipedia: Slavenopstand Curaçao 1795',W('Slavenopstand van 1795 Curaçao')]]
@@ -613,12 +848,33 @@ Object.assign(window.DETAILS, {
 'Wolfgang Amadeus Mozart': {
  aanloop: [
   'Mozart werd op 27 januari 1756 geboren in Salzburg, als zevende en laatste kind van Leopold en Anna Maria Mozart. Alleen zijn zus Nannerl bleef in leven; de andere vijf kinderen overleden jong.',
-  'Zijn vader was componist en violist en leerde hem muziek.'
+  'Zijn vader was componist en violist en leerde hem muziek.',
+  "Leopold Mozart reisde met zijn twee wonderkinderen door Europa om ze aan vorsten en publiek te laten horen. Van 1765 tot 1766 waren ze ook in de Republiek. Ze speelden in Den Haag voor het hof en gaven concerten in Amsterdam en Utrecht. In Haarlem mocht de negenjarige Wolfgang spelen op het beroemde Müllerorgel in de Grote of Sint-Bavokerk."
  ],
  verloop: [
   'Mozart schreef in vrijwel elke muziekvorm van zijn tijd, vooral opera’s, symfonieën, pianoconcerten en kamermuziek. Later woonde hij vooral in Wenen.',
   'Hij overleed op 5 december 1791 in Wenen, op 35-jarige leeftijd. Zijn muziek wordt nog steeds over de hele wereld gespeeld.'
  ],
+ gevolgen: [
+  "Mozart werd een van de bekendste componisten aller tijden. Zijn opera’s, zoals De Toverfluit, Don Giovanni en Le nozze di Figaro, worden nog overal opgevoerd. Hij liet meer dan zeshonderd werken na, in vrijwel elke muziekvorm van zijn tijd.",
+  "Hij hoort met Haydn en Beethoven tot de grote componisten van de Weense klassiek. Beethoven reisde in 1787 naar Wenen in de hoop les te krijgen van Mozart, maar moest snel terug naar huis. Toen hij in 1792 terugkwam, was Mozart al overleden."
+ ],
+ perspectieven: [
+  "Mozart wordt vaak gezien als een onaangepast wonderkind dat alles zomaar uit zijn hoofd schreef. Brieven laten zien dat hij hard werkte, ook schrapte en verbeterde, en zich zorgen maakte over geld en werk. Hij was een van de eerste componisten die probeerde zelfstandig te leven, zonder vaste baan bij een vorst of de kerk."
+ ],
+ misverstanden: [
+  ["“Mozart werd door Salieri vergiftigd.”","Daar is geen bewijs voor. Het verhaal werd beroemd door toneelstukken en de film Amadeus. Waarschijnlijk stierf Mozart aan een ziekte; welke precies, is niet bekend."],
+  ["“Mozart stierf straatarm en werd in een massagraf gegooid.”","Hij had geldzorgen, maar was niet straatarm. Hij werd begraven in een gewoon graf zonder grafsteen, zoals in die tijd in Wenen vaak gebeurde. Daardoor weet niemand meer precies waar hij ligt."]
+ ],
+ hoeWeten: [
+  "Er zijn honderden brieven van Mozart en zijn familie bewaard, vol grappen en details over hun reizen. Ook zijn handschriften en de catalogus die hij zelf bijhield van zijn werken bestaan nog. Kranten uit de steden waar hij optrad, ook in Nederland, berichtten over de concerten van het wonderkind."
+ ],
+ nu: [
+  "Mozarts muziek klinkt op concerten, in films en reclames over de hele wereld. In Salzburg is zijn geboortehuis een museum. Het Müllerorgel in Haarlem waarop hij als kind speelde, bestaat nog en wordt nog bespeeld."
+ ],
+ vertellen: "Tijdens zijn verblijf in Nederland werden Wolfgang en zijn zus Nannerl ernstig ziek. Toen Wolfgang weer beter was, schreef hij rond de inhuldiging van stadhouder Willem V in 1766 zeven variaties op het lied “Willem van Nassau”, het Wilhelmus. Hij was toen tien jaar.",
+ verbanden: [["Johann Sebastian Bach","een componist die Mozart bewonderde"],["Ludwig van Beethoven","de volgende grote componist in Wenen"],["Het Concertgebouw","waar zijn muziek nog vaak klinkt"]],
+ onderwijs: {"ka":["Rationeel optimisme en ‘verlicht denken’ dat werd toegepast op alle terreinen van de samenleving: godsdienst, politiek, economie en sociale verhoudingen."]},
  cijfers: [['Geboren','27 januari 1756, Salzburg'],['Soorten muziek','opera, symfonie, pianoconcert'],['Leeftijd','35 jaar'],['Overleden','5 december 1791, Wenen']],
  figuren: [['Wolfgang Amadeus Mozart','componist en pianist'],['Leopold Mozart','zijn vader, componist en violist'],['Nannerl Mozart','zijn zus']],
  bronnen: [['Wikipedia: Wolfgang Amadeus Mozart',W('Wolfgang Amadeus Mozart')]]
@@ -634,6 +890,26 @@ Object.assign(window.DETAILS, {
   'Onder Napoleon heette het Musée Napoléon. Dominique Vivant Denon was de eerste directeur; een van de vleugels draagt nog zijn naam.',
   'In 1989 kwam er een glazen piramide bij als ingang, ontworpen door de architect I.M. Pei. In het museum hangt onder andere de Mona Lisa.'
  ],
+ gevolgen: [
+  "Het Louvre werd een voorbeeld voor nationale musea in heel Europa, ook voor het Rijksmuseum dat in 1800 in Nederland opende. Kunst werd van het volk, en niet meer alleen van koningen en adel.",
+  "Onder Napoleon groeide de collectie enorm met kunst die zijn legers in veroverde landen hadden meegenomen, ook uit de Nederlanden. Na zijn val in 1815 moest een groot deel daarvan worden teruggegeven."
+ ],
+ perspectieven: [
+  "Voor de Fransen was het Louvre een trots symbool van de revolutie en van de nationale cultuur. Voor de landen waaruit Napoleon kunst had weggehaald, was het een plek van roof. Nu wordt ook gediscussieerd over voorwerpen die in koloniale tijden naar Europese musea zijn gebracht, en over teruggave aan de landen van herkomst."
+ ],
+ misverstanden: [
+  ["“Het Louvre is altijd een museum geweest.”","Het begon als middeleeuws kasteel, werd daarna een koninklijk paleis en werd pas in 1793, tijdens de revolutie, een museum."],
+  ["“De Mona Lisa is een enorm schilderij.”","De Mona Lisa is juist klein: ongeveer 77 bij 53 centimeter. Veel bezoekers zijn verbaasd hoe klein het schilderij is, achter een dikke glasplaat en een grote menigte."]
+ ],
+ hoeWeten: [
+  "De archieven van het museum laten zien welke werken er sinds 1793 kwamen en gingen, ook de roofkunst van Napoleon en de teruggaven na 1815. Inventarissen, plattegronden en prenten tonen hoe het museum er vroeger uitzag."
+ ],
+ nu: [
+  "Het Louvre is het meest bezochte kunstmuseum ter wereld, met miljoenen bezoekers per jaar. De glazen piramide uit 1989 is een herkenningspunt geworden. Via de website kun je een groot deel van de collectie online bekijken."
+ ],
+ vertellen: "In 1911 werd de Mona Lisa uit het Louvre gestolen door een Italiaanse werkman die er had gewerkt. Hij verstopte het schilderij twee jaar in zijn kamer. Pas toen hij het in Florence probeerde te verkopen, werd hij gepakt. Door de diefstal werd de Mona Lisa pas echt wereldberoemd.",
+ verbanden: [["Mona Lisa","het bekendste werk in het Louvre"],["Het Rijksmuseum","het Nederlandse nationale museum, opgericht in 1800"],["De Franse Revolutie","de revolutie maakte er een museum van"]],
+ onderwijs: {"ka":["De democratische revoluties in westerse landen met als gevolg discussies over grondwetten, grondrechten en staatsburgerschap."]},
  cijfers: [['Eerste kasteel','1190, Filips II'],['Geopend als museum','10 augustus 1793'],['Naam onder Napoleon','Musée Napoléon'],['Glazen piramide','1989']],
  figuren: [['Filips II','bouwde het eerste kasteel'],['Dominique Vivant Denon','eerste directeur onder Napoleon'],['Lodewijk XIV','verhuisde naar Versailles']],
  bronnen: [['Wikipedia: Louvre',W('Louvre')]]
@@ -857,6 +1133,26 @@ Object.assign(window.DETAILS, {
   'De revolutionairen schaften de absolute monarchie af en stichtten de Eerste Franse Republiek. In de plaats van het oude stelsel kwamen de beginselen vrijheid, gelijkheid en broederschap, en de vrijheid van drukpers. Maar de hervormingen leidden ook tot burgeroorlog, terreur en oorlog met andere landen.',
   'In 1799 greep generaal Napoleon Bonaparte de macht, waarmee de revolutie eindigde. Ook Nederland merkte het: in 1795 vielen Franse legers het land binnen en ontstond de Bataafse Republiek.'
  ],
+ gevolgen: [
+  "Op 26 augustus 1789 nam de Nationale Vergadering de Verklaring van de Rechten van de Mens en de Burger aan: alle mensen worden vrij en gelijk in rechten geboren. In 1793 werd koning Lodewijk XVI onthoofd met de guillotine. Tijdens de Terreur van 1793 en 1794 werden duizenden vermeende tegenstanders terechtgesteld.",
+  "De revolutie veranderde ook het dagelijks leven: er kwam een nieuw metriek stelsel met de meter en de kilogram, dat later in Nederland en het grootste deel van de wereld werd ingevoerd. De ideeën van vrijheid, gelijkheid en volkssoevereiniteit verspreidden zich over Europa."
+ ],
+ perspectieven: [
+  "Voor de aanhangers was de revolutie een bevrijding van eeuwen onderdrukking door koning, adel en kerk. Voor de adel, de geestelijken en veel boeren in bijvoorbeeld de Vendée was het een tijd van vervolging en burgeroorlog. Ook de tot slaaf gemaakten in de Franse koloniën grepen de idealen aan: op Saint-Domingue, het latere Haïti, kwamen ze in opstand."
+ ],
+ misverstanden: [
+  ["“Marie Antoinette zei: als ze geen brood hebben, laat ze dan cake eten.”","Er is geen bewijs dat zij dat ooit zei. Het verhaal werd al eerder verteld over andere prinsessen en werd later aan haar toegeschreven om haar belachelijk te maken."],
+  ["“Bij de bestorming van de Bastille werden duizenden gevangenen bevrijd.”","Er zaten maar zeven gevangenen. De Bastille werd vooral bestormd vanwege het buskruit dat er lag, en omdat het een symbool was van de macht van de koning."]
+ ],
+ hoeWeten: [
+  "Er zijn ontelbare bronnen: wetten, verslagen van de vergaderingen, kranten, pamfletten, brieven en dagboeken. Schilderijen en prenten tonen de gebeurtenissen, vaak vanuit één partij gezien. Historici blijven discussiëren over de oorzaken en over de vraag of de revolutie meer goed dan kwaad bracht."
+ ],
+ nu: [
+  "Frankrijk viert op 14 juli zijn nationale feestdag. De leus “vrijheid, gelijkheid, broederschap” staat op Franse gemeentehuizen. De meter en de kilogram gebruiken we dagelijks. En de ideeën van de revolutie zie je terug in grondwetten en mensenrechtenverdragen, ook in Nederland."
+ ],
+ vertellen: "Tijdens de revolutie probeerden de Fransen zelfs de tijd te veranderen. Er kwam een nieuwe kalender met weken van tien dagen en maanden met namen als “Thermidor” (warmtemaand). Ook bestonden er klokken met tien uur per dag. Na een paar jaar werd dat weer afgeschaft.",
+ verbanden: [["De patriotten","Nederlandse vluchtelingen in Parijs"],["Bataafse Republiek","de revolutie kwam naar Nederland"],["Opstand van Tula","de idealen inspireerden ook tot slaaf gemaakten"],["Universele Verklaring van de Rechten van de Mens","een latere verklaring van rechten"]],
+ onderwijs: {"ka":["De democratische revoluties in westerse landen met als gevolg discussies over grondwetten, grondrechten en staatsburgerschap.","Rationeel optimisme en ‘verlicht denken’ dat werd toegepast op alle terreinen van de samenleving: godsdienst, politiek, economie en sociale verhoudingen."]},
  cijfers: [['Begin','1789'],['Bestorming van de Bastille','14 juli 1789'],['Leus','vrijheid, gelijkheid, broederschap'],['Einde','1799, Napoleon grijpt de macht']],
  figuren: [['Lodewijk XVI','koning van Frankrijk'],['Marie Antoinette','koningin van Frankrijk'],['Napoleon Bonaparte','generaal die in 1799 de macht greep']],
  bronnen: [['Wikipedia: Franse Revolutie',W('Franse Revolutie')]]
