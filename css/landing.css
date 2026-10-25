@@ -501,8 +501,118 @@
 }
 .lp-doc .lp-doc-highlight p { margin: 0; color: var(--text-dark); }
 
+/* ---------- Tijdlijn van Nederland ---------- */
+/* Warme band in de kleuren van de tijdlijn zelf, zodat de sectie herkenbaar is als de tool waar hij naartoe linkt. */
+.lp-tl {
+    background: #FAF6EF;
+    border-top: 1px solid #ECE5D8;
+    border-bottom: 1px solid #ECE5D8;
+    scroll-margin-top: 70px;
+}
+.lp-tl-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 64px 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 48px;
+    align-items: center;
+}
+.lp-tl-eyebrow {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: #F1E4C8;
+    color: #6E4F14;
+    font-size: 0.85rem;
+    font-weight: 800;
+    margin-bottom: 14px;
+}
+.lp-tl h2 {
+    font-size: clamp(1.5rem, 3.2vw, 2.1rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: #1F2430;
+    margin-bottom: 14px;
+}
+.lp-tl-text > p {
+    color: #4A5060;
+    font-size: 1.02rem;
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+.lp-tl-text > p strong { color: #2E3442; }
+.lp-tl-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.lp-tl-band {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+}
+.lp-tl-band i {
+    flex: 1;
+    height: 10px;
+    border-radius: 999px;
+    background: var(--c);
+}
+.lp-tl-cards {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+.lp-tl-cards a {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #fff;
+    border: 2px solid #ECE5D8;
+    border-radius: 18px;
+    overflow: hidden;
+    text-decoration: none;
+    color: #1F2430;
+    box-shadow: 0 4px 0 #EFE8DB;
+    transition: var(--transition);
+}
+.lp-tl-cards a:hover {
+    transform: translateY(-3px);
+    border-color: #C9A04E;
+}
+.lp-tl-cards img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: #F1ECE2;
+}
+.lp-tl-year {
+    margin: 12px 14px 2px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: color-mix(in srgb, var(--c) 60%, #1F2430);
+}
+.lp-tl-cards strong {
+    margin: 0 14px 14px;
+    font-size: 1.02rem;
+    line-height: 1.25;
+}
+.lp-tl-credit {
+    margin-top: 12px;
+    font-size: 0.75rem;
+    color: #6B7080;
+}
+.lp-tl-credit a { color: inherit; }
+@media (max-width: 860px) {
+    .lp-tl-inner { grid-template-columns: 1fr; gap: 32px; }
+}
+
 /* ---------- Mobiel ---------- */
 @media (max-width: 560px) {
+    .lp-tl-inner { padding: 48px 18px; }
     .lp-header { padding: 12px 14px; gap: 8px; }
     .lp-header .lp-btn { padding: 8px 12px; font-size: 0.85rem; }
     .lp-header-actions { gap: 8px; }

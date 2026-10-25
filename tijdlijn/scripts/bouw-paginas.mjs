@@ -39,7 +39,7 @@ const credit = im => `<span class="credit">Foto: ${esc(im.by)} · ${im.licUrl ? 
 const figHTML = (im, k) => `<figure><div class="ph"><img src="${esc(im.src)}" alt="${esc(im.cap)}"${k ? ' loading="lazy"' : ''} referrerpolicy="no-referrer" onload="this.closest('figure').style.setProperty('--ar',(this.naturalWidth/this.naturalHeight).toFixed(3))" onerror="this.closest('figure').remove()"></div><figcaption>${esc(im.cap)}${credit(im)}</figcaption></figure>`;
 const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, '\\u003c')}</script>`;
 
-const MTBAR = `<nav class="mtbar px" aria-label="Meestertools"><a class="mtlogo" href="/"><img src="/assets/badge-96.png" alt="" width="26" height="26"><b>Meestertools</b></a><span class="mtsub">Gratis tools voor in de klas</span><a class="mtgo" href="/">Bekijk alle tools →</a></nav>`;
+const MTBAR = `<nav class="mtbar px" aria-label="Meestertools"><a class="mtlogo" href="/"><img src="/assets/badge-96.png" alt="" width="26" height="26"><b>Meestertools</b></a><span class="mtsub">Gratis tools voor in de klas</span><a class="mtgo" href="/">Bekijk alle tools →</a></nav><script src="js/mtbar.js"></script>`;
 const FOOT = `<footer class="px">Basis: de 50 vensters van de <a href="https://www.canonvannederland.nl" target="_blank" rel="noopener">Canon van Nederland</a> (herijkt in 2020), aangevuld met andere gebeurtenissen, Limburgse geschiedenis en beide wereldoorlogen. Jaartallen in de prehistorie zijn benaderingen.<br>© 2026 Koen Kerkvliet · Afbeeldingen via Wikimedia Commons, met hun eigen licenties; maker en bron staan bij elke afbeelding.<br><a href="./">Interactieve tijdlijn</a> · <a href="onderwerpen">Alle onderwerpen</a> · <a href="/">Meestertools</a> · <a href="/privacy">Privacy</a></footer>`;
 const CTA = `<section class="spcta"><div><h3>Meer gratis tools voor in de klas</h3><p>Meestertools heeft tientallen gratis tools voor leerkrachten in het basisonderwijs: van digibordtools en energizers tot groepsvorming en lesmateriaal.</p></div><div class="btns"><a class="btn dk" href="/">Bekijk Meestertools</a><a class="btn" href="/registreer">Gratis account</a></div></section>`;
 
@@ -94,7 +94,7 @@ function eventPage(e) {
     { '@type': 'ListItem', position: 1, name: 'Meestertools', item: 'https://meestertools.nl/' },
     { '@type': 'ListItem', position: 2, name: 'Tijdlijn van Nederland', item: BASE },
     { '@type': 'ListItem', position: 3, name: e.t, item: url }] });
-  return head({ title, desc, url, image: imgs[0] ? abs(imgs[0].src) : 'https://meestertools.nl/assets/og-image.png', type: 'article', extra: breadcrumbLd + '\n' }) + `<body class="sp">
+  return head({ title, desc, url, image: imgs[0] ? abs(imgs[0].src) : BASE + 'og-tijdlijn.jpg', type: 'article', extra: breadcrumbLd + '\n' }) + `<body class="sp">
 ${MTBAR}
 <main class="pgin px spin">
   <nav class="crumbs" aria-label="Kruimelpad">${crumbs.map(([n, h]) => h ? `<a href="${h}">${esc(n)}</a>` : `<span>${esc(n)}</span>`).join('<i aria-hidden="true">›</i>')}</nav>
@@ -125,7 +125,7 @@ function overviewPage() {
   const group = (name, sub, list) => `<section class="ovgroup"><h2>${esc(name)}<small>${esc(sub)}</small></h2><ul class="ovlist">${list.map(e => `<li><span class="yr">${esc(e.d)}</span><a href="${EVSLUG[e.id]}">${esc(e.t)}</a></li>`).join('')}</ul></section>`;
   const eras = ERAS.map(er => [er, MAIN.filter(e => e.era === er)]).filter(([, l]) => l.length);
   const desc = `Alle ${EVENTS.length + WEV.length} onderwerpen van de Tijdlijn van Nederland op een rij: van de Neanderthalers bij Maastricht tot nu, met de Eerste en Tweede Wereldoorlog uitgewerkt.`;
-  return head({ title: 'Alle onderwerpen – Tijdlijn van Nederland | Meestertools', desc, url: BASE + 'onderwerpen', image: 'https://meestertools.nl/assets/og-image.png' }) + `<body class="sp">
+  return head({ title: 'Alle onderwerpen – Tijdlijn van Nederland | Meestertools', desc, url: BASE + 'onderwerpen', image: BASE + 'og-tijdlijn.jpg' }) + `<body class="sp">
 ${MTBAR}
 <main class="pgin px spin">
   <nav class="crumbs" aria-label="Kruimelpad"><a href="./">Tijdlijn</a><i aria-hidden="true">›</i><span>Alle onderwerpen</span></nav>

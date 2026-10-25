@@ -2,9 +2,9 @@
 // - Pagina en gegevens: eerst het netwerk (zo zie je updates meteen), offline uit de cache.
 // - Afbeeldingen: uit de cache zodra ze één keer bekeken zijn.
 // - Lettertypen en de pdf-maker (externe bronnen): cache, op de achtergrond ververst.
-const VERSION = 'v7';
+const VERSION = 'v8';
 const SHELL = 'tijdlijn-shell-' + VERSION;
-const IMG = 'tijdlijn-img-v1';
+const IMG = 'tijdlijn-img-v2';
 const EXT = 'tijdlijn-ext-v1';
 const PRECACHE = [
   './',
@@ -13,6 +13,7 @@ const PRECACHE = [
   './manifest.webmanifest',
   './js/data.js',
   './js/slugs.js',
+  './js/mtbar.js',
   './icons/icon.svg',
   './icons/icon-192.png',
   "./js/details-20e.js",
@@ -37,7 +38,8 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k.startsWith('tijdlijn-shell-') && k !== SHELL).map(k => caches.delete(k))))
+      // oude versies van de eigen caches weg (ook de afbeeldingen van vóór de overstap op WebP)
+      .then(keys => Promise.all(keys.filter(k => k.startsWith('tijdlijn-') && ![SHELL, IMG, EXT].includes(k)).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });

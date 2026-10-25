@@ -28,8 +28,8 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Meestertools - Gratis digitale tools voor de basisschool</title>
-    <link rel="stylesheet" href="css/style.css?v=1.61.0">
-    <link rel="stylesheet" href="css/landing.css?v=1.61.0">
+    <link rel="stylesheet" href="css/style.css?v=1.61.1">
+    <link rel="stylesheet" href="css/landing.css?v=1.61.1">
 
     <!-- Structured data -->
     <script type="application/ld+json">
@@ -127,6 +127,36 @@
                 <span class="lp-usp-icon">&#128424;&#65039;</span>
                 <strong>Printklaar in een paar klikken</strong>
                 <span>Werkbladen, naamkaarten, leerlingcodes en kleurplaten rollen als kant-en-klare PDF uit de tool.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Tijdlijn van Nederland (openbare tool, eigen pagina's per gebeurtenis onder /tijdlijn/) ===== -->
+    <section class="lp-tl" id="tijdlijn" aria-labelledby="lp-tl-title">
+        <div class="lp-tl-inner">
+            <div class="lp-tl-text">
+                <span class="lp-tl-eyebrow">Nieuw &middot; gratis en zonder account</span>
+                <h2 id="lp-tl-title">Tijdlijn van Nederland: geschiedenis voor in de klas</h2>
+                <p>Van de Neanderthalers bij Maastricht tot nu. Een interactieve tijdlijn voor het digibord met de vensters van de <strong>Canon van Nederland</strong>, de <strong>tien tijdvakken</strong>, Limburgse geschiedenis en de <strong>Eerste en Tweede Wereldoorlog</strong> maand voor maand.</p>
+                <ul class="lp-check-list">
+                    <li>211 onderwerpen, elk met een eigen pagina: de aanloop, wat er gebeurde, kerncijfers en sleutelfiguren.</li>
+                    <li>Ruim 400 video's van Schooltv, ingedeeld voor middenbouw, bovenbouw en voortgezet onderwijs.</li>
+                    <li>Zoeken, filteren op Canon of Limburg en een achtergrondpagina opslaan als pdf.</li>
+                </ul>
+                <div class="lp-tl-cta">
+                    <a href="/tijdlijn/" class="lp-btn lp-btn-primary lp-btn-big">Open de tijdlijn</a>
+                    <a href="/tijdlijn/onderwerpen" class="lp-btn lp-btn-ghost lp-btn-big">Alle 211 onderwerpen</a>
+                </div>
+            </div>
+            <div class="lp-tl-visual">
+                <div class="lp-tl-band" aria-hidden="true"><i style="--c:#C9A04E"></i><i style="--c:#D7735F"></i><i style="--c:#6E9C66"></i><i style="--c:#5E9AAB"></i><i style="--c:#D98A4A"></i><i style="--c:#C9A21E"></i><i style="--c:#C474A6"></i><i style="--c:#6F87C9"></i><i style="--c:#4FA196"></i><i style="--c:#8E8C6B"></i><i style="--c:#8C74C9"></i></div>
+                <ol class="lp-tl-cards">
+                    <li><a href="/tijdlijn/hunebedden"><img src="/assets/tijdlijn/hunebedden.webp" width="640" height="480" loading="lazy" alt="Hunebed D27 bij Borger, het grootste hunebed van Nederland"><span class="lp-tl-year" style="--c:#C9A04E">ca. 3400 v.C.</span><strong>Hunebedden</strong></a></li>
+                    <li><a href="/tijdlijn/karel-de-grote"><img src="/assets/tijdlijn/karel-de-grote.webp" width="640" height="480" loading="lazy" alt="Karel de Grote, geschilderd door Albrecht D&uuml;rer"><span class="lp-tl-year" style="--c:#6E9C66">768</span><strong>Karel de Grote</strong></a></li>
+                    <li><a href="/tijdlijn/de-nachtwacht"><img src="/assets/tijdlijn/de-nachtwacht.webp" width="640" height="480" loading="lazy" alt="De Nachtwacht van Rembrandt, 1642"><span class="lp-tl-year" style="--c:#C9A21E">1642</span><strong>De Nachtwacht</strong></a></li>
+                    <li><a href="/tijdlijn/afsluitdijk"><img src="/assets/tijdlijn/afsluitdijk.webp" width="640" height="480" loading="lazy" alt="De sluiting van de Zuiderzee in 1932, getekend door J.H. van Mastenbroek"><span class="lp-tl-year" style="--c:#8E8C6B">1932</span><strong>Afsluitdijk</strong></a></li>
+                </ol>
+                <p class="lp-tl-credit">Foto hunebed: IJsbrand Heins / RCE, <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" target="_blank">CC BY-SA 4.0</a>. Overige afbeeldingen: publiek domein, via Wikimedia Commons.</p>
             </div>
         </div>
     </section>
@@ -323,7 +353,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.61.0"></script>
+    <script src="js/supabase-config.js?v=1.61.1"></script>
     <script>
         // Jaar in de footer + ingelogde leerkrachten direct door naar het dashboard.
         document.getElementById('lpYear').textContent = new Date().getFullYear();

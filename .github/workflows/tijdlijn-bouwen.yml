@@ -2,8 +2,9 @@ name: Tijdlijn bouwen
 
 # Na een wijziging in de tijdlijn-gegevens:
 # 1. nieuwe afbeeldingen van Wikimedia Commons lokaal opslaan in tijdlijn/img/
-# 2. de losse pagina's per gebeurtenis, het overzicht en de sitemap opnieuw maken
-# In deze volgorde, zodat de pagina's naar de lokale afbeeldingen wijzen.
+# 2. die afbeeldingen omzetten naar WebP
+# 3. de losse pagina's per gebeurtenis, het overzicht en de sitemap opnieuw maken
+# In deze volgorde, zodat de pagina's naar de lokale WebP-bestanden wijzen.
 # Ook met de hand te starten: Actions → "Tijdlijn bouwen" → Run workflow.
 on:
   workflow_dispatch:
@@ -33,6 +34,11 @@ jobs:
 
       - name: Afbeeldingen ophalen van Wikimedia Commons
         run: python3 tijdlijn/scripts/download_afbeeldingen.py
+
+      - name: Afbeeldingen omzetten naar WebP
+        run: |
+          pip install --quiet pillow
+          python3 tijdlijn/scripts/naar_webp.py
 
       - name: Pagina's per gebeurtenis maken
         run: node tijdlijn/scripts/bouw-paginas.mjs
