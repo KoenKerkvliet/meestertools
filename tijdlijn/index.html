@@ -340,7 +340,7 @@ function openPage(id){
        ${VERDIEPING.zijBoven(D,'h3',esc)}
        <div class="box"><h3>Kerncijfers</h3><dl class="facts">${D.cijfers.map(([a,b])=>`<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl></div>
        <div class="box"><h3>Sleutelfiguren</h3><ul class="people">${D.figuren.map(([n,r])=>`<li><span class="av" style="background:${H.bg};color:${H.ink}">${esc(ini(n))}</span><div><b>${esc(n)}</b><span>${esc(r)}</span></div></li>`).join('')}</ul></div>
-       ${VERDIEPING.zijOnder(D,'h3',esc,{tijdvak:e.war?null:SCHOOL.find(s=>e.y>=s.s&&e.y<s.e),href:t=>{const x=EVENTS.concat(WEV).find(v=>v.t===t);return x&&DETAILS[x.t]?'#'+EVSLUG[x.id]+'/lees':null}})}
+       ${VERDIEPING.zijOnder(D,'h3',esc,{tijdvak:(e.war||D.geenTijdvak)?null:SCHOOL.find(s=>e.y>=s.s&&e.y<s.e),href:t=>{const x=EVENTS.concat(WEV).find(v=>v.t===t);return x&&DETAILS[x.t]?'#'+EVSLUG[x.id]+'/lees':null}})}
        <div class="box"><h3>Verder lezen</h3><ul class="links">${D.bronnen.map(([l,u])=>`<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a></li>`).join('')}</ul></div>
      </aside>
    </div>

@@ -15,6 +15,26 @@ Object.assign(window.DETAILS, {
   'Uit de vondsten blijkt dat de jagers hun prooi ter plekke slachtten. Verhitte vuursteen wijst waarschijnlijk op het gebruik van vuur. Ook werden kleine resten rode oker gevonden, een kleurstof die mogelijk voor versiering of het bewerken van huiden werd gebruikt.',
   'Belvédère behoort tot de oudste vindplaatsen van mensachtigen in Nederland. De vondsten helpen begrijpen hoe Neanderthalers leefden in een gebied dat telkens weer onder invloed van ijstijden stond.'
  ],
+ gevolgen: [
+  "De vondsten in Belvédère lieten zien dat Neanderthalers geen domme holbewoners waren. Ze konden vuur gebruiken, jaagden in groepen op grote dieren en maakten zorgvuldig bewerkte werktuigen. Ze trokken door een landschap dat telkens veranderde door de ijstijden.",
+  "Uit een latere fase, rond 80.000 jaar geleden, zijn in dezelfde groeve ook resten van een kampement van Neanderthalers gevonden. Op dezelfde plek woonden veel later, rond 5000 voor Christus, ook de eerste boeren. Zo is de groeve een venster op honderdduizenden jaren geschiedenis."
+ ],
+ perspectieven: [
+  "Lange tijd werden Neanderthalers voorgesteld als primitieve, half-dierlijke wezens. Toen in 1856 in het Neandertal bij Düsseldorf een schedel werd gevonden, dacht een bekende geleerde zelfs aan een zieke, misvormde mens. Inmiddels weten we dat ze vuur gebruikten, hun doden begroeven en kleurstoffen als oker gebruikten."
+ ],
+ misverstanden: [
+  ["“Neanderthalers zijn onze voorouders.”","Neanderthalers en moderne mensen hebben een gemeenschappelijke voorouder. Ze leefden een tijd naast elkaar en kregen soms samen kinderen. Daardoor hebben mensen buiten Afrika nu nog een klein deel, ongeveer 1 tot 2 procent, Neanderthaler-DNA."],
+  ["“In Nederland zijn nooit botten van Neanderthalers gevonden.”","In Belvédère niet, maar wel elders. Voor de Zeeuwse kust werd een stuk schedel van een Neanderthaler opgevist, dat in 2009 werd gepresenteerd. Het kreeg de naam Krijn. Het is tot nu toe het enige Neanderthalerfossiel uit de Noordzee."]
+ ],
+ hoeWeten: [
+  "Archeologen van de Universiteit Leiden groeven jarenlang in Belvédère. Ze legden van elk stuk vuursteen precies vast waar het lag. Door stukken die bij elkaar horen weer aan elkaar te passen, konden ze zien waar de jagers zaten te werken. De ouderdom bepaalden ze met verschillende dateringsmethoden."
+ ],
+ nu: [
+  "Belvédère is een stuk van de stad Maastricht geworden; de kleigroeve is nog deels in gebruik. Vondsten zijn te zien in het Natuurhistorisch Museum Maastricht en in het Rijksmuseum van Oudheden. Al in 1829 werden in een grot bij Engis, vlak bij Luik, resten van een Neanderthaler gevonden, toen nog zonder dat men wist wat het was."
+ ],
+ vertellen: "Krijn, de Neanderthaler uit de Noordzee, werd gevonden door een amateur-paleontoloog die het stukje bot in zijn rommelbak had liggen. Pas later zag een kenner de dikke wenkbrauwboog, typisch voor een Neanderthaler. Krijn was een jonge man die tussen 50.000 en 35.000 jaar geleden leefde, toen de Noordzee nog droog land was.",
+ verbanden: [["De Maashagedis","een veel ouder fossiel uit de groeves rond Maastricht"],["Trijntje","het oudste skelet van een moderne mens in Nederland"],["Eerste boeren in Zuid-Limburg","ook in Belvédère woonden later de eerste boeren"]],
+ onderwijs: {"ka":["De levenswijze van jager-verzamelaars."]},
  cijfers: [['Ouderdom','ca. 250.000 – 200.000 jaar'],['Ontdekking','1980'],['Menselijke botten','niet gevonden'],['Ligging','Maasdal bij Maastricht']],
  figuren: [['Groeve Belvédère','vindplaats aan de rand van Maastricht'],['Wil Roebroeks','archeoloog, leidde het onderzoek'],['Neanderthalers','jagers uit de oude steentijd']],
  bronnen: [['Wikipedia: Belvédère (Maastricht)',W('Belvédère groeve Maastricht Neanderthaler')],['Wikipedia: Neanderthaler',W('Neanderthaler')]]
@@ -30,6 +50,26 @@ Object.assign(window.DETAILS, {
   'Uit de vindplaatsen blijkt hoe Trijntje en haar groep leefden. Ze visten, jaagden op dieren als bever en otter, verzamelden noten en planten en verplaatsten zich waarschijnlijk per kano door het natte landschap. Ook zijn er resten van honden gevonden.',
   'Trijntje leefde in een overgangstijd. Niet ver hiervandaan begonnen kort daarna de eerste boeren, en contacten tussen jagers en boeren werden in de eeuwen daarna steeds belangrijker. Langzaam namen de jager-verzamelaars zelf elementen van de landbouw over, zoals vee en aardewerk.'
  ],
+ gevolgen: [
+  "De vondst liet zien hoe rijk het leven van jager-verzamelaars in het rivierengebied kon zijn. Er was vis, wild, vogels, noten en planten in overvloed. Mensen keerden steeds terug naar dezelfde rivierduinen, waar ze een deel van het jaar woonden.",
+  "De vindplaatsen bij Hardinxveld-Giessendam behoren tot de belangrijkste uit de midden-steentijd in Nederland. Behalve Trijntje werden er ook andere graven gevonden, en zelfs begraven honden."
+ ],
+ perspectieven: [
+  "We noemen jager-verzamelaars vaak “primitief”, maar Trijntje was ongeveer 50 jaar, moeder van meerdere kinderen en in goede gezondheid. Haar groep kende het landschap en de seizoenen goed, en kon in een moeilijk, nat gebied goed leven. Dat vraagt veel kennis en vaardigheid."
+ ],
+ misverstanden: [
+  ["“Jager-verzamelaars trokken altijd rond.”","Veel groepen keerden ieder jaar terug naar dezelfde plekken, en bleven er soms maanden. Op de rivierduinen bij Hardinxveld werd eeuwenlang telkens weer gewoond."],
+  ["“Mensen werden in de steentijd niet oud.”","Veel kinderen stierven jong, waardoor de gemiddelde leeftijd laag was. Maar wie de kindertijd overleefde, kon best oud worden. Trijntje werd ongeveer 50 jaar."]
+ ],
+ hoeWeten: [
+  "Het skelet werd onderzocht door fysisch antropologen. Aan het bekken zagen ze dat Trijntje meerdere kinderen had gekregen, aan de botten hoe lang ze was: ongeveer 1,58 meter. Haar tanden waren sterk afgesleten, door ruw voedsel of doordat ze dierenhuiden met haar tanden bewerkte. Met de koolstofmethode werd bepaald hoe oud het skelet is."
+ ],
+ nu: [
+  "Een reconstructie van Trijntje is te zien in museum De Koperen Knop in Hardinxveld-Giessendam. Trijntje staat als eerste venster in de Canon van Nederland. Ook de kano van Pesse, de oudste bekende boot ter wereld, uit ongeveer 8000 voor Christus, laat zien hoe mensen zich in deze tijd over het water verplaatsten."
+ ],
+ vertellen: "Waarom heet ze Trijntje? Ze werd gevonden bij het graven voor de Betuweroute, de spoorlijn voor goederentreinen. De naam is een woordgrap: een vrouwennaam, en tegelijk een verwijzing naar de treinen die er later langs zouden rijden. Er reed zelfs een trein die naar haar was genoemd.",
+ verbanden: [["Eerste boeren in Zuid-Limburg","de eerste boeren leefden in dezelfde tijd"],["Neanderthalers bij Maastricht","een veel oudere mensensoort"],["Hunebedden","later bouwden boeren grote graven"]],
+ onderwijs: {"ka":["De levenswijze van jager-verzamelaars."],"venster":"1. Trijntje"},
  cijfers: [['Begraven','ca. 5500 v.C.'],['Gevonden','1997'],['Vindplaats','rivierduin bij Hardinxveld-Giessendam'],['Periode','midden-steentijd (mesolithicum)']],
  figuren: [['Trijntje','jager-verzamelaar uit het rivierengebied'],['Hardinxveld-Giessendam','vindplaats bij de Betuweroute'],['Jager-verzamelaars','bewoners van de rivierduinen']],
  bronnen: [CANON,['Wikipedia: Trijntje',W('Trijntje skelet')],['Wikipedia: Mesolithicum',W('Mesolithicum')]]
@@ -45,6 +85,27 @@ Object.assign(window.DETAILS, {
   'Bij Elsloo ontdekte archeoloog Pieter Modderman in de jaren 1950 en 1960 een groot dorp en een grafveld met meer dan honderd graven. Ook bij Stein, Sittard en Geleen zijn nederzettingen opgegraven. Daar vonden archeologen onder meer paalsporen van huizen, kuilen met afval, maalstenen en vuurstenen sikkels.',
   'Rond 4900 voor Christus verdwijnt de bandkeramiek uit Limburg. Toch was de stap naar landbouw blijvend. Jagen en verzamelen werd vanaf nu steeds meer vervangen door een vaste woonplaats en eigen voedselproductie.'
  ],
+ gevolgen: [
+  "Met de landbouw veranderde het leven ingrijpend. Mensen woonden voortaan op één plek, bouwden grote huizen en sloegen voorraden op. Er kwamen meer mensen: in Zuid-Limburg groeide de bevolking in deze tijd naar schatting zeven keer.",
+  "Het landschap veranderde mee. Bos werd gekapt voor akkers en weiden, en door begrazing bleven open plekken open. Voor het eerst gaven mensen het landschap op grote schaal een eigen vorm."
+ ],
+ perspectieven: [
+  "Waren de eerste boeren nieuwkomers, of namen de jager-verzamelaars de landbouw over? Lang was dat een grote vraag. DNA-onderzoek van de laatste jaren wijst erop dat de eerste boeren in Midden- en West-Europa grotendeels nieuwkomers waren, met voorouders uit Anatolië, het huidige Turkije. Ze vermengden zich later met de jager-verzamelaars.",
+  "Het leven als boer was niet alleen vooruitgang. Boeren werkten hard, aten minder gevarieerd en kregen meer ziektes door het samenleven met vee. Uit Duitsland zijn bandkeramische massagraven bekend, die laten zien dat er ook geweld was tussen groepen."
+ ],
+ misverstanden: [
+  ["“De boeren kwamen en de jagers verdwenen meteen.”","Boeren en jager-verzamelaars leefden nog eeuwen naast elkaar. In het noorden en westen van Nederland bleven mensen nog lang jagen en vissen, zoals Trijntje en haar groep."],
+  ["“De eerste boeren woonden in hutjes.”","De Bandkeramiekers bouwden grote langhuizen, van 6 tot 8 meter breed en 20 tot 35 meter lang, met vijf rijen palen. Het waren stevige gebouwen voor een hele familie."]
+ ],
+ hoeWeten: [
+  "Archeologen vinden de huizen terug als donkere verkleuringen in de bodem: de sporen van de palen. Uit het aardewerk, de vuurstenen werktuigen en verkoolde graankorrels blijkt hoe mensen leefden. In Elsloo werd een grafveld met ruim honderd graven onderzocht. Potten uit Elsloo zijn tot in Sittard en Simpelveld teruggevonden."
+ ],
+ nu: [
+  "In het museum van Elsloo en in het Limburgs Museum in Venlo zijn vondsten van de eerste boeren te zien. In het Belgische Aubechies staat een gereconstrueerd bandkeramisch dorp. De lössgrond van Zuid-Limburg wordt nog altijd gebruikt voor akkerbouw, ruim zevenduizend jaar later."
+ ],
+ vertellen: "De Bandkeramiekers zijn genoemd naar hun potten. Ze versierden die met lijnen en banden, die ze met een stokje of bot in de natte klei krasten. Aan die versieringen kunnen archeologen precies zien uit welke tijd een pot komt. Een leuke opdracht: laat leerlingen een pot ontwerpen met eigen “banden”.",
+ verbanden: [["Trijntje","jager-verzamelaars uit dezelfde tijd"],["Vuursteenmijnen van Rijckholt","latere boeren groeven vuursteen voor bijlen"],["Villa’s in het Heuvelland","veel later boerden ook de Romeinen op de löss"]],
+ onderwijs: {"ka":["Het ontstaan van landbouw en landbouwsamenlevingen."]},
  cijfers: [['Aankomst','ca. 5300 v.C.'],['Einde bandkeramiek','ca. 4900 v.C.'],['Graven Elsloo','ruim 100'],['Bodem','vruchtbare löss']],
  figuren: [['Bandkeramiekers','eerste boeren van Nederland'],['Pieter Modderman','archeoloog, groef Elsloo en Stein op'],['Elsloo','dorp en grafveld aan de Maas']],
  bronnen: [['Wikipedia: Bandkeramische cultuur',W('Bandkeramische cultuur')],['Wikipedia: Neolithicum',W('Neolithicum')]]
@@ -60,6 +121,26 @@ Object.assign(window.DETAILS, {
   'Tussen 1964 en 1972 groef een werkgroep van vrijwilligers een tunnel door het mijngebied. Ze vonden tientallen schachten en duizenden gebroken werktuigen. Het totaal aantal schachten wordt op enkele duizenden geschat.',
   'De mijnen laten zien dat er al grootschalige, georganiseerde winning van grondstoffen was. Bijlen van Rijckholt-vuursteen zijn ver buiten Limburg teruggevonden. Een deel van de gangen is nog te bezoeken. Het mijngebied is een beschermd archeologisch monument en behoort tot de belangrijkste prehistorische vindplaatsen van Limburg.'
  ],
+ gevolgen: [
+  "Er werd op grote schaal geproduceerd. Volgens een schatting werden er zo’n 25.000 bijlen en messen per jaar gemaakt, en in de hele periode dat de mijnen in gebruik waren, ongeveer 12,5 miljoen vuurstenen producten. Bijlen van deze vuursteen werden ver weg verhandeld.",
+  "Wie zulke bijlen had, kon makkelijker bos kappen voor akkers en hout. De mijnen hoorden dus bij een grotere verandering: de boeren gingen het landschap steeds verder ontginnen."
+ ],
+ perspectieven: [
+  "Mijnbouw was zwaar en gevaarlijk werk. De gangen waren laag en smal, en er was weinig licht. De mijnen liggen daarom dicht bij elkaar: de mijnwerkers waren afhankelijk van het daglicht dat door de schachten naar beneden viel. Wie het werk deed en hoe het georganiseerd was, weten we niet."
+ ],
+ misverstanden: [
+  ["“Prehistorische mensen raapten hun vuursteen gewoon op.”","Vuursteen aan het oppervlak was vaak verweerd en brak snel. Voor goede bijlen groeven de mijnwerkers schachten van 5 tot 12 meter diep, tot in de lagen met verse vuursteen."],
+  ["“De mijnen zijn pas in de 20e eeuw ontdekt.”","Al in 1910 werden de eerste mijnschachten herkend, en tussen 1928 en 1932 werden veel schachten vrijgemaakt met hulp van Franse paters. Het grote onderzoek met de tunnel volgde in de jaren zestig."]
+ ],
+ hoeWeten: [
+  "Bij het onderzoek kwamen meer dan honderd werktuigen van hertshoorn en ongeveer 1200 vuurstenen bijlen tevoorschijn. In het onderzochte deel van 3000 vierkante meter werden zeker 75 schachten gevonden. Door te dateren kunnen archeologen vaststellen wanneer er gemijnd werd."
+ ],
+ nu: [
+  "De mijnen worden beheerd door de Van Schaïkstichting en zijn bij rondleidingen te bezoeken. In de tunnel zie je de doorsneden van schachten en gangen. Vergelijkbare mijnen zijn er in het Belgische Spiennes, die op de werelderfgoedlijst van UNESCO staan."
+ ],
+ vertellen: "De mijnwerkers hakten de vuursteen los met gereedschap van hertshoorn en met knollen vuursteen als hamer. Het gewei van een edelhert is hard en buigzaam tegelijk, en werkt als een houweel. Laat leerlingen bedenken: welke dingen uit de natuur kun je gebruiken als gereedschap, als er nog geen metaal is?",
+ verbanden: [["Eerste boeren in Zuid-Limburg","de eerste boeren op dezelfde lössgronden"],["Hunebedden","boeren in het noorden uit ongeveer dezelfde tijd"],["Steenkoolmijnen in Parkstad","veel latere mijnbouw in Limburg"]],
+ onderwijs: {"ka":["Het ontstaan van landbouw en landbouwsamenlevingen."]},
  cijfers: [['Begin winning','ca. 4000 v.C.'],['Opgraving','1964 – 1972'],['Geschat aantal schachten','enkele duizenden'],['Product','bijlen (ruw gevormd)']],
  figuren: [['Michelsbergcultuur','boeren die de mijnen waarschijnlijk exploiteerden'],['Werkgroep Prehistorische Vuursteenmijnbouw','vrijwilligers die de mijnen onderzochten']],
  bronnen: [['Wikipedia: Vuursteenmijn van Rijckholt',W('Vuursteenmijnen Rijckholt')],['Wikipedia: Vuursteen',W('Vuursteen')]]
@@ -75,12 +156,33 @@ Object.assign(window.DETAILS, {
   'Op een pot uit Bronocice in Zuid-Polen staat een tekening van een wagen. In Slovenië werd in het veen een houten wiel met een as gevonden, het oudste houten wiel dat we kennen. Ook in Mesopotamië draaide een schijf, bij de pottenbakkers: de draaischijf, waarop ze aardewerk maakten.',
   'De eerste wielen waren massieve houten schijven. Later kwamen er spaken, zodat wielen lichter werden. Zonder wiel hadden er geen wagens, watermolens en tandwielen bestaan, en later ook geen fietsen, treinen en auto’s.'
  ],
+ gevolgen: [
+  "Met wagens konden boeren zware vrachten vervoeren, zoals graan, hout en stenen. Ossen trokken de eerste wagens. Later, rond 2000 voor Christus, werden in de steppen van Oost-Europa wielen met spaken uitgevonden. Daarmee werden lichte en snelle strijdwagens gebouwd, getrokken door paarden.",
+  "Het principe van een draaiende schijf werd voor veel meer gebruikt: de pottenbakkersschijf, de waterrad, de molen en het tandwiel. Ook veel latere uitvindingen, van de fiets tot de klok, berusten op het wiel."
+ ],
+ perspectieven: [
+  "Het wiel was niet overal nuttig. In moerassige of bergachtige gebieden had je er weinig aan zonder wegen. In Amerika kenden volken als de Azteken wel speelgoed met wieltjes, maar ze gebruikten geen wagens, onder meer omdat ze geen grote trekdieren hadden. Een uitvinding werkt dus alleen als ze past bij het landschap en de dieren die er zijn."
+ ],
+ misverstanden: [
+  ["“Het wiel is uitgevonden door één persoon op één plek.”","De oudste wagens komen uit verschillende streken, ongeveer uit dezelfde tijd. Waarschijnlijk is het idee op meerdere plaatsen ontstaan, of verspreidde het zich heel snel."],
+  ["“De eerste wielen hadden spaken.”","De eerste wielen waren massieve houten schijven, vaak uit een paar planken. Wielen met spaken kwamen pas ruim duizend jaar later."]
+ ],
+ hoeWeten: [
+  "Houten wielen blijven alleen bewaard in een nat milieu zonder zuurstof, zoals veen. Daarom komen de oudste wielen uit moerassen, zoals in Slovenië. Ook in het Drentse veen zijn houten wielen gevonden van duizenden jaren oud. Afbeeldingen op potten en kleimodelletjes van wagens laten zien hoe ze eruitzagen."
+ ],
+ nu: [
+  "Het oudste bekende houten wiel met as, ruim 5000 jaar oud, wordt bewaard in het stadsmuseum van Ljubljana in Slovenië. Ook in Nederlandse musea zijn prehistorische wielen uit het veen te zien. Wielen zitten nu overal om ons heen, van de fiets tot de harde schijf in een oude computer."
+ ],
+ vertellen: "Een leuke opdracht: laat leerlingen een zware doos verplaatsen, eerst door te slepen, dan over rollende stokken, en ten slotte op een karretje met wielen en een as. Zo ontdekken ze zelf waarom het wiel zo handig is, en waarom een as nodig was om er een echte kar van te maken.",
+ verbanden: [["Hunebedden","stenen van vele tonnen werden zonder wielen verplaatst"],["Brons en grafheuvels","in de bronstijd kwamen spaakwielen"],["De stoommachine","een latere uitvinding met draaiende wielen"]],
+ onderwijs: {"ka":["Het ontstaan van landbouw en landbouwsamenlevingen.","Het ontstaan van de eerste stedelijke gemeenschappen."]},
  cijfers: [['Oudste wagens','ca. 3500 v.C.'],['Draaischijf uit Uruk','ca. 3130 v.C.'],['Oudste houten wiel','gevonden in Slovenië'],['Daarvoor','sleden en boomstammen']],
  figuren: [['Onbekende uitvinders','het wiel is op meerdere plekken bedacht'],['Pottenbakkers in Mesopotamië','gebruikten een draaischijf'],['Wagenbouwers','maakten de eerste karren']],
  bronnen: [['Wikipedia: Wiel',W('Wiel (voortbeweging)')],['Wikipedia: Wiel van Stare gmajne',W('Wiel van Stare gmajne')]]
 },
 
 'De Maashagedis': {
+ geenTijdvak: true, // ouder dan de schooltijdvakken (66 miljoen jaar)
  aanloop: [
   'Ongeveer 75 tot 66 miljoen jaar geleden, aan het eind van het Krijt, lag het zuiden van Limburg onder een ondiepe, warme zee. In die tijd leefden er ook dinosaurussen op het land, maar mensen bestonden nog lang niet.',
   'In die zee leefde de Mosasaurus. Het was geen dinosaurus, maar een reusachtig zeereptiel, familie van de varanen van nu. Mosasaurus hoffmannii werd naar schatting zo’n 17 tot 18 meter lang en was een toproofdier: hij at vissen, haaien, inktvissen en andere zeereptielen.'
@@ -93,6 +195,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'In de film Jurassic World is de Mosasaurus zo’n zestig meter lang. Het grootste exemplaar dat echt gevonden is, was ongeveer 17 meter: nog steeds zo lang als een flinke bus én een auto achter elkaar.'
  ],
+ gevolgen: [
+  "De Maashagedis werd een van de eerste fossielen waarmee wetenschappers lieten zien dat er dieren hebben geleefd die nu niet meer bestaan. Dat was rond 1800 een nieuw en spannend idee. Het hielp bij het ontstaan van de paleontologie, de wetenschap van fossielen.",
+  "In de mergelgroeven rond Maastricht werden daarna nog veel meer fossielen gevonden. In 1998 werd in de ENCI-groeve een groot deel van een Mosasaurus gevonden, die de bijnaam Bèr kreeg. Hij is te zien in het Natuurhistorisch Museum Maastricht."
+ ],
+ misverstanden: [
+  ["“De Mosasaurus was een dinosaurus.”","De Mosasaurus was een zeereptiel, nauwer verwant aan hagedissen en slangen dan aan dinosaurussen. Hij leefde wel in dezelfde tijd als de laatste dinosaurussen, en stierf ook met hen uit, ongeveer 66 miljoen jaar geleden."],
+  ["“De Fransen ruilden de schedel voor zeshonderd flessen wijn.”","Dat verhaal komt van een Franse geoloog die erbij was, maar het is grotendeels niet te bevestigen. Volgens hem beloofde de Franse commissaris zeshonderd flessen wijn aan de soldaten die de verstopte schedel vonden. Onderzoek in de archieven laat een ander, minder romantisch verhaal zien."]
+ ],
+ hoeWeten: [
+  "De oudste vondsten zijn beschreven in brieven en artikelen uit de 18e eeuw, onder meer door de Maastrichtse verzamelaar Hoffmann en de geleerde Petrus Camper. Moderne onderzoekers bestuderen de fossielen opnieuw, ook met scans. Aan de tanden, de kaken en de wervels kunnen ze zien hoe groot het dier was en wat het at."
+ ],
+ nu: [
+  "De schedel van 1778 ligt nog altijd in het Muséum national d’histoire naturelle in Parijs. De gemeente Maastricht heeft al vaker geprobeerd hem terug te krijgen; in 2023 besloot de gemeenteraad tot een nieuwe poging. De eerste schedel ligt in Teylers Museum in Haarlem. De ENCI-groeve is inmiddels gesloten en wordt een natuurgebied."
+ ],
+ vertellen: "Toen het Franse leger in 1794 Maastricht belegerde, wisten de Fransen al van de beroemde schedel. Volgens de verhalen lieten ze de kanonnen niet richten op het huis van de eigenaar, zodat het fossiel niet beschadigd zou raken. Of dat klopt, is niet zeker, maar het laat zien hoe beroemd de Maashagedis toen al was.",
+ verbanden: [["Neanderthalers bij Maastricht","een andere oude vondst uit de groeves rond Maastricht"],["Beleg van Maastricht","ook in andere oorlogen werd om Maastricht gevochten"],["De Franse Revolutie","revolutionaire troepen namen de schedel mee naar Parijs"]],
+ onderwijs: {"ka":[]},
  cijfers: [['Leefde','ca. 75 – 66 miljoen jaar geleden'],['Lengte','tot ca. 17 à 18 meter'],['Eerste schedel','rond 1766, nu in Teylers Museum'],['Tweede schedel','1778, nu in Parijs']],
  figuren: [['Georges Cuvier','Franse natuuronderzoeker die het dier verklaarde'],['Johann Leonard Hoffmann','Maastrichtse fossielenverzamelaar, naar hem heet de soort'],['Martinus van Marum','eerste directeur van Teylers Museum']],
  bronnen: [['Wikipedia: Mosasaurus',W('Mosasaurus')]]
@@ -108,6 +227,26 @@ Object.assign(window.DETAILS, {
   'Hoe de boeren stenen van vele tonnen verplaatsten, weten we niet precies. Waarschijnlijk gebruikten ze rollen, hefbomen en veel mankracht. In latere eeuwen dachten mensen dat reuzen, of Hunen, ze hadden gebouwd. Daar komt de naam hunebed vandaan. Pas in de 19e en 20e eeuw werd duidelijk dat het om graven van vroege boeren ging.',
   'Veel hunebedden werden gesloopt voor bouwsteen of dijkversterking. In 1734 kregen ze in Drenthe al bescherming. Er zijn er nog 54, waarvan 52 in Drenthe en 2 in Groningen. De grootste, D27, staat bij Borger.'
  ],
+ gevolgen: [
+  "Een hunebed was eerder een knekelhuis dan een graf voor één persoon. Generaties lang werden er doden in bijgezet, met potten, bijlen en sieraden. Soms ging het om tientallen of zelfs honderden mensen. Het hunebed was een gezamenlijke plek van de gemeenschap.",
+  "Rond 2900 voor Christus kwam er een andere manier van begraven: mensen werden voortaan alleen begraven, onder een kleinere grafheuvel. De hunebedden raakten in onbruik, maar bleven in het landschap staan."
+ ],
+ perspectieven: [
+  "In de 17e eeuw schreef de predikant Johan Picardt dat de hunebedden waren gebouwd door wrede reuzen. Dat paste bij de Bijbeluitleg van zijn tijd, waarin vóór de zondvloed reuzen op aarde leefden. Het laat zien hoe mensen het verleden verklaren met de kennis en het geloof van hun eigen tijd."
+ ],
+ misverstanden: [
+  ["“Hunebedden zagen er altijd uit zoals nu.”","Oorspronkelijk was een hunebed grotendeels bedekt met een heuvel van aarde en plaggen. De ruimte tussen de stenen was opgevuld met kleine stopstenen. Die zijn bijna allemaal verdwenen, zodat we nu alleen het stenen geraamte zien."],
+  ["“Hunebedden zijn alleen in Drenthe te vinden.”","In Nederland liggen ze bijna allemaal in Drenthe, maar in Duitsland en Denemarken zijn er nog honderden. In heel Europa komen vergelijkbare stenen graven voor, zoals de dolmens in Bretagne."]
+ ],
+ hoeWeten: [
+  "In 1685 liet de dichteres Titia Brongersma in Borger een groot hunebed opgraven. Dat was het eerste vastgelegde onderzoek van een hunebed in Nederland. In de 20e eeuw onderzocht archeoloog Van Giffen ze allemaal, gaf ze nummers en liet sommige restaureren. In de grafkamers vonden archeologen veel scherven van trechterbekers."
+ ],
+ nu: [
+  "In Borger staat het Hunebedcentrum, bij het grootste hunebed van Nederland. Het gebied van de Hondsrug is sinds 2015 een UNESCO Global Geopark. Elk hunebed heeft een nummer, dat Van Giffen ze gaf, zoals D27 voor het grootste bij Borger."
+ ],
+ vertellen: "Het woord hunebed komt waarschijnlijk van “Hunen”, reuzen. Lange tijd geloofden mensen dat alleen reuzen zulke zware stenen konden verplaatsen. Laat leerlingen bedenken hoe boeren zonder machines, en zonder wielen, een steen van twintig ton op zijn plaats kregen. Met boomstammen, touwen, hefbomen en heel veel mensen.",
+ verbanden: [["Het wiel","het wiel werd in dezelfde tijd uitgevonden, maar niet hier"],["Eerste boeren in Zuid-Limburg","eerdere boeren in het zuiden"],["Brons en grafheuvels","de grafheuvels die volgden"]],
+ onderwijs: {"ka":["Het ontstaan van landbouw en landbouwsamenlevingen."],"venster":"2. Hunebedden"},
  cijfers: [['Gebouwd','ca. 3400 – 3100 v.C.'],['Nog bewaard','54'],['Grootste','D27 bij Borger, ca. 22 m lang'],['Bescherming in Drenthe','1734']],
  figuren: [['Trechterbekercultuur','boeren die de hunebedden bouwden'],['Albert Egges van Giffen','archeoloog, onderzocht en nummerde de hunebedden'],['Hunebedcentrum Borger','museum bij het grootste hunebed']],
  bronnen: [CANON,['Wikipedia: Hunebed',W('Hunebed')],['Hunebedcentrum','https://www.hunebedcentrum.nl/']]
@@ -123,6 +262,26 @@ Object.assign(window.DETAILS, {
   'Belangrijke doden werden begraven onder ronde grafheuvels, soms omringd door een kring van palen of een greppel. Op de Veluwe, in Brabant en in Drenthe liggen er nog veel. Een bekend voorbeeld is het graf van de zogenaamde Vorst van Drouwen, met een bronzen zwaard als grafgift.',
   'Ook voorwerpen werden soms bewust in moerassen of rivieren gelegd, waarschijnlijk als offer. De ongelijkheid tussen mensen nam in deze periode zichtbaar toe. Tegelijk woonden de meeste mensen gewoon als boer in verspreide boerderijen, waar ze vee hielden en graan verbouwden.'
  ],
+ gevolgen: [
+  "Omdat brons uit verre streken kwam, ontstonden er handelsnetwerken door heel Europa. Barnsteen van de Oostzee, tin uit Engeland en koper uit de Alpen gingen van hand tot hand. Over de Drentse zandgronden liep mogelijk een handelsroute naar de barnsteenkust, en in Drenthe werd meer brons gegoten dan elders in Nederland.",
+  "Brons maakte verschillen tussen mensen groter. Wie bronzen wapens en sieraden had, liet daarmee zijn rijkdom en macht zien. Zo ontstond een kleine elite, die met rijke grafgiften werd begraven."
+ ],
+ perspectieven: [
+  "Brons was voor de meeste mensen onbereikbaar. Gewone boeren bleven werken met werktuigen van vuursteen, hout en been. De bronstijd was dus vooral een tijd van brons voor de elite, terwijl het dagelijks leven voor velen weinig veranderde."
+ ],
+ misverstanden: [
+  ["“In de bronstijd gebruikte iedereen brons.”","Brons was duur en zeldzaam, omdat koper en tin uit verre streken moesten komen. Vuursteen bleef nog lang in gebruik. Oud brons werd vaak omgesmolten tot nieuwe voorwerpen."],
+  ["“Een grafheuvel is een natuurlijke heuvel.”","Grafheuvels zijn door mensen opgeworpen, van zand en plaggen, boven een graf. Ze werden soms omringd door een krans van palen of een greppel. Op de hei zijn ze nog te herkennen als ronde bulten."]
+ ],
+ hoeWeten: [
+  "Van ongeveer 3000 grafheuvels in Nederland is de plek bekend, en 636 terreinen zijn beschermd als rijksmonument. Bij opgravingen vinden archeologen de sporen van de paalkransen, crematieresten en grafgiften. Ook bronzen voorwerpen die in moerassen of rivieren werden gelegd, vertellen over de gebruiken van toen."
+ ],
+ nu: [
+  "Op de Veluwe, de Utrechtse Heuvelrug, in Drenthe en in Brabant zijn veel grafheuvels te zien. Bij Toterfout-Halve Mijl bij Veldhoven liggen grafheuvels uit de midden-bronstijd, waarvan een deel is gereconstrueerd met paalkransen. In Limburg liggen bijvoorbeeld de grafheuvels van de Bosberg bij Swalmen."
+ ],
+ vertellen: "Brons is een mengsel van ongeveer negen delen koper en één deel tin. Koper alleen is te zacht voor een goede bijl, en tin alleen ook. Samen worden ze hard. Een mooi voorbeeld voor leerlingen van hoe mensen ontdekten dat twee zwakke materialen samen iets sterks kunnen maken.",
+ verbanden: [["Hunebedden","de oudere grote graven van de eerste boeren"],["Urnenvelden","de grafvelden die volgden"],["Vorstengraf van Oss","een zeer rijk graf uit de vroege ijzertijd"]],
+ onderwijs: {"ka":[]},
  cijfers: [['Begin bronstijd','ca. 2000 v.C.'],['Einde bronstijd','ca. 800 v.C.'],['Brons','ca. 9 delen koper op 1 deel tin'],['Grondstoffen','geïmporteerd']],
  figuren: [['Vorst van Drouwen','rijk begraven man uit de bronstijd'],['Albert Egges van Giffen','archeoloog, onderzocht veel grafheuvels']],
  bronnen: [['Wikipedia: Bronstijd',W('Bronstijd')],['Wikipedia: Grafheuvel',W('Grafheuvel')]]
@@ -138,6 +297,26 @@ Object.assign(window.DETAILS, {
   'Zo ontstonden grafvelden met tientallen tot honderden graven, die soms eeuwenlang in gebruik bleven. Ze liggen vooral op de hogere zandgronden, zoals in Brabant, Limburg, Gelderland en Drenthe. Op heidevelden zijn de heuveltjes soms nog te zien.',
   'Anders dan bij de oudere grafheuvels kreeg bijna iedereen zo’n graf. Dat wijst op een samenleving waarin de gemeenschap belangrijk was. De gewoonte bleef tot ver in de ijzertijd bestaan. Veel urnenvelden zijn in de 20e eeuw vernield door ontginning en bebouwing, maar sommige zijn nu beschermd.'
  ],
+ gevolgen: [
+  "De urnenvelden laten zien dat de samenleving veranderde. Waar eerder vooral belangrijke mensen een eigen grafheuvel kregen, werd nu bijna iedereen op een gezamenlijk grafveld begraven. Zulke grafvelden bleven eeuwenlang in gebruik, generatie na generatie.",
+  "Aan het eind van de bronstijd en in de vroege ijzertijd ontstonden naast de gewone urnenvelden ook weer enkele zeer rijke graven, zoals het Vorstengraf van Oss. Zo bestonden gelijkheid en grote verschillen naast elkaar."
+ ],
+ perspectieven: [
+  "Waarom mensen gingen cremeren, weten we niet. Misschien geloofden ze dat het vuur de ziel bevrijdde, of dat het lichaam zo snel naar een andere wereld kon. Opvallend is dat dezelfde gewoonte zich over grote delen van Europa verspreidde. Ideeën over de dood reisden dus ook mee over de handelsroutes."
+ ],
+ misverstanden: [
+  ["“Cremeren is iets van de laatste eeuw.”","Ruim 3000 jaar geleden werden in Nederland al de meeste doden gecremeerd. Daarna werd begraven weer gewoon, vooral door het christendom. Pas in de 20e eeuw werd cremeren weer toegestaan. Nu wordt ongeveer twee derde van de Nederlanders gecremeerd."],
+  ["“In een urnenveld staan overal potten.”","De urnen werden in de grond begraven, onder een laag heuveltje met een greppel eromheen. Soms werden de crematieresten zelfs zonder pot begraven. Aan de oppervlakte zijn alleen de lage heuveltjes en greppels soms nog te zien."]
+ ],
+ hoeWeten: [
+  "Archeologen vinden de greppels rond de graven terug als verkleuringen in de grond, rond en soms in de vorm van een sleutelgat. In de urnen zitten verbrande botjes, waaraan fysisch antropologen soms nog kunnen zien of het een man, vrouw of kind was. Veel urnenvelden werden in de 19e en 20e eeuw bij ontginning ontdekt, vaak door boeren die met hun ploeg op potten stootten."
+ ],
+ nu: [
+  "Op verschillende plaatsen op de hei zijn de lage heuveltjes van urnenvelden nog te zien, bijvoorbeeld bij De Zevenbergen bij Oss en bij Toterfout-Halve Mijl bij Veldhoven. Veel urnenvelden zijn beschermd als monument. Urnen uit deze tijd zijn te zien in musea in heel Nederland."
+ ],
+ vertellen: "Bij de urnenvelden kun je goed laten zien hoe gebruiken veranderen. Vraag leerlingen eens hoe mensen nu omgaan met de dood, en vergelijk dat met 3000 jaar geleden. Ook toen kozen mensen al tussen begraven en cremeren, en lieten ze een plek achter om hun doden te herdenken.",
+ verbanden: [["Brons en grafheuvels","de oudere grafheuvels uit de bronstijd"],["Vorstengraf van Oss","een rijk graf tussen de urnenvelden"],["Terpen in het noorden","het leven in het noorden in de ijzertijd"]],
+ onderwijs: {"ka":[]},
  cijfers: [['Begin in Nederland','ca. 1100 v.C.'],['Gebruik tot','ver in de ijzertijd'],['Omvang','tientallen tot honderden graven'],['Ligging','hogere zandgronden']],
  figuren: [['Urnenveldencultuur','Europese cultuur met lijkverbranding'],['Boeren van de late bronstijd','legden de grafvelden aan']],
  bronnen: [['Wikipedia: Urnenveld',W('Urnenveld')],['Wikipedia: Urnenveldencultuur',W('Urnenveldencultuur')]]
