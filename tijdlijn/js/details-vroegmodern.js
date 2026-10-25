@@ -168,6 +168,26 @@ Object.assign(window.DETAILS, {
   'De winsten kwamen met veel geweld tot stand. In 1621 veroverde Coen de Banda-eilanden om de handel in nootmuskaat in handen te krijgen. Het grootste deel van de bevolking werd gedood, verdreven of tot slaaf gemaakt. Ook elders in Azië gebruikte de VOC dwangarbeid en slavenarbeid.',
   'De VOC werd een van de grootste ondernemingen van haar tijd. In de 18e eeuw liepen de schulden op. In 1799 werd de compagnie opgeheven. In 1621 kreeg de West-Indische Compagnie (WIC) een vergelijkbaar monopolie voor Afrika en Amerika.'
  ],
+ gevolgen: [
+  "De VOC maakte de Republiek rijk en droeg bij aan de bloei van de Gouden Eeuw. Steden als Amsterdam, Middelburg, Hoorn en Enkhuizen groeiden, er werden pakhuizen, scheepswerven en grachtenpanden gebouwd. Specerijen, porselein, thee en textiel uit Azië kwamen op de Europese markt.",
+  "Tegelijk legde de VOC de basis voor het latere Nederlandse koloniale rijk in Indonesië. De handelsposten werden in de loop van de tijd kolonies, met geweld, dwangarbeid en slavernij. Na de opheffing in 1799 nam de Nederlandse staat de schulden en de bezittingen over."
+ ],
+ perspectieven: [
+  "Lange tijd werd de VOC in Nederland vooral gezien als een bron van trots, als symbool van ondernemerschap. In 2006 sprak premier Balkenende nog over een “VOC-mentaliteit”, wat tot veel kritiek leidde. In Indonesië en in de rest van Azië herinnert men de VOC vooral als een gewelddadige overheerser. Jan Pieterszoon Coen kreeg daar de bijnaam “slachter van Banda”."
+ ],
+ misverstanden: [
+  ["“De VOC was gewoon een handelsbedrijf.”","De VOC dreef handel, maar had ook een eigen leger en vloot, mocht verdragen sluiten, oorlog voeren en recht spreken. Ze gedroeg zich op veel plaatsen als een staat."],
+  ["“De Gouden Eeuw was voor iedereen gouden.”","De welvaart kwam vooral terecht bij kooplieden en regenten. Veel matrozen en soldaten van de VOC stierven onderweg aan ziekte, en in Azië betaalden lokale bevolkingen vaak een hoge prijs."]
+ ],
+ hoeWeten: [
+  "Het VOC-archief is een van de grootste archieven ter wereld, met brieven, scheepsjournaals, dagregisters en boekhoudingen. Het ligt onder meer in het Nationaal Archief in Den Haag en in Jakarta, en staat op de UNESCO-lijst Memory of the World. Wrakken van VOC-schepen leveren ook kennis op over het leven aan boord."
+ ],
+ nu: [
+  "Woorden als “Gouden Eeuw” en “VOC” worden steeds vaker kritisch gebruikt. Het standbeeld van Coen in Hoorn is onderwerp van discussie. In Lelystad ligt een replica van het VOC-schip Batavia, en in het Scheepvaartmuseum in Amsterdam een replica van de Amsterdam."
+ ],
+ vertellen: "Een reis van de Republiek naar Batavia duurde acht tot negen maanden. Aan boord van een VOC-schip leefden honderden mannen dicht op elkaar, met scheepsbeschuit, gezouten vlees en water dat na een paar maanden stonk. Veel opvarenden kwamen nooit terug.",
+ verbanden: [["Eerste schipvaart naar Indië","de reizen vóór de VOC"],["Willem Janszoon in Australië","een ontdekkingsreis in VOC-dienst"],["Slavernij","ook de VOC hield mensen in slavernij"],["Indonesië","het einde van de koloniale tijd"]],
+ onderwijs: {"ka":["Het ontstaan van handelskapitalisme en het begin van een wereldeconomie.","De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek."],"venster":"14. VOC en WIC"},
  cijfers: [['Oprichting','20 maart 1602'],['Startkapitaal','ca. 6,4 miljoen gulden'],['Stichting Batavia','1619'],['Opgeheven','1799']],
  figuren: [['Johan van Oldenbarnevelt','drong aan op de oprichting'],['Jan Pieterszoon Coen','gouverneur-generaal, stichter van Batavia'],['Heren XVII','het bestuur van de VOC']],
  bronnen: [CANON,['Wikipedia: VOC',W('Verenigde Oost-Indische Compagnie')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
@@ -186,6 +206,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Australië hoefde niet ontdekt te worden: Aboriginals wonen er al minstens 50.000 jaar. Op Kaap York leefden onder meer de voorouders van de Wik-volken. Voor hen was de Duyfken een schip met vreemdelingen die zonder te vragen hun land betraden. Hun eigen verhalen over de eerste ontmoetingen zijn mondeling doorgegeven.'
  ],
+ gevolgen: [
+  "Na Janszoon volgden meer Nederlandse schepen langs de kusten van Australië. Dirk Hartog liet in 1616 een tinnen bord achter op een eiland aan de westkust. In 1642 en 1644 voer Abel Tasman rond het continent. Op kaarten van de Republiek kreeg het land de naam Nieuw-Holland.",
+  "De VOC zag er geen handelsmogelijkheden en vestigde er geen nederzetting. Pas na de reis van de Brit James Cook in 1770 begonnen de Britten in 1788 een kolonie in Australië."
+ ],
+ misverstanden: [
+  ["“Abel Tasman was de eerste Europeaan in Australië.”","Willem Janszoon was hem bijna veertig jaar voor. Ook Dirk Hartog kwam eerder. Tasman is wel bekend omdat hij Tasmanië en Nieuw-Zeeland bereikte."],
+  ["“James Cook ontdekte Australië.”","Cook kwam pas in 1770, ruim 160 jaar na Janszoon. En de Aboriginals woonden er toen al tienduizenden jaren."]
+ ],
+ hoeWeten: [
+  "Het scheepsjournaal van de Duyfken is verloren gegaan. De reis is bekend uit een kaart die op basis van het journaal werd gemaakt, en uit verslagen van latere VOC-reizen. De Wik-volken van Kaap York hebben eigen verhalen over de eerste ontmoeting, die mondeling zijn doorgegeven."
+ ],
+ nu: [
+  "In Australië werd in 2006 groots herdacht dat de Duyfken vierhonderd jaar eerder aankwam. Er is een replica van het schip gebouwd, die door Australië en Nederland heeft gevaren. Plaatsnamen als Kaap Keerweer herinneren nog aan de reis."
+ ],
+ vertellen: "Het kleine jacht Duyfken, “duifje”, was maar zo’n twintig meter lang. Met een bemanning van een paar tientallen man zeilde het naar een kust die op geen enkele Europese kaart stond.",
+ verbanden: [["VOC","de opdrachtgever van de reis"],["Abel Tasman","een latere Nederlandse ontdekkingsreiziger"],["Roggeveen bij Paaseiland","de zoektocht naar het Zuidland ging door"]],
+ onderwijs: {"ka":["Het ontstaan van handelskapitalisme en het begin van een wereldeconomie.","Het begin van de Europese overzeese expansie. (tijdvak 5)"]},
  cijfers: [['Vertrek uit Bantam','18 november 1605'],['Aankomst in Australië','februari 1606'],['Kust in kaart gebracht','ca. 320 km'],['Schip','het jacht Duyfken']],
  figuren: [['Willem Janszoon','schipper van de Duyfken'],['Jan Lodewijksz van Rosengeyn','koopman aan boord']],
  bronnen: [['Wikipedia: Willem Janszoon',W('Willem Janszoon')],['Wikipedia: Duyfken',W('Duyfken schip')]]
@@ -201,6 +238,26 @@ Object.assign(window.DETAILS, {
   'Een eerste poging mislukte in 1610, toen een dijk doorbrak bij een storm. In 1612 viel het meer definitief droog. Het land werd verdeeld volgens een strak raster van wegen, sloten en rechthoekige kavels. Er kwamen boerderijen en ook buitenplaatsen van rijke Amsterdammers.',
   'Na de Beemster volgden de Purmer, de Wormer en de Schermer. De Beemster liet zien hoe kapitaal en techniek samen nieuw land konden maken. Sinds 1999 staat de droogmakerij op de Werelderfgoedlijst van UNESCO.'
  ],
+ gevolgen: [
+  "Na de Beemster volgden de Purmer (1622), de Wormer (1626) en de Schermer (1635). Rond Amsterdam ontstond zo een landschap van droogmakerijen met rechte wegen en sloten. Leeghwater schreef later een plan om ook de Haarlemmermeer droog te malen, wat pas in de 19e eeuw lukte, met stoom.",
+  "De Beemster werd een rijk landbouwgebied, vooral bekend om veeteelt en kaas. De rijke Amsterdammers bouwden er buitenplaatsen met tuinen, waar ze in de zomer verbleven."
+ ],
+ perspectieven: [
+  "Voor de kooplieden was de drooglegging een belegging die rendement moest opleveren. Voor de boeren die er kwamen, was het een kans op vruchtbaar land, al moesten ze pacht betalen. Voor de vissers en mensen rond het oude meer veranderde hun leefgebied volledig."
+ ],
+ misverstanden: [
+  ["“De overheid legde de polders aan.”","De Beemster werd betaald door particuliere investeerders, vooral Amsterdamse kooplieden. Zij kregen het land en verpachtten het aan boeren."],
+  ["“Windmolens pompten het water in één keer weg.”","De molens stonden in groepen achter elkaar en pompten het water in trappen omhoog, van de diepste delen naar de ringvaart. Het droogmalen duurde jaren."]
+ ],
+ hoeWeten: [
+  "De kaarten van de verkaveling, de contracten met de investeerders en de rekeningen van het werk zijn bewaard. Het raster van wegen en sloten is nog in het landschap te zien, ook op luchtfoto’s. Prenten tonen de molens en de buitenplaatsen."
+ ],
+ nu: [
+  "De Beemster staat sinds 1999 op de Werelderfgoedlijst van UNESCO, vanwege het nog bijna onveranderde 17e-eeuwse verkavelingspatroon. In de polder liggen ook forten van de Stelling van Amsterdam, die eveneens werelderfgoed is. Beemster kaas is bekend in de supermarkt."
+ ],
+ vertellen: "Leeghwater betekent letterlijk “maak het water leeg”. Jan Adriaanszoon droeg die bijnaam met trots: hij was molenmaker en waterbouwkundige en hielp bij veel droogmakerijen in Holland.",
+ verbanden: [["De stoommachine","later maalde stoom de Haarlemmermeer droog"],["VOC","het geld kwam van rijke kooplieden"],["Afsluitdijk","eeuwen later werden nog grotere polders gemaakt"]],
+ onderwijs: {"ka":["Het ontstaan van handelskapitalisme en het begin van een wereldeconomie.","De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek."],"venster":"15. De Beemster"},
  cijfers: [['Toestemming','1607'],['Drooggevallen','1612'],['Oppervlakte','ca. 7000 hectare'],['UNESCO-werelderfgoed','1999']],
  figuren: [['Jan Adriaanszoon Leeghwater','molenmaker en waterbouwkundige'],['Dirck van Os','koopman en een van de initiatiefnemers']],
  bronnen: [CANON,['Wikipedia: Beemster',W('Droogmakerij de Beemster')]]
@@ -216,6 +273,26 @@ Object.assign(window.DETAILS, {
   'Een speciale rechtbank veroordeelde Oldenbarnevelt voor het verstoren van de rust in staat en kerk. Op 13 mei 1619 werd hij op het Binnenhof in Den Haag onthoofd. Hij was 71 jaar oud.',
   'Tegelijk besliste de Synode van Dordrecht in het voordeel van de contraremonstranten. Remonstrantse predikanten werden afgezet of verbannen. Het proces geldt nog altijd als een van de meest omstreden politieke processen uit de Nederlandse geschiedenis.'
  ],
+ gevolgen: [
+  "Na de onthoofding was de macht van stadhouder Maurits groter dan ooit. De remonstranten werden vervolgd: hun predikanten werden verbannen en hun bijeenkomsten verboden. Pas na de dood van Maurits in 1625 werd de remonstrantse kerk weer gedoogd.",
+  "Het conflict tussen stadhouder en Staten, tussen een sterke leider en de macht van de gewesten, zou de hele geschiedenis van de Republiek blijven terugkomen, tot in de tijd van de patriotten."
+ ],
+ perspectieven: [
+  "Voor zijn aanhangers was Oldenbarnevelt een staatsman die de Republiek had opgebouwd en onschuldig werd vermoord. Voor Maurits en de contraremonstranten was hij een gevaar voor de eenheid van land en geloof, en volgens sommigen zelfs een verrader die met Spanje heulde. Historici zien het proces nu vooral als een politieke afrekening."
+ ],
+ misverstanden: [
+  ["“Het ging alleen om een ruzie over geloof.”","De geloofsstrijd was de aanleiding, maar het ging ook om macht: wie had het laatste woord, de stadhouder of de Staten van Holland? En om de vraag of de oorlog met Spanje moest doorgaan."],
+  ["“Oldenbarnevelt kreeg een eerlijk proces.”","Hij werd berecht door een speciaal samengestelde rechtbank, met veel tegenstanders als rechter. Hij mocht geen advocaat hebben en kreeg niet alle stukken te zien."]
+ ],
+ hoeWeten: [
+  "De verslagen van het proces en de verhoren zijn bewaard, net als brieven van Oldenbarnevelt aan zijn familie vanuit de gevangenis. Pamfletten van beide kanten laten de felle publieke discussie zien. Ooggetuigen beschreven de terechtstelling op het Binnenhof."
+ ],
+ nu: [
+  "In Den Haag staat een standbeeld van Oldenbarnevelt, onthuld door koningin Juliana, en ook bij het stadhuis van Rotterdam staat een beeld van hem. De remonstrantse broederschap bestaat nog steeds. De vraag of een proces politiek is of eerlijk, blijft actueel."
+ ],
+ vertellen: "Op het schavot op het Binnenhof zei de 71-jarige Oldenbarnevelt tot het publiek: “Mannen, gelooft niet dat ik een landverrader ben.” Daarna werd hij met één slag onthoofd.",
+ verbanden: [["Het Twaalfjarig Bestand","het bestand dat hij sloot"],["Hugo de Groot ontsnapt","zijn medestander die werd opgesloten"],["VOC","Oldenbarnevelt stond aan de wieg van de VOC"],["De patriotten","het conflict tussen stadhouder en Staten kwam terug"]],
+ onderwijs: {"ka":["De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek."],"venster":"13. Johan van Oldenbarnevelt"},
  cijfers: [['Twaalfjarig Bestand','1609–1621'],['Arrestatie','augustus 1618'],['Onthoofding','13 mei 1619'],['Leeftijd','71 jaar']],
  figuren: [['Johan van Oldenbarnevelt','landsadvocaat van Holland'],['Prins Maurits','stadhouder en legeraanvoerder'],['Jacobus Arminius','theoloog, inspirator van de remonstranten'],['Franciscus Gomarus','theoloog, leider van de contraremonstranten']],
  bronnen: [CANON,['Wikipedia: Johan van Oldenbarnevelt',W('Johan van Oldenbarnevelt')],['Wikipedia: Synode van Dordrecht',W('Synode van Dordrecht')]]
@@ -231,6 +308,26 @@ Object.assign(window.DETAILS, {
   'Dienstmeid Elsje van Houweningen begeleidde de kist naar Gorinchem. Daar vluchtte De Groot, vermomd als metselaar, naar Antwerpen en daarna naar Parijs. Hij keerde nooit blijvend terug naar de Republiek.',
   'In ballingschap schreef hij in 1625 De iure belli ac pacis, over het recht van oorlog en vrede. Dat werk legde een basis voor het internationaal recht. Meerdere musea bezitten een kist die als de echte boekenkist wordt getoond.'
  ],
+ gevolgen: [
+  "In ballingschap werd De Groot een van de beroemdste geleerden van Europa. Vanaf 1634 was hij in Parijs gezant van Zweden. Zijn boek over het recht van oorlog en vrede werd in heel Europa gelezen en legde een basis voor het internationaal recht.",
+  "Zijn idee uit Mare Liberum, dat de zee vrij is voor iedereen, werd een belangrijk beginsel van het internationale zeerecht. Hij overleed in 1645 in Rostock na een schipbreuk en ligt begraven in de Nieuwe Kerk in Delft."
+ ],
+ perspectieven: [
+  "Voor zijn tegenstanders was De Groot een gevaarlijke medestander van Oldenbarnevelt. Voor latere generaties werd hij een held van vrijheid en recht. Zijn Mare Liberum kwam overigens goed uit voor de VOC: het rechtvaardigde dat Nederlandse schepen in Azië handel dreven, terwijl de VOC zelf een monopolie probeerde af te dwingen."
+ ],
+ misverstanden: [
+  ["“De echte boekenkist staat in Loevestein.”","Meerdere musea bezitten een kist die als de echte wordt getoond, onder meer het Rijksmuseum, Museum Prinsenhof in Delft en Loevestein zelf. Welke de echte is, is niet zeker."],
+  ["“De ontsnapping was het idee van De Groot zelf.”","Het plan kwam van zijn vrouw Maria van Reigersberch, die bij hem in Loevestein mocht wonen. Met hulp van dienstmeid Elsje van Houweningen voerde ze het uit."]
+ ],
+ hoeWeten: [
+  "Het verhaal van de ontsnapping is vooral bekend uit de biografie door Gerard Brandt, die het uit de mond van Elsje van Houweningen optekende. De boeken en brieven van De Groot zelf zijn bewaard. Ook processtukken uit 1619 vertellen over zijn veroordeling."
+ ],
+ nu: [
+  "In Den Haag staan het Vredespaleis en het Internationaal Gerechtshof, die voortbouwen op het internationaal recht waaraan De Groot bijdroeg. Op de Markt in Delft staat zijn standbeeld. Slot Loevestein is een museum waar je het verhaal van de ontsnapping kunt beleven."
+ ],
+ vertellen: "Toen de soldaten de zware kist met daarin Hugo de Groot naar buiten droegen, vroeg een van hen spottend of er soms een arminiaan in zat, zo zwaar was hij. Elsje van Houweningen antwoordde rustig dat het arminiaanse boeken waren.",
+ verbanden: [["Oldenbarnevelt onthoofd","zijn medestander werd onthoofd"],["VOC","Mare Liberum steunde de Nederlandse handel"],["Universele Verklaring van de Rechten van de Mens","internationaal recht in de 20e eeuw"]],
+ onderwijs: {"ka":["De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek.","De wetenschappelijke revolutie."],"venster":"16. Hugo de Groot"},
  cijfers: [['Mare Liberum','1609'],['Levenslang','1619'],['Ontsnapping','22 maart 1621'],['De iure belli ac pacis','1625']],
  figuren: [['Hugo de Groot','jurist en geleerde'],['Maria van Reigersberch','zijn vrouw, bedacht de ontsnapping'],['Elsje van Houweningen','dienstmeid, begeleidde de kist']],
  bronnen: [CANON,['Wikipedia: Hugo de Groot',W('Hugo de Groot')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
@@ -249,6 +346,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Manhattan was het land van de Lenape. Voor hen betekende de afspraak met Minuit waarschijnlijk dat de nieuwkomers het land mochten gebruiken, niet dat het voor altijd van hen werd: land bezitten zoals Europeanen dat deden, kenden ze niet. Door ziektes, oorlogen en de groeiende kolonie raakten de Lenape hun land in de tijd daarna grotendeels kwijt.'
  ],
+ gevolgen: [
+  "Bij de Vrede van Breda in 1667, na de Tweede Engelse Oorlog, mochten de Engelsen Nieuw-Nederland houden. De Republiek behield Suriname, dat ze in die oorlog had veroverd, en het nootmuskaateilandje Run in de Molukken.",
+  "De Nederlandse tijd liet sporen na in New York: plaatsnamen als Harlem (Haarlem), Brooklyn (Breukelen) en Staten Island, en woorden als cookie (koekje) en boss (baas). De traditie van Sinterklaas speelde mee bij het ontstaan van Santa Claus."
+ ],
+ misverstanden: [
+  ["“Manhattan werd gekocht voor 24 dollar.”","Het bedrag van zestig gulden aan goederen is in de 19e eeuw omgerekend naar 24 dollar, en dat getal bleef hangen. Maar het is niet te vergelijken met geld van nu, en de Lenape zagen de afspraak waarschijnlijk niet als een verkoop."],
+  ["“Nederland ruilde New York tegen Suriname.”","Zo wordt het vaak verteld. In werkelijkheid hielden beide landen bij de Vrede van Breda wat ze in de oorlog hadden veroverd: de Engelsen Nieuw-Amsterdam, de Republiek Suriname."]
+ ],
+ hoeWeten: [
+  "De archieven van de WIC zijn voor een groot deel verloren gegaan, maar de bestuursarchieven van Nieuw-Nederland zijn in New York bewaard. Ze worden sinds de jaren zeventig vertaald en uitgegeven. De brief over de “koop” van Manhattan uit 1626 ligt in het Nationaal Archief in Den Haag."
+ ],
+ nu: [
+  "De vlag van New York City heeft nog de kleuren oranje, wit en blauw van de oude Nederlandse vlag. Plaatsnamen en straatnamen herinneren aan de Nederlandse tijd. Ook in Nederland is er belangstelling: in 2009 werd groots gevierd dat Hudson vierhonderd jaar eerder de rivier opvoer."
+ ],
+ vertellen: "Wall Street dankt zijn naam aan een houten muur die Peter Stuyvesant liet bouwen om de stad te beschermen tegen aanvallen, ook van de Engelsen. Toen die in 1664 kwamen, beschermde de muur niets: ze kwamen over zee.",
+ verbanden: [["VOC","Hudson voer in dienst van de VOC"],["Slavernij","ook in Nieuw-Amsterdam werkten tot slaaf gemaakten"],["Columbus en Amerika","de Europese komst naar Amerika"],["Tocht naar Chatham","de oorlog die eindigde met de Vrede van Breda"]],
+ onderwijs: {"ka":["Het ontstaan van handelskapitalisme en het begin van een wereldeconomie."],"venster":"14. VOC en WIC"},
  cijfers: [['Hudson op de rivier','1609'],['Fort Amsterdam','vanaf 1625'],['‘Koop’ van Manhattan','1626, voor ƒ 60 aan goederen'],['Engels','1664, definitief in 1674']],
  figuren: [['Peter Minuit','directeur van Nieuw-Nederland'],['Peter Stuyvesant','directeur-generaal van 1647 tot 1664'],['Henry Hudson','verkende de rivier in 1609']],
  bronnen: [['Wikipedia: Nieuw-Amsterdam',W('Nieuw-Amsterdam Nieuw-Nederland')],['Wikipedia: Nieuw-Nederland',W('Nieuw-Nederland')]]
@@ -307,6 +421,26 @@ Object.assign(window.DETAILS, {
   'Later werd Bernini architect voor de pausen. Hij ontwierp een baldakijn boven het graf van Petrus in de Sint-Pieter. Tussen 1656 en 1667 bouwde hij in opdracht van paus Alexander VII het Sint-Pietersplein, met zijn grote halfronde zuilengalerijen.',
   'Bernini overleed op 28 november 1680 in Rome.'
  ],
+ gevolgen: [
+  "Bernini bepaalde voor een groot deel hoe Rome er nu uitziet. Naast het Sint-Pietersplein maakte hij fonteinen, zoals de Vierstromenfontein op het Piazza Navona, en de Extase van de heilige Theresia, een van de bekendste beelden van de barok.",
+  "Zijn stijl, met beweging, gevoel en theatrale effecten, werd in heel katholiek Europa nagevolgd. Kerken en paleizen in Spanje, Oostenrijk en Zuid-Duitsland lieten zich door hem inspireren."
+ ],
+ perspectieven: [
+  "De barok was de kunst van de Contrareformatie: de katholieke kerk wilde gelovigen raken met pracht en gevoel, als antwoord op het protestantisme. In de protestantse Republiek was die stijl veel minder te zien; daar hingen schilderijen in burgerhuizen in plaats van in kerken. In Frankrijk vond men Bernini’s ontwerpen te Italiaans; zijn plan voor de gevel van het Louvre werd afgewezen."
+ ],
+ misverstanden: [
+  ["“Bernini was vooral schilder.”","Bernini was vooral beeldhouwer en architect. Hij schilderde ook, maar zijn beroemdste werken zijn beelden, fonteinen en gebouwen."],
+  ["“Barok betekent hetzelfde in de hele wereld.”","In Italië en katholieke landen betekent barok vaak grootse kerken en beelden. In de Republiek zie je de barok vooral in schilderijen met sterk licht en donker, zoals bij Rembrandt."]
+ ],
+ hoeWeten: [
+  "De beelden en gebouwen zelf zijn de belangrijkste bron. Daarnaast zijn er biografieën die al tijdens of kort na zijn leven werden geschreven, en het dagboek van een Franse hoveling die Bernini tijdens zijn bezoek aan Parijs in 1665 begeleidde."
+ ],
+ nu: [
+  "Miljoenen toeristen lopen elk jaar over het Sint-Pietersplein en langs de fonteinen van Bernini in Rome. Zijn beelden in de Galleria Borghese behoren tot de topstukken van de Europese kunst."
+ ],
+ vertellen: "In zijn beeld Apollo en Daphne laat Bernini zien hoe het meisje Daphne verandert in een laurierboom, precies op het moment dat Apollo haar te pakken krijgt. Je ziet bladeren uit haar vingers groeien en schors om haar benen. Het lijkt alsof het marmer beweegt.",
+ verbanden: [["Rembrandt van Rijn","barok in de Republiek"],["Johann Sebastian Bach","de barok in de muziek"],["Luther en de Reformatie","de barok was een katholiek antwoord"]],
+ onderwijs: {},
  cijfers: [['Geboren','7 december 1598, Napels'],['David','1623 – 1624'],['Sint-Pietersplein','1656 – 1667'],['Overleden','28 november 1680, Rome']],
  figuren: [['Gian Lorenzo Bernini','beeldhouwer en architect'],['Scipione Borghese','kardinaal en zijn eerste opdrachtgever'],['Paus Alexander VII','gaf opdracht voor het plein']],
  bronnen: [['Wikipedia: Gian Lorenzo Bernini',W('Gian Lorenzo Bernini')],['Wikipedia: Sint-Pietersplein',W('Sint-Pietersplein')]]
@@ -322,6 +456,26 @@ Object.assign(window.DETAILS, {
   'Hij schilderde ook schuttersstukken: groepsportretten van leden van de schutterij. Zijn eerste maakte hij in 1616, zijn laatste in 1639. Zelf zat hij van 1612 tot 1624 in de schutterij. De magere compagnie werd afgemaakt door Pieter Codde.',
   'De vrolijke drinker (ca. 1628–1630) hangt in het Rijksmuseum. Hals overleed op 26 augustus 1666 in Haarlem.'
  ],
+ gevolgen: [
+  "Na zijn dood raakte Hals een tijd uit de mode, omdat men gladde, verfijnde schilderijen mooier vond. In de 19e eeuw werd hij herontdekt. Schilders als Édouard Manet en Vincent van Gogh bewonderden zijn losse toets.",
+  "Zijn groepsportretten van schutters en regenten zijn een belangrijke bron over het Haarlem van de 17e eeuw: hoe mensen zich kleedden, hoe ze zich wilden laten zien en wie er in de stad de macht had."
+ ],
+ perspectieven: [
+  "Tijdgenoten bewonderden zijn levendige portretten, maar hij had het vaak financieel moeilijk; op latere leeftijd kreeg hij een toelage van de stad. Een biograaf schreef rond 1720 dat Hals elke dag dronk, maar dat verhaal is waarschijnlijk overdreven. Kunsthistorici zien hem nu als een van de grootste portretschilders ooit."
+ ],
+ misverstanden: [
+  ["“Hals schilderde snel en slordig.”","Zijn penseelstreken lijken los en vlot, maar dat was een bewuste keuze. Van Gogh schreef dat het juist een genot was om zo’n Hals te zien, omdat niet alles zorgvuldig glad was gestreken."],
+  ["“De vrolijke drinker is een dronkaard.”","De man heft zijn glas en lacht naar de kijker, maar of hij dronken is, is niet zeker. Zulke figuren gaven vaak een boodschap mee over genieten, of juist over matigheid."]
+ ],
+ hoeWeten: [
+  "De schilderijen zelf zijn de belangrijkste bron, aangevuld met archiefstukken uit Haarlem over zijn leven, schulden en het gilde. Met technisch onderzoek, zoals röntgenfoto’s, kunnen onderzoekers zien hoe hij werkte en of een schilderij echt van hem is."
+ ],
+ nu: [
+  "Het Frans Hals Museum in Haarlem, gevestigd in het oude Oudemannenhuis, heeft de grootste verzameling van zijn werk, waaronder vijf schuttersstukken. De vrolijke drinker hangt in het Rijksmuseum."
+ ],
+ vertellen: "Op zijn schilderijen lijken mensen je net aan te kijken, of iets te gaan zeggen. Hals schilderde zo snel en vrij dat je de afzonderlijke penseelstreken nog kunt zien, bijna als een momentopname, eeuwen voordat de fotografie bestond.",
+ verbanden: [["Rembrandt van Rijn","een tijdgenoot in Amsterdam"],["De Nachtwacht","nog een beroemd schuttersstuk"],["Vincent van Gogh","hij bewonderde Hals"]],
+ onderwijs: {"ka":["De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek."]},
  cijfers: [['Geboren','1582 of 1583, Antwerpen'],['Gilde in Haarlem','1610'],['Eerste schuttersstuk','1616'],['Overleden','26 augustus 1666, Haarlem']],
  figuren: [['Frans Hals','portretschilder uit Haarlem'],['Rembrandt en Vermeer','de twee andere grote schilders van de Gouden Eeuw'],['Pieter Codde','maakte De magere compagnie af']],
  bronnen: [['Wikipedia: Frans Hals',W('Frans Hals')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
@@ -366,6 +520,26 @@ Object.assign(window.DETAILS, {
   'Hij maakte ongeveer honderd geschilderde en twintig geëtste zelfportretten, in alle fasen van zijn leven. Daardoor zie je hem als het ware ouder worden.',
   'Zijn vrouw Saskia Uylenburgh, zijn zoon Titus en zijn huishoudster en vriendin Hendrickje Stoffels staan in veel van zijn schilderijen. Rembrandt overleed op 4 oktober 1669 in Amsterdam. Zijn huis aan de Jodenbreestraat is nu museum.'
  ],
+ gevolgen: [
+  "Rembrandt had veel leerlingen, onder wie Ferdinand Bol, Govert Flinck en Carel Fabritius. Zijn stijl met sterk licht en donker werd veel nagevolgd. Daardoor is het soms moeilijk vast te stellen of een schilderij van hemzelf of van een leerling is.",
+  "Na een periode van succes kwam hij in de jaren 1650 in financiële problemen. In 1656 vroeg hij zijn faillissement aan en werden zijn bezittingen, waaronder zijn grote kunstverzameling, verkocht. Hij verhuisde naar een kleiner huis aan de Rozengracht en bleef schilderen tot zijn dood."
+ ],
+ perspectieven: [
+  "Rembrandt wordt vaak gezien als een eenzaam genie dat door zijn tijdgenoten niet werd begrepen. Historici laten zien dat hij lang een gevraagd en goedbetaald schilder was. Zijn geldproblemen kwamen ook door zijn eigen dure levensstijl en grote verzameling, en door een economische crisis."
+ ],
+ misverstanden: [
+  ["“Rembrandt stierf arm en vergeten.”","Hij had aan het eind van zijn leven weinig geld, maar was niet vergeten. Hij kreeg nog belangrijke opdrachten, zoals De Staalmeesters (1662)."],
+  ["“Alle schilderijen die op Rembrandt lijken, zijn van hem.”","Veel werken bleken van leerlingen te zijn. Een bekend voorbeeld is De man met de gouden helm in Berlijn, die lang als Rembrandt gold maar nu aan een leerling wordt toegeschreven. Onderzoekers van het Rembrandt Research Project hebben hier jarenlang onderzoek naar gedaan."]
+ ],
+ hoeWeten: [
+  "Naast zijn schilderijen, tekeningen en etsen zijn er archiefstukken over zijn huwelijk, kinderen, huizen en het faillissement, waaronder een inventaris van al zijn bezittingen uit 1656. Met röntgen- en andere technieken zien onderzoekers hoe hij zijn schilderijen opbouwde."
+ ],
+ nu: [
+  "Het Rembrandthuis in Amsterdam is een museum, ingericht met behulp van de inventaris uit 1656. In 2019, 350 jaar na zijn dood, was het Rembrandtjaar. Zijn werk hangt in musea over de hele wereld, met de grootste collectie in het Rijksmuseum."
+ ],
+ vertellen: "Toen Rembrandt failliet ging, werd een lijst gemaakt van alles wat hij bezat. Daarop staan behalve schilderijen ook schelpen, wapens, opgezette dieren, Romeinse bustes en zelfs een leeuwenvel. Hij was een verwoed verzamelaar.",
+ verbanden: [["De Nachtwacht","zijn beroemdste schilderij"],["Frans Hals","een tijdgenoot in Haarlem"],["Het Rijksmuseum","waar zijn belangrijkste werken hangen"]],
+ onderwijs: {"ka":["De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek."],"venster":"18. Rembrandt"},
  cijfers: [['Geboren','15 juli 1606 of 1607, Leiden'],['De anatomische les','1632'],['De Nachtwacht','1642'],['Overleden','4 oktober 1669, Amsterdam']],
  figuren: [['Rembrandt van Rijn','schilder, etser en tekenaar'],['Saskia Uylenburgh','zijn vrouw'],['Hendrickje Stoffels','zijn huishoudster en vriendin']],
  bronnen: [['Wikipedia: Rembrandt van Rijn',W('Rembrandt van Rijn')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
@@ -427,6 +601,26 @@ Object.assign(window.DETAILS, {
   'Het bestand duurde van 1609 tot 1621. In die jaren kon de Republiek rustiger bouwen aan haar handel en welvaart. In 1619 werd Oldenbarnevelt onthoofd. In 1621 werden de gevechten hervat.',
   'De Tachtigjarige Oorlog eindigde pas in 1648, met de Vrede van Münster.'
  ],
+ gevolgen: [
+  "De rust van het Bestand gaf de handel en de steden van de Republiek ruimte om te bloeien. De VOC breidde uit, en in Amsterdam werd in 1613 begonnen met de aanleg van de grachtengordel.",
+  "Maar binnen de Republiek ontstond juist in deze jaren een fel conflict over geloof en politiek, tussen remonstranten en contraremonstranten. Dat liep uit op de arrestatie en onthoofding van Oldenbarnevelt in 1619. Toen het Bestand in 1621 afliep, werd de oorlog met Spanje hervat."
+ ],
+ perspectieven: [
+  "Oldenbarnevelt en de Hollandse kooplieden wilden vrede omdat oorlog duur was en de handel schaadde. Stadhouder Maurits en veel predikanten wantrouwden Spanje en wilden doorvechten om ook het zuiden te bevrijden. Voor de Spaanse koning was het bestand een pijnlijke erkenning dat hij de opstandige provincies niet kon terugwinnen."
+ ],
+ misverstanden: [
+  ["“Het Bestand was een vredesverdrag.”","Het was een wapenstilstand voor twaalf jaar, geen vrede. De echte vrede kwam pas in 1648 met de Vrede van Munster."],
+  ["“Tijdens het Bestand werd er nergens gevochten.”","In Europa zwegen de wapens, maar overzee ging de strijd door. In Azië bleven de VOC en de Spanjaarden en Portugezen elkaar bevechten om handelsposten."]
+ ],
+ hoeWeten: [
+  "De tekst van het Bestand en de verslagen van de onderhandelingen in Antwerpen zijn bewaard. Brieven van Oldenbarnevelt, Maurits en de Spaanse onderhandelaars laten zien hoe verdeeld men was. Pamfletten uit die tijd tonen de felle publieke discussie."
+ ],
+ nu: [
+  "De grachtengordel van Amsterdam, waarmee in deze jaren werd begonnen, staat op de Werelderfgoedlijst van UNESCO. De periode wordt vaak genoemd als voorbeeld van hoe een korte vrede welvaart kan brengen, maar ook binnenlandse onrust."
+ ],
+ vertellen: "Het Bestand werd in 1609 in Antwerpen gesloten, dus in de Spaanse Nederlanden. In het verdrag werd over de opstandige gewesten gesproken als over vrije landen. Over wat dat precies betekende, bleven Spanje en de Republiek het oneens, maar beide partijen konden zeggen dat ze hun zin hadden gekregen.",
+ verbanden: [["Oldenbarnevelt onthoofd","de nasleep van het Bestand"],["Vrede van Munster","de echte vrede in 1648"],["VOC","de handel bloeide in deze jaren"]],
+ onderwijs: {"ka":["Het conflict in de Nederlanden dat resulteerde in de stichting van de Nederlandse staat. (tijdvak 5)","De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek."]},
  cijfers: [['Voorlopig bestand','1607'],['Twaalfjarig Bestand','1609 – 1621'],['Ook genoemd','Verdrag van Antwerpen'],['Einde van de oorlog','1648, Vrede van Münster']],
  figuren: [['Johan van Oldenbarnevelt','landsadvocaat, drong aan op het bestand'],['Maurits van Nassau','stadhouder en legeraanvoerder'],['Willem Lodewijk van Nassau-Dillenburg','neef van Maurits, legeraanvoerder']],
  bronnen: [['Wikipedia: Twaalfjarig Bestand',W('Twaalfjarig Bestand')]]
@@ -440,8 +634,28 @@ Object.assign(window.DETAILS, {
  verloop: [
   'De vertalers werkten vanaf 1626 in Leiden. Johannes Bogerman, de voorzitter van de synode, werkte mee aan het Oude Testament. De vertaling moest nauwkeurig zijn en begrijpelijk voor mensen uit alle gewesten. Revisoren uit verschillende gewesten controleerden het werk.',
   'In 1637 verscheen de Statenbijbel. Hij werd lange tijd in vrijwel elk protestants gezin en in elke protestantse kerk gebruikt. Bij sommige orthodox-protestantse gemeenten is dat nog steeds zo.',
-  'De vertalers kozen bewust taal die in het hele land begrepen werd. Daardoor droeg de Statenbijbel bij aan een gemeenschappelijke Nederlandse standaardtaal. Veel uitdrukkingen komen eruit voort, zoals zijn handen in onschuld wassen.'
+  'De vertalers kozen bewust taal die in het hele land begrepen werd. Daarom is lang gezegd dat de Statenbijbel de basis legde voor het Standaardnederlands; taalhistorici zien dat nu genuanceerder. Veel uitdrukkingen komen eruit voort, zoals zijn handen in onschuld wassen.'
  ],
+ gevolgen: [
+  "De Statenbijbel werd de belangrijkste bijbel voor protestanten in de Nederlanden en daarbuiten, ook in de koloniën. Hij werd honderden keren herdrukt. Generaties lang lazen protestantse gezinnen er dagelijks uit voor, aan tafel en in de kerk.",
+  "Daarnaast gaf hij gelovigen de mogelijkheid om zelf de bijbel te lezen in hun eigen taal. Dat stimuleerde ook het leren lezen."
+ ],
+ perspectieven: [
+  "Voor protestanten was de Statenbijbel het woord van God in hun eigen taal. Katholieken gebruikten hem niet en hadden hun eigen vertalingen. De Statenbijbel was dus niet een bijbel voor het hele land, maar vooral voor de gereformeerde kerk."
+ ],
+ misverstanden: [
+  ["“De Statenbijbel legde de basis voor het Standaardnederlands.”","Dat is lang gezegd, vooral in de 19e eeuw. Taalhistorici nuanceren dat nu: de standaardtaal ontstond door veel factoren, zoals de taal van schrijvers, drukkers en de bestuurstaal. De Statenbijbel is daar één invloed van."],
+  ["“Iedereen in de Republiek las de Statenbijbel.”","Hij was vooral voor de gereformeerden. Katholieken, die een groot deel van de bevolking vormden, lazen andere vertalingen, en lang niet iedereen kon lezen."]
+ ],
+ hoeWeten: [
+  "De verslagen van de Synode van Dordrecht, de werkaantekeningen van de vertalers en de eerste drukken uit 1637 zijn bewaard. Taalhistorici vergelijken de taal van de Statenbijbel met andere teksten uit die tijd om te zien hoe invloedrijk hij werkelijk was."
+ ],
+ nu: [
+  "In sommige orthodox-protestantse kerken wordt de Statenvertaling nog gebruikt, soms in de Herziene Statenvertaling uit 2010 met modernere spelling en woorden. Uitdrukkingen als “zijn handen in onschuld wassen” en “een lust voor het oog” kennen veel mensen nog, ook zonder dat ze weten waar ze vandaan komen."
+ ],
+ vertellen: "De stad Leiden betaalde 2500 gulden voor het recht om de Statenbijbel te mogen drukken. Dat was veel geld, maar de drukkers verwachtten dat vrijwel elk protestants gezin en elke kerk er een zou willen hebben.",
+ verbanden: [["Oldenbarnevelt onthoofd","de Synode van Dordrecht besloot tot de vertaling"],["Luther en de Reformatie","Luther vertaalde de bijbel in het Duits"],["Hebban olla vogala","een veel oudere vorm van het Nederlands"]],
+ onderwijs: {"ka":["De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek."],"venster":"17. De Statenbijbel"},
  cijfers: [['Besluit synode','1618'],['Begin vertaalwerk','1626'],['Verschenen','1637']],
  figuren: [['Johannes Bogerman','voorzitter Synode van Dordrecht, vertaler'],['Willem Baudartius','vertaler van het Oude Testament']],
  bronnen: [CANON,['Wikipedia: Statenvertaling',W('Statenvertaling')]]
@@ -457,6 +671,26 @@ Object.assign(window.DETAILS, {
   'Er was steeds verzet. In Suriname vluchtten mensen het oerwoud in en vormden marrongemeenschappen. Op Curaçao leidde Tula in 1795 een grote opstand, die hard werd neergeslagen.',
   'Op 1 juli 1863 schafte Nederland de slavernij af in Suriname en op de Antillen. Plantage-eigenaren kregen een vergoeding, de slaafgemaakten niets. In Suriname moesten zij nog tien jaar onder staatstoezicht verplicht doorwerken. Op 1 juli wordt Keti Koti gevierd. In 2022 bood de regering excuses aan.'
  ],
+ gevolgen: [
+  "De slavenhandel en de plantages leverden kooplieden, plantage-eigenaren en steden als Amsterdam, Middelburg en Vlissingen veel geld op. Een deel van de rijkdom van de Gouden Eeuw komt hier vandaan, al verschillen historici van mening over hoe groot dat deel was.",
+  "Voor de Afrikaanse samenlevingen betekende de slavenhandel het verlies van miljoenen mensen, vooral jonge mannen en vrouwen. In Suriname en op de Antillen ontstonden samenlevingen waarin huidskleur bepaalde wat je rechten waren, met gevolgen die tot vandaag doorwerken."
+ ],
+ perspectieven: [
+  "Lange tijd werd het slavernijverleden in Nederland nauwelijks verteld, of werd het afgedaan als iets van verre koloniën. Nazaten van tot slaaf gemaakten hebben ervoor gezorgd dat het nu een vast deel van de geschiedenis is. Zij benadrukken ook het verzet en de veerkracht van hun voorouders, niet alleen hun lijden."
+ ],
+ misverstanden: [
+  ["“Nederland speelde maar een kleine rol in de slavenhandel.”","Nederlandse handelaren vervoerden naar schatting zo’n 600.000 Afrikanen naar Amerika, ongeveer vijf procent van de totale trans-Atlantische slavenhandel. Daarmee hoorde de Republiek bij de grote slavenhandelende landen. Daarnaast hield de VOC in Azië nog veel meer mensen in slavernij."],
+  ["“Slavernij bestond alleen ver weg, niet in Nederland zelf.”","Op de plantages en in de koloniën was het het grootst, maar ook in de Republiek woonden soms tot slaaf gemaakten, meegebracht door hun eigenaren. En het geld en de producten, zoals suiker en koffie, kwamen in Nederland terecht."]
+ ],
+ hoeWeten: [
+  "Er zijn scheepsjournaals van slavenschepen, zoals die van de Middelburgsche Commercie Compagnie, plantage-archieven en de boekhouding van de WIC. Daarin staan tot slaaf gemaakten vaak alleen als koopwaar vermeld. Hun eigen ervaringen komen naar voren in rechtszaken, verhalen van marrons en mondelinge overlevering."
+ ],
+ nu: [
+  "Op 1 juli is Keti Koti, met een nationale herdenking bij het Nationaal Monument Slavernijverleden in het Oosterpark in Amsterdam. In 2022 bood de regering excuses aan, in 2023 ook de koning. Veel steden en musea onderzoeken hun eigen slavernijverleden."
+ ],
+ vertellen: "Het fort Elmina in Ghana, dat de WIC in 1637 veroverde, was eerst een Portugees handelsfort. In de kelders werden tot slaaf gemaakte Afrikanen opgesloten tot ze werden verscheept. De “deur zonder terugkeer” is nu een plek van herdenking.",
+ verbanden: [["Afschaffing van de slavernij","het einde in 1863"],["Opstand van Tula","verzet op Curaçao"],["VOC","ook in Azië werden mensen tot slaaf gemaakt"],["Anton de Kom","hij schreef de geschiedenis vanuit de tot slaaf gemaakten"]],
+ onderwijs: {"ka":["Het ontstaan van handelskapitalisme en het begin van een wereldeconomie.","Uitbouw van de Europese overheersing, met name in de vorm van plantagekoloniën en de daarmee verbonden trans-Atlantische slavenhandel, en de opkomst van het abolitionisme. (tijdvak 7)"],"venster":"23. Slavernij"},
  cijfers: [['Verovering Elmina','1637'],['Vervoerde Afrikanen','ca. 600.000'],['Afschaffing','1 juli 1863'],['Einde staatstoezicht','1873']],
  figuren: [['Tula','leider van de opstand op Curaçao in 1795'],['Boni','leider van marrons in Suriname']],
  bronnen: [CANON,['Wikipedia: Slavernij in Suriname',W('Slavernij in Suriname')],['Wikipedia: Nederlandse slavenhandel',W('Nederlandse trans-Atlantische slavenhandel')]]
@@ -472,6 +706,26 @@ Object.assign(window.DETAILS, {
   'Met licht en donker liet hij sommige figuren oplichten, zoals de luitenant en een meisje in het goud. In 1642 was het doek klaar. In 1715 werd het aan de randen ingekort om het in het stadhuis op de Dam te laten passen.',
   'De naam De Nachtwacht ontstond pas later, toen het vernis donker was geworden. Het schilderij hangt in het Rijksmuseum. Sinds 2019 wordt het daar onder de naam Operatie Nachtwacht onderzocht en gerestaureerd, terwijl bezoekers kunnen meekijken.'
  ],
+ gevolgen: [
+  "De Nachtwacht werd het bekendste schilderij van Nederland en een symbool van de Gouden Eeuw. Sinds 1885 hangt het in het Rijksmuseum, in een zaal die er speciaal voor is ontworpen.",
+  "Het schilderij is meerdere keren aangevallen: in 1911, in 1975 met een mes en in 1990 met zuur. Telkens werd het gerestaureerd. Tijdens de Tweede Wereldoorlog werd het opgerold en veilig verstopt."
+ ],
+ perspectieven: [
+  "Er bestaat een hardnekkig verhaal dat de opdrachtgevers boos waren omdat niet iedereen goed te zien was. Daar is geen bewijs voor: de schutters hebben het doek gewoon geaccepteerd en betaald. Voor kunsthistorici is het juist een meesterwerk omdat Rembrandt een saai groepsportret omtoverde tot een levendige scène."
+ ],
+ misverstanden: [
+  ["“De Nachtwacht speelt zich ’s nachts af.”","Het tafereel speelt overdag. De naam ontstond pas later, toen het vernis donker was geworden en het schilderij op een nachttafereel leek. De officiële titel noemt de compagnie van Frans Banninck Cocq."],
+  ["“Het schilderij is nog net zo groot als Rembrandt het maakte.”","In of kort na 1715 werd het aan alle vier de kanten ingekort, zodat het in een zaal van het stadhuis paste. Daarbij verdwenen twee schutters en een kind. Hoe het er eerst uitzag, weten we door een kopie van Gerrit Lundens."]
+ ],
+ hoeWeten: [
+  "In een familiealbum van Banninck Cocq staat een tekening van het schilderij met een beschrijving. De kopie van Lundens laat zien hoe het doek er vóór het inkorten uitzag. Tijdens Operatie Nachtwacht wordt het schilderij met de modernste technieken onderzocht, laag voor laag."
+ ],
+ nu: [
+  "De Nachtwacht trekt elk jaar miljoenen bezoekers naar het Rijksmuseum. Tijdens Operatie Nachtwacht kunnen bezoekers de restaurateurs aan het werk zien. Met behulp van de kopie van Lundens zijn de weggesneden stukken digitaal gereconstrueerd en een tijd naast het schilderij gehangen."
+ ],
+ vertellen: "Het meisje in het goud, midden op het schilderij, draagt een dode kip aan haar riem. De klauwen van de kip waren het symbool van de kloveniers, de schutters met een klover, een soort geweer. Zo verstopte Rembrandt het embleem van de schutterij in een levend figuur.",
+ verbanden: [["Rembrandt van Rijn","de schilder"],["Frans Hals","nog een maker van schuttersstukken"],["Het Rijksmuseum","waar het schilderij hangt"]],
+ onderwijs: {"ka":["De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek."],"venster":"18. Rembrandt"},
  cijfers: [['Voltooid','1642'],['Afmeting','ca. 3,8 bij 4,5 meter'],['Ingekort','1715'],['Operatie Nachtwacht','vanaf 2019']],
  figuren: [['Rembrandt van Rijn','schilder'],['Frans Banninck Cocq','kapitein van de schutterscompagnie'],['Willem van Ruytenburch','luitenant']],
  bronnen: [CANON,['Rijksmuseum','https://www.rijksmuseum.nl/'],['Wikipedia: De Nachtwacht',W('De Nachtwacht')]]
