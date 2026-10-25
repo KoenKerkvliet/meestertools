@@ -1258,6 +1258,103 @@ a {
 .feature-groep .feature-icon { background: rgba(108, 99, 255, 0.12); }
 .feature-prestatie .feature-icon { background: rgba(255, 140, 66, 0.15); }
 
+/* ---------- Banner "Nieuw" op het dashboard (js/nieuw-banner.js) ---------- */
+/* In de warme kleuren van de tijdlijn, zodat hij opvalt tussen de paarse tegels. */
+.nieuw-banner {
+    position: relative;
+    margin: -24px 0 28px;
+    border-radius: var(--radius-lg);
+    background: #FAF6EF;
+    border: 2px solid #E6DECF;
+    box-shadow: 0 4px 0 #EFE8DB;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.nieuw-banner[hidden] { display: none; }
+.nieuw-banner.hiding { opacity: 0; transform: translateY(-6px); }
+.nieuw-banner-link {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 64px 20px 20px;
+    color: #1F2430;
+    text-decoration: none;
+}
+.nieuw-banner:hover { border-color: #C9A04E; }
+.nieuw-banner-beelden {
+    flex: 0 0 auto;
+    display: flex;
+}
+.nieuw-banner-beelden img {
+    width: 74px;
+    height: 74px;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 3px solid #FAF6EF;
+    background: #F1ECE2;
+}
+.nieuw-banner-beelden img + img { margin-left: -22px; }
+.nieuw-banner-beelden img:nth-child(1) { transform: rotate(-5deg); }
+.nieuw-banner-beelden img:nth-child(3) { transform: rotate(5deg); }
+.nieuw-banner-tekst {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    font-size: 15px;
+    color: #4A5060;
+    line-height: 1.45;
+}
+.nieuw-banner-tekst strong {
+    font-size: 20px;
+    color: #1F2430;
+}
+.nieuw-banner-label {
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--secondary);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+.nieuw-banner-cta {
+    flex: 0 0 auto;
+    padding: 11px 18px;
+    border-radius: var(--radius-md);
+    background: var(--primary);
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    white-space: nowrap;
+    transition: var(--transition);
+}
+.nieuw-banner-link:hover .nieuw-banner-cta { background: var(--primary-dark); }
+.nieuw-banner-sluit {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #6B7080;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+}
+.nieuw-banner-sluit:hover { background: #F1E4C8; color: #1F2430; }
+@media (max-width: 760px) {
+    .nieuw-banner { margin-top: -28px; }
+    .nieuw-banner-link { flex-wrap: wrap; gap: 14px 18px; padding: 18px 48px 18px 18px; }
+    .nieuw-banner-beelden img { width: 56px; height: 56px; }
+    .nieuw-banner-tekst { flex-basis: calc(100% - 140px); }
+    .nieuw-banner-cta { width: 100%; text-align: center; }
+}
+
 /* ---------- FOOTER ---------- */
 .app-footer {
     margin-top: auto;

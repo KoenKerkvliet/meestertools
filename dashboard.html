@@ -26,8 +26,8 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Meestertools - Dashboard</title>
-    <link rel="stylesheet" href="css/style.css?v=1.61.1">
-    <link rel="stylesheet" href="css/instellingen.css?v=1.61.1">
+    <link rel="stylesheet" href="css/style.css?v=1.61.2">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.61.2">
 </head>
 <body>
     <!-- Header -->
@@ -39,6 +39,24 @@
             <h1>Welkom bij Meestertools!</h1>
             <p>Kies een tool en maak je lessen nog leuker en interactiever.</p>
         </div>
+
+        <!-- Uitgelichte nieuwe tool (js/nieuw-banner.js toont hem tot de einddatum of tot hij is weggeklikt) -->
+        <aside class="nieuw-banner" id="nieuwBanner" data-id="tijdlijn-2026-10" data-tot="2026-12-31" aria-labelledby="nieuwBannerTitel" hidden>
+            <a class="nieuw-banner-link" href="/tijdlijn/">
+                <span class="nieuw-banner-beelden" aria-hidden="true">
+                    <img src="/assets/tijdlijn/hunebedden.webp" alt="" width="640" height="480" loading="lazy">
+                    <img src="/assets/tijdlijn/de-nachtwacht.webp" alt="" width="640" height="480" loading="lazy">
+                    <img src="/assets/tijdlijn/afsluitdijk.webp" alt="" width="640" height="480" loading="lazy">
+                </span>
+                <span class="nieuw-banner-tekst">
+                    <span class="nieuw-banner-label">Nieuw</span>
+                    <strong id="nieuwBannerTitel">Tijdlijn van Nederland</strong>
+                    <span>211 onderwerpen uit de Canon, Limburgse geschiedenis en beide wereldoorlogen, met achtergrond en Schooltv-video's. Klaar voor het digibord.</span>
+                </span>
+                <span class="nieuw-banner-cta">Open de tijdlijn &rarr;</span>
+            </a>
+            <button type="button" class="nieuw-banner-sluit" aria-label="Melding sluiten">&times;</button>
+        </aside>
 
         <!-- Onboarding-checklist voor nieuwe leerkrachten (js/onboarding.js) -->
         <div id="onboardingMount"></div>
@@ -105,19 +123,20 @@
     <!-- Footer -->
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.61.1"></script>
-    <script src="/js/template.js?v=1.61.1"></script>
+    <script src="/js/mt-shared.js?v=1.61.2"></script>
+    <script src="/js/template.js?v=1.61.2"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.61.1"></script>
-    <script src="js/app.js?v=1.61.1"></script>
-    <script src="/js/active-class.js?v=1.61.1"></script>
-    <script src="/js/active-sessions.js?v=1.61.1"></script>
-    <script src="js/onboarding.js?v=1.61.1"></script>
-    <script src="js/instellingen.js?v=1.61.1"></script>
-    <script src="js/schooljaar-archief.js?v=1.61.1"></script>
-    <script src="js/school-popup.js?v=1.61.1"></script>
-    <script src="js/feedback.js?v=1.61.1"></script>
-    <script src="js/tools-registry.js?v=1.61.1"></script>
+    <script src="js/supabase-config.js?v=1.61.2"></script>
+    <script src="js/app.js?v=1.61.2"></script>
+    <script src="/js/active-class.js?v=1.61.2"></script>
+    <script src="/js/active-sessions.js?v=1.61.2"></script>
+    <script src="js/onboarding.js?v=1.61.2"></script>
+    <script src="js/instellingen.js?v=1.61.2"></script>
+    <script src="js/schooljaar-archief.js?v=1.61.2"></script>
+    <script src="js/school-popup.js?v=1.61.2"></script>
+    <script src="js/feedback.js?v=1.61.2"></script>
+    <script src="js/tools-registry.js?v=1.61.2"></script>
+    <script src="js/nieuw-banner.js?v=1.61.2"></script>
 </body>
 </html>
