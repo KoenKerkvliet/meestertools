@@ -84,6 +84,26 @@ Object.assign(window.DETAILS, {
   'Op 21 juli 1969 om 2:56 UTC zette Armstrong zijn linkervoet op de maan. Hij zei: “Dat is een kleine stap voor een mens, een reuzensprong voor de mensheid.” In Nederland was het midden in de nacht. Mensen over de hele wereld keken via de televisie mee.',
   'In 1985 vloog Wubbo Ockels uit Almelo als eerste Nederlander de ruimte in, op 30 oktober, tijdens de missie Spacelab D1.'
  ],
+ gevolgen: [
+  "Na Apollo 11 volgden nog vijf geslaagde maanlandingen. Tussen 1969 en 1972 liepen in totaal twaalf astronauten op de maan. Daarna stopten de bemande maanreizen, vooral omdat ze heel duur waren en de Verenigde Staten de race al hadden gewonnen.",
+  "De ruimtevaart leverde veel nieuwe technieken op, van lichtgewicht materialen tot verbeterde computers. De beroemde foto’s van de aarde vanuit de ruimte veranderden ook hoe mensen naar hun eigen planeet keken: als één kwetsbare bol."
+ ],
+ perspectieven: [
+  "Voor de Verenigde Staten was de maanlanding een overwinning in de Koude Oorlog. Voor mensen over de hele wereld was het een moment van verwondering, dat ze samen op televisie beleefden. Critici vroegen zich toen al af of het geld niet beter op aarde besteed kon worden, bijvoorbeeld tegen armoede."
+ ],
+ misverstanden: [
+  ["“De vlag wapperde, dus de beelden zijn nep.”","Op de maan waait het niet. De vlag hing aan een horizontale stang die niet helemaal was uitgeschoven, en was strak opgevouwen geweest. Daardoor leek het alsof hij golfde. Bij het opstijgen blies de motor de vlag om."],
+  ["“Na 1969 is er nooit meer iemand naar de maan geweest.”","Tot en met Apollo 17 in 1972 landden er nog vijf missies. Sinds 1972 is er niemand meer op de maan geweest."]
+ ],
+ hoeWeten: [
+  "Er zijn duizenden foto’s, uren filmbeelden en de radio-opnames van de gesprekken tussen de astronauten en de vluchtleiding. De astronauten namen honderden kilo’s maanstenen mee, die nog steeds onderzocht worden. Satellieten hebben later de landingsplaatsen en achtergelaten apparatuur op de maan gefotografeerd."
+ ],
+ nu: [
+  "Met het Artemis-programma wil NASA opnieuw mensen naar de maan sturen. Ook landen als China en India sturen ruimtevaartuigen naar de maan. In Noordwijk staat ESTEC, een groot centrum van de Europese ruimtevaartorganisatie ESA."
+ ],
+ vertellen: "Na de maanlanding bezochten de astronauten ook Nederland. De Amerikaanse ambassadeur gaf oud-premier Willem Drees toen een “maansteen” cadeau. Veertig jaar later, in 2009, ontdekte het Rijksmuseum dat het een stuk versteend hout was.",
+ verbanden: [["Spoetnik","het begin van de ruimtewedloop"],["De televisie","miljoenen keken tegelijk"],["Het eerste vliegtuig","van de eerste vlucht naar de maan in 66 jaar"]],
+ onderwijs: {"ka":["Blokvorming in de wereld met een wapenwedloop en de dreiging van een atoomoorlog (Koude Oorlog)."]},
  cijfers: [['Lancering','16 juli 1969'],['Landing','20 juli 1969'],['Eerste stap','21 juli 1969, 2:56 UTC'],['Bemanning','3 astronauten']],
  figuren: [['Neil Armstrong','eerste mens op de maan'],['Buzz Aldrin','liep ook op de maan'],['Michael Collins','bleef in het ruimteschip Columbia'],['Wubbo Ockels','eerste Nederlandse ruimtevaarder']],
  bronnen: [['Wikipedia: Apollo 11',W('Apollo 11')],['Wikipedia: Wubbo Ockels',W('Wubbo Ockels')]]
@@ -444,6 +464,26 @@ Object.assign(window.DETAILS, {
   'Op zaterdag 27 oktober kwam het, zoals tientallen jaren later duidelijk werd, bijna tot een kernoorlog. Op zondag 28 oktober maakte Radio Moskou bekend dat de Sovjet-Unie gevolg zou geven aan de eisen van de Verenigde Staten.',
   'Een gevolg was de “rode lijn”: in 1963 kwam er een directe telefoonverbinding, de hotline, tussen Washington en Moskou.'
  ],
+ gevolgen: [
+  "Beide supermachten schrokken van hoe dicht ze bij een kernoorlog waren gekomen. Naast de hotline kwamen er in 1963 ook afspraken om geen kernproeven meer in de lucht, onder water en in de ruimte te doen. Toch ging de wapenwedloop daarna gewoon door.",
+  "Chroesjtsjov verloor binnen de Sovjet-Unie aanzien, omdat het leek alsof hij was teruggedeinsd. In 1964 werd hij afgezet. Kennedy werd in november 1963 vermoord in Dallas."
+ ],
+ perspectieven: [
+  "In het westen werd de crisis lang verteld als een overwinning van Kennedy’s vastberadenheid. Later bleek dat er een geheime afspraak was: de Verenigde Staten zouden hun Jupiter-raketten uit Turkije en Italië weghalen. Voor Cuba zelf, dat niet aan tafel zat, was het een vernedering: de grootmachten beslisten over het hoofd van Castro heen."
+ ],
+ misverstanden: [
+  ["“Kennedy won omdat hij niet toegaf.”","De Sovjet-Unie haalde de raketten weg, maar de Verenigde Staten beloofden in het geheim hun eigen raketten uit Turkije en Italië terug te trekken, en Cuba niet binnen te vallen. Beide kanten gaven dus iets toe."],
+  ["“Het gevaar zat alleen in de raketten op Cuba.”","Uit stukken die in 1992 vrijkwamen, bleek dat er ook al gevaarlijke momenten op zee waren, bijvoorbeeld toen Amerikaanse schepen Sovjet-onderzeeërs met dieptebommen dwongen boven te komen. Daar waren aan Sovjetzijde ook kernwapens aanwezig."]
+ ],
+ hoeWeten: [
+  "De gesprekken in het Witte Huis werden op band opgenomen en zijn later openbaar gemaakt. Na de Koude Oorlog werden ook Sovjet-archieven deels geopend, en in 1992 kwamen geheime documenten vrij. De U-2-foto’s van de raketbases zijn een beroemde bron."
+ ],
+ nu: [
+  "De Cubacrisis wordt nog steeds genoemd wanneer de spanning tussen grote kernmachten oploopt. De hotline tussen Washington en Moskou bestaat nog, al gaat die nu niet meer via een telexapparaat."
+ ],
+ vertellen: "De crisis duurde dertien dagen. Op zaterdag 27 oktober 1962, de gevaarlijkste dag, werd boven Cuba een Amerikaans U-2-vliegtuig neergeschoten. Velen in Washington dachten die avond dat ze de volgende ochtend misschien niet zouden halen.",
+ verbanden: [["Spoetnik","de raketten van de Koude Oorlog"],["De Berlijnse Muur","de Koude Oorlog in Europa"],["De maanlanding","de wedloop werd ook in de ruimte gevoerd"]],
+ onderwijs: {"ka":["Blokvorming in de wereld met een wapenwedloop en de dreiging van een atoomoorlog (Koude Oorlog)."]},
  cijfers: [['Castro aan de macht','1 januari 1959'],['Kennedy kondigt blokkade aan','22 oktober 1962'],['Gevaarlijkste dag','27 oktober 1962'],['Sovjets geven toe','28 oktober 1962']],
  figuren: [['John F. Kennedy','Amerikaans president'],['Nikita Chroesjtsjov','leider van de Sovjet-Unie'],['Fidel Castro','leider van Cuba']],
  bronnen: [['Wikipedia: Cubacrisis',W('Cubacrisis')]]
@@ -459,6 +499,26 @@ Object.assign(window.DETAILS, {
   'Provo bedacht “witte plannen”, zoals het witte fietsenplan: gratis fietsen die iedereen mocht gebruiken. Ook bedachten ze het witte kippenplan (politieagenten als sociaal werkers) en het witte schoorstenenplan (fabrieksschoorstenen zonder giftige uitstoot).',
   'Op 10 maart 1966, de dag van het huwelijk van prinses Beatrix en Claus von Amsberg, gooiden provo’s rookbommen. Daardoor werd Provo internationaal bekend. In 1969 kwam Roel van Duijn in de Amsterdamse gemeenteraad.'
  ],
+ gevolgen: [
+  "Provo bestond maar twee jaar, maar had grote invloed. De harde reactie van de politie leidde tot kritiek op het Amsterdamse bestuur; in 1967 werden zowel de hoofdcommissaris van politie als burgemeester Van Hall van hun functie ontheven. Provo liet zien dat ludieke acties de gevestigde orde konden uitdagen.",
+  "De witte plannen waren hun tijd ver vooruit. Luud Schimmelpennink ontwikkelde later de Witkar, een kleine elektrische deelauto die in de jaren zeventig in Amsterdam reed. Na Provo volgde in 1970 de Kabouterbeweging, die ook in gemeenteraden kwam."
+ ],
+ perspectieven: [
+  "Voor jongeren was Provo een vrolijke, vernieuwende opstand tegen een saaie en gezagsgetrouwe samenleving. Voor veel ouderen, politici en de politie waren het relschoppers die de orde verstoorden. Achteraf wordt Provo gezien als een voorbode van de grote veranderingen van de jaren zestig en zeventig."
+ ],
+ misverstanden: [
+  ["“Provo was een gewelddadige beweging.”","Provo gebruikte vooral humor, happenings en provocatie. De grootste ongeregeldheden ontstonden vaak door het harde politieoptreden. De rookbommen bij het huwelijk van Beatrix waren wel een spraakmakende uitzondering."],
+  ["“De witte fietsen waren een succes.”","De politie haalde de eerste witte fietsen weg, omdat onafgesloten fietsen toen niet mochten. Het idee van gedeelde fietsen werd pas veel later, met moderne deelfietsen, echt werkelijkheid."]
+ ],
+ hoeWeten: [
+  "Provo gaf een eigen blad uit, Provo, en maakte veel pamfletten. Kranten, foto’s en filmbeelden van happenings bij Het Lieverdje zijn bewaard. Oud-provo’s, zoals Roel van Duijn, schreven later over hun tijd. Ook politierapporten en gemeenteraadsverslagen laten zien hoe de autoriteiten reageerden."
+ ],
+ nu: [
+  "Het Lieverdje staat nog op het Spui in Amsterdam. Deelfietsen en deelauto’s zijn nu gewoon, en lijken op wat Provo al in 1965 voorstelde. De ludieke, creatieve manier van actievoeren van Provo zie je terug in latere protestbewegingen."
+ ],
+ vertellen: "Studente Koosje Koster deelde op straat gratis krenten uit, als ludieke actie. Ze werd door de politie gearresteerd en gefouilleerd. Het verhaal werd groot nieuws en liet zien hoe nerveus de autoriteiten waren voor Provo.",
+ verbanden: [["Koning Willem-Alexander","zijn ouders trouwden op 10 maart 1966, de dag van de rookbommen"],["Pinkpop","de nieuwe jeugdcultuur van eind jaren zestig"],["Annie M.G. Schmidt","ook zij schreef tegen de burgerlijkheid in"]],
+ onderwijs: {"ka":["De toenemende westerse welvaart vanaf de jaren zestig en het ontstaan van ingrijpende sociaal-culturele veranderingen."]},
  cijfers: [['Opgericht','25 mei 1965'],['Rookbommen bij het huwelijk','10 maart 1966'],['Opgeheven','na twee jaar, in 1967'],['Roel van Duijn','Amsterdamse gemeenteraad, 1969']],
  figuren: [['Roel van Duijn','filosoof en oprichter van Provo'],['Luud Schimmelpennink','uitvinder, betrokken bij Provo'],['Robert Jasper Grootveld','kunstenaar van de happenings op het Spui']],
  bronnen: [['Wikipedia: Provo',W('Provo')]]
@@ -473,6 +533,26 @@ Object.assign(window.DETAILS, {
   'Internet en web zijn niet hetzelfde. Het internet is het netwerk van computers. Het web is een systeem van afspraken voor het aanbieden van pagina’s en toepassingen via dat netwerk.',
   'Het web groeide explosief en kwam ook in de klas en in huis. Zoals de televisie in 1951 in Nederland begon, werd het web in de jaren negentig voor veel mensen gewoon.'
  ],
+ gevolgen: [
+  "Nederland was er vroeg bij. Op 17 november 1988 verbond systeembeheerder Piet Beertema van het Centrum voor Wiskunde en Informatica in Amsterdam Nederland als tweede land ter wereld met het NSFnet, een voorloper van het internet. Al in 1986 registreerde hij de Nederlandse landcode .nl.",
+  "In de jaren negentig kwam internet ook bij gewone mensen thuis, via de telefoonlijn en een piepende modem. Daarna veranderde het bijna alles: hoe we nieuws lezen, winkelen, bankieren, contact houden, leren en werken."
+ ],
+ perspectieven: [
+  "Tim Berners-Lee besloot zijn uitvinding niet te patenteren, zodat iedereen het web vrij kon gebruiken. Daardoor kon het zo snel groeien. Tegelijk zijn er zorgen: over privacy, nepnieuws, de macht van grote techbedrijven en de invloed van sociale media op jongeren. Berners-Lee zelf zet zich in voor een eerlijker web."
+ ],
+ misverstanden: [
+  ["“Internet en het web zijn hetzelfde.”","Het internet is het wereldwijde netwerk van computers. Het web is één manier om dat netwerk te gebruiken, met pagina’s en links. E-mail en apps gebruiken het internet ook, maar zijn niet het web."],
+  ["“Het internet is in één keer uitgevonden.”","Het internet groeide vanaf 1969 stap voor stap uit verschillende netwerken. Het web kwam er pas ruim twintig jaar later bij, rond 1990."]
+ ],
+ hoeWeten: [
+  "De eerste webpagina van CERN is bewaard en weer online gezet. De technische afspraken, de zogenoemde RFC’s, zijn openbaar. Interviews met pioniers zoals Berners-Lee en Beertema vertellen hoe het begon."
+ ],
+ nu: [
+  "Bijna iedereen in Nederland gebruikt dagelijks internet. Scholen werken met digitale leermiddelen, en digitale geletterdheid is een belangrijk onderwerp in het onderwijs. In Amsterdam staat een van de grootste internetknooppunten ter wereld, de AMS-IX."
+ ],
+ vertellen: "De allereerste webserver ter wereld was een computer bij CERN met een briefje erop: “Deze machine is een server. NIET UITZETTEN!!” Als iemand hem per ongeluk had uitgezet, was het hele web even weg geweest.",
+ verbanden: [["De televisie","het vorige medium dat alles veranderde"],["Coronapandemie","thuiswerken en thuisonderwijs via internet"],["De telefoon","het internet ging eerst via de telefoonlijn"]],
+ onderwijs: {},
  cijfers: [['ARPANET','1969'],['TCP/IP','1 januari 1983'],['Web gebouwd','1990, bij CERN'],['Wereldwijde web-project','1991']],
  figuren: [['Tim Berners-Lee','bedenker van het world wide web'],['Robert Cailliau','Belgische collega bij CERN'],['Vinton Cerf','mede-ontwikkelaar van TCP/IP']],
  bronnen: [['Wikipedia: Internet',W('Internet')],['Wikipedia: Tim Berners-Lee',W('Tim Berners-Lee')]]
@@ -487,6 +567,26 @@ Object.assign(window.DETAILS, {
   'Mensen klommen op de Muur, haalden er stukken uit en vierden feest, ook bij de Brandenburger Tor. Het was het begin van het einde van de Koude Oorlog.',
   'In 1990 werd Duitsland herenigd en in 1991 viel de Sovjet-Unie uiteen. In 1992 volgde het Verdrag van Maastricht en in 2002 kwam de euro.'
  ],
+ gevolgen: [
+  "Binnen een jaar, op 3 oktober 1990, werden Oost- en West-Duitsland herenigd. In heel Oost-Europa vielen de communistische regimes, en in 1991 viel de Sovjet-Unie uiteen. Daarmee eindigde de Koude Oorlog.",
+  "Veel Oost-Europese landen werden later lid van de NAVO en de Europese Unie. Voor Oost-Duitsers betekende de hereniging vrijheid, maar ook onzekerheid: veel fabrieken sloten en de werkloosheid steeg."
+ ],
+ perspectieven: [
+  "Voor Berlijners was het een feest van vrijheid en hereniging. Niet iedereen in Europa was meteen gerust: sommige landen, zoals Frankrijk en Groot-Brittannië, waren bang voor een groot en machtig Duitsland. In Oost-Duitsland verlangden sommigen later terug naar de zekerheden van vroeger; daar is zelfs een woord voor, Ostalgie."
+ ],
+ misverstanden: [
+  ["“De Muur werd in die nacht afgebroken.”","Op 9 november gingen de grensovergangen open. Mensen hakten er stukken uit, maar het officiële afbreken begon pas in 1990 en duurde maanden."],
+  ["“De opening van de Muur was een gepland besluit.”","Er was wel besloten om reizen naar het westen makkelijker te maken, maar woordvoerder Günter Schabowski zei op een persconferentie per vergissing dat de regel “meteen” inging. Daarop stroomden duizenden mensen naar de grensposten."]
+ ],
+ hoeWeten: [
+  "De persconferentie van Schabowski werd live uitgezonden en is bewaard. Er zijn ontelbare foto’s en filmbeelden van de feestvierende mensen. De archieven van de Oost-Duitse regering en de Stasi zijn na de hereniging geopend."
+ ],
+ nu: [
+  "Op 3 oktober viert Duitsland de Dag van de Duitse Eenheid. Stukken van de Muur staan als monument in steden over de hele wereld. In Berlijn markeert een dubbele rij stenen in de straat waar de Muur stond."
+ ],
+ vertellen: "Toen een journalist op de persconferentie van 9 november 1989 vroeg wanneer de nieuwe reisregels ingingen, keek Schabowski in zijn papieren en zei: “Meteen, nu onmiddellijk.” Hij had het briefje niet goed gelezen. Een paar uur later stonden duizenden Oost-Berlijners bij de grens.",
+ verbanden: [["De Berlijnse Muur","de bouw in 1961"],["Verdrag van Maastricht","Europa veranderde snel na 1989"],["De euro","een van de gevolgen van de nieuwe samenwerking"]],
+ onderwijs: {"ka":["Blokvorming in de wereld met een wapenwedloop en de dreiging van een atoomoorlog (Koude Oorlog).","De eenwording van Europa."]},
  cijfers: [['Muur open','9 november 1989'],['Muur stond','13 augustus 1961 – 9 november 1989'],['Duitsland herenigd','3 oktober 1990'],['Sovjet-Unie opgeheven','1991']],
  figuren: [['Oost-Duitse regering','liet de grenzen openen'],['Berlijners','klommen op de Muur en braken stukken af']],
  bronnen: [['Wikipedia: Berlijnse Muur',W('Berlijnse Muur')]]
@@ -536,6 +636,26 @@ Object.assign(window.DETAILS, {
   'De wind blies de radioactieve wolk naar het noorden en noordwesten, over Scandinavië. Rond 2 mei bereikte hij Nederland en België. Het RIVM ging extra meten, er kwam een graasverbod zodat koeien binnen moesten blijven, en net geoogste bladgroente zoals spinazie mocht niet verkocht worden.',
   'Soldaten en arbeiders (liquidators) ruimden het puin op, vaak maar veertig seconden achter elkaar vanwege de straling. In november 1986 was er een betonnen omhulsel om de reactor. In 2000 ging de hele centrale dicht. Rond de centrale geldt nog steeds een verboden zone van 30 kilometer.'
  ],
+ gevolgen: [
+  "De ramp gaf kernenergie wereldwijd een slechte naam. In veel landen, ook in Nederland, werden plannen voor nieuwe kerncentrales op de lange baan geschoven. Pas in de 21e eeuw kwam de discussie over nieuwe kerncentrales in Nederland weer op gang.",
+  "In de Sovjet-Unie liet de ramp zien hoe gesloten het systeem was: pas na meldingen uit Zweden kwam het nieuws naar buiten. Het vergrootte de kritiek op de Sovjetleiding en wordt wel gezien als een van de factoren die het einde van de Sovjet-Unie versnelden."
+ ],
+ perspectieven: [
+  "Over het aantal slachtoffers verschillen de schattingen sterk. De Wereldgezondheidsorganisatie schatte in 2006 dat er onder de zwaarst blootgestelde groepen op den duur zo’n 4000 extra doden door kanker vallen. Andere onderzoeken komen op veel hogere aantallen. Voor de mensen die hun huis en dorp moesten verlaten, was het verlies niet in getallen uit te drukken."
+ ],
+ misverstanden: [
+  ["“Een kerncentrale kan ontploffen als een atoombom.”","In Tsjernobyl ontstond een stoomexplosie en een grafietbrand, geen kernexplosie zoals bij een atoombom. Wel kwamen daarbij enorme hoeveelheden radioactieve stoffen vrij."],
+  ["“Het gebied rond Tsjernobyl is helemaal dood.”","Mensen mogen er niet wonen, maar de natuur is teruggekomen: er leven wolven, elanden en wilde paarden. Ook bezochten tot 2019 elk jaar tienduizenden toeristen het gebied."]
+ ],
+ hoeWeten: [
+  "Er zijn metingen van straling in heel Europa, ook van het RIVM in Nederland. Na de val van de Sovjet-Unie werden archieven over de ramp openbaar. Ooggetuigen, zoals liquidators en inwoners van Pripjat, hebben hun verhaal verteld in boeken en documentaires."
+ ],
+ nu: [
+  "Over reactor 4 staat sinds 2016 een enorm nieuw omhulsel. In 2022 werd het gebied tijdelijk bezet door Russische troepen tijdens de inval in Oekraïne. In Nederland draait nog één kerncentrale, in Borssele, en wordt gesproken over nieuwe."
+ ],
+ vertellen: "De Sovjet-Unie hield de ramp eerst geheim. Twee dagen later gingen in een Zweedse kerncentrale de alarmen af omdat werknemers radioactieve deeltjes op hun kleding hadden. Zo ontdekte de wereld dat er ergens in de Sovjet-Unie iets heel ernstigs was gebeurd.",
+ verbanden: [["Albert Einstein","kernenergie berust op E = mc²"],["De val van de Berlijnse Muur","het einde van het Sovjetsysteem"],["Gaskraan Groningen dicht","de zoektocht naar energie"]],
+ onderwijs: {"ka":["Blokvorming in de wereld met een wapenwedloop en de dreiging van een atoomoorlog (Koude Oorlog)."]},
  cijfers: [['Datum','26 april 1986'],['Wolk boven Nederland','rond 2 mei 1986'],['Verboden zone','30 km rond de centrale'],['Centrale gesloten','15 december 2000']],
  figuren: [['Liquidators','soldaten en arbeiders die het puin opruimden'],['Inwoners van Pripjat','moesten hun stad voorgoed verlaten'],['RIVM','mat in Nederland de straling']],
  bronnen: [['Wikipedia: Kernramp van Tsjernobyl',W('Kernramp van Tsjernobyl')]]
@@ -1008,6 +1128,26 @@ Object.assign(window.DETAILS, {
   'De mannen kwamen meestal alleen en woonden in pensions. Zowel zij als de overheid dachten dat het tijdelijk zou zijn, vandaar het woord gastarbeider. Na de oliecrisis van 1973 stopte de werving.',
   'Veel arbeiders bleven toch en lieten hun gezin overkomen. Zo ontstonden grote Turkse en Marokkaanse gemeenschappen. Het veranderde Nederland in een land met veel culturen.'
  ],
+ gevolgen: [
+  "Vanaf de jaren zeventig lieten veel arbeiders hun vrouwen en kinderen overkomen: de gezinshereniging. Turkse en Marokkaanse gemeenschappen groeiden, met eigen winkels, moskeeën en verenigingen. Veel Italiaanse en Spaanse arbeiders gingen juist terug, of gingen op in de Nederlandse samenleving.",
+  "Toen in de jaren tachtig veel fabrieken sloten, raakten juist veel voormalige gastarbeiders hun baan kwijt. Taal, onderwijs en integratie werden belangrijke politieke onderwerpen, en dat zijn ze nog steeds."
+ ],
+ perspectieven: [
+  "Voor bedrijven waren de arbeiders hard nodig. Voor de mannen zelf was het een kans om geld te verdienen voor hun familie, vaak in zwaar en vies werk. Hun kinderen en kleinkinderen, die in Nederland opgroeiden, voelden zich vaak tussen twee culturen staan. Lang werd er in Nederland gesproken over gastarbeiders als tijdelijke gasten, terwijl ze in werkelijkheid al lang Nederlanders waren geworden."
+ ],
+ misverstanden: [
+  ["“De eerste gastarbeiders kwamen uit Turkije en Marokko.”","Al in de jaren twintig en dertig werkten duizenden buitenlanders in de Limburgse mijnen. Na de oorlog kwamen eerst Italianen, vanaf 1949, en daarna Spanjaarden, Portugezen en Grieken. Turkije en Marokko volgden in 1964 en 1969."],
+  ["“Gastarbeiders kwamen op eigen houtje.”","Nederland sloot officiële wervingsakkoorden met andere landen, en bedrijven stuurden wervers naar dorpen om arbeiders te selecteren, soms met een medische keuring."]
+ ],
+ hoeWeten: [
+  "Er zijn de wervingsakkoorden, archieven van bedrijven en overheid, en foto’s van aankomende arbeiders op stations. Veel verhalen zijn vastgelegd in interviews met de gastarbeiders zelf en hun kinderen, onder meer voor tentoonstellingen en documentaires."
+ ],
+ nu: [
+  "Turkse en Marokkaanse Nederlanders vormen grote groepen in de Nederlandse samenleving, en hun kinderen en kleinkinderen werken in alle beroepen. In de politiek, sport, kunst en media zijn Nederlanders met deze achtergrond prominent aanwezig."
+ ],
+ vertellen: "De eerste gastarbeiders dachten vaak dat ze een paar jaar zouden blijven om geld te sparen en dan terug te gaan. Daarom woonden ze zuinig in pensions, met meerdere mannen op een kamer. Velen bleven uiteindelijk hun hele leven in Nederland.",
+ verbanden: [["Steenkoolmijnen in Parkstad","ook daar werkten veel buitenlanders"],["Suriname onafhankelijk","nog een grote migratiegolf"],["Sluiting van de mijnen","de veranderende arbeidsmarkt"]],
+ onderwijs: {"ka":["De ontwikkeling van pluriforme en multiculturele samenlevingen.","De toenemende westerse welvaart vanaf de jaren zestig en het ontstaan van ingrijpende sociaal-culturele veranderingen."],"venster":"44. De gastarbeiders"},
  cijfers: [['Akkoord met Turkije','1964'],['Akkoord met Marokko','1969'],['Einde werving','na de oliecrisis van 1973']],
  figuren: [['Wervende bedrijven','zoals textiel- en metaalfabrieken'],['Eerste generatie','vooral jonge mannen']],
  bronnen: [CANON,['Wikipedia: Gastarbeider',W('Gastarbeider Nederland')]]
@@ -1019,11 +1159,31 @@ Object.assign(window.DETAILS, {
   'In de jaren vijftig kwam goedkope olie en Amerikaanse steenkool op de markt. Na de vondst van aardgas bij Slochteren in 1959 was Limburgse kolen niet meer rendabel.'
  ],
  verloop: [
-  'Op 14 december 1965 kondigde minister Joop den Uyl in de schouwburg van Heerlen aan dat alle mijnen zouden sluiten. Hij beloofde dat er geen mijnwerker werkloos zou worden.',
+  'Op 17 december 1965 kondigde minister Joop den Uyl in de schouwburg van Heerlen aan dat alle mijnen zouden sluiten. Hij beloofde dat er geen mijnwerker werkloos zou worden.',
   'In 1974 sloot de laatste mijn, de Oranje-Nassau I in Heerlen. Om werk te bieden, werden overheidsdiensten zoals het CBS en het ABP naar Parkstad verplaatst. De Staatsmijnen gingen verder als chemiebedrijf DSM.',
   'Toch verdwenen veel banen en kreeg de regio te maken met werkloosheid en krimp. Op mijnsteenberg de Wilhelminaberg in Landgraaf ligt nu SnowWorld.'
  ],
- cijfers: [['Aankondiging','14 december 1965'],['Laatste mijn gesloten','1974'],['Oudste mijn','Domaniale, Kerkrade']],
+ gevolgen: [
+  "Door de sluiting verdwenen op den duur ongeveer 45.000 directe banen in de mijnen, en ongeveer 30.000 banen bij toeleveranciers. De belofte van Den Uyl dat niemand werkloos zou worden, bleek moeilijk waar te maken: in 1971 waren pas 8.000 vervangende banen gerealiseerd. Mijnwerkers werden omgeschoold tot bijvoorbeeld metaalarbeider.",
+  "De Staatsmijnen werden het chemiebedrijf DSM. Rijksdiensten zoals het CBS en het pensioenfonds ABP vestigden zich in Heerlen. Toch kreeg de regio te maken met werkloosheid, vergrijzing en krimp."
+ ],
+ perspectieven: [
+  "Voor de regering was de sluiting een economische noodzaak: Limburgse steenkool was te duur geworden. Voor mijnwerkers en hun gezinnen betekende het het einde van een manier van leven, met een eigen trots, kameraadschap en verenigingsleven. Tegelijk was het werk ondergronds zwaar en gevaarlijk; veel mijnwerkers kregen een stoflong."
+ ],
+ misverstanden: [
+  ["“Alle mijnen gingen in 1965 dicht.”","In 1965 werd de sluiting aangekondigd. Daarna gingen de mijnen één voor één dicht; de laatste, Oranje-Nassau I in Heerlen, sloot in 1974."],
+  ["“In de mijnen werkten alleen Limburgers.”","Er werkten ook veel mensen uit andere delen van Nederland en uit het buitenland, onder meer uit Polen, Italië, Joegoslavië en later Turkije en Marokko."]
+ ],
+ hoeWeten: [
+  "De mijnnota’s van de regering, de toespraak van Den Uyl en de archieven van de mijnen en de Staatsmijnen zijn bewaard. Er zijn veel foto’s en filmbeelden van het werk ondergronds. Oud-mijnwerkers en hun families hebben hun herinneringen vastgelegd in boeken, interviews en mijnmusea."
+ ],
+ nu: [
+  "In de mijnstreek staan nog schachtbokken, mijnwerkerswoningen en monumenten. De Wilhelminaberg, een oude mijnsteenberg, is nu de skibaan SnowWorld. Bij het Discovery Museum in Kerkrade en op andere plekken wordt het mijnverleden verteld. DSM is nog steeds een groot bedrijf, en op het terrein in Geleen ligt de Brightlands Chemelot Campus."
+ ],
+ vertellen: "Op 17 december 1965 stond minister Joop den Uyl op het toneel van de Stadsschouwburg in Heerlen. Voor een zaal vol mijnwerkers en bestuurders kondigde hij aan dat binnen tien jaar alle mijnen dicht zouden gaan. Hij beloofde dat er geen sluiting zou komen zonder vervangend werk.",
+ verbanden: [["Steenkoolmijnen in Parkstad","het begin van de mijnstreek"],["Aardgas in Slochteren","het gas maakte steenkool overbodig"],["Gastarbeiders","veel mijnwerkers kwamen uit het buitenland"]],
+ onderwijs: {"ka":["De toenemende westerse welvaart vanaf de jaren zestig en het ontstaan van ingrijpende sociaal-culturele veranderingen."],"venster":"46. Kolen en gas"},
+ cijfers: [['Aankondiging','17 december 1965'],['Laatste mijn gesloten','1974'],['Oudste mijn','Domaniale, Kerkrade']],
  figuren: [['Joop den Uyl','minister van Economische Zaken'],['Mijnwerkers en hun gezinnen','uit binnen- en buitenland']],
  bronnen: [CANON,['Nederlands Mijnmuseum','https://www.nederlandsmijnmuseum.nl/'],['Wikipedia: Mijnbouw in Limburg',W('Steenkolenmijnen Limburg')]]
 },
@@ -1038,6 +1198,26 @@ Object.assign(window.DETAILS, {
   'Pinkpop groeide uit tot een van de belangrijkste festivals van Europa. Na de jaren in Geleen en één editie in Baarlo verhuisde het in 1988 naar Megaland in Landgraaf, waar het nog steeds plaatsvindt.',
   'Wereldsterren van U2 tot Metallica en The Rolling Stones stonden op het podium. Pinkpop geldt als het oudste popfestival ter wereld dat elk jaar zonder onderbreking werd gehouden, op de coronajaren na.'
  ],
+ gevolgen: [
+  "Pinkpop werd een voorbeeld voor andere festivals in Nederland, zoals Lowlands en Down the Rabbit Hole. Popmuziek werd een belangrijk deel van de jeugdcultuur en later van de hele cultuur. Voor Limburg werd het festival een visitekaartje, met tienduizenden bezoekers per dag.",
+  "Sinds 1996 duurt Pinkpop drie dagen. Het podium voor nieuw talent liet veel bands doorbreken die later grote namen werden."
+ ],
+ perspectieven: [
+  "In 1970 keken veel ouderen met wantrouwen naar langharige jongeren en harde muziek. Voor de jongeren zelf was een festival als Pinkpop een plek van vrijheid en saamhorigheid. Omwonenden hadden en hebben soms last van geluid en drukte, en de organisatie moest steeds afspraken maken met de gemeente."
+ ],
+ misverstanden: [
+  ["“Pinkpop is altijd met Pinksteren.”","De naam komt van Pinksteren, maar van 2020 tot en met 2029 vindt het festival in juni plaats, op een ander weekend."],
+  ["“Pinkpop was meteen een groot internationaal festival.”","De eerste editie in Geleen was vooral een lokaal festival, met veel Limburgse bands. Bezoekers namen hun eigen eten mee. Pas later kwamen de wereldsterren."]
+ ],
+ hoeWeten: [
+  "Er zijn affiches, foto’s, opnames van optredens en krantenverslagen van alle edities. Oprichter Jan Smeets vertelde vaak over de geschiedenis. Bezoekers deelden hun herinneringen in boeken en tentoonstellingen over het festival."
+ ],
+ nu: [
+  "Pinkpop vindt elk jaar plaats in Landgraaf en trekt tienduizenden bezoekers per dag. In 2020 en 2021 werd het afgelast vanwege de coronapandemie. Festivals zijn uitgegroeid tot een belangrijke bedrijfstak en een vast onderdeel van de zomer."
+ ],
+ vertellen: "De oprichters wilden in 1970 vooral een internationale artiest naar Limburg halen. Ze organiseerden het eerste Pinkpop in Geleen. Niemand vermoedde dat het een van de oudste popfestivals ter wereld zou worden.",
+ verbanden: [["Provo","de jeugdcultuur van de jaren zestig"],["Steenkoolmijnen in Parkstad","Landgraaf ligt in de oude mijnstreek"],["Het Oranjegevoel","ook in de jaren zeventig werden massa-evenementen populair"]],
+ onderwijs: {"ka":["De toenemende westerse welvaart vanaf de jaren zestig en het ontstaan van ingrijpende sociaal-culturele veranderingen."]},
  cijfers: [['Eerste editie','Pinksteren 1970, Geleen'],['Naar Landgraaf','1988'],['Locatie nu','Megaland, Landgraaf']],
  figuren: [['Jan Smeets','oprichter en jarenlang directeur']],
  bronnen: [['Pinkpop','https://www.pinkpop.nl/'],['Wikipedia: Pinkpop',W('Pinkpop')]]
@@ -1053,6 +1233,26 @@ Object.assign(window.DETAILS, {
   'Al in de tweede minuut scoorde Neeskens uit een strafschop, maar West-Duitsland won uiteindelijk met 2-1. Toch werd het elftal wereldwijd bewonderd.',
   'In heel Nederland kleurden straten oranje en keken families samen naar de wedstrijden. Dat oranjegevoel komt terug bij grote toernooien, Koningsdag en sportsuccessen.'
  ],
+ gevolgen: [
+  "Bij het EK van 1988 in West-Duitsland won het Nederlands elftal met Ruud Gullit, Frank Rijkaard en Marco van Basten zijn eerste grote prijs. De halve finale tegen West-Duitsland, gewonnen met 2-1, werd extra beladen gevierd. Na de finale gingen honderdduizenden mensen de straat op.",
+  "Ook het vrouwenvoetbal kreeg een oranjegevoel: in 2017 werden de Oranjeleeuwinnen in eigen land Europees kampioen. Het totaalvoetbal van Ajax en Oranje beïnvloedde later clubs als FC Barcelona, waar Johan Cruijff ook trainer werd."
+ ],
+ perspectieven: [
+  "Voor veel Nederlanders is oranje een vrolijke manier om samen iets te vieren. Critici vinden de oranjegekte soms commercieel of overdreven. Rond wedstrijden tegen Duitsland speelde lang ook de herinnering aan de Tweede Wereldoorlog een rol; dat gevoel is bij jongere generaties grotendeels verdwenen."
+ ],
+ misverstanden: [
+  ["“Oranje komt van het voetbal.”","De kleur oranje verwijst naar het vorstenhuis van Oranje-Nassau. De oranjegekte op tribunes begon bovendien bij het schaatsen in de jaren zestig, met de oranje mutsen bij het EK schaatsen van 1966 in Deventer."],
+  ["“Nederland heeft nooit een groot toernooi gewonnen.”","De mannen werden in 1988 Europees kampioen, en de vrouwen in 2017. Wel verloor het mannenteam drie WK-finales: in 1974, 1978 en 2010."]
+ ],
+ hoeWeten: [
+  "De wedstrijden werden op televisie uitgezonden en zijn bewaard bij Beeld & Geluid. Kranten, foto’s van oranje straten en interviews met spelers en supporters laten zien hoe het oranjegevoel groeide. Ook kijkcijfers laten zien hoeveel mensen tegelijk keken."
+ ],
+ nu: [
+  "Bij grote toernooien kleuren straten oranje, en op Koningsdag dragen miljoenen mensen oranje. Bij de Olympische Spelen zie je hetzelfde bij schaatsen en wielrennen. Het oranjegevoel is een van de weinige momenten waarop bijna heel Nederland samen iets beleeft."
+ ],
+ vertellen: "In de WK-finale van 1974 kreeg Nederland al in de eerste minuut een strafschop, nog voordat een Duitser de bal had geraakt. Johan Neeskens benutte hem. Toch won West-Duitsland met 2-1.",
+ verbanden: [["Moord op Willem van Oranje","waar de kleur oranje vandaan komt"],["De televisie","het oranjegevoel ontstond voor de buis"],["Koning Willem-Alexander","Koningsdag in oranje"]],
+ onderwijs: {"ka":["De toenemende westerse welvaart vanaf de jaren zestig en het ontstaan van ingrijpende sociaal-culturele veranderingen."],"venster":"50. Het Oranjegevoel"},
  cijfers: [['WK-finale','7 juli 1974, München'],['Uitslag','West-Duitsland – Nederland 2-1'],['Eerste prijs','EK 1988']],
  figuren: [['Rinus Michels','bondscoach, bedenker van totaalvoetbal'],['Johan Cruijff','aanvoerder en sterspeler'],['Johan Neeskens','scoorde in de finale']],
  bronnen: [CANON,['Wikipedia: WK 1974',W('Wereldkampioenschap voetbal 1974')]]
@@ -1068,6 +1268,26 @@ Object.assign(window.DETAILS, {
   'Uit onzekerheid over de toekomst verhuisden in de jaren rond de onafhankelijkheid tienduizenden Surinamers naar Nederland. Ongeveer een derde van de bevolking woonde uiteindelijk in Nederland.',
   'In 1980 pleegde Desi Bouterse een staatsgreep. In 1982 werden vijftien tegenstanders vermoord: de Decembermoorden. Aruba, Curaçao en Sint Maarten bleven landen binnen het Koninkrijk.'
  ],
+ gevolgen: [
+  "Rond de onafhankelijkheid vertrok ruim een kwart van de inwoners naar Nederland. Surinamers kregen de keuze om de Nederlandse nationaliteit te houden of de Surinaamse te krijgen. Na de coup van 1980 en de Decembermoorden van 1982 vertrokken er opnieuw velen. Er wonen nu ongeveer 350.000 Surinamers in Nederland.",
+  "Na de Decembermoorden schortte Nederland de ontwikkelingshulp op. Pas in 2019 werd Bouterse voor de moorden veroordeeld tot twintig jaar gevangenisstraf; in december 2023 werd die straf definitief. Hij dook onder en overleed in december 2024."
+ ],
+ perspectieven: [
+  "Voor veel Surinamers was de onafhankelijkheid een moment van trots en een einde aan de koloniale tijd. Anderen, vooral Hindoestanen, waren bang voor onrust en een regering die hen niet zou vertegenwoordigen, en vertrokken naar Nederland. In Nederland zelf werd de onafhankelijkheid door sommigen gezien als een manier om van een lastige kolonie af te komen."
+ ],
+ misverstanden: [
+  ["“Surinamers kwamen pas na 1975 naar Nederland.”","Al eerder kwamen Surinamers naar Nederland, vaak om te studeren of te werken. Wel kwam de grote groei rond 1975 en na 1980."],
+  ["“Suriname bestaat uit één bevolkingsgroep.”","Suriname is zeer divers: er wonen onder meer Hindoestanen, Creolen, Javanen, Marrons, inheemse volken en Chinezen, mede als gevolg van slavernij en contractarbeid."]
+ ],
+ hoeWeten: [
+  "Er zijn de verslagen van de onderhandelingen, de debatten in beide parlementen en de toespraken van 25 november 1975. Foto’s en filmbeelden tonen de feesten in Paramaribo. Verhalen van Surinamers die naar Nederland kwamen, zijn vastgelegd in interviews en boeken."
+ ],
+ nu: [
+  "Op 25 november viert Suriname Srefidensi, de onafhankelijkheidsdag. In Nederland wordt op 1 juli met Keti Koti de afschaffing van de slavernij herdacht en gevierd. Surinaamse Nederlanders hebben de Nederlandse cultuur verrijkt, van taal en muziek tot eten."
+ ],
+ vertellen: "Op 25 november 1975 werd om middernacht in Paramaribo de Nederlandse vlag gestreken en de Surinaamse vlag gehesen, met de gele ster op groen, wit en rood. Prinses Beatrix en prins Claus waren bij de plechtigheid aanwezig.",
+ verbanden: [["Slavernij","de koloniale geschiedenis van Suriname"],["Anton de Kom","zijn boek inspireerde de onafhankelijkheidsbeweging"],["Nieuw Koninkrijk","de verdere ontwikkeling van het Koninkrijk"]],
+ onderwijs: {"ka":["De dekolonisatie die een eind maakte aan de westerse macht in de wereld.","De ontwikkeling van pluriforme en multiculturele samenlevingen."],"venster":"47. Het Caribisch gebied"},
  cijfers: [['Statuut voor het Koninkrijk','1954'],['Onafhankelijkheid','25 november 1975'],['Staatsgreep','1980'],['Decembermoorden','1982']],
  figuren: [['Henck Arron','eerste premier van Suriname'],['Joop den Uyl','Nederlandse premier'],['Johan Ferrier','eerste president']],
  bronnen: [CANON,['Wikipedia: Onafhankelijkheid van Suriname',W('Onafhankelijkheid Suriname 1975')]]
@@ -1083,6 +1303,26 @@ Object.assign(window.DETAILS, {
   'Het verdrag richtte de Europese Unie op, voerde het Europees burgerschap in en legde de basis voor een gezamenlijke munt. In Denemarken werd het verdrag eerst bij een referendum afgewezen. Op 1 november 1993 trad het in werking.',
   'In 2002 kregen burgers de euro in handen. Maastricht is sindsdien een begrip in de Europese politiek.'
  ],
+ gevolgen: [
+  "Het verdrag legde de regels vast voor de euro, de zogenoemde Maastricht-criteria: landen mochten onder meer niet te veel geld lenen en geen te hoge inflatie hebben. In 1999 werd de euro ingevoerd, in 2002 kwamen de munten en biljetten.",
+  "Ook kwamen er Europese afspraken over buitenlands beleid en over justitie en politie. Burgers van een EU-land kregen het Europees burgerschap: ze mogen in elk EU-land wonen en werken, en mogen er stemmen bij gemeenteraadsverkiezingen en Europese verkiezingen."
+ ],
+ perspectieven: [
+  "Voorstanders zagen het verdrag als een historische stap naar een verenigd Europa na de Koude Oorlog. Tegenstanders vonden dat landen te veel zeggenschap opgaven. In Denemarken stemde een meerderheid in 1992 eerst tegen, en in Frankrijk was een ja-stem bij het referendum maar net. Daarna kregen sommige landen uitzonderingen, zoals Denemarken voor de euro."
+ ],
+ misverstanden: [
+  ["“Met het Verdrag van Maastricht kwam meteen de euro.”","Het verdrag legde de basis en de regels, maar de euro kwam pas in 1999 voor overschrijvingen en in 2002 in de portemonnee."],
+  ["“Het verdrag gaat over open grenzen.”","Open grenzen zonder paspoortcontrole zijn geregeld in de aparte Schengenakkoorden. Het Verdrag van Maastricht gaat over de oprichting van de Europese Unie, het Europees burgerschap en de munt."]
+ ],
+ hoeWeten: [
+  "De tekst van het verdrag, de verslagen van de onderhandelingen en de uitslagen van de referenda zijn openbaar. Foto’s en filmbeelden van de ondertekening in het Gouvernement aan de Maas zijn bewaard. Ook de debatten in de Tweede Kamer laten zien hoe er in Nederland over werd gedacht."
+ ],
+ nu: [
+  "De naam Maastricht is in heel Europa bekend door het verdrag. Elke euro in je portemonnee en elk Europees paspoort met “Europese Unie” erop gaan terug op dit verdrag."
+ ],
+ vertellen: "Het verdrag werd ondertekend in het Gouvernement aan de Maas, het provinciehuis van Limburg. Zo kreeg een Limburgse stad een plek in alle Europese geschiedenisboeken: overal ter wereld spreekt men over “Maastricht”.",
+ verbanden: [["Europa","het begin van de Europese samenwerking"],["De euro","de munt die uit het verdrag voortkwam"],["De val van de Berlijnse Muur","de nieuwe situatie in Europa"]],
+ onderwijs: {"ka":["De eenwording van Europa."],"venster":"49. Europa"},
  cijfers: [['Akkoord','december 1991'],['Ondertekend','7 februari 1992'],['In werking','1 november 1993'],['Euro in de portemonnee','2002']],
  figuren: [['Ruud Lubbers','minister-president'],['Hans van den Broek','minister van Buitenlandse Zaken'],['Wim Kok','minister van Financiën']],
  bronnen: [['Europa Nu','https://www.europa-nu.nl/'],['Wikipedia: Verdrag van Maastricht',W('Verdrag van Maastricht')]]
@@ -1098,6 +1338,26 @@ Object.assign(window.DETAILS, {
   'De Bosnisch-Servische troepen scheidden mannen en jongens van vrouwen en kinderen en vermoordden in de dagen daarna ongeveer 8000 van hen. Het Joegoslaviëtribunaal oordeelde later dat dit genocide was.',
   'Het NIOD-rapport van 2002 leidde tot de val van het kabinet-Kok II. In 2019 oordeelde de Hoge Raad dat de Nederlandse staat gedeeltelijk aansprakelijk is voor de dood van ongeveer 350 mannen die uit de compound waren weggestuurd.'
  ],
+ gevolgen: [
+  "Srebrenica werd een trauma voor Nederland. Het NIOD-rapport uit 2002 beschreef hoe Dutchbat met een onduidelijke opdracht en te weinig middelen naar een onmogelijke missie was gestuurd. Het kabinet-Kok II trad af. De gebeurtenissen leidden tot jarenlange discussie over vredesmissies.",
+  "Generaal Ratko Mladić en de Bosnisch-Servische leider Radovan Karadžić werden door het Joegoslaviëtribunaal in Den Haag veroordeeld tot levenslang, onder meer voor genocide. Nabestaanden, verenigd in de Moeders van Srebrenica, spanden rechtszaken aan tegen de Nederlandse staat."
+ ],
+ perspectieven: [
+  "Voor de nabestaanden is het verdriet nog steeds groot, en velen vinden dat Nederland meer had moeten doen. Veel Dutchbat-veteranen voelden zich na thuiskomst in de steek gelaten en droegen jarenlang de schuld van wat er gebeurde. Historici wijzen er ook op dat de VN en de grote landen verantwoordelijk waren voor het uitblijven van luchtsteun."
+ ],
+ misverstanden: [
+  ["“Nederlandse militairen hebben de moorden gepleegd.”","De moorden werden gepleegd door Bosnisch-Servische troepen. Dutchbat kon de stad niet beschermen. Wel oordeelde de Hoge Raad in 2019 dat de Nederlandse staat gedeeltelijk aansprakelijk is voor ongeveer 350 mannen die van de compound werden weggestuurd."],
+  ["“Dutchbat had de aanval met eigen wapens kunnen stoppen.”","Het bataljon was licht bewapend, bestond uit een paar honderd militairen en was afhankelijk van luchtsteun, die lange tijd niet kwam. Tegenover hen stond een veel sterker leger met tanks."]
+ ],
+ hoeWeten: [
+  "Het NIOD-rapport van 2002 is een van de uitgebreidste onderzoeken ooit naar een Nederlandse militaire missie. Het Joegoslaviëtribunaal verzamelde getuigenissen, documenten en bewijs uit massagraven. Slachtoffers worden nog steeds geïdentificeerd met DNA-onderzoek."
+ ],
+ nu: [
+  "Elk jaar op 11 juli worden in Potočari, bij Srebrenica, nieuw geïdentificeerde slachtoffers begraven. Ook in Nederland wordt de genocide herdacht. Het Joegoslaviëtribunaal in Den Haag heeft zijn werk afgerond; de uitspraken gelden als belangrijke stap in het internationaal strafrecht."
+ ],
+ vertellen: "De Verenigde Naties hadden Srebrenica in 1993 een “veilig gebied” genoemd. Juist die belofte maakte de val zo pijnlijk: de mensen die daar hun toevlucht zochten, dachten beschermd te zijn.",
+ verbanden: [["Universele Verklaring van de Rechten van de Mens","de belofte van “nooit meer”"],["De Tweede Wereldoorlog","de vorige genocide in Europa"],["De val van de Berlijnse Muur","na 1989 viel Joegoslavië uiteen"]],
+ onderwijs: {"ka":["De ontwikkeling van pluriforme en multiculturele samenlevingen."],"venster":"48. Srebrenica"},
  cijfers: [['Val van Srebrenica','11 juli 1995'],['Vermoorde mannen en jongens','ca. 8000'],['Val kabinet-Kok II','april 2002'],['Uitspraak Hoge Raad','2019']],
  figuren: [['Ratko Mladić','Bosnisch-Servische generaal, veroordeeld voor genocide'],['Thom Karremans','commandant van Dutchbat III'],['Wim Kok','premier, trad af in 2002']],
  bronnen: [CANON,['NIOD','https://www.niod.nl/'],['Wikipedia: Val van Srebrenica',W('Val van Srebrenica')]]
