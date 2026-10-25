@@ -26,9 +26,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Meestertools - Beheer</title>
-    <link rel="stylesheet" href="css/style.css?v=1.63.1">
-    <link rel="stylesheet" href="css/instellingen.css?v=1.63.1">
-    <link rel="stylesheet" href="css/ideeenbus.css?v=1.63.1">
+    <link rel="stylesheet" href="css/style.css?v=1.64.0">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.64.0">
+    <link rel="stylesheet" href="css/ideeenbus.css?v=1.64.0">
 </head>
 <body>
     <!-- Header -->
@@ -45,6 +45,7 @@
         <div class="admin-tabs">
             <button class="admin-tab active" data-tab="users">Gebruikers</button>
             <button class="admin-tab" data-tab="schools">Scholen</button>
+            <button class="admin-tab" data-tab="bezoek">Bezoek</button>
             <button class="admin-tab" data-tab="words">Woorden Flitsen</button>
             <button class="admin-tab" data-tab="spelling">Spelling</button>
             <button class="admin-tab" data-tab="game24">24 Game</button>
@@ -476,6 +477,52 @@
             </div>
         </div>
 
+        <!-- Bezoek Tab -->
+        <div class="admin-tab-panel" id="tab-bezoek">
+            <div class="op-card">
+                <div class="op-card-head">
+                    <div>
+                        <h3>Bezoek aan Meestertools</h3>
+                        <p class="admin-toolbar-note">Anoniem geteld: per dag en per pagina een totaal, zonder cookies en zonder iets over de bezoeker.
+                            Een <strong>binnenkomst</strong> is een bezoeker die van buiten de site kwam (Google, een andere site, een link in een mail); dat komt het dichtst bij het aantal bezoeken.
+                            Unieke bezoekers zijn bewust niet te tellen.</p>
+                    </div>
+                    <div class="op-mode">
+                        <label for="bezoekPeriode">Periode</label>
+                        <select class="search-input" id="bezoekPeriode">
+                            <option value="7">Laatste 7 dagen</option>
+                            <option value="30" selected>Laatste 30 dagen</option>
+                            <option value="90">Laatste 90 dagen</option>
+                            <option value="365">Laatste jaar</option>
+                        </select>
+                        <label class="optin bz-zelf"><input type="checkbox" id="bezoekZelf"> <span>Dit apparaat niet meetellen</span></label>
+                    </div>
+                </div>
+                <div class="op-stats" id="bezoekStats"></div>
+            </div>
+
+            <div class="op-card">
+                <h3>Paginaweergaven per dag</h3>
+                <div class="bz-chart" id="bezoekChart" role="img" aria-label="Paginaweergaven per dag"></div>
+                <div class="bz-tip" id="bezoekTip" hidden></div>
+            </div>
+
+            <div class="bz-grid">
+                <div class="admin-table-wrapper scroll-x">
+                    <table class="admin-table">
+                        <thead><tr><th>Pagina</th><th class="bz-num">Weergaven</th><th class="bz-num">Binnenkomsten</th></tr></thead>
+                        <tbody id="bezoekPaginas"></tbody>
+                    </table>
+                </div>
+                <div class="admin-table-wrapper scroll-x">
+                    <table class="admin-table">
+                        <thead><tr><th>Waar vandaan</th><th class="bz-num">Binnenkomsten</th></tr></thead>
+                        <tbody id="bezoekBronnen"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <!-- Opruimen Tab -->
         <div class="admin-tab-panel" id="tab-opruimen">
             <div class="op-card">
@@ -894,13 +941,13 @@
     <!-- Footer -->
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.63.1"></script>
-    <script src="/js/template.js?v=1.63.1"></script>
+    <script src="/js/mt-shared.js?v=1.64.0"></script>
+    <script src="/js/template.js?v=1.64.0"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.63.1"></script>
-    <script src="js/app.js?v=1.63.1"></script>
-    <script src="js/instellingen.js?v=1.63.1"></script>
-    <script src="js/admin.js?v=1.63.1"></script>
+    <script src="js/supabase-config.js?v=1.64.0"></script>
+    <script src="js/app.js?v=1.64.0"></script>
+    <script src="js/instellingen.js?v=1.64.0"></script>
+    <script src="js/admin.js?v=1.64.0"></script>
 </body>
 </html>

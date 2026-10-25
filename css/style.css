@@ -2068,6 +2068,29 @@ a {
     color: var(--text-dark);
 }
 
+/* Bezoek-tabblad in /beheer */
+.bz-zelf { margin: 10px 0 0; font-size: 13px; }
+.op-card > h3 { margin: 0 0 16px; font-size: 16px; font-weight: 700; }
+.op-card { position: relative; }
+.bz-chart { display: flex; gap: 8px; height: 240px; padding-bottom: 22px; }
+.bz-y { display: flex; flex-direction: column; justify-content: space-between; min-width: 32px; margin-bottom: -6px; text-align: right; font-size: 11px; color: var(--text-medium); font-variant-numeric: tabular-nums; }
+.bz-y span { line-height: 12px; transform: translateY(-6px); }
+.bz-plot { position: relative; flex: 1; min-width: 0; }
+.bz-lijn { position: absolute; left: 0; right: 0; height: 1px; background: #EEEEF4; }
+.bz-bars { position: absolute; inset: 0; display: flex; align-items: stretch; }
+.bz-kol { position: relative; flex: 1 1 0; min-width: 0; display: flex; align-items: flex-end; justify-content: center; padding: 0 1px; cursor: default; outline: none; }
+.bz-kol.on { background: rgba(108, 99, 255, 0.06); }
+.bz-kol:focus-visible { box-shadow: inset 0 0 0 2px rgba(108, 99, 255, 0.4); }
+.bz-bar { display: block; width: 100%; max-width: 28px; min-height: 0; background: var(--primary); border-radius: 4px 4px 0 0; }
+.bz-x { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 6px; font-size: 11px; color: var(--text-medium); white-space: nowrap; }
+.bz-tip { position: absolute; z-index: 5; transform: translate(-50%, -100%); display: flex; flex-direction: column; gap: 2px; padding: 8px 12px; border-radius: var(--radius-sm); background: var(--text-dark); color: #fff; font-size: 13px; line-height: 1.35; pointer-events: none; white-space: nowrap; box-shadow: var(--shadow-sm); }
+.bz-tip span { color: rgba(255, 255, 255, 0.8); }
+.bz-tip[hidden] { display: none; }
+.bz-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 20px; }
+.bz-num { text-align: right; font-variant-numeric: tabular-nums; }
+.bz-muted { color: var(--text-medium); }
+@media (max-width: 900px) { .bz-grid { grid-template-columns: 1fr; } }
+
 /* Feedback-tabblad in /beheer */
 .fb-summary {
     display: grid;

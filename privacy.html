@@ -20,8 +20,8 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Privacy - Meestertools</title>
-    <link rel="stylesheet" href="css/style.css?v=1.63.1">
-    <link rel="stylesheet" href="css/landing.css?v=1.63.1">
+    <link rel="stylesheet" href="css/style.css?v=1.64.0">
+    <link rel="stylesheet" href="css/landing.css?v=1.64.0">
 </head>
 <body>
 
@@ -40,7 +40,7 @@
         <p>Meestertools (meestertools.nl) is een gratis verzameling digitale tools voor leerkrachten in het basisonderwijs, gemaakt en beheerd door Koen Kerkvliet, zelf leerkracht. Omdat de tools in de klas gebruikt worden, is privacy geen bijzaak maar het uitgangspunt. Deze pagina legt uit welke gegevens er worden verwerkt, waarom, waar ze staan en welke rechten je hebt.</p>
 
         <div class="lp-doc-highlight">
-            <p><strong>In het kort:</strong> we slaan zo min mogelijk op. Van leerlingen alleen een voornaam en de voortgang in de tools. Geen geboortedata, geen foto's, geen e-mailadressen van kinderen. Geen tracking, geen advertenties, geen doorverkoop van data. Alles staat op servers binnen de Europese Unie.</p>
+            <p><strong>In het kort:</strong> we slaan zo min mogelijk op. Van leerlingen alleen een voornaam en de voortgang in de tools. Geen geboortedata, geen foto's, geen e-mailadressen van kinderen. Geen tracking, geen advertenties, geen doorverkoop van data. We tellen alleen anoniem hoe vaak pagina's bekeken worden. Alles staat op servers binnen de Europese Unie.</p>
         </div>
 
         <h2>Welke gegevens verwerken we?</h2>
@@ -66,6 +66,7 @@
         <p>Uitsluitend om de tools te laten werken: de namenkiezer moet namen kennen, de typcursus moet voortgang onthouden, de complimentenmuur moet weten wie er in de klas zit. De gegevens worden nergens anders voor gebruikt &mdash; niet voor marketing, niet voor profilering, en ze worden nooit gedeeld met of verkocht aan derden.</p>
 
         <h2>Geen tracking, geen advertenties</h2>
+        <p><strong>Wat we wel tellen:</strong> hoe vaak een pagina bekeken wordt, per dag. Daarbij noteren we alleen de pagina, de website waar je vandaan kwam (bijvoorbeeld google.com, en alleen de naam van die site) en of het scherm smal of breed is. Dat wordt meteen opgeteld bij een dagtotaal. We bewaren geen IP-adres, geen cookie, niets in je browser en niets wat aan jou of je account gekoppeld is; we kunnen dus ook niet zien wie er op de site is geweest. Deze telling staat in dezelfde database bij Supabase in de EU.</p>
         <p>Meestertools gebruikt geen analytics-diensten (zoals Google Analytics), geen advertentienetwerken en geen social-media-pixels. De site plaatst alleen functionele opslag in je browser: je inlogsessie en je eigen voorkeuren (zoals favoriete tools). Er zijn geen cookiemeldingen nodig, omdat er niets te melden valt.</p>
 
         <h2>Waar staan de gegevens?</h2>
@@ -123,5 +124,6 @@
     <script>
         document.getElementById('lpYear').textContent = new Date().getFullYear();
     </script>
+    <script src="/js/teller.js?v=1.64.0" defer></script>
 </body>
 </html>

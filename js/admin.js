@@ -2562,6 +2562,114 @@ document.addEventListener('DOMContentLoaded', () => {
         renderFeedback();
     }
 
+    // ---------- Bezoek ----------
+    // Anonieme dagtotalen uit public.bezoek_dag, al opgeteld door
+    // public.admin_bezoek. Zie js/teller.js voor wat er (niet) geteld wordt.
+    let bezoekData = null;
+
+    async function loadBezoek() {
+        const dagen = parseInt(document.getElementById('bezoekPeriode')?.value || '30', 10);
+        const { data, error } = await supabase.rpc('admin_bezoek', { p_dagen: dagen });
+        if (error) {
+            console.error('Error loading bezoek:', error);
+            const stats = document.getElementById('bezoekStats');
+            if (stats) stats.innerHTML = '<div><span>De bezoekteller is nog niet in de database ge&iuml;nstalleerd.</span></div>';
+            return;
+        }
+        bezoekData = data;
+        renderBezoek();
+    }
+
+    const fmtGetal = n => Number(n || 0).toLocaleString('nl-NL');
+    const fmtDag = d => new Date(d + 'T12:00:00').toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short' });
+
+    function renderBezoek() {
+        if (!bezoekData) return;
+        const dagen = bezoekData.per_dag || [];
+        const totW = dagen.reduce((a, d) => a + d.weergaven, 0);
+        const totB = dagen.reduce((a, d) => a + d.binnenkomsten, 0);
+        const app = bezoekData.apparaat || {};
+        const totA = (app.mobiel || 0) + (app.computer || 0);
+        const mobielPct = totA ? Math.round((app.mobiel || 0) / totA * 100) : 0;
+
+        document.getElementById('bezoekStats').innerHTML = `
+            <div><strong>${fmtGetal(totW)}</strong><span>paginaweergaven</span></div>
+            <div><strong>${fmtGetal(totB)}</strong><span>binnenkomsten</span></div>
+            <div><strong>${totB ? (totW / totB).toLocaleString('nl-NL', { maximumFractionDigits: 1 }) : '–'}</strong><span>pagina's per binnenkomst</span></div>
+            <div><strong>${totA ? mobielPct + '%' : '–'}</strong><span>op een telefoon</span></div>`;
+
+        // Staafgrafiek: één staaf per dag, hoogte = weergaven.
+        const chart = document.getElementById('bezoekChart');
+        const max = Math.max(1, ...dagen.map(d => d.weergaven));
+        const stap = max <= 5 ? 1 : Math.pow(10, Math.floor(Math.log10(max))) * (max / Math.pow(10, Math.floor(Math.log10(max))) > 5 ? 2 : 1);
+        const top = Math.ceil(max / stap) * stap;
+        const lijnen = [];
+        for (let v = 0; v <= top; v += stap) lijnen.push(v);
+        const toonLabel = i => dagen.length <= 14 || i % Math.ceil(dagen.length / 10) === 0 || i === dagen.length - 1;
+        chart.setAttribute('aria-label', `Paginaweergaven per dag, ${dagen.length} dagen, in totaal ${fmtGetal(totW)}`);
+        chart.innerHTML = `
+            <div class="bz-y">${lijnen.slice().reverse().map(v => `<span>${fmtGetal(v)}</span>`).join('')}</div>
+            <div class="bz-plot">
+                ${lijnen.map(v => `<i class="bz-lijn" style="bottom:${v / top * 100}%"></i>`).join('')}
+                <div class="bz-bars">${dagen.map((d, i) => `
+                    <div class="bz-kol" data-i="${i}" tabindex="0" aria-label="${fmtDag(d.dag)}: ${d.weergaven} weergaven, ${d.binnenkomsten} binnenkomsten">
+                        <span class="bz-bar" style="height:${d.weergaven / top * 100}%"></span>
+                        <span class="bz-x">${toonLabel(i) ? new Date(d.dag + 'T12:00:00').toLocaleDateString('nl-NL', { day: 'numeric', month: 'numeric' }) : ''}</span>
+                    </div>`).join('')}</div>
+            </div>`;
+
+        const leeg = (cols, tekst) => `<tr><td colspan="${cols}"><div class="admin-empty"><p>${tekst}</p></div></td></tr>`;
+        const paginas = bezoekData.paginas || [];
+        document.getElementById('bezoekPaginas').innerHTML = paginas.length ? paginas.map(p => `
+            <tr><td><a href="${escapeHtml(p.pad)}" target="_blank" rel="noopener">${escapeHtml(p.pad === '/' ? '/ (homepage)' : p.pad)}</a></td>
+                <td class="bz-num">${fmtGetal(p.weergaven)}</td><td class="bz-num">${fmtGetal(p.binnenkomsten)}</td></tr>`).join('')
+            : leeg(3, 'Nog geen weergaven in deze periode.');
+        const bronnen = bezoekData.bronnen || [];
+        document.getElementById('bezoekBronnen').innerHTML = bronnen.length ? bronnen.map(b => `
+            <tr><td>${b.bron ? escapeHtml(b.bron) : '<span class="bz-muted">Direct (adres getypt, bladwijzer of app)</span>'}</td>
+                <td class="bz-num">${fmtGetal(b.binnenkomsten)}</td></tr>`).join('')
+            : leeg(2, 'Nog geen binnenkomsten in deze periode.');
+    }
+
+    // Tooltip bij de staven (muis en toetsenbord).
+    (function () {
+        const chart = document.getElementById('bezoekChart');
+        const tip = document.getElementById('bezoekTip');
+        if (!chart || !tip) return;
+        function toon(kol) {
+            const d = bezoekData?.per_dag?.[+kol.dataset.i];
+            if (!d) return;
+            tip.innerHTML = `<b>${fmtDag(d.dag)}</b><span>${fmtGetal(d.weergaven)} weergaven</span><span>${fmtGetal(d.binnenkomsten)} binnenkomsten</span>`;
+            tip.hidden = false;
+            const c = chart.parentElement.getBoundingClientRect(), k = kol.getBoundingClientRect();
+            const x = Math.min(Math.max(k.left + k.width / 2 - c.left, 70), c.width - 70);
+            tip.style.left = x + 'px';
+            tip.style.top = (chart.offsetTop - 8) + 'px';
+            chart.querySelectorAll('.bz-kol.on').forEach(e => e.classList.remove('on'));
+            kol.classList.add('on');
+        }
+        function verberg() { tip.hidden = true; chart.querySelectorAll('.bz-kol.on').forEach(e => e.classList.remove('on')); }
+        chart.addEventListener('mouseover', e => { const k = e.target.closest('.bz-kol'); if (k) toon(k); });
+        chart.addEventListener('focusin', e => { const k = e.target.closest('.bz-kol'); if (k) toon(k); });
+        chart.addEventListener('mouseleave', verberg);
+        chart.addEventListener('focusout', verberg);
+    })();
+
+    document.getElementById('bezoekPeriode')?.addEventListener('change', loadBezoek);
+
+    // Eigen bezoek niet meetellen: een vlag in deze browser, die js/teller.js leest.
+    (function () {
+        const el = document.getElementById('bezoekZelf');
+        if (!el) return;
+        try { el.checked = localStorage.getItem('mt-niet-tellen') === '1'; } catch (_) {}
+        el.addEventListener('change', () => {
+            try {
+                if (el.checked) localStorage.setItem('mt-niet-tellen', '1');
+                else localStorage.removeItem('mt-niet-tellen');
+            } catch (_) {}
+        });
+    })();
+
     // ---------- Feedbackmail ----------
     // Schakelaar, tellers en een proefmail. Wie er aan de beurt is staat in de
     // database (public._feedbackmail_kandidaten); hier komt alleen een aantal uit.
@@ -2882,7 +2990,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function initAdminData() {
         if (window.userRole !== 'super_admin') return;
         try {
-            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets(), loadSpellingSentences(), loadEscaperooms(), loadRoadmap(), loadIdeas(), loadFeedback(), loadFeedbackMail(), loadOpruimen()]);
+            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets(), loadSpellingSentences(), loadEscaperooms(), loadRoadmap(), loadIdeas(), loadFeedback(), loadFeedbackMail(), loadBezoek(), loadOpruimen()]);
         } catch (e) {
             console.error('Error during initial load:', e);
         }
