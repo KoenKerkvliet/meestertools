@@ -15,6 +15,27 @@ Object.assign(window.DETAILS, {
   'Doordat de oorlogvoerende landen elkaars handel blokkeerden, werd voedsel schaars. Brood, aardappelen en kolen gingen op de bon en in 1917 braken in Amsterdam aardappeloproeren uit. De Duitsers zetten langs de Belgisch-Nederlandse grens een hoogspanningsdraad neer, de Dodendraad, waaraan honderden mensen omkwamen.',
   'Op 10 november 1918 stak de Duitse keizer Wilhelm II bij Eijsden in Zuid-Limburg de grens over. Nederland weigerde hem uit te leveren. Hij woonde tot zijn dood in 1941 in Huis Doorn.'
  ],
+ gevolgen: [
+  "Door de oorlog was de neutrale positie van Nederland wereldwijd bekend, en na de oorlog werd Den Haag een stad voor internationale rechtspraak. In 1922 kwam daar het Permanente Hof van Internationale Justitie, de voorloper van het huidige Internationaal Gerechtshof.",
+  "In Nederland zelf zorgde de oorlog voor de Pacificatie van 1917: algemeen kiesrecht voor mannen en gelijke bekostiging van openbare en bijzondere scholen. De voedseltekorten maakten ook duidelijk hoe kwetsbaar het land was, en gaven het plan om de Zuiderzee in te polderen een duw.",
+  "In Europa verdwenen keizerrijken: Duitsland, Oostenrijk-Hongarije, Rusland en het Ottomaanse Rijk vielen uiteen of werden republiek. Het Verdrag van Versailles legde Duitsland zware voorwaarden op, wat later de opkomst van Hitler in de hand werkte."
+ ],
+ perspectieven: [
+  "Voor Nederlanders was het vooral een tijd van spanning, schaarste en mobilisatie, maar niet van gevechten. Voor de Belgische vluchtelingen was Nederland een toevluchtsoord. Sommige Nederlandse ondernemers verdienden goed aan handel en smokkel, terwijl arbeiders juist leden onder de hoge prijzen. Voor miljoenen soldaten aan het front in Frankrijk en België was het een slachting in de loopgraven."
+ ],
+ misverstanden: [
+  ["“Nederland had niets met de Eerste Wereldoorlog te maken.”","Nederland vocht niet mee, maar merkte de oorlog wel: een groot leger stond vier jaar paraat, honderdduizenden vluchtelingen werden opgevangen, voedsel ging op de bon en Nederlandse schepen liepen op zeemijnen."],
+  ["“Neutraal zijn betekende dat Nederland zich nergens mee bemoeide.”","Neutraal blijven vroeg juist veel diplomatie. Nederland moest handel blijven drijven met beide kanten, zonder een van de partijen een reden te geven om binnen te vallen."]
+ ],
+ hoeWeten: [
+  "Er zijn veel foto’s van gemobiliseerde soldaten en vluchtelingenkampen, en kranten uit die tijd zijn online te lezen via Delpher. Brieven en dagboeken van soldaten en vluchtelingen worden bewaard in archieven. Van de Dodendraad zijn delen gereconstrueerd en zijn er foto’s en verhalen van smokkelaars."
+ ],
+ nu: [
+  "Op verschillende plekken langs de grens met België is een stuk van de Dodendraad nagebouwd, met informatieborden. Huis Doorn, waar keizer Wilhelm II woonde, is een museum. In Engeland, België en Frankrijk wordt op 11 november de wapenstilstand van 1918 herdacht."
+ ],
+ vertellen: "Op 10 november 1918 stopte een trein bij de grens bij Eijsden. Daarin zat de Duitse keizer Wilhelm II, op de vlucht voor de revolutie in zijn land. Nederland liet hem binnen en weigerde hem later uit te leveren. Hij bleef tot zijn dood in 1941 in Nederland wonen.",
+ verbanden: [["Het eerste vliegtuig","vliegtuigen werden in deze oorlog voor het eerst ingezet"],["Vrouwenkiesrecht","kort na de oorlog kregen ook vrouwen stemrecht"],["Afsluitdijk","de voedseltekorten gaven het plan een duw"],["De Tweede Wereldoorlog","de volgende oorlog, waarin Nederland niet neutraal kon blijven"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","De rol van moderne propaganda- en communicatiemiddelen en vormen van massa-organisatie."],"venster":"35. De Eerste Wereldoorlog"},
  cijfers: [['Mobilisatie','ca. 200.000 militairen'],['Belgische vluchtelingen','ca. 1 miljoen (1914)'],['Dodendraad','ca. 2000 volt, honderden doden'],['Wilhelm II in ballingschap','vanaf 10 nov 1918']],
  figuren: [['Koningin Wilhelmina','staatshoofd, steunde de neutraliteit'],['P.W.A. Cort van der Linden','minister-president 1913–1918'],['Generaal C.J. Snijders','opperbevelhebber van het leger'],['Keizer Wilhelm II','vluchtte via Eijsden naar Nederland']],
  bronnen: [CANON,['Wikipedia: Nederland in de Eerste Wereldoorlog',W('Nederland tijdens de Eerste Wereldoorlog')],['Wikipedia: Dodendraad',W('Dodendraad')]]
@@ -32,6 +53,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Het vliegtuig veranderde ook de oorlog. Al in de Eerste Wereldoorlog werden vliegtuigen gebruikt om te verkennen en om te vechten. Fokker bouwde zijn vliegtuigen voor Duitsland, terwijl Nederland neutraal bleef.'
  ],
+ gevolgen: [
+  "Binnen enkele jaren vlogen er overal ter wereld vliegtuigen. In Nederland werd in 1916 bij Haarlemmermeer het militaire vliegveld Schiphol aangelegd. In 1919 werd de KLM opgericht, met Albert Plesman als directeur. Het is de oudste luchtvaartmaatschappij ter wereld die nog onder haar oorspronkelijke naam vliegt.",
+  "In de jaren twintig en dertig gingen er lijnvluchten naar Londen, Parijs en zelfs naar Nederlands-Indië. Een reis naar Batavia, die per schip weken duurde, kon nu in ruim een week. Na de Tweede Wereldoorlog werd vliegen steeds goedkoper, en in de jaren zestig en zeventig ging de vakantie voor veel gezinnen voor het eerst met het vliegtuig."
+ ],
+ misverstanden: [
+  ["“De gebroeders Wright waren de eersten die vlogen.”","Mensen gingen al eerder de lucht in: in 1783 met een heteluchtballon, en in de jaren negentig van de 19e eeuw maakte de Duitser Otto Lilienthal honderden vluchten met zweefvliegtuigen. Nieuw aan de Wrights was een vlucht met een motor, waarbij de piloot het toestel zelf kon besturen."],
+  ["“Fokker was een Duitse vliegtuigbouwer.”","Anthony Fokker was een Nederlander, geboren in 1890 op Java in Nederlands-Indië. Hij bouwde zijn fabriek in Duitsland omdat hij in Nederland weinig belangstelling kreeg, en verhuisde later terug naar Nederland en daarna naar de Verenigde Staten."]
+ ],
+ hoeWeten: [
+  "Van de eerste vlucht bestaat een beroemde foto, gemaakt door John T. Daniels, een man van het reddingsstation bij Kitty Hawk. De Wrights hielden ook dagboeken en schreven brieven over hun proeven. De Wright Flyer zelf staat in het National Air and Space Museum in Washington."
+ ],
+ nu: [
+  "Schiphol is uitgegroeid tot een van de grootste luchthavens van Europa, en de KLM vliegt nog steeds. Tegelijk is er veel discussie over geluidsoverlast en de uitstoot van vliegtuigen, en over hoeveel er in Nederland gevlogen mag worden."
+ ],
+ vertellen: "De allereerste gemotoriseerde vlucht, op 17 december 1903, duurde twaalf seconden en was 36,6 meter lang. Dat is korter dan de spanwijdte van een groot passagiersvliegtuig van nu.",
+ verbanden: [["De eerste auto","ook de motor veranderde het vervoer"],["De Eerste Wereldoorlog","de eerste oorlog met vliegtuigen"],["De maanlanding","van twaalf seconden vliegen naar de maan in 66 jaar"]],
+ onderwijs: {},
  cijfers: [['Eerste vlucht','17 december 1903'],['Duur en afstand','12 seconden, 36,6 meter'],['De Spin van Fokker','1910'],['Vlucht in Haarlem','31 augustus 1911']],
  figuren: [['Orville en Wilbur Wright','bouwden en bestuurden de Wright Flyer'],['Anthony Fokker','Nederlandse vliegtuigbouwer'],['John T. Daniels','maakte de beroemde foto van de eerste vlucht']],
  bronnen: [['Wikipedia: Wright Flyer',W('Wright Flyer')],['Wikipedia: Anthony Fokker',W('Anthony Fokker')]]
@@ -53,13 +91,34 @@ Object.assign(window.DETAILS, {
 
 'Mondriaan en De Stijl': {
  aanloop: [
-  'Piet Mondriaan werd op 7 maart 1872 geboren in Amersfoort, als zoon van een onderwijzer. In 1908 werd hij lid van de Theosofische Vereniging. In 1912 vertrok hij naar Parijs en veranderde zijn naam in Mondrian.'
+  'Piet Mondriaan werd op 7 maart 1872 geboren in Amersfoort, als zoon van een onderwijzer. In 1908 werd hij lid van de Theosofische Vereniging. In 1912 vertrok hij naar Parijs en veranderde zijn naam in Mondrian.',
+  "Mondriaan begon als een traditionele landschapsschilder. Rond 1900 schilderde hij polders, boerderijen, koeien en molens langs de Amstel en het Gein. Via bomen, duinen en de zee bij Domburg werden zijn schilderijen steeds eenvoudiger, tot er alleen nog lijnen en vlakken overbleven."
  ],
  verloop: [
   'In 1917 werd in Leiden het tijdschrift De Stijl opgericht, vooral door Theo van Doesburg. Kunstenaars en architecten gaven daar hun ideeën over een nieuwe, eenvoudige vormgeving: een minimum aan kleuren (de primaire kleuren rood, geel en blauw, met zwart, wit en grijs) en vooral rechte lijnen.',
   'Mondriaan schreef mee in het tijdschrift en noemde zijn eigen theorie neoplasticisme, “nieuwe beelding”. Zijn bekendste schilderijen bestaan uit horizontale en verticale zwarte lijnen met vlakken in primaire kleuren.',
   'Het tijdschrift werd nooit in meer dan 300 exemplaren verkocht, maar had grote invloed in Nederland en daarbuiten. Mondriaan overleed op 1 februari 1944 in New York.'
  ],
+ gevolgen: [
+  "De Stijl beïnvloedde niet alleen schilderkunst, maar ook architectuur, meubels, grafisch ontwerp en mode. Het Rietveld Schröderhuis en de rood-blauwe stoel zijn bekende voorbeelden. In het buitenland inspireerde De Stijl onder meer de Duitse ontwerpschool het Bauhaus.",
+  "Mondriaan zelf vertrok in 1938 naar Londen en in 1940 naar New York. Daar werd hij geïnspireerd door de jazz en het stratenpatroon van de stad. Zijn laatste werken, zoals Broadway Boogie Woogie en de onvoltooide Victory Boogie Woogie, zijn veel levendiger dan zijn eerdere werk."
+ ],
+ perspectieven: [
+  "Niet iedereen was enthousiast. Veel mensen vonden de schilderijen van Mondriaan eerst te kaal, en vroegen zich af of dit nog kunst was. Mondriaan zelf zag het juist als zoeken naar de diepste orde en harmonie in de wereld, onder invloed van zijn theosofische ideeën. Tegenwoordig behoort zijn werk tot de bekendste Nederlandse kunst."
+ ],
+ misverstanden: [
+  ["“Mondriaan schilderde altijd alleen lijnen en vlakken.”","Mondriaan schilderde jarenlang landschappen, bloemen en molens. Zijn abstracte stijl ontwikkelde hij pas na 1912, stap voor stap."],
+  ["“Zo’n schilderij is makkelijk na te maken.”","Mondriaan werkte weken of maanden aan één doek en verschoof lijnen en vlakken tot de verhoudingen precies klopten. Onderzoek laat zien dat hij vaak opnieuw schilderde over eerdere versies heen."]
+ ],
+ hoeWeten: [
+  "Het tijdschrift De Stijl is bewaard gebleven en online te lezen. Mondriaan schreef veel over zijn ideeën, en er zijn brieven en foto’s van zijn ateliers in Parijs en New York. Zijn schilderijen zelf zijn de belangrijkste bron: de verzameling van het Kunstmuseum Den Haag laat zijn hele ontwikkeling zien, van landschap tot abstractie."
+ ],
+ nu: [
+  "Mondriaan-patronen zie je overal: op kleding, tassen, gebouwen en verpakkingen. In 1998 werd Victory Boogie Woogie voor Nederland gekocht, met een gift van De Nederlandsche Bank van naar schatting 116 miljoen gulden. Het hangt in het Kunstmuseum Den Haag."
+ ],
+ vertellen: "Mondriaan verruilde in 1912 de “aa” in zijn naam voor één “a”: van Mondriaan werd hij Mondrian. In Parijs klonk dat internationaler. In Nederland zeggen we nog steeds Mondriaan.",
+ verbanden: [["Rietveld Schröderhuis","De Stijl in de architectuur"],["Vincent van Gogh","Mondriaan liet zich aanvankelijk door hem inspireren"],["Cobra","een latere generatie die juist het spontane zocht"]],
+ onderwijs: {},
  cijfers: [['Mondriaan geboren','7 maart 1872, Amersfoort'],['Tijdschrift De Stijl','1917, Leiden'],['Kleuren','rood, geel, blauw, zwart, wit'],['Mondriaan overleden','1 februari 1944, New York']],
  figuren: [['Piet Mondriaan','schilder en kunsttheoreticus'],['Theo van Doesburg','oprichter van De Stijl'],['Gerrit Rietveld','meubelmaker en architect, lid van De Stijl']],
  bronnen: [['Wikipedia: Piet Mondriaan',W('Piet Mondriaan')],['Wikipedia: De Stijl',W('De Stijl')]]
@@ -68,12 +127,33 @@ Object.assign(window.DETAILS, {
 'Rietveld Schröderhuis': {
  aanloop: [
   'Na de dood van haar man in 1923 wilde Truus Schröder-Schräder een nieuw huis voor zichzelf en haar drie kinderen. Ze vroeg Gerrit Rietveld om te helpen zoeken, maar ze vonden niets geschikt.',
-  'Daarom ontwierpen ze samen een nieuw huis.'
+  'Daarom ontwierpen ze samen een nieuw huis.',
+  "Gerrit Rietveld was opgeleid als meubelmaker in de werkplaats van zijn vader. Rond 1918 ontwierp hij de rood-blauwe stoel, een stoel uit rechte latten en planken die een van de bekendste ontwerpen van De Stijl werd. Truus Schröder had uitgesproken ideeën over wonen: ze wilde een open huis waarin ze dicht bij haar kinderen kon leven."
  ],
  verloop: [
   'Het Rietveld Schröderhuis in Utrecht werd in 1923–1924 ontworpen in de beeldtaal van De Stijl: rechte lijnen, vlakken en primaire kleuren. Het was Rietvelds eerste volledig nieuwe woonhuis, inclusief de inrichting.',
-  'Truus Schröder woonde er van januari 1925 tot haar dood in 1985. Sinds 2000 staat het huis op de Werelderfgoedlijst van UNESCO.'
+  'Truus Schröder woonde er van januari 1925 tot haar dood in 1985. Sinds 2000 staat het huis op de Werelderfgoedlijst van UNESCO.',
+  "Het huis was voor die tijd revolutionair. De bovenverdieping heeft geen vaste muren maar schuifwanden: overdag één grote ruimte, ’s avonds afzonderlijke slaapkamers. Kasten, bedden en tafels zijn ingebouwd, en ramen kunnen zo opengaan dat de hoek van het huis helemaal open is."
  ],
+ gevolgen: [
+  "Het huis werd internationaal een voorbeeld van moderne architectuur. Het liet zien dat een woning flexibel kon zijn en dat vorm, kleur en ruimte één geheel konden vormen. Rietveld werd daarna een van de belangrijkste architecten van Nederland; hij ontwierp later onder meer het Van Gogh Museum, dat na zijn dood werd afgebouwd."
+ ],
+ perspectieven: [
+  "Truus Schröder was niet alleen opdrachtgever maar ook mede-ontwerper: een eerste ontwerp van Rietveld wees ze af, waarna ze samen verder werkten met haar ideeën over wonen. In de buurt vonden sommigen het een vreemd huis, dat niet paste bij de rij gewone huizen ernaast. Voor architecten en kunstenaars werd het juist een bedevaartsoord."
+ ],
+ misverstanden: [
+  ["“Het is een groot, luxueus huis.”","Het huis is juist klein. Door de schuifwanden en slimme inbouwmeubels voelt het ruim, maar het past op een kleine kavel aan het eind van een rij gewone huizen."],
+  ["“Rietveld ontwierp het huis alleen.”","Het werd ontworpen in nauwe samenwerking met Truus Schröder, die er tot haar dood in 1985 woonde en ook zelf een deel van de ideeën aandroeg."]
+ ],
+ hoeWeten: [
+  "Het huis zelf is de belangrijkste bron, en het is na de dood van Truus Schröder gerestaureerd tot de oorspronkelijke staat. Er zijn bouwtekeningen, maquettes en foto’s van Rietveld en van het gezin. Het Centraal Museum in Utrecht beheert het huis en de archieven."
+ ],
+ nu: [
+  "Je kunt het huis bezoeken via het Centraal Museum in Utrecht. De rood-blauwe stoel wordt nog steeds gemaakt en verkocht. Flexibel wonen met schuifwanden en inbouwmeubels is een idee dat je in moderne kleine woningen terugziet."
+ ],
+ vertellen: "Achter het huis lag in 1924 nog open polderland. Later werd vlak langs het huis een verhoogde snelweg aangelegd, waardoor het zicht verdween. Truus Schröder vond dat jammer, maar bleef er toch wonen tot haar dood in 1985.",
+ verbanden: [["Mondriaan en De Stijl","dezelfde kunstbeweging"],["Afsluitdijk","ook in de jaren twintig werd Nederland modern ingericht"]],
+ onderwijs: {},
  cijfers: [['Ontworpen','1923 – 1924'],['Bewoond','1925 – 1985'],['Stad','Utrecht'],['UNESCO-werelderfgoed','sinds 2000']],
  figuren: [['Gerrit Rietveld','architect en meubelontwerper'],['Truus Schröder-Schräder','opdrachtgever en bewoner'],['Theo van Doesburg','voorman van De Stijl']],
  bronnen: [['Wikipedia: Rietveld Schröderhuis',W('Rietveld Schröderhuis')]]
@@ -81,13 +161,34 @@ Object.assign(window.DETAILS, {
 
 'Guernica van Picasso': {
  aanloop: [
-  'Op 26 april 1937, tijdens de Spaanse Burgeroorlog, werd de stad Guernica in Spaans Baskenland gebombardeerd door het Duitse Condorlegioen en Italiaanse bommenwerpers. Over het aantal slachtoffers verschillen historici nog steeds van mening.'
+  'Op 26 april 1937, tijdens de Spaanse Burgeroorlog, werd de stad Guernica in Spaans Baskenland gebombardeerd door het Duitse Condorlegioen en Italiaanse bommenwerpers. Over het aantal slachtoffers verschillen historici nog steeds van mening.',
+  "In januari 1937 had de Spaanse republikeinse regering Picasso gevraagd een groot schilderij te maken voor het Spaanse paviljoen op de wereldtentoonstelling in Parijs. Picasso woonde al jaren in Parijs. Na het nieuws over het bombardement wist hij waarover het schilderij moest gaan."
  ],
  verloop: [
   'De Spaanse kunstenaar Pablo Picasso begon na het bombardement aan zijn schilderij Guernica. Het is 3,49 meter hoog en 7,76 meter breed en heeft geen kleur: alleen zwart, wit en grijs.',
   'Picasso wilde niet laten zien hoe het bombardement eruitzag, maar het gevoel overbrengen dat de gebeurtenis opriep. Daarom zijn mensen en dieren in scherpe, verwrongen vormen geschilderd.',
   'Guernica hangt in het Museo Reina Sofía in Madrid. Later in de oorlog volgden meer bombardementen op Europese steden, zoals Rotterdam, Coventry en Dresden.'
  ],
+ gevolgen: [
+  "Guernica werd in 1937 getoond op de wereldtentoonstelling in Parijs en reisde daarna rond om geld en aandacht te vragen voor de Spaanse republiek. Toen generaal Franco de burgeroorlog won, wilde Picasso het schilderij niet naar Spanje laten gaan zolang daar een dictatuur was. Het hing tientallen jaren in het Museum of Modern Art in New York.",
+  "Pas na de dood van Franco en de terugkeer van de democratie kwam het in 1981 naar Spanje, op tijd voor wat Picasso’s honderdste verjaardag zou zijn geweest. Guernica werd wereldwijd het bekendste kunstwerk tegen oorlog."
+ ],
+ perspectieven: [
+  "Kunsthistorici verschillen van mening over de betekenis van onderdelen, zoals de stier en het paard. Sommigen zien de stier als Spanje, anderen als het fascisme. Picasso zelf weigerde dat uit te leggen. Voor de inwoners van Guernica is het schilderij vooral een herinnering aan hun stad en hun doden."
+ ],
+ misverstanden: [
+  ["“Picasso schilderde wat hij in Guernica zag.”","Picasso was niet in Guernica. Hij kende het bombardement uit kranten en foto’s, en schilderde geen verslag maar het gevoel van angst en verdriet."],
+  ["“Het schilderij is zwart-wit omdat er geen verf was.”","Picasso koos bewust voor zwart, wit en grijs. Het doet denken aan krantenfoto’s, waarlangs mensen het nieuws over het bombardement zagen."]
+ ],
+ hoeWeten: [
+  "Over het bombardement zijn ooggetuigenverslagen, krantenberichten en foto’s van de verwoeste stad. Van het schilderij zelf bestaan tientallen schetsen en foto’s van de verschillende stadia, gemaakt door Picasso’s vriendin Dora Maar. Ze laten zien hoe het werk in een paar weken ontstond."
+ ],
+ nu: [
+  "Guernica hangt in het Museo Reina Sofía in Madrid. Een wandtapijt naar het schilderij hangt in het gebouw van de Verenigde Naties in New York. Bij protesten tegen oorlog wordt het beeld nog steeds gebruikt."
+ ],
+ vertellen: "Er gaat een bekend verhaal dat een Duitse officier in Picasso’s atelier een foto van Guernica zag en vroeg: “Heeft u dit gemaakt?” Picasso zou hebben geantwoord: “Nee, u.” Of het echt zo is gegaan, weet niemand zeker.",
+ verbanden: [["De Tweede Wereldoorlog","bombardementen op steden, zoals Rotterdam"],["Mondriaan en De Stijl","een andere moderne kunstenaar van dezelfde tijd"],["Universele Verklaring van de Rechten van de Mens","een antwoord op het geweld van die jaren"]],
+ onderwijs: {"ka":["Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering.","De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme)."]},
  cijfers: [['Bombardement','26 april 1937'],['Formaat','3,49 × 7,76 meter'],['Kleuren','zwart, wit en grijs'],['Hangt in','Museo Reina Sofía, Madrid']],
  figuren: [['Pablo Picasso','Spaanse schilder'],['Condorlegioen','Duitse eenheid die Guernica bombardeerde']],
  bronnen: [['Wikipedia: Guernica (schilderij)',W('Guernica (schilderij)')]]
@@ -259,6 +360,26 @@ Object.assign(window.DETAILS, {
   'Einstein had een band met Nederland. Hij bewonderde de Leidse natuurkundige Hendrik Lorentz en was bevriend met Paul Ehrenfest. Van 1920 tot 1946 was hij bijzonder hoogleraar in Leiden en gaf hij daar enkele keren per jaar een gastcollege.',
   'Toen Hitler in 1933 aan de macht kwam, verliet Einstein Duitsland en vestigde zich in de Verenigde Staten. In 1939 waarschuwde hij president Roosevelt in een brief dat Duitsland aan een atoombom werkte. Aan de Amerikaanse atoombom werkte hij zelf niet mee. Hij overleed op 18 april 1955 in Princeton.'
  ],
+ gevolgen: [
+  "In 1919 maten Britse onderzoekers onder leiding van Arthur Eddington tijdens een zonsverduistering dat sterrenlicht door de zon wordt afgebogen, precies zoals Einstein had voorspeld. Daarna werd hij wereldberoemd, ook buiten de wetenschap.",
+  "Zijn ideeën werden de basis van een groot deel van de moderne natuurkunde. Met de beroemde formule E = mc² liet hij zien dat massa en energie in elkaar kunnen overgaan. Dat inzicht is nodig om kernenergie te begrijpen. In 2015 werden voor het eerst zwaartekrachtgolven waargenomen, een voorspelling uit zijn algemene relativiteitstheorie."
+ ],
+ perspectieven: [
+  "Einstein was ook een publiek figuur met uitgesproken meningen. Hij was pacifist, maar vond na de opkomst van Hitler dat de democratieën zich moesten bewapenen. Na de atoombommen op Hiroshima en Nagasaki zette hij zich in tegen kernwapens. In Duitsland werd hij door nazi’s aangevallen omdat hij Joods was; zijn theorieën werden zelfs “Joodse natuurkunde” genoemd."
+ ],
+ misverstanden: [
+  ["“Einstein was slecht in wiskunde.”","Dat is een hardnekkige mythe. Op de lagere school was hij de beste van zijn klas, en op zijn eindexamen in Zwitserland had hij voor drie wiskundevakken een 6, het hoogste cijfer in het Zwitserse systeem."],
+  ["“Einstein heeft de atoombom gemaakt.”","Hij schreef in 1939 een waarschuwingsbrief aan president Roosevelt, maar werkte niet mee aan het Manhattanproject dat de bom bouwde. Wel was zijn formule E = mc² een van de theoretische inzichten waarop kernenergie berust."]
+ ],
+ hoeWeten: [
+  "Einstein publiceerde zijn ideeën in wetenschappelijke tijdschriften, die bewaard zijn. Daarnaast schreef hij duizenden brieven, onder meer aan zijn Leidse vrienden Lorentz en Ehrenfest. Die brieven worden in archieven bewaard en zijn voor een groot deel uitgegeven. In Museum Boerhaave in Leiden is materiaal van hem te zien."
+ ],
+ nu: [
+  "De gps in een telefoon of auto werkt alleen goed als je rekening houdt met de relativiteitstheorie: klokken in satellieten lopen net iets anders dan klokken op aarde. Einsteins gezicht met wild haar en uitgestoken tong is wereldwijd een symbool geworden voor slimheid."
+ ],
+ vertellen: "Einstein bedacht zijn beroemdste ideeën niet in een laboratorium, maar in zijn vrije tijd, toen hij als ambtenaar bij het octrooibureau in Bern werkte. In 1905, zijn “wonderjaar”, publiceerde hij in één jaar vier artikelen die de natuurkunde veranderden.",
+ verbanden: [["De Tweede Wereldoorlog","Einstein vluchtte voor de nazi’s"],["De kernramp van Tsjernobyl","kernenergie berust op E = mc²"],["Spoetnik","satellieten en de natuurkunde"]],
+ onderwijs: {},
  cijfers: [['Geboren','14 maart 1879, Ulm'],['Wonderjaar','1905'],['Nobelprijs','1921'],['Overleden','18 april 1955, Princeton']],
  figuren: [['Albert Einstein','natuurkundige'],['Hendrik Lorentz','Nederlandse natuurkundige die hij zeer bewonderde'],['Paul Ehrenfest','natuurkundige in Leiden en goede vriend']],
  bronnen: [['Wikipedia: Albert Einstein',W('Albert Einstein')]]
@@ -288,6 +409,26 @@ Object.assign(window.DETAILS, {
   'In 1919 diende Kamerlid Hendrik Marchant een kort wetsvoorstel in om ook vrouwen actief kiesrecht te geven. Het werd met grote meerderheid aangenomen en in september 1919 bekrachtigd. In 1922 stemden vrouwen voor het eerst bij landelijke verkiezingen.',
   'Met het vrouwenkiesrecht werd Nederland een democratie waarin alle volwassen burgers mee mochten beslissen. Toch duurde het nog decennia voordat vrouwen even vaak in politieke functies terechtkwamen als mannen.'
  ],
+ gevolgen: [
+  "Vanaf 1922 telde de stem van vrouwen mee bij alle verkiezingen. Politieke partijen gingen zich ook op vrouwen richten. Toch bleven vrouwen in de politiek lang een kleine minderheid. Pas in 1956 werd met Marga Klompé de eerste vrouw minister.",
+  "Het kiesrecht was één stap in een lange emancipatie. Getrouwde vrouwen waren tot 1956 handelingsonbekwaam: ze konden zonder toestemming van hun man bijvoorbeeld geen contract tekenen. Ambtenaressen werden tot 1957 ontslagen als ze trouwden."
+ ],
+ perspectieven: [
+  "Voorstanders vonden dat vrouwen als volwaardige burgers mee moesten beslissen. Tegenstanders, ook veel vrouwen, vonden dat de politiek niet bij de rol van de vrouw paste, of dat het gezin met één stem, die van de man, genoeg vertegenwoordigd was. Ook binnen de vrouwenbeweging verschilden de meningen, bijvoorbeeld over de vraag of het eerst om kiesrecht of om werk en onderwijs moest gaan."
+ ],
+ misverstanden: [
+  ["“In 1919 mochten vrouwen meteen stemmen én gekozen worden.”","Het ging in twee stappen: in 1917 werden vrouwen verkiesbaar, en in 1919 kregen ze ook zelf stemrecht. Daardoor zat met Suze Groeneweg al in 1918 een vrouw in de Tweede Kamer, terwijl vrouwen nog niet mochten stemmen."],
+  ["“Nederland was een van de laatste landen.”","Nederland was eerder dan veel andere landen. Nieuw-Zeeland gaf vrouwen in 1893 als eerste stemrecht, Finland in 1906. Frankrijk volgde pas in 1944, en Zwitserland op landelijk niveau pas in 1971."]
+ ],
+ hoeWeten: [
+  "Petities, pamfletten en het blad van de Vereeniging voor Vrouwenkiesrecht zijn bewaard, net als de verslagen van de debatten in het parlement. Atria, het kennisinstituut voor emancipatie en vrouwengeschiedenis in Amsterdam, beheert veel archieven van de vrouwenbeweging. Foto’s laten optochten en demonstraties zien."
+ ],
+ nu: [
+  "Iedereen van 18 jaar en ouder mag nu stemmen, ongeacht geslacht. Toch is het aantal vrouwen in de politiek nog steeds een onderwerp: het duurde tot de 21e eeuw voordat de Tweede Kamer voor ongeveer veertig procent uit vrouwen bestond. Een vrouwelijke minister-president heeft Nederland nog niet gehad."
+ ],
+ vertellen: "In 1883 ging Aletta Jacobs naar het stadhuis van Amsterdam om zich als kiezer te laten inschrijven. De wet zei nergens dat een kiezer een man moest zijn. Ze werd afgewezen, en daarna werd het woord “mannelijke” in de Grondwet gezet om het gat te dichten.",
+ verbanden: [["Aletta Jacobs","de eerste vrouw die om stemrecht vroeg"],["De Grondwet","het kiesrecht staat in de Grondwet"],["Marga Klompé","de eerste vrouwelijke minister"],["Openstelling huwelijk","een latere stap naar gelijke rechten"]],
+ onderwijs: {"ka":["Voortschrijdende democratisering; steeds meer mannen en vrouwen nemen deel aan de politiek. (tijdvak 8)","De opkomst van emancipatiebewegingen. (tijdvak 8)"]},
  cijfers: [['Poging Aletta Jacobs','1883'],['Vrouwen verkiesbaar','1917'],['Actief kiesrecht vrouwen','1919'],['Eerste stem van vrouwen','1922']],
  figuren: [['Aletta Jacobs','arts en voorvechter van vrouwenrechten'],['Wilhelmina Drucker','feministe, oprichter Vrije Vrouwenvereeniging'],['Hendrik Marchant','Kamerlid, diende de wet in'],['Suze Groeneweg','eerste vrouwelijke Kamerlid']],
  bronnen: [['Wikipedia: Vrouwenkiesrecht',W('Vrouwenkiesrecht Nederland')],['Wikipedia: Aletta Jacobs',W('Aletta Jacobs')],['Parlement.com',"https://www.parlement.com/"]]
@@ -303,6 +444,27 @@ Object.assign(window.DETAILS, {
   'In september 1933 werd de weg op de dijk geopend. Uit het IJsselmeer werden polders drooggemalen: de Wieringermeer, de Noordoostpolder en Flevoland. Zo ontstond nieuw land voor landbouw en later ook voor steden als Lelystad en Almere.',
   'De Afsluitdijk werd een symbool van de Nederlandse strijd tegen het water. Tegenwoordig wordt hij versterkt, omdat de zeespiegel stijgt.'
  ],
+ gevolgen: [
+  "Achter de dijk werden polders drooggemalen: de Wieringermeer (1930), de Noordoostpolder (1942) en Oostelijk en Zuidelijk Flevoland. Daar ontstond landbouwgrond, en later ook ruimte voor nieuwe steden als Lelystad en Almere. In 1986 werd Flevoland de twaalfde provincie.",
+  "Voor de vissers aan de Zuiderzee was het een ramp: het zoute water werd zoet, en vissoorten als ansjovis en haring verdwenen. Plaatsen als Urk, Marken en Volendam moesten zich aanpassen. Urk werd van een eiland een dorp aan de rand van de Noordoostpolder.",
+  "Bij de Watersnood van 1953 bleek de waarde van de dijk: het gebied rond de voormalige Zuiderzee bleef gespaard. Daarom werd wel gezegd dat de Afsluitdijk zich in één nacht had terugbetaald."
+ ],
+ perspectieven: [
+  "Voor ingenieurs en politici was de dijk een triomf van Nederlandse techniek. Voor de vissersgemeenschappen betekende het het einde van een manier van leven. Natuurorganisaties wijzen er nu op dat de dijk vissen als de paling en de zalm de weg naar hun paaigebieden afsneed."
+ ],
+ misverstanden: [
+  ["“Lely zag zijn plan voltooid.”","Cornelis Lely bedacht het plan en zorgde als minister voor de Zuiderzeewet, maar hij overleed in 1929, drie jaar voordat het laatste gat werd gedicht. Op de dijk staat een standbeeld van hem."],
+  ["“De Afsluitdijk is gebouwd om nieuw land te maken.”","Er waren twee doelen: bescherming tegen overstromingen en het winnen van landbouwgrond. Daarnaast werd het IJsselmeer een grote zoetwatervoorraad voor drinkwater en landbouw."]
+ ],
+ hoeWeten: [
+  "Rijkswaterstaat heeft de plannen, berekeningen en bouwtekeningen bewaard, net als het rapport van de commissie-Lorentz. Er zijn veel foto’s en filmbeelden van de aanleg en van het dichten van het laatste gat. In het Zuiderzeemuseum in Enkhuizen is te zien hoe het leven aan de Zuiderzee was vóór de afsluiting."
+ ],
+ nu: [
+  "De Afsluitdijk wordt versterkt en klaargemaakt voor een hogere zeespiegel. Er komt een vismigratierivier, een doorgang waardoor vissen weer van de Waddenzee naar het IJsselmeer kunnen zwemmen. Op de plek waar de dijk werd gedicht staat het Vlietermonument, met uitzicht op beide kanten van de dijk."
+ ],
+ vertellen: "Op 28 mei 1932 sloten arbeiders het laatste gat in de dijk, bij De Vlieter. De stroming was daar zo sterk dat het werk precies op het juiste moment tussen eb en vloed moest gebeuren. Toen het gat dicht was, was de Zuiderzee na eeuwen geen zee meer.",
+ verbanden: [["De Watersnood","de dijk beschermde het noorden in 1953"],["De Eerste Wereldoorlog","de voedseltekorten gaven het plan een duw"],["Allerheiligenvloed","eeuwenoude strijd tegen het water"]],
+ onderwijs: {},
  cijfers: [['Lengte','ca. 32 km'],['Aanleg','1927 – 1932'],['Laatste gat gedicht','28 mei 1932'],['Nieuwe provincie','Flevoland (1986)']],
  figuren: [['Cornelis Lely','ingenieur en minister, bedenker van het plan'],['Hendrik Lorentz','Nobelprijswinnaar, leidde de rekencommissie']],
  bronnen: [['Wikipedia: Afsluitdijk',W('Afsluitdijk')],['Wikipedia: Zuiderzeewerken',W('Zuiderzeewerken')]]
@@ -318,6 +480,26 @@ Object.assign(window.DETAILS, {
   'In 1934 verscheen zijn boek Wij slaven van Suriname, waarin hij de geschiedenis vertelt vanuit het perspectief van de onderdrukten. Het boek werd op veel plaatsen tegengewerkt en verscheen pas in latere drukken volledig.',
   'Tijdens de Tweede Wereldoorlog zat De Kom in het verzet. In 1944 werd hij opgepakt. Hij overleed in april 1945 in kamp Sandbostel. Sinds 1960 ligt hij op de Eerebegraafplaats in Bloemendaal.'
  ],
+ gevolgen: [
+  "Na de oorlog raakte De Kom in Nederland in de vergetelheid. In de jaren zestig herontdekten Surinaamse studenten in Nederland zijn boek. Ze typten het over, stencilden het en verspreidden het. Wij slaven van Suriname werd een belangrijk boek voor de Surinaamse onafhankelijkheidsbeweging.",
+  "In 2020 werd Anton de Kom een eigen venster in de Canon van Nederland. Op 19 juni 2023 bood minister van Buitenlandse Zaken Wopke Hoekstra namens het kabinet excuses aan aan zijn nazaten, voor hoe de Nederlandse overheid hem destijds had behandeld."
+ ],
+ perspectieven: [
+  "Voor het koloniale bestuur was De Kom een onruststoker die de orde bedreigde. Voor de arbeiders in Suriname was hij iemand die eindelijk naar hen luisterde. Zijn boek vertelt de geschiedenis van Suriname niet vanuit de planters en het bestuur, maar vanuit de tot slaaf gemaakten en hun nakomelingen. Dat perspectief ontbrak lang in Nederlandse geschiedenisboeken."
+ ],
+ misverstanden: [
+  ["“Wij slaven van Suriname was meteen een bekend en veelgelezen boek.”","Het boek verscheen in 1934 in gecensureerde vorm en werd weinig gelezen. Pas vanaf de jaren zestig werd het herontdekt, en de laatste jaren is het weer veel gelezen."],
+  ["“Anton de Kom was alleen een verzetsstrijder in de Tweede Wereldoorlog.”","Hij is ook bekend door zijn verzet in de oorlog, maar zijn strijd begon veel eerder, tegen het koloniale bestuur en de armoede in Suriname."]
+ ],
+ hoeWeten: [
+  "Zijn boek zelf is de belangrijkste bron, aangevuld met de verslagen van het koloniale bestuur en kranten uit 1933, die laten zien hoe er toen over hem werd geschreven. Archiefstukken over zijn arrestatie en zijn tijd in het verzet zijn later onderzocht door historici."
+ ],
+ nu: [
+  "In Amsterdam-Zuidoost ligt het Anton de Komplein, met een muurschildering van hem. Sinds 2023 is er een Anton de Kom-leerstoel aan de Vrije Universiteit in Amsterdam. Zijn boek wordt op scholen gelezen en is opgenomen in een reeks klassiekers van de Nederlandse literatuur."
+ ],
+ vertellen: "Toen Anton de Kom in 1933 in Paramaribo spreekuur hield, stonden er elke dag lange rijen arbeiders voor zijn huis. Ze kwamen met hun klachten over lage lonen en slechte behandeling. Het koloniale bestuur vond dat zo bedreigend dat het hem liet arresteren.",
+ verbanden: [["Slavernij","de geschiedenis waarover hij schreef"],["Afschaffing van de slavernij","zijn vader werd kort daarvoor geboren"],["De Tweede Wereldoorlog","hij zat in het verzet"],["Suriname onafhankelijk","zijn boek inspireerde de onafhankelijkheidsbeweging"]],
+ onderwijs: {"ka":["Opkomst van verzet in de koloniën tegen het West-Europese imperialisme."],"venster":"36. Anton de Kom"},
  cijfers: [['Geboren','22 februari 1898, Paramaribo'],['Wij slaven van Suriname','1934'],['Gearresteerd door bezetter','1944'],['Overleden','april 1945, Sandbostel']],
  figuren: [['Anton de Kom','schrijver, vakbondsman en verzetsstrijder'],['Petronella Borsboom','zijn vrouw, steunde hem in Nederland']],
  bronnen: [CANON,['Wikipedia: Anton de Kom',W('Anton de Kom')],['Wikipedia: Wij slaven van Suriname',W('Wij slaven van Suriname')]]
@@ -333,6 +515,27 @@ Object.assign(window.DETAILS, {
   'Onder de bezetting werden Joodse Nederlanders stap voor stap uitgesloten en weggevoerd via Westerbork naar vernietigingskampen. In februari 1941 legden Amsterdammers uit protest het werk neer: de Februaristaking. Anderen gingen in het verzet of hielpen onderduikers.',
   'Het zuiden werd in het najaar van 1944 bevrijd. In het westen volgde de Hongerwinter, waarin zo’n 20.000 mensen omkwamen. Op 5 mei 1945 werd de Duitse capitulatie in Wageningen bevestigd.'
  ],
+ gevolgen: [
+  "Na de oorlog lag een groot deel van Nederland in puin en was er woningnood. Met hulp van het Marshallplan werd het land weer opgebouwd. Collaborateurs werden berecht, en NSB’ers en andere verdachten werden opgepakt.",
+  "De oorlog veranderde ook de buitenlandse politiek. Nederland gaf zijn neutraliteit op, werd in 1949 lid van de NAVO en ging in Europa nauw samenwerken. De Japanse bezetting van Nederlands-Indië en de oorlog daarna leidden tot de onafhankelijkheid van Indonesië.",
+  "De Holocaust, de moord op zes miljoen Joden, leidde tot nieuwe internationale afspraken, zoals de Universele Verklaring van de Rechten van de Mens in 1948."
+ ],
+ perspectieven: [
+  "De oorlog werd heel verschillend beleefd. Joodse Nederlanders werden vervolgd en vermoord: van de ongeveer 140.000 kwamen er ruim 100.000 om, een veel hoger aandeel dan in België of Frankrijk. In Nederlands-Indië zaten Nederlanders en Indo’s in Japanse kampen. Er waren mensen in het verzet, mensen die collaboreerden, en een grote groep die probeerde zo goed mogelijk door de oorlog te komen."
+ ],
+ misverstanden: [
+  ["“De meeste Nederlanders zaten in het verzet.”","Een kleine minderheid was actief in het verzet of hielp onderduikers. De meeste mensen pasten zich aan. Lange tijd na de oorlog werd het beeld van een “verzetsland” wel graag verteld."],
+  ["“De oorlog was op 5 mei 1945 overal voorbij.”","Het zuiden was al in 1944 bevrijd, en in Nederlands-Indië ging de oorlog door tot de Japanse capitulatie op 15 augustus 1945."]
+ ],
+ hoeWeten: [
+  "Er zijn enorm veel bronnen: dagboeken, foto’s, films, kranten, illegale bladen en de archieven van de bezetter. Het NIOD, Instituut voor Oorlogs-, Holocaust- en Genocidestudies, verzamelt en onderzoekt ze. Ook de verhalen van mensen die de oorlog hebben meegemaakt zijn opgetekend, maar die generatie is er bijna niet meer."
+ ],
+ nu: [
+  "Op 4 mei herdenken we de doden met twee minuten stilte, op 5 mei vieren we de bevrijding. In veel straten liggen Stolpersteine, kleine gedenkstenen voor mensen die werden weggevoerd. Kamp Westerbork en Kamp Vught zijn herinneringscentra waar scholen vaak naartoe gaan."
+ ],
+ vertellen: "Op 25 februari 1941 legden in Amsterdam duizenden mensen het werk neer, uit protest tegen de razzia’s op Joodse mannen. Trams reden niet meer en fabrieken lagen stil. De Februaristaking was het enige grote openlijke protest tegen de Jodenvervolging in bezet Europa.",
+ verbanden: [["Anne Frank","een van de bekendste slachtoffers"],["Maastricht bevrijd","de bevrijding van het zuiden"],["Indonesië","de oorlog in Azië en de nasleep"],["Het Marshallplan","de wederopbouw"]],
+ onderwijs: {"ka":["De Duitse bezetting van Nederland.","Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust).","Het voeren van twee wereldoorlogen."],"venster":"37. De Tweede Wereldoorlog"},
  cijfers: [['Duur bezetting','10 mei 1940 – 5 mei 1945'],['Joodse slachtoffers','ruim 100.000 van ca. 140.000'],['Slachtoffers Hongerwinter','ca. 20.000'],['Bombardement Rotterdam','14 mei 1940']],
  figuren: [['Koningin Wilhelmina','sprak via Radio Oranje vanuit Londen'],['Arthur Seyss-Inquart','Duitse rijkscommissaris'],['Anton Mussert','leider van de NSB'],['Hannie Schaft','verzetsstrijder']],
  bronnen: [CANON,['NIOD Instituut voor Oorlogs-, Holocaust- en Genocidestudies','https://www.niod.nl/'],['Wikipedia: Hongerwinter',W('Hongerwinter')]]
@@ -348,6 +551,26 @@ Object.assign(window.DETAILS, {
   'Anne schreef in haar dagboek over het leven met acht mensen in een kleine ruimte, over haar ruzies, verliefdheid en dromen om schrijfster te worden. Op 4 augustus 1944 werden de onderduikers ontdekt en gearresteerd.',
   'Via Westerbork en Auschwitz kwam Anne in Bergen-Belsen terecht, waar zij en Margot begin 1945 aan tyfus stierven. Alleen Otto overleefde. Miep Gies had het dagboek bewaard; in 1947 verscheen het als Het Achterhuis. Het is in meer dan zeventig talen vertaald.'
  ],
+ gevolgen: [
+  "Otto Frank wilde het dagboek van zijn dochter delen. In 1947 verscheen Het Achterhuis in een kleine oplage. Via vertalingen, een toneelstuk en films werd het wereldberoemd. Het werd een van de meest gelezen boeken over de Tweede Wereldoorlog.",
+  "Op 3 mei 1960 ging het Achterhuis open als museum. Het Anne Frank Huis trekt meer dan een miljoen bezoekers per jaar, bijna negen op de tien uit het buitenland."
+ ],
+ perspectieven: [
+  "Anne Frank is één van de ongeveer 102.000 Joden uit Nederland die werden vermoord. Haar verhaal is bekend omdat haar dagboek bewaard bleef, maar het staat voor de verhalen van al die anderen. Sommige historici waarschuwen dat de focus op Anne de indruk kan wekken dat onderduiken vaak lukte, terwijl de meeste Joden werden opgepakt."
+ ],
+ misverstanden: [
+  ["“Anne Frank stierf in Auschwitz.”","Anne werd via Westerbork naar Auschwitz gebracht, maar daarna overgeplaatst naar Bergen-Belsen in Duitsland. Daar stierf ze begin 1945, waarschijnlijk aan vlektyfus, kort na haar zus Margot."],
+  ["“Het is zeker dat de onderduikers zijn verraden.”","Dat is lang gedacht, maar nooit bewezen. Onderzoek van de Anne Frank Stichting uit 2016 opperde dat de onderduikers ook bij toeval ontdekt kunnen zijn, bij een inval om een andere reden. Wat er precies gebeurde, is nog steeds niet zeker."]
+ ],
+ hoeWeten: [
+  "Het belangrijkste bron is het dagboek zelf, met Annes eigen herschreven versie. Daarnaast zijn er verklaringen van de helpers, zoals Miep Gies, en van overlevenden die Anne in de kampen zagen. Onderzoekers hebben het handschrift en papier onderzocht en vastgesteld dat het dagboek echt is."
+ ],
+ nu: [
+  "Het Anne Frank Huis aan de Prinsengracht laat de onderduikruimte zien, met de draaibare boekenkast. Het dagboek staat op de werelderfgoedlijst Memory of the World van UNESCO. Op scholen wordt het vaak gebruikt om over de Holocaust en over uitsluiting te praten."
+ ],
+ vertellen: "Anne kreeg haar dagboek voor haar dertiende verjaardag, op 12 juni 1942, nog voor het gezin onderdook. Ze noemde het Kitty en schreef haar brieven alsof het een vriendin was. Toen ze op de radio hoorde dat na de oorlog dagboeken verzameld zouden worden, begon ze haar tekst te herschrijven voor een boek.",
+ verbanden: [["De Tweede Wereldoorlog","de context van haar onderduik"],["Universele Verklaring van de Rechten van de Mens","een reactie op de Holocaust"]],
+ onderwijs: {"ka":["Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust).","De Duitse bezetting van Nederland."],"venster":"38. Anne Frank"},
  cijfers: [['Geboren','12 juni 1929'],['Ondergedoken','6 juli 1942 – 4 aug 1944'],['Onderduikers','8 personen'],['Het Achterhuis','1947']],
  figuren: [['Otto Frank','vader, enige overlevende'],['Margot Frank','zus van Anne'],['Miep Gies','helper, redde het dagboek'],['Fritz Pfeffer','medeonderduiker']],
  bronnen: [CANON,['Anne Frank Huis','https://www.annefrank.org/nl/'],['Wikipedia: Het Achterhuis',W('Het Achterhuis')]]
@@ -363,6 +586,26 @@ Object.assign(window.DETAILS, {
   'In de dagen erna volgden Heerlen, Kerkrade en de dorpen van het huidige Landgraaf. Het front kwam vlak achter de grens te liggen. Duizenden Amerikaanse soldaten werden ingekwartierd bij Limburgse families.',
   'Terwijl het zuiden vrij was, mislukte de luchtlandingsoperatie Market Garden bij Arnhem. Het westen moest nog door de Hongerwinter heen. Bij Margraten werd een Amerikaanse militaire begraafplaats aangelegd. Inwoners adopteren daar tot op vandaag de graven.'
  ],
+ gevolgen: [
+  "Voor Zuid-Limburg begon de vrijheid acht maanden eerder dan voor het westen. Toch was het geen rustige tijd: het front lag vlak over de grens bij Aken, en er vielen nog Duitse V1-raketten en granaten. Mijnwerkers in de Limburgse mijnen leverden steenkool voor de geallieerden.",
+  "De bevrijding van het zuiden betekende dat Nederland in twee delen was gesplitst. Terwijl het zuiden weer opbouwde, leed het westen onder de Hongerwinter. Na de mislukte operatie Market Garden bij Arnhem duurde het nog tot mei 1945 voordat de rest van het land vrij was."
+ ],
+ perspectieven: [
+  "Voor de Limburgers waren de Amerikaanse soldaten bevrijders, die vaak bij families werden ingekwartierd. Voor de Amerikanen was het een korte tussenstop op weg naar Duitsland, waar zware gevechten volgden. Veel van hen sneuvelden in de maanden erna en kregen een graf in Margraten."
+ ],
+ misverstanden: [
+  ["“Heel Nederland werd op 5 mei 1945 bevrijd.”","De bevrijding ging in stappen. Mesch en Maastricht waren in september 1944 de eersten, en grote delen van het zuiden volgden in het najaar van 1944. Het westen en noorden werden pas in april en mei 1945 vrij."],
+  ["“Op 5 mei 1945 werd in Wageningen gecapituleerd.”","Op 5 mei 1945 werden in Wageningen de afspraken over de overgave gemaakt. De Duitse capitulatie voor Nederland ging officieel in op 5 mei, maar ondertekend werd het document pas op 6 mei."]
+ ],
+ hoeWeten: [
+  "Er zijn foto’s en filmbeelden van Amerikaanse soldaten in de straten van Maastricht en Mesch, en verslagen van het Amerikaanse leger. Limburgers schreven dagboeken en brieven over de bevrijding. Lokale historische verenigingen hebben veel verhalen verzameld."
+ ],
+ nu: [
+  "Op de Amerikaanse militaire begraafplaats in Margraten liggen ruim 8.000 soldaten. Bijna alle graven zijn “geadopteerd” door Nederlandse families, die er bloemen leggen en de verhalen van de soldaten bijhouden. Elk jaar is er in mei een grote herdenking."
+ ],
+ vertellen: "Het grensdorpje Mesch, bij Eijsden, telde in 1944 maar een paar honderd inwoners. Op 12 september 1944 liepen daar de eerste Amerikaanse soldaten binnen, en zo werd Mesch het allereerste bevrijde dorp van Nederland.",
+ verbanden: [["De Tweede Wereldoorlog","de oorlog in Nederland"],["Steenkoolmijnen in Parkstad","de mijnen leverden kolen voor de geallieerden"]],
+ onderwijs: {"ka":["De Duitse bezetting van Nederland.","Het voeren van twee wereldoorlogen."]},
  cijfers: [['Eerste bevrijde dorp','Mesch, 12 sept 1944'],['Maastricht bevrijd','14 sept 1944'],['Graven in Margraten','ruim 8.000'],['Rest van Nederland','5 mei 1945']],
  figuren: [['30e Amerikaanse Infanteriedivisie','bevrijdde Maastricht'],['Inwoners van Margraten e.o.','adopteren de oorlogsgraven']],
  bronnen: [['Wikipedia: Amerikaanse begraafplaats Margraten',W('Amerikaanse Oorlogsbegraafplaats Margraten')],['Wikipedia: Mesch',W('Mesch')]]
@@ -378,6 +621,26 @@ Object.assign(window.DETAILS, {
   'In 1947 en 1948 voerde Nederland twee grote militaire offensieven uit, destijds politionele acties genoemd. Onderzoek uit 2022 liet zien dat Nederlandse militairen daarbij structureel extreem geweld gebruikten. Onder internationale druk erkende Nederland op 27 december 1949 de soevereiniteit van Indonesië.',
   'Honderdduizenden Indische Nederlanders, Molukkers en anderen vertrokken naar Nederland. Nieuw-Guinea bleef nog tot 1962 Nederlands.'
  ],
+ gevolgen: [
+  "Na 1949 kwamen honderdduizenden mensen uit Indonesië naar Nederland: Indische Nederlanders, Nederlanders die daar hadden gewoond, en ruim 12.000 Molukkers, vooral oud-militairen van het KNIL en hun gezinnen. Vooral de Molukkers werden slecht opgevangen; zij werden in kampen gehuisvest in de verwachting dat ze snel terug zouden gaan.",
+  "Nederland verloor zijn belangrijkste kolonie. Het land richtte zich daarna sterker op Europa. Nieuw-Guinea bleef nog tot 1962 Nederlands en ging daarna naar Indonesië."
+ ],
+ perspectieven: [
+  "Voor Indonesiërs is 17 augustus 1945 de dag van hun onafhankelijkheid, en de oorlog daarna een vrijheidsstrijd. Nederland erkende die datum pas in 2005 als de feitelijke onafhankelijkheidsdag. Voor de Nederlandse militairen, vaak dienstplichtige jongens, was het een oorlog waarover ze na thuiskomst weinig konden vertellen. Voor Indische Nederlanders betekende het het verlies van hun land."
+ ],
+ misverstanden: [
+  ["“Het ging om twee korte politionele acties.”","Die term werd lang gebruikt, maar het was een oorlog van ruim vier jaar. Aan Indonesische kant vielen vermoedelijk meer dan 100.000 doden. Onderzoek dat in 2022 verscheen, liet zien dat Nederlandse militairen structureel extreem geweld gebruikten."],
+  ["“Indonesië werd in 1949 onafhankelijk.”","In 1949 droeg Nederland de soevereiniteit over. Indonesië zelf ziet 17 augustus 1945 als de dag van de onafhankelijkheid, toen Soekarno en Hatta de republiek uitriepen."]
+ ],
+ hoeWeten: [
+  "Er zijn archieven van het Nederlandse leger en de regering, brieven en foto’s van militairen, en verhalen van Indonesische getuigen. Lange tijd werd vooral het Nederlandse perspectief bestudeerd. Het grote onderzoek van KITLV, NIOD en NIMH, dat in 2022 verscheen, gebruikte ook Indonesische bronnen."
+ ],
+ nu: [
+  "Op 15 augustus wordt in Nederland het einde van de Tweede Wereldoorlog in Azië herdacht. Indische en Molukse gemeenschappen hebben een eigen plek in de Nederlandse cultuur, van eten tot muziek. In 2022 bood premier Rutte excuses aan voor het extreme geweld dat Nederland in deze oorlog gebruikte."
+ ],
+ vertellen: "Soekarno las de onafhankelijkheidsverklaring op 17 augustus 1945 voor in de tuin van zijn huis in Jakarta. De tekst was maar een paar zinnen lang. Dat moment wordt in Indonesië elk jaar groots gevierd.",
+ verbanden: [["VOC","het begin van de Nederlandse aanwezigheid"],["Max Havelaar","kritiek op het koloniale bestuur"],["De Tweede Wereldoorlog","de Japanse bezetting"],["Nieuw Koninkrijk","een latere stap in de dekolonisatie"]],
+ onderwijs: {"ka":["Opkomst van verzet in de koloniën tegen het West-Europese imperialisme."],"venster":"39. Indonesië"},
  cijfers: [['Proclamatie','17 augustus 1945'],['Ingezette Nederlandse militairen','ca. 220.000'],['Soevereiniteitsoverdracht','27 december 1949'],['Nieuw-Guinea overgedragen','1962']],
  figuren: [['Soekarno','eerste president van Indonesië'],['Mohammad Hatta','vicepresident'],['Generaal Spoor','Nederlandse legercommandant'],['Raymond Westerling','commandant, berucht om geweld op Zuid-Celebes']],
  bronnen: [CANON,['NIOD','https://www.niod.nl/'],['Wikipedia: Indonesische Onafhankelijkheidsoorlog',W('Indonesische Onafhankelijkheidsoorlog')]]
