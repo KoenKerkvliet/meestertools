@@ -15,6 +15,26 @@ Object.assign(window.DETAILS, {
   'Ten zuiden van de Friezen lag het rijk van de Franken. De twee volken streden lang om de controle over de rivierhandel en om plaatsen als Utrecht en Dorestad. De Friezen hielden vast aan hun eigen goden, wat de strijd met de christelijke Franken nog scherper maakte.',
   'In de 8e eeuw werden de Friezen stap voor stap onderworpen en bekeerd. Hun naam leeft voort in de provincie Friesland en in de Friese taal.'
  ],
+ gevolgen: [
+  "De Friezen waren een schakel in de handel rond de Noordzee. Hun schepen verbonden Engeland, Scandinavië en het Rijnland. Friese kooplieden woonden in steden als Londen, York, Keulen en Mainz. Zo kwamen er goederen en ideeën uit heel Noordwest-Europa in het kustgebied.",
+  "Na de Frankische verovering werden de Friezen ingelijfd in het rijk van de Franken. Een beslissende nederlaag leden ze in 734 in de slag aan de Boorne, waar hun aanvoerder Poppo sneuvelde. Rond 800 liet Karel de Grote hun wetten opschrijven, de Lex Frisionum."
+ ],
+ perspectieven: [
+  "Bijna alles wat we over de Friezen uit deze tijd lezen, is geschreven door Franken of door christelijke monniken. Zij zagen de Friezen als heidenen en tegenstanders. Hoe de Friezen zelf over hun leven, hun goden en hun koningen dachten, weten we vooral uit archeologische vondsten."
+ ],
+ misverstanden: [
+  ["“Er was een groot Fries koninkrijk van Vlaanderen tot Denemarken.”","Dat beeld komt uit middeleeuwse ridderverhalen. Historici denken dat de Friese koningen vooral macht hadden in het rivierengebied rond Utrecht en Dorestad en langs de kust. De term “Magna Frisia”, Groot-Friesland, is pas veel later bedacht."],
+  ["“De Friezen van nu stammen rechtstreeks af van de Friezen uit de Romeinse tijd.”","Het kustgebied raakte in de 5e eeuw grotendeels ontvolkt. De nieuwe bewoners kwamen voor een deel van elders, onder meer uit het gebied van de Angelen en Saksen. Zij namen later de naam Friezen over."]
+ ],
+ hoeWeten: [
+  "Archeologen hebben veel terpen onderzocht. Een prachtige vondst is de fibula van Wijnaldum, een gouden mantelspeld uit het begin van de 7e eeuw, gevonden in 1953 bij een terp in Friesland. In 2009 werd nog een ontbrekend stukje gevonden, met daarop waarschijnlijk de god Wodan tussen twee dieren. Zo’n kostbaar sieraad wijst op een rijke, machtige familie."
+ ],
+ nu: [
+  "In Friesland en Groningen zijn nog honderden terpen en wierden te zien, zoals de hoge terp van Hogebeintum. In de 19e eeuw werden veel terpen afgegraven, omdat de vruchtbare grond werd verkocht als meststof. Daarbij werden veel vondsten gedaan. Het Fries is nu een officiële taal in Nederland, naast het Nederlands."
+ ],
+ vertellen: "Veel Friese plaatsnamen die eindigen op -um, zoals Dokkum, Wierum, Hantum en Marrum, zijn ontstaan op een terp. In Groningen eindigen namen vaak op -werd of -wier, zoals Wierum of Usquert. Een leuke opdracht: zoek op de kaart van Friesland en Groningen plaatsen met zulke namen en kijk of ze op een terp liggen.",
+ verbanden: [["Terpen in het noorden","de woonheuvels waar de Friezen op leefden"],["Radboud, koning der Friezen","de bekendste Friese koning"],["Bonifatius vermoord","de kerstening van de laatste Friezen"]],
+ onderwijs: {"ka":["De verspreiding van het christendom in heel Europa."]},
  cijfers: [['Friese bloeitijd','ca. 600 – 750'],['Dood van Radboud','719'],['Volledige Frankische verovering','ca. 785']],
  figuren: [['Aldgisl','Friese koning, ontving rond 678 de missionaris Wilfrid'],['Radboud','machtigste Friese koning, gestorven 719']],
  bronnen: [['Wikipedia: Friezen (Germaans volk)',W('Friezen Germaans volk')],['Wikipedia: Frisia',W('Magna Frisia')],['Wikipedia: Terp',W('Terp (heuvel)')]]
@@ -30,6 +50,27 @@ Object.assign(window.DETAILS, {
   'In Dorestad werden graan, wijn uit het Rijnland in tonnen, aardewerk, maalstenen, metaal en ook slaven verhandeld. Er was een tol en een munt van de Frankische koningen. Daarmee hoorde Dorestad bij de grootste handelsplaatsen van Noordwest-Europa.',
   'In de 9e eeuw ging de stad snel achteruit door Vikingaanvallen en doordat de rivier verzandde. Opgravingen in de jaren 1967 tot 1977 lieten zien hoe groot de stad was geweest. In Wijk bij Duurstede is daar nu een museum over.'
  ],
+ gevolgen: [
+  "Dorestad was een van de belangrijkste handelsplaatsen van het Frankische rijk, net als Quentovic in Noord-Frankrijk. De munten die er werden geslagen, met de namen van Pepijn de Korte, Karel de Grote en Lodewijk de Vrome, zijn tot in Rusland teruggevonden.",
+  "Na het verval van Dorestad verplaatste de handel zich naar andere plaatsen, zoals Tiel, Deventer en Utrecht. Op ongeveer dezelfde plek groeide eeuwen later het stadje Wijk bij Duurstede, waarvan de naam nog aan Dorestad herinnert."
+ ],
+ perspectieven: [
+  "Volgens een bekend beeld van de vroege middeleeuwen verdwenen steden en handel na de Romeinen, en leefden mensen vooral van hun eigen land. Dorestad laat zien dat het genuanceerder ligt: langs de grote rivieren bloeide in de 7e tot 9e eeuw een drukke handel over lange afstand.",
+  "In Dorestad werden ook mensen verhandeld. In de tolregisters staan naast pelzen, textiel, zout en honing ook slaven genoemd. Vaak waren dat krijgsgevangenen of mensen die bij overvallen waren meegenomen."
+ ],
+ misverstanden: [
+  ["“Dorestad was een stad met stenen muren en huizen.”","Dorestad bestond grotendeels uit houten huizen, in een lint van ongeveer drie kilometer langs de rivier. De haven lag op houten palen en steigers die steeds verder de rivier in werden gebouwd. Stadsmuren had Dorestad niet."],
+  ["“Dorestad lag aan zee.”","Dorestad lag in het binnenland, waar de Rijn zich splitste in de Kromme Rijn en de Lek. Juist die plek maakte het belangrijk: schepen uit het Rijnland konden er verder naar de kust en naar Engeland."]
+ ],
+ hoeWeten: [
+  "Bij de grote opgravingen werden duizenden houten palen, munten, aardewerk en sieraden gevonden. De waterputten bij de huizen waren vaak gemaakt van eikenhouten vaten, waarschijnlijk oude wijnvaten uit het Rijnland. In 1969 werd in zo’n put de Fibula van Dorestad gevonden, een gouden mantelspeld uit het eind van de 8e eeuw. Misschien werd hij daar verstopt tijdens een Vikingaanval."
+ ],
+ nu: [
+  "De Fibula van Dorestad is te zien in het Rijksmuseum van Oudheden in Leiden. Museum Dorestad in Wijk bij Duurstede vertelt het verhaal van de handelsplaats. In het landschap rond Wijk bij Duurstede zijn de oude rivierlopen nog te herkennen."
+ ],
+ vertellen: "Een van de oudste muntmeesters uit Nederland die we bij naam kennen, is Madelinus. Rond 630 tot 640 sloeg hij in Dorestad gouden muntjes met de tekst Dorestat fit: “gemaakt in Dorestad”. Later werden er vooral kleine zilveren muntjes geslagen. Een mooie manier om te laten zien dat geld ook een bron is voor geschiedenis.",
+ verbanden: [["Vikingen plunderen Dorestad","de aanvallen die het einde inluidden"],["Radboud, koning der Friezen","Friezen en Franken streden om Dorestad"],["De Rijn wordt afgedamd","de Kromme Rijn verloor later zijn water"]],
+ onderwijs: {"ka":["De vrijwel volledige vervanging in West-Europa van de agrarisch-urbane cultuur door een zelfvoorzienende agrarische cultuur, georganiseerd via hofstelsel en horigheid."]},
  cijfers: [['Bloeiperiode','ca. 630 – 850'],['Frankische verovering','ca. 690'],['Grote opgravingen','1967 – 1977']],
  figuren: [['Madelinus','muntmeester, sloeg munten in Dorestad'],['Pippijn II','Frankische hofmeier, veroverde Dorestad'],['Wim van Es','archeoloog, leidde de opgravingen']],
  bronnen: [['Wikipedia: Dorestad',W('Dorestad')],['Wikipedia: Wijk bij Duurstede',W('Wijk bij Duurstede')]]
@@ -45,6 +86,27 @@ Object.assign(window.DETAILS, {
   'Na de dood van Pippijn in 714 sloeg Radboud terug. Hij heroverde gebied, verdreef de missionarissen en trok met zijn vloot de Rijn op. In 716 versloeg hij Karel Martel bij Keulen. In 719 stierf Radboud, waarna de Franken het zuidelijke Friese gebied weer innamen.',
   'Volgens een latere heiligenlevensbeschrijving stond Radboud al met één voet in het doopwater. Hij vroeg waar zijn voorouders waren. Toen het antwoord luidde dat zij in de hel waren, trok hij zijn voet terug. Of dit echt gebeurde, is onzeker.'
  ],
+ gevolgen: [
+  "Na de dood van Radboud in 719 nam de Frankische macht snel toe. Karel Martel heroverde het rivierengebied, en in 734 versloeg hij de Friezen in de slag aan de Boorne. Daarmee was ook het gebied tussen het Vlie en de Lauwers in Frankische handen.",
+  "Met de Franken kwamen de missionarissen terug. Willibrord kon zijn werk in Utrecht hervatten. Het rivierengebied en de kust werden stap voor stap christelijk."
+ ],
+ perspectieven: [
+  "Radboud verdedigde niet alleen zijn geloof, maar ook zijn macht. Voor hem was het christendom het geloof van de Franken, en wie zich liet dopen, koos ook voor de Frankische heerser. Dat maakte de missionarissen in zijn ogen gevaarlijk.",
+  "Wat we over Radboud weten, komt bijna helemaal uit christelijke bronnen, zoals de levensbeschrijvingen van Willibrord en Wulfram. Zij beschreven hem als een wrede heiden. Hoe de Friezen zelf hun koning zagen, weten we niet."
+ ],
+ misverstanden: [
+  ["“De Radboud Universiteit is naar koning Radboud genoemd.”","De universiteit in Nijmegen is genoemd naar een andere Radboud: de heilige bisschop Radboud van Utrecht, een geleerde en dichter die rond het jaar 900 leefde."],
+  ["“Radboud heerste over heel Friesland.”","Zijn macht lag vooral in het rivierengebied rond Utrecht en Dorestad en in het westen. Pas latere verhalen maakten hem tot heerser over de hele kust van Vlaanderen tot Denemarken."]
+ ],
+ hoeWeten: [
+  "De belangrijkste bronnen zijn Frankische kronieken en de levens van heiligen, zoals de Vita Willibrordi uit het eind van de 8e eeuw. Die zijn geschreven om de missionarissen te prijzen. Het bekende verhaal over Radbouds voet in het doopwater komt uit een levensbeschrijving van de heilige Wulfram, die pas jaren later werd opgeschreven."
+ ],
+ nu: [
+  "Het kasteel van Floris V in Medemblik heet Kasteel Radboud. Die naam kreeg het pas later, naar een oude legende dat koning Radboud daar een burcht had. In Friesland en Noord-Holland is Radboud nog altijd een bekende naam, die soms als symbool voor Friese zelfstandigheid wordt gebruikt."
+ ],
+ vertellen: "Volgens het verhaal stond Radboud al klaar om gedoopt te worden. Met één voet in het water vroeg hij waar zijn voorouders waren. De bisschop zei dat zij als heidenen in de hel waren. Toen trok Radboud zijn voet terug: hij wilde na zijn dood liever bij zijn voorouders zijn. Het is een legende, maar wel een mooi gespreksonderwerp.",
+ verbanden: [["Willibrord","de missionaris die door Radboud werd verdreven"],["Handelsstad Dorestad","de handelsplaats waar Friezen en Franken om streden"],["Friezen beheersen de kust","het volk waarover Radboud koning was"]],
+ onderwijs: {"ka":["De verspreiding van het christendom in heel Europa."]},
  cijfers: [['Koning','ca. 680 – 719'],['Nederlaag bij Dorestad','ca. 690'],['Overwinning bij Keulen','716'],['Overleden','719']],
  figuren: [['Radboud','koning der Friezen'],['Pippijn II','Frankische hofmeier, tegenstander'],['Karel Martel','zoon van Pippijn, verslagen in 716'],['Wulfram van Sens','missionaris uit de doop-legende']],
  bronnen: [['Wikipedia: Radboud (koning)',W('Radboud koning Friezen')],['Wikipedia: Friese Rijk',W('Friese Rijk')]]
@@ -60,6 +122,27 @@ Object.assign(window.DETAILS, {
   'Willibrord vestigde zijn zetel in Utrecht, waar hij kerken liet bouwen. In 698 stichtte hij een klooster in Echternach, in het huidige Luxemburg. Toen Radboud na 714 terugsloeg, moest hij Utrecht tijdelijk verlaten. Daarna hervatte hij zijn werk.',
   'Willibrord stierf in 739 in Echternach en werd daar begraven. Hij geldt als de grondlegger van het bisdom Utrecht en als de apostel van de Nederlanden. In Echternach wordt nog jaarlijks een springprocessie te zijner ere gehouden.'
  ],
+ gevolgen: [
+  "Willibrord legde de basis voor de kerk in de Nederlanden. Utrecht werd het centrum van een bisdom dat eeuwenlang het grootste deel van het huidige Nederland omvatte. Hij kreeg ook land en kerken, onder meer in Susteren, Boxtel en Hilvarenbeek.",
+  "Willibrord werkte nauw samen met de Frankische machthebbers. Zijn missie was ook een manier om de Friezen in het Frankische rijk op te nemen. Dat leidde in 722 tot een breuk met Bonifatius, die vond dat Willibrord te veel op de Franken leunde."
+ ],
+ perspectieven: [
+  "Voor de Friezen betekende de komst van Willibrord dat hun heilige plaatsen werden aangevallen. Volgens de verhalen vernielde hij een afgodsbeeld op Walcheren en vergreep hij zich aan een heilige bron en heilig vee op Fositesland, waarschijnlijk Helgoland. Voor de Friezen was dat heiligschennis.",
+  "Willibrord werkte niet alleen. Hij kwam met elf metgezellen, en later hielpen andere Engelse en Ierse monniken mee. Bekering ging vaak van boven naar beneden: eerst werden de leiders gedoopt, daarna volgde het volk."
+ ],
+ misverstanden: [
+  ["“Willibrord bekeerde in korte tijd de Nederlanden.”","Bekering ging langzaam. Toen Radboud in 714 terugsloeg, werd veel van Willibrords werk in Utrecht vernield. Het noorden van Friesland bleef nog lang heidens; Bonifatius werd daar in 754 vermoord."],
+  ["“Willibrord was bisschop van Utrecht.”","Hij werd in 695 aartsbisschop van de Friezen, met Utrecht als zetel. De titel bisschop van Utrecht kwam pas later. Hij gebruikte bovendien zelden de naam Clemens, die de paus hem gaf."]
+ ],
+ hoeWeten: [
+  "Willibrords leven werd rond 796 beschreven door Alcuinus, een geleerde aan het hof van Karel de Grote. Er zijn ook oorkonden van schenkingen bewaard. In een kalender uit zijn klooster in Echternach staat een aantekening die waarschijnlijk door Willibrord zelf is geschreven, over zijn komst naar het vasteland en zijn wijding."
+ ],
+ nu: [
+  "In Echternach wordt elk jaar op Pinksterdinsdag een springprocessie gehouden ter ere van Willibrord. Sinds 2010 staat die op de UNESCO-lijst van immaterieel erfgoed. In Utrecht staat op het Janskerkhof een ruiterstandbeeld van hem. Veel kerken in Nederland zijn naar hem genoemd, en hij is de patroonheilige van Nederland en Luxemburg."
+ ],
+ vertellen: "Volgens Alcuinus doopte Willibrord op Fositesland drie mensen in een heilige bron, waaruit niemand zonder te zwijgen mocht drinken. Koning Radboud was woedend. Hij liet drie dagen lang loten om te bepalen wie van de christenen moest sterven. Het lot viel op één van hen, die werd gedood. Willibrord zelf bleef gespaard.",
+ verbanden: [["Radboud, koning der Friezen","de koning die zich tegen hem verzette"],["Bonifatius vermoord","zijn medewerker en latere rivaal"],["Hebban olla vogala","monniken brachten het schrift naar deze streken"]],
+ onderwijs: {"ka":["De verspreiding van het christendom in heel Europa."],"venster":"4. Willibrord"},
  cijfers: [['Geboren','ca. 658'],['Aankomst op het vasteland','690'],['Wijding tot aartsbisschop','695'],['Overleden','739, Echternach']],
  figuren: [['Willibrord','missionaris, eerste bisschop van Utrecht'],['Pippijn II','Frankische hofmeier, beschermheer'],['Paus Sergius I','wijdde hem in Rome'],['Radboud','Friese koning, tegenstander']],
  bronnen: [CANON,['Wikipedia: Willibrord',W('Willibrord')]]
@@ -75,6 +158,27 @@ Object.assign(window.DETAILS, {
   'Op 5 juni 754 wachtte hij bij Dokkum op nieuwe dopelingen. Een gewapende groep Friezen viel het kamp aan en doodde Bonifatius en ongeveer vijftig metgezellen. Volgens de overlevering probeerde hij zich met een boek te beschermen. In Fulda wordt een boek met snijsporen bewaard dat met dit verhaal wordt verbonden.',
   'Zijn lichaam werd naar Fulda gebracht en daar begraven. Bonifatius werd snel als martelaar vereerd. In Dokkum herinneren een kapel en een bron aan hem.'
  ],
+ gevolgen: [
+  "Na de moord trokken christelijke Friezen en Franken het gebied in om wraak te nemen. Daarna ging de kerstening van het noorden verder. Rond 785, onder Karel de Grote, was ook het laatste vrije Friese gebied onderworpen.",
+  "Utrecht, Mainz en Fulda wilden allemaal de rustplaats van Bonifatius hebben, omdat zijn graf een bedevaartsoord zou worden. Fulda kreeg hem. In Duitsland wordt hij de apostel van de Duitsers genoemd."
+ ],
+ perspectieven: [
+  "Voor de Friezen was Bonifatius een vertegenwoordiger van de Frankische overheersing. Waar hij kwam, werden heilige bomen en plaatsen vernield. In 723 had hij in Hessen een heilige eik van de god Donar omgehakt, om te laten zien dat hun goden machteloos waren.",
+  "Volgens zijn levensbeschrijving verlangde Bonifatius naar de martelaarsdood. Hij zou al een linnen doek in zijn boekenkist hebben gelegd om er na zijn dood in te worden gewikkeld. Voor de kerk maakte zijn dood hem tot een held."
+ ],
+ misverstanden: [
+  ["“Bonifatius werd vermoord omdat hij christen was.”","Volgens de oudste levensbeschrijving waren de aanvallers vooral uit op buit. Ze dachten dat de kisten van de missionarissen vol goud en zilver zaten. Toen ze alleen boeken vonden, gooiden ze die weg."],
+  ["“Bonifatius verdedigde zich met een bijbel.”","Dat verhaal staat niet in de oudste levensbeschrijving. Het boek met sporen van zwaardslagen dat met hem in verband wordt gebracht, is geen bijbel, maar een verzameling theologische teksten."]
+ ],
+ hoeWeten: [
+  "De belangrijkste bron is de levensbeschrijving door Willibald, geschreven ongeveer dertien jaar na de moord. Er zijn ook veel brieven van Bonifatius zelf bewaard, aan de paus, aan vorsten en aan vrienden. Daaruit blijkt hoe hij werkte en met wie hij ruzie had."
+ ],
+ nu: [
+  "In Dokkum staan een Bonifatiuskapel en de Bonifatiusbron, en er is jaarlijks een bedevaart. In Fulda ligt hij begraven in de dom. Veel kerken, scholen en verenigingen in Nederland en Duitsland zijn naar hem genoemd."
+ ],
+ vertellen: "Volgens zijn levensbeschrijving riep Bonifatius zijn metgezellen op om niet terug te vechten. Ook zijn eigen schildknapen moesten hun wapens neerleggen. De aanvallers doodden de groep en doorzochten de kisten. Ze vonden geen goud, maar alleen boeken en wijn. Volgens het verhaal raakten ze dronken en begonnen ze elkaar te bevechten om de buit.",
+ verbanden: [["Willibrord","Bonifatius werkte enkele jaren met hem samen"],["Friezen beheersen de kust","de laatste heidense Friezen in het noorden"],["Karel de Grote","onder hem werd heel Friesland onderworpen"]],
+ onderwijs: {"ka":["De verspreiding van het christendom in heel Europa."]},
  cijfers: [['Geboren','ca. 675'],['Gedood','5 juni 754, bij Dokkum'],['Gedode metgezellen','ca. 50'],['Begraven','Fulda']],
  figuren: [['Bonifatius','missionaris en aartsbisschop van Mainz'],['Willibrord','leermeester in Utrecht'],['Gregorius van Utrecht','leerling, leidde later de Utrechtse kerk']],
  bronnen: [['Wikipedia: Bonifatius',W('Bonifatius')],['Wikipedia: Dokkum',W('Dokkum')]]
@@ -90,6 +194,27 @@ Object.assign(window.DETAILS, {
   'Karel bestuurde zijn rijk met graven en met wetten die capitularia heetten. Hij liet de Friese wetten optekenen. Aan zijn hof in Aken verzamelde hij geleerden zoals Alcuinus. Zij zorgden voor beter onderwijs en nauwkeurig overgeschreven boeken.',
   'In Nijmegen had Karel een paleis op het Valkhof. Hij stierf in 814 in Aken. Zijn kleinzonen verdeelden het rijk in 843 bij het Verdrag van Verdun.'
  ],
+ gevolgen: [
+  "Karel bouwde een groot rijk dat werd bestuurd door graven, die land kregen in ruil voor trouw. Zo groeide het systeem van leenmannen en heren, dat we feodalisme noemen. Na zijn dood raakte het rijk verdeeld, en de graven werden steeds zelfstandiger.",
+  "Aan zijn hof werd gewerkt aan beter onderwijs en nauwkeurige boeken. Monniken schreven oude Latijnse teksten over in een nieuw, duidelijk handschrift. Veel klassieke teksten zijn alleen bewaard gebleven doordat ze in deze tijd werden overgeschreven."
+ ],
+ perspectieven: [
+  "Voor de Saksen was Karel een veroveraar. De Saksenoorlogen duurden ruim dertig jaar. In 782 werden volgens de bronnen bij Verden 4500 Saksen gedood. Wie zich niet liet dopen, kon de doodstraf krijgen. De kerstening ging dus vaak met geweld.",
+  "Karel had ook contacten met de islamitische wereld. Hij stuurde gezanten naar kalief Haroen ar-Rashid in Bagdad, die hem onder meer een olifant schonk, Abul-Abbas. Die olifant reisde helemaal naar Aken."
+ ],
+ misverstanden: [
+  ["“Karel de Grote kon lezen en schrijven.”","Volgens zijn biograaf Einhard kon Karel wel lezen, maar had hij grote moeite met schrijven. Hij hield wastafeltjes onder zijn kussen om ’s nachts te oefenen, maar begon er te laat mee. Hij liet zijn brieven en wetten opschrijven door geleerden."],
+  ["“Karel de Grote was een Fransman of een Duitser.”","Frankrijk en Duitsland bestonden nog niet. Karel was een Frank. Zowel Fransen als Duitsers zien hem als een van hun eerste grote vorsten, en hij wordt ook wel de vader van Europa genoemd."]
+ ],
+ hoeWeten: [
+  "De belangrijkste bron is het leven van Karel door Einhard, die aan zijn hof leefde en het werk zo’n vijftien jaar na Karels dood schreef. Daarnaast zijn er de jaarboeken van het rijk, zijn wetten en oorkonden, en munten met zijn naam. In Aken is zijn paltskapel bewaard gebleven."
+ ],
+ nu: [
+  "Op het Valkhof in Nijmegen stond een palts van Karel. Daarvan is niets meer over; de Sint-Nicolaaskapel die er nu staat, is van rond 1030. De stad Aken reikt sinds 1949 elk jaar de Karelsprijs uit aan mensen die zich voor de eenheid van Europa hebben ingezet. In de dom van Aken staat zijn reliekschrijn."
+ ],
+ vertellen: "Kijk eens naar de kleine letters op dit scherm. Ze gaan terug op het handschrift dat aan het hof van Karel de Grote werd gebruikt: de Karolingische minuskel. Die duidelijke, ronde letters werden later door de humanisten nagevolgd en kwamen zo in de drukletters terecht. Zonder Karel zouden we misschien heel andere letters lezen.",
+ verbanden: [["Friezen beheersen de kust","onder Karel werd het laatste vrije Friese gebied onderworpen"],["Begin van het graafschap Holland","de graven uit zijn tijd werden later zelfstandige vorsten"],["Bouw Sint-Servaasbasiliek","men dacht lang dat hij die kerk had laten bouwen"]],
+ onderwijs: {"ka":["Het ontstaan van feodale verhoudingen in het bestuur.","De verspreiding van het christendom in heel Europa."],"venster":"5. Karel de Grote"},
  cijfers: [['Koning der Franken','768'],['Keizerskroning','25 december 800'],['Saksenoorlogen','772 – 804'],['Overleden','814, Aken']],
  figuren: [['Karel de Grote','koning en keizer'],['Pippijn de Korte','vader, eerste Karolingische koning'],['Paus Leo III','kroonde hem tot keizer'],['Alcuinus','geleerde aan zijn hof']],
  bronnen: [CANON,['Wikipedia: Karel de Grote',W('Karel de Grote')],['Wikipedia: Valkhof',W('Valkhof Nijmegen')]]
@@ -105,6 +230,27 @@ Object.assign(window.DETAILS, {
   'De Frankische heersers kozen vaak voor een andere aanpak. Ze gaven Deense leiders land in leen, zodat die de kust zouden verdedigen tegen andere Vikingen. Zo kreeg de Deen Rorik rond 850 Dorestad en Friesland in bestuur. Dat bracht geen blijvende rust.',
   'Na het midden van de 9e eeuw verdween Dorestad uit de bronnen. Naast de plunderingen speelde mee dat de rivier zijn loop veranderde. De handel verplaatste zich naar plaatsen als Tiel, Deventer en Utrecht.'
  ],
+ gevolgen: [
+  "De aanvallen lieten zien hoe kwetsbaar de kust en de rivieren waren. Mensen gingen hun nederzettingen beter beschermen. Langs de kust werden ronde burchten gebouwd, ringwalburgen, waar de bevolking bij een aanval naartoe kon vluchten, zoals in Middelburg en Souburg.",
+  "Lokale machthebbers die de verdediging regelden, werden steeds belangrijker, omdat de koning ver weg was. Zo kregen graven meer macht. Daaruit groeiden later graafschappen zoals Holland."
+ ],
+ perspectieven: [
+  "Vikingen waren niet alleen plunderaars. Ze waren ook handelaren, en ze bleven soms lang in het gebied. Deense leiders als Rorik kregen van de Frankische koningen land in leen en bestuurden een deel van Frisia. Zij waren dus tegelijk vijand en bondgenoot.",
+  "De verhalen over de Vikingen zijn geschreven door monniken, die vaak het slachtoffer waren van hun aanvallen. Het is daarom begrijpelijk dat zij de Vikingen als wrede heidenen beschreven."
+ ],
+ misverstanden: [
+  ["“Vikingen droegen helmen met hoorns.”","Dat is een beeld uit de 19e eeuw, onder meer uit toneel- en operavoorstellingen. Er is geen Vikinghelm met hoorns gevonden. Hoorns zouden in een gevecht ook alleen maar hinderen."],
+  ["“Vikingen waren één volk met één leger.”","Het waren groepen krijgers uit Denemarken, Noorwegen en Zweden, met eigen leiders. Ze trokken soms samen op, maar evengoed vochten ze tegen elkaar."]
+ ],
+ hoeWeten: [
+  "Frankische jaarboeken, zoals de Annalen van Sint-Bertijn en van Xanten, vermelden de aanvallen jaar na jaar. Archeologen vonden ook schatten die in deze tijd zijn begraven. Bij Westerklief op Wieringen werd in 1996 een Vikingschat gevonden, met zilveren sieraden, munten en baren."
+ ],
+ nu: [
+  "De zilverschatten van Wieringen zijn te zien in musea. In Middelburg en Souburg zijn de ronde vormen van de oude burchten nog in het stratenplan en het landschap te zien. In Wijk bij Duurstede vertelt Museum Dorestad ook over de Vikingaanvallen."
+ ],
+ vertellen: "In 837 werd op Walcheren een Deense aanvoerder gedood die juist aan de kant van de Franken vocht: Hemming, een gedoopte Deen. Waarschijnlijk werd de aanval geleid door zijn eigen neven, Harald en Rorik. Het laat zien hoe ingewikkeld de verhoudingen waren: Vikingen vochten zowel voor als tegen de Franken.",
+ verbanden: [["Handelsstad Dorestad","de rijke handelsplaats die werd geplunderd"],["Vikingkamp bij Elsloo","een groot Vikingleger aan de Maas"],["Begin van het graafschap Holland","in deze onrustige tijd kwamen de graven op"]],
+ onderwijs: {"ka":["Het ontstaan van feodale verhoudingen in het bestuur."]},
  cijfers: [['Eerste plundering','834'],['Herhaalde aanvallen','834 – 837 en later'],['Rorik krijgt bestuur','ca. 850']],
  figuren: [['Lodewijk de Vrome','Frankische keizer tijdens de eerste aanvallen'],['Lotharius I','keizer, gaf Rorik land in leen'],['Rorik','Deense Vikingleider in Dorestad']],
  bronnen: [['Wikipedia: Dorestad',W('Dorestad')],['Wikipedia: Vikingen in de Lage Landen',W('Vikingen Nederland')]]
@@ -120,6 +266,26 @@ Object.assign(window.DETAILS, {
   'In Aken gebruikten ze volgens de kroniek de paltskapel van Karel de Grote als paardenstal. Ook kloosters in de omgeving werden aangevallen.',
   'In 882 belegerde keizer Karel de Dikke het kamp. In plaats van te vechten kocht hij de Vikingen af met een grote hoeveelheid zilver en goud. Godfried liet zich dopen en kreeg Friesland in leen. Een paar jaar later werd hij vermoord.'
  ],
+ gevolgen: [
+  "De afkoopsom en de doop van Godfried brachten geen blijvende vrede. Godfried kreeg Kennemerland en Friesland in leen, maar bleef plannen smeden. In 885 werd hij tijdens onderhandelingen vermoord. Daarna werden de Vikingen in deze streken langzaam teruggedrongen.",
+  "Ook in de Maasstreek moesten steden en kloosters zich beter gaan verdedigen. De aanvallen droegen eraan bij dat lokale heren en kerkelijke instellingen meer macht kregen, omdat de verre koning de bevolking niet kon beschermen."
+ ],
+ perspectieven: [
+  "Er zijn twee verslagen van dezelfde gebeurtenis, en die spreken elkaar tegen. Volgens een kroniekschrijver uit Mainz stond het kamp op vallen, maar kocht de keizer de Vikingen af. Die schrijver had een hekel aan de keizer. Een Beierse kroniekschrijver vertelt dat het beleg na twaalf dagen moest worden afgebroken door ziekte en een zware hagelbui. Een mooi voorbeeld van hoe de bron het verhaal kleurt."
+ ],
+ misverstanden: [
+  ["“Vikingen kwamen alleen langs de kust.”","Met hun ondiepe schepen voeren ze diep het binnenland in, over de Rijn, de Maas en de Schelde. Vanuit een kamp aan de Maas konden ze Maastricht, Luik, Keulen en Aken bereiken."],
+  ["“We weten precies waar het kamp lag.”","De bronnen noemen de plaats Ascloha. Elsloo en Asselt bij Roermond worden allebei genoemd, en een duidelijke archeologische vondst ontbreekt nog."]
+ ],
+ hoeWeten: [
+  "De gebeurtenissen staan beschreven in de Annalen van Fulda, waarvan verschillende voortzettingen bestaan, door schrijvers met elk hun eigen belang. Ook de Annalen van Sint-Bertijn en andere kronieken vermelden de plunderingen. Archeologen zoeken nog naar sporen van het kamp."
+ ],
+ nu: [
+  "In Aken staat de paltskapel van Karel de Grote nog altijd, nu het hart van de dom en werelderfgoed. De vraag waar het kamp precies lag, houdt plaatselijke historici in Elsloo en Asselt nog altijd bezig."
+ ],
+ vertellen: "Bij de onderhandelingen in 882 liet Godfried zich dopen, met keizer Karel de Dikke als peetvader. Daarna kreeg hij een Frankische prinses als vrouw en een groot gebied in leen. Zo werd een Vikingleider die net Aken had geplunderd, een christelijke leenman van de keizer.",
+ verbanden: [["Vikingen plunderen Dorestad","de eerdere Vikingaanvallen in de Nederlanden"],["Karel de Grote","zijn paltskapel in Aken werd geplunderd"],["Sint-Servaas in Maastricht","ook Maastricht werd door de Vikingen geplunderd"]],
+ onderwijs: {"ka":["Het ontstaan van feodale verhoudingen in het bestuur."]},
  cijfers: [['Kamp aan de Maas','881'],['Beleg door de keizer','882'],['Godfried vermoord','885']],
  figuren: [['Godfried','Vikingleider, later leenman in Friesland'],['Siegfried','Vikingleider'],['Karel de Dikke','keizer, kocht de Vikingen af']],
  bronnen: [['Wikipedia: Elsloo',W('Elsloo Limburg')],['Wikipedia: Godfried de Noorman',W('Godfried de Noorman')]]
