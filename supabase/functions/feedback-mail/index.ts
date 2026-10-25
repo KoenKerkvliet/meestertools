@@ -24,7 +24,8 @@ import { sendEmail } from '../_shared/emailit.ts'
  * twee keer mailen. Mislukt het versturen, dan gaat de claim weer weg en komt
  * de gebruiker de volgende dag opnieuw aan de beurt.
  *
- * Verder een rem: hoogstens MAX_PER_RUN mails per aanroep.
+ * Verder een rem: hoogstens MAX_PER_RUN mails per aanroep (20 per dag, want
+ * de cron draait één keer per dag).
  */
 
 const SITE = 'https://meestertools.nl'
