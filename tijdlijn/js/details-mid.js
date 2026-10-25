@@ -135,6 +135,27 @@ Object.assign(window.DETAILS, {
   'Zijn nakomelingen breidden hun gebied stap voor stap uit. Dirk II maakte rond 950 van het klooster in Egmond een benedictijnenabdij, waar de graven werden begraven. De naam Holland werd pas rond 1100 gebruikt voor het hele graafschap.',
   'Het graafschap groeide uit tot het rijkste en machtigste gewest van de Noordelijke Nederlanden. De lijn van Dirk I regeerde tot 1299.'
  ],
+ gevolgen: [
+  "De abdij van Egmond werd het geestelijk centrum van de graven. Ze schonken er land en kostbaarheden, en lieten zich er begraven. Monniken schreven er de Annalen van Egmond, een kroniek die een van de belangrijkste bronnen is voor de vroege geschiedenis van Holland.",
+  "De graven breidden hun gebied in de eeuwen erna uit naar het zuiden en oosten, in de veengebieden en langs de rivieren. Daarbij botsten ze steeds weer met de bisschop van Utrecht en met de Friezen in het noorden. West-Friesland werd pas in 1289 door Floris V onderworpen."
+ ],
+ perspectieven: [
+  "Een graaf was oorspronkelijk een vertegenwoordiger van de koning, die namens hem recht sprak en het gebied verdedigde. In ruil kreeg hij land en inkomsten. Op de lange duur werden zulke graven steeds zelfstandiger, en gaven ze hun gebied door aan hun zonen. Zo werd een ambt een erfelijk bezit.",
+  "De mensen die er woonden, zagen zichzelf nog niet als Hollanders. De graven noemden zich in de eerste eeuwen “graaf van de Friezen”. Pas in 1101 noemde graaf Floris II zich in een oorkonde graaf van Holland."
+ ],
+ misverstanden: [
+  ["“Holland en Nederland zijn hetzelfde.”","Holland was een van de gewesten van de Nederlanden, nu de provincies Noord- en Zuid-Holland. Omdat Holland in de Republiek het rijkst en machtigst was, wordt de naam in het buitenland vaak voor heel Nederland gebruikt."],
+  ["“Over Dirk I weten we veel.”","Er zijn maar heel weinig bronnen over hem. Misschien zijn zelfs twee graven met de naam Dirk later samengevoegd tot één persoon. De oorkonde van 922 is een van de weinige vaste punten."]
+ ],
+ hoeWeten: [
+  "De oorkonde van 922, waarin koning Karel de Eenvoudige de kerk van Egmond aan Dirk schonk, is de oudste schriftelijke bron over de graven. Een ander belangrijk stuk is het Evangeliarium van Egmond, een 9e-eeuws handschrift in de Koninklijke Bibliotheek in Den Haag. Daarin staat een afbeelding van graaf Dirk II en zijn vrouw Hildegard, die het boek aan de abdij schenken."
+ ],
+ nu: [
+  "De abdij van Egmond werd in 1573 door de geuzen verwoest. In 1935 trokken er opnieuw monniken in, in een nieuw gebouw in Egmond-Binnen. In de abdij liggen de resten van de heilige Adelbert, naar wie ze genoemd is. De naam Holland komt waarschijnlijk van “holtland”, houtland, door de bossen die er ooit stonden."
+ ],
+ vertellen: "In het Evangeliarium van Egmond staan graaf Dirk II en gravin Hildegard afgebeeld terwijl ze het kostbare boek op het altaar leggen, in de tweede helft van de 10e eeuw. Het geldt als de eerste afbeelding van Nederlandse personen en gebouwen: op een andere bladzijde staat de abdijkerk zelf.",
+ verbanden: [["Vikingen plunderen Dorestad","de onrustige tijd waarin de graven opkwamen"],["Slag bij Vlaardingen","een latere graaf die zich tegen de keizer verzette"],["Floris V vermoord","de bekendste graaf uit hetzelfde huis"]],
+ onderwijs: {"ka":["Het ontstaan van feodale verhoudingen in het bestuur."]},
  cijfers: [['Oorkonde voor Dirk I','922'],['Benedictijnenabdij Egmond','ca. 950'],['Naam Holland in gebruik','ca. 1100'],['Einde Hollandse huis','1299']],
  figuren: [['Dirk I','eerste graaf'],['Karel de Eenvoudige','Westfrankische koning'],['Dirk II','graaf, vestigde de abdij van Egmond']],
  bronnen: [['Wikipedia: Graafschap Holland',W('Graafschap Holland')],['Wikipedia: Dirk I van Holland',W('Dirk I van Holland')]]
@@ -150,6 +171,26 @@ Object.assign(window.DETAILS, {
   'In de schatkamer liggen belangrijke stukken, zoals de Noodkist, een groot reliekschrijn uit de 12e eeuw. Eens in de zeven jaar trokken pelgrims naar Maastricht voor de Heiligdomsvaart, waarbij de relieken werden getoond.',
   'In latere eeuwen kwamen er gotische delen bij. In 1985 kreeg de kerk de titel basiliek. Ze geldt als een van de oudste en belangrijkste kerken van Nederland. Naast de basiliek staat de gotische Sint-Janskerk.'
  ],
+ gevolgen: [
+  "Op 12 augustus 1039 werd de nieuwe kerk in aanwezigheid van keizer Hendrik III door twaalf bisschoppen ingewijd. Het kapittel van Sint-Servaas was rijk en machtig. Zijn proost, de leider van de kanunniken, was vaak ook een belangrijke raadsman van de keizer.",
+  "Aan het eind van de 12e eeuw kwam aan de zuidkant het Bergportaal, waarschijnlijk het allereerste voorbeeld van gotiek in de Nederlanden. In de 15e eeuw trokken de heiligdomsvaarten van Maastricht, Aken en Kornelimünster samen meer dan honderdduizend pelgrims uit heel Europa."
+ ],
+ perspectieven: [
+  "Voor de stad betekenden de pelgrims inkomsten. Ze moesten eten, slapen en kochten souvenirs, zoals pelgrimsinsignes. Voor de kerk waren de relieken van Servaas een bron van gezag en geld. Geloof, handel en macht waren in de middeleeuwen nauw met elkaar verbonden."
+ ],
+ misverstanden: [
+  ["“Karel de Grote liet de kerk bouwen.”","In de 19e eeuw dacht men dat het westwerk in opdracht van Karel de Grote was gebouwd, en in 1845 werd er zelfs een standbeeld van hem geplaatst. Maar de romaanse kerk is pas rond het jaar 1000 begonnen, ruim anderhalve eeuw na zijn dood."],
+  ["“De kerk is in één keer gebouwd.”","De huidige basiliek is waarschijnlijk de vierde kerk op deze plek, en er is eeuwenlang aan verbouwd. Onder de vloer vonden archeologen resten van een klein stenen gebouw, misschien de grafkapel van Servaas, en van een kerk uit de 6e eeuw."]
+ ],
+ hoeWeten: [
+  "Bij opgravingen in de jaren 1980 vonden archeologen onder de kerk resten van de vroegere kerken, en een loden grafkruis van proost Humbertus. Daarop staat in Latijn wat hij aan de kerk liet bouwen. Ook oorkonden van de keizers en de rekeningen van het kapittel vertellen veel over de geschiedenis van het gebouw."
+ ],
+ nu: [
+  "De basiliek wordt beschouwd als de oudste nog bestaande kerk van Nederland. De kerk, de kloostergangen en de schatkamer met de Noodkist zijn te bezoeken. De heiligdomsvaart wordt nog altijd elke zeven jaar gehouden; de laatste was in juni 2025, de volgende staat gepland voor 2032. Tussen 1870 en 1890 werd de kerk grondig gerestaureerd door de bekende architect Pierre Cuypers."
+ ],
+ vertellen: "In de middeleeuwen kon je in Maastricht veel aflaten verdienen: gebeden en bezoeken die je straf in het vagevuur verkortten. Een Franse pelgrim rekende in 1453 uit dat je er in een jaar zo’n 800 jaar strafvermindering bij elkaar kon sparen. Een mooie aanleiding om met leerlingen te praten over wat pelgrims dreef.",
+ verbanden: [["Sint-Servaas in Maastricht","de heilige boven wiens graf de kerk staat"],["Sint-Servaasbrug","de brug van het kapittel van Sint-Servaas"],["Karel de Grote","men dacht lang dat hij de kerk had laten bouwen"]],
+ onderwijs: {"ka":["Het conflict in de christelijke wereld over de vraag of de wereldlijke of de geestelijke macht het primaat behoorde te hebben.","De verspreiding van het christendom in heel Europa. (tijdvak 3)"]},
  cijfers: [['Overlijden Sint-Servaas','384 (volgens de overlevering)'],['Begin romaanse kerk','ca. 1000'],['Heiligdomsvaart','eens in de 7 jaar'],['Titel basiliek','1985']],
  figuren: [['Sint-Servaas','bisschop van Tongeren, beschermheilige van Maastricht'],['Paus Johannes Paulus II','verleende de titel basiliek']],
  bronnen: [['Wikipedia: Sint-Servaasbasiliek',W('Sint-Servaasbasiliek')],['Wikipedia: Servatius',W('Servatius')]]
@@ -158,13 +199,34 @@ Object.assign(window.DETAILS, {
 'Slag bij Vlaardingen': {
  aanloop: [
   'Rond 1000 was het rivierengebied een drukke handelsroute. Kooplieden uit Tiel voeren via de Maas en de Merwede naar Engeland. Zij stonden onder bescherming van de Duitse keizer en de bisschop van Utrecht. Tol heffen was een recht van de koning.',
-  'Graaf Dirk III wilde zijn gebied uitbreiden naar het oosten. Hij bouwde een versterking bij Vlaardingen en begon tol te heffen op de schepen. De kooplieden en de bisschop klaagden bij keizer Hendrik II.'
+  'Graaf Dirk III wilde zijn gebied uitbreiden naar het oosten. Hij bouwde een versterking bij Vlaardingen en begon tol te heffen op de schepen. De kooplieden en de bisschop klaagden bij keizer Hendrik II.',
+  "Vlaardingen was toen nog heel klein. Archeologen vonden er de resten van niet meer dan zeventien houten huizen. De burcht van Dirk was waarschijnlijk een ronde aarden wal met houten palissaden, op de plek waar nu de Markt ligt, omringd door moeras en sloten."
  ],
  verloop: [
   'De keizer stuurde een leger onder hertog Godfried van Neder-Lotharingen. Op 29 juli 1018 viel dat leger de stelling van Dirk aan. De keizerlijke troepen raakten verstrikt in het drassige land tussen de kreken.',
   'De Friese en Hollandse mannen van Dirk kenden het terrein en wonnen. Volgens de kroniekschrijver Alpertus van Metz sneuvelden veel keizerlijke soldaten en werd de hertog gevangengenomen.',
   'Dirk mocht daarna de tol houden. De slag liet zien dat de keizer weinig greep had op het moerassige westen. De graven van Holland werden er machtiger door. Het rivierengebied rond Dordrecht kwam zo steeds meer onder hun invloed.'
  ],
+ gevolgen: [
+  "De graven van Holland voerden hun tol verder op en bouwden hun macht uit langs de grote rivieren. Bij de tolplaats aan de Merwede groeide later Dordrecht, de oudste stad van Holland. In 1047 probeerde keizer Hendrik III het opnieuw, met een nieuwe veldtocht tegen Vlaardingen.",
+  "De slag laat zien hoe belangrijk tol was in deze tijd. Wie de rivieren beheerste, verdiende aan elke voorbijvarende koopman. Dat maakte de strijd om het rivierengebied tussen de graven en de bisschop van Utrecht zo fel."
+ ],
+ perspectieven: [
+  "Voor de kooplieden uit Tiel was Dirk geen held, maar een rover die tol hief zonder dat de keizer dat had toegestaan. Zij klaagden bij de keizer en de bisschop. Het is ook vooral hun kant van het verhaal die we kennen, via een monnik uit Metz."
+ ],
+ misverstanden: [
+  ["“Het was een grote veldslag.”","Volgens een schatting bestond het keizerlijke leger uit zo’n duizend man, die met ongeveer vijfentwintig schepen kwamen. Het was dus een vrij kleine strijd, al waren de gevolgen groot."],
+  ["“De Hollanders wonnen door hun kracht.”","Ze wonnen vooral door het terrein en door paniek. Vanuit een hinderlaag vielen ze de voorhoede aan. In de achterhoede werd geroepen dat hertog Godfried op de vlucht was geslagen. Daarop vluchtte het leger in wanorde terug naar de schepen."]
+ ],
+ hoeWeten: [
+  "De belangrijkste bron is het verslag van Alpertus van Metz, een monnik die kort na de gebeurtenissen schreef. Hij stond niet aan de kant van Dirk. Archeologisch onderzoek in Vlaardingen laat zien hoe de nederzetting en de burcht eruit zagen."
+ ],
+ nu: [
+  "Op de plek van de oude burcht ligt nu de Markt van Vlaardingen, bij de Grote Kerk. In 2018 werd in Vlaardingen herdacht dat de slag duizend jaar geleden plaatsvond. De Oude Haven volgt nog de loop van het riviertje de Vlaarding, waar de stad haar naam aan dankt."
+ ],
+ vertellen: "Graaf Dirk III kreeg later de bijnaam Hierosolymita: de Jeruzalemganger. Rond 1030 maakte hij een pelgrimstocht naar Jeruzalem, een reis van duizenden kilometers, ruim zestig jaar voor de eerste kruistocht. Misschien wilde hij boete doen voor het bloed dat hij had vergoten.",
+ verbanden: [["Begin van het graafschap Holland","het begin van het huis van Dirk III"],["Floris V vermoord","een graaf uit hetzelfde huis, bijna drie eeuwen later"],["Handelsstad Dorestad","de oudere handelsplaats aan de rivieren"]],
+ onderwijs: {"ka":["Het begin van staatsvorming en centralisatie.","De opkomst van handel en ambacht die de basis legde voor het herleven van een agrarisch-urbane samenleving."]},
  cijfers: [['Datum','29 juli 1018'],['Plaats','bij Vlaardingen, aan de Maas'],['Resultaat','tolrecht voor Dirk III']],
  figuren: [['Dirk III','graaf, overwinnaar'],['Godfried II van Neder-Lotharingen','hertog, leider keizerlijk leger'],['Hendrik II','Duitse keizer'],['Alpertus van Metz','kroniekschrijver']],
  bronnen: [['Wikipedia: Slag bij Vlaardingen',W('Slag bij Vlaardingen 1018')],['Wikipedia: Dirk III van Holland',W('Dirk III van Holland')]]
@@ -180,6 +242,25 @@ Object.assign(window.DETAILS, {
   'De tekst werd in 1932 ontdekt door de Engelse geleerde Kenneth Sisam in de Bodleian Library in Oxford. De taal wijst op een West-Vlaamse schrijver. Over de datering verschillen de meningen: de lijst houdt ca. 1075 aan, de Canon spreekt van ca. 1100.',
   'Het zinnetje is niet de oudste Nederlandse tekst, maar wel de bekendste. Het gaat waarschijnlijk over liefde, al zijn er ook andere uitleggingen. Het staat symbool voor het begin van de Nederlandse literatuur.'
  ],
+ gevolgen: [
+  "Het zinnetje werd na de ontdekking in 1932 een symbool. Het staat in vrijwel elke geschiedenis van de Nederlandse literatuur, en de dichter Gerrit Komrij noemde het de eerste Nederlandse poëzie en wijdde er een heel hoofdstuk aan. Zo werd een losse krabbel in een kantlijn het begin van een hele literatuurgeschiedenis."
+ ],
+ perspectieven: [
+  "Vanaf 2004 groeit onder taalkundigen het idee dat het zinnetje helemaal geen Oudnederlands is, maar een Oudengels dialect uit Kent, waarschijnlijk wel geschreven door iemand van het vasteland. De kenmerken die op West-Vlaams leken te wijzen, komen ook in dat dialect voor. De discussie is nog niet beslist."
+ ],
+ misverstanden: [
+  ["“Hebban olla vogala is de oudste Nederlandse zin.”","Er zijn oudere teksten in het Oudnederlands, zoals zinnetjes in een Frankische wetstekst uit de 6e eeuw en de Wachtendonckse Psalmen uit de 10e eeuw. Hebban olla vogala is wel de bekendste."],
+  ["“Het is een gedicht dat een dichter schreef.”","Het is een pennenprobeersel: een monnik testte zijn pen op een lege plek in een handschrift. Misschien schreef hij een regel uit een liedje op dat hij kende, of verzon hij het als taalspel met de Latijnse zin erboven."]
+ ],
+ hoeWeten: [
+  "Het handschrift ligt in de Bodleian Library in Oxford. Aan de bladspiegel is te zien dat de schrijver eerst de zin in de volkstaal opschreef en daarna de Latijnse vertaling erboven. In 2024 bekeek een onderzoeker de tekst opnieuw met speciale camera’s, die ook vervaagde letters zichtbaar maken. Daaruit kwam een iets andere lezing."
+ ],
+ nu: [
+  "In Leiden staat de zin op een muur, als een van de muurgedichten in de stad. Hij is opgenomen in de Canon van Nederland. Veel leerlingen leren hem kennen als het begin van de Nederlandse letterkunde, en hij wordt vaak gebruikt in liedjes, kaarten en reclame."
+ ],
+ vertellen: "De hele tekst luidt: “Hebban olla vogala nestas hagunnan, hinase hic anda thu, wat unbidan we nu?” Laat leerlingen raden wat er staat. Met wat hulp herkennen ze “hebben alle vogels nesten begonnen, behalve ik en jij, waar wachten we nu op?” Een mooie manier om te laten zien hoe taal verandert.",
+ verbanden: [["Boekdrukkunst","later werd het Nederlands ook gedrukt"],["Statenbijbel","een tekst die veel invloed had op het Nederlands"],["Willibrord","monniken brachten het schrift naar deze streken"]],
+ onderwijs: {"ka":[],"venster":"6. Hebban olla vogala"},
  cijfers: [['Datering','laat 11e eeuw'],['Ontdekt','1932'],['Bewaard','Bodleian Library, Oxford'],['Dialect','West-Vlaams']],
  figuren: [['Onbekende Vlaamse monnik','schrijver van de zin'],['Kenneth Sisam','ontdekker van de tekst']],
  bronnen: [CANON,['Wikipedia: Hebban olla vogala',W('Hebban olla vogala')],['DBNL','https://www.dbnl.org/']]
@@ -195,6 +276,26 @@ Object.assign(window.DETAILS, {
   'Al in 1108 werd de crypte ingewijd. In de 12e eeuw verrees een romaanse kerk, en de abdij kreeg grond en rechten in de omgeving. In de kroniek van het klooster, de Annales Rodenses, staat veel over de geschiedenis van de streek.',
   'Na de Franse inval aan het eind van de 18e eeuw werd de abdij opgeheven. Later werd het gebouw een seminarie en een school. Generaties priesters en leerlingen uit de streek kregen er onderwijs. Rolduc is een van de grootste abdijcomplexen van Nederland. Tegenwoordig is het ook een conferentiecentrum.'
  ],
+ gevolgen: [
+  "Rolduc werd rijk en invloedrijk. De koorheren ontgonnen bossen en woeste grond in de omgeving, en ze werden pastoor in tientallen parochies in de streek, tot in het huidige België en Duitsland. Vanaf 1598 had de abt een zetel in de Staten van Limburg en Overmaas.",
+  "De abdij speelde ook een rol bij de vroegste steenkoolwinning in de streek. Vanaf 1742 liet de abdij zelf kolen winnen, en in 1766 kreeg ze van keizerin Maria Theresia toestemming om ook onder wegen en gemeentegronden te graven. Zo hoort Rolduc ook bij het begin van de mijnstreek."
+ ],
+ perspectieven: [
+  "De stichting van Rolduc paste in een grote vernieuwingsbeweging in de kerk rond 1100. Veel geestelijken vonden dat kerk en kloosters te wereldlijk en te rijk waren geworden, en wilden terug naar een sober leven. Tegelijk had een klooster rijke beschermheren nodig: Rolduc werd gesticht op het land van de graaf van Saffenberg."
+ ],
+ misverstanden: [
+  ["“Rolduc heette altijd Rolduc.”","Het klooster heette eerst Kloosterrade. De naam Rolduc ontstond pas in de Franse tijd, uit Rode-le-Duc, de Franse vertaling van ’s-Hertogenrade."],
+  ["“De botten van de stichter liggen in de crypte.”","In 1895 werden botten die aan Ailbertus werden toegeschreven in een sarcofaag in de crypte gelegd. In 1996 bleek het om drie skeletten uit de late middeleeuwen te gaan. Ailbertus zelf was in 1111 vertrokken en in 1122 bij Bonn gestorven."]
+ ],
+ hoeWeten: [
+  "De Annales Rodenses, de kroniek van het klooster, beschrijven de eerste eeuwen van de abdij en van de streek. Ze worden gezien als een van de belangrijkste bronnen voor de geschiedenis van Zuid-Limburg in de middeleeuwen. De romaanse crypte uit 1108 is nog grotendeels bewaard."
+ ],
+ nu: [
+  "Rolduc is nu een conferentiecentrum en hotel, met daarnaast de priesteropleiding van het bisdom Roermond. Van 1843 tot 1946 was het een bekend internaat voor jongens uit katholieke families. De abdij ligt vlak bij de Duitse grens, met uitzicht over het Wormdal en Herzogenrath."
+ ],
+ vertellen: "De crypte van Rolduc is een van de oudste romaanse ruimtes van Nederland. De pilaren hebben allemaal verschillend gebeeldhouwde kapitelen, met planten, dieren en vlechtwerk. Laat leerlingen op foto’s zoeken naar de verschillen. Het is een mooie manier om romaanse bouwkunst te leren herkennen.",
+ verbanden: [["Slag bij Woeringen","het Land van Rode kwam daarna bij Brabant"],["Bouw Sint-Servaasbasiliek","een andere romaanse kerk in Limburg"],["Sluiting van de mijnen","het einde van de mijnbouw in de streek"]],
+ onderwijs: {"ka":["De verspreiding van het christendom in heel Europa. (tijdvak 3)"]},
  cijfers: [['Gesticht','1104'],['Crypte ingewijd','1108'],['Opheffing abdij','eind 18e eeuw']],
  figuren: [['Ailbertus van Antoing','priester, stichter'],['Koorheren van Augustinus','bewoners van de abdij']],
  bronnen: [['Wikipedia: Rolduc',W('Rolduc')],['Wikipedia: Annales Rodenses',W('Annales Rodenses')]]
@@ -210,6 +311,26 @@ Object.assign(window.DETAILS, {
   'Bewoners legden overal dijken en dammen aan. Ze werkten samen om die te onderhouden. Uit die samenwerking ontstonden later de waterschappen. De oude Rijnmonding bij Katwijk was al eerder verzand. Water uit het binnenland kon daar niet meer goed weg.',
   'Het afdammen van rivieren leidde soms tot ruzie. Wie stroomafwaarts woonde, profiteerde, maar anderen kregen juist meer water. Toch markeert deze tijd het begin van het grootschalige waterbeheer in Nederland.'
  ],
+ gevolgen: [
+  "Utrecht verloor door de dam zijn directe verbinding met de Rijn. Daarom werd een kanaal gegraven naar de Lek, de Vaartsche Rijn. Waar dat kanaal de Lek bijna bereikte, ontstond een handelsplaats. Ook elders volgden dammen: in 1285 werd de Hollandse IJssel afgedamd.",
+  "Om het water te beheren werkten boeren, dorpen en heren samen. In 1255 kregen de heemraden van Rijnland van graaf Willem II het recht om mee te beslissen over waterwerken. Het Hoogheemraadschap van Rijnland geldt als het oudste waterschap van Nederland."
+ ],
+ perspectieven: [
+  "Een dam hielp de mensen benedenstrooms, maar wie bovenstrooms woonde, kreeg juist meer water. Daarom waren er vaak ruzies en rechtszaken over dammen en sluizen. Waterbeheer was in Nederland vanaf het begin ook een kwestie van onderhandelen."
+ ],
+ misverstanden: [
+  ["“Het waterbeheer begon met de windmolens.”","Molens om water weg te malen kwamen pas in de 15e eeuw. Eeuwen daarvoor legden mensen al terpen, dijken, sloten, dammen en duikers aan. De molens maakten het later mogelijk om meren droog te malen."],
+  ["“De Kromme Rijn is een gewone rivier.”","Na 1122 stroomde er geen Rijnwater meer in. De Kromme Rijn werd een klein riviertje, dat water krijgt via een duiker en uit het omringende land. In de Romeinse tijd was het juist een hoofdstroom, die de grens van het Romeinse Rijk vormde."]
+ ],
+ hoeWeten: [
+  "Oorkonden van bisschoppen en graven vertellen wie wanneer een dam of sluis mocht aanleggen. Bodemonderzoek laat zien waar oude rivierlopen lagen en wanneer ze verzandden. In het landschap zijn de oude stroomgordels nog te herkennen aan hoger gelegen ruggen."
+ ],
+ nu: [
+  "Nederland telt nog altijd 21 waterschappen, met een eigen bestuur dat door inwoners wordt gekozen. Ze behoren tot de oudste bestuursvormen van het land. De Kromme Rijn loopt nog van Wijk bij Duurstede naar Utrecht, en de Vaartsche Rijn bestaat ook nog."
+ ],
+ vertellen: "Kijk eens naar plaatsnamen die eindigen op -dam: Amsterdam, Rotterdam, Schiedam, Edam, Zaandam, Monnickendam. Ze zijn allemaal ontstaan bij een dam in een rivier of veenstroom, zoals de Amstel, de Rotte, de Schie, de IJe en de Zaan. Een leuke opdracht: zoek ze op de kaart en zoek de rivier erbij.",
+ verbanden: [["Handelsstad Dorestad","de handelsplaats aan de Kromme Rijn bij Wijk bij Duurstede"],["Eerste vermelding Amsterdam","ook Amsterdam ontstond bij een dam"],["Allerheiligenvloed","de strijd tegen het water ging door"]],
+ onderwijs: {"ka":["De opkomst van handel en ambacht die de basis legde voor het herleven van een agrarisch-urbane samenleving.","De opkomst van de stedelijke burgerij en de toenemende zelfstandigheid van steden."]},
  cijfers: [['Dam bij Wijk bij Duurstede','1122'],['Stadsrechten Utrecht','1122'],['Grote veenontginningen','ca. 1000 – 1300']],
  figuren: [['Hendrik V','Duitse keizer, gaf Utrecht stadsrechten'],['Bisschoppen van Utrecht','landsheren van het Sticht']],
  bronnen: [['Wikipedia: Kromme Rijn',W('Kromme Rijn')],['Wikipedia: Veenontginning',W('Veenontginning')]]
@@ -225,6 +346,26 @@ Object.assign(window.DETAILS, {
   'Het Almere kreeg daardoor een bredere verbinding met de Waddenzee. In de eeuwen erna sloegen nieuwe stormvloeden steeds meer land weg. Zo groeide het binnenmeer uit tot de Zuiderzee.',
   'Hoeveel slachtoffers er vielen, is niet bekend. De Allerheiligenvloed van 1170 is een van de eerste stormvloeden waarvan de gevolgen voor het landschap goed zichtbaar zijn. Pas in de 20e eeuw werd de Zuiderzee met de Afsluitdijk afgesloten.'
  ],
+ gevolgen: [
+  "De zee brak door de duinen tussen het huidige Huisduinen en Texel. Het Marsdiep werd een zeegat. Ook het Kreilerwoud, een veenbos tussen Stavoren en Enkhuizen, werd weggeslagen. Daardoor kreeg het Almere een open verbinding met de Waddenzee en de Noordzee.",
+  "Door de stormvloed van 1170 en de Sint-Nicolaasvloed van 1196 begon het Almere te groeien. Volgens een latere Friese kroniekschrijver werden Texel en Wieringen toen eilanden, al denken andere onderzoekers dat Texel al eerder een eiland was. Ook Rotta, de voorganger van Rotterdam, verdween waarschijnlijk onder een laag klei."
+ ],
+ perspectieven: [
+  "Mensen zagen zo’n ramp in die tijd vaak als een straf van God. Tegelijk hadden ze er zelf aan bijgedragen: door het veen te ontwateren, zakte het land en kon het water makkelijker binnendringen. Dat inzicht hadden ze toen nog niet."
+ ],
+ misverstanden: [
+  ["“De Zuiderzee ontstond in één nacht.”","De Zuiderzee groeide in een paar eeuwen, door steeds nieuwe stormvloeden. De vloed van 1170 was een belangrijk begin, maar pas in de 13e eeuw was het binnenmeer een echte zee geworden."],
+  ["“Er zijn veel bronnen over deze vloed.”","Er is maar één bron die over de overstroming in 1170 vertelt: de Annalen van Egmond. Over het aantal slachtoffers weten we daarom niets."]
+ ],
+ hoeWeten: [
+  "De monniken van Egmond schreven de gebeurtenis op in hun annalen. Geologen kunnen aan de bodem zien waar zee-klei over veen is afgezet, en zo reconstrueren hoe het Almere uitgroeide tot de Zuiderzee. Ook scheepswrakken en verdronken dorpen in de bodem van de polders vertellen het verhaal."
+ ],
+ nu: [
+  "De Zuiderzee werd in 1932 met de Afsluitdijk afgesloten en heet sindsdien IJsselmeer. Delen ervan zijn drooggelegd. De stad Almere in Flevoland is genoemd naar het middeleeuwse binnenmeer. Het Marsdiep tussen Den Helder en Texel is nog altijd het belangrijkste zeegat naar de Waddenzee."
+ ],
+ vertellen: "Volgens de Annalen van Egmond kwam het zeewater in 1170 tot aan de muren van Utrecht. Daar zou zelfs een wijting zijn gevangen, een zeevis, midden in het binnenland. Het verhaal laat zien hoe ver het water toen kwam.",
+ verbanden: [["De Rijn wordt afgedamd","de strijd tegen het water in dezelfde eeuw"],["Afsluitdijk","de afsluiting van de Zuiderzee in 1932"],["De Watersnood","de grote stormvloed van 1953"]],
+ onderwijs: {"ka":[]},
  cijfers: [['Datum','1 november 1170'],['Vorming Zuiderzee','12e – 13e eeuw'],['Afsluiting Zuiderzee','1932']],
  figuren: [['Kroniekschrijvers','beschreven de vloed'],['Bewoners van het veengebied','verloren land aan de zee']],
  bronnen: [['Wikipedia: Allerheiligenvloed 1170',W('Allerheiligenvloed 1170')],['Wikipedia: Zuiderzee',W('Zuiderzee')]]
