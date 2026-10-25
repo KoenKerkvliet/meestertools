@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="description" content="Gratis interactieve tijdlijn van de Nederlandse geschiedenis voor in de klas: de Canon van Nederland, Limburgse geschiedenis en beide wereldoorlogen, met achtergrond, afbeeldingen en video's bij elke gebeurtenis.">
+<link rel="canonical" href="https://meestertools.nl/tijdlijn/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tijdlijn van Nederland – interactieve geschiedenis voor de klas">
+<meta property="og:description" content="Gratis interactieve tijdlijn van de Nederlandse geschiedenis voor in de klas, met achtergrond, afbeeldingen en video's bij elke gebeurtenis.">
+<meta property="og:url" content="https://meestertools.nl/tijdlijn/">
+<meta property="og:image" content="https://meestertools.nl/assets/og-image.png">
+<meta property="og:locale" content="nl_NL">
+<meta property="og:site_name" content="Meestertools">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Tijdlijn">
+<title>Tijdlijn van Nederland – interactieve geschiedenis voor de klas | Meestertools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap">
+<link rel="stylesheet" href="tijdlijn.css">
+</head>
+<body>
+
+
+<div class="app" id="app">
+  <nav class="mtbar px" aria-label="Meestertools"><a class="mtlogo" href="/"><img src="/assets/badge-96.png" alt="" width="26" height="26"><b>Meestertools</b></a><span class="mtsub">Gratis tools voor in de klas</span><a class="mtgo" href="/">Bekijk alle tools →</a></nav>
+  <header class="site px" id="site">
+    <a class="brand" href="#" id="brand" aria-label="Tijdlijn van Nederland, naar boven">
+      <span class="mark" aria-hidden="true"><svg viewBox="0 0 32 32" width="26" height="26"><path d="M3 16h26" stroke="#5B6170" stroke-width="2.4" stroke-linecap="round"/><circle cx="7" cy="16" r="4" fill="#C9A04E"/><circle cx="16" cy="16" r="4" fill="#D7735F"/><circle cx="25" cy="16" r="4" fill="#6E9C66"/></svg></span>
+      <span class="bt">Tijdlijn<span class="bt2"> van Nederland</span></span>
+    </a>
+    <div class="sbox" role="search">
+      <label class="sfield" for="q">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5B6170" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Zoek in de tijdlijn" aria-label="Zoek in de tijdlijn" aria-controls="sres" aria-expanded="false">
+        <button class="wis" id="qclear" type="button" hidden>Wissen</button>
+        <span class="kbd" id="qkbd" aria-hidden="true">/</span>
+      </label>
+      <div class="sres" id="sres" role="listbox" hidden></div>
+    </div>
+    <div class="chips hchips" role="group" aria-label="Filters">
+      <button class="chip" data-k="canon" aria-pressed="true" style="--cc:var(--blue);--ct:var(--blue-tint)"><span class="dot"></span>Canon</button>
+      <button class="chip" data-k="limburg" aria-pressed="true" style="--cc:var(--red);--ct:var(--red-tint)"><span class="dot"></span>Limburg</button>
+      <button class="chip" data-k="overig" aria-pressed="true" style="--cc:var(--grey);--ct:var(--grey-tint)"><span class="dot"></span>Overig</button>
+      <button class="chip" id="f-school" aria-pressed="true" style="--cc:var(--ink);--ct:var(--line)"><span class="dot"></span>Schooltijdvakken</button>
+    </div>
+    <div class="hact">
+      <button class="hbtn sfbtn" id="sfbtn" type="button" aria-expanded="false" aria-controls="site" aria-label="Zoeken en filteren"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F2430" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.6-4.6"/></svg><span class="sfl">Zoeken</span><i class="sfdot" hidden></i></button>
+      <div class="jump">
+        <button class="hbtn" id="jumpbtn" aria-expanded="false" aria-controls="jmenu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F2430" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h13"/></svg><span class="hl">Spring naar</span><svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1F2430" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="jmenu" id="jmenu" hidden></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="status px"><div class="stext" id="stext">Sleep de tijdlijn met de muis of gebruik de pijlen. Klik op een kaart om hem open te vouwen.</div>
+    <div class="arrows">
+        <button class="abtn" id="left" aria-label="Terug in de tijd"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F2430" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button class="abtn dk" id="right" aria-label="Verder in de tijd"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+  </div>
+
+  <div class="scroller" id="scroller" tabindex="0" aria-label="Tijdlijn"><div class="cols" id="cols"></div></div>
+
+  <section id="war" class="px" hidden aria-live="polite"></section>
+
+  <footer class="px">Basis: de 50 vensters van de <a href="https://www.canonvannederland.nl" target="_blank" rel="noopener">Canon van Nederland</a> (herijkt in 2020), aangevuld met andere gebeurtenissen, Limburgse geschiedenis en beide wereldoorlogen. Jaartallen in de prehistorie zijn benaderingen.<br>© 2026 Koen Kerkvliet · Afbeeldingen via Wikimedia Commons, met hun eigen licenties; maker en bron staan bij elke afbeelding.<br><a href="onderwerpen">Alle onderwerpen op een rij</a> · <a href="/">Meestertools</a> · <a href="/privacy">Privacy</a></footer>
+
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" role="dialog" aria-modal="true" aria-label="Gebeurtenis" aria-hidden="true">
+    <div class="phd" id="phd"><div class="ctx" id="pctx"></div><div class="phacts"><button class="xbtn cplink" id="plink" aria-label="Link kopiëren" title="Link kopiëren"><svg class="i-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F2430" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><svg class="i-ok" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2F7A4F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button><button class="xbtn" id="pclose" aria-label="Sluiten"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F2430" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div>
+    <div class="pbd" id="pbd"></div>
+    <div class="pft"><button class="btn" id="pprev">← Vorige</button><button class="btn dk" id="pnext">Volgende →</button></div>
+  </aside>
+
+  <div class="scrim big" id="scrim2"></div>
+  <section class="page" id="page" role="dialog" aria-label="Achtergrond" aria-hidden="true">
+    <div class="pgbar px"><button class="btn" id="pgback">← Terug</button><div class="ctx" id="pgctx"></div><div class="pgacts"><span class="pgmsg" id="pgmsg" role="status"></span><button class="btn linkbtn cplink" id="pglink" title="Link kopiëren" aria-label="Link kopiëren"><svg class="i-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><svg class="i-ok" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2F7A4F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button><button class="btn pdfbtn" id="pgpdf"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span>Opslaan als pdf</span></button><button class="btn printbtn" id="pgprint"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V4h10v5M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M7 14h10v6H7z"/></svg><span>Afdrukken</span></button></div><button class="xbtn" id="pgclose" aria-label="Sluiten"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F2430" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="pgin px" id="pgbody"></div>
+  </section>
+</div>
+
+<script src="js/details-pre.js"></script>
+<script src="js/details-mid.js"></script>
+<script src="js/details-vroegmodern.js"></script>
+<script src="js/details-modern.js"></script>
+<script src="js/details-20e.js"></script>
+<script src="js/details-nu.js"></script>
+<script src="js/war-ww1a.js"></script>
+<script src="js/war-ww1b.js"></script>
+<script src="js/war-ww2a.js"></script>
+<script src="js/war-ww2b.js"></script>
+<script src="js/images-20e.js"></script>
+<script src="js/images-rest.js"></script>
+<script src="js/videos.js"></script>
+<script src="js/data.js"></script>
+<script src="js/slugs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+window.DETAILS=window.DETAILS||{};
+const ICONS={
+ person:'<circle cx="12" cy="7" r="3.5"/><path d="M5 21c0-4 3-7 7-7s7 3 7 7"/>',
+ stone:'<path d="M3 19h18"/><path d="M5 19v-6h4v6M15 19v-6h4v6"/><path d="M4 13c2-3 14-3 16 0"/>',
+ house:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
+ pick:'<path d="M4 20l9-9"/><path d="M8 6c4-3 9-3 12 0-3-1-6 0-8 2"/><path d="M12 8l4 4"/>',
+ crown:'<path d="M3 8l4 4 5-7 5 7 4-4-2 11H5z"/>',
+ sword:'<path d="M14 4h6v6L9 21l-6-6z" /><path d="M5 13l6 6M3 21l3-3"/>',
+ church:'<path d="M12 2v5M10 4h4"/><path d="M7 21V11l5-4 5 4v10"/><path d="M3 21h18"/><path d="M10 21v-4a2 2 0 0 1 4 0v4"/>',
+ ship:'<path d="M3 16l2 4h14l2-4z"/><path d="M12 3v13M12 4l6 9h-6M12 6l-5 7h5"/>',
+ book:'<path d="M4 5c3-1 5-1 8 1 3-2 5-2 8-1v14c-3-1-5-1-8 1-3-2-5-2-8-1z"/><path d="M12 6v14"/>',
+ wave:'<path d="M2 9c2 0 3-2 5-2s3 2 5 2 3-2 5-2 3 2 5 2"/><path d="M2 15c2 0 3-2 5-2s3 2 5 2 3-2 5-2 3 2 5 2"/>',
+ scroll:'<path d="M7 3h11v15a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-1h11v1"/><path d="M7 3a2 2 0 0 0-2 2v12M10 8h5M10 12h5"/>',
+ train:'<rect x="5" y="3" width="14" height="13" rx="3"/><path d="M5 10h14M8 20l-2 2M16 20l2 2M9 13h0M15 13h0"/>',
+ paint:'<path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 2-2s-1-2 0-3 4 1 5-2A9 9 0 0 0 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="11" cy="7" r="1"/><circle cx="16" cy="8.5" r="1"/>',
+ globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+ star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+ tower:'<path d="M5 21V8h3V5h2v3h4V5h2v3h3v13"/><path d="M3 21h18M10 21v-4h4v4"/>',
+ chain:'<rect x="3" y="9" width="9" height="6" rx="3"/><rect x="12" y="9" width="9" height="6" rx="3"/>',
+ coin:'<circle cx="12" cy="12" r="8"/><path d="M15 9c-1-1-5-1-5 1.5s5 1.5 5 4-4 2.5-5 1.5M12 6v2M12 16v2"/>',
+ music:'<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>',
+ tv:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 3l4 4 4-4"/>',
+ science:'<circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>',
+ flag:'<path d="M5 21V4"/><path d="M5 4h12l-2 4 2 4H5"/>',
+ factory:'<path d="M3 21V11l6 3v-3l6 3V5h4v16z"/><path d="M3 21h18"/>',
+ fire:'<path d="M12 3c1 4 6 6 6 11a6 6 0 0 1-12 0c0-3 2-4 2-7 2 1 3 3 3 5 1-2 1-6 1-9z"/>'
+};
+
+const WARLINK={'De Eerste Wereldoorlog':'ww1','De Tweede Wereldoorlog':'ww2'};
+const mIdx=d=>{const [y,m]=d.split('-').map(Number);return y*12+(m-1)};
+let warShow={};Object.keys(THEMES).forEach(k=>warShow[k]=true);
+let curWar=null;
+
+const EVMAP={};EVENTS.concat(WEV).forEach(e=>EVMAP[e.id]=e);
+const CATC={canon:'var(--blue)',limburg:'var(--red)',overig:'var(--grey)'};
+
+const $=s=>document.querySelector(s);
+const svg=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[k]||ICONS.star}</svg>`;
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const RM=matchMedia('(prefers-reduced-motion:reduce)');const smooth=()=>RM.matches?'auto':'smooth';
+const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(_){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(_){}}};
+const firstSentence=x=>{const m=x.match(/^.*?[.!?](\s|$)/);return m?m[0].trim():x};
+const tileName=t=>t.pre?t.big:t.n+'e eeuw';
+
+let cats={canon:true,limburg:true,overig:true};
+let showSchool=store.get('nl-tl-school','1')!=='0';
+let klas=false;
+let expanded={};
+let q='',qMatch=null; // Set van ids die overeenkomen met de zoekopdracht
+
+const catOn=e=>e.war?warShow[e.th]:((e.c&&cats.canon)||(e.l&&cats.limburg)||(!e.c&&!e.l&&cats.overig));
+const vis=e=>catOn(e)&&(!qMatch||qMatch.has(e.id));
+const allOf=i=>EVENTS.filter(e=>e.tile===i).sort((a,b)=>a.y-b.y);
+
+/* ---- segmenten van banden per kolom ---- */
+function segsFor(list){
+  const raw=TILES.map(t=>{const span=t.e-t.s;let s=list.filter(p=>p.e>t.s&&p.s<t.e).map(p=>({p,f:(Math.min(p.e,t.e)-Math.max(p.s,t.s))/span}));
+    if(s.length>1)s=s.filter(x=>x.f>=.12);const tot=s.reduce((a,x)=>a+x.f,0);s.forEach(x=>x.f/=tot);return s});
+  raw.forEach((s,i)=>s.forEach(x=>{x.first=!(raw[i-1]||[]).some(y=>y.p===x.p);x.last=!(raw[i+1]||[]).some(y=>y.p===x.p)}));
+  return raw;
+}
+const PSEG=segsFor(ERAS),TSEG=segsFor(SCHOOL);
+const rad=(f,l,r)=>`${f?r:0}px ${l?r:0}px ${l?r:0}px ${f?r:0}px`;
+/* breedte van een tijdvak/periode vanaf kolom i tot zijn einde, zodat de titel over meerdere kolommen kan lopen */
+const shortTv=t=>{const r=t.replace(/^Tijd van (de )?/,'');return r.charAt(0).toUpperCase()+r.slice(1)};
+function spanW(SEG,i,p){let w=0;for(let j=i;j<SEG.length;j++){const x=SEG[j].find(y=>y.p===p);if(!x)break;w+=x.f*colWidth(j)}return Math.max(0,w-14)}
+const domP=i=>PSEG[i].reduce((a,x)=>x.f>a.f?x:a).p.P;
+
+/* ---- kolommen ---- */
+function colWidth(i){const n=EVENTS.filter(e=>e.tile===i&&vis(e)).length+(TILES[i].n===20?2:0);const vw=$('#scroller').clientWidth-24;
+  if(!expanded[i])return 300;const w=n>8?980:560;return Math.max(300,Math.min(w,vw))}
+function colHTML(t,i){
+  const all=allOf(i),evs=all.filter(vis),open=!!expanded[i],P=domP(i),w=colWidth(i);
+  const lim=evs.filter(e=>e.l).length;
+  const tv=showSchool?`<div class="row tv">${TSEG[i].map(x=>{const sw=x.first?spanW(TSEG,i,x.p)-38:0;return `<div class="seg tv${x.first?' first':''}" style="flex:${x.f} 1 0;border-left-width:${x.first?2:0}px;border-right-width:${x.last?2:0}px;border-radius:${rad(x.first,x.last,14)};margin:0 ${x.last?7:0}px 0 ${x.first?7:0}px" title="Tijdvak ${x.p.n}: ${esc(x.p.t)}">${x.first?`<span class="lab" style="width:${sw}px"><span class="n">${x.p.n}</span>${sw<60?'':`<b>${esc(sw<260?shortTv(x.p.t):x.p.t)}</b>`}</span>`:''}</div>`}).join('')}</div>`:'';
+  const pr=`<div class="row p">${PSEG[i].map(x=>{const sw=x.first?spanW(PSEG,i,x.p):0;const sm=x.first&&sw<150;return `<div class="seg p${sm?' sm':''}${x.first?' first':''}" style="flex:${x.f} 1 0;background:${x.p.P.bg};color:${x.p.P.ink};border-radius:${rad(x.first,x.last,18)};margin:0 ${x.last?7:0}px 0 ${x.first?7:0}px" title="${esc(x.p.n)} · ${esc(x.p.r)}">${x.first?`<span class="lab" style="width:${Math.max(28,sw-(sm?20:36))}px"><b>${esc(x.p.n)}</b><span>${esc(x.p.r)}</span></span>`:''}</div>`}).join('')}</div>`;
+  const dots=`<div class="dots">${all.map((e,k)=>{const pos=((k+1)/(all.length+1))*100;const c=vis(e)?CATC[e.cat]:'#E3DDD2';
+    return open&&vis(e)?`<button class="dot" data-id="${e.id}" style="left:${pos}%;--dc:${c}" title="${esc(e.d+' · '+e.t)}" aria-label="${esc(e.t)}"></button>`:`<span class="dot" style="left:${pos}%;--dc:${c}" title="${esc(e.t)}"></span>`}).join('')}</div>`;
+  let body;
+  if(!open){body=`<div class="prev">${evs.slice(0,3).map(e=>`<div><i style="--dc:${CATC[e.cat]}"></i><span>${esc(e.t)}</span></div>`).join('')||'<span class="empty">Geen gebeurtenissen in deze selectie</span>'}${evs.length>3?`<span class="more">+ ${evs.length-3} meer</span>`:''}</div>`}
+  else{
+    const wars=t.n===20&&WEV.length?['ww1','ww2'].map(k=>{const n=WEV.filter(e=>e.war===k&&(!qMatch||qMatch.has(e.id))).length;return `<button class="warbtn" data-w="${k}"><span class="wi">${svg(WARS[k].ic)}</span><span><b>${WARS[k].n}</b><small>${WARS[k].r} · ${n} gebeurtenis${n===1?'':'sen'}${qMatch?' gevonden':''}, alle fronten</small></span><span class="go">→</span></button>`}).join(''):'';
+    body=`<div class="evs${w>=900?' two':''}">${wars}${evs.map(evHTML).join('')||(wars?'':'<span class="empty">Geen gebeurtenissen in deze selectie</span>')}</div>`}
+  return `${tv}${pr}<div class="conn" style="background:${P.acc}"></div>
+   <div class="card${open?' open':''}" data-i="${i}" ${open?'':'role="button" tabindex="0"'} aria-expanded="${open}" style="border-color:${open?P.acc:''};box-shadow:0 4px 0 ${open?P.bg:'var(--shadow)'}">
+     <div class="ch"><div class="ct"><h3 class="ctitle">${esc(tileName(t))}</h3><span class="crange" style="background:${P.bg};color:${P.ink}">${esc(t.rng)}</span></div>
+       <button class="tog" aria-label="${open?'Vouw dicht':'Vouw open'}" tabindex="${open?0:-1}">${open?'−':'+'}</button></div>
+     ${dots}${body}
+     <div class="cf"><span class="cnt">${evs.length===1?'1 gebeurtenis':evs.length+' gebeurtenissen'}</span>${lim?`<span class="lpill">${lim}× Limburg</span>`:''}</div>
+   </div>`;
+}
+function catPill(e){return e.war?`<span class="cat th" style="--c:var(${e.era.c})">${esc(e.era.n)}</span>`:`<span class="cat ${e.cat}">${CATL[e.cat]}</span>${e.c&&e.l?'<span class="cat limburg">Limburg</span>':''}`}
+function evHTML(e){return `<button class="ev" data-id="${e.id}" id="s-${e.id}"><span class="l"><span class="yr">${esc(e.d)}</span>${catPill(e)}</span><span class="r"><span class="t">${esc(e.t)}</span><span class="s">${esc(firstSentence(e.x))}</span><span class="lm">Lees meer →</span></span></button>`}
+function renderCols(){
+  const box=$('#cols');
+  if(box.children.length!==TILES.length){box.innerHTML='';TILES.forEach((t,i)=>{const d=document.createElement('div');d.className='col';d.dataset.i=i;box.appendChild(d)})}
+  TILES.forEach((t,i)=>{const d=box.children[i];const n=EVENTS.filter(e=>e.tile===i&&vis(e)).length+(t.n===20&&qMatch?WEV.filter(e=>qMatch.has(e.id)).length:0);
+    d.style.width=colWidth(i)+'px';d.style.opacity=qMatch&&!n?.35:1;d.innerHTML=colHTML(t,i)});
+}
+const TOUCH=matchMedia('(hover:none) and (pointer:coarse)').matches;
+const HINT=TOUCH?'Veeg door de tijdlijn. Tik op een kaart om hem open te vouwen.':'Sleep de tijdlijn met de muis of gebruik de pijlen. Klik op een kaart om hem open te vouwen.';
+function renderStatus(){
+  if(qMatch){const n=EVENTS.filter(vis).length,w=WEV.filter(e=>qMatch.has(e.id)&&warShow[e.th]).length;
+    $('#stext').textContent=`${n+w} gebeurtenis${n+w===1?'':'sen'} gevonden voor “${q}”${w?`, waarvan ${w} in de wereldoorlogen`:''}`}
+  else $('#stext').textContent=HINT;
+}
+function render(){renderCols();renderStatus();if(curWar)openWar(curWar,false)}
+
+$('#cols').addEventListener('click',ev=>{
+  const ee=ev.target.closest('.ev');if(ee){openPanel(ee.dataset.id);return}
+  const dot=ev.target.closest('button.dot');if(dot){const s=document.getElementById('s-'+dot.dataset.id);if(s){s.scrollIntoView({behavior:smooth(),block:'center'});flash(s)}return}
+  const wb=ev.target.closest('.warbtn');if(wb){openWar(wb.dataset.w,true);return}
+  const card=ev.target.closest('.card');if(!card)return;const i=+card.dataset.i;
+  if(!expanded[i]||ev.target.closest('.tog'))toggleCol(i);
+});
+$('#cols').addEventListener('keydown',ev=>{const card=ev.target.closest('.card[role="button"]');if(card&&(ev.key==='Enter'||ev.key===' ')&&ev.target===card){ev.preventDefault();toggleCol(+card.dataset.i)}});
+function toggleCol(i,force){expanded[i]=force??!expanded[i];render();if(expanded[i])showCol(i)}
+function showCol(i){requestAnimationFrame(()=>{const sc=$('#scroller');const c=$('#cols').children[i];if(!c)return;const l=c.offsetLeft-24,r=c.offsetLeft+colWidth(i)-sc.clientWidth+24;
+  if(sc.scrollLeft>l||c.offsetLeft+colWidth(i)>sc.scrollLeft+sc.clientWidth)sc.scrollTo({left:Math.max(0,colWidth(i)>sc.clientWidth-48?l:Math.min(l,Math.max(r,sc.scrollLeft))),behavior:smooth()})})}
+function flash(el){el.classList.remove('hit');void el.offsetWidth;el.classList.add('hit')}
+
+
+const IMG=t=>(window.IMAGES&&window.IMAGES[t])||[];
+function credit(im){return `<span class="credit">Foto: ${esc(im.by)} · ${im.licUrl?`<a href="${esc(im.licUrl)}" target="_blank" rel="noopener">${esc(im.lic)}</a>`:esc(im.lic)} · <a href="${esc(im.page)}" target="_blank" rel="noopener">Wikimedia Commons</a></span>`}
+/* ---- video's: alleen links naar de bron, met doelgroep ---- */
+const VID=t=>(window.VIDEOS&&window.VIDEOS[t])||[];
+let vdg=store.get('nl-tl-dg','alle');
+const mmss=s=>s?`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`:'';
+function vidHTML(e){const V=VID(e.t);if(!V.length)return '';const has=DGORDER.filter(k=>V.some(v=>v.doelgroep.includes(k)));if(vdg!=='alle'&&!has.includes(vdg))vdg='alle';
+  const chip=(k,n)=>`<button class="dgc" data-dg="${k}" aria-pressed="${vdg===k}"${k!=='alle'?` style="--dc:${DG[k].c};--dt:${DG[k].t}"`:''}>${n}</button>`;
+  return `<section class="pgvid" aria-label="Video's"><div class="pvhead"><h3>Bekijken</h3><div class="dgf" role="group" aria-label="Doelgroep">${chip('alle','Alle')}${has.map(k=>chip(k,DG[k].n)).join('')}</div></div>
+  <div class="vlist">${V.map((v,k)=>`${v.embed?`<button type="button" class="vcard emb" data-vi="${k}"`:`<a class="vcard" href="${esc(v.url)}" target="_blank" rel="noopener"`} data-dg="${v.doelgroep.join(' ')}"${vdg!=='alle'&&!v.doelgroep.includes(vdg)?' hidden':''}>
+    <span class="vplay" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>${v.duur?`<small>${mmss(v.duur)}</small>`:''}</span>
+    <span class="vtxt"><small>${esc(v.bron)}${v.programma?' · '+esc(v.programma):''}</small><b>${esc(v.titel)}</b>${v.wat?`<span class="vwat">${esc(v.wat)}</span>`:''}
+    <span class="vdg">${v.doelgroep.map(k=>`<i style="--dc:${DG[k].c};--dt:${DG[k].t}">${DG[k].n}</i>`).join('')}</span></span><span class="vgo" aria-hidden="true">${v.embed?'':'↗'}</span>${v.embed?'</button>':'</a>'}`).join('')}</div>
+  <p class="vnote">${V.some(v=>v.embed)?'De video\'s spelen hier af via de officiële speler van de bron.':'De video\'s openen op de site van de bron.'} Doelgroepen volgen zoveel mogelijk de indeling van de bron.</p></section>`}
+/* ingesloten speler (alleen voor video's met een officiële insluitcode) */
+function openPlayer(v){let pl=$('#vplayer');if(!pl){pl=document.createElement('div');pl.id='vplayer';pl.className='vpl';pl.setAttribute('role','dialog');pl.setAttribute('aria-modal','true');
+    pl.innerHTML='<div class="vplbox"><div class="vplhead"><div class="vplt"><small></small><b></b></div><a class="vplsrc" target="_blank" rel="noopener"></a><button class="vplx" type="button" aria-label="Sluiten">✕</button></div><div class="vplframe"></div></div>';
+    document.body.appendChild(pl);pl.addEventListener('click',ev=>{if(ev.target===pl||ev.target.closest('.vplx'))closePlayer()})}
+  pl.querySelector('small').textContent=v.bron+(v.programma?' · '+v.programma:'')+(v.duur?' · '+mmss(v.duur):'');pl.querySelector('b').textContent=v.titel;
+  const a=pl.querySelector('.vplsrc');a.href=v.url;a.textContent='Open bij '+v.bron+' ↗';
+  pl.querySelector('.vplframe').innerHTML=`<iframe src="${esc(v.embed)}" title="${esc(v.titel)}" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
+  pl.hidden=false;pl.querySelector('.vplx').focus({preventScroll:true})}
+function closePlayer(){const pl=$('#vplayer');if(!pl||pl.hidden)return false;pl.querySelector('.vplframe').innerHTML='';pl.hidden=true;return true}
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&closePlayer()){ev.stopImmediatePropagation();ev.preventDefault()}},true);
+document.addEventListener('click',ev=>{const c=ev.target.closest('.vcard.emb');if(!c)return;const e=EVMAP[pgid];if(!e)return;const v=VID(e.t)[+c.dataset.vi];v&&openPlayer(v)});
+document.addEventListener('click',ev=>{const b=ev.target.closest('.dgc');if(!b)return;vdg=b.dataset.dg;store.set('nl-tl-dg',vdg);
+  const sec=b.closest('.pgvid');sec.querySelectorAll('.dgc').forEach(c=>c.setAttribute('aria-pressed',c===b));
+  sec.querySelectorAll('.vcard').forEach(c=>c.hidden=vdg!=='alle'&&!c.dataset.dg.split(' ').includes(vdg))});
+function figHTML(im){return `<figure><div class="ph"><img src="${esc(im.src)}" alt="${esc(im.cap)}" loading="lazy" referrerpolicy="no-referrer" onload="this.closest('figure').style.setProperty('--ar',(this.naturalWidth/this.naturalHeight).toFixed(3))" onerror="this.closest('figure').remove()"></div><figcaption>${esc(im.cap)}${credit(im)}</figcaption></figure>`}
+
+/* ---- zijpaneel ---- */
+let pid=null,lastFocus=null;
+function ctx(e){return e.war?WEV.filter(x=>x.war===e.war&&warShow[x.th]&&(!qMatch||qMatch.has(x.id))).sort((a,b)=>a.mi-b.mi):EVENTS.filter(vis).sort((a,b)=>a.y-b.y)}
+function where(e){return e.war?WARS[e.war].n+' · '+e.era.n:e.era.n+' · '+tileName(TILES[e.tile])}
+function hdr(e){return e.war?{bg:`color-mix(in srgb,var(${e.era.c}) 22%,#fff)`,ink:`color-mix(in srgb,var(${e.era.c}) 55%,#1F2430)`}:e.era.P}
+function openPanel(id){
+  const e=EVMAP[id];if(!e)return;pid=id;
+  if(!$('#panel').classList.contains('on'))lastFocus=document.activeElement;
+  const H=hdr(e);$('#phd').style.background=H.bg;$('#pctx').style.color=H.ink;$('#pctx').textContent=where(e);
+  const D=DETAILS[e.t];
+  $('#pbd').innerHTML=`<div><div class="pmeta">${catPill(e)}<span class="yr">${esc(e.d)}</span></div><h2>${esc(e.t)}</h2></div>
+   ${IMG(e.t)[0]?`<figure class="mimg"><div class="ph"><img src="${esc(IMG(e.t)[0].src)}" alt="${esc(IMG(e.t)[0].cap)}" referrerpolicy="no-referrer" onload="this.closest('figure').style.setProperty('--ar',(this.naturalWidth/this.naturalHeight).toFixed(3))" onerror="this.closest('figure').remove()"></div><figcaption>${esc(IMG(e.t)[0].cap)}${credit(IMG(e.t)[0])}</figcaption></figure>`:''}
+   <p class="plong">${esc(e.x)}</p>
+   ${D?`<button class="readbtn" id="readmore"><span class="ri" style="background:${H.bg};color:${H.ink}">${svg('book')}</span><span><b>Lees meer</b><small>Aanloop, verloop${D.perspectieven?', andere perspectieven':''}, cijfers en bronnen${VID(e.t).length?` · ${VID(e.t).length} video${VID(e.t).length===1?'':"'s"}`:''}</small></span><span class="go">→</span></button>`:''}
+   ${WARLINK[e.t]&&WEV.some(w=>w.war===WARLINK[e.t])?`<button class="readbtn" id="towar"><span class="ri" style="background:#E4E2D5;color:#4A4A36">${svg(WARS[WARLINK[e.t]].ic)}</span><span><b>Open de oorlogstijdlijn</b><small>Alle fronten, maand voor maand</small></span><span class="go">→</span></button>`:''}`;
+  $('#pbd').scrollTop=0;
+  const rm=$('#readmore');rm&&(rm.onclick=()=>openPage(id));
+  const tw=$('#towar');tw&&(tw.onclick=()=>{closePanel();openWar(WARLINK[e.t],true)});
+  const L=ctx(e);const k=L.findIndex(x=>x.id===id);const pv=L[k-1],nx=L[k+1];
+  $('#pprev').disabled=!pv;$('#pprev').onclick=()=>pv&&stepTo(pv);
+  $('#pnext').disabled=!nx;$('#pnext').onclick=()=>nx&&stepTo(nx);
+  $('#panel').classList.add('on');$('#panel').setAttribute('aria-hidden','false');$('#scrim').classList.add('on');
+  document.documentElement.style.overflow='hidden';$('#pclose').focus({preventScroll:true});syncHash();
+}
+function stepTo(e){if(!e.war&&!expanded[e.tile]){expanded[e.tile]=true;renderCols()}openPanel(e.id)}
+function closePanel(){$('#panel').classList.remove('on');$('#panel').setAttribute('aria-hidden','true');$('#scrim').classList.remove('on');document.documentElement.style.overflow='';
+  const s=pid&&document.getElementById('s-'+pid);if(s)s.focus({preventScroll:true});else if(lastFocus&&lastFocus.focus)lastFocus.focus({preventScroll:true});pid=null;syncHash()}
+$('#pclose').onclick=closePanel;$('#scrim').onclick=closePanel;
+
+/* ---- leespagina ---- */
+let pgid=null;
+function openPage(id){
+  const e=EVMAP[id];const D=DETAILS[e.t];if(!D)return;pgid=id;const H=hdr(e);
+  $('#pgctx').textContent=where(e);
+  const ini=n=>n.replace(/^(Koningin|Keizer|Generaal|Schipper|Koning)\s+/,'').split(/[\s.]+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+  const L=ctx(e).filter(x=>DETAILS[x.t]);const k=L.findIndex(x=>x.id===id);const pv=L[k-1],nx=L[k+1];
+  $('#pgbody').innerHTML=`
+   <div class="pghero" style="background:${H.bg}"><div class="pmeta">${catPill(e)}<span class="yr" style="color:${H.ink}">${esc(e.d)}</span></div><h2>${esc(e.t)}</h2><p class="lead">${esc(e.x)}</p></div>
+   ${IMG(e.t).length?`<div class="pgimgs n${IMG(e.t).length}">${IMG(e.t).map(figHTML).join('')}</div>`:''}
+   <div class="pggrid">
+     <article class="pgart"><h3>Aanloop en oorzaken</h3>${D.aanloop.map(p=>`<p>${esc(p)}</p>`).join('')}
+       <h3>Wat er gebeurde</h3>${D.verloop.map(p=>`<p>${esc(p)}</p>`).join('')}
+       ${D.perspectieven?`<h3>Andere perspectieven</h3>${D.perspectieven.map(p=>`<p>${esc(p)}</p>`).join('')}`:''}</article>
+     <aside class="pgside">
+       <div class="box"><h3>Kerncijfers</h3><dl class="facts">${D.cijfers.map(([a,b])=>`<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl></div>
+       <div class="box"><h3>Sleutelfiguren</h3><ul class="people">${D.figuren.map(([n,r])=>`<li><span class="av" style="background:${H.bg};color:${H.ink}">${esc(ini(n))}</span><div><b>${esc(n)}</b><span>${esc(r)}</span></div></li>`).join('')}</ul></div>
+       <div class="box"><h3>Verder lezen</h3><ul class="links">${D.bronnen.map(([l,u])=>`<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a></li>`).join('')}</ul></div>
+     </aside>
+   </div>
+   ${vidHTML(e)}
+   <div class="pgnav">${pv?`<button class="btn" id="pgprev"><small>Vorige</small>← ${esc(pv.t)}</button>`:'<span></span>'}${nx?`<button class="btn dk" id="pgnext"><small>Volgende</small>${esc(nx.t)} →</button>`:'<span></span>'}</div>`;
+  $('#panel').classList.remove('on');$('#panel').setAttribute('aria-hidden','true');$('#scrim').classList.remove('on');$('#scrim2').classList.add('on');document.documentElement.style.overflow='hidden';
+  const p=$('#page');p.scrollTop=0;p.classList.add('on');p.setAttribute('aria-hidden','false');
+  $('#pgprev')&&($('#pgprev').onclick=()=>{stepTo(pv);openPage(pv.id)});
+  $('#pgnext')&&($('#pgnext').onclick=()=>{stepTo(nx);openPage(nx.id)});
+  $('#pgclose').focus({preventScroll:true});syncHash();
+}
+function closePage(toModal){const p=$('#page');const id=pgid;p.classList.remove('on');p.setAttribute('aria-hidden','true');$('#scrim2').classList.remove('on');pgid=null;
+  if(toModal&&id){openPanel(id);const rm=$('#readmore');rm&&rm.focus({preventScroll:true})}else closePanel()}
+$('#pgback').onclick=()=>closePage(true);$('#pgclose').onclick=()=>closePage(false);$('#scrim2').onclick=()=>closePage(false);
+
+
+/* ---- pdf ---- */
+let DL=null;
+(async()=>{try{DL=window.claude&&window.claude.use?await window.claude.use('downloads'):null}catch(_){DL=null}document.documentElement.classList.toggle('has-dl',!!DL)})();
+const ACC={'--e1':'#C9A04E','--e2':'#D7735F','--e3':'#6E9C66','--e4':'#5E9AAB','--e5':'#D98A4A','--e6':'#C9A21E','--e7':'#C474A6','--e8':'#6F87C9','--e9':'#4FA196','--e10':'#8E8C6B','--e11':'#8C74C9'};
+const rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+const mixRGB=(a,b,t)=>a.map((v,i)=>Math.round(v*t+b[i]*(1-t)));
+function pdfColors(e){if(!e.war){const P=e.era.P;return {bg:rgb(P.bg),ink:rgb(P.ink),acc:rgb(P.acc)}}
+  const a=rgb(ACC[e.era.c]||'#8E8C6B');return {bg:mixRGB(a,[255,255,255],.22),ink:mixRGB(a,[31,36,48],.55),acc:a}}
+const PDFOK=/[ -~ -ÿ‘’“”–—…•€]/;
+function pdfText(t){return [...String(t).normalize('NFC')].map(ch=>{if(PDFOK.test(ch))return ch;const b=ch.normalize('NFD').replace(/[̀-ͯ]/g,'');if(b&&[...b].every(c=>PDFOK.test(c)))return b;
+  return ({'→':'->','←':'<-','↗':'','≈':'ca. ','×':'x','−':'-','‑':'-',' ':' ',' ':' '})[ch]??''}).join('')}
+function loadImg(src){return new Promise(res=>{const im=new Image();im.crossOrigin='anonymous';im.referrerPolicy='no-referrer';const to=setTimeout(()=>res(null),12000);
+  im.onload=()=>{clearTimeout(to);try{const c=document.createElement('canvas');const sc=Math.min(1,1400/im.naturalWidth);c.width=Math.round(im.naturalWidth*sc);c.height=Math.round(im.naturalHeight*sc);
+    const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);g.drawImage(im,0,0,c.width,c.height);res({data:c.toDataURL('image/jpeg',.86),w:c.width,h:c.height})}catch(_){res(null)}};
+  im.onerror=()=>{clearTimeout(to);res(null)};im.src=src})}
+async function buildPdf(e,D){
+  const imgs=(await Promise.all(IMG(e.t).map(async im=>{const r=await loadImg(im.src);return r?{...im,...r}:null}))).filter(Boolean);
+  const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});
+  const W=210,H=297,M=17,CW=W-2*M,pt=.3528,TOP=16,BOT=20;
+  const C=pdfColors(e);const INK=[31,36,48],BODY=[46,52,66],MUT=[91,97,112],LINE=[230,222,207],LINK=[47,91,211];
+  const tint=(c,t)=>mixRGB(c,[255,255,255],t);const SOFT=tint(C.acc,.12),MID=tint(C.acc,.35);
+  const lh=(size,f=1.45)=>size*pt*f;
+  let y=0;
+  const newPage=()=>{doc.addPage();y=TOP+6};
+  const ensure=h=>{if(y+h>H-BOT)newPage()};
+  const font=(size,style='normal',color=INK)=>{doc.setFont('helvetica',style);doc.setFontSize(size);doc.setTextColor(...color)};
+  const lines=(t,size,w,style='normal')=>{doc.setFont('helvetica',style);doc.setFontSize(size);return doc.splitTextToSize(pdfText(t),w)};
+  const para=(t,{size=10.5,style='normal',color=BODY,w=CW,x=M,f=1.55,bar=null}={})=>{
+    const ls=lines(t,size,w,style);font(size,style,color);
+    ls.forEach(l=>{const h=lh(size,f);ensure(h);if(bar){doc.setFillColor(...bar);doc.rect(M,y-.6,1.1,h,'F')}font(size,style,color);doc.text(l,x,y,{baseline:'top'});y+=h})};
+  let secN=0;
+  const heading=t=>{ensure(24);y+=5;secN++;
+    font(10,'bold',C.acc);doc.text(String(secN).padStart(2,'0'),M,y+1.2,{baseline:'top'});
+    font(15,'bold',INK);doc.text(pdfText(t),M+10,y,{baseline:'top'});const tw=doc.getTextWidth(pdfText(t));
+    doc.setDrawColor(...LINE);doc.setLineWidth(.35);doc.line(M+10+tw+4,y+2.9,M+CW,y+2.9);
+    y+=lh(15,1.3)+3.5};
+  const credit=m=>pdfText('Foto: '+m.by+' · '+m.lic+' · Wikimedia Commons');
+
+  /* ---------- kop (paginabrede kleurband) ---------- */
+  const tl=lines(e.t,28,CW,'bold');
+  const bandH=14+lh(8,1.3)+6+tl.length*lh(28,1.08)+5+8+9+12;
+  doc.setFillColor(...C.bg);doc.rect(0,0,W,bandH,'F');
+  y=14;
+  font(8,'bold',C.ink);doc.text('TIJDLIJN VAN NEDERLAND',M,y,{baseline:'top',charSpace:.6});
+  doc.text(pdfText(where(e)).toUpperCase(),W-M,y,{baseline:'top',charSpace:.3,align:'right'});
+  y+=lh(8,1.3)+6;
+  font(28,'bold',INK);tl.forEach(l=>{doc.text(l,M,y,{baseline:'top'});y+=lh(28,1.08)});y+=5;
+  // datum-pil + categorie
+  font(9.5,'bold',[255,255,255]);const dt=pdfText(e.d);const pw=doc.getTextWidth(dt)+8;
+  doc.setFillColor(...C.acc);doc.roundedRect(M,y,pw,7,3.5,3.5,'F');doc.text(dt,M+4,y+3.6,{baseline:'middle'});
+  const cats=e.war?[WARS[e.war].n,e.era.n]:[e.c?'Canon van Nederland':'',e.l?'Limburg':''].filter(Boolean);if(!cats.length)cats.push('Overig');
+  let cx=M+pw+3;font(9.5,'bold',C.ink);
+  cats.forEach(c=>{const t=pdfText(c),w=doc.getTextWidth(t)+8;doc.setDrawColor(...C.acc);doc.setLineWidth(.4);doc.setFillColor(255,255,255);doc.roundedRect(cx,y,w,7,3.5,3.5,'FD');doc.text(t,cx+4,y+3.6,{baseline:'middle'});cx+=w+3});
+  y+=7+9;
+  // mini-tijdlijn: waar valt deze gebeurtenis?
+  const n=ERAS.length,sw=CW/n;let ei=ERAS.findIndex(er=>e.y>=er.s&&e.y<er.e);if(ei<0)ei=e.y<ERAS[0].s?0:n-1;
+  const er=ERAS[ei],fr=Math.min(1,Math.max(0,(e.y-er.s)/((er.e>3000?new Date().getFullYear():er.e)-er.s)));
+  ERAS.forEach((r,k)=>{const a=rgb(ACC[r.c]||'#8E8C6B');doc.setFillColor(...(k===ei?a:tint(a,.45)));doc.rect(M+k*sw+.4,y,sw-.8,2.2,'F')});
+  const mx=M+(ei+fr)*sw;doc.setFillColor(255,255,255);doc.setDrawColor(...INK);doc.setLineWidth(.7);doc.circle(mx,y+1.1,2.1,'FD');
+  font(7,'normal',C.ink);doc.text('Prehistorie',M,y+4.6,{baseline:'top'});doc.text('Nu',M+CW,y+4.6,{baseline:'top',align:'right'});
+  y=bandH+9;
+
+  /* ---------- hoofdafbeelding ---------- */
+  if(imgs[0]){const m=imgs[0],ar=m.w/m.h;let iw=CW,ih=CW/ar;if(ih>92){ih=92;iw=ih*ar}
+    const ix=M+(CW-iw)/2;doc.addImage(m.data,'JPEG',ix,y,iw,ih,undefined,'FAST');y+=ih+2.5;
+    font(8.5,'normal',MUT);lines(m.cap,8.5,CW).slice(0,2).forEach(l=>{doc.text(l,M,y,{baseline:'top'});y+=lh(8.5,1.35)});
+    font(7.5,'normal',MUT);doc.text(credit(m),M,y,{baseline:'top'});y+=lh(7.5,1.35)+6}
+
+  /* ---------- inleiding ---------- */
+  para(e.x,{size:13,color:INK,x:M+5,w:CW-5,f:1.5,bar:C.acc});y+=6;
+
+  /* ---------- in het kort: kerncijfers als kaarten ---------- */
+  if(D.cijfers&&D.cijfers.length){
+    const cols=D.cijfers.some(([a,b])=>String(b).length>38)?2:3,gap=4,cw=(CW-gap*(cols-1))/cols,pd=4;
+    ensure(12);font(8,'bold',C.ink);doc.text('IN HET KORT',M,y,{baseline:'top',charSpace:.6});y+=6;
+    for(let r=0;r<D.cijfers.length;r+=cols){const row=D.cijfers.slice(r,r+cols).map(([a,b])=>({a:lines(a,7.5,cw-2*pd,'bold').slice(0,2),b:lines(b,12,cw-2*pd,'bold')}));
+      const rh=Math.max(...row.map(c=>pd+c.a.length*lh(7.5,1.3)+1.5+c.b.length*lh(12,1.2)+pd));ensure(rh+gap);
+      row.forEach((c,k)=>{const x=M+k*(cw+gap);doc.setFillColor(...SOFT);doc.roundedRect(x,y,cw,rh,3,3,'F');let yy=y+pd;
+        font(7.5,'bold',MUT);c.a.forEach(l=>{doc.text(l.toUpperCase(),x+pd,yy,{baseline:'top',charSpace:.25});yy+=lh(7.5,1.3)});yy+=1.5;
+        font(12,'bold',INK);c.b.forEach(l=>{doc.text(l,x+pd,yy,{baseline:'top'});yy+=lh(12,1.2)})});
+      y+=rh+gap}
+    y+=2}
+
+  /* ---------- tekst ---------- */
+  heading('Aanloop en oorzaken');D.aanloop.forEach(t=>{para(t);y+=2.8});
+  heading('Wat er gebeurde');D.verloop.forEach(t=>{para(t);y+=2.8});
+  // overige afbeeldingen naast elkaar
+  const rest=imgs.slice(1);
+  if(rest.length){const gap=5,ars=rest.map(m=>m.w/m.h);let rh=rest.length===1?78:58;let tw=ars.reduce((a,r)=>a+r*rh,0)+gap*(rest.length-1);
+    if(tw>CW){rh=rh*(CW-gap*(rest.length-1))/(tw-gap*(rest.length-1));tw=CW}
+    const caps=rest.map((m,k)=>lines(m.cap,8.5,Math.max(30,ars[k]*rh)).slice(0,3));const ch=Math.max(...caps.map(c=>c.length))*lh(8.5,1.35)+lh(7.5,1.35);
+    y+=3;ensure(rh+ch+8);let x=M+(CW-tw)/2;
+    rest.forEach((m,k)=>{const w=ars[k]*rh;doc.addImage(m.data,'JPEG',x,y,w,rh,undefined,'FAST');let yy=y+rh+2.2;
+      font(8.5,'normal',MUT);caps[k].forEach(l=>{doc.text(l,x,yy,{baseline:'top'});yy+=lh(8.5,1.35)});
+      font(7.5,'normal',MUT);doc.text(lines(credit(m),7.5,Math.max(30,w))[0],x,yy,{baseline:'top'});x+=w+gap});
+    y+=rh+ch+9}
+  if(D.perspectieven&&D.perspectieven.length){heading('Andere perspectieven');D.perspectieven.forEach(t=>{para(t,{x:M+5,w:CW-5,bar:MID});y+=3.5})}
+
+  /* ---------- sleutelfiguren als kaarten ---------- */
+  if(D.figuren&&D.figuren.length){heading('Sleutelfiguren');
+    const gap=4,cw=(CW-gap)/2,pd=4;
+    for(let r=0;r<D.figuren.length;r+=2){const row=D.figuren.slice(r,r+2).map(([nm,ro])=>({n:lines(nm,10.5,cw-2*pd-4,'bold'),r:lines(ro,9,cw-2*pd-4)}));
+      const rh=Math.max(...row.map(c=>pd+c.n.length*lh(10.5,1.3)+1+c.r.length*lh(9,1.4)+pd));ensure(rh+gap);
+      row.forEach((c,k)=>{const x=M+k*(cw+gap);doc.setDrawColor(...LINE);doc.setLineWidth(.35);doc.setFillColor(255,255,255);doc.roundedRect(x,y,cw,rh,3,3,'FD');
+        doc.setFillColor(...C.acc);doc.roundedRect(x,y,1.6,rh,.8,.8,'F');let yy=y+pd;
+        font(10.5,'bold',INK);c.n.forEach(l=>{doc.text(l,x+pd+2,yy,{baseline:'top'});yy+=lh(10.5,1.3)});yy+=1;
+        font(9,'normal',MUT);c.r.forEach(l=>{doc.text(l,x+pd+2,yy,{baseline:'top'});yy+=lh(9,1.4)})});
+      y+=rh+gap}}
+
+  /* ---------- video's met QR-code ---------- */
+  const V=VID(e.t);
+  if(V.length){heading('Bekijken');
+    const q=22,pd=4,tx=M+pd+q+5,tw=CW-(tx-M)-pd;
+    V.forEach(v=>{const tl=lines(v.titel,11,tw,'bold'),wl=v.wat?lines(v.wat,9,tw):[];
+      const h=Math.max(q+2*pd,pd+lh(8,1.3)+tl.length*lh(11,1.25)+1+wl.length*lh(9,1.4)+2+6+pd);ensure(h+4);
+      doc.setFillColor(...SOFT);doc.roundedRect(M,y,CW,h,3,3,'F');
+      if(window.qrcode){const qr=qrcode(0,'M');qr.addData(v.url);qr.make();const n=qr.getModuleCount(),c=q/n;
+        doc.setFillColor(255,255,255);doc.roundedRect(M+pd-1.2,y+pd-1.2,q+2.4,q+2.4,1.5,1.5,'F');doc.setFillColor(...INK);
+        for(let r=0;r<n;r++)for(let k=0;k<n;k++)if(qr.isDark(r,k))doc.rect(M+pd+k*c,y+pd+r*c,c+.02,c+.02,'F')}
+      let yy=y+pd;font(8,'bold',MUT);doc.text(pdfText((v.bron+(v.programma?' · '+v.programma:'')+(v.duur?'  ·  '+mmss(v.duur)+' min':'')).toUpperCase()),tx,yy,{baseline:'top',charSpace:.25});yy+=lh(8,1.3);
+      font(11,'bold',LINK);tl.forEach(l=>{doc.textWithLink(l,tx,yy,{url:v.url,baseline:'top'});yy+=lh(11,1.25)});yy+=1;
+      font(9,'normal',BODY);wl.forEach(l=>{doc.text(l,tx,yy,{baseline:'top'});yy+=lh(9,1.4)});yy+=2;
+      let bx=tx;font(7.5,'bold',INK);v.doelgroep.forEach(k=>{const d=DG[k],t=pdfText(d.n+(d.s?' ('+d.s+')':'')),w=doc.getTextWidth(t)+5;const cc=rgb(d.c);
+        doc.setFillColor(255,255,255);doc.setDrawColor(...cc);doc.setLineWidth(.35);doc.roundedRect(bx,yy,w,5,2.5,2.5,'FD');doc.setTextColor(...cc);doc.text(t,bx+2.5,yy+2.6,{baseline:'middle'});bx+=w+2});
+      y+=h+4});
+    font(8,'normal',MUT);ensure(6);doc.text(pdfText('Scan de QR-code of klik op de titel. De video opent op de site van de bron.'),M,y,{baseline:'top'});y+=6}
+
+  /* ---------- verder lezen + beeldverantwoording ---------- */
+  heading('Verder lezen');
+  D.bronnen.forEach(([l,u])=>{const ls=lines(l,10.5,CW-6,'bold');ensure(ls.length*lh(10.5,1.35)+lh(8,1.4)+3);
+    doc.setFillColor(...C.acc);doc.circle(M+1.3,y+1.9,1,'F');
+    font(10.5,'bold',LINK);ls.forEach((t,k)=>{doc.textWithLink(t,M+5,y,{url:u,baseline:'top'});y+=lh(10.5,1.35)});
+    font(8,'normal',MUT);doc.text(lines(u,8,CW-6)[0],M+5,y,{baseline:'top'});y+=lh(8,1.4)+2.5});
+  if(imgs.length){y+=3;ensure(16);font(8,'bold',C.ink);doc.text('BEELDVERANTWOORDING',M,y,{baseline:'top',charSpace:.6});y+=6;
+    imgs.forEach(m=>{const ls=lines(m.cap+' — '+m.by+', '+m.lic+'.',8,CW);ensure(ls.length*lh(8,1.4)+lh(7.5,1.4)+2);
+      font(8,'normal',BODY);ls.forEach(l=>{doc.text(l,M,y,{baseline:'top'});y+=lh(8,1.4)});
+      font(7.5,'normal',LINK);doc.textWithLink(lines(decodeURIComponent(m.page),7.5,CW)[0],M,y,{url:m.page,baseline:'top'});y+=lh(7.5,1.4)+2})}
+
+  /* ---------- kop- en voetregels ---------- */
+  const np=doc.getNumberOfPages(),yr=new Date().getFullYear();
+  for(let i=1;i<=np;i++){doc.setPage(i);
+    if(i>1){doc.setFillColor(...C.acc);doc.rect(0,0,W,2.2,'F');font(7.5,'bold',MUT);doc.text(pdfText(e.t),M,9,{baseline:'top'});
+      font(7.5,'normal',MUT);doc.text(pdfText(e.d),W-M,9,{baseline:'top',align:'right'})}
+    doc.setDrawColor(...LINE);doc.setLineWidth(.3);doc.line(M,H-13,W-M,H-13);
+    font(7.5,'bold',INK);doc.text('Tijdlijn van Nederland',M,H-8.5);const bw=doc.getTextWidth('Tijdlijn van Nederland');
+    font(7.5,'normal',MUT);doc.text(pdfText('  ·  © '+yr+' Koen Kerkvliet  ·  afbeeldingen: zie beeldverantwoording'),M+bw,H-8.5);
+    doc.text(`${i} / ${np}`,W-M,H-8.5,{align:'right'})}
+  return doc;
+}
+function pdfName(e){return ('Tijdlijn - '+e.t).replace(/[\\/:*?"<>|]/g,'').replace(/\s+/g,' ').trim().slice(0,120)+'.pdf'}
+async function savePdf(){
+  const e=EVMAP[pgid];const D=e&&DETAILS[e.t];if(!D)return;const b=$('#pgpdf'),msg=$('#pgmsg');
+  if(!window.jspdf){if(!DL){window.print();return}msg.textContent='De pdf-maker kon niet laden. Controleer de internetverbinding.';return}
+  b.disabled=true;msg.textContent='Pdf maken…';
+  try{const doc=await buildPdf(e,D);const blob=doc.output('blob');const name=pdfName(e);
+    if(DL){await DL.save({filename:name,data:blob});msg.textContent='Pdf opgeslagen'}
+    else{const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);msg.textContent='Pdf gedownload'}}
+  catch(err){const c=err&&err.code;msg.textContent=c==='declined'?'':c==='rate_limited'?'Er staat al een opslagvraag open.':'Opslaan lukte niet in deze weergave.'}
+  finally{b.disabled=false;setTimeout(()=>{if(msg.textContent!=='Pdf maken…')msg.textContent=''},4000)}
+}
+$('#pgpdf').onclick=savePdf;
+$('#pgprint').onclick=()=>window.print();
+
+/* ---- oorlogen ---- */
+function openWar(k,scroll){
+  const W0=WARS[k];curWar=k;const z=$('#war');
+  const all=WEV.filter(e=>e.war===k).sort((a,b)=>a.mi-b.mi);
+  const evs=all.filter(e=>warShow[e.th]&&(!qMatch||qMatch.has(e.id)));
+  const m0=mIdx(W0.from),m1=mIdx(W0.to),mw=W0.mw*1.25,width=(m1-m0)*mw,X=m=>(m-m0)*mw;
+  const phc=[['#F1E4C8','#6E4F14'],['#E4E2D5','#4A4A36']];
+  const ph=W0.ph.map(([n,a,b],j)=>`<div class="wph" style="background:${phc[j%2][0]};color:${phc[j%2][1]};left:${X(mIdx(a))+2}px;width:${X(mIdx(b))-X(mIdx(a))-4}px" title="${n}"><span>${n}</span></div>`).join('');
+  let yrs='';for(let y=Math.ceil(m0/12);y*12<=m1;y++){yrs+=`<span style="left:${X(y*12)}px">${y}</span>`;for(let qq=3;qq<12;qq+=3)if(y*12+qq<m1)yrs+=`<b style="left:${X(y*12+qq)}px"></b>`}
+  const lanes=[];const placed=evs.map(e=>{const x=X(e.mi);const w=e.t.length*8.6+44;let L=0;while(lanes[L]!=null&&x<lanes[L]+10)L++;lanes[L]=x+w;return {e,x,L}});
+  const nL=Math.max(1,lanes.length);
+  const byYear={};evs.forEach(e=>(byYear[e.y]=byYear[e.y]||[]).push(e));
+  const counts={};all.forEach(e=>counts[e.th]=(counts[e.th]||0)+1);
+  z.innerHTML=`<div class="wcard">
+   <div class="whead"><div><span class="pill">20e eeuw · ${W0.r}</span><h2>${W0.n}</h2><p>${W0.sub}. Elke gebeurtenis vanuit meerdere kanten bekeken.</p></div>
+     <div class="btns"><button class="btn" id="wback">← 20e eeuw</button><button class="btn dk" id="wother">${k==='ww1'?'Tweede Wereldoorlog →':'← Eerste Wereldoorlog'}</button></div></div>
+   <div class="tchips" role="group" aria-label="Filter op front of thema">${Object.entries(THEMES).filter(([t])=>counts[t]).map(([t,v])=>`<button class="tchip" data-t="${t}" aria-pressed="${warShow[t]}" style="--c:var(${v.c})"><i></i>${v.n}<em>${counts[t]}</em></button>`).join('')}</div>
+   <div class="wtl"><div class="wtlin" style="width:${width}px">
+     <div class="wphrow">${ph}</div><div class="wyears">${yrs}</div>
+     <div class="wpills" style="height:${nL*44}px">${placed.map(({e,x,L})=>`<button class="wpill" data-id="${e.id}" style="left:${x}px;top:${L*44}px;--c:var(${e.era.c})" title="${esc(e.d)}"><i></i>${esc(e.t)}</button>`).join('')}</div>
+   </div></div>
+   ${Object.keys(byYear).sort().map(y=>`<h3 class="yrh">${y}<small>${byYear[y].length} gebeurtenis${byYear[y].length===1?'':'sen'}</small></h3><div class="wgrid">${byYear[y].map(evHTML).join('')}</div>`).join('')||'<p class="empty" style="margin-top:24px">Geen gebeurtenissen in deze selectie.</p>'}
+  </div>`;
+  z.hidden=false;syncHash();
+  $('#wback').onclick=()=>{closeWar();const i20=TILES.findIndex(t=>t.n===20);toggleCol(i20,true);$('#scroller').scrollIntoView({behavior:smooth(),block:'center'})};
+  $('#wother').onclick=()=>openWar(k==='ww1'?'ww2':'ww1',true);
+  z.querySelectorAll('.tchip').forEach(c=>c.onclick=()=>{warShow[c.dataset.t]=!warShow[c.dataset.t];const sx=z.querySelector('.wtl').scrollLeft;openWar(k,false);z.querySelector('.wtl').scrollLeft=sx;renderStatus()});
+  z.querySelectorAll('.wpill,.ev').forEach(p=>p.onclick=()=>openPanel(p.dataset.id));
+  enableDrag(z.querySelector('.wtl'));
+  if(scroll)z.scrollIntoView({behavior:smooth(),block:'start'});
+}
+function closeWar(){$('#war').hidden=true;curWar=null;syncHash()}
+
+/* ---- zoeken ---- */
+const norm=t=>String(t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[’‘']/g,"'");
+const SIDX=EVENTS.concat(WEV).map(e=>{const D=DETAILS[e.t]||{};
+  const f=[['t',e.t,12],['d',e.d,6],['x',e.x,3]];(D.figuren||[]).forEach(([n,r])=>f.push(['f',n+', '+r,5]));(D.cijfers||[]).forEach(([a,b])=>f.push(['c',a+': '+b,2]));
+  [...(D.aanloop||[]),...(D.verloop||[]),...(D.perspectieven||[])].forEach(p=>f.push(['p',p,1]));return {e,f:f.map(([k,v,w])=>({k,v,w,n:norm(v)}))}});
+function search(s){const terms=norm(s).split(/\s+/).filter(Boolean);if(!terms.length)return[];const res=[];
+  for(const it of SIDX){let score=0,ok=true,best=null;for(const t of terms){let hit=0;for(const x of it.f){if(x.n.includes(t)){const w=x.w*(x.n.startsWith(t)||x.n.includes(' '+t)?1.5:1);if(w>hit)hit=w;if(!best||x.w>best.w)best={...x,term:t}}}if(!hit){ok=false;break}score+=hit}
+    if(ok)res.push({e:it.e,score,best,terms})}
+  return res.sort((a,b)=>b.score-a.score||((a.e.mi??a.e.y*12)-(b.e.mi??b.e.y*12)))}
+function mark(text,terms){const n=norm(text);const m=new Array(text.length).fill(false);terms.forEach(t=>{let i=0;while(t&&(i=n.indexOf(t,i))>-1){for(let j=i;j<i+t.length&&j<text.length;j++)m[j]=true;i+=t.length}});
+  let o='',on=false;for(let i=0;i<text.length;i++){if(m[i]&&!on){o+='<mark>';on=true}if(!m[i]&&on){o+='</mark>';on=false}o+=esc(text[i])}if(on)o+='</mark>';return o}
+function snip(v,t){const n=norm(v);const i=n.indexOf(t);if(i<0||v.length<=130)return v;const a=Math.max(0,i-50),b=Math.min(v.length,i+80);return (a>0?'…':'')+v.slice(a,b).trim()+(b<v.length?'…':'')}
+const LBL={f:'Persoon',c:'Kerncijfer',p:'Uit de achtergrond'};
+let sAct=-1,sList=[];
+function onSearch(){q=$('#q').value.trim();$('#qclear').hidden=!q;$('#qkbd').hidden=!!q;
+  if(norm(q).length<2){qMatch=null;sList=[];$('#sres').hidden=true;$('#q').setAttribute('aria-expanded','false');render();return}
+  sList=search(q);qMatch=new Set(sList.map(r=>r.e.id));render();renderDrop()}
+function renderDrop(){const box=$('#sres');sAct=sList.length?0:-1;const shown=sList.slice(0,8);
+  box.innerHTML=`<div class="shead"><span>${sList.length} ${sList.length===1?'resultaat':'resultaten'}</span><span>Enter springt naar de kaart</span></div>`+
+   (shown.map((r,i)=>{const e=r.e,b=r.best;const src=b&&LBL[b.k];const sn=src?mark(snip(b.v,b.term),r.terms):mark(firstSentence(e.x),r.terms);
+     return `<button class="sitem${i===sAct?' act':''}" role="option" data-i="${i}" id="sr${i}"><span><span class="yr">${esc(e.d)}</span><span class="ctx">${esc(e.war?WARS[e.war].n:tileName(TILES[e.tile]))}</span></span><span style="min-width:0"><b>${mark(e.t,r.terms)}</b><span class="sn">${src?`<em style="font-style:normal;font-weight:700">${src}:</em> `:''}${sn}</span></span></button>`}).join('')
+    ||'<div class="snone">Niets gevonden. Probeer een ander woord, een jaartal of een naam.</div>')+(sList.length>8?`<div class="snone">Alle ${sList.length} treffers staan in de tijdlijn; kaarten zonder treffers zijn vervaagd.</div>`:'');
+  box.hidden=false;$('#q').setAttribute('aria-expanded','true');
+  box.querySelectorAll('.sitem').forEach(b=>{b.onmousedown=ev=>ev.preventDefault();b.onclick=()=>goResult(+b.dataset.i)})}
+function setAct(i){const it=$('#sres').querySelectorAll('.sitem');if(!it.length)return;sAct=(i+it.length)%it.length;it.forEach((x,j)=>x.classList.toggle('act',j===sAct));it[sAct].scrollIntoView({block:'nearest'});$('#q').setAttribute('aria-activedescendant','sr'+sAct)}
+function goResult(i){const r=sList[i];if(!r)return;sfOpen(false);const e=r.e;$('#sres').hidden=true;$('#q').setAttribute('aria-expanded','false');$('#q').blur();
+  if(e.war){if(!warShow[e.th])warShow[e.th]=true;const i20=TILES.findIndex(t=>t.n===20);expanded[i20]=true;renderCols();openWar(e.war,false)}
+  else{if(!catOn(e)){cats={canon:true,limburg:true,overig:true};document.querySelectorAll('.chip[data-k]').forEach(c=>c.setAttribute('aria-pressed','true'))}expanded[e.tile]=true;render();showCol(e.tile)}
+  setTimeout(()=>{const el=document.getElementById('s-'+e.id);if(!el)return;el.scrollIntoView({behavior:smooth(),block:'center',inline:'nearest'});flash(el)},e.war?40:360)}
+let st;$('#q').addEventListener('input',()=>{clearTimeout(st);st=setTimeout(onSearch,120)});
+$('#q').addEventListener('focus',()=>{if(sList.length||q.length>1)renderDrop()});
+$('#q').addEventListener('blur',()=>setTimeout(()=>{$('#sres').hidden=true;$('#q').setAttribute('aria-expanded','false')},120));
+$('#q').addEventListener('keydown',ev=>{if(ev.key==='ArrowDown'){setAct(sAct+1);ev.preventDefault()}else if(ev.key==='ArrowUp'){setAct(sAct-1);ev.preventDefault()}
+  else if(ev.key==='Enter'){if(sAct>=0)goResult(sAct);ev.preventDefault()}else if(ev.key==='Escape'){if($('#q').value){$('#q').value='';onSearch()}else $('#q').blur()}});
+$('#qclear').onclick=()=>{$('#q').value='';onSearch();$('#q').focus()};
+
+/* ---- slepen met de muis ---- */
+function enableDrag(el){
+  if(!el||el.dataset.drag)return;el.dataset.drag='1';el.classList.add('drag');
+  let sx=0,sl=0,moved=false,down=false,vx=0,lx=0,lt=0,raf=0;
+  el.addEventListener('pointerdown',e=>{
+    if(e.pointerType!=='mouse'||e.button!==0)return;
+    if(e.target.closest('input,textarea,select,a'))return;
+    cancelAnimationFrame(raf);down=true;moved=false;sx=lx=e.clientX;sl=el.scrollLeft;vx=0;lt=performance.now();
+    window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up,{once:true});
+  });
+  function mv(e){if(!down)return;const dx=e.clientX-sx;
+    if(!moved&&Math.abs(dx)>5){moved=true;el.classList.add('dragging');const sel=window.getSelection&&window.getSelection();sel&&sel.removeAllRanges&&sel.removeAllRanges()}
+    if(moved){e.preventDefault();el.scrollLeft=sl-dx;const t=performance.now();const dt=Math.max(1,t-lt);vx=.8*((lx-e.clientX)/dt)+.2*vx;lx=e.clientX;lt=t}}
+  function up(){window.removeEventListener('pointermove',mv);down=false;
+    if(moved){el.classList.remove('dragging');
+      const block=ev=>{ev.stopPropagation();ev.preventDefault()};window.addEventListener('click',block,{capture:true,once:true});setTimeout(()=>window.removeEventListener('click',block,{capture:true}),0);
+      if(!RM.matches&&Math.abs(vx)>.2){let v=vx*16;const step=()=>{el.scrollLeft+=v;v*=.92;if(Math.abs(v)>.5)raf=requestAnimationFrame(step)};raf=requestAnimationFrame(step)}}}
+  el.addEventListener('dragstart',e=>e.preventDefault());
+}
+enableDrag($('#scroller'));
+
+
+/* ---- spring naar ---- */
+function buildJump(){
+  const m=$('#jmenu');
+  m.innerHTML=ERAS.map(er=>{const first=PSEG.findIndex(s=>s.some(x=>x.p===er));const cols=TILES.map((t,i)=>i).filter(i=>domP(i)===er.P);
+    return `<div class="jrow"><button class="jp" data-col="${first}"><i style="background:${er.P.acc}"></i><b>${esc(er.n)}</b><span>${esc(er.r)}</span></button>
+      ${cols.length?`<div class="jc">${cols.map(i=>`<button data-open="${i}" style="background:${er.P.bg};color:${er.P.ink}">${esc(tileName(TILES[i]))}</button>`).join('')}</div>`:''}</div>`}).join('');
+}
+function openJump(){buildJump();$('#jmenu').hidden=false;$('#jumpbtn').setAttribute('aria-expanded','true');const f=$('#jmenu button');f&&f.focus({preventScroll:true})}
+function closeJump(){$('#jmenu').hidden=true;$('#jumpbtn').setAttribute('aria-expanded','false')}
+$('#jumpbtn').onclick=()=>$('#jmenu').hidden?openJump():closeJump();
+$('#jmenu').addEventListener('click',ev=>{const o=ev.target.closest('[data-open]'),pc=ev.target.closest('[data-col]');if(!o&&!pc)return;closeJump();
+  if(curWar)closeWar();
+  if(o){toggleCol(+o.dataset.open,true)}else{showCol(+pc.dataset.col)}
+  $('#scroller').scrollIntoView({behavior:smooth(),block:'start'})});
+document.addEventListener('click',ev=>{if(!$('#jmenu').hidden&&!ev.target.closest('.jump'))closeJump()});
+$('#brand').onclick=ev=>{ev.preventDefault();window.scrollTo({top:0,behavior:smooth()})};
+
+/* ---- besturing ---- */
+const sc=$('#scroller');
+$('#left').onclick=()=>sc.scrollBy({left:-620,behavior:smooth()});
+$('#right').onclick=()=>sc.scrollBy({left:620,behavior:smooth()});
+
+document.querySelectorAll('.chip[data-k]').forEach(ch=>ch.onclick=()=>{const k=ch.dataset.k;cats[k]=!cats[k];ch.setAttribute('aria-pressed',cats[k]);render()});
+function applyToggles(){$('#f-school').setAttribute('aria-pressed',showSchool);document.documentElement.classList.toggle('klas',klas);}
+$('#f-school').onclick=()=>{showSchool=!showSchool;store.set('nl-tl-school',showSchool?'1':'0');applyToggles();renderCols()};
+document.addEventListener('keydown',ev=>{
+  const typing=/input|textarea/i.test(document.activeElement.tagName);
+  if(ev.key==='Escape'){if(!$('#jmenu').hidden){closeJump();$('#jumpbtn').focus();return}if(pgid){closePage(false);return}if(pid){closePanel();return}}
+  if(pid&&!pgid&&!typing){if(ev.key==='ArrowRight'&&!$('#pnext').disabled)$('#pnext').click();if(ev.key==='ArrowLeft'&&!$('#pprev').disabled)$('#pprev').click()}
+  if(ev.key==='/'&&!pid&&!pgid&&!typing){ev.preventDefault();$('#q').focus()}
+});
+let rz;window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(render,150)});
+
+/* ---- deeplinks ----
+   #titel-van-de-gebeurtenis opent het paneel, #titel-van-de-gebeurtenis/lees de achtergrondpagina.
+   #ww1 / #ww2 (oorlogstijdlijn) en #eeuw17 / #steentijd (kolom) werken zoals voorheen.
+   De adresbalk wordt bijgewerkt met replaceState: de terugknop van de browser blijft dus ongemoeid.
+   Link kopi\u00ebren geeft de losse pagina van de gebeurtenis (<slug>.html, door scripts/bouw-paginas.mjs gemaakt). */
+const {EVSLUG,SLUGEV}=makeSlugs(EVENTS.concat(WEV));
+const hashFor=()=>pgid?EVSLUG[pgid]+'/lees':pid?EVSLUG[pid]:curWar||'';
+const linkFor=()=>{const id=pgid||pid;return id?new URL(EVSLUG[id],location.href).href:location.href};
+function syncHash(){const h=hashFor();if(location.hash.slice(1)===h)return;try{history.replaceState(null,'',h?'#'+h:location.pathname+location.search)}catch(_){}}
+function openEvent(e,page){
+  closePlayer();if(pgid)closePage(false);else if(pid)closePanel();
+  if(qMatch&&!qMatch.has(e.id)){$('#q').value='';onSearch()}
+  if(!catOn(e)){ // staat het filter de gebeurtenis in de weg, dan zetten we het filter aan
+    if(e.war)warShow[e.th]=true;
+    else{const k=e.c?'canon':e.l?'limburg':'overig';cats[k]=true;const ch=document.querySelector(`.chip[data-k="${k}"]`);ch&&ch.setAttribute('aria-pressed','true')}}
+  if(e.war){expanded[TILES.findIndex(t=>t.n===20)]=true;renderCols();openWar(e.war,curWar!==e.war)}
+  else{if(curWar)closeWar();expanded[e.tile]=true;render();showCol(e.tile)}
+  openPanel(e.id);if(page&&DETAILS[e.t])openPage(e.id);
+}
+function routeHash(initial){
+  const raw=(location.hash||'').slice(1),[s,sub]=raw.split('/'),e=SLUGEV[s];
+  if(e){if(raw!==hashFor())openEvent(e,sub==='lees');return}
+  if(!initial)return;
+  const hi=TILES.findIndex(t=>t.id===s);
+  if(WARS[s]&&WEV.some(x=>x.war===s)){expanded[TILES.findIndex(t=>t.n===20)]=true;renderCols();openWar(s,true)}else if(hi>=0){toggleCol(hi,true)}
+}
+async function copyLink(btn){
+  const url=linkFor();let ok=false;
+  try{await navigator.clipboard.writeText(url);ok=true}catch(_){const t=document.createElement('textarea');t.value=url;t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();try{ok=document.execCommand('copy')}catch(_){}t.remove()}
+  if(!ok){prompt('Kopieer deze link:',url);return}
+  const say=t=>{btn.title=t;btn.setAttribute('aria-label',t)};
+  btn.classList.add('ok');say('Link gekopieerd');
+  clearTimeout(btn._t);btn._t=setTimeout(()=>{btn.classList.remove('ok');say('Link kopiëren')},1800);
+}
+document.querySelectorAll('.cplink').forEach(b=>b.onclick=()=>copyLink(b));
+window.addEventListener('hashchange',()=>routeHash(false));
+
+applyToggles();renderCols();renderStatus();
+routeHash(true);
+</script>
+
+<script>
+if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
+</script>
+<script>
+(function(){const site=document.getElementById('site'),btn=document.getElementById('sfbtn'),dot=btn.querySelector('.sfdot'),q=document.getElementById('q');
+  window.sfOpen=function(on){site.classList.toggle('sopen',on);btn.setAttribute('aria-expanded',on)};
+  btn.addEventListener('click',()=>sfOpen(!site.classList.contains('sopen')));
+  const upd=()=>{const off=[...site.querySelectorAll('.hchips .chip')].some(c=>c.getAttribute('aria-pressed')==='false');dot.hidden=!(off||q.value.trim())};
+  new MutationObserver(upd).observe(site.querySelector('.hchips'),{subtree:true,attributes:true,attributeFilter:['aria-pressed']});
+  q.addEventListener('input',upd);upd();
+  document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&site.classList.contains('sopen')&&document.getElementById('sres').hidden)sfOpen(false)});
+})();
+</script>
+</body>
+</html>

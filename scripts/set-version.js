@@ -27,7 +27,8 @@ const TEMPLATE = path.join(ROOT, 'js', 'template.js');
 const VERSION_RE = /const VERSION = 'v([^']+)';/;
 
 // Mappen die we nooit doorzoeken.
-const SKIP_DIRS = new Set(['.git', '.github', 'node_modules', 'scripts', 'supabase']);
+// tijdlijn/ is een losse statische site met een eigen service worker voor de cache (en 200+ gegenereerde pagina's).
+const SKIP_DIRS = new Set(['.git', '.github', 'node_modules', 'scripts', 'supabase', 'tijdlijn']);
 
 function readVersion() {
     const m = fs.readFileSync(TEMPLATE, 'utf8').match(VERSION_RE);

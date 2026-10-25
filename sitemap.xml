@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://meestertools.nl/tijdlijn/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://meestertools.nl/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>

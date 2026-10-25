@@ -1,0 +1,50 @@
+name: Tijdlijn bouwen
+
+# Na een wijziging in de tijdlijn-gegevens:
+# 1. nieuwe afbeeldingen van Wikimedia Commons lokaal opslaan in tijdlijn/img/
+# 2. de losse pagina's per gebeurtenis, het overzicht en de sitemap opnieuw maken
+# In deze volgorde, zodat de pagina's naar de lokale afbeeldingen wijzen.
+# Ook met de hand te starten: Actions → "Tijdlijn bouwen" → Run workflow.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "tijdlijn/js/**"
+      - "tijdlijn/scripts/**"
+      - ".github/workflows/tijdlijn-bouwen.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  bouwen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Afbeeldingen ophalen van Wikimedia Commons
+        run: python3 tijdlijn/scripts/download_afbeeldingen.py
+
+      - name: Pagina's per gebeurtenis maken
+        run: node tijdlijn/scripts/bouw-paginas.mjs
+
+      - name: Wijzigingen opslaan in de repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tijdlijn
+          if git diff --cached --quiet; then
+            echo "Niets nieuws om op te slaan."
+          else
+            git commit -m "Tijdlijn: afbeeldingen en pagina's bijgewerkt"
+            git push
+          fi
