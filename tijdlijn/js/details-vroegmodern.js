@@ -44,13 +44,35 @@ Object.assign(window.DETAILS, {
 'Beeldenstorm': {
  aanloop: [
   'In de 16e eeuw verspreidden de ideeën van Luther en vooral Calvijn zich over de Nederlanden. Filips II liet ketters streng vervolgen. Toch groeide het aantal protestanten, vooral in de steden van Vlaanderen en Brabant.',
-  'In april 1566 boden edelen landvoogdes Margaretha van Parma een smeekschrift aan om de vervolgingen te matigen. Zij werden spottend geuzen genoemd. In de zomer trokken duizenden mensen naar hagenpreken, kerkdiensten in de open lucht.'
+  'In april 1566 boden edelen landvoogdes Margaretha van Parma een smeekschrift aan om de vervolgingen te matigen. Zij werden spottend geuzen genoemd. In de zomer trokken duizenden mensen naar hagenpreken, kerkdiensten in de open lucht.',
+  "Daar kwam honger bij. De winter van 1564–1565 was extreem koud, en daarna mislukte de graanoogst. De prijs van brood steeg sterk, en in de textielstreek rond Ieper en Doornik waren veel arbeiders al arm. Juist daar begon de Beeldenstorm."
  ],
  verloop: [
   'Op 10 augustus 1566 vernielden protestanten na een hagenpreek bij Steenvoorde in Vlaanderen de beelden in een kapel. Binnen enkele weken verspreidde de beweging zich naar Antwerpen en daarna naar het noorden, tot in Holland, Utrecht en Friesland.',
   'Groepen trokken kerken en kloosters binnen en sloegen beelden, altaren en schilderijen kapot. Voor calvinisten waren die afgoderij. Veel kunst uit de middeleeuwen ging daarbij verloren.',
   'Filips II zag de Beeldenstorm als opstand. In 1567 stuurde hij de hertog van Alva met een leger. Diens Raad van Beroerten veroordeelde duizenden mensen. In 1568 werden de graven van Egmont en Horne in Brussel onthoofd. Het geweld dreef de spanningen verder op.'
  ],
+ gevolgen: [
+  "Margaretha van Parma schrok zo van het geweld dat ze in een akkoord van 23 augustus 1566 toestond dat protestanten op bepaalde plaatsen buiten de kerken mochten preken. Daardoor kreeg 1566 de naam “het Wonderjaar”. Maar dat duurde kort: zodra ze weer troepen had, trok ze de toezeggingen in.",
+  "Alva kwam in 1567 om orde op zaken te stellen. Margaretha trad af, uit protest tegen zijn harde aanpak. Zijn Raad van Beroerten, door het volk de Bloedraad genoemd, sprak duizenden vonnissen uit; ongeveer duizend mensen werden terechtgesteld. Duizenden protestanten vluchtten naar Engeland en Duitsland, onder meer naar Londen en Emden."
+ ],
+ perspectieven: [
+  "Voor calvinisten was het weghalen van beelden geen vandalisme, maar het zuiveren van de kerk. Volgens hen mocht je God niet afbeelden en geen beelden vereren. Vaak gingen predikanten voor, en de stadsbesturen grepen bijna nergens in.",
+  "Voor katholieken was het heiligschennis: eeuwenoude altaren, beelden van heiligen en kostbare boeken werden vernield. Ook veel gematigde protestanten en edelen schrokken van het geweld. Sommigen keerden zich daardoor juist van de beweging af."
+ ],
+ misverstanden: [
+  ["“De Beeldenstorm was een woedende volksmassa die alles kapotsloeg.”","Op veel plaatsen ging het vrij georganiseerd. Kleine groepen, soms betaald, trokken van kerk naar kerk, vaak na een preek. Toeschouwers keken toe. In sommige steden haalden de autoriteiten zelf de beelden weg om erger te voorkomen."],
+  ["“De Beeldenstorm gebeurde in één keer, in 1566.”","Er waren al eerder beelden vernield, in 1525 in Antwerpen en Delft. En ook later in de oorlog werden kerken opnieuw leeggehaald, zoals de Dom in Utrecht in 1580. In Brabant en Limburg wisselde de inrichting van kerken soms mee met wie de stad in handen had."]
+ ],
+ hoeWeten: [
+  "Er zijn verhoren en vonnissen van de Raad van Beroerten bewaard, met namen van daders en getuigen. Kroniekschrijvers beschreven per stad wat er gebeurde. En in kerken zijn de sporen nog te zien: bij restauraties worden onder vloeren brokstukken van beelden en altaren gevonden."
+ ],
+ nu: [
+  "In de Dom van Utrecht hangt een altaarstuk waarvan de figuren in de Beeldenstorm hun gezicht verloren; ze zijn nooit hersteld. In de Grote Kerk van Schiedam staat sinds 2010 een kunstwerk van bijna duizend brokstukken van middeleeuwse altaren, gevonden onder de kerkvloer. Veel protestantse kerken in Nederland zijn nog altijd opvallend kaal en wit van binnen."
+ ],
+ vertellen: "In Gent gooiden beeldenstormers op 22 augustus 1566 de hele bibliotheek van het dominicanenklooster in de rivier de Leie. Volgens de verhalen lagen er zoveel boeken in het water, dat mensen er droogvoets overheen konden lopen.",
+ verbanden: [["Luther en de Reformatie","het begin van het protestantisme"],["Begin Tachtigjarige Oorlog","het geweld van Alva leidde tot de gewapende opstand"],["Pieter Bruegel de Oude","een schilder in de jaren van de Beeldenstorm"]],
+ onderwijs: {"ka":["De protestantse reformatie en splitsing van de christelijke kerk in West-Europa.","Het conflict in de Nederlanden dat resulteerde in de stichting van de Nederlandse staat."],"venster":"11. De Opstand"},
  cijfers: [['Begin bij Steenvoorde','10 augustus 1566'],['Antwerpen','20 augustus 1566'],['Komst van Alva','augustus 1567'],['Egmont en Horne onthoofd','5 juni 1568']],
  figuren: [['Filips II','koning van Spanje en heer der Nederlanden'],['Margaretha van Parma','landvoogdes'],['Hertog van Alva','legeraanvoerder en landvoogd vanaf 1567']],
  bronnen: [CANON,['Wikipedia: Beeldenstorm',W('Beeldenstorm')],['Wikipedia: Raad van Beroerten',W('Raad van Beroerten')]]
@@ -66,6 +88,27 @@ Object.assign(window.DETAILS, {
   'Het succes was kort. Alva trok zelf naar het noorden en versloeg Lodewijk op 21 juli 1568 bij Jemmingen in Oost-Friesland. Ook de veldtocht van Willem van Oranje in het najaar liep op niets uit. Kort na Heiligerlee, op 5 juni 1568, liet Alva in Brussel de graven van Egmont en Horne onthoofden.',
   'Pas in 1572, toen de watergeuzen Den Briel innamen, kreeg de Opstand vaste grond in Holland en Zeeland. De slag bij Heiligerlee geldt als het symbolische begin van een oorlog die, met een bestand van twaalf jaar, tot 1648 zou duren.'
  ],
+ gevolgen: [
+  "De mislukte inval van 1568 maakte duidelijk dat Oranje het niet alleen met huurlingen kon winnen. Hij had geld nodig, steun in de steden en hulp van buitenaf. Die kwam pas toen de watergeuzen in 1572 Den Briel innamen en Holland en Zeeland de kant van Oranje kozen.",
+  "Alva wilde dat de Nederlanden zelf hun leger betaalden en voerde in 1571 de tiende penning in: een belasting van tien procent op de verkoop van goederen. Daardoor keerden ook veel mensen die niets met het protestantisme hadden, zich tegen hem."
+ ],
+ perspectieven: [
+  "Oranje en zijn broers zeiden dat ze niet tegen de koning vochten, maar tegen zijn slechte raadgevers en tegen Alva. In het Wilhelmus staat: “den Coninck van Hispaengien heb ick altijt gheeert”. Pas in 1581 zegden de opstandelingen de koning echt op.",
+  "Voor Filips II en Alva waren de opstandelingen rebellen en ketters. Het leger van Lodewijk bestond bovendien grotendeels uit huurlingen uit Duitsland, die vooral vochten voor hun soldij. Bij Heiligerlee hadden ze honger en waren ze al weken niet betaald."
+ ],
+ misverstanden: [
+  ["“De oorlog begon op één dag in 1568.”","De slag bij Heiligerlee geldt traditioneel als begin, maar er was al eerder gevochten, bijvoorbeeld bij Oosterweel in maart 1567. Ook de Beeldenstorm van 1566 wordt wel als begin gezien. 1568 is vooral een symbolisch jaartal."],
+  ["“Het was een oorlog van Nederland tegen Spanje.”","Nederland bestond nog niet. Het was een opstand van een deel van de Nederlanden tegen hun eigen vorst, die ook koning van Spanje was. Er vochten Nederlanders aan beide kanten, en het zuiden bleef uiteindelijk bij de koning."]
+ ],
+ hoeWeten: [
+  "Er zijn brieven van Oranje, Lodewijk en Alva bewaard, en verslagen van de veldslagen door aanhangers van beide kanten. Pamfletten en liederen, zoals het Wilhelmus, laten zien hoe de opstandelingen hun strijd wilden uitleggen. De vierde strofe van het Wilhelmus noemt Heiligerlee en de dood van Adolf van Nassau."
+ ],
+ nu: [
+  "In Heiligerlee staat het Graaf Adolfmonument, in 1873 onthuld door koning Willem III. Het Wilhelmus, dat rond deze jaren ontstond, is sinds 1932 officieel het volkslied. De tekst wordt vaak toegeschreven aan Marnix van Sint-Aldegonde, maar zeker is dat niet."
+ ],
+ vertellen: "Toen de edelen in 1566 hun smeekschrift aanboden, zou een raadsheer tegen Margaretha van Parma hebben gezegd: “Wees niet bang, mevrouw, het zijn maar bedelaars” (in het Frans: gueux). De edelen maakten van dat scheldwoord een erenaam. Ze noemden zich geuzen en droegen een bedelnap en penningen met de tekst dat ze de koning trouw bleven “tot de bedelzak toe”.",
+ verbanden: [["Beeldenstorm","de aanleiding voor de komst van Alva"],["Slag op de Mookerheide","een latere inval van de broers van Oranje"],["Vrede van Munster","het einde van de oorlog in 1648"]],
+ onderwijs: {"ka":["Het conflict in de Nederlanden dat resulteerde in de stichting van de Nederlandse staat."],"venster":"11. De Opstand"},
  cijfers: [['Slag bij Heiligerlee','23 mei 1568'],['Slag bij Jemmingen','21 juli 1568'],['Inname Den Briel','1 april 1572'],['Einde oorlog','1648']],
  figuren: [['Willem van Oranje','leider van de Opstand'],['Lodewijk van Nassau','aanvoerder bij Heiligerlee'],['Adolf van Nassau','sneuvelde bij Heiligerlee'],['Graaf van Aremberg','Spaanse aanvoerder, sneuvelde']],
  bronnen: [['Wikipedia: Slag bij Heiligerlee',W('Slag bij Heiligerlee')],['Wikipedia: Tachtigjarige Oorlog',W('Tachtigjarige Oorlog')]]
@@ -81,6 +124,26 @@ Object.assign(window.DETAILS, {
   'Voor Willem van Oranje was het een zware klap. Hij verloor twee broers en een leger. Wel had de veldtocht Spaanse troepen tijdelijk van Leiden weggetrokken.',
   'Leiden hield stand. Door dijken door te steken kon een vloot van geuzen de stad over het water bereiken. Op 3 oktober 1574 werd Leiden ontzet, wat de stad nog altijd viert. Mook ligt tegenwoordig in de Limburgse gemeente Mook en Middelaar.'
  ],
+ gevolgen: [
+  "Kort na hun overwinning sloegen de Spaanse soldaten aan het muiten. Ze hadden al lang geen soldij gekregen en trokken naar Antwerpen om hun geld op te eisen. Daardoor kon Spanje zijn overwinning niet meteen benutten.",
+  "Van de vijf broers van Nassau waren er nu drie gesneuveld in de Opstand: Adolf in 1568, Lodewijk en Hendrik in 1574. Alleen Willem en Jan waren nog over. De leiding van de Opstand rustte daarmee nog meer op Willem zelf."
+ ],
+ perspectieven: [
+  "De slag laat zien hoe de oorlog in deze jaren werd gevoerd: met huurlingen die vochten voor geld en soms aan het muiten sloegen als het niet kwam, aan beide kanten. Voor de bewoners van Mook en omgeving betekende de doortocht van zulke legers plundering en geweld, wie er ook won."
+ ],
+ misverstanden: [
+  ["“Na Mook was de Opstand verloren.”","Het was een zware nederlaag, maar Holland en Zeeland hielden stand. Nog datzelfde jaar werd Leiden ontzet, en in 1576 sloten bijna alle gewesten de Pacificatie van Gent, om samen de Spaanse troepen het land uit te krijgen."],
+  ["“Lodewijk en Hendrik zijn bij Mook begraven.”","Hun lichamen zijn nooit gevonden. Misschien kwamen ze in een massagraf terecht, of verdwenen ze in het moeras. Er is dus geen graf."]
+ ],
+ hoeWeten: [
+  "Er zijn brieven en verslagen van beide kanten, onder meer van Spaanse bevelhebbers en van Oranje. Ook in plaatselijke kronieken uit die tijd wordt de slag genoemd. Over de precieze plek van de gevechten en het lot van de broers zijn de bronnen het niet eens."
+ ],
+ nu: [
+  "In de kerk van Heumen hangt sinds 1891 een gedenksteen voor de slag. Op het plein voor het raadhuis van Mook staat een kunstwerk van Lodewijk en Hendrik van Nassau. De Mookerheide is nu een natuurgebied."
+ ],
+ vertellen: "Op oude kaarten van de omgeving staan veldnamen die volgens de overlevering aan de slag herinneren: de Hel, het Vagevuur en de Himmel. In de Hel zouden de soldaten zijn afgeslacht, in het Vagevuur zouden vluchtelingen in het moeras zijn weggezakt, en in de Himmel, de hemel, kwamen de overlevenden terecht.",
+ verbanden: [["Begin Tachtigjarige Oorlog","de eerste inval van Lodewijk, in 1568"],["Beleg van Maastricht","een andere strijd langs de Maas"],["Plakkaat van Verlatinghe","de breuk met de koning, zeven jaar later"]],
+ onderwijs: {"ka":["Het conflict in de Nederlanden dat resulteerde in de stichting van de Nederlandse staat."],"venster":"11. De Opstand"},
  cijfers: [['Slag','14 april 1574'],['Gesneuvelde broers van Oranje','2 (Lodewijk en Hendrik)'],['Leidens Ontzet','3 oktober 1574'],['Universiteit Leiden','opgericht 1575']],
  figuren: [['Lodewijk van Nassau','aanvoerder, sneuvelde'],['Hendrik van Nassau','jongste broer van Oranje, sneuvelde'],['Sancho Dávila','Spaanse bevelhebber'],['Willem van Oranje','leider van de Opstand']],
  bronnen: [['Wikipedia: Slag op de Mookerheide',W('Slag op de Mookerheide')],['Wikipedia: Beleg van Leiden',W('Beleg van Leiden 1574')]]
@@ -131,6 +194,27 @@ Object.assign(window.DETAILS, {
   'De redenering was dat een vorst er is voor zijn onderdanen. Een vorst die hen onderdrukt en hun privileges schendt, is een tiran. Dan mogen de onderdanen hem verlaten en een andere heer kiezen.',
   'De opstandelingen wilden nog geen republiek. Ze boden de soevereiniteit aan de Franse hertog van Anjou aan. Toch wordt het plakkaat vaak een van de eerste onafhankelijkheidsverklaringen genoemd. Sommige historici zien er een voorbeeld in voor de Amerikaanse onafhankelijkheidsverklaring van 1776.'
  ],
+ gevolgen: [
+  "Wie een openbaar ambt had, moest een nieuwe eed afleggen en mocht de naam en het zegel van Filips II niet meer gebruiken. Munten, bevelen en vonnissen kregen een andere afzender. Zo werd de breuk in het dagelijks bestuur zichtbaar.",
+  "Een nieuwe vorst vinden lukte niet. De hertog van Anjou vertrok na een mislukte aanslag op Antwerpen in 1583, en ook de Franse koning en de Engelse koningin Elizabeth wezen de kroon af. Zo groeiden de opstandige gewesten bijna vanzelf naar een republiek."
+ ],
+ perspectieven: [
+  "Niet alle gewesten deden mee. Overijssel wees het plakkaat in 1581 uitdrukkelijk af, en de zuidelijke, Franstalige gewesten hadden zich al eerder met de koning verzoend. Bovendien werden Brabant en Vlaanderen, die het plakkaat wél ondertekenden, in de jaren daarna grotendeels door de koning heroverd.",
+  "Voor Filips II was het plakkaat waardeloos: onderdanen konden hun vorst volgens hem niet afzetten. Hij bleef zich heer der Nederlanden noemen, en Spanje erkende de Republiek pas in 1648."
+ ],
+ misverstanden: [
+  ["“Met het plakkaat begon de Republiek.”","De Staten-Generaal zochten na 1581 juist een nieuwe vorst. Pas in 1588, toen dat steeds mislukte, gingen ze verder zonder vorst. De Republiek was dus geen plan, maar een uitkomst."],
+  ["“Het plakkaat was de onafhankelijkheidsverklaring van Nederland.”","Het gaat over de gewesten die toen in opstand waren, waaronder Brabant en Vlaanderen. Die liggen nu grotendeels in België. Het was een verklaring dat de koning was afgezet, niet de oprichting van het Nederland van nu."]
+ ],
+ hoeWeten: [
+  "Het ontwerp van de tekst, de minuut, wordt bewaard in het Nationaal Archief in Den Haag. Het verschilt weinig van de gedrukte versie. Omdat het een plakkaat was, een openbare bekendmaking, werd de tekst gedrukt en in de steden aangeplakt, zodat iedereen hem kon lezen."
+ ],
+ nu: [
+  "Het Nationaal Archief toont het document af en toe bij tentoonstellingen. Het plakkaat wordt vaak genoemd als een van de bronnen van het idee dat burgers een heerser mogen afzetten die hun rechten schendt. Dat idee komt terug in de Amerikaanse onafhankelijkheidsverklaring van 1776."
+ ],
+ vertellen: "Het woord “verlatinghe” betekent “verlating”: de gewesten verklaarden dat ze hun koning verlieten. Een plakkaat was een openbare bekendmaking die letterlijk werd aangeplakt. Zo hing de afzetting van de machtigste koning van Europa in 1581 gewoon op de deuren van stadhuizen.",
+ verbanden: [["Moord op Willem van Oranje","de koning had Oranje al vogelvrij verklaard"],["De Republiek","de uitkomst toen er geen nieuwe vorst kwam"],["Vrede van Munster","de erkenning door Spanje in 1648"]],
+ onderwijs: {"ka":["Het conflict in de Nederlanden dat resulteerde in de stichting van de Nederlandse staat."],"venster":"11. De Opstand"},
  cijfers: [['Unie van Utrecht','23 januari 1579'],['Ban tegen Oranje','1580'],['Plakkaat aangenomen','26 juli 1581']],
  figuren: [['Filips II','afgezworen vorst'],['Willem van Oranje','leider van de Opstand'],['Hertog van Anjou','nieuwe heer, kreeg de soevereiniteit aangeboden']],
  bronnen: [CANON,['Wikipedia: Plakkaat van Verlatinghe',W('Plakkaat van Verlatinghe')],['Nationaal Archief','https://www.nationaalarchief.nl/']]
@@ -146,6 +230,27 @@ Object.assign(window.DETAILS, {
   'Gerards werd gevangengenomen en na een proces op gruwelijke wijze terechtgesteld. Oranje werd begraven in de Nieuwe Kerk in Delft, waar later een groot praalgraf voor hem werd gebouwd. In het Prinsenhof, nu een museum, zijn de kogelgaten nog te zien.',
   'De moord was een schok voor de Opstand, maar die ging door. Zijn zoon Maurits werd stadhouder en legeraanvoerder. Willem van Oranje wordt de Vader des Vaderlands genoemd. Het Wilhelmus gaat over hem.'
  ],
+ gevolgen: [
+  "De Opstand verloor zijn leider op een slecht moment. Parma veroverde in die jaren de ene stad na de andere in Vlaanderen en Brabant. In 1585 viel Antwerpen. Zonder Oranje zochten de Staten-Generaal steun bij Frankrijk en Engeland.",
+  "Oranjes zoon Maurits was pas zeventien. Hij werd stadhouder van Holland en Zeeland en groeide uit tot een van de beste legeraanvoerders van zijn tijd. Samen met Johan van Oldenbarnevelt leidde hij de jonge Republiek."
+ ],
+ perspectieven: [
+  "Voor de opstandelingen was Oranje een martelaar. Voor veel katholieken in de Spaanse Nederlanden was hij een ketter en verrader, en Gerards een held. Er gingen zelfs stemmen op om Gerards heilig te verklaren. In zijn geboortedorp Vuillafans in Frankrijk wordt hij nog altijd als martelaar herinnerd.",
+  "Filips II had een beloning op de moord gezet, te betalen uit het bezit van Oranje. De familie van Gerards kreeg drie heerlijkheden van Oranje in Franche-Comté. Zo betaalde de koning de moordenaar met de bezittingen van zijn slachtoffer."
+ ],
+ misverstanden: [
+  ["“De laatste woorden van Oranje zijn precies bekend.”","Volgens het officiële verslag zei hij: “Mijn God, heb medelijden met mijn ziel en met dit arme volk.” Of hij die woorden echt zo heeft gezegd, weten we niet zeker. Ze kunnen ook later zijn opgeschreven zoals zijn aanhangers ze graag wilden horen."],
+  ["“Oranje was al jaren een protestant toen de Opstand begon.”","Oranje werd luthers opgevoed, groeide daarna katholiek op aan het hof van Karel V en werd pas in 1573 calvinist. Hij wilde vooral vrijheid van geweten, ook voor katholieken."]
+ ],
+ hoeWeten: [
+  "Er is een uitgebreid verslag van de moord en van het verhoor van Gerards, die bekende en uitlegde waarom hij het deed. Ook zijn er getuigenverklaringen van de mensen in het Prinsenhof. In 2019 kocht de Koninklijke Bibliotheek een brief van Filips II waarin de beloning aan de familie van Gerards wordt geregeld."
+ ],
+ nu: [
+  "Het praalgraf in de Nieuwe Kerk in Delft is ontworpen door Hendrick de Keyser en was in 1623 klaar. Onder het praalgraf ligt de grafkelder van het Koninklijk Huis. Daar zijn sindsdien tientallen leden van de familie bijgezet, als laatste prins Bernhard in 2004."
+ ],
+ vertellen: "Aan de voeten van het marmeren beeld van Oranje op zijn praalgraf ligt een hondje. Volgens een bekend verhaal redde zijn hondje hem in 1572 het leven: toen Spaanse soldaten zijn legerkamp ’s nachts overvielen, sprong het op zijn gezicht en blafte hem wakker.",
+ verbanden: [["Plakkaat van Verlatinghe","de breuk met de koning die hem vogelvrij had verklaard"],["De Republiek","de staat die na zijn dood ontstond"],["Oldenbarnevelt onthoofd","Maurits en Oldenbarnevelt namen zijn rol over"]],
+ onderwijs: {"ka":["Het conflict in de Nederlanden dat resulteerde in de stichting van de Nederlandse staat."],"venster":"12. Willem van Oranje"},
  cijfers: [['Geboren','1533, Dillenburg'],['Vogelvrij verklaard','1580'],['Moord in Delft','10 juli 1584']],
  figuren: [['Willem van Oranje','leider van de Opstand'],['Balthasar Gerards','moordenaar'],['Filips II','verklaarde Oranje vogelvrij'],['Maurits van Nassau','zoon en opvolger als legeraanvoerder']],
  bronnen: [CANON,['Wikipedia: Willem van Oranje',W('Willem van Oranje')],['Wikipedia: Balthasar Gerards',W('Balthasar Gerards')]]
@@ -154,13 +259,35 @@ Object.assign(window.DETAILS, {
 'De Republiek': {
  aanloop: [
   'Na het Plakkaat van Verlatinghe zochten de opstandige gewesten een nieuwe vorst. De hertog van Anjou en daarna de Engelse graaf van Leicester kregen het gezag, maar beiden raakten in conflict met de Staten.',
-  'Ondertussen veroverde Parma grote delen van het zuiden, in 1585 ook Antwerpen. Tienduizenden protestanten en kooplieden vluchtten naar het noorden. Ze brachten kennis, kapitaal en handelscontacten mee.'
+  'Ondertussen veroverde Parma grote delen van het zuiden, in 1585 ook Antwerpen. Tienduizenden protestanten en kooplieden vluchtten naar het noorden. Ze brachten kennis, kapitaal en handelscontacten mee.',
+  "In 1588 stuurde Filips II een grote vloot, de Armada, om Engeland aan te vallen. Daarna zou het Spaanse leger uit de Nederlanden de oversteek maken. De Armada werd verslagen en raakte door stormen grotendeels verloren. Dat gaf de opstandige gewesten lucht."
  ],
  verloop: [
   'Toen Leicester eind 1587 vertrok, besloten de Staten-Generaal in 1588 het zonder vorst te doen. Zo ontstond de Republiek der Zeven Verenigde Nederlanden: Holland, Zeeland, Utrecht, Gelre, Overijssel, Friesland en Groningen.',
   'Elk gewest bleef grotendeels zelfstandig en had één stem in de Staten-Generaal. Drenthe had een eigen bestuur, maar geen stem. Holland was het rijkst en had de meeste invloed. De landsadvocaat van Holland, Johan van Oldenbarnevelt, leidde het bestuur. Stadhouder Maurits voerde het leger aan.',
   'De Republiek groeide uit tot een wereldmacht in handel en scheepvaart. Andere gebieden, zoals Staats-Brabant en later delen van Limburg, werden als generaliteitslanden bestuurd zonder eigen stem. De Republiek bestond tot 1795.'
  ],
+ gevolgen: [
+  "In de tien jaar na 1588 heroverden Maurits en zijn neef Willem Lodewijk, de stadhouder van Friesland, een groot deel van het noorden en oosten. Maurits liet zijn soldaten als een van de eersten in Europa oefenen in het hanteren van wapens en marcheren. Zo werd een leger van huurlingen een gedisciplineerd leger.",
+  "Holland en Zeeland groeiden uit tot het centrum van de wereldhandel. Kooplieden uit Antwerpen brachten hun geld en contacten mee. In de jaren 1590 voeren Hollandse schepen voor het eerst naar het Middellandse Zeegebied, Rusland en Azië. Zo begon de Gouden Eeuw."
+ ],
+ perspectieven: [
+  "De Republiek was geen democratie zoals nu. De macht lag bij een kleine groep rijke families in de steden, de regenten. Gewone burgers hadden weinig te zeggen, en vrouwen al helemaal niet.",
+  "Katholieken mochten hun geloof niet openlijk belijden. Ze kwamen samen in schuilkerken, die van buiten op gewone huizen leken. In de Generaliteitslanden, waar de meeste mensen katholiek waren, werden ze lang achtergesteld. Toch was er in de Republiek meer vrijheid van geweten dan in de meeste landen van Europa."
+ ],
+ misverstanden: [
+  ["“De stadhouder was een soort koning.”","De stadhouder was een dienaar van de Staten van een gewest, die hem benoemden. Hij voerde het leger aan en had invloed, maar de soevereiniteit lag bij de Staten. Wel kwamen de stadhouders bijna altijd uit de familie van Oranje-Nassau."],
+  ["“De Republiek was één land met één regering.”","De Republiek was een verbond van zeven zelfstandige gewesten. Elk gewest had zijn eigen Staten, wetten en belastingen. Voor belangrijke besluiten in de Staten-Generaal moesten alle gewesten het eens zijn."]
+ ],
+ hoeWeten: [
+  "De resoluties van de Staten-Generaal en de Staten van de gewesten zijn bijna allemaal bewaard en liggen in het Nationaal Archief en de provinciale archieven. Ze zijn deels digitaal te doorzoeken. Daarnaast zijn er brieven van Oldenbarnevelt en Maurits, en verslagen van buitenlandse gezanten die verbaasd waren over dit land zonder koning."
+ ],
+ nu: [
+  "Het Nederlandse parlement heet nog altijd de Staten-Generaal, en de provincies hebben Provinciale Staten. De provincies zijn grotendeels de oude gewesten. Het Binnenhof in Den Haag, waar de Staten-Generaal toen al vergaderden, is nog steeds het centrum van de politiek."
+ ],
+ vertellen: "Begin 1590 verstopten zich ongeveer zeventig soldaten onder de turf in het ruim van een schip dat het kasteel van Breda bevoorraadde. Ze lagen er dagen in de kou en moesten stil zijn als de wachters van het kasteel het schip controleerden. ’s Nachts kropen ze naar buiten en namen het kasteel in. Daarna kon Maurits de stad binnentrekken.",
+ verbanden: [["Plakkaat van Verlatinghe","de afzetting van de koning"],["VOC","de handel van de Republiek groeide snel"],["Bataafse Republiek","het einde van de oude Republiek in 1795"]],
+ onderwijs: {"ka":["Het conflict in de Nederlanden dat resulteerde in de stichting van de Nederlandse staat.","De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek. (tijdvak 6)"],"venster":"11. De Opstand"},
  cijfers: [['Begin Republiek','1588'],['Stemhebbende gewesten','7'],['Val van Antwerpen','1585'],['Einde Republiek','1795']],
  figuren: [['Johan van Oldenbarnevelt','landsadvocaat van Holland'],['Maurits van Nassau','stadhouder en legeraanvoerder'],['Graaf van Leicester','Engelse landvoogd 1586–1587']],
  bronnen: [CANON,['Wikipedia: Republiek der Zeven Verenigde Nederlanden',W('Republiek der Zeven Verenigde Nederlanden')]]
@@ -179,6 +306,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de mensen in Bantam waren de Hollanders niet de eerste buitenlandse handelaren. Chinezen, Arabieren, Bengalen, Turken en Portugezen dreven er al lang handel. Dat de nieuwkomers hun eigen prijs wilden afdwingen en daarbij geweld gebruikten, maakte een slechte eerste indruk. Het was een voorbode van hoe de VOC later zou optreden.'
  ],
+ gevolgen: [
+  "Na de terugkeer werden in verschillende steden nieuwe compagnieën opgericht, de voorcompagnieën. Binnen een paar jaar voeren tientallen schepen naar Azië. De tweede tocht, onder Jacob van Neck, kwam in 1599 terug met een grote lading peper en leverde veel winst op. De compagnieën beconcurreerden elkaar zo hevig dat de Staten-Generaal ze in 1602 samenvoegden tot de VOC.",
+  "Cornelis de Houtman ging in 1598 opnieuw op reis, nu voor Zeeuwse kooplieden. In 1599 werd hij in Atjeh, op Sumatra, gedood. Zijn broer Frederick werd daar twee jaar gevangen gehouden. Hij leerde Maleis en publiceerde later het eerste woordenboek Nederlands-Maleis."
+ ],
+ misverstanden: [
+  ["“De Eerste Schipvaart was een groot succes.”","Van de 249 mannen kwamen er 87 terug, een schip moest onderweg in brand gestoken worden omdat er te weinig bemanning over was, en de winst was klein. Het succes zat vooral in wat het bewees: Hollanders konden zelf de weg naar Azië vinden."],
+  ["“De Hollanders ontdekten de route naar Indië.”","De Portugezen voeren al honderd jaar om Afrika heen naar Azië. De Hollanders gebruikten hun kennis, onder meer via de reisverslagen van Jan Huygen van Linschoten. De broers De Houtman waren eerder zelfs naar Lissabon gestuurd om informatie te verzamelen."]
+ ],
+ hoeWeten: [
+  "Opvarenden hielden journaals bij, en in 1598 verscheen een gedrukt verslag van de reis, met prenten. Ook de brieven van de bewindhebbers van de Compagnie van Verre zijn bewaard. Ook Portugese brieven uit Azië beschrijven de komst van de Hollanders."
+ ],
+ nu: [
+  "Twaalf sterrenbeelden aan de zuidelijke hemel gaan terug op deze reis, zoals de Toekan, de Kraanvogel en de Paradijsvogel. Ze worden nog steeds gebruikt. In Australië vaart een replica van de Duyfken, het jacht dat ook bij de Eerste Schipvaart was. Op Java wordt de komst van de Hollanders vooral herinnerd als het begin van de koloniale tijd."
+ ],
+ vertellen: "Tijdens de reis bracht stuurman Pieter Keyser de sterren rond de zuidpool van de hemel in kaart, sterren die je vanuit Europa niet kunt zien. Hij legde de plaats van 135 sterren vast. Keyser stierf onderweg, maar Frederick de Houtman zette zijn werk voort. Petrus Plancius maakte er twaalf nieuwe sterrenbeelden van, die nog altijd zo heten.",
+ verbanden: [["VOC","de compagnie die in 1602 uit de voorcompagnieën ontstond"],["Overwintering op Nova Zembla","een andere poging om Azië te bereiken"],["Vasco da Gama naar Indië","de Portugese route die de Hollanders volgden"]],
+ onderwijs: {"ka":["Het begin van de Europese overzeese expansie.","Het ontstaan van handelskapitalisme en het begin van een wereldeconomie. (tijdvak 6)"],"venster":"14. VOC en WIC"},
  cijfers: [['Vertrek','2 april 1595, Texel'],['Schepen','4'],['Bemanning','249 bij vertrek, 87 terug'],['Terug in Texel','augustus 1597']],
  figuren: [['Cornelis de Houtman','leider van de kooplieden aan boord'],['Pieter Keyser','stuurman, bracht de zuidelijke sterrenhemel in kaart'],['Jan Huygen van Linschoten','beschreef de Portugese route naar Azië']],
  bronnen: [['Wikipedia: Eerste Schipvaart',W('Eerste Schipvaart')],['Het Scheepvaartmuseum','https://www.hetscheepvaartmuseum.nl/']]
@@ -194,6 +338,26 @@ Object.assign(window.DETAILS, {
   'Van drijfhout en planken van het schip bouwden de zeventien mannen een huis van ongeveer tien bij zes meter: het Behouden Huys. Ze stookten vuur, vingen vossen en joegen op ijsberen. Maandenlang kwam de zon niet op. Niet iedereen overleefde de kou en de ziekte.',
   'In juni 1597 zat het schip nog steeds vast. De mannen vertrokken in twee open sloepen. Barentsz stierf al na een week. Na een zware tocht bereikten de overlevenden Kola in Rusland, waar een Hollands schip hen meenam. Twaalf mannen kwamen thuis. Gerrit de Veer schreef een dagboek over de reis, dat in 1598 verscheen en heel populair werd.'
  ],
+ gevolgen: [
+  "De noordoostelijke doorvaart bleek onbegaanbaar door het ijs. De kooplieden richtten zich daarna op de route om Afrika. Wel maakten de tochten van Barentsz de kaarten van het noorden veel beter, en Spitsbergen werd later een belangrijk gebied voor de Hollandse walvisvangst.",
+  "Het dagboek van Gerrit de Veer werd een bestseller en verscheen ook in andere talen. Het verhaal groeide uit tot een nationaal symbool van doorzettingsvermogen, mede door het gedicht dat Hendrik Tollens er in 1819 over schreef."
+ ],
+ perspectieven: [
+  "De mannen waren niet de eersten in het gebied. Russische jagers en vissers, de Pomoren, voeren al langer langs Nova Zembla. Op de terugtocht kwamen de Hollanders hen tegen, en ze kregen eten en hulp. Zonder die ontmoeting hadden waarschijnlijk minder mannen het gehaald."
+ ],
+ misverstanden: [
+  ["“Willem Barentsz was de kapitein.”","De leiding lag bij Jacob van Heemskerck. Barentsz was de ervaren stuurman en navigator. Omdat hij in de verhalen de hoofdrol kreeg, is de Barentszzee naar hem vernoemd."],
+  ["“Ze wilden naar de Noordpool.”","Het doel was niet de pool, maar een kortere zeeroute naar China en Indië, langs de noordkust van Rusland."]
+ ],
+ hoeWeten: [
+  "Het dagboek van Gerrit de Veer beschrijft de tocht dag voor dag. In 1871 vond de Noorse walvisvaarder Elling Carlsen de resten van het Behouden Huys, met de spullen nog op hun plek. Vondsten kwamen in het Rijksmuseum. In 1876 werd er ook een briefje gevonden dat de mannen bij hun vertrek in de schoorsteen hadden achtergelaten. Tussen 1992 en 1995 onderzochten Nederlandse en Russische archeologen de plek opnieuw."
+ ],
+ nu: [
+  "In het Rijksmuseum zijn voorwerpen uit het Behouden Huys te zien, zoals gereedschap, kookgerei en resten van boeken. De Barentszzee, Barentszburg en het Barentszeiland zijn naar hem vernoemd. In 2011 verscheen de film Nova Zembla over de overwintering."
+ ],
+ vertellen: "Op 24 januari 1597 zagen de mannen de zon weer, twee weken eerder dan ze hadden berekend. Barentsz geloofde het eerst niet. Gerrit de Veer schreef het op, en het bleek te kloppen: door lichtbreking in koude luchtlagen kun je de zon soms zien terwijl hij nog onder de horizon staat. Dat verschijnsel heet nu het Nova Zembla-effect.",
+ verbanden: [["Eerste schipvaart naar Indië","de zuidelijke route naar Azië"],["VOC","de kooplieden kozen uiteindelijk de weg om Afrika"],["Magellaan rond de wereld","een eerdere zoektocht naar een doorgang"]],
+ onderwijs: {"ka":["Het begin van de Europese overzeese expansie."]},
  cijfers: [['Vertrek','mei 1596'],['Opvarenden','17'],['Overwintering','september 1596 – juni 1597'],['Thuisgekomen','12 mannen']],
  figuren: [['Willem Barentsz','stuurman en kaartmaker, stierf op de terugtocht'],['Jacob van Heemskerck','schipper van de expeditie'],['Gerrit de Veer','schreef het dagboek van de reis']],
  bronnen: [['Wikipedia: Willem Barentsz',W('Willem Barentsz')],['Wikipedia: Het Behouden Huys',W('Behouden Huys')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
