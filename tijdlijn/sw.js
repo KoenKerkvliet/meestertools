@@ -2,7 +2,7 @@
 // - Pagina en gegevens: eerst het netwerk (zo zie je updates meteen), offline uit de cache.
 // - Afbeeldingen: uit de cache zodra ze één keer bekeken zijn.
 // - Lettertypen en de pdf-maker (externe bronnen): cache, op de achtergrond ververst.
-const VERSION = 'v8';
+const VERSION = 'v9';
 const SHELL = 'tijdlijn-shell-' + VERSION;
 const IMG = 'tijdlijn-img-v2';
 const EXT = 'tijdlijn-ext-v1';
@@ -14,8 +14,8 @@ const PRECACHE = [
   './js/data.js',
   './js/slugs.js',
   './js/mtbar.js',
-  './icons/icon.svg',
-  './icons/icon-192.png',
+  '/favicon.ico',
+  '/icon-192.png',
   "./js/details-20e.js",
   "./js/details-mid.js",
   "./js/details-modern.js",
@@ -76,7 +76,7 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin === location.origin) {
-    if (url.pathname.includes('/img/') || url.pathname.includes('/icons/')) e.respondWith(cacheFirst(req, IMG));
+    if (url.pathname.includes('/img/')) e.respondWith(cacheFirst(req, IMG));
     else e.respondWith(networkFirst(req));
   } else if (/fonts\.(googleapis|gstatic)\.com|cdnjs\.cloudflare\.com/.test(url.hostname)) {
     e.respondWith(staleWhileRevalidate(req));
