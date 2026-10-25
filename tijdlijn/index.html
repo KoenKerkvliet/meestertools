@@ -485,7 +485,7 @@ async function buildPdf(e,D){
       font(7.5,'normal',MUT);doc.text(pdfText(e.d),W-M,9,{baseline:'top',align:'right'})}
     doc.setDrawColor(...LINE);doc.setLineWidth(.3);doc.line(M,H-13,W-M,H-13);
     font(7.5,'bold',INK);doc.text('Tijdlijn van Nederland',M,H-8.5);const bw=doc.getTextWidth('Tijdlijn van Nederland');
-    font(7.5,'normal',MUT);doc.text(pdfText('  ·  © '+yr+' Koen Kerkvliet  ·  afbeeldingen: zie beeldverantwoording'),M+bw,H-8.5);
+    font(7.5,'normal',MUT);doc.text(pdfText('  ·  © '+yr+' Meestertools  ·  meestertools.nl/tijdlijn  ·  afbeeldingen: zie beeldverantwoording'),M+bw,H-8.5);
     doc.text(`${i} / ${np}`,W-M,H-8.5,{align:'right'})}
   return doc;
 }
