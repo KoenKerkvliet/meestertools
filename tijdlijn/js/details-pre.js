@@ -153,6 +153,26 @@ Object.assign(window.DETAILS, {
   'Bij de emmer lagen ook onderdelen van paardentuig en andere metalen voorwerpen. De emmer kwam waarschijnlijk uit Midden-Europa. Het graf wordt gedateerd rond 700 voor Christus.',
   'Bij later onderzoek bleek dat de heuvel de grootste grafheuvel uit de ijzertijd in West-Europa is. Het graf laat zien dat er toen machtige leiders waren met verre contacten. De vondsten zijn te zien in het Rijksmuseum van Oudheden in Leiden. De heuvel zelf is na onderzoek gereconstrueerd en is bij Oss te bezoeken.'
  ],
+ gevolgen: [
+  "Het graf liet zien dat de Lage Landen in de vroege ijzertijd geen afgelegen uithoek waren. Leiders hier hadden contacten met het Alpengebied en verder, en kregen kostbare voorwerpen via geschenken en handel. Wie zulke spullen had, liet daarmee zijn macht zien.",
+  "In 2009 werd op een paar honderd meter afstand, in de grafheuvels van De Zevenbergen, een tweede vorstengraf ontdekt. Ook daar lag een zwaard, samen met paardentuig en andere bronzen voorwerpen. In 2010 volgde nog een vorstengraf bij Uden. Het gebied rond Oss was dus een belangrijke plek voor de elite van die tijd."
+ ],
+ perspectieven: [
+  "We noemen de man een “vorst”, maar we weten niet welke titel hij had of hoe zijn volk hem noemde. Uit deze tijd zijn geen geschreven bronnen. Alles wat we weten, komt uit de grond: uit het graf zelf en uit de manier waarop hij begraven werd."
+ ],
+ misverstanden: [
+  ["“Het zwaard was van goud.”","Het zwaard is van ijzer, met een inleg van goud in het gevest. IJzer was in die tijd nieuw en kostbaar, en het goud maakte het tot een pronkstuk."],
+  ["“Het zwaard was kapot.”","Het zwaard werd bewust krom gebogen voordat het in het graf kwam. Dat gebeurde vaker in deze tijd. Waarschijnlijk wilde men het zwaard “doden” of buiten gebruik stellen, zodat het alleen nog de dode toebehoorde."]
+ ],
+ hoeWeten: [
+  "Het graf werd in 1933 ontdekt bij het afgraven van zand voor een woonwagenkamp. De vondst werd in gips verpakt en naar het Rijksmuseum van Oudheden gebracht. In 1997 werd de plek herontdekt en opnieuw onderzocht. Met nieuwe technieken, zoals CT-scans, kunnen onderzoekers nu ook in verroeste voorwerpen kijken zonder ze te beschadigen."
+ ],
+ nu: [
+  "De vondsten uit het eerste graf zijn te zien in het Rijksmuseum van Oudheden in Leiden. De vondsten uit het tweede graf zijn naar Museum Jan Cunen in Oss gebracht. Op de Maashorst bij Oss kun je de gereconstrueerde grafheuvel en de grafheuvels van De Zevenbergen bezoeken."
+ ],
+ vertellen: "Op 13 februari 1933 zagen twee mannen die zand afgroeven iets blinkends in de grond. Ze belden vanuit een herberg in de buurt een heemkundige, die het Rijksmuseum van Oudheden inschakelde. Zo werd een van de rijkste graven uit de Nederlandse prehistorie gered.",
+ verbanden: [["Brons en grafheuvels","de oudere traditie van grafheuvels"],["Urnenvelden","de gewone begraafplaatsen uit dezelfde tijd"],["Ambiorix en de Eburonen","leiders in de late ijzertijd"]],
+ onderwijs: {"ka":[]},
  cijfers: [['Begraving','ca. 700 v.C.'],['Ontdekking','1933'],['Doorsnede heuvel','ca. 53 m'],['Bekendste vondst','zwaard met gouden inleg']],
  figuren: [['Vorst van Oss','leider uit de vroege ijzertijd'],['Hallstattcultuur','Midden-Europese cultuur waarmee contacten bestonden'],['Rijksmuseum van Oudheden','bewaart de vondsten']],
  bronnen: [['Wikipedia: Vorstengraf van Oss',W('Vorstengraf Oss')],['Rijksmuseum van Oudheden','https://www.rmo.nl/']]
@@ -168,6 +188,26 @@ Object.assign(window.DETAILS, {
   'De Romeinse schrijver Plinius de Oudere beschreef in de 1e eeuw de bewoners van zulke heuvels, de Chauken, als arme mensen tussen zee en land. Archeologisch onderzoek laat juist zien dat ze veeteelt en handel hadden en goed konden leven.',
   'In de 19e en vroege 20e eeuw werden veel terpen afgegraven, omdat de grond goede mest was. Daarbij kwamen veel vondsten boven. Hogebeintum is een van de hoogste overgebleven terpen; Ezinge werd beroemd door de opgraving van Van Giffen.'
  ],
+ gevolgen: [
+  "Op de terpen ontstonden echte dorpen, met boerderijen in een kring rond een open middenplein. Sommige terpen werden zo hoog en breed dat er eeuwenlang mensen bleven wonen. Veel dorpen in Friesland en Groningen liggen nog op een terp, met de kerk op het hoogste punt.",
+  "Rond het jaar 1000 begonnen mensen dijken te bouwen. Daardoor hoefden ze hun terpen niet meer op te hogen. Het gebied achter de dijken kon worden bewoond en bewerkt zonder dat het bij elke vloed overstroomde."
+ ],
+ perspectieven: [
+  "De Romeinse schrijver Plinius zag het terpenland in de 1e eeuw door Romeinse ogen. Voor hem was het een armoedig leven zonder akkers en zonder bomen, waar de mensen bij vloed leken op zeelieden en bij eb op schipbreukelingen. Archeologen laten een ander beeld zien: de bewoners hadden vee, verbouwden gewassen op de hogere delen en dreven handel."
+ ],
+ misverstanden: [
+  ["“Een terp werd in één keer opgeworpen.”","De meeste terpen groeiden langzaam, generatie na generatie. Bewoners legden steeds een nieuwe laag aan, met klei, mest en afval, als het water hoger kwam. Sommige terpen werden zo in eeuwen tot meters hoog."],
+  ["“Terpen bestaan alleen in Friesland.”","Terpen en wierden liggen in het hele Noord-Nederlandse kustgebied, van Noord-Holland tot Groningen, en verder langs de Duitse en Deense kust. In Groningen heten ze wierden, in Noord-Holland soms werven."]
+ ],
+ hoeWeten: [
+  "Bij het afgraven van terpen in de 19e en vroege 20e eeuw kwamen veel vondsten boven. Archeoloog Albert Egges van Giffen groef tussen 1923 en 1934 de wierde van Ezinge op. Hij vond de resten van boerderijen uit verschillende eeuwen, boven op elkaar. Zo kon hij laten zien hoe de wierde in de loop der tijd groeide."
+ ],
+ nu: [
+  "Hogebeintum in Friesland is met bijna negen meter boven NAP de hoogste terp van Nederland. Er staan nog honderden terpen en wierden in het landschap. Veel plaatsnamen herinneren eraan, zoals de Friese namen op -um en de Groningse op -werd of -wier."
+ ],
+ vertellen: "Plinius schreef over de mensen op de terpen dat ze hun voedsel kookten op gedroogde modder, en dat ze regenwater dronken uit kuilen bij hun huizen. Hij vond het een ellendig leven. Een mooie bron om met leerlingen te bespreken: klopt het beeld van een buitenstaander altijd?",
+ verbanden: [["Friezen beheersen de kust","de latere bewoners van het terpengebied"],["Romeinen aan de Rijn","de Romeinen kwamen in contact met de bewoners van het noorden"],["Allerheiligenvloed","het water bleef een bedreiging"]],
+ onderwijs: {"ka":["De confrontatie tussen de Grieks-Romeinse cultuur en de Germaanse cultuur van Noordwest-Europa."]},
  cijfers: [['Begin bewoning','ca. 600 v.C.'],['Aantal terpen en wierden','ca. 1000'],['Hogebeintum','ca. 9 m boven NAP'],['Afgraving','vooral 19e en vroege 20e eeuw']],
  figuren: [['Plinius de Oudere','Romeins schrijver, beschreef de terpbewoners'],['Albert Egges van Giffen','archeoloog, groef de wierde van Ezinge op'],['Hogebeintum','dorp op een van de hoogste terpen']],
  bronnen: [['Wikipedia: Terp (heuvel)',W('Terp heuvel')],['Wikipedia: Wierde',W('Wierde')]]
@@ -183,6 +223,27 @@ Object.assign(window.DETAILS, {
   'Caesar nam wraak. Hij liet het land van de Eburonen plunderen en riep naburige volken op mee te doen. Catuvolcus pleegde zelfmoord. Ambiorix wist te ontsnappen en werd nooit gevangen.',
   'Volgens Caesar werd het volk vrijwel uitgeroeid. Later trokken andere groepen het gebied in. In de 19e eeuw werd Ambiorix een nationale held in België; in Tongeren staat een groot standbeeld van hem.'
  ],
+ gevolgen: [
+  "Caesar gebruikte de opstand om te laten zien dat verzet tegen Rome zwaar gestraft werd. Zijn wraak was een waarschuwing voor alle volken in Gallië. Toch kwam enkele jaren later, in 52 voor Christus, een grote opstand onder Vercingetorix. Pas daarna was Gallië echt onderworpen.",
+  "Na de Romeinse verovering werd het gebied deel van het Romeinse Rijk. Tongeren, Atuatuca Tungrorum, groeide uit tot de hoofdplaats van de streek. Zo kwam ook het huidige Zuid-Limburg in de Romeinse wereld terecht."
+ ],
+ perspectieven: [
+  "Alles wat we over Ambiorix weten, komt van zijn vijand. Caesar schreef zijn verslag om in Rome te laten zien hoe goed hij oorlog voerde. Hij had er belang bij om de nederlaag van Sabinus en Cotta af te schuiven op hun fouten, en om zijn eigen wraak als terecht voor te stellen.",
+  "In de 19e eeuw werd Ambiorix in België een nationale held, een voorbeeld van verzet tegen een overheerser. Zo kreeg een stamleider uit de oudheid een nieuwe rol in de geschiedenis van een jonge staat."
+ ],
+ misverstanden: [
+  ["“De Eburonen werden volledig uitgeroeid.”","Caesar schreef dat hij het volk wilde vernietigen, en de bevolking heeft zwaar geleden. Maar archeologie en plaatsnamen laten zien dat er wel mensen bleven wonen. Volken die later in het gebied genoemd worden, zoals de Tungri, waren waarschijnlijk deels nazaten van de Eburonen."],
+  ["“We weten waar Atuatuca lag.”","Caesar noemt Atuatuca als vesting van de Eburonen, maar waar die precies lag, is onduidelijk. Het is waarschijnlijk niet hetzelfde als het latere Romeinse Tongeren, dat Atuatuca Tungrorum heette."]
+ ],
+ hoeWeten: [
+  "De belangrijkste bron is De Bello Gallico, het verslag van Caesar zelf. Daarnaast zijn er archeologische vondsten. Gouden muntjes van de Eburonen laten zien waar ze woonden. Bij Maastricht werd een schat met zulke gouden munten gevonden."
+ ],
+ nu: [
+  "Op de Grote Markt van Tongeren staat sinds 1866 een groot standbeeld van Ambiorix. Tongeren noemt zich de oudste stad van België. Het Gallo-Romeins Museum in Tongeren vertelt over de Eburonen en de Romeinse tijd."
+ ],
+ vertellen: "Ambiorix overtuigde de Romeinse bevelhebbers Sabinus en Cotta ervan dat er een groot Germaans leger in aantocht was. Hij beloofde hen een veilige doortocht naar een ander Romeins kamp. Toen de soldaten het kamp hadden verlaten, liepen ze in een dal in een hinderlaag. Cotta had zich tegen het vertrek verzet, maar Sabinus had hem overstemd.",
+ verbanden: [["Romeinen aan de Rijn","na Caesar werd de Rijn de grens"],["Coriovallum (Heerlen)","de Romeinse tijd in Zuid-Limburg"],["Vorstengraf van Oss","een veel oudere leider uit de ijzertijd"]],
+ onderwijs: {"ka":["De confrontatie tussen de Grieks-Romeinse cultuur en de Germaanse cultuur van Noordwest-Europa.","De groei van het Romeinse Rijk waardoor de Grieks-Romeinse cultuur zich in Europa verspreidde."]},
  cijfers: [['Hinderlaag','winter 54 v.C.'],['Romeinse verliezen','ca. anderhalf legioen'],['Bron','De Bello Gallico (Caesar)'],['Standbeeld Tongeren','1866']],
  figuren: [['Ambiorix','koning van de Eburonen'],['Catuvolcus','tweede koning van de Eburonen'],['Julius Caesar','Romeins veldheer'],['Sabinus en Cotta','Romeinse bevelhebbers, omgekomen']],
  bronnen: [['Wikipedia: Ambiorix',W('Ambiorix')],['Wikipedia: Eburonen',W('Eburonen')]]
@@ -198,6 +259,27 @@ Object.assign(window.DETAILS, {
   'Op de Hunerberg in Nijmegen lag rond deze tijd een groot legerkamp. Ook elders langs de Rijn verschenen Romeinse steunpunten. Drusus overleed in 9 voor Christus na een val van zijn paard.',
   'In 9 na Christus werden drie Romeinse legioenen onder Varus vernietigd in het Teutoburgerwoud. Daarna gaf Rome de verovering van Germanië geleidelijk op. Zo werd de Rijn de blijvende grens. Ten noorden ervan bleven Germaanse volken zoals de Friezen zelfstandig, al dreven ze wel handel met de Romeinen.'
  ],
+ gevolgen: [
+  "Ook na de Varusslag bleven de Romeinen nog enkele jaren actief ten noorden van de Rijn. Germanicus voerde tussen 14 en 16 na Christus grote veldtochten, deels met een vloot die via de Nederlandse wateren naar de Eems voer. Bij Velsen lag een Romeins fort aan de kust. Daarna trokken de Romeinen zich terug.",
+  "De Rijn werd een grens waar twee werelden elkaar raakten. Ten zuiden ontstonden forten, wegen en later steden. Ten noorden woonden Germaanse volken die handel dreven met de Romeinen, en soms ook met hen in oorlog waren."
+ ],
+ perspectieven: [
+  "Voor de Friezen was de Romeinse overheersing niet altijd mild. Ze moesten belasting betalen in runderhuiden. Toen de Romeinse bevelhebber Olennius eiste dat de huiden zo groot moesten zijn als die van oerossen, konden de Friezen niet betalen. Hun vee, hun land en uiteindelijk hun vrouwen en kinderen werden afgenomen. In het jaar 28 kwamen ze in opstand en hingen ze de belastinginners op.",
+  "Voor de Bataven, die in het rivierengebied woonden, was het bondgenootschap met Rome juist voordelig. Zij hoefden geen belasting te betalen, maar leverden soldaten. Zo verschilde de verhouding met Rome per volk."
+ ],
+ misverstanden: [
+  ["“De Romeinen veroverden heel Nederland.”","Alleen het gebied ten zuiden van de Rijn hoorde blijvend bij het Romeinse Rijk. Het noorden, waar de Friezen woonden, bleef zelfstandig, al hadden de Romeinen er af en toe invloed en dreven ze er handel."],
+  ["“De Varusslag vond plaats in het Teutoburgerwoud.”","Zo heet de slag nog altijd, maar archeologen vonden vanaf 1987 bij Kalkriese, ten noorden van Osnabrück, duizenden Romeinse voorwerpen, waaronder een ijzeren ruitermasker. Daar vond de slag waarschijnlijk plaats."]
+ ],
+ hoeWeten: [
+  "Romeinse schrijvers als Tacitus en Suetonius beschrijven de veldtochten. Archeologen vonden legerkampen in Nijmegen en bij Velsen, met munten, wapens en aardewerk die precies te dateren zijn. De Fossa Drusiana is nog niet met zekerheid teruggevonden. Over de juiste plek wordt nog steeds gediscussieerd."
+ ],
+ nu: [
+  "In Nijmegen zijn op de Hunerberg en het Kops Plateau resten van de vroegste legerkampen gevonden; het Museum Het Valkhof toont de vondsten. Bij Kalkriese is een museum en park over de Varusslag. Het Romeinse verleden van het rivierengebied is ook een thema in de vele Romeinse festivals en reconstructies in Nijmegen."
+ ],
+ vertellen: "De Romeinse geschiedschrijver Suetonius vertelt dat keizer Augustus na het nieuws over de Varusslag zo ontdaan was, dat hij zijn hoofd tegen de deur sloeg en riep: “Quintilius Varus, geef me mijn legioenen terug!” De nummers van de drie verloren legioenen zijn daarna nooit meer gebruikt.",
+ verbanden: [["De Romeinse Limes","de vaste grens die volgde"],["Bataafse Opstand","de Bataven, bondgenoten van Rome"],["Terpen in het noorden","de Friezen en Chauken ten noorden van de Rijn"]],
+ onderwijs: {"ka":["De groei van het Romeinse Rijk waardoor de Grieks-Romeinse cultuur zich in Europa verspreidde.","De confrontatie tussen de Grieks-Romeinse cultuur en de Germaanse cultuur van Noordwest-Europa."]},
  cijfers: [['Begin veldtochten','12 v.C.'],['Dood van Drusus','9 v.C.'],['Varusslag','9 n.C.'],['Verloren legioenen','3']],
  figuren: [['Drusus','Romeins veldheer, stiefzoon van Augustus'],['Augustus','eerste Romeinse keizer'],['Varus','bevelhebber, verloor in het Teutoburgerwoud']],
  bronnen: [['Wikipedia: Nero Claudius Drusus',W('Nero Claudius Drusus')],['Wikipedia: Romeinen in Nederland',W('Romeinen in Nederland')]]
@@ -213,6 +295,26 @@ Object.assign(window.DETAILS, {
   'De forten waren eerst van hout en aarde, later deels van steen. Er waren soldaten uit het hele rijk gelegerd, vaak hulptroepen uit de streek zelf. Rond de forten ontstonden dorpen van handelaren en ambachtslieden. Bij opgravingen zijn ook schepen gevonden, zoals bij De Meern, die voorraden over de Rijn vervoerden.',
   'Ten zuiden van de grens raakte het land steeds meer Romeins, met steden, wegen en villa’s. In 2021 werd de Neder-Germaanse Limes, ook het Nederlandse deel, Werelderfgoed van UNESCO.'
  ],
+ gevolgen: [
+  "Rond de forten ontstonden dorpen waar soldaten, hun gezinnen, handelaren en ambachtslieden woonden. Romeinse munten, aardewerk, wijn en olijfolie kwamen het rivierengebied binnen. Bewoners uit de streek dienden als hulptroepen en werden na vijfentwintig jaar diensttijd Romeins burger.",
+  "Op sommige plekken langs de Limes ontstonden later steden. Utrecht groeide uit het fort Traiectum, waar later Willibrord zijn kerk bouwde. Ook Woerden, Valkenburg en Katwijk hebben Romeinse wortels."
+ ],
+ perspectieven: [
+  "Voor de Romeinen was de Limes een grens tussen beschaving en barbaren. Voor de mensen aan beide kanten was het eerder een zone van contact. Er werd over en weer gehandeld, er werd getrouwd, en Germanen dienden in het Romeinse leger. De grens scheidde, maar verbond ook."
+ ],
+ misverstanden: [
+  ["“De Limes was een muur, zoals de Muur van Hadrianus.”","In Nederland was er geen muur. De Rijn zelf was de grens, met forten, wachttorens en een weg langs de oever. De Romeinen controleerden vooral het verkeer over en langs de rivier."],
+  ["“De Limes lag langs de Rijn van nu.”","De Limes volgde de toenmalige loop van de Rijn, die nu de Oude Rijn en de Kromme Rijn heet. Die lag op veel plaatsen anders dan de grote rivieren van nu."]
+ ],
+ hoeWeten: [
+  "Opgravingen bij forten als Valkenburg, Woerden en Vechten leveren veel kennis op. In De Meern bij Utrecht werd in 2003 een bijna compleet Romeins rivierschip gevonden, met een kajuit en spullen van de bemanning. Inscripties op grafstenen en altaren vertellen wie er woonden en waar ze vandaan kwamen. De Romeinse schrijver Tacitus beschrijft hoe Corbulo zijn soldaten een kanaal liet graven."
+ ],
+ nu: [
+  "Sinds 2021 staat de Neder-Germaanse Limes op de werelderfgoedlijst van UNESCO, samen met de Duitse delen. In Castellum Hoge Woerd in De Meern is het Romeinse schip te zien. Op veel plaatsen langs de Oude Rijn zijn de omtrekken van forten in het landschap of in de bestrating aangegeven."
+ ],
+ vertellen: "Volgens Tacitus zei de veldheer Corbulo, toen hij het bevel kreeg om zich terug te trekken achter de Rijn: “Gelukkig de Romeinse bevelhebbers van vroeger!” Hij bedoelde dat zij nog mochten veroveren. Om zijn soldaten bezig te houden, liet hij hen een kanaal graven tussen Rijn en Maas, waarschijnlijk de latere Vliet.",
+ verbanden: [["Romeinen aan de Rijn","het begin van de Romeinse aanwezigheid"],["Einde van de Limes","het einde van de grens rond 400"],["Willibrord","hij bouwde zijn kerk in het oude fort van Utrecht"]],
+ onderwijs: {"ka":["De groei van het Romeinse Rijk waardoor de Grieks-Romeinse cultuur zich in Europa verspreidde.","De confrontatie tussen de Grieks-Romeinse cultuur en de Germaanse cultuur van Noordwest-Europa."],"venster":"3. De Romeinse Limes"},
  cijfers: [['Rijn als vaste grens','47 n.C.'],['Werelderfgoed','2021'],['Voorbeelden van forten','Valkenburg, Woerden, Utrecht, Vechten']],
  figuren: [['Keizer Claudius','gaf het bevel tot terugtrekking achter de Rijn'],['Corbulo','Romeins veldheer, liet een kanaal graven'],['Hulptroepen','soldaten die de forten bemanden']],
  bronnen: [CANON,['Wikipedia: Limes (Neder-Germaanse)',W('Neder-Germaanse Limes')],['Wikipedia: Gnaeus Domitius Corbulo',W('Gnaeus Domitius Corbulo')]]
@@ -226,8 +328,28 @@ Object.assign(window.DETAILS, {
  verloop: [
   'Coriovallum groeide uit tot een levendige plaats met pottenbakkers, smeden en andere ambachtslieden. Er werd aardewerk gemaakt voor de wijde omgeving. De bewoners hadden contact met de boeren op de villa’s in de omgeving.',
   'In 1940 werden resten van een groot badhuis ontdekt, dat daarna werd opgegraven. Zo’n thermen had baden met koud, lauw en warm water en een sportveld. Het werd verwarmd met een hypocaustum, een ruimte onder de vloer waar warme lucht doorheen stroomde.',
-  'In de 3e eeuw kwam de nederzetting onder druk door invallen. Toch bleef Heerlen bewoond. De fundamenten van het badhuis zijn nu overdekt te bezoeken in het Thermenmuseum. Het behoort tot de best bewaarde Romeinse bouwwerken van Nederland.'
+  'In de 3e eeuw kwam de nederzetting onder druk door invallen. Toch bleef Heerlen bewoond. De fundamenten van het badhuis zijn overdekt bewaard gebleven. Het behoort tot de best bewaarde Romeinse bouwwerken van Nederland.'
  ],
+ gevolgen: [
+  "Coriovallum werd een centrum van nijverheid. Er zijn meer dan veertig pottenbakkersovens opgegraven. Het aardewerk werd in de wijde omgeving verkocht. De Heerlense Uilestraat dankt haar naam aan die vondsten: in het dialect heten potjes “ölles”.",
+  "Romeins Heerlen was misschien groter dan lang gedacht. Volgens nieuwer onderzoek was het een flinke plaats, groter dan Romeins Maastricht of Aken. In de 3e eeuw werd de nederzetting na invallen van Franken waarschijnlijk verkleind tot een versterking."
+ ],
+ perspectieven: [
+  "Een badhuis was voor de Romeinen meer dan een plek om je te wassen. Het was een ontmoetingsplaats waar mensen praatten, sportten en zaken deden. Wie in Coriovallum naar het badhuis ging, deed mee aan de Romeinse manier van leven, ook als hij of zij uit de streek kwam."
+ ],
+ misverstanden: [
+  ["“Coriovallum was een legerkamp.”","De naam doet aan een versterking denken, maar de vondsten wijzen op een burgerlijke nederzetting van handelaren en ambachtslieden. De betekenis van de naam is niet zeker."],
+  ["“Iedereen wist altijd al dat Coriovallum in Heerlen lag.”","De naam stond op een oude Romeinse wegenkaart, maar lang was onduidelijk waar de plaats lag. Pas in 1876 toonde de priester-archeoloog Jos Habets aan dat het Heerlen moest zijn."]
+ ],
+ hoeWeten: [
+  "De Romeinse wegenkaart die bekendstaat als de Peutingerkaart noemt Coriovallum. Opgravingen in het centrum van Heerlen leverden het badhuis, pottenbakkersovens, grafvelden en resten van huizen op. Bij bouwwerkzaamheden in de stad worden nog steeds nieuwe vondsten gedaan."
+ ],
+ nu: [
+  "Het badhuis geldt als het oudste, grootste en best bewaarde antieke gebouw van Nederland. Het museum dat in 1977 rond de opgraving werd gebouwd, heette eerst Thermenmuseum en heet nu Het Romeins Museum. In de binnenstad van Heerlen zijn op verschillende plekken Romeinse resten en markeringen te zien."
+ ],
+ vertellen: "In een Romeins badhuis liep je langs verschillende ruimtes: eerst de kleedkamer, dan het koude bad, het lauwe bad en het warme bad. De vloer van het warme bad rustte op kleine pilaartjes van baksteen. Daaronder stroomde hete lucht van een stookplaats. Laat leerlingen bedenken waarom het warme bad het dichtst bij het vuur lag.",
+ verbanden: [["Villa’s in het Heuvelland","de boerderijen rond Coriovallum"],["Ambiorix en de Eburonen","de bewoners van de streek vóór de Romeinen"],["De grens raakt onder druk","de invallen van de 3e eeuw"]],
+ onderwijs: {"ka":["De groei van het Romeinse Rijk waardoor de Grieks-Romeinse cultuur zich in Europa verspreidde.","De klassieke vormentaal van de Grieks-Romeinse cultuur."]},
  cijfers: [['Ontstaan','1e eeuw n.C.'],['Ontdekking thermen','1940'],['Belangrijke weg','Via Belgica (Boulogne – Keulen)']],
  figuren: [['Pottenbakkers van Coriovallum','maakten aardewerk voor de regio'],['Thermenmuseum','museum boven de resten van het badhuis']],
  bronnen: [['Wikipedia: Coriovallum',W('Coriovallum')],['Wikipedia: Via Belgica',W('Via Belgica')],['Thermenmuseum','https://www.thermenmuseum.nl/']]
@@ -243,6 +365,27 @@ Object.assign(window.DETAILS, {
   'Nadat Vespasianus keizer was geworden, stuurde hij een groot leger onder Petillius Cerialis. In 70 na Christus werden de opstandelingen verslagen en er volgden onderhandelingen. Hoe het met Civilis afliep, is onbekend. Onze belangrijkste bron is de Romeinse geschiedschrijver Tacitus.',
   'Vanaf de 16e eeuw zagen Nederlanders de Bataven als hun dappere voorouders die tegen een overheerser vochten. Rembrandt schilderde de samenzwering van Civilis voor het Amsterdamse stadhuis.'
  ],
+ gevolgen: [
+  "Na de opstand werd de Bataafse hoofdplaats bij Nijmegen verwoest. De Romeinen bouwden een nieuwe stad en een groot legerkamp op de Hunerberg. De Bataven bleven daarna soldaten leveren aan het Romeinse leger, zelfs als lijfwacht van de keizer.",
+  "In de 16e en 17e eeuw werd de opstand een nationale mythe. De opstandelingen tegen Spanje zagen zichzelf als nieuwe Bataven die vochten voor hun vrijheid. In 1795 heette de nieuwe staat de Bataafse Republiek, en de VOC noemde haar hoofdstad op Java Batavia."
+ ],
+ perspectieven: [
+  "Volgens Tacitus was Civilis vooral uit op eigen macht, niet op vrijheid voor zijn volk. Hij koos eerst de kant van Vespasianus in de Romeinse burgeroorlog. Pas later werd het een opstand tegen Rome zelf. Het beeld van een dappere vrijheidsstrijder komt dus vooral uit latere eeuwen.",
+  "De Bataven waren geen vreemden voor Rome. Ze dienden al generaties in het Romeinse leger, en Civilis zelf was Romeins burger en officier. De opstand was daardoor ook een conflict binnen de Romeinse wereld."
+ ],
+ misverstanden: [
+  ["“De Bataven zijn onze voorouders.”","De Bataven woonden in het rivierengebied, maar zij zijn niet de voorouders van alle Nederlanders. Na de Romeinse tijd vestigden zich veel nieuwe groepen. De Bataven werden in de 16e eeuw vooral als symbool gekozen."],
+  ["“De Bataven wonnen hun vrijheid.”","De opstand werd in 70 na Christus neergeslagen. Daarna bleven de Bataven bondgenoten van Rome, en het rivierengebied bleef nog eeuwenlang Romeins."]
+ ],
+ hoeWeten: [
+  "Bijna alles wat we over de opstand weten, komt uit de Historiae van Tacitus, die enkele tientallen jaren later schreef. Zijn verhaal houdt halverwege op, omdat de rest van zijn boek verloren is. Daardoor weten we niet hoe het met Civilis afliep. Archeologen vonden in Nijmegen de sporen van de verwoeste Bataafse hoofdplaats."
+ ],
+ nu: [
+  "Rembrandts schilderij De samenzwering van Claudius Civilis werd teruggestuurd door het stadsbestuur van Amsterdam. Rembrandt sneed het daarna kleiner. Het overgebleven deel hangt nu in het Nationalmuseum in Stockholm. Namen als Batavia, de Betuwe en de Bataafse Republiek herinneren aan de Bataven."
+ ],
+ vertellen: "Volgens Tacitus had Civilis maar één oog, net als de grote vijanden van Rome Hannibal en Sertorius. Hij zwoer dat hij zijn haar, dat hij rood had geverfd, pas zou knippen als hij de Romeinse legioenen had verslagen. Na de inname van het kamp bij Xanten liet hij het afknippen.",
+ verbanden: [["Romeinen aan de Rijn","de Bataven waren bondgenoten van Rome"],["Nijmegen krijgt stadsrecht","de nieuwe Romeinse stad na de opstand"],["Rembrandt van Rijn","hij schilderde de samenzwering van Civilis"]],
+ onderwijs: {"ka":["De confrontatie tussen de Grieks-Romeinse cultuur en de Germaanse cultuur van Noordwest-Europa."]},
  cijfers: [['Opstand','69 – 70 n.C.'],['Bron','Historiae (Tacitus)'],['Schilderij Rembrandt','ca. 1661–1662']],
  figuren: [['Julius Civilis','Bataafse leider van de opstand'],['Petillius Cerialis','Romeinse veldheer die de opstand neersloeg'],['Vespasianus','keizer vanaf 69'],['Tacitus','Romeins geschiedschrijver']],
  bronnen: [['Wikipedia: Bataafse Opstand',W('Bataafse Opstand')],['Wikipedia: Julius Civilis',W('Julius Civilis')]]
