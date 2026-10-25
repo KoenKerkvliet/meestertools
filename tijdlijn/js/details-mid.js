@@ -240,6 +240,26 @@ Object.assign(window.DETAILS, {
   'Door de tolvrijheid konden de bewoners goedkoop handel drijven. De plaats groeide snel. Vooral de handel in bier uit Hamburg en in vis was belangrijk. Rond 1300 kreeg Amsterdam stadsrechten van de bisschop van Utrecht.',
   'In de eeuwen erna werd Amsterdam een belangrijke handelsstad. In de 17e eeuw was het een van de grootste havens ter wereld. Het originele tolprivilege wordt bewaard in het Amsterdamse Stadsarchief. In 2025 vierde de stad zijn 750e verjaardag.'
  ],
+ gevolgen: [
+  "Na de moord op Floris V in 1296 viel het gebied even terug aan de bisschop van Utrecht. Kort na 1300 kreeg Amsterdam van bisschop Gwijde van Avesnes stadsrechten, en niet lang daarna kwam het definitief bij Holland. Van een echte stad was toen nog nauwelijks sprake.",
+  "In 1345 gebeurde er volgens de overlevering een wonder in de Kalverstraat: een hostie die in het vuur was gegooid, bleef ongeschonden. Amsterdam werd daardoor een bedevaartplaats. De pelgrims brachten geld en bekendheid naar de groeiende stad."
+ ],
+ perspectieven: [
+  "Voor de heren van Amstel was de steun van Floris V aan de bewoners een bedreiging. Het gebied hoorde formeel bij de bisschop van Utrecht, en de heren van Amstel hadden er het gezag. Door de bewoners tolvrijheid te geven, maakte Floris hen tot zijn bondgenoten. Zo was de oorkonde ook een politieke zet."
+ ],
+ misverstanden: [
+  ["“Amsterdam werd in 1275 gesticht.”","1275 is het jaar van de oudste bekende vermelding, niet van de stichting. Archeologen vonden houten huizen op de dijk langs de Amstel van rond 1225, en de dam is waarschijnlijk tussen 1250 en 1275 aangelegd."],
+  ["“Amsterdam was meteen een grote stad.”","In 1275 was het een klein dorp van vissers en boeren. Pas in de 15e en vooral de 16e en 17e eeuw groeide Amsterdam uit tot de grootste stad van Holland."]
+ ],
+ hoeWeten: [
+  "De oorkonde van 27 oktober 1275 is bewaard in het Stadsarchief Amsterdam. Bij de aanleg van de Noord/Zuidlijn zijn onder het Damrak en het Rokin honderdduizenden voorwerpen opgegraven, van de prehistorie tot nu. Daaruit blijkt hoe oud de bewoning langs de Amstel is."
+ ],
+ nu: [
+  "De Dam, het plein in het centrum, is de plek van de oude dam in de Amstel waar de stad haar naam aan dankt. Elk jaar in maart lopen duizenden mensen in de nacht de Stille Omgang, een zwijgende tocht ter herinnering aan het wonder van 1345. In 2025 vierde de stad met veel evenementen haar 750e verjaardag."
+ ],
+ vertellen: "In de oudste bronnen wordt de naam op allerlei manieren geschreven: Amestelledamme, Aemstelredamme, Aemsterdam en ten slotte, vanaf de 15e eeuw, Amsterdam. Leerlingen kunnen zelf uitzoeken wat de naam betekent: de dam in de Amstel.",
+ verbanden: [["Floris V vermoord","de graaf die Amsterdam de tolvrijheid gaf"],["De Hanze","de handel op de Oostzee waar Amsterdam aan meedeed"],["VOC","de handelsstad op haar hoogtepunt"]],
+ onderwijs: {"ka":["De opkomst van handel en ambacht die de basis legde voor het herleven van een agrarisch-urbane samenleving.","De opkomst van de stedelijke burgerij en de toenemende zelfstandigheid van steden."]},
  cijfers: [['Tolprivilege','27 oktober 1275'],['Stadsrechten','ca. 1300'],['750 jaar Amsterdam','2025']],
  figuren: [['Floris V','graaf van Holland, gaf het privilege'],['Gijsbrecht van Amstel','heer van Amstel, tijdgenoot']],
  bronnen: [['Wikipedia: Geschiedenis van Amsterdam',W('Geschiedenis van Amsterdam')],['Wikipedia: Tolprivilege 1275',W('Tolprivilege 1275 Amsterdam')]]
@@ -255,6 +275,26 @@ Object.assign(window.DETAILS, {
   'De brug werd vernoemd naar Sint-Servaas, de beschermheilige van de stad. Met haar lengte van ongeveer 160 meter was ze voor die tijd een groot bouwwerk. Brugtol leverde de stad inkomsten op. Wie de brug overstak, moest betalen.',
   'In de loop van de eeuwen werd de brug meerdere keren beschadigd en hersteld, onder meer in de Tweede Wereldoorlog. Delen werden aangepast voor de scheepvaart. Ze is de oudste brug van Nederland die nog in gebruik is. Fietsers en voetgangers steken er dagelijks de Maas over.'
  ],
+ gevolgen: [
+  "Wie de brug bezat, verdiende aan de tol. Het kapittel van Sint-Servaas, eigenaar van de brug, mocht volgens een bepaling uit 1274 niet meer aan onderhoud uitgeven dan er aan tol binnenkwam. Een voetganger, een koe of een varken betaalde in 1714 hetzelfde bedrag.",
+  "De brug was ook een deel van de vesting. Aan beide kanten stond een stadspoort, en aan de kant van Wyck lag een houten stuk dat bij een aanval snel kon worden weggehaald. Later kreeg een boog zelfs ruimtes voor buskruit, zodat hij in nood kon worden opgeblazen."
+ ],
+ perspectieven: [
+  "De bouw werd mede betaald met een aflaat: in 1284 gaven negentien bisschoppen in het Italiaanse Orvieto toestemming om gelovigen die bijdroegen, kwijtschelding van straf voor hun zonden te beloven. Zo hielp het geloof om een groot bouwwerk te betalen, twee eeuwen voordat Luther zich tegen de aflaathandel keerde."
+ ],
+ misverstanden: [
+  ["“De brug is nog helemaal zoals in de middeleeuwen.”","De brug is vaak hersteld en veranderd. Tussen 1932 en 1934 werden aan de kant van Wyck twee bogen opgeblazen en vervangen door een stalen deel dat omhoog kan voor de scheepvaart. In 1940 en 1944 werd de brug opnieuw beschadigd."],
+  ["“De brug heette altijd Sint-Servaasbrug.”","Eeuwenlang heette ze gewoon “de brug” of Maasbrug. De naam Sint-Servaasbrug kreeg ze pas in 1932. In het Maastrichts heet ze nog altijd de “aw brögk”, de oude brug."]
+ ],
+ hoeWeten: [
+  "De oorkonden over de bouw en de tol zijn bewaard in de archieven van het kapittel van Sint-Servaas. De oudste betrouwbare afbeelding van de brug staat op een stadsplattegrond van rond 1570. Iets ten zuiden van de huidige brug lag in de Romeinse tijd al een brug over de Maas."
+ ],
+ nu: [
+  "Sinds 2000 is de brug alleen voor fietsers en voetgangers. Het stalen deel aan de kant van Wyck kan omhoog, terwijl voetgangers er gewoon overheen kunnen blijven lopen. De brug is een rijksmonument en een van de bekendste beelden van Maastricht."
+ ],
+ vertellen: "Op 10 mei 1940 bliezen Nederlandse soldaten het stalen deel van de brug op, om de Duitse opmars te vertragen. Dat hielp nauwelijks: de Duitsers hadden binnen een dag een noodbrug. Op 13 september 1944, bij hun terugtocht, bliezen de Duitsers de brug zelf gedeeltelijk op. Een dag later was Maastricht bevrijd, als eerste grote stad van Nederland.",
+ verbanden: [["Sint-Servaas in Maastricht","de heilige naar wie de brug genoemd is"],["Luther en de Reformatie","de aflaat die later zo omstreden werd"],["Maastricht bevrijd","de brug werd in 1944 opgeblazen"]],
+ onderwijs: {"ka":["De opkomst van handel en ambacht die de basis legde voor het herleven van een agrarisch-urbane samenleving.","De opkomst van de stedelijke burgerij en de toenemende zelfstandigheid van steden."]},
  cijfers: [['Bouw','ca. 1280 – 1298'],['Lengte','ca. 160 m'],['Instorting houten brug','1275 (volgens de overlevering)']],
  figuren: [['Sint-Servaas','beschermheilige van Maastricht, naamgever'],['Maastrichtse stadsbestuur','beheerde brug en tol']],
  bronnen: [['Wikipedia: Sint-Servaasbrug',W('Sint-Servaasbrug')],['Wikipedia: Maastricht',W('Geschiedenis van Maastricht')]]
@@ -270,6 +310,27 @@ Object.assign(window.DETAILS, {
   'Het werd een van de grootste ridderslagen van die tijd. Jan I won. De graaf van Luxemburg sneuvelde, en de aartsbisschop en Reinoud van Gelre werden gevangengenomen.',
   'Limburg kwam daarna in handen van de hertog van Brabant. Keulen werd zo goed als onafhankelijk van zijn aartsbisschop. Jan I werd in liederen en kronieken bezongen als held.'
  ],
+ gevolgen: [
+  "Het hertogdom Limburg en de Landen van Overmaas, met onder meer ’s-Hertogenrade (Kerkrade), bleven na de slag vijf eeuwen bij Brabant. Brabant werd een van de machtigste vorstendommen van de Nederlanden.",
+  "Graaf Adolf van Berg, die aan de winnende kant stond, gaf nog in 1288 stadsrechten aan het dorp Düsseldorf. Ook de burgers van Keulen wonnen: hun aartsbisschop zat gevangen en kreeg nooit meer echt gezag over de stad."
+ ],
+ perspectieven: [
+  "Voor de burgers van Keulen ging het niet om Limburg, maar om hun vrijheid. Ze vochten mee aan de kant van Brabant om zich los te maken van hun eigen aartsbisschop. De slag laat zien hoe steden in deze tijd zelfbewuster werden en partij kozen in de strijd tussen vorsten.",
+  "De Brabantse kroniekschrijver had weinig goede woorden over voor de boeren uit Berg, die met knuppels vochten. Volgens hem kwamen ze pas laat en sloegen ze zowel vriend als vijand dood. Het is het verhaal van een ridder over gewone soldaten."
+ ],
+ misverstanden: [
+  ["“Het hertogdom Limburg was het Limburg van nu.”","Het oude hertogdom Limburg lag rond de stad Limbourg in België. Het Nederlandse Limburg kreeg die naam pas in 1815. Delen van Zuid-Limburg, zoals het land rond Kerkrade, hoorden er wel bij."],
+  ["“Woeringen ligt in Limburg.”","Woeringen, in het Duits Worringen, ligt bij Keulen en is nu een stadsdeel van die stad."]
+ ],
+ hoeWeten: [
+  "De Rijmkroniek van Woeringen, geschreven rond 1290 en toegeschreven aan Jan van Heelu, beschrijft de slag in Middelnederlandse verzen, vanuit Brabants standpunt. Een Oostenrijkse rijmkroniek geeft een ander verslag. De twee zijn het maar over weinig dingen eens, behalve over de opstelling van de legers."
+ ],
+ nu: [
+  "In Düsseldorf herinnert een monument aan de stadsrechten van 1288 en de slag die eraan voorafging. Het Land van ’s-Hertogenrade leeft voort in de naam van Herzogenrath, de Duitse buurstad van Kerkrade, en in Rolduc: die naam komt van Rode-le-Duc, de Franse naam voor ’s-Hertogenrade."
+ ],
+ vertellen: "Jan I van Brabant was niet alleen een strijder, maar ook een dichter. Van hem zijn minneliederen bewaard, gedichten over de liefde, die in een beroemd Duits liedhandschrift zijn opgenomen. Hij stierf in 1294, niet op het slagveld, maar bij een toernooi, aan een wond die hij opliep bij het steekspel.",
+ verbanden: [["Abdij Rolduc gesticht","de abdij in het Land van ’s-Hertogenrade"],["Floris V vermoord","Floris steunde Jan I van Brabant in deze strijd"],["Karel V en het Verdrag van Venlo","later kwamen ook Limburg en Gelre onder één vorst"]],
+ onderwijs: {"ka":["Het begin van staatsvorming en centralisatie.","De opkomst van de stedelijke burgerij en de toenemende zelfstandigheid van steden."]},
  cijfers: [['Datum','5 juni 1288'],['Plaats','Woeringen, bij Keulen'],['Gevolg','Limburg onder Brabant']],
  figuren: [['Jan I van Brabant','hertog, overwinnaar'],['Reinoud I van Gelre','graaf, verliezer'],['Siegfried van Westerburg','aartsbisschop van Keulen'],['Hendrik VI van Luxemburg','graaf, sneuvelde']],
  bronnen: [['Wikipedia: Slag bij Woeringen',W('Slag bij Woeringen')],['Wikipedia: Hertogdom Limburg',W('Hertogdom Limburg')]]
@@ -285,6 +346,27 @@ Object.assign(window.DETAILS, {
   'Toen boeren uit de omgeving hem probeerden te bevrijden, sloegen de ontvoerders op de vlucht. Op 27 juni 1296 werd Floris bij Muiderberg doodgestoken.',
   'De moord werd later een geliefd onderwerp. P.C. Hooft en Joost van den Vondel schreven er toneelstukken over. Na de dood van Floris’ zoon in 1299 eindigde het Hollandse gravenhuis.'
  ],
+ gevolgen: [
+  "Floris’ zoon Jan I was pas twaalf en zat in Engeland. Hij kwam terug, maar stierf al in 1299. Daarmee was het Hollandse gravenhuis uitgestorven en kwam Holland in handen van de graven van Henegouwen.",
+  "De samenzweerders werden zwaar gestraft. Gerard van Velsen werd gepakt en ter dood gebracht. De bezittingen van Gijsbrecht van Amstel en Herman van Woerden werden in beslag genomen, en zij gingen in ballingschap."
+ ],
+ perspectieven: [
+  "Floris heette “der keerlen god”, de god van de gewone man. Maar hij steunde boeren en steden niet uit sympathie: hij had ze nodig om zijn macht tegenover de edelen te vergroten. Voor de edelen was hij een vorst die hun rechten afpakte.",
+  "Het was ook een internationale zaak. Floris had in 1296 de kant van Engeland verlaten voor Frankrijk, mede door een conflict over de wolhandel. Achter de moord stonden waarschijnlijk de Engelse koning Eduard I en de graaf van Vlaanderen."
+ ],
+ misverstanden: [
+  ["“Gijsbrecht van Amstel vermoordde Floris V.”","Gijsbrecht hoorde bij de samenzweerders, maar hij was waarschijnlijk al naar Brabant vertrokken toen Floris werd gedood. Het was Gerard van Velsen die toestak. Het bekende verhaal dat Van Velsen wraak nam omdat Floris zijn vrouw had misbruikt, is een latere legende."],
+  ["“De edelen wilden Floris doden.”","Het plan was waarschijnlijk om hem gevangen naar Engeland te brengen. Toen boeren uit Naarden hem kwamen bevrijden, raakten de ontvoerders in paniek en vermoordden hem."]
+ ],
+ hoeWeten: [
+  "De belangrijkste bron is de Rijmkroniek van Melis Stoke, een klerk aan het hof van de graven van Holland. Hij schreef kort na de moord en stond aan de kant van Floris. Verder zijn er oorkonden en brieven over het complot en de straffen die volgden."
+ ],
+ nu: [
+  "Vondels toneelstuk Gysbreght van Aemstel uit 1638 werd eeuwenlang elk jaar opgevoerd in de Amsterdamse Schouwburg, tot 1968 als traditie rond nieuwjaar. Het Muiderslot is nu een museum. In de Grote Kerk in Alkmaar staat een kist die volgens een plaquette de ingewanden van Floris bevat."
+ ],
+ vertellen: "Bij Muiderberg kwamen de ontvoerders boeren uit Naarden tegen die Floris wilden bevrijden. Gerard van Velsen trok zijn zwaard. Het paard van Floris steigerde, en de graaf viel eraf. Van Velsen en twee anderen staken op hem in. Floris stierf aan 22 steekwonden. Zijn lichaam werd gebalsemd en naar Alkmaar gebracht.",
+ verbanden: [["Eerste vermelding Amsterdam","Floris gaf de bewoners tolvrijheid"],["Hoeken en Kabeljauwen","de latere strijd tussen partijen in Holland"],["Slag bij Woeringen","Floris steunde in 1283 de hertog van Brabant"]],
+ onderwijs: {"ka":["Het begin van staatsvorming en centralisatie."]},
  cijfers: [['Geboren','1254'],['Ontvoering','23 juni 1296'],['Dood','27 juni 1296'],['Verovering West-Friesland','1282 – 1289']],
  figuren: [['Floris V','graaf van Holland'],['Gerard van Velsen','edelman, samenzweerder'],['Gijsbrecht van Amstel','edelman, samenzweerder'],['Edward I','Engelse koning, mogelijk betrokken']],
  bronnen: [['Wikipedia: Floris V',W('Floris V van Holland')],['Wikipedia: Muiderslot',W('Muiderslot')]]
@@ -300,6 +382,27 @@ Object.assign(window.DETAILS, {
   'Voor de Lage Landen zijn de cijfers onzeker. Sommige plaatsen werden zwaar getroffen, andere minder. Er trokken boetelingen rond die zichzelf geselden. In het Rijnland en elders werden Joden ten onrechte beschuldigd en vervolgd.',
   'De pest keerde tot in de 17e eeuw steeds terug. Door het grote aantal doden werden arbeidskrachten schaars. Daardoor stegen in veel gebieden de lonen en veranderde de samenleving.'
  ],
+ gevolgen: [
+  "Omdat er zoveel mensen stierven, waren er na de pest minder arbeiders en boeren. Wie overleefde, kon vaak een hoger loon vragen of goedkoop land krijgen. Sommige dorpen werden verlaten. Op lange termijn werden de verhoudingen tussen heren en boeren in West-Europa losser.",
+  "Steden namen maatregelen. Vanaf 1377 moesten schepen in Ragusa, het huidige Dubrovnik, eerst wachten voordat ze mochten aanmeren. Later werd dat veertig dagen, in het Italiaans quaranta giorni. Daar komt ons woord quarantaine vandaan."
+ ],
+ perspectieven: [
+  "Voor de Joden in Europa was de pest een ramp van een andere soort. Ze werden ervan beschuldigd waterputten te vergiftigen. Onder marteling werden bekentenissen afgedwongen. In meer dan tweehonderd Joodse gemeenschappen werden mensen vermoord of verdreven. Veel Joden vluchtten naar Polen.",
+  "Gelovigen zagen de pest als straf van God. Groepen geselaars trokken zingend van stad naar stad en sloegen zichzelf tot bloedens toe om God gunstig te stemmen. De kerk keurde dat af."
+ ],
+ misverstanden: [
+  ["“Pestdokters droegen een masker met een snavel.”","Dat snavelmasker hoort niet bij de Zwarte Dood van 1349. Het werd pas in de 17e eeuw bedacht, in Frankrijk en Italië. In de snavel zaten kruiden, omdat men dacht dat de ziekte door stinkende lucht kwam."],
+  ["“De Nederlanden bleven grotendeels gespaard.”","Dat werd lang gedacht, omdat er weinig bronnen zijn. Maar DNA-onderzoek in massagraven heeft laten zien dat de pest ook hier slachtoffers maakte, onder meer in Bergen op Zoom."]
+ ],
+ hoeWeten: [
+  "Kronieken, testamenten en belastinglijsten laten zien hoeveel mensen er stierven. In 2010 werd in skeletten uit massagraven, onder meer uit Bergen op Zoom, DNA van de pestbacterie Yersinia pestis gevonden. Daarmee werd bewezen dat het echt de pest was, en geen andere ziekte."
+ ],
+ nu: [
+  "Het woord quarantaine komt van de pestmaatregelen. Op veel plaatsen herinneren pestkapellen, pestkerkhoven en beelden van heiligen die tegen de pest beschermden, zoals Sint-Rochus, aan de epidemieën. Het jeugdboek Geef me de ruimte! van Thea Beckman (1976) speelt zich af in de tijd van de pest."
+ ],
+ vertellen: "Een Italiaanse kroniekschrijver vertelt dat het Mongoolse leger dat in 1346 de handelsstad Kaffa op de Krim belegerde, door de pest werd getroffen. De belegeraars zouden lijken van pestslachtoffers met katapulten over de muren hebben geschoten. Vanuit Kaffa zou de ziekte met schepen naar Italië zijn gekomen. Of het zo ging, is niet zeker.",
+ verbanden: [["De Hanze","via de handelsroutes verspreidde de ziekte zich"],["Hoeken en Kabeljauwen","in dezelfde jaren begon de partijstrijd in Holland"],["Coronapandemie","een veel latere pandemie, met quarantaine"]],
+ onderwijs: {"ka":["De opkomst van handel en ambacht die de basis legde voor het herleven van een agrarisch-urbane samenleving."]},
  cijfers: [['Aankomst in Europa','1347'],['Lage Landen','1349 – 1350'],['Sterfte in Europa','naar schatting 30 – 50%']],
  figuren: [['Geselbroeders','boetelingen die rondtrokken'],['Artsen en geestelijken','zochten tevergeefs naar verklaringen']],
  bronnen: [['Wikipedia: Zwarte Dood',W('Zwarte Dood')],['Wikipedia: Pest (ziekte)',W('Pest ziekte')]]
@@ -315,6 +418,26 @@ Object.assign(window.DETAILS, {
   'In 1351 won Willem een zeeslag bij Zwartewaal tegen de vloot van zijn moeder. Margaretha deed afstand van Holland en Zeeland. Daarmee was de ruzie niet voorbij. De partijen bleven bestaan en botsten in de steden steeds opnieuw.',
   'De twisten laaiden steeds opnieuw op, bijvoorbeeld in de strijd van Jacoba van Beieren tegen de Bourgondiërs. Pas aan het eind van de 15e eeuw kwam er een einde aan.'
  ],
+ gevolgen: [
+  "De partijstrijd ging meer dan een eeuw door, met vlagen van geweld. Kastelen van de tegenpartij werden verwoest en edelen gingen in ballingschap. In steden als Leiden, Delft en Dordrecht streden de partijen om de macht in het stadsbestuur.",
+  "De laatste grote uitbarsting was de Jonker Fransenoorlog (1488–1490), toen Hoekse edelen onder Frans van Brederode Rotterdam bezetten. Daarna verloren de partijen hun betekenis, omdat de Bourgondische en Habsburgse vorsten veel machtiger waren."
+ ],
+ perspectieven: [
+  "Voor de steden was de strijd ook een kans. Wie partij koos, kon privileges vragen. Willem V moest de steden veel beloven voor hun steun. Toen hij eenmaal aan de macht was, trok hij een deel van die privileges weer in."
+ ],
+ misverstanden: [
+  ["“De Hoeken waren de edelen en de Kabeljauwen de burgers.”","Zo simpel was het niet. In beide partijen zaten edelen en steden. Families en steden kozen vaak voor wat hun eigen belang het meest diende, en sommige wisselden van kant."],
+  ["“Het ging om een ruzie over vis.”","De namen hebben niets met de visvangst te maken. Een veelgehoorde uitleg is dat de blauw-witte ruiten in het wapen van het huis Beieren aan vissenschubben deden denken. De tegenpartij noemde zich dan naar de haak, de hoek, waarmee je de kabeljauw vangt."]
+ ],
+ hoeWeten: [
+  "Er zijn oorkonden bewaard, zoals het verbond dat de Kabeljauwse edelen op 23 mei 1350 sloten. Kronieken uit die tijd beschrijven de strijd, en stadsrekeningen laten zien wat het kostte aan wapens en herstel. De kronieken zijn vaak partijdig."
+ ],
+ nu: [
+  "Van veel kastelen die in deze strijd werden verwoest of herbouwd, zijn ruïnes of resten te zien, zoals de ruïne van Brederode bij Santpoort. De namen Hoeken en Kabeljauwen kennen veel mensen nog uit de geschiedenisles, ook als voorbeeld van politieke partijvorming."
+ ],
+ vertellen: "In 1392 werd in Den Haag Aleid van Poelgeest vermoord, de minnares van graaf Albrecht van Beieren. De daders waren Hoekse edelen, die vonden dat zij te veel invloed had. Albrecht nam wraak: hij trok met een leger rond en liet de kastelen van de Hoekse edelen vernielen.",
+ verbanden: [["De Bourgondiërs nemen over","Jacoba en Filips kozen ook partij in deze strijd"],["Floris V vermoord","eerdere strijd tussen graaf en edelen"],["De pest","de onrustige jaren rond 1350"]],
+ onderwijs: {"ka":["Het begin van staatsvorming en centralisatie.","De opkomst van de stedelijke burgerij en de toenemende zelfstandigheid van steden."]},
  cijfers: [['Begin','1350'],['Zeeslag bij Zwartewaal','1351'],['Einde van de twisten','eind 15e eeuw']],
  figuren: [['Margaretha van Beieren','gravin, gesteund door de Hoeken'],['Willem V','graaf, gesteund door de Kabeljauwen'],['Jacoba van Beieren','gravin, later gesteund door de Hoeken']],
  bronnen: [['Wikipedia: Hoekse en Kabeljauwse twisten',W('Hoekse en Kabeljauwse twisten')],['Wikipedia: Margaretha van Beieren',W('Margaretha van Beieren 1311')]]
@@ -330,6 +453,26 @@ Object.assign(window.DETAILS, {
   'De Hanze had kantoren in Brugge, Londen, Bergen en Novgorod. Schepen zoals de kogge vervoerden graan, hout, bont, vis, zout, laken en wijn. De IJsselsteden werden er rijk van, wat nog te zien is aan hun kerken en koopmanshuizen.',
   'In de 15e eeuw nam de macht van de Hanze af. Hollandse steden als Amsterdam voeren zelf rechtstreeks naar de Oostzee en werden belangrijke concurrenten.'
  ],
+ gevolgen: [
+  "Samen waren de Hanzesteden een macht om rekening mee te houden. Tussen 1367 en 1370 voerden ze oorlog tegen de Deense koning Waldemar IV, die de doorgang naar de Oostzee beheerste. Ook steden uit de Nederlanden deden mee. Bij de Vrede van Stralsund in 1370 kregen de kooplieden vrije doorvaart en grote handelsvoordelen.",
+  "In de IJsselsteden ontstond een rijke burgerij. Kooplieden lieten grote huizen bouwen en schonken geld aan kerken. Ook de kennis en de cultuur reisden mee: boeken, kunst en nieuwe ideeën kwamen via de handelsroutes binnen."
+ ],
+ perspectieven: [
+  "De Hanze werkte niet altijd in het voordeel van anderen. In Bergen in Noorwegen beheersten Duitse kooplieden de handel in gedroogde vis, en Noorse vissers moesten hun prijzen accepteren. Voor Hollandse schippers was de Hanze een concurrent die ze steeds vaker uitdaagden."
+ ],
+ misverstanden: [
+  ["“De Hanze was een land of een bedrijf met een vast bestuur.”","De Hanze had geen vaste leiding, geen eigen leger en geen ledenlijst. Steden kwamen bijeen op Hanzedagen als het nodig was, en ze konden besluiten negeren. Het was een los samenwerkingsverband van steden en kooplieden."],
+  ["“Kampen was vanaf het begin een Hanzestad.”","Kampen dreef al vroeg handel op de Oostzee, maar sloot liever eigen verdragen, bijvoorbeeld met Noorwegen en Vlaanderen. Formeel trad de stad pas in 1441 toe tot de Hanze."]
+ ],
+ hoeWeten: [
+  "De verslagen van de Hanzedagen zijn bewaard, net als stadsrekeningen, tolregisters en brieven van kooplieden. Archeologen vonden scheepswrakken van koggen, onder meer in de bodem van de drooggelegde Zuiderzee. In 1962 werd in Bremen een bijna complete kogge uit 1380 gevonden."
+ ],
+ nu: [
+  "In 1980 werd in Zwolle de Nieuwe Hanze opgericht, een verbond van steden in heel Europa dat elk jaar Hanzedagen houdt. In Kampen is een replica van een kogge gebouwd, de Kamper Kogge. De IJsselsteden presenteren zich nog altijd als Hanzesteden, en de pakhuizen van Bryggen in Bergen staan op de werelderfgoedlijst."
+ ],
+ vertellen: "De laatste Hanzedag werd gehouden in 1669, met nog maar negen steden. Toen was de Hanze al lang voorbijgestreefd door de Hollanders, die met hun goedkope fluitschepen de handel op de Oostzee overnamen. Toch hielden Lübeck, Hamburg en Bremen de naam Hanzestad tot op vandaag: op hun kentekens staat nog altijd een H.",
+ verbanden: [["Eerste vermelding Amsterdam","Amsterdam groeide door de handel in bier en vis"],["De pest","de ziekte reisde mee over de handelsroutes"],["VOC","de Hollanders namen later de wereldhandel over"]],
+ onderwijs: {"ka":["De opkomst van handel en ambacht die de basis legde voor het herleven van een agrarisch-urbane samenleving.","De opkomst van de stedelijke burgerij en de toenemende zelfstandigheid van steden."],"venster":"7. De Hanze"},
  cijfers: [['Eerste Hanzedag','1356, Lübeck'],['Kantoren','Brugge, Londen, Bergen, Novgorod'],['Bloeitijd IJsselsteden','14e – 15e eeuw']],
  figuren: [['Kooplieden van Lübeck','leidende kracht van de Hanze'],['IJsselsteden','Deventer, Kampen en Zwolle']],
  bronnen: [CANON,['Wikipedia: Hanze',W('Hanze')],['Wikipedia: Hanzesteden',W('Lijst van hanzesteden')]]
