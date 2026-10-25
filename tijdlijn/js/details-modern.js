@@ -491,6 +491,64 @@ Object.assign(window.DETAILS, {
  bronnen: [['Wikipedia: Eiffeltoren',W('Eiffeltoren')]]
 },
 
+'De Franse Revolutie': {
+ aanloop: [
+  'Frankrijk had een absolute monarchie: de koning had alle macht, naast de adel en de Kerk. Maar de staat zat diep in de schulden en belasting heffen lukte niet goed meer.',
+  'In 1789 riep koning Lodewijk XVI de Staten-Generaal bijeen, in de hoop dat die een oplossing zouden vinden. Het volk verwachtte veel van die vergadering.'
+ ],
+ verloop: [
+  'Op 9 juli 1789 noemde de vergadering zich Nationale Grondwetgevende Vergadering. Op 14 juli bestormden Parijzenaars de Bastille, een fort waar buskruit lag. Er zaten maar zeven gevangenen, maar de val van de Bastille werd het belangrijkste symbool van de revolutie.',
+  'De revolutionairen schaften de absolute monarchie af en stichtten de Eerste Franse Republiek. In de plaats van het oude stelsel kwamen de beginselen vrijheid, gelijkheid en broederschap, en de vrijheid van drukpers. Maar de hervormingen leidden ook tot burgeroorlog, terreur en oorlog met andere landen.',
+  'In 1799 greep generaal Napoleon Bonaparte de macht, waarmee de revolutie eindigde. Ook Nederland merkte het: in 1795 vielen Franse legers het land binnen en ontstond de Bataafse Republiek.'
+ ],
+ cijfers: [['Begin','1789'],['Bestorming van de Bastille','14 juli 1789'],['Leus','vrijheid, gelijkheid, broederschap'],['Einde','1799, Napoleon grijpt de macht']],
+ figuren: [['Lodewijk XVI','koning van Frankrijk'],['Marie Antoinette','koningin van Frankrijk'],['Napoleon Bonaparte','generaal die in 1799 de macht greep']],
+ bronnen: [['Wikipedia: Franse Revolutie',W('Franse Revolutie')]]
+},
+
+'Napoleon Bonaparte': {
+ aanloop: [
+  'Napoleon werd op 15 augustus 1769 geboren in Ajaccio op Corsica. Tijdens en na de Franse Revolutie werd hij generaal.',
+  'In 1799 pleegde hij een staatsgreep en installeerde zichzelf als eerste consul.'
+ ],
+ verloop: [
+  'Op 2 december 1804 liet hij zich tot keizer van de Fransen kronen. Als Napoleon I was hij keizer tot 11 april 1814. Familieleden zette hij op de troon van andere landen, zoals zijn broer Lodewijk Napoleon in het koninkrijk Holland.',
+  'Zijn nieuwe burgerlijk wetboek, de Code Napoléon, had een grote en blijvende invloed op het recht in veel landen, waaronder Nederland en België.',
+  'De veldtocht naar Rusland in 1812 was het keerpunt. In 1814 trad hij af en werd verbannen naar het eiland Elba. In 1815 keerde hij terug, maar werd bij Waterloo verslagen. Daarna werd hij verbannen naar het eiland Sint-Helena, waar hij op 5 mei 1821 overleed.'
+ ],
+ cijfers: [['Geboren','15 augustus 1769, Ajaccio'],['Keizer','2 december 1804 – 11 april 1814'],['Waterloo','18 juni 1815'],['Overleden','5 mei 1821, Sint-Helena']],
+ figuren: [['Napoleon Bonaparte','Frans generaal en keizer'],['Lodewijk Napoleon','zijn broer, koning van Holland'],['Wellington','Britse bevelhebber bij Waterloo']],
+ bronnen: [['Wikipedia: Napoleon Bonaparte',W('Napoleon Bonaparte')]]
+},
+
+'Slag bij Waterloo': {
+ aanloop: [
+  'In 1814 was Napoleon verbannen naar Elba, maar in maart 1815 keerde hij terug naar Frankrijk. Engeland en Pruisen trokken grote legers samen in de zuidelijke Nederlanden. Napoleon besloot ze voor te zijn en trok op 14 juni de grens over bij Charleroi.'
+ ],
+ verloop: [
+  'Op 16 juni werd zijn linkervleugel door de Nederlanders opgehouden bij Quatre-Bras. Zijn rechtervleugel versloeg dezelfde dag de Pruisen bij Ligny. Op zondag 18 juni 1815 kwam het bij Mont-Saint-Jean, vijf kilometer ten zuiden van Waterloo, tot de beslissende slag.',
+  'Napoleon werd definitief verslagen door een coalitie van Britse, Nederlandse en Hannoverse eenheden onder Wellington en een Pruisisch leger onder maarschalk Blücher. De slag is genoemd naar Waterloo, waar Wellington zijn hoofdkwartier had.',
+  'Napoleon gaf zich over aan de Britten en werd naar Sint-Helena verbannen. Jan Willem Pieneman schilderde de slag in 1824 voor het Rijksmuseum, met op het doek de gewonde Prins van Oranje.'
+ ],
+ cijfers: [['Datum','18 juni 1815'],['Plaats','Mont-Saint-Jean, bij Waterloo (nu België)'],['Legers','Wellington en Blücher tegen Napoleon'],['Daarvoor','Quatre-Bras en Ligny op 16 juni']],
+ figuren: [['Napoleon Bonaparte','Frans keizer'],['Wellington','Brits bevelhebber'],['Gebhard Leberecht von Blücher','Pruisisch maarschalk'],['Prins van Oranje','Nederlands bevelhebber, raakte gewond']],
+ bronnen: [['Wikipedia: Slag bij Waterloo',W('Slag bij Waterloo')]]
+},
+
+'Het Congres van Wenen': {
+ aanloop: [
+  'Na de Franse Revolutie en de napoleontische oorlogen was Europa veranderd. Het Heilige Roomse Rijk was opgedeeld en Frankrijk had onder meer de Oostenrijkse Nederlanden en de Republiek geannexeerd. Napoleon had veel kleine staten samengevoegd en het plaatselijke recht vereenvoudigd.'
+ ],
+ verloop: [
+  'Het Congres van Wenen was een reeks bijeenkomsten van ruim 200 Europese regeringsleiders, diplomaten en andere betrokkenen. Het begon in september of oktober 1814 en eindigde in juni 1815. Ze besloten over de naoorlogse grenzen, over grondwetten en over het oprichten of opheffen van staten. Het doel was vrede in Europa.',
+  'Veel leiders wilden de idealen van de Franse Revolutie niet overnemen, omdat ze hun oude rechten en privileges wilden behouden.',
+  'Voor Nederland betekende het dat de Noordelijke en de Zuidelijke Nederlanden samen één koninkrijk werden, onder koning Willem I. Dat bleef niet duren: in 1830 volgde de Belgische Opstand.'
+ ],
+ cijfers: [['Begin','september of oktober 1814'],['Einde','juni 1815'],['Deelnemers','ruim 200 regeringsleiders en diplomaten'],['Plaats','Wenen']],
+ figuren: [['Klemens von Metternich','Oostenrijks minister, belangrijkste figuur van het congres'],['Willem I','werd koning van het nieuwe Koninkrijk der Nederlanden']],
+ bronnen: [['Wikipedia: Congres van Wenen',W('Congres van Wenen')]]
+},
+
 'Aletta Jacobs': {
  aanloop: [
   'In de 19e eeuw hadden meisjes weinig kansen op hoger onderwijs. Universiteiten waren alleen voor jongens. Aletta Jacobs werd in 1854 geboren in Sappemeer als dochter van een arts en wilde net als haar vader dokter worden.',

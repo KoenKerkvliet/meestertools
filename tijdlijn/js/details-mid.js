@@ -383,6 +383,55 @@ Object.assign(window.DETAILS, {
  bronnen: [['Wikipedia: Jan van Eyck',W('Jan van Eyck')],['Wikipedia: Het Lam Gods',W('Lam Gods')]]
 },
 
+'Val van Constantinopel': {
+ aanloop: [
+  'Constantinopel, het huidige Istanbul, was eeuwenlang de hoofdstad van het Oost-Romeinse Rijk, dat later het Byzantijnse Rijk ging heten. In 1453 bestond dat rijk uit niet veel meer dan de stad zelf en een deel van de Peloponnesos.',
+  'De stad was al eerder twee keer ingenomen: in 1204 door kruisvaarders van de Vierde Kruistocht, en in 1261 werd ze heroverd door Byzantijnse troepen.'
+ ],
+ verloop: [
+  'Sultan Mehmet II van het Ottomaanse Rijk belegerde Constantinopel. Op pinksterzondag 29 mei 1453 viel de stad. Constantijn XI Paleologus, de laatste keizer, sneuvelde. Dat betekende het einde van het Oost-Romeinse Rijk.',
+  'Voor de Ottomanen was het een belangrijke overwinning: ze konden hun macht uitbreiden in het oostelijke Middellandse Zeegebied en op de Balkan. Constantinopel werd hun hoofdstad.'
+ ],
+ perspectieven: [
+  'Vaak wordt gezegd dat Europeanen na 1453 zeeroutes naar Azië gingen zoeken omdat de landroute geblokkeerd was. Historici vinden dat te simpel: de Portugezen waren al sinds de tijd van Hendrik de Zeevaarder bezig met ontdekkingsreizen langs de kust van Afrika.'
+ ],
+ cijfers: [['Datum','29 mei 1453 (pinksterzondag)'],['Sultan','Mehmet II'],['Laatste keizer','Constantijn XI Paleologus'],['Eerder ingenomen','1204 en 1261']],
+ figuren: [['Mehmet II','sultan van het Ottomaanse Rijk'],['Constantijn XI Paleologus','laatste keizer van Byzantium']],
+ bronnen: [['Wikipedia: Beleg en val van Constantinopel (1453)',W('Beleg en val van Constantinopel (1453)')]]
+},
+
+'Columbus en Amerika': {
+ aanloop: [
+  'Christoffel Columbus werd in 1451 geboren in Genua, als zoon van wevers. Hij wilde Indië bereiken door naar het westen te varen.',
+  'De Portugezen zochten al een route rond Afrika om de specerijenhandel te bereiken. Columbus kreeg na jaren lobbyen steun van koningin Isabella van Castilië.'
+ ],
+ verloop: [
+  'Op 3 augustus 1492 vertrokken drie schepen uit Palos: de Santa María, de Pinta en de Niña. Op 12 oktober 1492 kwam er land in zicht: een van de Bahama’s, ongeveer 6000 kilometer ten westen van de Canarische Eilanden. Columbus doopte het eiland San Salvador. De Taíno die er woonden, noemden het Guanahaní.',
+  'Columbus dacht dat hij Indië had bereikt. Hij maakte vier reizen en bleef tot zijn dood in 1506 geloven dat hij Azië had gevonden.'
+ ],
+ perspectieven: [
+  'Voor de mensen die er al woonden was Amerika geen “nieuwe wereld”. Op Hispaniola onderwierp Columbus de Taíno met geweld, en ziektes uit de Oude Wereld hadden een verwoestend effect op de inheemse bevolking. Met hem begon de Spaanse overheersing van de Nieuwe Wereld.'
+ ],
+ cijfers: [['Vertrek','3 augustus 1492, Palos'],['Land in zicht','12 oktober 1492'],['Schepen','Santa María, Pinta en Niña'],['Overleden','20 mei 1506, Valladolid']],
+ figuren: [['Christoffel Columbus','ontdekkingsreiziger uit Genua'],['Isabella van Castilië','koningin van Spanje, steunde de reis'],['De Taíno','bewoners van de eilanden die Columbus bereikte']],
+ bronnen: [['Wikipedia: Christoffel Columbus',W('Christoffel Columbus')]]
+},
+
+'Vasco da Gama naar Indië': {
+ aanloop: [
+  'Europeanen wilden graag kruiden zoals peper uit Azië. De Portugezen zochten al lang een zeeroute rond Afrika. In 1488 rondde Bartolomeus Diaz Kaap de Goede Hoop.',
+  'Toen Christoffel Columbus in 1493 in Spaanse dienst terugkeerde van zijn reis, werd het voor Portugal nog dringender om zelf een route naar Indië te vinden.'
+ ],
+ verloop: [
+  'Op 8 juli 1497 vertrok de vloot van Vasco da Gama uit Lissabon. In januari 1498 legden ze aan in Mozambique en op 14 april 1498 kwamen ze aan in Malindi. Daar troffen de Portugezen voor het eerst Indiërs aan.',
+  'Vandaar voer de vloot naar Calicut aan de zuidwestkust van India. Zo vonden de Portugezen de zeeroute naar Azië, rond Afrika.',
+  'Ruim honderd jaar later volgden de Nederlanders dezelfde route: de Eerste Schipvaart vertrok in 1595 en in 1602 werd de VOC opgericht.'
+ ],
+ cijfers: [['Vertrek','8 juli 1497, Lissabon'],['In Malindi','14 april 1498'],['Bestemming','Calicut, India'],['Overleden','24 december 1524, Cochin']],
+ figuren: [['Vasco da Gama','Portugese ontdekkingsreiziger'],['Bartolomeus Diaz','rondde in 1488 Kaap de Goede Hoop']],
+ bronnen: [['Wikipedia: Vasco da Gama',W('Vasco da Gama')]]
+},
+
 'Jeroen Bosch': {
  aanloop: [
   'Jeroen Bosch heette eigenlijk Jheronimus van Aken. Hij werd rond 1450 geboren in ’s-Hertogenbosch, in een familie van schilders. Hij noemde zich later naar zijn stad. Den Bosch was toen een bloeiende stad in het hertogdom Brabant.',

@@ -371,6 +371,67 @@ Object.assign(window.DETAILS, {
  bronnen: [['Wikipedia: Rembrandt van Rijn',W('Rembrandt van Rijn')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
 },
 
+'Luther en de Reformatie': {
+ aanloop: [
+  'Maarten Luther werd in 1483 geboren in Eisleben, in een familie van boeren en mijnwerkers. Hij werd augustijner monnik, daarna hoogleraar in Wittenberg en doctor in de Heilige Schrift.',
+  'Een aflaat was een bewijs waarmee gelovigen konden vrijkomen van straf voor hun zonden, soms tegen betaling. Luther vond dat verkeerd, ook de aflaatverkoop van de dominicaan Johann Tetzel.'
+ ],
+ verloop: [
+  'Op 31 oktober 1517 schreef Luther een brief aan aartsbisschop Albrecht van Brandenburg met stellingen tegen de aflaathandel. De stellingen werden waarschijnlijk ook uitgehangen aan de poort van een kerk in Wittenberg, zoals een geleerde dat deed om een debat aan te kondigen. Dat geldt als het symbolische begin van het protestantisme.',
+  'De boekdrukkunst hielp: Luthers teksten werden snel gedrukt en verspreid. In 1521 zette paus Leo X hem uit de kerk.',
+  'De Reformatie verspreidde zich door Europa. Ook in de Nederlanden volgden mensen de nieuwe leer. Dat droeg bij aan de Beeldenstorm in 1566 en aan de Tachtigjarige Oorlog.'
+ ],
+ cijfers: [['Luther geboren','10 november 1483, Eisleben'],['Brief met stellingen','31 oktober 1517'],['Uit de kerk gezet','1521'],['Overleden','18 februari 1546, Eisleben']],
+ figuren: [['Maarten Luther','Duitse theoloog en hervormer'],['Johann Tetzel','dominicaan die aflaten verkocht'],['Albrecht van Brandenburg','aartsbisschop, ontving Luthers brief'],['Paus Leo X','zette Luther uit de kerk']],
+ bronnen: [['Wikipedia: Maarten Luther',W('Maarten Luther')],['Wikipedia: Reformatie',W('Reformatie')]]
+},
+
+'Magellaan rond de wereld': {
+ aanloop: [
+  'Ferdinand Magellaan werd geboren in een Portugese familie, maar voer in Spaanse dienst. Hij wilde de Molukken, de kruideneilanden, bereiken door naar het westen te varen. Hij was ervan overtuigd dat er een doorgang langs Zuid-Amerika bestond.'
+ ],
+ verloop: [
+  'Op 20 september 1519 vertrok de vloot, vijf schepen, uit Sanlúcar de Barrameda. Onderweg, in San Julián, brak een muiterij uit die Magellaan bedwong. Op 21 oktober 1520 vonden ze de zeestraat die nu zijn naam draagt, op 52 graden zuiderbreedte.',
+  'Na 38 dagen varen kwamen ze in de Stille Oceaan. De oversteek duurde drie maanden en twintig dagen, zonder verse proviand. Antonio Pigafetta, een van de opvarenden, schreef een verslag.',
+  'Op 27 april 1521 werd Magellaan op het eiland Mactan gedood, in een gevecht met Lapu-Lapu en zijn mannen. Van de vijf schepen kwam er één terug in Spanje: de Victoria, onder leiding van Juan Sebastián Elcano, in 1522. Daarmee was voor het eerst de wereld rondgevaren.'
+ ],
+ perspectieven: [
+  'Op de Filipijnen wordt Lapu-Lapu gezien als een nationale held, de eerste die de Europese indringers weerstond.'
+ ],
+ cijfers: [['Vertrek','20 september 1519'],['Zeestraat gevonden','21 oktober 1520'],['Magellaan sneuvelt','27 april 1521, Mactan'],['Victoria terug in Spanje','1522']],
+ figuren: [['Ferdinand Magellaan','Portugese zeevaarder in Spaanse dienst'],['Juan Sebastián Elcano','bracht de Victoria terug naar Spanje'],['Antonio Pigafetta','schreef een verslag van de reis'],['Lapu-Lapu','hoofdman op Mactan']],
+ bronnen: [['Wikipedia: Ferdinand Magellaan',W('Ferdinand Magellaan')]]
+},
+
+'De wederdopers in Münster': {
+ aanloop: [
+  'Wederdopers vonden dat je pas als volwassene, uit eigen keuze, gedoopt moest worden. Dat stond haaks op de kerken van die tijd, die kinderen doopten.',
+  'Jan van Leiden, eigenlijk Johan Beukelszoon, werd in 1509 geboren in Leiden. Hij was kleermaker, dreef een herberg, en was ook toneelspeler en rijmdichter. In 1533 leerde hij de wederdoper Jan Matthijs kennen en liet zich door hem dopen.'
+ ],
+ verloop: [
+  'De wederdopers kregen een meerderheid in de gemeenteraad van Münster en maakten de stad tot een bolwerk. Jan Matthijs en Jan van Leiden werden de leiders. De prins-bisschop van Münster, die uit de stad was verdreven, belegerde haar vanaf 28 februari 1534.',
+  'Jan van Leiden riep zichzelf uit tot koning van het wederdoperse rijk in Münster. Dat rijk was kortstondig. Jan van Leiden werd gevangengenomen en overleed op 22 januari 1536 in Münster.',
+  'Het verhaal van Münster maakte veel mensen angstig voor wederdopers, ook in de Nederlanden.'
+ ],
+ cijfers: [['Jan van Leiden geboren','1509, Leiden'],['Beleg van Münster','vanaf 28 februari 1534'],['Jan van Leiden overleden','22 januari 1536, Münster'],['Leider vóór hem','Jan Matthijs']],
+ figuren: [['Jan van Leiden','prediker uit Leiden, zelfbenoemd koning'],['Jan Matthijs','leider van de wederdopers'],['Frans II van Waldeck','prins-bisschop die de stad belegerde']],
+ bronnen: [['Wikipedia: Jan van Leiden',W('Jan van Leiden')]]
+},
+
+'Het Twaalfjarig Bestand': {
+ aanloop: [
+  'Na de moord op Willem van Oranje (1584) en de val van Antwerpen (1585) leden de opstandelingen zware nederlagen. Maar onder leiding van landsadvocaat Johan van Oldenbarnevelt en stadhouder Maurits van Nassau herstelde de Republiek zich.'
+ ],
+ verloop: [
+  'In 1607 volgde een voorlopig bestand. In 1609 erkende Spanje de soevereiniteit van de Republiek ook officieel, op aandringen van Oldenbarnevelt. Engeland en Frankrijk volgden datzelfde jaar. Buiten Nederland heet het verdrag ook wel het Verdrag van Antwerpen.',
+  'Het bestand duurde van 1609 tot 1621. In die jaren kon de Republiek rustiger bouwen aan haar handel en welvaart. In 1619 werd Oldenbarnevelt onthoofd. In 1621 werden de gevechten hervat.',
+  'De Tachtigjarige Oorlog eindigde pas in 1648, met de Vrede van Münster.'
+ ],
+ cijfers: [['Voorlopig bestand','1607'],['Twaalfjarig Bestand','1609 – 1621'],['Ook genoemd','Verdrag van Antwerpen'],['Einde van de oorlog','1648, Vrede van Münster']],
+ figuren: [['Johan van Oldenbarnevelt','landsadvocaat, drong aan op het bestand'],['Maurits van Nassau','stadhouder en legeraanvoerder'],['Willem Lodewijk van Nassau-Dillenburg','neef van Maurits, legeraanvoerder']],
+ bronnen: [['Wikipedia: Twaalfjarig Bestand',W('Twaalfjarig Bestand')]]
+},
+
 'Statenbijbel': {
  aanloop: [
   'Protestanten vonden dat gelovigen de bijbel zelf moesten kunnen lezen. In de Nederlanden circuleerden wel vertalingen, maar die waren vaak gebaseerd op andere vertalingen, zoals de Duitse van Luther, en niet op de oorspronkelijke teksten.',

@@ -135,6 +135,120 @@ Object.assign(window.DETAILS, {
  bronnen: [['Wikipedia: Nijntje',W('Nijntje')],['Wikipedia: Dick Bruna',W('Dick Bruna')]]
 },
 
+'Het Marshallplan': {
+ aanloop: [
+  'Na de Tweede Wereldoorlog lag een groot deel van Europa in puin. De betrekkingen tussen de Verenigde Staten en de Sovjet-Unie verslechterden snel. Een belangrijke drijfveer van de Amerikanen was een sterke buffer te vormen tegen de uitbreiding van het communisme.'
+ ],
+ verloop: [
+  'Op 5 juni 1947 deed de Amerikaanse minister van Buitenlandse Zaken, George C. Marshall, het voorstel in een toespraak aan de Harvard-universiteit. Het European Recovery Program (ERP) was bedoeld voor de economische wederopbouw van de door de oorlog getroffen landen in Europa.',
+  'Zestien Europese landen bespraken het plan in juli 1947 in Parijs. De Sovjet-Unie verzette zich en zag het als een bedreiging voor de soevereiniteit van kleine landen.',
+  'Tussen 1948 en 1952 bestond de hulp uit geld, goederen, grondstoffen en levensmiddelen, deels als lening. Ook Nederland, dat de Hongerwinter achter de rug had, kreeg hulp.'
+ ],
+ cijfers: [['Toespraak van Marshall','5 juni 1947, Harvard'],['Uitvoering','1948 – 1952'],['Deelnemende landen','16 West-Europese landen'],['Naam van het plan','European Recovery Program']],
+ figuren: [['George C. Marshall','Amerikaans minister van Buitenlandse Zaken'],['Molotov','Russisch minister, verzette zich tegen het plan']],
+ bronnen: [['Wikipedia: Marshallplan',W('Marshallplan')]]
+},
+
+'Universele Verklaring van de Rechten van de Mens': {
+ aanloop: [
+  'Na de Tweede Wereldoorlog en de Holocaust wilden landen afspraken maken over rechten waar iedereen aanspraak op kan maken. Artikelen over huwelijk, werk, onderwijs en vrijheid van geloof zijn direct terug te voeren op bescherming tegen het soort discriminerende maatregelen dat de nazi’s tegen Joden namen.'
+ ],
+ verloop: [
+  'Op 10 december 1948 werd de verklaring aangenomen door de Algemene Vergadering van de Verenigde Naties. Tot de grondleggers behoren de Amerikaanse presidentsweduwe Eleanor Roosevelt, de Canadese jurist John Peters Humphrey en de Franse jurist René Cassin. Acht landen onthielden zich van stemming, onder meer de Sovjet-Unie en Zuid-Afrika.',
+  'Eleanor Roosevelt overtuigde de afgevaardigden om af te zien van een bindende tekst, omdat die niet genoeg steun zou krijgen. De verklaring is dus niet bindend. Toch had ze invloed op meer dan negentig grondwetten, waaronder die van nieuwe staten die na 1948 ontstonden.'
+ ],
+ cijfers: [['Aangenomen','10 december 1948'],['Door','Algemene Vergadering van de Verenigde Naties'],['Onthoudingen','8 landen'],['Invloed','meer dan 90 grondwetten']],
+ figuren: [['Eleanor Roosevelt','een van de grondleggers'],['René Cassin','Franse jurist, een van de grondleggers'],['John Peters Humphrey','Canadese jurist, een van de grondleggers']],
+ bronnen: [['Wikipedia: Universele Verklaring van de Rechten van de Mens',W('Universele Verklaring van de Rechten van de Mens')]]
+},
+
+'Spoetnik': {
+ aanloop: [
+  'Na de Tweede Wereldoorlog streden de Verenigde Staten en de Sovjet-Unie om de macht in de wereld, de Koude Oorlog. In 1954 keurden de Sovjets een plan goed om een satelliet in een baan om de aarde te brengen. De aanleiding was het Internationaal Geofysisch Jaar, van juli 1957 tot en met december 1958.'
+ ],
+ verloop: [
+  'Spoetnik 1 (Spoetnik is Russisch voor “satelliet”) was de eerste kunstmatige satelliet in een baan om de aarde. Het toestel was klein en licht. De lancering wordt vaak gezien als het begin van de ruimtevaart.',
+  'In de Verenigde Staten zorgde het voor schrik. De Sovjet-Unie bleek een raket te hebben die zo ver kon komen.',
+  'Daarmee begon de ruimtewedloop. Die liep via de eerste mens in de ruimte naar de maanlanding van Apollo 11 in 1969. In 1985 vloog Wubbo Ockels als eerste Nederlander de ruimte in.'
+ ],
+ cijfers: [['Lancering','4 oktober 1957'],['Betekenis van de naam','satelliet'],['Land','Sovjet-Unie'],['Gevolg','begin van de ruimtewedloop']],
+ figuren: [['Sergej Koroljov','hoofdontwerper van de Sovjet-raketten'],['Nikita Chroesjtsjov','leider van de Sovjet-Unie']],
+ bronnen: [['Wikipedia: Spoetnik 1',W('Spoetnik 1')]]
+},
+
+'De Berlijnse Muur': {
+ aanloop: [
+  'Na 1945 werd Duitsland verdeeld in vier bezettingszones. In 1949 ontstonden West-Duitsland en Oost-Duitsland. Berlijn lag in Oost-Duitsland, maar werd zelf ook gedeeld: West-Berlijn was een eiland in Oost-Duitsland.',
+  'Steeds meer Oost-Duitsers vluchtten naar het westen. In de jaren vijftig waren dat soms duizenden mensen per maand. Daarom begon Oost-Duitsland de grens af te sluiten.'
+ ],
+ verloop: [
+  'Op 13 augustus 1961 begon Oost-Duitsland West-Berlijn volledig af te sluiten. De Muur was een tot 100 meter brede strook van opeenvolgende obstakels. De grens rond West-Berlijn was 167,8 kilometer lang, waarvan 45,1 kilometer echte muur.',
+  'Op 15 augustus 1961 sprong de Oost-Duitse soldaat Conrad Schumann over het prikkeldraad naar het westen. De foto ging de wereld over.',
+  'Bij pogingen om te vluchten kwamen minstens 138 mensen om het leven.'
+ ],
+ cijfers: [['Gebouwd','vanaf 13 augustus 1961'],['Grens rond West-Berlijn','167,8 km'],['Doden bij vluchtpogingen','minstens 138'],['Stond tot','9 november 1989']],
+ figuren: [['Conrad Schumann','soldaat die over het prikkeldraad sprong'],['Oost-Duitse regering','liet de Muur bouwen']],
+ bronnen: [['Wikipedia: Berlijnse Muur',W('Berlijnse Muur')]]
+},
+
+'De Cubacrisis': {
+ aanloop: [
+  'Op 1 januari 1959 kwam Fidel Castro aan de macht op Cuba. In 1961 probeerden Cubaanse ballingen met hulp van de CIA het eiland binnen te vallen, bij de Varkensbaai. Castro zocht steun bij de Sovjet-Unie.',
+  'De Verenigde Staten hadden al kernraketten in Italië en Turkije, dicht bij de Sovjet-grens. De Sovjets antwoordden door kernraketten op Cuba te plaatsen.'
+ ],
+ verloop: [
+  'Een Amerikaans U-2 verkenningsvliegtuig fotografeerde de raketbases. Op 22 oktober eiste president Kennedy in een felle rede dat de Sovjet-raketten werden weggehaald en kondigde hij een blokkade aan. Het Amerikaanse leger ging naar DEFCON-2.',
+  'Op zaterdag 27 oktober kwam het, zoals tientallen jaren later duidelijk werd, bijna tot een kernoorlog. Op zondag 28 oktober maakte Radio Moskou bekend dat de Sovjet-Unie gevolg zou geven aan de eisen van de Verenigde Staten.',
+  'Een gevolg was de “rode lijn”: in 1963 kwam er een directe telefoonverbinding, de hotline, tussen Washington en Moskou.'
+ ],
+ cijfers: [['Castro aan de macht','1 januari 1959'],['Kennedy kondigt blokkade aan','22 oktober 1962'],['Gevaarlijkste dag','27 oktober 1962'],['Sovjets geven toe','28 oktober 1962']],
+ figuren: [['John F. Kennedy','Amerikaans president'],['Nikita Chroesjtsjov','leider van de Sovjet-Unie'],['Fidel Castro','leider van Cuba']],
+ bronnen: [['Wikipedia: Cubacrisis',W('Cubacrisis')]]
+},
+
+'Provo': {
+ aanloop: [
+  'Provo was een anarchistische protestbeweging die op 25 mei 1965 werd opgericht in Nederland en na twee jaar werd opgeheven. Oprichters waren Roel van Duijn (filosoof), Rob Stolk (drukker) en Garmt Kroeze (onderwijzer).',
+  'De naam komt van het proefschrift van Wouter Buikhuisen over nozemgedrag. Roel van Duijn gebruikte “provo” als geuzennaam.'
+ ],
+ verloop: [
+  'In de zomer van 1965 sloten de provo’s zich aan bij de happenings van kunstenaar Robert Jasper Grootveld op het Spui in Amsterdam, rond het beeldje Het Lieverdje. Grootveld zag dat beeldje als symbool van de “verslaafde consument van morgen”.',
+  'Provo bedacht “witte plannen”, zoals het witte fietsenplan: gratis fietsen die iedereen mocht gebruiken. Ook bedachten ze het witte kippenplan (politieagenten als sociaal werkers) en het witte schoorstenenplan (fabrieksschoorstenen zonder giftige uitstoot).',
+  'Op 10 maart 1966, de dag van het huwelijk van prinses Beatrix en Claus von Amsberg, gooiden provo’s rookbommen. Daardoor werd Provo internationaal bekend. In 1969 kwam Roel van Duijn in de Amsterdamse gemeenteraad.'
+ ],
+ cijfers: [['Opgericht','25 mei 1965'],['Rookbommen bij het huwelijk','10 maart 1966'],['Opgeheven','na twee jaar, in 1967'],['Roel van Duijn','Amsterdamse gemeenteraad, 1969']],
+ figuren: [['Roel van Duijn','filosoof en oprichter van Provo'],['Luud Schimmelpennink','uitvinder, betrokken bij Provo'],['Robert Jasper Grootveld','kunstenaar van de happenings op het Spui']],
+ bronnen: [['Wikipedia: Provo',W('Provo')]]
+},
+
+'Internet en het world wide web': {
+ aanloop: [
+  'Het internet begon als ARPANET, een netwerk dat in 1969 in de Verenigde Staten werd opgezet. De term “internet” werd in 1974 voor het eerst gebruikt, door Vinton Cerf en Bob Kahn. Op 1 januari 1983 stapte ARPANET over op het protocol TCP/IP, en daarmee was het internet in zijn huidige technische vorm een feit.'
+ ],
+ verloop: [
+  'Tim Berners-Lee, een Britse informaticus die bij het CERN in Zwitserland werkte, bouwde in 1990 samen met zijn manager Robert Cailliau de technologie voor het world wide web. Het doel was internetgebruik eenvoudiger te maken: met webpagina’s, hyperlinks en een browser. In 1991 begon het wereldwijde web-project.',
+  'Internet en web zijn niet hetzelfde. Het internet is het netwerk van computers. Het web is een systeem van afspraken voor het aanbieden van pagina’s en toepassingen via dat netwerk.',
+  'Het web groeide explosief en kwam ook in de klas en in huis. Zoals de televisie in 1951 in Nederland begon, werd het web in de jaren negentig voor veel mensen gewoon.'
+ ],
+ cijfers: [['ARPANET','1969'],['TCP/IP','1 januari 1983'],['Web gebouwd','1990, bij CERN'],['Wereldwijde web-project','1991']],
+ figuren: [['Tim Berners-Lee','bedenker van het world wide web'],['Robert Cailliau','Belgische collega bij CERN'],['Vinton Cerf','mede-ontwikkelaar van TCP/IP']],
+ bronnen: [['Wikipedia: Internet',W('Internet')],['Wikipedia: Tim Berners-Lee',W('Tim Berners-Lee')]]
+},
+
+'De val van de Berlijnse Muur': {
+ aanloop: [
+  'In de jaren tachtig verloor het communisme in Oost-Europa aan kracht. In 1989 vluchtten opnieuw veel Oost-Duitsers naar het westen en demonstreerden duizenden mensen in Oost-Duitse steden.'
+ ],
+ verloop: [
+  'Op 9 november 1989 gingen de grensovergangen open en liepen mensen door. De Muur, die van 13 augustus 1961 tot 9 november 1989 West-Berlijn omringde, hield op te bestaan.',
+  'Mensen klommen op de Muur, haalden er stukken uit en vierden feest, ook bij de Brandenburger Tor. Het was het begin van het einde van de Koude Oorlog.',
+  'In 1990 werd Duitsland herenigd en in 1991 viel de Sovjet-Unie uiteen. In 1992 volgde het Verdrag van Maastricht en in 2002 kwam de euro.'
+ ],
+ cijfers: [['Muur open','9 november 1989'],['Muur stond','13 augustus 1961 – 9 november 1989'],['Duitsland herenigd','3 oktober 1990'],['Sovjet-Unie opgeheven','1991']],
+ figuren: [['Oost-Duitse regering','liet de grenzen openen'],['Berlijners','klommen op de Muur en braken stukken af']],
+ bronnen: [['Wikipedia: Berlijnse Muur',W('Berlijnse Muur')]]
+},
+
 'Vrouwenkiesrecht': {
  aanloop: [
   'In de 19e eeuw mochten alleen mannen met genoeg bezit of inkomen stemmen. In 1883 probeerde Aletta Jacobs zich als kiezer te laten inschrijven, omdat de wet nergens zei dat een kiezer een man moest zijn. Ze werd afgewezen, en daarna werd in de Grondwet expliciet vastgelegd dat alleen mannen kiesrecht hadden.',
