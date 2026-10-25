@@ -125,6 +125,39 @@ Object.assign(window.DETAILS, {
  bronnen: [CANON,['Wikipedia: Republiek der Zeven Verenigde Nederlanden',W('Republiek der Zeven Verenigde Nederlanden')]]
 },
 
+'Eerste schipvaart naar Indië': {
+ aanloop: [
+  'Aan het eind van de 16e eeuw waren specerijen zoals peper, nootmuskaat en kruidnagel in Europa veel geld waard. De handel ermee was in handen van Portugal. Omdat de Republiek in oorlog was met Spanje, dat toen ook over Portugal heerste, konden Nederlandse kooplieden er steeds moeilijker aan komen.',
+  'Zeekaarten en reisverslagen, zoals die van Jan Huygen van Linschoten, lieten zien hoe de Portugezen naar Azië voeren. In 1594 richtten negen Amsterdamse kooplieden de Compagnie van Verre op. Ze rustten vier schepen uit om zelf specerijen te halen in Bantam, de grootste handelsplaats op Java.'
+ ],
+ verloop: [
+  'Op 2 april 1595 vertrokken de Amsterdam, de Hollandia, de Mauritius en het kleine jacht Duyfken van Texel, met 249 man aan boord. Onderweg brak scheurbuik uit. Op een eilandje bij Madagaskar werden zeventig mannen begraven.',
+  'In juni 1596 kwamen de schepen in Bantam aan. Cornelis de Houtman, de leider van de kooplieden, kreeg ruzie over de prijs van de peper en werd gevangengenomen. De Hollanders beschoten de stad. Ook verderop langs de kust van Java en Madura vielen doden door hun wantrouwen en geweld.',
+  'In augustus 1597 kwamen drie schepen terug. Van de 249 opvarenden leefden er nog 87. De lading was klein en de opbrengst dekte net de kosten. Toch was bewezen dat Nederlanders zelf naar Azië konden varen. Er volgden snel nieuwe tochten, en in 1602 werd de VOC opgericht.'
+ ],
+ perspectieven: [
+  'Voor de mensen in Bantam waren de Hollanders niet de eerste buitenlandse handelaren. Chinezen, Arabieren, Bengalen, Turken en Portugezen dreven er al lang handel. Dat de nieuwkomers hun eigen prijs wilden afdwingen en daarbij geweld gebruikten, maakte een slechte eerste indruk. Het was een voorbode van hoe de VOC later zou optreden.'
+ ],
+ cijfers: [['Vertrek','2 april 1595, Texel'],['Schepen','4'],['Bemanning','249 bij vertrek, 87 terug'],['Terug in Texel','augustus 1597']],
+ figuren: [['Cornelis de Houtman','leider van de kooplieden aan boord'],['Pieter Keyser','stuurman, bracht de zuidelijke sterrenhemel in kaart'],['Jan Huygen van Linschoten','beschreef de Portugese route naar Azië']],
+ bronnen: [['Wikipedia: Eerste Schipvaart',W('Eerste Schipvaart')],['Het Scheepvaartmuseum','https://www.hetscheepvaartmuseum.nl/']]
+},
+
+'Overwintering op Nova Zembla': {
+ aanloop: [
+  'Kooplieden en geleerden zoals Petrus Plancius dachten dat er ook een noordelijke route naar China en Indië moest zijn: langs de noordkust van Rusland. Die weg zou korter zijn dan de lange tocht om Afrika, en buiten bereik van Spanjaarden en Portugezen.',
+  'Willem Barentsz had al twee keer geprobeerd die noordoostelijke doorvaart te vinden. Beide keren hield het ijs de schepen tegen. In mei 1596 vertrok hij voor de derde keer, samen met schipper Jacob van Heemskerck.'
+ ],
+ verloop: [
+  'Onderweg ontdekten ze Bereneiland en Spitsbergen. Barentsz voer daarna om de noordpunt van Nova Zembla heen, maar daar vroor zijn schip vast in het pakijs. Er zat niets anders op dan te overwinteren, ver boven de poolcirkel.',
+  'Van drijfhout en planken van het schip bouwden de zeventien mannen een huis van ongeveer tien bij zes meter: het Behouden Huys. Ze stookten vuur, vingen vossen en joegen op ijsberen. Maandenlang kwam de zon niet op. Niet iedereen overleefde de kou en de ziekte.',
+  'In juni 1597 zat het schip nog steeds vast. De mannen vertrokken in twee open sloepen. Barentsz stierf al na een week. Na een zware tocht bereikten de overlevenden Kola in Rusland, waar een Hollands schip hen meenam. Twaalf mannen kwamen thuis. Gerrit de Veer schreef een dagboek over de reis, dat in 1598 verscheen en heel populair werd.'
+ ],
+ cijfers: [['Vertrek','mei 1596'],['Opvarenden','17'],['Overwintering','september 1596 – juni 1597'],['Thuisgekomen','12 mannen']],
+ figuren: [['Willem Barentsz','stuurman en kaartmaker, stierf op de terugtocht'],['Jacob van Heemskerck','schipper van de expeditie'],['Gerrit de Veer','schreef het dagboek van de reis']],
+ bronnen: [['Wikipedia: Willem Barentsz',W('Willem Barentsz')],['Wikipedia: Het Behouden Huys',W('Behouden Huys')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
+},
+
 'VOC': {
  aanloop: [
   'Rond 1595 voeren de eerste Nederlandse schepen naar Azië om specerijen te halen. Daarna richtten kooplieden in verschillende steden eigen compagnieën op. Ze concurreerden met elkaar, waardoor de prijzen in Azië stegen en in Europa daalden.',
@@ -138,6 +171,24 @@ Object.assign(window.DETAILS, {
  cijfers: [['Oprichting','20 maart 1602'],['Startkapitaal','ca. 6,4 miljoen gulden'],['Stichting Batavia','1619'],['Opgeheven','1799']],
  figuren: [['Johan van Oldenbarnevelt','drong aan op de oprichting'],['Jan Pieterszoon Coen','gouverneur-generaal, stichter van Batavia'],['Heren XVII','het bestuur van de VOC']],
  bronnen: [CANON,['Wikipedia: VOC',W('Verenigde Oost-Indische Compagnie')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
+},
+
+'Willem Janszoon in Australië': {
+ aanloop: [
+  'Na de oprichting van de VOC wilden de Nederlanders weten wat er ten zuiden van hun handelsposten lag. Er gingen verhalen over een groot onbekend Zuidland, en over goud op Nieuw-Guinea.',
+  'Schipper Willem Janszoon kreeg in Bantam de opdracht om met het kleine jacht Duyfken Nieuw-Guinea en de landen daarachter te verkennen. Op 18 november 1605 vertrok hij, samen met de koopman Jan Lodewijksz van Rosengeyn.'
+ ],
+ verloop: [
+  'Langs de kust van Nieuw-Guinea gingen de zeelieden een paar keer aan land. Bij een van die landingen werden acht matrozen gedood. Daarna zeilde de Duyfken naar het zuiden, over de Arafurazee.',
+  'Eind februari 1606 zag de bemanning opnieuw land: het schiereiland Kaap York in het noorden van Australië. Janszoon volgde de kust ongeveer 320 kilometer naar het zuiden, tot een kaap die hij Keerweer noemde. Daar keerde hij om. Bij het verkennen van een rivier werd een matroos gedood door een speer.',
+  'Janszoon dacht dat het land bij Nieuw-Guinea hoorde en vond het arm. De VOC zag er geen handel in. Het scheepsjournaal is verloren gegaan; we kennen de reis vooral uit kaarten en latere verslagen. Toch is het de eerste goed beschreven landing van Europeanen in Australië. Er volgden meer Nederlandse schepen, en het land heette lange tijd Nieuw-Holland.'
+ ],
+ perspectieven: [
+  'Australië hoefde niet ontdekt te worden: Aboriginals wonen er al minstens 50.000 jaar. Op Kaap York leefden onder meer de voorouders van de Wik-volken. Voor hen was de Duyfken een schip met vreemdelingen die zonder te vragen hun land betraden. Hun eigen verhalen over de eerste ontmoetingen zijn mondeling doorgegeven.'
+ ],
+ cijfers: [['Vertrek uit Bantam','18 november 1605'],['Aankomst in Australië','februari 1606'],['Kust in kaart gebracht','ca. 320 km'],['Schip','het jacht Duyfken']],
+ figuren: [['Willem Janszoon','schipper van de Duyfken'],['Jan Lodewijksz van Rosengeyn','koopman aan boord']],
+ bronnen: [['Wikipedia: Willem Janszoon',W('Willem Janszoon')],['Wikipedia: Duyfken',W('Duyfken schip')]]
 },
 
 'De Beemster': {
@@ -185,6 +236,24 @@ Object.assign(window.DETAILS, {
  bronnen: [CANON,['Wikipedia: Hugo de Groot',W('Hugo de Groot')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
 },
 
+'Nieuw-Amsterdam': {
+ aanloop: [
+  'In 1609 voer Henry Hudson in opdracht van de VOC een grote rivier op in Noord-Amerika, op zoek naar een doorgang naar Azië. Die vond hij niet, maar het gebied bleek rijk aan bevers. Beverbont was in Europa veel geld waard.',
+  'Nederlandse handelaren richtten posten op langs de rivier, die later naar Hudson werd genoemd. De West-Indische Compagnie (WIC), opgericht in 1621, kreeg het gebied in beheer als de kolonie Nieuw-Nederland. In 1624 kwamen de eerste gezinnen van kolonisten.'
+ ],
+ verloop: [
+  'Op de zuidpunt van het eiland Manhattan bouwde de WIC vanaf 1625 Fort Amsterdam. Daaromheen groeide de nederzetting Nieuw-Amsterdam. In 1626 ‘kocht’ directeur Peter Minuit het eiland van de Lenape, voor goederen ter waarde van zestig gulden.',
+  'Nieuw-Amsterdam werd een havenstad waar veel talen klonken. Al in de eerste jaren werkten er ook tot slaaf gemaakte Afrikanen voor de WIC. Peter Stuyvesant bestuurde de kolonie vanaf 1647 en liet een verdedigingsmuur bouwen, waar nu Wall Street ligt. In 1653 kreeg de plaats stadsrecht.',
+  'In 1664 voeren Engelse oorlogsschepen de haven binnen. Stuyvesant gaf de stad zonder gevecht over en ze kreeg de naam New York. In 1673 heroverden de Nederlanders haar nog even, maar in 1674 werd ze definitief Engels. Namen als Harlem, Brooklyn en Wall Street herinneren nog aan de Nederlandse tijd.'
+ ],
+ perspectieven: [
+  'Manhattan was het land van de Lenape. Voor hen betekende de afspraak met Minuit waarschijnlijk dat de nieuwkomers het land mochten gebruiken, niet dat het voor altijd van hen werd: land bezitten zoals Europeanen dat deden, kenden ze niet. Door ziektes, oorlogen en de groeiende kolonie raakten de Lenape hun land in de tijd daarna grotendeels kwijt.'
+ ],
+ cijfers: [['Hudson op de rivier','1609'],['Fort Amsterdam','vanaf 1625'],['‘Koop’ van Manhattan','1626, voor ƒ 60 aan goederen'],['Engels','1664, definitief in 1674']],
+ figuren: [['Peter Minuit','directeur van Nieuw-Nederland'],['Peter Stuyvesant','directeur-generaal van 1647 tot 1664'],['Henry Hudson','verkende de rivier in 1609']],
+ bronnen: [['Wikipedia: Nieuw-Amsterdam',W('Nieuw-Amsterdam Nieuw-Nederland')],['Wikipedia: Nieuw-Nederland',W('Nieuw-Nederland')]]
+},
+
 'Statenbijbel': {
  aanloop: [
   'Protestanten vonden dat gelovigen de bijbel zelf moesten kunnen lezen. In de Nederlanden circuleerden wel vertalingen, maar die waren vaak gebaseerd op andere vertalingen, zoals de Duitse van Luther, en niet op de oorspronkelijke teksten.',
@@ -228,6 +297,24 @@ Object.assign(window.DETAILS, {
  cijfers: [['Voltooid','1642'],['Afmeting','ca. 3,8 bij 4,5 meter'],['Ingekort','1715'],['Operatie Nachtwacht','vanaf 2019']],
  figuren: [['Rembrandt van Rijn','schilder'],['Frans Banninck Cocq','kapitein van de schutterscompagnie'],['Willem van Ruytenburch','luitenant']],
  bronnen: [CANON,['Rijksmuseum','https://www.rijksmuseum.nl/'],['Wikipedia: De Nachtwacht',W('De Nachtwacht')]]
+},
+
+'Abel Tasman': {
+ aanloop: [
+  'Nederlandse schepen op weg naar Batavia waren al eerder op de westkust van Australië gestuit. Maar hoe groot dat land was, en of er nog een groot zuidelijk continent lag, wist niemand. Gouverneur-generaal Antonio van Diemen wilde het laten uitzoeken, in de hoop op nieuwe handel.',
+  'Abel Tasman uit Lutjegast in Groningen voer al jaren voor de VOC, onder meer naar Japan en Taiwan. Op 14 augustus 1642 vertrok hij uit Batavia met twee schepen, de Heemskerck en de Zeehaen.'
+ ],
+ verloop: [
+  'Via Mauritius zeilde Tasman ver naar het zuiden en oosten. Op 24 november 1642 zag hij land, dat hij Anthoonij van Diemenslandt noemde, naar zijn opdrachtgever. Nu heet het Tasmanië. De bemanning hoorde muziek en zag rook, maar ontmoette niemand.',
+  'Op 13 december zag de bemanning de bergen van het Zuidereiland van Nieuw-Zeeland. In een baai in het noorden kwamen Māori met kano’s op de schepen af. De volgende dag werden vier matrozen van de Zeehaen gedood. Tasman noemde de plek Moordenaarsbaai en voer verder.',
+  'Via Tonga, Fiji en Nieuw-Guinea kwam hij op 15 juni 1643 terug in Batavia. De VOC was teleurgesteld, want hij had geen rijke handelsgebieden gevonden. Toch veranderde de wereldkaart. Kaartmakers noemden het nieuwe land later Nova Zeelandia, naar de provincie Zeeland: Nieuw-Zeeland.'
+ ],
+ perspectieven: [
+  'Voor de Māori van Ngāti Tūmatakōkiri was de baai hun eigen gebied. Waarschijnlijk vatten ze de trompetsignalen van de Nederlanders op als een uitdaging tot een gevecht. Nu heet de baai Golden Bay. Tasmanië was al tienduizenden jaren bewoond door Aboriginals, Nieuw-Zeeland sinds ongeveer 1300 door de voorouders van de Māori.'
+ ],
+ cijfers: [['Vertrek uit Batavia','14 augustus 1642'],['Tasmanië in zicht','24 november 1642'],['Nieuw-Zeeland in zicht','13 december 1642'],['Terug in Batavia','15 juni 1643']],
+ figuren: [['Abel Tasman','commandeur van de expeditie'],['Antonio van Diemen','gouverneur-generaal, gaf de opdracht'],['Isaack Gilsemans','koopman en tekenaar aan boord']],
+ bronnen: [['Wikipedia: Abel Tasman',W('Abel Tasman')],['Wikipedia: Golden Bay',W('Golden Bay Nieuw-Zeeland')]]
 },
 
 'Vrede van Munster': {
@@ -333,6 +420,21 @@ Object.assign(window.DETAILS, {
  cijfers: [['Aanvallers','4: Frankrijk, Engeland, Munster, Keulen'],['Zeeslag bij Solebay','7 juni 1672'],['Moord op de De Witts','20 augustus 1672'],['Ontzet van Groningen','28 augustus 1672']],
  figuren: [['Johan de Witt','raadpensionaris, vermoord'],['Willem III','stadhouder vanaf 1672'],['Lodewijk XIV','koning van Frankrijk'],['Bernhard von Galen','bisschop van Munster']],
  bronnen: [['Wikipedia: Rampjaar',W('Rampjaar 1672')],['Wikipedia: Hollandse Waterlinie',W('Hollandse Waterlinie')]]
+},
+
+'Van Leeuwenhoek en de microscoop': {
+ aanloop: [
+  'Aan het begin van de 17e eeuw maakten brillenmakers in Middelburg de eerste microscopen en telescopen. Die vergrootten nog niet zo sterk. Antoni van Leeuwenhoek, in 1632 geboren in Delft, was lakenhandelaar. Hij gebruikte een vergrootglas om de draden in stoffen te tellen.',
+  'Hij leerde zichzelf glas blazen en slijpen en maakte piepkleine lenzen. Telkens klemde hij één lens tussen twee metalen plaatjes. Zo bouwde hij microscopen die tot ongeveer 270 keer vergrootten, veel sterker dan de microscopen van geleerden in die tijd.'
+ ],
+ verloop: [
+  'In 1674 bekeek hij water uit een meertje bij Delft. Hij zag er kleine wezentjes in rondzwemmen, die hij diertgens noemde. Twee jaar later beschreef hij nog veel kleinere: bacteriën. Hij bestudeerde ook bloedcellen, zaadcellen en de bouw van insecten.',
+  'Van Leeuwenhoek had niet gestudeerd en sprak alleen Nederlands. Hij schreef zijn waarnemingen op in honderden brieven, vooral aan de Royal Society in Londen. Daar geloofden de geleerden hem eerst niet, tot ze het zelf kwamen bekijken. In 1680 werd hij lid van dat wetenschappelijk genootschap.',
+  'Hoe hij zijn lenzen maakte, hield hij geheim. Hij bleef onderzoek doen tot zijn dood in 1723. Hij wordt wel de vader van de microbiologie genoemd: de wetenschap van de kleinste levende wezens.'
+ ],
+ cijfers: [['Geboren','24 oktober 1632, Delft'],['Eerste diertgens','1674'],['Vergroting','tot ca. 270 keer'],['Lid Royal Society','1680']],
+ figuren: [['Antoni van Leeuwenhoek','lakenhandelaar en onderzoeker'],['Reinier de Graaf','Delftse arts, bracht hem in contact met de Royal Society'],['Robert Hooke','Engelse onderzoeker, schreef het boek Micrographia']],
+ bronnen: [['Wikipedia: Antoni van Leeuwenhoek',W('Antoni van Leeuwenhoek')],['Rijksmuseum Boerhaave','https://rijksmuseumboerhaave.nl/']]
 }
 
 });

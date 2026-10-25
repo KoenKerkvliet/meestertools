@@ -20,6 +20,24 @@ Object.assign(window.DETAILS, {
  bronnen: [['Wikipedia: Vrede van Utrecht',W('Vrede van Utrecht 1713')],['Wikipedia: Spaanse Successieoorlog',W('Spaanse Successieoorlog')]]
 },
 
+'Roggeveen bij Paaseiland': {
+ aanloop: [
+  'Lang dachten geleerden dat er op het zuidelijk halfrond een groot continent moest liggen: het Zuidland. De Zeeuwse kaartmaker Arent Roggeveen wilde het gaan zoeken, maar overleed voordat het ervan kwam.',
+  'Zijn zoon Jacob Roggeveen, jurist en oud-medewerker van de VOC, zette het plan door. Op 1 augustus 1721 vertrok hij op 62-jarige leeftijd van Texel, in dienst van de West-Indische Compagnie, met drie schepen en 244 man.'
+ ],
+ verloop: [
+  'De schepen voeren om Kaap Hoorn de Grote Oceaan in. Op 5 april 1722, paaszondag, zagen ze een onbekend eiland. Roggeveen noemde het Paaseiland. Bewoners kwamen met kano’s naar de schepen en gingen aan boord.',
+  'Op 10 april ging Roggeveen met 134 man aan land. Door zenuwachtigheid openden enkele soldaten het vuur. Ongeveer tien bewoners werden gedood of gewond. Daarna werden er toch geschenken geruild. De Nederlanders verbaasden zich over de enorme stenen beelden: de moai.',
+  'Het Zuidland vonden ze niet, want het bestond niet. Eén schip leed schipbreuk en veel opvarenden stierven. In Batavia nam de VOC de schepen in beslag, omdat Roggeveen in haar handelsgebied was gekomen. Minder dan de helft van de bemanning kwam terug in Nederland.'
+ ],
+ perspectieven: [
+  'De Rapanui woonden al eeuwen op het eiland. Ze hadden er akkers aangelegd en de moai opgericht als beelden van hun voorouders. Het bezoek van Roggeveen was hun eerste bekende contact met Europeanen, en het begon met doden. In de eeuw daarna volgden meer bezoekers, slavenhandelaren en ziektes, waardoor de bevolking sterk kromp.'
+ ],
+ cijfers: [['Vertrek','1 augustus 1721, Texel'],['Schepen en bemanning','3 schepen, 244 man'],['Paaseiland','5 april 1722'],['Terug in Nederland','minder dan de helft']],
+ figuren: [['Jacob Roggeveen','commandeur van de expeditie'],['Arent Roggeveen','zijn vader, bedacht de tocht'],['Cornelis Bouman','kapitein van de Tienhoven']],
+ bronnen: [['Wikipedia: Jacob Roggeveen',W('Jacob Roggeveen')],['Wikipedia: Paaseiland',W('Paaseiland')]]
+},
+
 'De Bokkenrijders': {
  aanloop: [
   'In de 18e eeuw was het gebied tussen Maas en Rijn, de Landen van Overmaas, sterk versnipperd. Stukjes land hoorden bij de Republiek, bij Oostenrijk of bij kleine heerlijkheden. Er was veel armoede, en rondtrekkende benden pleegden inbraken en overvallen.',
