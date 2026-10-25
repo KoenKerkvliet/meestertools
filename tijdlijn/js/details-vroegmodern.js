@@ -15,6 +15,27 @@ Object.assign(window.DETAILS, {
   'Daarmee vielen alle zeventien gewesten onder één vorst. In 1549 legde Karel V met de Pragmatieke Sanctie vast dat ze voortaan als één geheel zouden worden geërfd. Het bestuur werd steeds meer vanuit Brussel geregeld.',
   'Op 25 oktober 1555 deed Karel V in Brussel afstand ten gunste van zijn zoon Filips II. Filips regeerde vanuit Spanje en had minder band met de Nederlanden. Zijn strenge beleid tegen het protestantisme leidde later tot de Opstand.'
  ],
+ gevolgen: [
+  "Karel V maakte van de verschillende gewesten stap voor stap één bestuurlijk geheel. Bij de Transactie van Augsburg in 1548 kregen de Nederlanden een eigen plek binnen het Duitse Rijk, als de Bourgondische Kreits. Met de Pragmatieke Sanctie van 1549 werden ze voortaan als één geheel geërfd. Zo legde hij, zonder het te bedoelen, de basis voor de latere Nederlandse staat.",
+  "Maar eenheid betekende ook meer macht voor de vorst. Belastingen en geloofsvervolging werden centraal geregeld. Karel V liet strenge plakkaten tegen ketters uitvaardigen. Dat zorgde voor onrust, die onder zijn zoon Filips II uitgroeide tot de Opstand."
+ ],
+ perspectieven: [
+  "Voor Gelre was 1543 een nederlaag. Het hertogdom had ruim veertig jaar gevochten om zelfstandig te blijven. De Gelderse veldheer Maarten van Rossum was de schrik van Holland en Brabant. In 1528 plunderde hij zelfs Den Haag. Na het verdrag ging hij in dienst van Karel V, zijn oude vijand.",
+  "Ook in Gent merkte men hoe streng Karel V kon zijn tegen zijn eigen onderdanen. Toen zijn geboortestad in opstand kwam tegen een belasting, moesten de stadsbestuurders in 1540 blootsvoets en met een strop om hun hals om vergeving vragen."
+ ],
+ misverstanden: [
+  ["“Karel V was een Spanjaard.”","Karel V werd in 1500 in Gent geboren en groeide op in Mechelen. Zijn eerste talen waren Frans en Nederlands. Pas later leerde hij Spaans. Zijn zoon Filips II groeide wel in Spanje op, en dat maakte het verschil."],
+  ["“De zeventien gewesten waren één land.”","Ze hadden één vorst, maar elk gewest hield zijn eigen Staten, rechten en gewoonten. Karel V was niet koning van de Nederlanden, maar hertog van Brabant, graaf van Holland, heer van Friesland, enzovoort."]
+ ],
+ hoeWeten: [
+  "De tekst van het Verdrag van Venlo is bewaard, net als de stukken van de Pragmatieke Sanctie en de plakkaten van Karel V. Kronieken uit die tijd beschrijven de Gelderse oorlogen en de plunderingen. Er zijn ook veel portretten van Karel V, onder anderen door de Venetiaanse schilder Titiaan."
+ ],
+ nu: [
+  "Inwoners van Gent heten nog altijd “stroppendragers”, en bij feesten dragen sommige Gentenaars een strop om hun nek. Venlo en Roermond, in het Gelderse Overkwartier, bleven na de Opstand nog lang Spaans. Ze gingen later niet terug naar Gelderland, maar horen nu bij Limburg. Het familiewapen van Maarten van Rossum werd later het wapen van de gemeente Rossum."
+ ],
+ vertellen: "Bij zijn afstand in Brussel op 25 oktober 1555 kon Karel V nauwelijks nog lopen door jicht. Hij leunde tijdens de plechtigheid op de schouder van een jonge edelman van 22: Willem van Oranje. Dertien jaar later voerde diezelfde Willem de opstand aan tegen Karels zoon.",
+ verbanden: [["Maria van Bourgondië","via haar kwamen de Nederlanden bij de Habsburgers"],["De Bourgondiërs nemen over","het begin van de eenwording van de Nederlanden"],["Begin Tachtigjarige Oorlog","de opstand tegen Karels zoon Filips II"]],
+ onderwijs: {"ka":["Het begin van staatsvorming en centralisatie. (tijdvak 4)"]},
  cijfers: [['Verdrag van Venlo','7 september 1543'],['Aantal gewesten','17'],['Pragmatieke Sanctie','1549'],['Afstand Karel V','25 oktober 1555']],
  figuren: [['Karel V','keizer en heer der Nederlanden'],['Willem van Kleef','hertog van Gelre 1538–1543'],['Maarten van Rossum','Gelderse veldheer'],['Filips II','zoon en opvolger van Karel V']],
  bronnen: [['Wikipedia: Verdrag van Venlo',W('Verdrag van Venlo 1543')],['Wikipedia: Gelderse Successieoorlog',W('Gelderse Successieoorlog')]]
@@ -397,6 +418,27 @@ Object.assign(window.DETAILS, {
   'De Mona Lisa is geschilderd met olieverf op een paneel van populierenhout. Leonardo schilderde met zachte overgangen tussen licht en donker, waardoor de glimlach moeilijk te vatten lijkt. Het is een van de weinige werken waarvan we zeker weten dat Leonardo ze zelf maakte.',
   'Het schilderij hangt in het Louvre in Parijs. Het trekt daar ongeveer 20.000 bezoekers per dag.'
  ],
+ gevolgen: [
+  "Leonardo leverde het portret nooit af bij de opdrachtgever. Hij hield het bij zich en werkte er waarschijnlijk tot het eind van zijn leven aan. In 1516 nam hij het mee naar Frankrijk, waar hij ging werken voor koning Frans I. Zo kwam het schilderij in de Franse koninklijke verzameling terecht, en na de Franse Revolutie in het Louvre.",
+  "De manier van schilderen werd een voorbeeld voor andere kunstenaars. Leonardo werkte met sfumato: hij bracht dunne lagen verf over elkaar aan, zodat de omtrekken wazig worden en er geen harde lijnen zijn. Ook de houding was nieuw: een vrouw die half gedraaid naar de kijker zit, met de handen rustig over elkaar en een landschap op de achtergrond. Veel portretschilders namen dat over."
+ ],
+ perspectieven: [
+  "Over de vrouw zelf weten we weinig. Lisa Gherardini was de vrouw van een Florentijnse zijdehandelaar. Ze is wereldberoemd geworden, maar haar eigen leven is grotendeels onbekend. Lange tijd werden er andere namen genoemd voor wie er op het schilderij staat. De meeste kenners gaan inmiddels uit van Lisa Gherardini, omdat bronnen uit Leonardo’s eigen tijd haar noemen.",
+  "Voor het Louvre is het schilderij een zegen en een last tegelijk. Veel bezoekers komen vooral voor de Mona Lisa, en de zaal is vaak overvol. Andere kunstwerken in het museum krijgen daardoor veel minder aandacht."
+ ],
+ misverstanden: [
+  ["“De Mona Lisa was altijd al het beroemdste schilderij ter wereld.”","Het schilderij werd eeuwenlang bewonderd, maar echt wereldberoemd werd het pas in de 19e en 20e eeuw. Vooral de diefstal in 1911 maakte het een begrip. Kranten over de hele wereld schreven erover, en toen het schilderij terugkwam, stroomden de bezoekers toe."],
+  ["“De Mona Lisa heeft geen wenkbrauwen omdat dat toen mode was.”","Onderzoek met scans liet in 2007 zien dat er oorspronkelijk wel wenkbrauwen en wimpers waren. Ze zijn in de loop der eeuwen verdwenen, misschien bij het schoonmaken of restaureren. Een kopie uit dezelfde tijd, die in het Prado in Madrid hangt, heeft wel wenkbrauwen."]
+ ],
+ hoeWeten: [
+  "Een Florentijnse ambtenaar schreef in oktober 1503 in de kantlijn van een boek dat Leonardo werkte aan een portret van Lisa del Giocondo. Die aantekening bevestigt wat de kunstschilder en schrijver Giorgio Vasari in 1550 over het schilderij vertelde. Onderzoek met röntgenfoto’s en scans laat zien hoe Leonardo laag voor laag werkte en dingen veranderde."
+ ],
+ nu: [
+  "De Mona Lisa hangt in het Louvre achter kogelvrij glas. Dat is niet voor niets: in 1956 werd het schilderij met zuur en met een steen beschadigd. In 2022 en 2024 gooiden actievoerders taart en soep tegen het glas. Kunstenaars als Marcel Duchamp en Andy Warhol maakten er hun eigen versies van, en het gezicht is te vinden op mokken, posters en reclames."
+ ],
+ vertellen: "Op 21 augustus 1911 verdween de Mona Lisa uit het Louvre. De dief was Vincenzo Peruggia, een Italiaan die in het museum had gewerkt. Hij hield het schilderij ruim twee jaar verborgen in Parijs. Eind 1913 probeerde hij het te verkopen aan een kunsthandelaar in Florence, die de politie waarschuwde. Peruggia zei dat hij het schilderij terug wilde brengen naar Italië.",
+ verbanden: [["Michelangelo en de Sixtijnse Kapel","de andere grote kunstenaar van de Italiaanse renaissance"],["Jan van Eyck en het Lam Gods","de schilder die de olieverf al eerder meesterlijk gebruikte"],["Val van Constantinopel","Griekse geleerden brachten kennis van de oudheid naar Italië"]],
+ onderwijs: {"ka":["Het veranderende mens- en wereldbeeld van de renaissance en het begin van een nieuwe wetenschappelijke belangstelling."]},
  cijfers: [['Gemaakt','tussen 1503 en 1506'],['Techniek','olieverf op populierenhout'],['Hangt in','het Louvre, Parijs'],['Bezoekers','ca. 20.000 per dag']],
  figuren: [['Leonardo da Vinci','schilder, uitvinder en onderzoeker'],['Lisa Gherardini','waarschijnlijk de geportretteerde'],['Francesco del Giocondo','waarschijnlijk de opdrachtgever']],
  bronnen: [['Wikipedia: Mona Lisa',W('Mona Lisa')],['Wikipedia: Leonardo da Vinci',W('Leonardo da Vinci')]]
@@ -412,6 +454,27 @@ Object.assign(window.DETAILS, {
   'Tussen 1508 en 1512 schilderde Michelangelo op het gewelf een reeks fresco’s met profeten, sibillen en taferelen uit het begin van de Bijbel. Een van de bekendste is de scène waarin God de eerste mens, Adam, tot leven wekt.',
   'Michelangelo overleed op 18 februari 1564 in Rome. De Sixtijnse Kapel is een van de bekendste binnenruimten ter wereld.'
  ],
+ gevolgen: [
+  "Het plafond maakte Michelangelo beroemd als schilder, terwijl hij zichzelf vooral beeldhouwer vond. Zijn figuren zijn gespierd en bewegen sterk, alsof het beelden zijn. Jonge kunstenaars kwamen naar Rome om ze na te tekenen, en de stijl van veel schilders na hem is erdoor beïnvloed.",
+  "Ruim twintig jaar later moest Michelangelo terugkomen voor de muur achter het altaar. Daar schilderde hij Het Laatste Oordeel, dat in 1541 klaar was. Aan het eind van zijn leven werkte hij als architect aan de Sint-Pietersbasiliek. De grote koepel is naar zijn ontwerp gebouwd, maar werd pas na zijn dood voltooid."
+ ],
+ perspectieven: [
+  "Michelangelo wilde de opdracht eigenlijk niet. Paus Julius II had hem naar Rome gehaald om een groot grafmonument te maken, en Michelangelo voelde zich beeldhouwer. Toch moest hij het plafond schilderen. De paus en de kunstenaar hadden een moeizame verhouding: de paus wilde dat het snel klaar was, Michelangelo werkte op zijn eigen manier.",
+  "Niet iedereen vond de naakte figuren gepast in de kapel van de paus. Na Michelangelo’s dood kreeg de schilder Daniele da Volterra de opdracht om in Het Laatste Oordeel doeken over de naakte lichamen te schilderen. Hij kreeg daardoor de bijnaam “de broekenmaker”."
+ ],
+ misverstanden: [
+  ["“Michelangelo schilderde het plafond liggend op zijn rug.”","Michelangelo bouwde een eigen steiger en schilderde staand, met zijn hoofd achterover en zijn armen omhoog. In een gedicht klaagde hij over zijn pijnlijke nek en rug, en over de verf die op zijn gezicht drupte."],
+  ["“Michelangelo schilderde alles in de kapel.”","De wanden werden al eerder beschilderd door andere bekende schilders, zoals Botticelli en Perugino. Michelangelo maakte het gewelf en later de altaarwand."]
+ ],
+ hoeWeten: [
+  "Er zijn brieven, gedichten en contracten van Michelangelo bewaard, en ook schetsen voor de figuren. Zijn tijdgenoten Giorgio Vasari en Ascanio Condivi schreven al tijdens zijn leven over hem. Bij de restauratie tussen 1980 en 1994 bestudeerden onderzoekers de fresco’s van dichtbij en konden ze zien hoe Michelangelo werkte, dag voor dag in natte kalk."
+ ],
+ nu: [
+  "De kapel is een van de drukst bezochte ruimtes van de Vaticaanse Musea. Bij de restauratie verdwenen eeuwen van vuil en kaarsroet, en kwamen er heldere kleuren tevoorschijn. Sommige kenners vonden dat er te veel was weggehaald. Bij de keuze van een nieuwe paus komt er rook uit een schoorsteen op het dak van de kapel: zwart als er nog geen paus is, wit als hij gekozen is."
+ ],
+ vertellen: "Michelangelo heeft maar één werk ooit gesigneerd: de Pietà in de Sint-Pieter. Volgens Vasari hoorde hij bezoekers zeggen dat een andere beeldhouwer het had gemaakt. Diezelfde nacht zou hij zijn naam in de band over Maria’s borst hebben gebeiteld.",
+ verbanden: [["Mona Lisa","Leonardo da Vinci, de andere grote kunstenaar van de renaissance"],["Luther en de Reformatie","de bouw van de nieuwe Sint-Pieter werd mede met aflaten betaald"],["Bernini","gaf de Sint-Pieter later zijn plein en een groot baldakijn"]],
+ onderwijs: {"ka":["Het veranderende mens- en wereldbeeld van de renaissance en het begin van een nieuwe wetenschappelijke belangstelling.","De hernieuwde interesse op het erfgoed van de klassieke oudheid."]},
  cijfers: [['Geboren','6 maart 1475, Caprese'],['Kapel gebouwd','1475 – 1483'],['Plafond geschilderd','1508 – 1512'],['Overleden','18 februari 1564, Rome']],
  figuren: [['Michelangelo','beeldhouwer, schilder, architect en dichter'],['Paus Sixtus IV','liet de kapel bouwen'],['Paus Julius II','gaf opdracht voor het plafond']],
  bronnen: [['Wikipedia: Michelangelo',W('Michelangelo Buonarroti')],['Wikipedia: Sixtijnse Kapel',W('Sixtijnse Kapel')]]
@@ -426,6 +489,27 @@ Object.assign(window.DETAILS, {
   'Beroemd zijn ook zijn schilderijen van boeren en dorpsfeesten, zoals de Boerenbruiloft uit 1568. Zijn werk zit vol kleine figuurtjes en kijkt met humor naar gewone mensen.',
   'Bruegel overleed op 9 september 1569 in Brussel. Zijn zonen Pieter en Jan werden ook schilder.'
  ],
+ gevolgen: [
+  "Bruegels zonen werden ook schilder. Pieter Brueghel de Jonge maakte vele kopieën van het werk van zijn vader. Daardoor werden die voorstellingen bekend bij een groter publiek. Jan Brueghel de Oude werd beroemd om zijn bloemen en landschappen. De familie bleef nog een eeuw lang schilders voortbrengen.",
+  "Bruegel maakte het landschap en het dagelijks leven tot een volwaardig onderwerp. Zijn winterlandschap Jagers in de sneeuw (1565) maakte deel uit van een reeks over de seizoenen. Na hem werden winterlandschappen met schaatsers en jagers een geliefd onderwerp, ook bij Hollandse schilders in de 17e eeuw."
+ ],
+ perspectieven: [
+  "Lange tijd zag men Bruegel als een grappige boerenschilder, “Boerenbruegel”. Dat beeld komt vooral van Karel van Mander, die in 1604 vertelde dat Bruegel zich als boer verkleedde om op dorpsfeesten mee te doen. Maar Bruegel was een stedeling met geleerde vrienden, zoals de kaartenmaker Abraham Ortelius. Zijn kopers waren rijke kooplieden en zelfs kardinaal Granvelle.",
+  "Historici zijn het er niet over eens of Bruegel in zijn schilderijen kritiek gaf op de geloofsvervolging van zijn tijd. Werken als De kindermoord in Bethlehem, waarin soldaten een Vlaams dorp binnenvallen, worden soms zo uitgelegd. Van Mander vertelt dat Bruegel voor zijn dood prenten met scherpe kritiek liet verbranden, om zijn vrouw niet in de problemen te brengen."
+ ],
+ misverstanden: [
+  ["“Bruegel was zelf een boer.”","Bruegel woonde en werkte in Antwerpen en Brussel, en maakte een reis naar Italië. Hij keek naar het boerenleven, maar als buitenstaander, met humor en soms met een moraal."],
+  ["“Brueghel, met een h, is de juiste spelling.”","Vanaf 1559 schreef Pieter Bruegel zijn naam zonder h. Zijn zonen schreven Brueghel. Daarom wordt de vader meestal Bruegel genoemd en worden zijn zonen met een h geschreven."]
+ ],
+ hoeWeten: [
+  "Er zijn maar weinig documenten over Bruegel. De oudste vermelding is zijn inschrijving als meester in het schildersgilde van Antwerpen in 1551. Het levensverhaal van Karel van Mander uit 1604 is de belangrijkste bron, maar Van Mander hield van sappige verhalen. Verder zijn er ongeveer veertig schilderijen en een groot aantal prenten naar zijn tekeningen bewaard."
+ ],
+ nu: [
+  "De grootste verzameling schilderijen van Bruegel hangt in het Kunsthistorisches Museum in Wenen, waaronder Jagers in de sneeuw, De Boerenbruiloft en de grote Toren van Babel. Zijn winterlandschappen staan vaak op kerstkaarten. Veel spreekwoorden op zijn schilderijen gebruiken we nog steeds."
+ ],
+ vertellen: "Op het schilderij De Nederlandse Spreekwoorden uit 1559, nu in Berlijn, heeft Bruegel meer dan honderd spreekwoorden en gezegden afgebeeld. Je ziet iemand met zijn hoofd tegen de muur lopen, een man die de kat de bel aanbindt en iemand die tussen twee stoelen in de as zit. Een leuke zoekplaat voor in de klas.",
+ verbanden: [["Jeroen Bosch","Bruegel werd in zijn tijd “de nieuwe Jheronimus Bosch” genoemd"],["Jan van Eyck en het Lam Gods","de Vlaamse schildertraditie waarin Bruegel stond"],["Beeldenstorm","de onrustige tijd waarin hij zijn laatste werken maakte"]],
+ onderwijs: {"ka":["Het veranderende mens- en wereldbeeld van de renaissance en het begin van een nieuwe wetenschappelijke belangstelling."]},
  cijfers: [['Geboren','tussen 1525 en 1530'],['Naar Brussel','1563'],['Toren van Babel','1563 (Wenen), 1568 (Rotterdam)'],['Overleden','9 september 1569, Brussel']],
  figuren: [['Pieter Bruegel de Oude','schilder uit de Nederlanden'],['Mayken Coecke','zijn vrouw'],['Pieter Coecke van Aelst','zijn leermeester']],
  bronnen: [['Wikipedia: Pieter Bruegel de Oude',W('Pieter Bruegel de Oude')],['Wikipedia: Toren van Babel',W('Toren van Babel Bruegel')]]
@@ -615,6 +699,28 @@ Object.assign(window.DETAILS, {
   'De boekdrukkunst hielp: Luthers teksten werden snel gedrukt en verspreid. In 1521 zette paus Leo X hem uit de kerk.',
   'De Reformatie verspreidde zich door Europa. Ook in de Nederlanden volgden mensen de nieuwe leer. Dat droeg bij aan de Beeldenstorm in 1566 en aan de Tachtigjarige Oorlog.'
  ],
+ gevolgen: [
+  "Op de Rijksdag van Worms in 1521 weigerde Luther zijn ideeën te herroepen. Keizer Karel V verklaarde hem vogelvrij. Zijn vorst, keurvorst Frederik van Saksen, liet hem in het geheim naar de Wartburg brengen. Daar vertaalde Luther het Nieuwe Testament in het Duits. Die vertaling verscheen in 1522, het Oude Testament volgde in 1534. Zijn Bijbel had grote invloed op de Duitse taal.",
+  "Europa raakte verdeeld. In grote delen van Duitsland en in Scandinavië kwamen lutherse kerken, elders volgden mensen hervormers als Zwingli en Calvijn. Bij de Vrede van Augsburg in 1555 werd bepaald dat elke Duitse vorst het geloof van zijn land mocht kiezen. De katholieke kerk hervormde zichzelf op het Concilie van Trente (1545–1563).",
+  "In de Nederlanden liet Karel V de nieuwe leer streng vervolgen. Op 1 juli 1523 werden twee augustijner monniken uit Antwerpen, Hendrik Voes en Jan van Essen, in Brussel op de brandstapel gezet. Zij behoorden tot de eerste mensen die vanwege de Reformatie werden terechtgesteld. Luther schreef een lied over hen."
+ ],
+ perspectieven: [
+  "Voor katholieken was Luther geen hervormer maar een scheurmaker, die de eenheid van de kerk kapotmaakte. Ook de katholieke kerk zag dat er misstanden waren, maar wilde die binnen de kerk oplossen.",
+  "Luther steunde lang niet iedereen die zich op hem beriep. Toen boeren in 1524 en 1525 in opstand kwamen, mede geïnspireerd door zijn ideeën over vrijheid, koos hij de kant van de vorsten en riep hij op de opstand hard neer te slaan. Aan het eind van zijn leven, in 1543, schreef hij felle teksten tegen de Joden. Die werden eeuwen later door de nazi’s gebruikt. Lutherse kerken hebben in de 20e eeuw afstand genomen van deze teksten."
+ ],
+ misverstanden: [
+  ["“Luther spijkerde zijn stellingen met een hamer aan de kerkdeur.”","Dat Luther op 31 oktober 1517 een brief met stellingen naar de aartsbisschop stuurde, staat vast. Of hij ze ook zelf aan de deur van de slotkerk sloeg, weten we niet zeker. Het verhaal komt pas na zijn dood op, van zijn medewerker Melanchthon, die in 1517 nog niet in Wittenberg woonde."],
+  ["“Luther wilde een nieuwe kerk beginnen.”","Luther wilde de kerk hervormen, niet splitsen. Hij hoopte dat de paus zou luisteren. Pas toen hij uit de kerk werd gezet, groeide er een aparte kerk rond zijn ideeën."]
+ ],
+ hoeWeten: [
+  "Doordat Luthers teksten meteen gedrukt werden, zijn er nog veel exemplaren uit zijn eigen tijd. Ook zijn brieven, preken en liederen zijn bewaard, en studenten schreven op wat hij aan tafel vertelde. Over de Rijksdag van Worms bestaan verslagen van aanhangers én tegenstanders. Zo weten we bijvoorbeeld dat de beroemde woorden “Hier sta ik, ik kan niet anders” misschien later zijn toegevoegd."
+ ],
+ nu: [
+  "Op 31 oktober vieren protestanten Hervormingsdag. In 2017 werd overal 500 jaar Reformatie herdacht, ook samen met de katholieke kerk. In Nederland is de Evangelisch-Lutherse Kerk sinds 2004 deel van de Protestantse Kerk in Nederland. Luthers lied “Een vaste burcht is onze God” wordt nog altijd gezongen."
+ ],
+ vertellen: "Op de Wartburg mocht niemand weten dat Luther er was. Hij liet zijn haar en baard groeien, droeg de kleren van een ridder en noemde zich jonker Jörg. In die schuilplaats vertaalde hij het Nieuwe Testament, in een Duits dat gewone mensen konden begrijpen.",
+ verbanden: [["Erasmus","Luther gebruikte de Griekse tekst van het Nieuwe Testament die Erasmus had uitgegeven"],["Boekdrukkunst","zonder drukpers was de Reformatie niet zo snel gegaan"],["De wederdopers in Münster","een radicale tak van de Reformatie"],["Statenbijbel","de Nederlandse Bijbelvertaling van een eeuw later"]],
+ onderwijs: {"ka":["De protestantse reformatie en splitsing van de christelijke kerk in West-Europa."],"venster":"10. Erasmus"},
  cijfers: [['Luther geboren','10 november 1483, Eisleben'],['Brief met stellingen','31 oktober 1517'],['Uit de kerk gezet','1521'],['Overleden','18 februari 1546, Eisleben']],
  figuren: [['Maarten Luther','Duitse theoloog en hervormer'],['Johann Tetzel','dominicaan die aflaten verkocht'],['Albrecht van Brandenburg','aartsbisschop, ontving Luthers brief'],['Paus Leo X','zette Luther uit de kerk']],
  bronnen: [['Wikipedia: Maarten Luther',W('Maarten Luther')],['Wikipedia: Reformatie',W('Reformatie')]]
@@ -632,6 +738,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Op de Filipijnen wordt Lapu-Lapu gezien als een nationale held, de eerste die de Europese indringers weerstond.'
  ],
+ gevolgen: [
+  "De reis liet zien hoe groot de aarde was. De Stille Oceaan bleek veel breder dan iedereen had gedacht, en de westelijke route naar de Molukken was veel te lang om er regelmatig handel over te drijven. In 1529 verkocht Spanje zijn aanspraak op de Molukken aan Portugal, bij het Verdrag van Zaragoza.",
+  "Spanje hield wel vast aan de eilanden die Magellaan had bereikt. Ze kregen later de naam Filipijnen, naar de Spaanse kroonprins Filips, de latere Filips II. Vanaf 1565 werden ze een Spaanse kolonie, ruim driehonderd jaar lang."
+ ],
+ misverstanden: [
+  ["“Magellaan was de eerste die rond de wereld voer.”","Magellaan sneuvelde halverwege, op de Filipijnen. Het was Juan Sebastián Elcano die het laatste schip, de Victoria, terugbracht naar Spanje. Met hem kwamen er achttien mannen aan, van de ongeveer 240 die waren vertrokken."],
+  ["“In die tijd dachten mensen dat de aarde plat was.”","Geleerden wisten al sinds de oudheid dat de aarde rond is. De vraag was hoe groot ze was en of je er een doorgang omheen kon vinden. Magellaan en zijn mannen onderschatten vooral hoe breed de Stille Oceaan was."]
+ ],
+ hoeWeten: [
+  "De belangrijkste bron is het verslag van Antonio Pigafetta, een jonge Italiaan die de hele reis meemaakte en alles opschreef. Daarnaast zijn er scheepsjournaals, de verhoren van de overlevenden na hun terugkeer, en Spaanse en Portugese brieven en rapporten."
+ ],
+ nu: [
+  "De zeestraat bij Zuid-Amerika heet nog altijd de Straat Magellaan, en twee sterrenstelsels aan de zuidelijke hemel heten de Magelhaense Wolken. Op het eiland Mactan staat een groot standbeeld van Lapu-Lapu. Bij de 500-jarige herdenking in 2021 stond op de Filipijnen vooral zijn overwinning centraal."
+ ],
+ vertellen: "Pigafetta beschreef hoe zwaar de oversteek van de Stille Oceaan was. De mannen aten beschuit vol wormen, zaagsel en stukken leer die ze eerst dagen in zee lieten weken. Ratten werden verkocht voor een halve dukaat per stuk, en nog waren ze snel op. Bij thuiskomst bleek ook de kalender niet meer te kloppen: doordat ze steeds naar het westen waren gevaren, waren ze onderweg een dag “kwijtgeraakt”.",
+ verbanden: [["Columbus en Amerika","de eerste tocht naar het westen"],["Vasco da Gama naar Indië","de Portugese route om Afrika"],["Eerste schipvaart naar Indië","Nederlanders zochten later ook de weg naar de specerijen"]],
+ onderwijs: {"ka":["Het begin van de Europese overzeese expansie."]},
  cijfers: [['Vertrek','20 september 1519'],['Zeestraat gevonden','21 oktober 1520'],['Magellaan sneuvelt','27 april 1521, Mactan'],['Victoria terug in Spanje','1522']],
  figuren: [['Ferdinand Magellaan','Portugese zeevaarder in Spaanse dienst'],['Juan Sebastián Elcano','bracht de Victoria terug naar Spanje'],['Antonio Pigafetta','schreef een verslag van de reis'],['Lapu-Lapu','hoofdman op Mactan']],
  bronnen: [['Wikipedia: Ferdinand Magellaan',W('Ferdinand Magellaan')]]
@@ -647,6 +770,27 @@ Object.assign(window.DETAILS, {
   'Jan van Leiden riep zichzelf uit tot koning van het wederdoperse rijk in Münster. Dat rijk was kortstondig. Jan van Leiden werd gevangengenomen en overleed op 22 januari 1536 in Münster.',
   'Het verhaal van Münster maakte veel mensen angstig voor wederdopers, ook in de Nederlanden.'
  ],
+ gevolgen: [
+  "Op 25 juni 1535 namen de troepen van de bisschop de uitgehongerde stad in, nadat een overloper had verteld waar de zwakke plekken lagen. Jan van Leiden en twee andere leiders werden in januari 1536 gemarteld en terechtgesteld. Hun lichamen werden in ijzeren kooien aan de toren van de Lambertikerk gehangen, als afschrikwekkend voorbeeld.",
+  "Ook in de Nederlanden waren er aanhangers. Op 10 mei 1535 bezetten wederdopers het stadhuis van Amsterdam; daarbij werd een burgemeester gedood. De opstand werd neergeslagen en de leiders werden terechtgesteld. Daarna werden wederdopers overal fel vervolgd, ook degenen die niets met geweld te maken hadden.",
+  "De Friese priester Menno Simons koos een andere weg. Hij keerde zich tegen het geweld van Münster en verzamelde de dopers die vreedzaam wilden leven. Naar hem heten zij mennonieten; in Nederland worden ze doopsgezinden genoemd."
+ ],
+ perspectieven: [
+  "Bijna alles wat we over het rijk in Münster weten, komt van tegenstanders. Een katholieke schrijver die als jongen in de stad was, schreef dertig jaar later een verslag, en een andere bron is een overloper. Kerk en overheid lieten de gruwelverhalen graag verspreiden, als waarschuwing. Voor de aanhangers zelf, vaak arme ambachtslieden, was Münster het Nieuwe Jeruzalem: de plek waar ze het einde van de wereld en het rijk van God zouden afwachten."
+ ],
+ misverstanden: [
+  ["“Münster was een Duitse zaak.”","De leiders kwamen uit Holland: Jan Matthijs was bakker in Haarlem en Jan van Leiden kleermaker uit Leiden. Veel aanhangers kwamen uit de Nederlanden en trokken naar Münster in de hoop daar veilig te zijn."],
+  ["“Wederdopers waren gewelddadige fanatici.”","Münster was een uitzondering. De meeste dopers wilden juist geen geweld gebruiken en weigerden wapens te dragen. Toch kregen ze door Münster nog lang de naam gevaarlijk te zijn."]
+ ],
+ hoeWeten: [
+  "Er zijn twee belangrijke ooggetuigenverslagen: van de katholieke Hermann von Kerssenbrock en van Heinrich Gresbeck, die in de stad woonde en uiteindelijk overliep. Daarnaast zijn er brieven, verhoren van gevangenen en de verslagen van de belegeraars. Omdat die bronnen bijna allemaal van tegenstanders komen, zijn historici voorzichtig met de verhalen over het leven in de stad."
+ ],
+ nu: [
+  "Aan de toren van de Lambertikerk in Münster hangen nog altijd drie ijzeren kooien, maar zonder de botten. In Nederland zijn er nog doopsgezinde gemeenten, met zo’n zesduizend leden. Wereldwijd telt de beweging veel meer aanhangers, vooral in Noord-Amerika en Afrika."
+ ],
+ vertellen: "Jan Matthijs had voorspeld dat God op Paaszondag 1534 zou ingrijpen. Op die dag, 5 april, deed hij met ongeveer dertig volgelingen een uitval uit de stad. Hij geloofde dat hij onoverwinnelijk was, zoals Gideon in de Bijbel. Hij werd meteen gedood. Daarna nam Jan van Leiden de leiding over.",
+ verbanden: [["Luther en de Reformatie","de wederdopers gingen veel verder dan Luther"],["Karel V en het Verdrag van Venlo","Karel V liet de wederdopers in de Nederlanden hard vervolgen"],["Beeldenstorm","het protestantisme in de Nederlanden groeide verder"]],
+ onderwijs: {"ka":["De protestantse reformatie en splitsing van de christelijke kerk in West-Europa."]},
  cijfers: [['Jan van Leiden geboren','1509, Leiden'],['Beleg van Münster','vanaf 28 februari 1534'],['Jan van Leiden overleden','22 januari 1536, Münster'],['Leider vóór hem','Jan Matthijs']],
  figuren: [['Jan van Leiden','prediker uit Leiden, zelfbenoemd koning'],['Jan Matthijs','leider van de wederdopers'],['Frans II van Waldeck','prins-bisschop die de stad belegerde']],
  bronnen: [['Wikipedia: Jan van Leiden',W('Jan van Leiden')]]
