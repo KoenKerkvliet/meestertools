@@ -401,6 +401,26 @@ Object.assign(window.DETAILS, {
   'Daarmee werd Nijmegen een erkende Romeinse stad met een eigen bestuur. Een stadsrecht zoals in de middeleeuwen was het niet, maar de nederzetting had wel een officiële status. Er kwamen openbare gebouwen, tempels en een badhuis. De stad was het bestuurlijk centrum van het Bataafse gebied.',
   'Omdat dit de eerste nederzetting in Nederland was met zo’n Romeins stadsrecht, noemt Nijmegen zich de oudste stad van het land. In 2005 vierde de stad haar 2000-jarig bestaan, gerekend vanaf de eerste Romeinse vestiging.'
  ],
+ gevolgen: [
+  "Na het vertrek van het Tiende Legioen, dat naar Aquincum aan de Donau ging, het huidige Boedapest, bleef Nijmegen een belangrijke plaats in het rivierengebied. De stad had een forum, tempels, een badhuis en mogelijk een amfitheater. Ook na de 3e eeuw bleef er bewoning, al werd de stad kleiner.",
+  "Op het Valkhof, dat in de Romeinse tijd al een versterking droeg, bouwde Karel de Grote later een palts. Zo bleef de plek eeuwenlang een centrum van macht."
+ ],
+ perspectieven: [
+  "Voor de Bataven was de nieuwe stad een Romeinse plaats, gesticht na hun mislukte opstand. De Romeinen wilden hen zo dichter bij hun eigen bestuur hebben. Tegelijk werden veel Bataven er burger, handelaar of ambtenaar, en namen ze de Romeinse levenswijze over."
+ ],
+ misverstanden: [
+  ["“Nijmegen was de enige Romeinse stad in Nederland.”","Er was nog een tweede Romeinse stad: Forum Hadriani, bij het huidige Voorburg. Die kreeg rond 121 marktrecht van keizer Hadrianus en was de noordelijkste Romeinse stad op het Europese vasteland. Ook Maastricht en Heerlen waren grote Romeinse plaatsen, al hadden ze niet zo’n status."],
+  ["“Nijmegen bestaat sinds 104 onafgebroken als stad.”","Na de Romeinse tijd liep de stad grotendeels leeg. Pas in de middeleeuwen groeide Nijmegen weer uit tot een echte stad. Toch is er waarschijnlijk altijd bewoning geweest op en rond het Valkhof."]
+ ],
+ hoeWeten: [
+  "Het legioen liet zijn naam achter op duizenden dakpannen en bakstenen: LEG X G, Legio X Gemina. Daarmee is precies te zien welke gebouwen het legioen bouwde. Ook grafstenen, munten en een riool en waterleiding zijn gevonden. Dat Nijmegen rond 104 marktrecht kreeg, blijkt vooral uit de naam Ulpia, die naar keizer Trajanus verwijst."
+ ],
+ nu: [
+  "Museum Het Valkhof toont de vondsten uit Romeins Nijmegen. In de stad zijn op verschillende plaatsen markeringen en reconstructies te zien, zoals delen van het legerkamp op de Hunerberg. In 2005 vierde Nijmegen dat het 2000 jaar geleden als Romeinse nederzetting begon."
+ ],
+ vertellen: "Het Tiende Legioen kwam uit Spanje. In allerijl stuurde keizer Vespasianus het na de Bataafse Opstand naar Nijmegen. Eerst woonden de soldaten in een houten kamp, twintig jaar later in een stenen kamp. Zo kwamen er duizenden soldaten van ver naar de Waal, met hun eigen gewoonten, eten en goden.",
+ verbanden: [["Bataafse Opstand","de opstand waarna de nieuwe stad werd gebouwd"],["De Romeinse Limes","de grens die het legioen bewaakte"],["Karel de Grote","hij bouwde later een palts op het Valkhof"]],
+ onderwijs: {"ka":["De groei van het Romeinse Rijk waardoor de Grieks-Romeinse cultuur zich in Europa verspreidde.","De klassieke vormentaal van de Grieks-Romeinse cultuur."]},
  cijfers: [['Legioen op de Hunerberg','ca. 71 – 104'],['Marktrecht','ca. 104'],['Naam','Ulpia Noviomagus Batavorum'],['2000-jarig bestaan gevierd','2005']],
  figuren: [['Keizer Trajanus','gaf de stad marktrecht'],['Legio X Gemina','legioen op de Hunerberg']],
  bronnen: [['Wikipedia: Ulpia Noviomagus Batavorum',W('Ulpia Noviomagus Batavorum')],['Wikipedia: Geschiedenis van Nijmegen',W('Geschiedenis van Nijmegen')]]
@@ -416,6 +436,26 @@ Object.assign(window.DETAILS, {
   'Een van de grootste in Nederland was de villa van Voerendaal. Daar zijn onder meer een groot hoofdgebouw en een graanschuur gevonden. In het Heuvelland zijn tientallen villaterreinen bekend, vaak dicht bij Romeinse wegen. Langs die wegen kon het graan gemakkelijk naar de legerplaatsen en steden worden vervoerd.',
   'In de 3e eeuw kwamen de villa’s onder druk door invallen en economische crisis. Veel werden verlaten. Toch bleef het gebied ook daarna bewoond en bewerkt. Romeinse dakpannen en bouwstenen werden later vaak hergebruikt in kerken en boerderijen. Van veel villa’s zijn alleen nog sporen in de grond over.'
  ],
+ gevolgen: [
+  "Door de villa’s werd het Zuid-Limburgse landschap een akkerlandschap. Bossen werden gekapt en akkers aangelegd. De Romeinen brachten nieuwe gewassen en technieken mee, zoals betere ploegen en nieuwe soorten groenten en fruit.",
+  "De villa’s veranderden ook de manier van wonen. Rijke eigenaren woonden in huizen met beschilderde muren, mozaïekvloeren en vloerverwarming. Ze lieten zien dat ze bij de Romeinse wereld hoorden, ook al woonden ze ver van Rome."
+ ],
+ perspectieven: [
+  "Op een villa werkten niet alleen de eigenaar en zijn familie, maar ook knechten en waarschijnlijk slaven. Hun leven was heel anders dan dat van de eigenaar. Van hen zijn weinig sporen bewaard: archeologen vinden vooral de stenen hoofdgebouwen, en veel minder de houten huizen van de arbeiders."
+ ],
+ misverstanden: [
+  ["“Een Romeinse villa was een luxe vakantiehuis.”","Een villa rustica was in de eerste plaats een boerenbedrijf, met akkers, stallen en schuren. Het hoofdgebouw kon luxe zijn, maar het ging om de productie van graan en vee."],
+  ["“De villa’s werden gebouwd door Romeinen uit Italië.”","De meeste eigenaren kwamen waarschijnlijk uit de streek zelf. Het waren lokale families die de Romeinse manier van wonen en boeren overnamen."]
+ ],
+ hoeWeten: [
+  "Bij Voerendaal-Ten Hove werd al in 1892 gegraven door priester-historicus Jos Habets. De grootste opgraving was van 1985 tot 1987. Pas in 2023 verscheen er een uitgebreide publicatie over. In heel Nederland zijn maar drie villa’s min of meer volledig opgegraven: in Voerendaal, Kerkrade-Holzkuil en Hoogeloon in Brabant. Ook luchtfoto’s, waarop sporen van muren in akkers zichtbaar zijn, helpen om villa’s te vinden."
+ ],
+ nu: [
+  "Op verschillende plaatsen in Zuid-Limburg zijn de plattegronden van villa’s in het landschap aangegeven. Langs het tracé van de Via Belgica loopt een wandel- en fietsroute langs Romeinse plekken. In Het Romeins Museum in Heerlen zijn vondsten uit de villa’s te zien."
+ ],
+ vertellen: "In de villa van Voerendaal stond een grote graanschuur, een horreum. Het graan werd daar opgeslagen voordat het met wagens over de Romeinse wegen naar de legerkampen aan de Rijn en naar Keulen ging. Laat leerlingen op een kaart de route volgen van het Heuvelland naar de Rijn.",
+ verbanden: [["Coriovallum (Heerlen)","de nederzetting aan de Via Belgica"],["De grens raakt onder druk","in de 3e eeuw werden veel villa’s verlaten"],["Eerste boeren in Zuid-Limburg","veel eerder boerden de eerste boeren al op dezelfde löss"]],
+ onderwijs: {"ka":["De groei van het Romeinse Rijk waardoor de Grieks-Romeinse cultuur zich in Europa verspreidde.","De klassieke vormentaal van de Grieks-Romeinse cultuur."]},
  cijfers: [['Bloeitijd','ca. 1e – 3e eeuw'],['Bodem','vruchtbare löss'],['Belangrijkste product','graan']],
  figuren: [['Villa Voerendaal','een van de grootste villa’s van Nederland'],['Romeins leger aan de Rijn','belangrijkste afnemer van graan']],
  bronnen: [['Wikipedia: Villa rustica',W('Villa rustica')],['Wikipedia: Romeinse villa Voerendaal',W('Romeinse villa Voerendaal')]]
@@ -431,6 +471,26 @@ Object.assign(window.DETAILS, {
   'Forten en nederzettingen werden verwoest of verlaten. Mensen begroeven hun geld en kostbaarheden, en veel van die muntschatten zijn later teruggevonden. Villa’s in het zuiden werden verlaten. In het kustgebied liep de bevolking sterk terug, mogelijk ook doordat het land natter werd en vaker overstroomde.',
   'Later in de 3e eeuw herstelden de keizers het gezag gedeeltelijk. Ze bouwden versterkingen langs wegen en rivieren. Maar het oude grenssysteem langs de Rijn werd nooit meer zoals vroeger. Steden kregen muren, zoals in Maastricht, en de verdediging verschoof naar versterkte plaatsen in het binnenland.'
  ],
+ gevolgen: [
+  "Het Gallische Keizerrijk van Postumus en zijn opvolgers beschermde de grens een tijd lang beter dan de keizers in Rome konden. In 274 werd het weer bij het Romeinse Rijk gevoegd. Daarna werd de verdediging opnieuw ingericht, met minder grote legerkampen en meer versterkte plaatsen in het binnenland.",
+  "De crisis veranderde het leven op het platteland. Villa’s werden verlaten en akkers raakten overwoekerd. Waar mensen bleven, woonden ze vaak in kleinere, houten boerderijen. Het rijke Romeinse leven op het platteland was voor een groot deel voorbij."
+ ],
+ perspectieven: [
+  "De Germanen die over de Rijn kwamen, waren niet alleen plunderaars. Veel van hen wilden juist in het Romeinse Rijk wonen, of dienden als soldaat in het Romeinse leger. Voor de bewoners van de grensstreek kon een Germaan dus zowel een vijand als een buurman of collega zijn."
+ ],
+ misverstanden: [
+  ["“De Franken waren één volk dat Rome wilde vernietigen.”","De Franken waren een verbond van verschillende Germaanse groepen. Ze kwamen voor buit, maar ook voor land en werk. Later werden Frankische groepen juist bondgenoten van Rome en verdedigden ze de grens."],
+  ["“De crisis kwam alleen door de invallen.”","Er speelden veel dingen tegelijk: burgeroorlogen tussen keizers, munten die steeds minder zilver bevatten en dus minder waard werden, epidemieën en een klimaat dat natter werd. De invallen kwamen bovenop die problemen."]
+ ],
+ hoeWeten: [
+  "Muntschatten zijn een belangrijke bron. Mensen begroeven hun geld bij gevaar en kwamen het soms nooit meer halen. Aan de jongste munt in een schat kun je zien wanneer hij ongeveer begraven werd. Er zijn in Nederland en België veel schatten uit deze jaren gevonden. Daarnaast tonen opgravingen verbrande gebouwen en verlaten villa’s."
+ ],
+ nu: [
+  "Munten van Postumus, met zijn portret en zijn naam, worden nog regelmatig gevonden door archeologen en mensen met een metaaldetector. In musea zijn muntschatten uit deze tijd te zien. In Maastricht zijn resten van de laat-Romeinse versterking te zien."
+ ],
+ vertellen: "Een muntschat is als een tijdcapsule. Laat leerlingen bedenken: waarom zou iemand zijn geld begraven? En waarom zou hij het niet meer opgraven? Aan de munten kunnen archeologen zien wanneer het gebeurde. Zo vertelt een pot met geld het verhaal van angst en onrust, zonder dat er iets is opgeschreven.",
+ verbanden: [["Villa’s in het Heuvelland","de villa’s die in deze tijd werden verlaten"],["Einde van de Limes","het definitieve einde van de grens"],["Franken, Friezen en Saksen","de nieuwe groepen die zich vestigden"]],
+ onderwijs: {"ka":["De confrontatie tussen de Grieks-Romeinse cultuur en de Germaanse cultuur van Noordwest-Europa."]},
  cijfers: [['Gallisch Keizerrijk','ca. 260 – 274'],['Periode van crisis','ca. 235 – 284'],['Bewijs van onrust','begraven muntschatten']],
  figuren: [['Franken','Germaans volk dat het gebied binnenviel'],['Postumus','stichter van het Gallisch Keizerrijk']],
  bronnen: [['Wikipedia: Crisis van de derde eeuw',W('Crisis van de derde eeuw')],['Wikipedia: Gallische Keizerrijk',W('Gallische Keizerrijk')]]
@@ -446,6 +506,26 @@ Object.assign(window.DETAILS, {
   'In de Lage Landen verdween het Romeinse bestuur geleidelijk. Steden liepen leeg, de geldeconomie stortte grotendeels in en veel Romeinse gebouwen raakten in verval. In het zuiden, rond Maastricht, bleef wel een deel van de Romeinse bevolking en cultuur over.',
   'Germaanse groepen namen het gebied over. Toch leefden Romeinse invloeden voort, vooral via de kerk en de Latijnse taal. Ook Romeinse wegen bleven nog eeuwen in gebruik. Daarmee begon in de Lage Landen de vroege middeleeuwen.'
  ],
+ gevolgen: [
+  "Met het vertrek van het Romeinse leger verdween ook het Romeinse geld, de belasting en het bestuur. Handel over lange afstand nam sterk af. Grote gebouwen raakten in verval, en hun stenen werden later hergebruikt in kerken en huizen.",
+  "Toch bleef er veel van Rome over. Het Latijn bleef de taal van de kerk en van geleerden. Romeinse wegen werden nog eeuwenlang gebruikt. En in het zuiden, rond Maastricht en Tongeren, bleef een deel van de bevolking christelijk en Romeins."
+ ],
+ perspectieven: [
+  "Voor de Franken in Toxandrië was het einde van de Romeinse grens een kans. Ze woonden al als bondgenoten op Romeins gebied, en konden nu hun eigen macht uitbouwen. Voor hen was het geen “val” van Rome, maar een overgang naar een nieuwe tijd."
+ ],
+ misverstanden: [
+  ["“De Vandalen staken in 406 de bevroren Rijn over.”","Dat de Rijn bevroren was, staat niet in de bronnen uit die tijd. Het verhaal werd veel later toegevoegd, onder meer door de Engelse historicus Edward Gibbon in de 18e eeuw."],
+  ["“Het Romeinse Rijk viel in 476 in één keer.”","In 476 werd de laatste West-Romeinse keizer afgezet, maar in de Lage Landen was het Romeinse gezag toen al tientallen jaren aan het verdwijnen. Het Oost-Romeinse Rijk bestond nog tot 1453."]
+ ],
+ hoeWeten: [
+  "De Romeinse schrijver Ammianus Marcellinus beschrijft de veldtochten van keizer Julianus aan de Rijn. Archeologen zien in de bodem dat forten en nederzettingen rond 400 verlaten werden. Ook de munten houden op: na het begin van de 5e eeuw komen er nauwelijks nog Romeinse munten in de grond."
+ ],
+ nu: [
+  "In het Nederlands zitten nog veel woorden die we in de Romeinse tijd van het Latijn hebben overgenomen, zoals straat (strata), muur (murus), venster (fenestra), kelder (cellarium), tegel (tegula), wijn (vinum), kaas (caseus) en keuken (coquina). Ook de wegen langs de Rijn en de Maas volgen soms nog Romeinse routes."
+ ],
+ vertellen: "Veel woorden voor stenen huizen en voor eten en drinken komen uit het Latijn. Dat is geen toeval: de Romeinen brachten stenen gebouwen, wijn en nieuwe gerechten mee. De Germanen namen de dingen over, en de woorden erbij. Een leuke opdracht: laat leerlingen raden welke woorden uit het Latijn komen.",
+ verbanden: [["De Romeinse Limes","het begin van de grens langs de Rijn"],["Franken, Friezen en Saksen","de groepen die het gebied overnamen"],["Val van Constantinopel","het einde van het Oost-Romeinse Rijk in 1453"]],
+ onderwijs: {"ka":["De confrontatie tussen de Grieks-Romeinse cultuur en de Germaanse cultuur van Noordwest-Europa."],"venster":"3. De Romeinse Limes"},
  cijfers: [['Herstel door Julianus','ca. 358'],['Terugtrekking troepen','ca. 400'],['Oversteek Rijn','31 dec 406']],
  figuren: [['Keizer Julianus','herstelde de Rijngrens'],['Salische Franken','bondgenoten in Toxandrië'],['Vandalen','staken de Rijn over in 406']],
  bronnen: [CANON,['Wikipedia: Neder-Germaanse Limes',W('Neder-Germaanse Limes')],['Wikipedia: Rijnoversteek van 406',W('Rijnoversteek 406')]]
@@ -461,6 +541,26 @@ Object.assign(window.DETAILS, {
   'Zijn graf trok al snel pelgrims. De geschiedschrijver Gregorius van Tours vertelde in de 6e eeuw over een kerk boven het graf. Daardoor bleef Maastricht in een woelige tijd een belangrijke plaats. Rond het graf verscheen later de Sint-Servaasbasiliek.',
   'Servaas werd de schutspatroon van Maastricht. Zijn relieken worden bewaard in een rijk versierd reliekschrijn, de Noodkist. Tijdens de Heiligdomsvaart, die eens in de zeven jaar plaatsvindt, worden ze door de stad gedragen. Die traditie gaat terug tot de middeleeuwen en trekt nog steeds veel bezoekers.'
  ],
+ gevolgen: [
+  "Het graf van Servaas maakte Maastricht tot een bedevaartplaats, ook toen het Romeinse gezag verdween. Daardoor bleef de stad belangrijk. De bisschoppen hadden er hun zetel tot in het begin van de 8e eeuw; daarna verhuisde die naar Luik.",
+  "In de middeleeuwen groeiden de verhalen over Servaas uit tot een lange legende vol wonderen. In de 11e eeuw schreef een Franse priester dat Servaas uit Armenië kwam en zelfs familie was van Jezus. Die verhalen hielpen om pelgrims en geld naar Maastricht te trekken."
+ ],
+ perspectieven: [
+  "Servaas leefde in een tijd van strijd binnen de kerk. Hij koos de kant van de bisschoppen die het arianisme bestreden, een stroming die vond dat Jezus niet gelijk was aan God. Die strijd werd uiteindelijk gewonnen door zijn kant. Zo was een bisschop uit deze streek betrokken bij discussies die de hele christelijke wereld raakten."
+ ],
+ misverstanden: [
+  ["“Servaas was bisschop van Maastricht.”","In de bronnen uit zijn eigen tijd heet hij bisschop van de Tungri, het volk rond Tongeren. Dat hij de zetel naar Maastricht verplaatste, is een overlevering die nauwelijks met bronnen te onderbouwen is."],
+  ["“Over Servaas weten we veel.”","Over het leven van Servaas is weinig met zekerheid bekend. Hij wordt genoemd bij twee kerkvergaderingen, in 343 en 359. De meeste verhalen zijn eeuwen later opgeschreven en zitten vol wonderen."]
+ ],
+ hoeWeten: [
+  "De vroegste vermeldingen staan in verslagen van de concilies van Serdica (343) en Rimini (359). Gregorius van Tours schreef in de 6e eeuw over Servaas, maar zijn verhaal is een mengeling van feiten en legende. Opgravingen laten zien dat de Servaaskerk op een Romeins grafveld staat, langs de oude weg naar Tongeren."
+ ],
+ nu: [
+  "Servaas is een van de ijsheiligen: zijn feestdag is 13 mei, rond de tijd dat er volgens de volksweerkunde nog nachtvorst kan zijn. In de schatkamer van de Sint-Servaasbasiliek liggen de Noodkist en een zilveren sleutel die volgens de legende van Petrus zelf kwam. De Heiligdomsvaart wordt nog elke zeven jaar gehouden, de laatste in 2025."
+ ],
+ vertellen: "In de 12e eeuw schreef de dichter Hendrik van Veldeke het leven van Sint-Servaas op in verzen, in de taal van de streek. Het is een van de oudste literaire teksten in een vroege vorm van het Nederlands. Een mooie verbinding met Hebban olla vogala: ook in het zuiden werd al vroeg in de volkstaal geschreven.",
+ verbanden: [["Bouw Sint-Servaasbasiliek","de kerk die boven zijn graf verrees"],["Hebban olla vogala","een andere vroege tekst in de volkstaal"],["Sint-Servaasbrug","de brug die naar hem genoemd is"]],
+ onderwijs: {"ka":["De ontwikkeling van het christendom en jodendom als eerste monotheïstische godsdiensten."]},
  cijfers: [['Overlijden (overlevering)','384'],['Heiligdomsvaart','eens in de 7 jaar'],['Reliekschrijn','de Noodkist']],
  figuren: [['Sint-Servaas','bisschop van Tongeren-Maastricht'],['Gregorius van Tours','geschiedschrijver, schreef over zijn graf']],
  bronnen: [['Wikipedia: Servatius',W('Servatius van Maastricht')],['Wikipedia: Sint-Servaasbasiliek',W('Sint-Servaasbasiliek')]]
@@ -476,6 +576,26 @@ Object.assign(window.DETAILS, {
   'De Friezen werden een handelsvolk. Later, vanaf de 7e eeuw, speelden ze een grote rol in de handel via Dorestad. Hun leiders stonden later lang tegenover de Franken. Die werden steeds machtiger en breidden hun gebied uit naar het noorden.',
   'De talen van deze groepen legden de basis voor het Nederlands, het Fries en de dialecten. Het Nederlands komt grotendeels voort uit het Oudnederfrankisch. Het Fries is nog steeds een eigen taal, en in het oosten zijn Saksische dialecten te horen. Ook plaatsnamen herinneren nog aan deze tijd.'
  ],
+ gevolgen: [
+  "Uit deze groepen groeiden de talen en volken van later. Het Nederlands, het Fries en de Nedersaksische dialecten in het oosten van Nederland gaan terug op hun talen. Ook de grens tussen het Nederlands en het Frans in België ontstond ongeveer in deze tijd.",
+  "De Franken werden de machtigste groep. Hun koningen bouwden een rijk dat later van de Pyreneeën tot de Elbe reikte. Het land Frankrijk is naar hen genoemd, en ook ons woord “frank” in “frank en vrij”."
+ ],
+ perspectieven: [
+  "Er is weinig geschreven over deze tijd, en wat er is, komt meestal van Romeinse of christelijke schrijvers. Archeologen vinden vooral grafvelden, met grafgiften als wapens, sieraden en potten. Daaruit leiden ze af hoe mensen leefden, en dat er vaak een mengeling van groepen woonde."
+ ],
+ misverstanden: [
+  ["“Hele volken trokken als legers door Europa.”","Bij de volksverhuizingen ging het meestal om kleinere groepen die zich geleidelijk verplaatsten. Ze vermengden zich met de mensen die er al woonden. Namen als Franken en Saksen waren eerder verzamelnamen dan vaste volken."],
+  ["“Franken zijn Fransen.”","De Franken waren een Germaans volk, met een taal die verwant was aan het Nederlands. In het zuiden van hun rijk namen ze de taal van de Gallo-Romeinen over, waaruit het Frans ontstond. In het noorden bleven ze hun eigen taal spreken."]
+ ],
+ hoeWeten: [
+  "Grafvelden uit de 5e en 6e eeuw, zoals bij Rhenen, geven veel informatie. Uit sieraden en wapens blijkt met welke streken mensen contact hadden. Taalkundigen onderzoeken plaatsnamen en oude woorden om te zien waar welke groepen woonden. Ook DNA-onderzoek van skeletten levert nieuwe kennis op."
+ ],
+ nu: [
+  "Plaatsnamen herinneren aan deze tijd. Namen op -heem of -hem en -zele of -sel zijn vaak Frankisch, namen op -um in het noorden Fries, en in het oosten komen veel namen op -lo en -inge voor. In het oosten van Nederland spreken veel mensen nog Nedersaksische dialecten, zoals het Twents en het Drents."
+ ],
+ vertellen: "Ons woord “Duits” en het oude woord “Diets” komen allebei van het Germaanse woord voor “volk”. Ze betekenden oorspronkelijk: de taal van het volk, in tegenstelling tot het Latijn van de geleerden. Daarom heet het Nederlands in het Engels nog altijd Dutch, en het volkslied zingt over het “Duitse bloed” van Willem van Oranje.",
+ verbanden: [["Einde van de Limes","het einde van het Romeinse gezag"],["Clovis wordt christen","de Frankische koning die het rijk bijeenbracht"],["Friezen beheersen de kust","de Friezen in de eeuwen daarna"]],
+ onderwijs: {"ka":["De confrontatie tussen de Grieks-Romeinse cultuur en de Germaanse cultuur van Noordwest-Europa."]},
  cijfers: [['Vestiging','ca. 5e eeuw'],['Drie hoofdgroepen','Friezen, Saksen, Franken'],['Bron van het Nederlands','Oudnederfrankisch']],
  figuren: [['Friezen','volk langs de kust'],['Saksen','volk in het oosten'],['Franken','volk in het zuiden']],
  bronnen: [['Wikipedia: Franken (volk)',W('Franken volk')],['Wikipedia: Friezen',W('Friezen')],['Wikipedia: Saksen (volk)',W('Saksen volk')]]
@@ -491,6 +611,26 @@ Object.assign(window.DETAILS, {
   'Door voor het katholieke geloof te kiezen, kreeg Clovis de steun van de bisschoppen en van de Gallo-Romeinse bevolking. Dat maakte zijn macht stabieler dan die van andere Germaanse koningen.',
   'Clovis stierf in 511. Het Frankische Rijk groeide uit tot de machtigste staat van West-Europa. Vanuit dat rijk werd later ook het christendom in de Nederlanden verspreid, onder meer door missionarissen als Willibrord. Zo legde de doop van Clovis een basis voor de kerstening van West-Europa.'
  ],
+ gevolgen: [
+  "Clovis veroverde in 507 bij Vouillé ook het zuiden van Gallië op de Visigoten. Hij maakte Parijs tot zijn belangrijkste stad, en werd daar ook begraven. Zijn dynastie, de Merovingen, regeerde ruim twee eeuwen over het Frankische Rijk.",
+  "Clovis liet de wetten van de Salische Franken opschrijven, de Lex Salica. Daarin staan ook enkele woorden in de oude Frankische volkstaal, die tot de oudste sporen van het Nederlands horen. Een latere uitleg van deze wet werd in de 15e eeuw gebruikt om vrouwen uit te sluiten van de Franse troon."
+ ],
+ perspectieven: [
+  "Volgens Gregorius van Tours was Clovis’ bekering een daad van geloof, na een overwinning op het slagveld. Historici zien er ook politiek in: door katholiek te worden kreeg Clovis de steun van de machtige bisschoppen en van de Gallo-Romeinse bevolking. Gregorius schreef zijn verhaal ruim zeventig jaar later, als bisschop, en had er belang bij Clovis als een vrome koning neer te zetten."
+ ],
+ misverstanden: [
+  ["“Clovis was een Fransman.”","Clovis werd rond 465 geboren in Doornik, in het huidige België, en sprak een Germaanse taal. Zijn naam is een vorm van Chlodowig, waar de namen Lodewijk en Louis van afstammen."],
+  ["“Na de doop van Clovis waren alle Franken christen.”","Volgens de overlevering liet hij zich samen met drieduizend krijgers dopen. Maar de kerstening van het hele Frankische volk duurde nog generaties, en in het noorden, bij de Friezen en Saksen, nog veel langer."]
+ ],
+ hoeWeten: [
+  "De belangrijkste bron is de geschiedenis van de Franken door Gregorius van Tours, geschreven aan het eind van de 6e eeuw. Daarnaast zijn er brieven van bisschoppen aan Clovis. In 1653 werd in Doornik het graf van zijn vader Childerik gevonden, met wapens, sieraden, munten en 21 paarden. Het is het enige graf uit deze tijd dat met zekerheid aan een bekend persoon kan worden toegeschreven."
+ ],
+ nu: [
+  "In Reims, waar Clovis werd gedoopt, werden later bijna alle Franse koningen gekroond. In de abdij van Saint-Remi staat een beeld van zijn doop. De naam Lodewijk, in het Frans Louis, werd een van de meest gebruikte koningsnamen van Europa."
+ ],
+ vertellen: "Gregorius van Tours vertelt over een kostbare vaas die Clovis’ krijgers na een overwinning bij Soissons uit een kerk hadden geroofd. De bisschop vroeg hem terug. Clovis wilde de vaas uit de buit nemen, maar een krijger sloeg hem kapot met zijn bijl: de koning kreeg alleen wat het lot hem gaf. Een jaar later, bij een inspectie, kliefde Clovis de schedel van die krijger, met de woorden: “Zo deed jij met de vaas van Soissons.”",
+ verbanden: [["Franken, Friezen en Saksen","de Franken in de Lage Landen"],["Willibrord","de kerstening van het noorden vanuit het Frankische Rijk"],["Karel de Grote","de latere grote koning van de Franken"]],
+ onderwijs: {"ka":["De ontwikkeling van het christendom en jodendom als eerste monotheïstische godsdiensten.","De verspreiding van het christendom in heel Europa. (tijdvak 3)"]},
  cijfers: [['Koning','vanaf ca. 481'],['Doop (traditioneel)','496'],['Overlijden','511']],
  figuren: [['Clovis','koning van de Franken'],['Clotilde','zijn katholieke vrouw'],['Remigius','bisschop van Reims, doopte Clovis'],['Gregorius van Tours','geschiedschrijver']],
  bronnen: [['Wikipedia: Clovis I',W('Clovis I')],['Wikipedia: Merovingen',W('Merovingen')]]
