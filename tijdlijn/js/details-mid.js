@@ -350,6 +350,24 @@ Object.assign(window.DETAILS, {
  bronnen: [['Wikipedia: Jacoba van Beieren',W('Jacoba van Beieren')],['Wikipedia: Filips de Goede',W('Filips de Goede')],['Wikipedia: Zoen van Delft',W('Zoen van Delft')]]
 },
 
+'Boekdrukkunst': {
+ aanloop: [
+  'Vóór de boekdrukkunst werden boeken met de hand overgeschreven. Dat kostte veel tijd, dus boeken waren zeldzaam en duur. Van een handgeschreven boek bestonden vaak maar enkele tientallen of honderden exemplaren.',
+  'Vanaf ongeveer het jaar 1000 werd er in Europa ook gedrukt met houtblokken, waarin een hele bladzijde was uitgesneden. Dat was veel werk en het blok sleet snel. Voor een dik boek was het niet geschikt.'
+ ],
+ verloop: [
+  'Rond 1450 vond Johannes Gutenberg uit Mainz een manier om te drukken met losse letters. Hij goot de letters in metaal, in grote aantallen en allemaal precies even hoog. Die letters konden steeds opnieuw worden gebruikt voor een andere tekst.',
+  'Zijn bekendste werk is de bijbel die in 1455 klaar was, de Gutenbergbijbel. Een drukker kon nu al snel duizenden exemplaren van een boek maken. Boeken werden goedkoper, en kennis en nieuwe ideeën verspreidden zich veel sneller. Ook Erasmus liet zijn werk drukken.',
+  'In Nederland leerden kinderen eeuwenlang dat de Haarlemmer Laurens Janszoon Coster het drukken met losse letters al rond 1423 had bedacht. Dat verhaal komt uit de 16e eeuw en is waarschijnlijk een legende. Of Coster echt zo heeft bestaan, weten we niet zeker. Zijn standbeeld staat op de Grote Markt in Haarlem.'
+ ],
+ perspectieven: [
+  'Gutenberg was niet de eerste die met losse letters drukte. De Chinees Bì Shēng zou al in de 11e eeuw Chinese tekens hebben gedrukt. Er is geen bewijs dat Gutenberg van die uitvinding wist. Het Latijnse alfabet heeft maar enkele tientallen letters, wat drukken met losse letters in Europa makkelijker maakte.'
+ ],
+ cijfers: [['Uitgevonden','ca. 1450, Mainz'],['Gutenbergbijbel','voltooid in 1455'],['Oplage handschrift','tientallen tot honderden'],['Oplage drukwerk','al snel duizenden']],
+ figuren: [['Johannes Gutenberg','uitvinder van het drukken met losse letters in Europa'],['Laurens Janszoon Coster','Haarlemse koster uit de legende'],['Bì Shēng','Chinees die al in de 11e eeuw drukte met losse tekens']],
+ bronnen: [['Wikipedia: Boekdrukkunst',W('Boekdrukkunst')],['Wikipedia: Johannes Gutenberg',W('Johannes Gutenberg')],['Wikipedia: Laurens Janszoon Coster',W('Laurens Janszoon Coster')]]
+},
+
 'Jeroen Bosch': {
  aanloop: [
   'Jeroen Bosch heette eigenlijk Jheronimus van Aken. Hij werd rond 1450 geboren in ’s-Hertogenbosch, in een familie van schilders. Hij noemde zich later naar zijn stad. Den Bosch was toen een bloeiende stad in het hertogdom Brabant.',

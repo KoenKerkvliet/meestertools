@@ -20,6 +20,37 @@ Object.assign(window.DETAILS, {
  bronnen: [CANON,['Wikipedia: Nederland in de Eerste Wereldoorlog',W('Nederland tijdens de Eerste Wereldoorlog')],['Wikipedia: Dodendraad',W('Dodendraad')]]
 },
 
+'Het eerste vliegtuig': {
+ aanloop: [
+  'Mensen droomden al eeuwenlang van vliegen. Orville en Wilbur Wright deden tussen 1900 en 1903 proeven met zweefvliegtuigen.',
+  'Daarna bouwden ze een vliegtuig met een motor: de Wright Flyer, een dubbeldekker met de staart voorop.'
+ ],
+ verloop: [
+  'Op 17 december 1903 maakten de broers bij Kitty Hawk in North Carolina de eerste geslaagde vlucht met een vliegtuig met motor. Die duurde twaalf seconden en ging over 36,6 meter. Later die dag vloog het toestel nog 260 meter, in 59 seconden.',
+  'In Nederland bouwde Anthony Fokker in 1910 zijn eerste vliegtuigje, De Spin. Op 31 augustus 1911, Koninginnedag, vloog hij ermee boven Haarlem. In 1912 begon hij in Duitsland een eigen vliegtuigfabriek. Tijdens de Eerste Wereldoorlog bouwde hij vliegtuigen voor het Duitse leger, zoals de Fokker Eindecker met een mitrailleur die door de draaiende propeller heen kon schieten.'
+ ],
+ perspectieven: [
+  'Het vliegtuig veranderde ook de oorlog. Al in de Eerste Wereldoorlog werden vliegtuigen gebruikt om te verkennen en om te vechten. Fokker bouwde zijn vliegtuigen voor Duitsland, terwijl Nederland neutraal bleef.'
+ ],
+ cijfers: [['Eerste vlucht','17 december 1903'],['Duur en afstand','12 seconden, 36,6 meter'],['De Spin van Fokker','1910'],['Vlucht in Haarlem','31 augustus 1911']],
+ figuren: [['Orville en Wilbur Wright','bouwden en bestuurden de Wright Flyer'],['Anthony Fokker','Nederlandse vliegtuigbouwer'],['John T. Daniels','maakte de beroemde foto van de eerste vlucht']],
+ bronnen: [['Wikipedia: Wright Flyer',W('Wright Flyer')],['Wikipedia: Anthony Fokker',W('Anthony Fokker')]]
+},
+
+'De maanlanding': {
+ aanloop: [
+  'In de jaren zestig streden de Verenigde Staten en de Sovjet-Unie om wie het eerst een mens de ruimte in zou sturen en daarna op de maan. Op 25 mei 1961 zei de Amerikaanse president John F. Kennedy dat zijn land vóór het einde van dat decennium een mens op de maan moest zetten en veilig terug moest brengen.'
+ ],
+ verloop: [
+  'Op 16 juli 1969 vertrok de Saturnus V-raket met de astronauten Neil Armstrong, Buzz Aldrin en Michael Collins. De maanlander Eagle landde op 20 juli om 20:17 UTC op de maan. Collins bleef in het ruimteschip Columbia achter.',
+  'Op 21 juli 1969 om 2:56 UTC zette Armstrong zijn linkervoet op de maan. Hij zei: “Dat is een kleine stap voor een mens, een reuzensprong voor de mensheid.” In Nederland was het midden in de nacht. Mensen over de hele wereld keken via de televisie mee.',
+  'In 1985 vloog Wubbo Ockels uit Almelo als eerste Nederlander de ruimte in, op 30 oktober, tijdens de missie Spacelab D1.'
+ ],
+ cijfers: [['Lancering','16 juli 1969'],['Landing','20 juli 1969'],['Eerste stap','21 juli 1969, 2:56 UTC'],['Bemanning','3 astronauten']],
+ figuren: [['Neil Armstrong','eerste mens op de maan'],['Buzz Aldrin','liep ook op de maan'],['Michael Collins','bleef in het ruimteschip Columbia'],['Wubbo Ockels','eerste Nederlandse ruimtevaarder']],
+ bronnen: [['Wikipedia: Apollo 11',W('Apollo 11')],['Wikipedia: Wubbo Ockels',W('Wubbo Ockels')]]
+},
+
 'Vrouwenkiesrecht': {
  aanloop: [
   'In de 19e eeuw mochten alleen mannen met genoeg bezit of inkomen stemmen. In 1883 probeerde Aletta Jacobs zich als kiezer te laten inschrijven, omdat de wet nergens zei dat een kiezer een man moest zijn. Ze werd afgewezen, en daarna werd in de Grondwet expliciet vastgelegd dat alleen mannen kiesrecht hadden.',

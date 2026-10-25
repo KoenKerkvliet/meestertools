@@ -53,6 +53,39 @@ Object.assign(window.DETAILS, {
  bronnen: [['Wikipedia: Bokkenrijders',W('Bokkenrijders')],['Wikipedia: Landen van Overmaas',W('Landen van Overmaas')]]
 },
 
+'De stoommachine': {
+ aanloop: [
+  'Rond 1700 liep er in mijnen steeds meer water vol. Wegpompen ging met spierkracht, paarden en watermolens, en dat was zwaar werk en niet genoeg. Daarom zochten uitvinders naar een machine die dat werk kon doen.',
+  'Stoom bleek krachtig: kokend water zet enorm uit, en als stoom afkoelt, trekt hij weer samen. Thomas Savery en Denis Papin probeerden dat te gebruiken. Thomas Newcomen, een Engelse mijnbouwkundig ingenieur, maakte er omstreeks 1712 een bruikbare machine van.'
+ ],
+ verloop: [
+  'De machine van Newcomen werkte met luchtdruk: stoom in een cilinder werd afgekoeld, waardoor de buitenlucht de zuiger omlaag duwde. Ze verbruikte veel steenkool, maar pompte mijnen leeg. In 1763 kreeg de Schot James Watt de opdracht zo’n machine te verbeteren. Zijn ontwerp verbruikte veel minder brandstof. In 1769 kreeg hij er octrooi op.',
+  'Voortaan kon kracht overal worden gemaakt, niet alleen langs rivieren of waar de wind waaide. Stoom dreef fabrieken, schepen en locomotieven aan. Dat was het begin van de industriële revolutie.',
+  'In Nederland kwam de eerste stoommachine op 9 maart 1776 in gebruik, in Rotterdam. Koning Willem I koos in 1837 voor stoom in plaats van windmolens om de Haarlemmermeer droog te maken. Het gemaal De Cruquius uit 1849 pompte daarvoor mee. Samen met twee andere gemalen sloeg het in drie jaar en drie maanden 800 miljoen kubieke meter water uit. Het geldt als de grootste stoommachine ter wereld.'
+ ],
+ perspectieven: [
+  'Stoom bracht welvaart en vooruitgang, maar ook vuile lucht en zwaar werk in fabrieken. Ook kinderen werkten lange dagen. In Nederland kwam daarom later het Kinderwetje van 1874.'
+ ],
+ cijfers: [['Newcomen','ca. 1712'],['Watt','octrooi in 1769'],['Eerste in Nederland','9 maart 1776, Rotterdam'],['De Cruquius','1849, Haarlemmermeer']],
+ figuren: [['Thomas Newcomen','bouwde de eerste bruikbare machine'],['James Watt','maakte haar zuinig en krachtig'],['Willem I','koos stoom om de Haarlemmermeer droog te malen']],
+ bronnen: [['Wikipedia: Stoommachine',W('Stoommachine')],['Wikipedia: Gemaal De Cruquius',W('Gemaal De Cruquius')],['Wikipedia: James Watt',W('James Watt')]]
+},
+
+'De Leidse fles': {
+ aanloop: [
+  'In de 18e eeuw waren geleerden gefascineerd door elektriciteit. Met elektriseermachines wekten ze statische elektriciteit op en lieten ze vonken springen. Maar de lading verdween snel weg. Niemand kon haar bewaren.',
+  'Pieter van Musschenbroek was hoogleraar natuurkunde in Leiden en deed proeven met elektriciteit.'
+ ],
+ verloop: [
+  'In 1746 maakte hij in Leiden een wijde glazen fles, gevuld met water en aan de buitenkant bedekt met tinfolie. Aan de bovenkant zat een metalen bol. Met een elektriseermachine kon hij de fles opladen. De lading bleef erin zitten. Wie de bol aanraakte, kreeg een flinke schok.',
+  'Een jaar eerder had de Duitser Ewald von Kleist iets vergelijkbaars bedacht. Maar Van Musschenbroek schreef erover, en daarom kreeg de uitvinding in heel Europa de naam Leidse fles. Het was de eerste condensator: een onderdeel dat elektrische lading opslaat, zoals ze tot op de dag van vandaag in elektronica zitten.',
+  'Leidse flessen werden gebruikt voor proeven en voor shows. Soms kreeg het publiek bij het aanraken van een hele batterij flessen een schok. In 1752 gebruikte Benjamin Franklin een Leidse fles om te bewijzen dat bliksem elektriciteit is.'
+ ],
+ cijfers: [['Uitgevonden','1746, Leiden'],['Eerder idee','1745, Von Kleist'],['Soort apparaat','de eerste condensator'],['Franklin','bliksem is elektriciteit (1752)']],
+ figuren: [['Pieter van Musschenbroek','hoogleraar natuurkunde in Leiden'],['Ewald von Kleist','Duitser, bedacht iets vergelijkbaars een jaar eerder'],['Benjamin Franklin','bewees dat bliksem elektriciteit is']],
+ bronnen: [['Wikipedia: Leidse fles',W('Leidse fles')],['Wikipedia: Pieter van Musschenbroek',W('Pieter van Musschenbroek')]]
+},
+
 'Eise Eisinga': {
  aanloop: [
   'Eise Eisinga werd in 1744 geboren in Dronrijp in Friesland. Hij was wolkammer, net als zijn vader, maar leerde zichzelf wiskunde en sterrenkunde. Hij vestigde zich in Franeker, een stad met een universiteit.',
@@ -276,6 +309,57 @@ Object.assign(window.DETAILS, {
  cijfers: [['Lid van de Duitse Bond','1839 – 1866'],['Einde Duitse Bond','1866'],['Verdrag van Londen','11 mei 1867'],['Titel commissaris','gouverneur']],
  figuren: [['Koning Willem III','koning der Nederlanden en groothertog van Luxemburg'],['Napoleon III','Franse keizer, wilde Luxemburg kopen'],['Otto von Bismarck','Pruisisch minister-president']],
  bronnen: [['Wikipedia: Hertogdom Limburg',W('Hertogdom Limburg 1839-1867')],['Wikipedia: Verdrag van Londen 1867',W('Verdrag van Londen 1867')]]
+},
+
+'De telefoon': {
+ aanloop: [
+  'Rond 1870 kon je al berichten over draden versturen met de telegraaf, maar alleen in morsecode: stipjes en streepjes. Uitvinders probeerden daarom stemmen door een draad te sturen.',
+  'Alexander Graham Bell, geboren in Edinburgh, werkte in de Verenigde Staten. Hij onderzocht geluid en werkte samen met zijn assistent Thomas Watson.'
+ ],
+ verloop: [
+  'Op 14 februari 1876 diende Bell zijn octrooiaanvraag voor de telefoon in. Het octrooi werd op 7 maart toegekend. Drie dagen later sprak hij de beroemde woorden tegen zijn assistent in een andere kamer: “Mr. Watson, come here.” Watson kwam direct.',
+  'Het telegraafbedrijf Western Union wilde de uitvinding niet kopen. Daarom richtte Bell in 1877 samen met zijn financier Hubbard zelf de Bell Telephone Company op. Die groeide uit tot een van de grootste bedrijven ter wereld.',
+  'In Nederland nam het telefoneren snel toe. In 1915 waren er 75.000 abonnees. In 1925 kwam in Haarlem de eerste automatische centrale: je kon zelf een nummer kiezen. In 1962 was heel Nederland geautomatiseerd, als tweede land ter wereld na Zwitserland.'
+ ],
+ perspectieven: [
+  'Bell wordt vaak genoemd als uitvinder van de telefoon, maar het was een gedeelde uitvinding. Ook Antonio Meucci, Elisha Gray en Philipp Reis leverden een bijdrage. Over wie het octrooi toekwam, volgden jarenlang rechtszaken.'
+ ],
+ cijfers: [['Octrooiaanvraag','14 februari 1876'],['Eerste woorden','10 maart 1876'],['Bell Telephone Company','1877'],['Automatisch in Nederland','vanaf 1925, Haarlem']],
+ figuren: [['Alexander Graham Bell','Schots-Amerikaans uitvinder'],['Thomas Watson','Bells assistent, hoorde de eerste woorden'],['Antonio Meucci','werkte ook aan een telefoon']],
+ bronnen: [['Wikipedia: Alexander Graham Bell',W('Alexander Graham Bell')],['Wikipedia: Telefonie',W('Telefonie')]]
+},
+
+'De gloeilamp': {
+ aanloop: [
+  'Vóór de gloeilamp verlichtten mensen hun huizen met kaarsen, olielampen en gaslicht. Er bestonden al booglampen die heel veel licht gaven, maar die waren niet geschikt voor in een kamer.',
+  'Meerdere uitvinders werkten aan een lamp met een gloeidraad: een draad die door elektriciteit zo heet wordt dat hij licht geeft. Henry Woodward en Mathew Evans uit Canada kregen daarvoor in 1874 octrooi. Ook de Brit Joseph Swan en de Rus Alexander Lodygin werkten eraan.'
+ ],
+ verloop: [
+  'Thomas Edison en zijn medewerkers in de Verenigde Staten maakten er een lamp van die echt bruikbaar was. In oktober 1879 brandde hun lamp met een verkoolde katoendraad ruim veertien uur. Ze ontwikkelden ook een heel systeem voor elektrisch licht, zodat mensen het daadwerkelijk konden gebruiken.',
+  'In Nederland begonnen in 1891 Frederik Philips en zijn zoon Gerard Philips in Eindhoven een fabriek voor gloeilampen, in een leegstaande fabriek. Gerard had de kooldraad ontwikkeld, nadat hij in Engeland had gezien hoe je die maakte. In 1895 kwam zijn jongere broer Anton in het bedrijf, die de verkoop opzette.',
+  'Philips groeide uit tot een wereldwijd bekend bedrijf. De oudste fabriek in Eindhoven is nu een museum.'
+ ],
+ perspectieven: [
+  'Edison wordt vaak “de uitvinder van de gloeilamp” genoemd, maar hij bouwde voort op het werk van anderen. Zijn verdienste was dat hij een lamp en een systeem maakte dat in de praktijk werkte.'
+ ],
+ cijfers: [['Woodward en Evans','octrooi in 1874'],['Edison','oktober 1879, ruim 14 uur'],['Philips opgericht','1891, Eindhoven'],['Anton Philips','in het bedrijf vanaf 1895']],
+ figuren: [['Thomas Edison','bracht de gloeilamp op de markt'],['Joseph Swan','Britse uitvinder van een kooldraadlamp'],['Gerard Philips','richtte met zijn vader Philips op']],
+ bronnen: [['Wikipedia: Gloeilamp',W('Gloeilamp')],['Wikipedia: Philips',W('Koninklijke Philips')]]
+},
+
+'De eerste auto': {
+ aanloop: [
+  'Vóór de auto reisden mensen te voet, te paard of met de koets. Na de stoommachine probeerden uitvinders ook voertuigen met een eigen motor te maken. Nodig was een motor die licht genoeg was en op benzine werkte.',
+  'Carl Benz uit Mannheim werkte aan een motorwagen met een viertaktmotor.'
+ ],
+ verloop: [
+  'Op 29 januari 1886 kreeg Benz octrooi op zijn uitvinding: de Benz Patent-Motorwagen, een driewielig voertuig met een benzinemotor. In de zomer van 1886 reed hij ermee door Mannheim. Het wordt gezien als de eerste echte auto.',
+  'Op 5 augustus 1888 maakte Bertha Benz, de vrouw van Carl, de eerste lange rit met een auto, van Mannheim naar Pforzheim.',
+  'In Nederland begonnen de smeden Hendrik-Jan en Jacobus Spijker in 1880 in Hilversum een rijtuigenfabriek, die in 1886 naar Amsterdam verhuisde. Ze bouwden onder meer de Gouden Koets, een geschenk aan koningin Wilhelmina (1897–1898). In 1898 kochten ze een auto van Benz en een jaar later mochten ze die in licentie bouwen. Zo ontstond het Nederlandse automerk Spyker, dat tot 1925 auto’s maakte.'
+ ],
+ cijfers: [['Benz-octrooi','29 januari 1886'],['Eerste lange rit','5 augustus 1888'],['Spijker in Amsterdam','vanaf 1886'],['Spyker-auto’s','1898 – 1925']],
+ figuren: [['Carl Benz','bouwde de Motorwagen'],['Bertha Benz','maakte de eerste lange autorit'],['Jacobus en Hendrik-Jan Spijker','bouwden Spyker-auto’s in Amsterdam']],
+ bronnen: [['Wikipedia: Carl Benz',W('Carl Benz')],['Wikipedia: Spyker',W('Spyker automerk')]]
 },
 
 'Aletta Jacobs': {

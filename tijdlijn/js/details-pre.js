@@ -65,6 +65,21 @@ Object.assign(window.DETAILS, {
  bronnen: [['Wikipedia: Vuursteenmijn van Rijckholt',W('Vuursteenmijnen Rijckholt')],['Wikipedia: Vuursteen',W('Vuursteen')]]
 },
 
+'Het wiel': {
+ aanloop: [
+  'Lang voordat er wielen waren, verplaatsten mensen zware dingen op sleden of door ze over boomstammen te laten rollen. Elke keer dat de last voorbij een stam kwam, werd die stam achteraan weer voor de last gelegd.',
+  'Uit dat rollen ontstond waarschijnlijk het idee van een as: een balk waaraan schijven vastzitten. Zo ontstond een slee met wielen, de eerste kar.'
+ ],
+ verloop: [
+  'De oudste vondsten en afbeeldingen van wagens stammen uit ongeveer 3500 v.C. Ze komen uit heel verschillende streken: van de Alpen en Zuid-Polen tot Mesopotamië, de Kaukasus en het Indusgebied. Het wiel is dus waarschijnlijk niet op één plek bedacht.',
+  'Op een pot uit Bronocice in Zuid-Polen staat een tekening van een wagen. In Slovenië werd in het veen een houten wiel met een as gevonden, het oudste houten wiel dat we kennen. Ook in Mesopotamië draaide een schijf, bij de pottenbakkers: de draaischijf, waarop ze aardewerk maakten.',
+  'De eerste wielen waren massieve houten schijven. Later kwamen er spaken, zodat wielen lichter werden. Zonder wiel hadden er geen wagens, watermolens en tandwielen bestaan, en later ook geen fietsen, treinen en auto’s.'
+ ],
+ cijfers: [['Oudste wagens','ca. 3500 v.C.'],['Draaischijf uit Uruk','ca. 3130 v.C.'],['Oudste houten wiel','gevonden in Slovenië'],['Daarvoor','sleden en boomstammen']],
+ figuren: [['Onbekende uitvinders','het wiel is op meerdere plekken bedacht'],['Pottenbakkers in Mesopotamië','gebruikten een draaischijf'],['Wagenbouwers','maakten de eerste karren']],
+ bronnen: [['Wikipedia: Wiel',W('Wiel (voortbeweging)')],['Wikipedia: Wiel van Stare gmajne',W('Wiel van Stare gmajne')]]
+},
+
 'Hunebedden': {
  aanloop: [
   'Tijdens de voorlaatste ijstijd schoof landijs uit Scandinavië over het noorden van Nederland. Toen het smolt, bleven grote zwerfkeien achter op de Hondsrug en de rest van Drenthe.',
