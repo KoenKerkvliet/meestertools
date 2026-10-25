@@ -9,15 +9,16 @@
    - "Opslaan" koppelt een bestaande school of maakt een nieuwe aan
      (via window._resolveSchoolId uit instellingen.js).
    - "Niet nu" sluit de popup; bij een volgende login komt de vraag terug.
-   - Wacht op de schooljaar-archief check (window.mtSchooljaarPopupShown)
-     zodat er nooit twee popups tegelijk staan.
+   - Wacht op de schooljaar-archief check (window.mtSchooljaarPopupShown) en
+     op de feedbackvraag (window.mtFeedbackPopupShown), zodat er nooit twee
+     popups tegelijk staan. De feedbackvraag gaat voor: die komt hoogstens
+     eens per 90 dagen, deze vraag bij elk bezoek.
 
-   Laadt na supabase-config.js + instellingen.js + schooljaar-archief.js.
+   Laadt na supabase-config.js + instellingen.js + schooljaar-archief.js + feedback.js.
    ============================================ */
 
 (function () {
-    // Volgende popups (feedback.js) wachten hierop, zodat er nooit twee
-    // popups tegelijk staan. Resolve't true als deze popup getoond is.
+    // Resolve't true als deze popup getoond is.
     var resolveShown;
     window.mtSchoolPopupShown = new Promise(function (r) { resolveShown = r; });
 
@@ -36,6 +37,7 @@
                 var archiefShown = await window.mtSchooljaarPopupShown;
                 if (archiefShown) return false;
             }
+            if (window.mtFeedbackPopupShown && await window.mtFeedbackPopupShown) return false;
 
             var sessionRes = await supabase.auth.getSession();
             var session = sessionRes && sessionRes.data ? sessionRes.data.session : null;

@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.61.2';
+    const VERSION = 'v1.61.3';
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [
@@ -153,6 +153,9 @@
             </div>
             <div class="dropdown-item" onclick="window.location.href='/ideeenbus'">
                 &#128161; Idee&euml;nbus
+            </div>
+            <div class="dropdown-item" onclick="window.location.href='/dashboard?feedback'">
+                &#11088; Geef feedback
             </div>
             <div class="dropdown-item logout">
                 &#128682; Uitloggen

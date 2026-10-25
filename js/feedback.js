@@ -14,52 +14,76 @@
    - De sterren worden meteen opgeslagen. Sluit iemand daarna de pagina zonder
      toelichting, dan is de beoordeling er toch.
    - Beoordelingen staan in public.feedback; beheer.html leest ze mee.
-   - Wacht op de andere dashboard-popups (schooljaar-archief, school-popup).
+   - Wacht alleen op de schooljaar-popup. De school-popup wacht juist op deze:
+     die vraagt bij elk bezoek, en zou de feedbackvraag anders voorgoed
+     wegdrukken bij wie geen school invult.
+   - Zelf feedback geven kan altijd via "Geef feedback" in het profielmenu
+     (dashboard?feedback). Dan mag de popup gewoon dicht, en telt "Annuleren"
+     niet als uitstel.
 
    Testen als super admin zonder iets op te slaan: dashboard?feedback-test
 
-   Laadt na supabase-config.js + schooljaar-archief.js + school-popup.js.
+   Laadt na supabase-config.js + schooljaar-archief.js, vóór school-popup.js.
    ============================================ */
 
 (function () {
     'use strict';
 
-    if (typeof supabase === 'undefined') return;
+    // De school-popup wacht hierop. Resolve't true als deze popup getoond is.
+    var resolveShown;
+    window.mtFeedbackPopupShown = new Promise(function (r) { resolveShown = r; });
+
+    if (typeof supabase === 'undefined') { resolveShown(false); return; }
 
     var LABELS = ['Valt tegen', 'Kan beter', 'Prima', 'Goed', 'Geweldig'];
     var COMMENT_MAX = 2000;
 
-    async function init() {
-        if (!document.querySelector('.dashboard-content')) return;
+    // true = de popup is getoond.
+    async function check() {
+        if (!document.querySelector('.dashboard-content')) return false;
 
         try {
-            // Nooit twee popups tegelijk: heeft er al een gestaan, dan wachten
-            // we tot een volgend bezoek.
-            if (window.mtSchooljaarPopupShown && await window.mtSchooljaarPopupShown) return;
-            if (window.mtSchoolPopupShown && await window.mtSchoolPopupShown) return;
+            var test = /[?&]feedback-test(?:[=&]|$)/.test(location.search);
+            var zelf = !test && /[?&]feedback(?:[=&]|$)/.test(location.search);
+            if (zelf) {
+                // Uit de url halen, zodat verversen de popup niet opnieuw opent.
+                var params = new URLSearchParams(location.search);
+                params.delete('feedback');
+                var qs = params.toString();
+                history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+            }
+
+            // Zelf gevraagd gaat altijd voor. Anders nooit twee popups tegelijk:
+            // heeft de schooljaar-popup gestaan, dan wachten we tot een volgend bezoek.
+            if (!zelf && window.mtSchooljaarPopupShown && await window.mtSchooljaarPopupShown) return false;
 
             var sessionRes = await supabase.auth.getSession();
             var session = sessionRes && sessionRes.data ? sessionRes.data.session : null;
-            if (!session) return;
+            if (!session) return false;
 
-            var test = /[?&]feedback-test(?:[=&]|$)/.test(location.search);
             if (test) {
                 // Proefversie: alleen voor de beheerder, en er wordt niets opgeslagen.
                 var profRes = await supabase.from('profiles').select('role').eq('id', session.user.id).single();
-                if (!profRes.data || profRes.data.role !== 'super_admin') return;
-            } else {
+                if (!profRes.data || profRes.data.role !== 'super_admin') return false;
+            } else if (!zelf) {
                 var res = await supabase.rpc('feedback_moet_vragen');
-                if (res.error || res.data !== true) return;
+                if (res.error || res.data !== true) return false;
             }
 
-            showModal(session.user.id, test);
+            showModal(session.user.id, test, zelf);
+            return true;
         } catch (e) {
             // Een vraag om feedback mag het dashboard nooit breken.
             console.error('Feedback-popup check mislukt:', e);
+            return false;
         }
     }
 
-    function showModal(userId, test) {
+    async function init() {
+        resolveShown(await check());
+    }
+
+    function showModal(userId, test, zelf) {
         var overlay = document.createElement('div');
         overlay.className = 'modal-overlay feedback-overlay';
         overlay.setAttribute('role', 'dialog');
@@ -79,7 +103,9 @@
                 '</div>' +
                 '<div class="modal-body">' +
                     '<div id="feedbackStepStars">' +
-                        '<p class="sj-intro">Je gebruikt Meestertools nu een tijdje. Hoeveel sterren geef je het tot nu toe?</p>' +
+                        '<p class="sj-intro">' + (zelf
+                            ? 'Fijn dat je iets wilt laten weten! Hoeveel sterren geef je Meestertools?'
+                            : 'Je gebruikt Meestertools nu een tijdje. Hoeveel sterren geef je het tot nu toe?') + '</p>' +
                         '<div class="feedback-stars" id="feedbackStars">' + stars + '</div>' +
                         '<div class="feedback-star-label" id="feedbackStarLabel" aria-live="polite">&nbsp;</div>' +
                     '</div>' +
@@ -95,7 +121,7 @@
                     '<div class="sj-error" id="feedbackError"></div>' +
                 '</div>' +
                 '<div class="modal-footer">' +
-                    '<button type="button" class="btn-cancel" id="feedbackLater">Later</button>' +
+                    '<button type="button" class="btn-cancel" id="feedbackLater">' + (zelf ? 'Annuleren' : 'Later') + '</button>' +
                     '<button type="button" class="btn-primary" id="feedbackSend" hidden>Klaar</button>' +
                     '<button type="button" class="btn-primary" id="feedbackClose" hidden>Sluiten</button>' +
                 '</div>' +
@@ -198,11 +224,17 @@
 
         $('feedbackClose').addEventListener('click', close);
 
+        // Zelf geopend mag ook met Escape of een klik ernaast dicht.
+        if (zelf) {
+            overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+            overlay.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+        }
+
         // Later: zeven dagen rust. Mislukt dat, dan komt de popup gewoon bij het
-        // volgende bezoek terug, en dat is prima.
+        // volgende bezoek terug, en dat is prima. Zelf geopend: gewoon dicht.
         $('feedbackLater').addEventListener('click', async function () {
             this.disabled = true;
-            if (!test) {
+            if (!test && !zelf) {
                 var res = await supabase.rpc('feedback_uitstellen');
                 if (res.error) console.error('Feedback uitstellen mislukt:', res.error);
             }
