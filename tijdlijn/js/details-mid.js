@@ -345,6 +345,27 @@ Object.assign(window.DETAILS, {
   'In 1428 moest Jacoba de Zoen van Delft tekenen. Ze bleef gravin in naam, maar Filips werd ruwaard en erfgenaam. In 1433 deed ze definitief afstand van haar gebieden. Ze stierf in 1436.',
   'Filips verwierf ook Namen, Brabant en Limburg, en later Luxemburg. Zo kwamen de meeste Nederlanden onder één vorst. Dat legde de basis voor gezamenlijk bestuur, zoals de Staten-Generaal vanaf 1464.'
  ],
+ gevolgen: [
+  "Filips de Goede bracht de meeste Nederlandse gewesten bijeen onder één vorst, maar hij liet ze hun eigen rechten en Staten houden. Wel kwamen er gezamenlijke dingen: vanaf 1434 één munt voor meerdere gewesten, en vanaf 1464 de Staten-Generaal, waar afgevaardigden uit de gewesten samenkwamen.",
+  "Het Bourgondische hof werd het rijkste van Europa. Filips stichtte in 1430 in Brugge de Orde van het Gulden Vlies, een gezelschap van de belangrijkste edelen. Kunstenaars als Jan van Eyck werkten voor hem. De steden van Vlaanderen, Brabant en later Holland bloeiden door handel en nijverheid."
+ ],
+ perspectieven: [
+  "Voor Jacoba van Beieren was de komst van de Bourgondiërs het verlies van haar erfenis. Ze werd gevangengezet en moest afstand doen van haar landen. In de verhalen werd zij later een tragische heldin, en Filips de schurk.",
+  "Ook buiten de Nederlanden speelde Filips een grote rol. In 1430 namen zijn troepen bij Compiègne Jeanne d’Arc gevangen. Hij leverde haar uit aan de Engelsen, zijn bondgenoten in de oorlog tegen Frankrijk. Zij werd een jaar later in Rouen verbrand."
+ ],
+ misverstanden: [
+  ["“Jacoba deed afstand omdat ze in het geheim trouwde met Frank van Borssele.”","Dat verhaal is een legende. Jacoba deed met Pasen 1433 afstand van haar landen. Pas in november van dat jaar was er sprake van een huwelijk met Van Borssele, en het huwelijk werd in 1434 gesloten."],
+  ["“Bourgondisch leven betekent gewoon lekker eten.”","Het woord “Bourgondisch” verwijst naar het weelderige hof van de hertogen, met grote feesten, prachtige kleding en kunst. Die pracht was ook politiek: de hertog liet zien hoe machtig en rijk hij was."]
+ ],
+ hoeWeten: [
+  "Er zijn verdragen, oorkonden en rekeningen van het Bourgondische hof bewaard, waarin precies staat wat er werd uitgegeven aan feesten, kleding en kunst. Kroniekschrijvers aan het hof beschreven de gebeurtenissen, natuurlijk vanuit het standpunt van de hertog. Over Jacoba gingen al snel verhalen rond die meer legende dan geschiedenis zijn."
+ ],
+ nu: [
+  "In de gracht van Slot Teylingen bij Voorhout werden in de 17e eeuw veel middeleeuwse kannetjes opgebaggerd. Ze heten nog altijd Jacobakannetjes. De Orde van het Gulden Vlies bestaat nog steeds. De Staten-Generaal, die in 1464 voor het eerst bijeenkwamen, is nu de naam van het Nederlandse parlement."
+ ],
+ vertellen: "In 1425 zat Jacoba gevangen in Gent. Ze zei dat ze niet gestoord wilde worden omdat ze een bad ging nemen. In die tijd trokken zij en haar kamenier mannenkleren aan en liepen zo, vermomd, het gebouw uit. Ze vluchtte naar Holland en zette de strijd tegen Filips voort.",
+ verbanden: [["Hoeken en Kabeljauwen","de partijstrijd die Jacoba en Filips verdeelde"],["Maria van Bourgondië","de kleindochter van Filips en laatste Bourgondische erfgenaam"],["Karel V en het Verdrag van Venlo","de Habsburgers maakten de eenwording af"]],
+ onderwijs: {"ka":["Het begin van staatsvorming en centralisatie."]},
  cijfers: [['Zoen van Delft','1428'],['Afstand Jacoba','1433'],['Brabant en Limburg Bourgondisch','1430'],['Eerste Staten-Generaal','1464']],
  figuren: [['Jacoba van Beieren','gravin van Holland, Zeeland en Henegouwen'],['Filips de Goede','hertog van Bourgondië'],['Jan van Beieren','oom van Jacoba, tegenstander']],
  bronnen: [['Wikipedia: Jacoba van Beieren',W('Jacoba van Beieren')],['Wikipedia: Filips de Goede',W('Filips de Goede')],['Wikipedia: Zoen van Delft',W('Zoen van Delft')]]
@@ -363,6 +384,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Gutenberg was niet de eerste die met losse letters drukte. De Chinees Bì Shēng zou al in de 11e eeuw Chinese tekens hebben gedrukt. Er is geen bewijs dat Gutenberg van die uitvinding wist. Het Latijnse alfabet heeft maar enkele tientallen letters, wat drukken met losse letters in Europa makkelijker maakte.'
  ],
+ gevolgen: [
+  "De drukkunst verspreidde zich razendsnel. Boeken die vóór 1501 zijn gedrukt, heten wiegendrukken of incunabelen. Er zijn er ongeveer 29.000 verschillende bekend. In de Nederlanden waren al snel drukkers in Utrecht, Deventer, Gouda, Delft en Zwolle. In 1477 verscheen in Delft het eerste gedrukte boek in het Nederlands: de Delftse Bijbel.",
+  "Doordat dezelfde tekst in veel exemplaren rondging, werden spelling en taal geleidelijk eenvormiger. Kennis kon makkelijker gecontroleerd en verbeterd worden. En nieuwe ideeën, zoals die van Luther, verspreidden zich in weken in plaats van jaren."
+ ],
+ misverstanden: [
+  ["“Na de uitvinding kon iedereen boeken kopen en lezen.”","Boeken werden goedkoper, maar bleven voor de meeste mensen duur, en de meeste mensen konden niet lezen. Wel kwamen er goedkope pamfletten, almanakken en liedblaadjes, die veel meer mensen bereikten."],
+  ["“De Gutenbergbijbel werd in grote aantallen gedrukt.”","Gutenberg drukte er waarschijnlijk zo’n 180, de meeste op papier en ongeveer dertig op perkament. Er zijn er nog 49 bekend. Het enige exemplaar in de Benelux ligt in de universiteitsbibliotheek van Bergen (Mons) in België."]
+ ],
+ hoeWeten: [
+  "Er zijn duizenden wiegendrukken bewaard, waaraan je kunt zien hoe drukkers werkten: welke letters ze hadden, welke fouten ze maakten en hoe ze de bladzijden opmaakten. Ook rechtszaken over geld, waarin Gutenberg voorkomt, zijn bewaard. Daaruit weten we iets over zijn werkplaats, want over zijn leven is weinig bekend."
+ ],
+ nu: [
+  "In Mainz staat het Gutenberg-Museum. De Koninklijke Bibliotheek in Den Haag heeft een grote verzameling Nederlandse wiegendrukken. In Haarlem staat het standbeeld van Laurens Janszoon Coster nog altijd op de Grote Markt, als herinnering aan een verhaal dat lang een bron van trots was."
+ ],
+ vertellen: "In een gedrukt boek zie je de letters niet zomaar staan: elke letter was een los metalen blokje, in spiegelbeeld. Een zetter pakte ze één voor één uit een bak en zette ze in een regel. De hoofdletters lagen in het bovenste deel van de letterkast, de kleine letters in het onderste. Daarom spreken drukkers nog altijd van “bovenkast” en “onderkast”.",
+ verbanden: [["Erasmus","de eerste schrijver die echt beroemd werd door de drukpers"],["Luther en de Reformatie","zijn ideeën verspreidden zich via drukwerk"],["Statenbijbel","een gedrukte Bijbel die de Nederlandse taal beïnvloedde"]],
+ onderwijs: {"ka":["Het veranderende mens- en wereldbeeld van de renaissance en het begin van een nieuwe wetenschappelijke belangstelling. (tijdvak 5)"]},
  cijfers: [['Uitgevonden','ca. 1450, Mainz'],['Gutenbergbijbel','voltooid in 1455'],['Oplage handschrift','tientallen tot honderden'],['Oplage drukwerk','al snel duizenden']],
  figuren: [['Johannes Gutenberg','uitvinder van het drukken met losse letters in Europa'],['Laurens Janszoon Coster','Haarlemse koster uit de legende'],['Bì Shēng','Chinees die al in de 11e eeuw drukte met losse tekens']],
  bronnen: [['Wikipedia: Boekdrukkunst',W('Boekdrukkunst')],['Wikipedia: Johannes Gutenberg',W('Johannes Gutenberg')],['Wikipedia: Laurens Janszoon Coster',W('Laurens Janszoon Coster')]]
@@ -378,6 +416,27 @@ Object.assign(window.DETAILS, {
   'Van Eyck schilderde zeer nauwkeurig: stoffen, juwelen, planten en glanzende oppervlakken. Hij signeerde en dateerde negen werken, soms op de lijst of verborgen in het schilderij zelf.',
   'Het Lam Gods hangt nog steeds in de kathedraal in Gent. Van Eyck overleed op 9 juli 1441 in Brugge.'
  ],
+ gevolgen: [
+  "Van Eyck liet zien hoe je met dunne, doorschijnende lagen olieverf licht, glans en diepte kon schilderen. Schilders in heel Europa, ook in Italië, bewonderden die techniek. Werk van Vlaamse schilders werd een gewild product voor rijke kopers.",
+  "Hij schilderde ook portretten van gewone, rijke burgers, zoals het beroemde portret van het echtpaar Arnolfini uit 1434, nu in Londen. Op de achterwand schreef hij in het Latijn: “Jan van Eyck was hier”. In de spiegel achter het paar zijn twee kleine figuurtjes te zien, misschien de schilder zelf."
+ ],
+ perspectieven: [
+  "Het Lam Gods werd niet besteld door een vorst of een bisschop, maar door de Gentse koopman en politicus Joos Vijd en zijn vrouw Lysbette Borluut. Op de buitenkant van de luiken zitten ze geknield in gebed. Zo lieten rijke burgers zien hoe vroom en hoe belangrijk ze waren.",
+  "Van Eyck was ook hofschilder en diplomaat van Filips de Goede. In 1428 reisde hij naar Portugal om een portret te maken van prinses Isabella, met wie de hertog wilde trouwen."
+ ],
+ misverstanden: [
+  ["“De Vlaamse Primitieven waren nog primitieve schilders.”","De naam “Vlaamse Primitieven” werd pas in de 19e eeuw bedacht. “Primitief” betekent hier “de eersten”: zij stonden aan het begin van een nieuwe manier van schilderen. Hun techniek was juist uiterst verfijnd."],
+  ["“Van Eyck werd zeker in Maaseik geboren.”","Zijn naam wijst op Maaseik, en zijn dochter ging daar later in het klooster. Maar het is niet zeker. Ook andere plaatsen in het toenmalige bisdom Luik worden genoemd, waaronder Maastricht."]
+ ],
+ hoeWeten: [
+  "Op de lijst van het Lam Gods staat een gedicht, een kwatrijn, dat zegt dat Hubert van Eyck het werk begon en zijn broer Jan het in 1432 afmaakte. Van Hubert is verder bijna niets bekend. Bij de restauratie die in 2012 begon, onderzochten specialisten het werk met röntgenfoto’s en scans. Ze ontdekten dat grote delen later waren overgeschilderd."
+ ],
+ nu: [
+  "Het Lam Gods hangt in de Sint-Baafskathedraal in Gent. Bij de restauratie kwam onder de overschildering het oorspronkelijke lam tevoorschijn, met een opvallend menselijk gezicht en vooruitkijkende ogen. Dat leverde in 2020 veel verbaasde reacties op. Volgens onderzoekers is de vrucht in de hand van Eva geen appel, maar een zeldzame citrusvrucht."
+ ],
+ vertellen: "Het Lam Gods wordt wel het meest gestolen kunstwerk ter wereld genoemd. In 1566 werd het in de toren verstopt voor de beeldenstormers. Napoleon nam het mee naar Parijs, en de nazi’s verborgen het in een zoutmijn in Oostenrijk. In 1934 werden twee panelen gestolen. Een ervan, De Rechtvaardige Rechters, is nooit teruggevonden. In de kathedraal hangt nu een kopie.",
+ verbanden: [["De Bourgondiërs nemen over","Van Eyck werkte voor Filips de Goede"],["Jeroen Bosch","een latere schilder uit de Nederlanden"],["Beeldenstorm","het altaarstuk werd toen in de toren verstopt"]],
+ onderwijs: {"ka":["De opkomst van de stedelijke burgerij en de toenemende zelfstandigheid van steden.","Het veranderende mens- en wereldbeeld van de renaissance en het begin van een nieuwe wetenschappelijke belangstelling. (tijdvak 5)"]},
  cijfers: [['Geboren','ca. 1390, Maaseik'],['Lam Gods','1432, Gent'],['Gesigneerde werken','ca. 9'],['Overleden','9 juli 1441, Brugge']],
  figuren: [['Jan van Eyck','schilder in Brugge'],['Hubert van Eyck','zijn broer, volgens de overlevering medeschilder'],['Joris van der Paele','kanunnik op een ander beroemd schilderij van Van Eyck']],
  bronnen: [['Wikipedia: Jan van Eyck',W('Jan van Eyck')],['Wikipedia: Het Lam Gods',W('Lam Gods')]]
@@ -395,6 +454,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Vaak wordt gezegd dat Europeanen na 1453 zeeroutes naar Azië gingen zoeken omdat de landroute geblokkeerd was. Historici vinden dat te simpel: de Portugezen waren al sinds de tijd van Hendrik de Zeevaarder bezig met ontdekkingsreizen langs de kust van Afrika.'
  ],
+ gevolgen: [
+  "Sultan Mehmet II, toen pas 21 jaar oud, maakte Constantinopel tot hoofdstad van zijn rijk. Hij liet de Hagia Sophia, eeuwenlang de grootste kerk van de christelijke wereld, veranderen in een moskee. Het Ottomaanse Rijk groeide uit tot een grote macht, die in 1529 zelfs tot Wenen doordrong.",
+  "Veel Griekse geleerden vluchtten naar Italië en namen oude handschriften mee. Daardoor konden Italiaanse humanisten de Griekse klassieken in het origineel lezen. Dat gaf de renaissance een extra stimulans."
+ ],
+ misverstanden: [
+  ["“Met de val van Constantinopel begon de renaissance.”","De renaissance was in Italië al eerder begonnen, en er waren al lang contacten met Griekse geleerden. De vluchtelingen van 1453 versnelden de belangstelling voor de Griekse oudheid, maar veroorzaakten haar niet."],
+  ["“De stad werd ingenomen door verraad.”","Er gaan verhalen over een poortje, de Kerkoporta, dat open zou zijn blijven staan. Historici denken dat het hooguit over het hoofd werd gezien in de chaos. De stad viel vooral door de overmacht van het Ottomaanse leger en zijn kanonnen."]
+ ],
+ hoeWeten: [
+  "Er zijn ooggetuigenverslagen van verdedigers, onder wie een Venetiaanse scheepsarts, en van Ottomaanse schrijvers. Ze spreken elkaar soms tegen, ook omdat Venetianen en Genuezen elkaar de schuld gaven. Van de stadsmuren zijn nog grote delen bewaard, met de sporen van de beschieting."
+ ],
+ nu: [
+  "Constantinopel heet nu Istanbul, de grootste stad van Turkije. De Hagia Sophia werd in 1934 een museum en in 2020 weer een moskee. De verovering wordt in Turkije elk jaar op 29 mei herdacht. Voor veel Grieken is het nog altijd een zwarte dag."
+ ],
+ vertellen: "De Byzantijnen hadden de haven, de Gouden Hoorn, afgesloten met een grote ijzeren ketting. Mehmet bedacht een list: hij liet tientallen schepen over een weg van houten balken over land slepen, langs de stad heen, en ze aan de andere kant van de ketting weer te water laten. De verdedigers zagen de vijandelijke vloot ineens in hun eigen haven liggen.",
+ verbanden: [["Erasmus","humanisten lazen de Griekse teksten die uit het oosten kwamen"],["Vasco da Gama naar Indië","Europeanen zochten een zeeroute naar Azië"],["Mona Lisa","de Italiaanse renaissance in volle bloei"]],
+ onderwijs: {"ka":["De hernieuwde interesse op het erfgoed van de klassieke oudheid. (tijdvak 5)"]},
  cijfers: [['Datum','29 mei 1453 (pinksterzondag)'],['Sultan','Mehmet II'],['Laatste keizer','Constantijn XI Paleologus'],['Eerder ingenomen','1204 en 1261']],
  figuren: [['Mehmet II','sultan van het Ottomaanse Rijk'],['Constantijn XI Paleologus','laatste keizer van Byzantium']],
  bronnen: [['Wikipedia: Beleg en val van Constantinopel (1453)',W('Beleg en val van Constantinopel (1453)')]]
@@ -412,6 +488,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de mensen die er al woonden was Amerika geen “nieuwe wereld”. Op Hispaniola onderwierp Columbus de Taíno met geweld, en ziektes uit de Oude Wereld hadden een verwoestend effect op de inheemse bevolking. Met hem begon de Spaanse overheersing van de Nieuwe Wereld.'
  ],
+ gevolgen: [
+  "Spanje en Portugal verdeelden de nieuwe gebieden in 1494 met het Verdrag van Tordesillas: alles ten westen van een lijn in de Atlantische Oceaan was voor Spanje, alles ten oosten voor Portugal. Daardoor werd Brazilië later Portugees.",
+  "Tussen Amerika en de rest van de wereld begon een grote uitwisseling. Aardappels, maïs, tomaten en cacao kwamen naar Europa. Paarden, koeien, tarwe en suikerriet gingen naar Amerika, en ook ziektes zoals pokken. Later werden miljoenen Afrikanen als slaaf naar Amerika gebracht om op plantages te werken."
+ ],
+ misverstanden: [
+  ["“Columbus wilde bewijzen dat de aarde rond is.”","Geleerden wisten al lang dat de aarde rond is. De discussie ging over hoe groot ze was. Columbus schatte de aarde veel te klein, en daarom dacht hij dat Azië dichtbij lag. Zijn critici hadden gelijk: zonder Amerika ertussen was hij nooit in Azië aangekomen."],
+  ["“Columbus was de eerste Europeaan in Amerika.”","Rond het jaar 1000 kwamen Vikingen uit Groenland al in Noord-Amerika, waar resten van een nederzetting zijn gevonden. Die contacten bleven zonder gevolgen. Na Columbus bleven de Europeanen wel."]
+ ],
+ hoeWeten: [
+  "Er zijn een samenvatting van het scheepsjournaal van Columbus, zijn brieven en de verslagen van zijn zoon en van de Spaanse priester Bartolomé de las Casas, die de behandeling van de inheemse bevolking scherp veroordeelde. Over de Taíno zelf weten we veel minder, want zij lieten geen geschreven bronnen na. Archeologen onderzoeken hun dorpen en voorwerpen."
+ ],
+ nu: [
+  "Amerika is niet naar Columbus genoemd, maar naar de Florentijn Amerigo Vespucci, die schreef dat het een nieuwe wereld was. Zijn naam stond in 1507 voor het eerst op een wereldkaart. In de Verenigde Staten wordt Columbus Day in veel staten vervangen of aangevuld door een dag voor de inheemse volken. Op verschillende plaatsen zijn standbeelden van Columbus weggehaald."
+ ],
+ vertellen: "Met kerstmis 1492 liep de Santa María, het grootste schip, bij Hispaniola op de klippen. Van het hout liet Columbus een fort bouwen, La Navidad (Kerstmis), en hij liet er 39 mannen achter. Toen hij een jaar later terugkwam, was het fort verwoest en leefde niemand van hen meer.",
+ verbanden: [["Vasco da Gama naar Indië","de Portugese route naar Azië om Afrika heen"],["Magellaan rond de wereld","de eerste reis om de hele aarde"],["Slavernij","de slavenhandel naar Amerika die later volgde"]],
+ onderwijs: {"ka":["Het begin van de Europese overzeese expansie. (tijdvak 5)"]},
  cijfers: [['Vertrek','3 augustus 1492, Palos'],['Land in zicht','12 oktober 1492'],['Schepen','Santa María, Pinta en Niña'],['Overleden','20 mei 1506, Valladolid']],
  figuren: [['Christoffel Columbus','ontdekkingsreiziger uit Genua'],['Isabella van Castilië','koningin van Spanje, steunde de reis'],['De Taíno','bewoners van de eilanden die Columbus bereikte']],
  bronnen: [['Wikipedia: Christoffel Columbus',W('Christoffel Columbus')]]
@@ -427,6 +520,27 @@ Object.assign(window.DETAILS, {
   'Vandaar voer de vloot naar Calicut aan de zuidwestkust van India. Zo vonden de Portugezen de zeeroute naar Azië, rond Afrika.',
   'Ruim honderd jaar later volgden de Nederlanders dezelfde route: de Eerste Schipvaart vertrok in 1595 en in 1602 werd de VOC opgericht.'
  ],
+ gevolgen: [
+  "De reis was zwaar. Van de ongeveer 170 opvarenden kwamen er maar zo’n 60 terug, de meesten bezweken aan scheurbuik. Toch was de lading specerijen zoveel waard dat de Portugese koning meteen een nieuwe, veel grotere vloot uitrustte. Een half jaar later vertrokken dertien schepen met 1500 man.",
+  "Portugal bouwde in de jaren daarna een netwerk van forten en handelsposten langs de kusten van Afrika en Azië, met Goa in India als hoofdstad vanaf 1510. Zo beheerste het een eeuw lang de zeeroute naar Azië, tot de Nederlanders en Engelsen kwamen."
+ ],
+ perspectieven: [
+  "Voor de handelaren in de Indische Oceaan waren de Portugezen arme nieuwkomers. De heerser van Calicut, de samorijn, was niet onder de indruk van de geschenken: een paar hoeden, wat koraal en suiker. Volgens het dagboek zei hij dat wie kwam om nieuwe landen te ontdekken, ook fatsoenlijke geschenken mee had moeten nemen.",
+  "Bij zijn tweede reis, in 1502, trad Da Gama met groot geweld op. Hij viel islamitische schepen aan, waaronder de Mîrî, een schip met honderden pelgrims op weg terug van Mekka. Hij liet het schip in brand steken. Zo werd de handel in de Indische Oceaan met wapens afgedwongen."
+ ],
+ misverstanden: [
+  ["“Vasco da Gama vond de weg naar India zelf.”","Langs de Afrikaanse kust vonden de Portugezen de weg door eerdere reizen, zoals die van Bartolomeus Diaz. Voor de oversteek naar India hadden ze een ervaren loods uit Malindi nodig, die de route over de Arabische Zee kende. Vaak wordt gezegd dat dat de beroemde Arabische zeevaarder Ibn Majid was, maar dat klopt waarschijnlijk niet."],
+  ["“De Portugezen ontdekten de handel met India.”","Arabische, Indiase, Afrikaanse en Chinese handelaren dreven al eeuwen handel in de Indische Oceaan. De Portugezen sloten aan bij een netwerk dat al bestond, en probeerden het met geweld in handen te krijgen."]
+ ],
+ hoeWeten: [
+  "Een anonieme opvarende hield een dagboek bij van de eerste reis. Dat is de belangrijkste bron. Daarnaast zijn er Portugese kronieken en brieven. Ook Indiase en Arabische bronnen beschrijven de komst van de Portugezen, vaak in veel minder vriendelijke woorden."
+ ],
+ nu: [
+  "Vasco da Gama ligt begraven in het Jerónimosklooster in Lissabon, dat werd gebouwd met de winst van de specerijenhandel. De dichter Luís de Camões maakte zijn reis tot het onderwerp van het Portugese nationale epos, de Lusiaden (1572). Goa bleef tot 1961 Portugees."
+ ],
+ vertellen: "Toen de Portugezen in Calicut aan land gingen, werden ze aangesproken door twee handelaren uit Tunis, die Spaans en Italiaans spraken. De eerste woorden die ze te horen kregen waren volgens het dagboek ongeveer: “Wat doen jullie hier, wat duivel brengt jullie?” Het antwoord was: “Wij zoeken christenen en specerijen.”",
+ verbanden: [["Columbus en Amerika","de Spaanse poging om Azië via het westen te bereiken"],["Eerste schipvaart naar Indië","de Nederlanders volgden ruim honderd jaar later deze route"],["Val van Constantinopel","Europeanen zochten een eigen weg naar de specerijen"]],
+ onderwijs: {"ka":["Het begin van de Europese overzeese expansie. (tijdvak 5)"]},
  cijfers: [['Vertrek','8 juli 1497, Lissabon'],['In Malindi','14 april 1498'],['Bestemming','Calicut, India'],['Overleden','24 december 1524, Cochin']],
  figuren: [['Vasco da Gama','Portugese ontdekkingsreiziger'],['Bartolomeus Diaz','rondde in 1488 Kaap de Goede Hoop']],
  bronnen: [['Wikipedia: Vasco da Gama',W('Vasco da Gama')]]
@@ -442,6 +556,27 @@ Object.assign(window.DETAILS, {
   'Zijn werk is vol vreemde wezens, half mens en half dier, en fantasierijke landschappen. Bekende werken zijn De tuin der lusten, De hooiwagen en De verzoeking van de heilige Antonius. Ze tonen de zonde en de straf die volgt. Er zijn maar enkele tientallen werken van zijn hand bewaard.',
   'Bosch stierf in 1516 in Den Bosch. Na zijn dood werd zijn werk veel nagevolgd. De Spaanse koning Filips II verzamelde zijn schilderijen. Daarom hangen veel ervan in het Prado in Madrid.'
  ],
+ gevolgen: [
+  "Bosch werd al tijdens zijn leven beroemd, ook bij vorsten. Filips de Schone, de vader van Karel V, bestelde een groot altaarstuk van het Laatste Oordeel. De tuin der lusten hing in het paleis van de graven van Nassau in Brussel, de familie van Willem van Oranje.",
+  "Na zijn dood maakten veel schilders werk “in de trant van Bosch”, met duivels, monsters en wonderlijke wezens. Pieter Bruegel werd in zijn tijd zelfs “de nieuwe Jheronimus Bosch” genoemd. Eeuwen later lieten surrealisten als Salvador Dalí zich door hem inspireren."
+ ],
+ perspectieven: [
+  "In Spanje werd Bosch eind 16e eeuw van ketterij verdacht, vanwege zijn vreemde duivelse taferelen. De bibliothecaris van het koninklijk paleis El Escorial nam het voor hem op: Bosch liet volgens hem juist zien hoe de mens tot zonde verleid wordt.",
+  "Voor de Bosschenaren van zijn tijd was Bosch geen buitenstaander, maar een gerespecteerd burger. Hij woonde in een groot huis aan de Markt en was gezworen broeder van een voorname broederschap, waarvoor hij ook ontwerpen maakte."
+ ],
+ misverstanden: [
+  ["“Bosch was lid van een geheime sekte.”","In 1947 beweerde een Duitse kunsthistoricus dat Bosch lid was van de adamieten, een sekte die vrije liefde predikte. Daar is geen bewijs voor. Die sekte was een eeuw eerder actief, en De tuin der lusten waarschuwt juist tegen een zondig leven."],
+  ["“De beeldtaal van Bosch is helemaal verzonnen.”","Veel van zijn figuren komen uit de taal en de verhalen van zijn tijd: spreekwoorden, preken, volksverhalen en bekende symbolen. Wie die kent, kan veel van zijn schilderijen “lezen”."]
+ ],
+ hoeWeten: [
+  "Bosch zelf schreef niets op, maar in de rekeningboeken van de Illustre Lieve Vrouwe Broederschap staat hij vermeld, tot aan zijn uitvaartmis in 1516. Met onderzoek naar het hout van de panelen kunnen kenners bepalen hoe oud een schilderij is. Een groot onderzoeksproject rond 2016 heeft opnieuw bekeken welke werken echt van zijn hand zijn."
+ ],
+ nu: [
+  "In 2016, 500 jaar na zijn dood, was er in Het Noordbrabants Museum in Den Bosch een grote tentoonstelling met bijna al zijn werken, die honderdduizenden bezoekers trok. In Museum Boijmans Van Beuningen in Rotterdam hangen De marskramer en Sint-Christoffel. In de Sint-Jacobskerk in Den Bosch is het Jheronimus Bosch Art Center gevestigd."
+ ],
+ vertellen: "Op het middenpaneel van De tuin der lusten staan honderden kleine naakte figuurtjes tussen reusachtige vruchten, vogels en vreemde bouwsels. Op het rechterpaneel, de hel, zie je straffen die bij zonden passen: een muzikant is vastgebonden op een harp, een gulzigaard wordt opgegeten. Een prachtige zoekplaat, met wel veel naakt.",
+ verbanden: [["Jan van Eyck en het Lam Gods","de Vlaamse schildertraditie waar Bosch uit voortkwam"],["Pieter Bruegel de Oude","werd “de nieuwe Jheronimus Bosch” genoemd"],["Moord op Willem van Oranje","De tuin der lusten was eigendom van zijn familie"]],
+ onderwijs: {"ka":["Het veranderende mens- en wereldbeeld van de renaissance en het begin van een nieuwe wetenschappelijke belangstelling. (tijdvak 5)"],"venster":"8. Jeroen Bosch"},
  cijfers: [['Geboren','ca. 1450'],['Overleden','1516'],['Bewaarde schilderijen','ca. 20 – 25']],
  figuren: [['Jeroen Bosch','schilder'],['Aleid van de Meervenne','echtgenote'],['Filips II','Spaanse koning, verzamelaar van zijn werk']],
  bronnen: [CANON,['Wikipedia: Jeroen Bosch',W('Jeroen Bosch')],['Het Noordbrabants Museum','https://www.hetnoordbrabantsmuseum.nl/']]
@@ -457,6 +592,27 @@ Object.assign(window.DETAILS, {
   'In 1511 verscheen de Lof der Zotheid, een satire op misstanden in kerk en samenleving. In 1516 gaf hij het Nieuwe Testament in het Grieks uit, met een nieuwe Latijnse vertaling. Ook zijn verzameling spreekwoorden, de Adagia, werd veel gelezen.',
   'Erasmus wilde de kerk hervormen, maar niet breken. Hij kreeg daarover een conflict met Maarten Luther, onder meer over de vrije wil. Hij stierf in 1536 in Bazel. Hij staat bekend als pleitbezorger van verdraagzaamheid en vrede.'
  ],
+ gevolgen: [
+  "Zijn Griekse Nieuwe Testament van 1516 werd de basis voor nieuwe Bijbelvertalingen, onder meer die van Luther. Daarmee hielp Erasmus de Reformatie op weg, al wilde hij zelf geen breuk. Toen hem werd verweten dat hij “het ei had gelegd dat Luther had uitgebroed”, antwoordde hij dat hij liever iets anders had uitgebroed.",
+  "Erasmus schreef ook over opvoeding en onderwijs. Zijn boekje over goede manieren voor kinderen uit 1530 vertelde hoe jongeren moesten lopen, eten, spreken en zwijgen. Het werd eeuwenlang gebruikt en in veel talen vertaald."
+ ],
+ perspectieven: [
+  "Erasmus zat tussen twee vuren. Protestanten vonden hem te voorzichtig, omdat hij in de katholieke kerk bleef. Katholieken vonden hem gevaarlijk, omdat hij de kerk bekritiseerde. In 1559 kwamen al zijn boeken op de lijst van verboden boeken van de paus.",
+  "Erasmus was een geleerde voor een kleine kring: hij schreef in het Latijn, dat alleen geletterden konden lezen. Toch werd hij door de drukpers de bekendste schrijver van zijn tijd."
+ ],
+ misverstanden: [
+  ["“Erasmus heette eigenlijk Gerrit Gerritszoon.”","Die naam wordt vaak genoemd, maar is niet zeker. Zijn vader heette Gerard. Erasmus noemde zichzelf naar de heilige Erasmus, en voegde later zelf Desiderius en Roterodamus (uit Rotterdam) toe."],
+  ["“Erasmus was een Rotterdammer.”","Hij werd in Rotterdam geboren, maar woonde er maar drie jaar. Hij ging naar school in Gouda en Deventer en woonde later in Parijs, Engeland, Leuven en Bazel. Hij noemde zichzelf een wereldburger."]
+ ],
+ hoeWeten: [
+  "Er zijn ruim drieduizend brieven van en aan Erasmus bewaard, waarin hij schrijft over zijn werk, zijn vrienden en zijn ruzies. Zijn boeken verschenen in duizenden exemplaren. Hans Holbein schilderde portretten van hem. Over zijn jeugd hield hij zelf veel vaag, onder meer omdat hij een buitenechtelijk kind was."
+ ],
+ nu: [
+  "Het Europese uitwisselingsprogramma voor studenten, sinds 1987, heet Erasmus, net als de universiteit en de brug in Rotterdam. Op het Grotekerkplein staat een bronzen standbeeld van hem uit 1622, het oudste bronzen standbeeld van Nederland. De Bibliotheek Rotterdam beheert een van de grootste Erasmus-verzamelingen ter wereld."
+ ],
+ vertellen: "Erasmus schreef de Lof der Zotheid in 1509, in het huis van zijn vriend Thomas More in Londen. In het boek spreekt Vrouwe Zotheid zelf, en zij prijst zichzelf. Zo kon Erasmus via haar spotten met geleerden, monniken, vorsten en zelfs de paus, zonder dat hij het zelf zei. De Latijnse titel, Moriae Encomium, is ook een woordgrap op de naam More.",
+ verbanden: [["Boekdrukkunst","zonder drukpers was Erasmus niet zo beroemd geworden"],["Luther en de Reformatie","de hervormer met wie Erasmus van mening verschilde"],["Val van Constantinopel","de belangstelling voor het Grieks groeide"]],
+ onderwijs: {"ka":["De hernieuwde interesse op het erfgoed van de klassieke oudheid. (tijdvak 5)","De protestantse reformatie en splitsing van de christelijke kerk in West-Europa. (tijdvak 5)"],"venster":"10. Erasmus"},
  cijfers: [['Geboren','1466 of 1469, Rotterdam'],['Lof der Zotheid','1511 (gedrukt)'],['Grieks Nieuwe Testament','1516'],['Overleden','1536, Bazel']],
  figuren: [['Desiderius Erasmus','humanist en geleerde'],['Thomas More','Engelse vriend en humanist'],['Maarten Luther','hervormer, tegenstander in debat'],['Johann Froben','drukker in Bazel']],
  bronnen: [CANON,['Wikipedia: Desiderius Erasmus',W('Desiderius Erasmus')]]
@@ -472,6 +628,27 @@ Object.assign(window.DETAILS, {
   'In Gent werden twee van haar raadsheren onthoofd. Nog in 1477 trouwde Maria met Maximiliaan van Oostenrijk. Met zijn hulp kon ze een groot deel van haar Nederlandse gebieden behouden.',
   'In 1482 stierf Maria na een val van haar paard. Haar zoon Filips de Schone erfde de Nederlanden. Via hem kwamen de gewesten in handen van de Habsburgers.'
  ],
+ gevolgen: [
+  "Door het huwelijk met Maximiliaan kwamen de Nederlanden bij de Habsburgers. Hun kleinzoon Karel V werd later heer van de Nederlanden, koning van Spanje en keizer. Zo werden de Nederlanden onderdeel van een wereldrijk, met alle gevolgen van dien, tot en met de Opstand.",
+  "Het Groot Privilege werd na Maria’s dood grotendeels teruggedraaid door Maximiliaan, die met de Vlaamse steden in oorlog raakte. Brugge zette hem in 1488 zelfs een paar maanden gevangen. Toch bleef het idee dat de vorst niet zonder de Staten mocht regeren, in de Nederlanden voortleven."
+ ],
+ perspectieven: [
+  "Het Groot Privilege was een overwinning voor de steden en de gewesten, die zich door het strenge bestuur van Karel de Stoute vertrapt voelden. Maar de Franstalige gewesten protesteerden: de tekst was in het Nederlands opgesteld. Ook toen al speelde taal een rol in de verhoudingen.",
+  "Voor de Franse koning Lodewijk XI was de dood van Karel de Stoute een kans. Hij nam het hertogdom Bourgondië in en wilde Maria laten trouwen met zijn jonge zoon. Daarmee zou het hele erfdeel bij Frankrijk zijn gekomen."
+ ],
+ misverstanden: [
+  ["“Maria van Bourgondië was een machteloos meisje.”","Maria stond in 1477 onder grote druk, en moest veel toegeven. Maar ze koos zelf voor het huwelijk met Maximiliaan, tegen de wens van de Franse koning, en wist zo het grootste deel van haar erfdeel te behouden."],
+  ["“Het Groot Privilege maakte de Nederlanden democratisch.”","Het gaf meer macht aan de Staten van de gewesten, waarin edelen, geestelijken en de rijke steden zaten. Gewone mensen hadden er niets over te zeggen."]
+ ],
+ hoeWeten: [
+  "De tekst van het Groot Privilege is bewaard, net als brieven en oorkonden van Maria. Kronieken uit die tijd beschrijven haar huwelijk en haar dood. Haar prachtige getijdenboek, een gebedenboek vol miniaturen, ligt in de Oostenrijkse Nationale Bibliotheek in Wenen. Bij onderzoek van haar graf in de 20e eeuw werden haar resten teruggevonden."
+ ],
+ nu: [
+  "Maria ligt begraven in de Onze-Lieve-Vrouwekerk in Brugge, naast het praalgraf van haar vader Karel de Stoute. Haar bronzen grafmonument is een van de mooiste uit die tijd. In 1793 werd haar graf door Franse revolutionairen geschonden."
+ ],
+ vertellen: "Maria hield van paardrijden en valkenjacht. Op 6 maart 1482 ging ze op reigerjacht bij het kasteel van Wijnendale, met haar valk op de hand. Bij het springen over een gracht struikelde haar paard. De buikriem brak, ze viel in de gracht en het paard kwam boven op haar terecht. Drie weken later stierf ze, pas 25 jaar oud.",
+ verbanden: [["De Bourgondiërs nemen over","haar grootvader bracht de Nederlanden bijeen"],["Karel V en het Verdrag van Venlo","haar kleinzoon maakte de eenwording af"],["Begin Tachtigjarige Oorlog","de opstand tegen haar achterkleinzoon Filips II"]],
+ onderwijs: {"ka":["Het begin van staatsvorming en centralisatie."],"venster":"9. Maria van Bourgondië"},
  cijfers: [['Geboren','1457, Brussel'],['Dood Karel de Stoute','5 januari 1477'],['Groot Privilege','februari 1477'],['Overleden','1482']],
  figuren: [['Maria van Bourgondië','hertogin'],['Karel de Stoute','vader, hertog van Bourgondië'],['Maximiliaan van Oostenrijk','echtgenoot'],['Lodewijk XI','Franse koning, tegenstander']],
  bronnen: [CANON,['Wikipedia: Maria van Bourgondië',W('Maria van Bourgondië')],['Wikipedia: Groot Privilege',W('Groot Privilege')]]
