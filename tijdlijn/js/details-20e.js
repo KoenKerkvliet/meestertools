@@ -196,13 +196,34 @@ Object.assign(window.DETAILS, {
 
 'Cobra': {
  aanloop: [
-  'Na de Tweede Wereldoorlog wilden sommige kunstenaars een nieuwe, vrije manier van schilderen.'
+  'Na de Tweede Wereldoorlog wilden sommige kunstenaars een nieuwe, vrije manier van schilderen.',
+  "De oorlog had veel kunstenaars geschokt. De nette, beredeneerde kunst van vóór de oorlog, en ook de strakke lijnen van De Stijl, vonden zij niet meer passend. Ze zochten naar iets oorspronkelijks en ongepolijsts, zoals kinderen tekenen voordat ze geleerd hebben hoe het “hoort”."
  ],
  verloop: [
   'Op 8 november 1948 werd de groep opgericht in Café Notre-Dame in Parijs. De naam CoBrA is een acroniem van Copenhague, Bruxelles en Amsterdam, de steden waar de oprichters vandaan kwamen.',
   'Ze werkten spontaan en lieten zich inspireren door tekeningen van kinderen en van geesteszieken, en door oosterse kalligrafie. Ze vonden dat kunst niet alleen voor iedereen was, maar ook door iedereen gemaakt kon worden.',
   'Karel Appel, Constant en Corneille uit Nederland werden internationaal beroemd, net als de Belg Pierre Alechinsky en de Deen Asger Jorn. De groep bestond van 1948 tot 1951, maar had daarna nog lang invloed.'
  ],
+ gevolgen: [
+  "In 1949 kregen de Cobra-schilders tot hun eigen verbazing een tentoonstelling in het Stedelijk Museum in Amsterdam. Die leidde tot een schandaal: veel bezoekers en critici vonden het kladwerk, en er werd gelachen en gescholden. Daardoor werd Cobra in één klap bekend.",
+  "Ook een muurschildering van Karel Appel in de kantine van het Amsterdamse stadhuis, Vragende kinderen, leidde tot een rel. Na protest van ambtenaren werd het werk tien jaar lang achter behang verstopt. Later werden juist deze kunstenaars de bekendste Nederlandse schilders van na de oorlog."
+ ],
+ perspectieven: [
+  "Voor de Cobra-kunstenaars was hun werk een protest tegen burgerlijkheid en een zoektocht naar vrijheid na jaren van oorlog. Voor veel Nederlanders in de wederopbouw, die juist orde en fatsoen wilden, voelde het als een belediging van wat kunst moest zijn. Tegenwoordig wordt Cobra gezien als een belangrijke vernieuwing in de Europese kunst."
+ ],
+ misverstanden: [
+  ["“Zulke schilderijen kan ieder kind maken.”","De kunstenaars lieten zich wel inspireren door kindertekeningen, maar het waren geschoolde schilders die bewust kozen voor deze spontane stijl. Het ging om vrijheid en expressie, niet om onkunde."],
+  ["“Cobra was een Nederlandse groep.”","Het was een internationale groep, met kunstenaars uit Denemarken, België en Nederland, zoals de naam al zegt: Copenhague, Bruxelles, Amsterdam."]
+ ],
+ hoeWeten: [
+  "De schilderijen zelf zijn de belangrijkste bron. Daarnaast zijn er de tijdschriften en manifesten die de groep uitgaf, en krantenrecensies over de tentoonstelling van 1949, die laten zien hoe fel de reacties waren. Kunstenaars vertelden er later zelf over in interviews."
+ ],
+ nu: [
+  "In Amstelveen staat het Cobra Museum voor Moderne Kunst. Werk van Appel, Corneille en Constant hangt in het Stedelijk Museum en in veel andere musea. De kleurrijke, kinderlijke vormen van Cobra zie je terug in illustraties en ontwerpen van nu."
+ ],
+ vertellen: "Karel Appel kreeg vaak kritiek dat hij “maar wat deed”. Hij antwoordde met een uitspraak die beroemd werd: “Ik rotzooi maar een beetje an.” Hij bedoelde daarmee juist dat hij zich niet wilde laten vastleggen door regels.",
+ verbanden: [["Mondriaan en De Stijl","juist het tegenovergestelde van strak en beredeneerd"],["M.C. Escher","een kunstenaar uit dezelfde tijd met een heel andere stijl"],["Provo","een latere beweging tegen burgerlijkheid"]],
+ onderwijs: {},
  cijfers: [['Opgericht','8 november 1948, Parijs'],['Actief','1948 – 1951'],['Naam','Copenhague, Bruxelles, Amsterdam'],['Nederlanders','Appel, Constant, Corneille']],
  figuren: [['Karel Appel','Nederlandse schilder'],['Constant Nieuwenhuijs','Nederlandse kunstenaar'],['Asger Jorn','Deense kunstenaar']],
  bronnen: [['Wikipedia: Cobra (kunst)',W('Cobra (kunst)')]]
@@ -210,13 +231,34 @@ Object.assign(window.DETAILS, {
 
 'M.C. Escher': {
  aanloop: [
-  'M.C. Escher werd op 17 juni 1898 geboren in Leeuwarden, in een pand dat nu het museum Princessehof is. Hij was goed in tekenen, maar geen goede leerling: hij bleef twee keer zitten.'
+  'M.C. Escher werd op 17 juni 1898 geboren in Leeuwarden, in een pand dat nu het museum Princessehof is. Hij was goed in tekenen, maar geen goede leerling: hij bleef twee keer zitten.',
+  "Escher studeerde eerst bouwkunde in Haarlem, maar stapte over naar grafische kunst. In de jaren twintig en dertig woonde hij in Italië, waar hij landschappen en stadjes tekende. Een bezoek aan het Alhambra in het Spaanse Granada, met zijn islamitische tegelpatronen, inspireerde hem tot zijn beroemde vlakvullingen."
  ],
  verloop: [
   'Escher maakte houtsneden, houtgravures en lithografieën waarin hij vaak speelde met wiskundige principes. Bekende voorbeelden zijn Tekenen, waarin twee handen elkaar tekenen, en Lucht en water, waarin vissen overgaan in vogels.',
   'In 1941 verhuisde het gezin naar Baarn. Tijdens zijn wandelingen door de bossen ontstonden daar de ideeën voor werken als Drie Werelden.',
   'In de jaren zestig werd zijn werk, tot zijn verbazing, omarmd door hippies en popsterren. Escher overleed op 27 maart 1972 in Hilversum. In Den Haag is het museum Escher in Het Paleis.'
  ],
+ gevolgen: [
+  "Wiskundigen en kristallografen ontdekten in zijn werk symmetrieën en thema’s uit hun vak. Escher correspondeerde met wiskundigen en liet zich door hun ideeën inspireren, zoals bij de onmogelijke trap van Penrose die hij gebruikte in Klimmen en dalen.",
+  "Zijn prenten werden wereldwijd verspreid op posters, platenhoezen en in schoolboeken. Daardoor werd hij een van de bekendste Nederlandse kunstenaars ter wereld, hoewel hij in de kunstwereld lange tijd niet serieus werd genomen."
+ ],
+ perspectieven: [
+  "Kunstcritici zagen Escher lang als een knap vakman, maar niet als groot kunstenaar: zijn werk was te verstandelijk en te veel een puzzel. Wiskundigen en het grote publiek waren juist enthousiast. Escher zelf noemde zich geen kunstenaar of wiskundige, maar iemand die verwonderd was over de wereld."
+ ],
+ misverstanden: [
+  ["“Escher was een wiskundige.”","Escher had geen wiskundeopleiding en zei zelf dat hij slecht was in wiskunde op school. Hij ontdekte de regels van vlakvulling vooral door te tekenen en te proberen."],
+  ["“Escher tekende vooral onmogelijke figuren.”","De onmogelijke bouwwerken zijn het bekendst, maar hij maakte ook veel realistische landschappen, portretten en vlakvullingen. De onmogelijke figuren komen vooral uit zijn latere werk."]
+ ],
+ hoeWeten: [
+  "Escher hield nauwkeurig bij hoe hij zijn prenten maakte, met schetsen, proefdrukken en aantekeningen. Hij schreef veel brieven en ook zelf over zijn werk. Die zijn bewaard in musea en archieven, zoals bij Escher in Het Paleis in Den Haag."
+ ],
+ nu: [
+  "Eschers prenten zie je op puzzels, posters en in schoolboeken over wiskunde en ruimtelijk inzicht. In films en computerspellen worden zijn onmogelijke trappen en gebouwen nagebootst. Bij Escher in Het Paleis in Den Haag is zijn werk het hele jaar te zien."
+ ],
+ vertellen: "Escher bleef op school twee keer zitten en haalde zijn eindexamen niet. Toch staan zijn prenten nu in wiskundeboeken over de hele wereld, omdat wiskundigen er hun eigen ideeën in herkennen.",
+ verbanden: [["Mondriaan en De Stijl","ook een spel met lijnen en vlakken"],["Cobra","kunstenaars uit dezelfde tijd met een totaal andere stijl"]],
+ onderwijs: {},
  cijfers: [['Geboren','17 juni 1898, Leeuwarden'],['Naar Baarn','1941'],['Overleden','27 maart 1972, Hilversum'],['Museum','Escher in Het Paleis, Den Haag']],
  figuren: [['M.C. Escher','graficus uit Leeuwarden']],
  bronnen: [['Wikipedia: M.C. Escher',W('Maurits Cornelis Escher')]]
@@ -231,6 +273,26 @@ Object.assign(window.DETAILS, {
   'Bruna tekende nijntje heel eenvoudig, met enkele lijnen en een beperkt aantal kleuren: gedempt rood, geel, blauw, groen en bruin, met dikke zwarte randen. De boekjes zijn klein van formaat, omdat Bruna wilde dat kinderen voelden dat ze voor hen waren gemaakt en niet voor hun ouders.',
   'In 2014 maakte Bruna bekend dat hij geen nieuwe boekjes meer zou maken. Hij overleed op 16 februari 2017 in Utrecht. In die stad staan het nijntje museum en een standbeeld van nijntje, gemaakt door Bruna’s zoon, de beeldhouwer Marc Bruna.'
  ],
+ gevolgen: [
+  "Nijntje werd een van de bekendste Nederlandse figuren ter wereld. De boekjes zijn in tientallen talen vertaald. In veel landen heet ze Miffy, omdat “nijntje” buiten Nederland onuitspreekbaar is. In Japan is ze bijzonder populair.",
+  "Bruna’s eenvoudige stijl, met dikke lijnen en heldere kleuren, werd invloedrijk in de grafische vormgeving. Hij ontwierp daarnaast honderden boekomslagen, onder meer voor de Zwarte Beertjes-pockets van uitgeverij Bruna."
+ ],
+ perspectieven: [
+  "Volwassenen vinden nijntje soms te simpel, maar Bruna koos bewust voor die eenvoud: elke lijn moest kloppen, en kinderen moesten nijntje aankijken en zich aangesproken voelen. Daarom kijkt nijntje bijna altijd recht naar de lezer. Voor jonge kinderen is het vaak een van de eerste boeken die ze “lezen”."
+ ],
+ misverstanden: [
+  ["“Nijntje is makkelijk te tekenen.”","Bruna tekende en schrapte vaak tientallen keren voordat hij tevreden was. Hij zocht naar precies de juiste lijn en vorm, zodat nijntje met zo weinig mogelijk lijnen toch emotie liet zien."],
+  ["“Miffy is een Engels of Japans figuurtje.”","Miffy is gewoon nijntje, bedacht door een Nederlander uit Utrecht. Alleen de naam is in het buitenland veranderd."]
+ ],
+ hoeWeten: [
+  "De originele tekeningen, schetsen en proeven zijn bewaard en worden in het nijntje museum en het Centraal Museum in Utrecht beheerd. Bruna gaf veel interviews over zijn werkwijze. Hij controleerde zelfs vertalingen door ze terug te laten vertalen."
+ ],
+ nu: [
+  "In Utrecht staat het nijntje museum en op het Nijntjepleintje een standbeeld. Nijntje is te zien op speelgoed, kleding en in tekenfilms. De boekjes worden nog steeds door ouders voorgelezen aan jonge kinderen."
+ ],
+ vertellen: "Dick Bruna gebruikte in zijn nijntjeboekjes nooit hoofdletters, ook niet in de naam “nijntje”. En nijntje kijkt de lezer bijna altijd recht aan, omdat Bruna wilde dat het kind het gevoel had dat nijntje tegen hem of haar praat.",
+ verbanden: [["Annie M.G. Schmidt","nog een klassieker van de Nederlandse kinderliteratuur"],["De televisie","nijntje werd later ook een tekenfilm"]],
+ onderwijs: {},
  cijfers: [['Eerste boekje','1955'],['Bruna geboren','23 augustus 1927, Utrecht'],['Bruna overleden','16 februari 2017'],['Museum','nijntje museum, Utrecht']],
  figuren: [['Dick Bruna','tekenaar en schrijver uit Utrecht'],['Abs Bruna','zijn vader, uitgever'],['Marc Bruna','zijn zoon, maakte het standbeeld']],
  bronnen: [['Wikipedia: Nijntje',W('Nijntje')],['Wikipedia: Dick Bruna',W('Dick Bruna')]]
@@ -245,6 +307,26 @@ Object.assign(window.DETAILS, {
   'Zestien Europese landen bespraken het plan in juli 1947 in Parijs. De Sovjet-Unie verzette zich en zag het als een bedreiging voor de soevereiniteit van kleine landen.',
   'Tussen 1948 en 1952 bestond de hulp uit geld, goederen, grondstoffen en levensmiddelen, deels als lening. Ook Nederland, dat de Hongerwinter achter de rug had, kreeg hulp.'
  ],
+ gevolgen: [
+  "In totaal gaven de Verenigde Staten ongeveer 12,4 miljard dollar aan Marshallhulp. Nederland kreeg per inwoner relatief veel, ongeveer 112 dollar per hoofd. Het geld werd onder meer gebruikt voor grondstoffen, machines, voedsel en de wederopbouw van bruggen, havens en fabrieken.",
+  "Om de hulp te verdelen moesten de Europese landen samenwerken. Daarvoor richtten ze in 1948 de OEES op, een voorloper van de huidige OESO. Zo werd het Marshallplan ook een begin van de Europese samenwerking. Tegelijk verdiepte het de kloof met Oost-Europa, waar de Sovjet-Unie de hulp tegenhield."
+ ],
+ perspectieven: [
+  "Voor de Amerikanen was het plan zowel hulp als politiek: een welvarend West-Europa zou minder vatbaar zijn voor het communisme en een goede handelspartner worden. Voor de Sovjet-Unie was het een poging om Europa afhankelijk te maken van Amerika. Voor gewone Nederlanders betekende het vooral: weer meer spullen in de winkel."
+ ],
+ misverstanden: [
+  ["“Zonder het Marshallplan was Nederland niet weer opgebouwd.”","De hulp was belangrijk, maar eind 1947, nog vóór het plan begon, was de Nederlandse productie al terug op het vooroorlogse niveau. De grootste winst voor Nederland zat in het herstel van West-Duitsland, de belangrijkste handelspartner, en in de start van de Europese samenwerking."],
+  ["“Het was allemaal gratis geld.”","Het grootste deel was een gift, maar een deel bestond uit leningen. Bovendien kwam de hulp vaak in de vorm van Amerikaanse goederen, wat ook de Amerikaanse economie hielp."]
+ ],
+ hoeWeten: [
+  "De afspraken, bedragen en rapporten zijn bewaard in Amerikaanse en Europese archieven. In Nederland maakte de overheid veel voorlichting over de hulp: affiches, films en het bekende schildje “Marshall-hulp” op producten en machines. Ook de toespraak van Marshall zelf is bewaard."
+ ],
+ nu: [
+  "De OESO, de opvolger van de OEES, bestaat nog steeds en vergelijkt landen op onder meer onderwijs, zoals in het PISA-onderzoek. Het Marshallplan wordt vaak genoemd als voorbeeld wanneer er na een oorlog of ramp een groot hulpprogramma nodig is."
+ ],
+ vertellen: "George Marshall hield zijn beroemde toespraak niet in het parlement, maar op 5 juni 1947 op de diploma-uitreiking van de Harvard-universiteit. De toespraak duurde maar een kwartier. In 1953 kreeg hij de Nobelprijs voor de Vrede.",
+ verbanden: [["De Tweede Wereldoorlog","de verwoesting die hersteld moest worden"],["Europa","het begin van de Europese samenwerking"],["De Berlijnse Muur","de kloof tussen Oost en West groeide"]],
+ onderwijs: {"ka":["Blokvorming in de wereld met een wapenwedloop en de dreiging van een atoomoorlog (Koude Oorlog). (tijdvak 10)","De eenwording van Europa. (tijdvak 10)"]},
  cijfers: [['Toespraak van Marshall','5 juni 1947, Harvard'],['Uitvoering','1948 – 1952'],['Deelnemende landen','16 West-Europese landen'],['Naam van het plan','European Recovery Program']],
  figuren: [['George C. Marshall','Amerikaans minister van Buitenlandse Zaken'],['Molotov','Russisch minister, verzette zich tegen het plan']],
  bronnen: [['Wikipedia: Marshallplan',W('Marshallplan')]]
@@ -258,6 +340,26 @@ Object.assign(window.DETAILS, {
   'Op 10 december 1948 werd de verklaring aangenomen door de Algemene Vergadering van de Verenigde Naties. Tot de grondleggers behoren de Amerikaanse presidentsweduwe Eleanor Roosevelt, de Canadese jurist John Peters Humphrey en de Franse jurist René Cassin. Acht landen onthielden zich van stemming, onder meer de Sovjet-Unie en Zuid-Afrika.',
   'Eleanor Roosevelt overtuigde de afgevaardigden om af te zien van een bindende tekst, omdat die niet genoeg steun zou krijgen. De verklaring is dus niet bindend. Toch had ze invloed op meer dan negentig grondwetten, waaronder die van nieuwe staten die na 1948 ontstonden.'
  ],
+ gevolgen: [
+  "De verklaring zelf is niet bindend, maar ze werd de basis voor bindende verdragen. In Europa werd in 1950 het Europees Verdrag voor de Rechten van de Mens ondertekend. Wie vindt dat zijn rechten zijn geschonden, kan uiteindelijk naar het Europees Hof voor de Rechten van de Mens in Straatsburg.",
+  "Later volgden VN-verdragen over onder meer burgerrechten, de rechten van vrouwen en de rechten van het kind. De verklaring bevat in totaal dertig artikelen, met tientallen rechten, van het recht op leven tot het recht op onderwijs."
+ ],
+ perspectieven: [
+  "De verklaring werd geschreven door een groep met mensen uit verschillende werelddelen, maar critici vinden dat ze vooral westerse ideeën weerspiegelt, zoals de nadruk op het individu. Andere landen legden meer nadruk op plichten tegenover de gemeenschap of op sociale rechten. Toch wordt de verklaring wereldwijd gebruikt als gemeenschappelijke maatstaf."
+ ],
+ misverstanden: [
+  ["“Landen moeten zich wettelijk aan de verklaring houden.”","De Universele Verklaring is geen verdrag maar een verklaring: een gezamenlijke belofte. Wel zijn veel rechten later vastgelegd in bindende verdragen, zoals het Europees Verdrag voor de Rechten van de Mens."],
+  ["“Mensenrechten gaan alleen over verre landen.”","Ook in Nederland spelen mensenrechten een rol, bijvoorbeeld bij discriminatie, privacy of de opvang van vluchtelingen. Nederlandse rechters toetsen wetten aan Europese mensenrechtenverdragen."]
+ ],
+ hoeWeten: [
+  "De ontwerpteksten, notulen van de vergaderingen en de stemming van 10 december 1948 zijn bewaard in de archieven van de Verenigde Naties. Daaruit is te zien over welke artikelen lang werd gediscussieerd. Er zijn ook foto’s van Eleanor Roosevelt met de tekst."
+ ],
+ nu: [
+  "Op 10 december is het elk jaar de Dag van de Rechten van de Mens. Organisaties als Amnesty International gebruiken de verklaring om op te komen voor mensen wier rechten worden geschonden. Het eerste artikel, dat alle mensen vrij en gelijk in waardigheid en rechten worden geboren, wordt vaak geciteerd."
+ ],
+ vertellen: "Eleanor Roosevelt, weduwe van de Amerikaanse president, leidde de commissie die de tekst schreef. Ze noemde de verklaring later de “Magna Carta voor de hele mensheid”. Een foto van haar met een groot vel met de tekst werd wereldberoemd.",
+ verbanden: [["De Tweede Wereldoorlog","de verklaring was een antwoord op de oorlog"],["Anne Frank","de Holocaust liet zien waar ontrechting toe leidt"],["Openstelling huwelijk","gelijke behandeling als mensenrecht"]],
+ onderwijs: {"ka":["Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust)."]},
  cijfers: [['Aangenomen','10 december 1948'],['Door','Algemene Vergadering van de Verenigde Naties'],['Onthoudingen','8 landen'],['Invloed','meer dan 90 grondwetten']],
  figuren: [['Eleanor Roosevelt','een van de grondleggers'],['René Cassin','Franse jurist, een van de grondleggers'],['John Peters Humphrey','Canadese jurist, een van de grondleggers']],
  bronnen: [['Wikipedia: Universele Verklaring van de Rechten van de Mens',W('Universele Verklaring van de Rechten van de Mens')]]
@@ -272,6 +374,26 @@ Object.assign(window.DETAILS, {
   'In de Verenigde Staten zorgde het voor schrik. De Sovjet-Unie bleek een raket te hebben die zo ver kon komen.',
   'Daarmee begon de ruimtewedloop. Die liep via de eerste mens in de ruimte naar de maanlanding van Apollo 11 in 1969. In 1985 vloog Wubbo Ockels als eerste Nederlander de ruimte in.'
  ],
+ gevolgen: [
+  "Een maand later, in november 1957, lanceerde de Sovjet-Unie Spoetnik 2 met aan boord de hond Laika, het eerste levende dier in een baan om de aarde. Laika overleefde de vlucht niet. De Verenigde Staten lanceerden op 1 februari 1958 hun eerste satelliet, de Explorer 1, en richtten datzelfde jaar NASA op.",
+  "De schrik in Amerika leidde tot grote investeringen in wetenschap en onderwijs. Scholen kregen meer aandacht voor wiskunde en natuurkunde. De ruimtewedloop werd een onderdeel van de Koude Oorlog: wie de ruimte beheerste, liet zien dat zijn systeem het beste was."
+ ],
+ perspectieven: [
+  "Voor de Sovjet-Unie was Spoetnik een propagandatriomf: het bewees dat het communisme technisch voorop kon lopen. Voor de Amerikanen was het een schok, omdat dezelfde raket ook een kernbom naar Amerika zou kunnen brengen. Voor wetenschappers over de hele wereld was het vooral een spannende stap naar het onderzoek van de ruimte."
+ ],
+ misverstanden: [
+  ["“Spoetnik was een groot ruimteschip.”","Spoetnik 1 was een kleine metalen bol met een doorsnede van 58 centimeter, ongeveer zo groot als een strandbal, met vier lange antennes. Hij zond alleen radiopiepjes uit."],
+  ["“Spoetnik bleef jarenlang rond de aarde draaien.”","Spoetnik 1 zond ongeveer drie weken signalen uit en verbrandde begin 1958 in de dampkring."]
+ ],
+ hoeWeten: [
+  "Radioamateurs over de hele wereld konden de piepjes van Spoetnik zelf opvangen en opnemen; die opnames zijn bewaard. Kranten berichtten er uitgebreid over. Sovjet-archieven over het ruimteprogramma zijn na de Koude Oorlog voor een deel openbaar geworden."
+ ],
+ nu: [
+  "Er draaien nu duizenden satellieten rond de aarde, voor televisie, internet, navigatie en weersverwachtingen. Het woord Spoetnik is in veel talen bekend gebleven als symbool voor een plotselinge technologische schok."
+ ],
+ vertellen: "Spoetnik 1 zond een eenvoudig “piep-piep”-signaal uit dat radioamateurs over de hele wereld met hun eigen ontvangers konden horen. Zo kon iedereen zelf controleren dat er echt iets rond de aarde draaide.",
+ verbanden: [["De maanlanding","het eindpunt van de ruimtewedloop"],["De Cubacrisis","de raketten van de Koude Oorlog"],["Albert Einstein","de natuurkunde achter de ruimtevaart"]],
+ onderwijs: {"ka":["Blokvorming in de wereld met een wapenwedloop en de dreiging van een atoomoorlog (Koude Oorlog)."]},
  cijfers: [['Lancering','4 oktober 1957'],['Betekenis van de naam','satelliet'],['Land','Sovjet-Unie'],['Gevolg','begin van de ruimtewedloop']],
  figuren: [['Sergej Koroljov','hoofdontwerper van de Sovjet-raketten'],['Nikita Chroesjtsjov','leider van de Sovjet-Unie']],
  bronnen: [['Wikipedia: Spoetnik 1',W('Spoetnik 1')]]
@@ -287,6 +409,26 @@ Object.assign(window.DETAILS, {
   'Op 15 augustus 1961 sprong de Oost-Duitse soldaat Conrad Schumann over het prikkeldraad naar het westen. De foto ging de wereld over.',
   'Bij pogingen om te vluchten kwamen minstens 138 mensen om het leven.'
  ],
+ gevolgen: [
+  "De Muur werd het bekendste symbool van de Koude Oorlog en van de verdeling van Europa in Oost en West. Gezinnen en vrienden werden van de ene op de andere dag gescheiden. West-Berlijners mochten pas na afspraken in 1963 af en toe familie in het oosten bezoeken.",
+  "Westerse leiders bezochten de Muur om hun steun aan West-Berlijn te laten zien. President Kennedy zei er in 1963 zijn beroemde woorden “Ich bin ein Berliner”, en president Reagan riep in 1987: “Tear down this wall!”"
+ ],
+ perspectieven: [
+  "De Oost-Duitse regering noemde de Muur een “antifascistische beschermingswal” tegen het westen. Voor de inwoners van Oost-Duitsland was het een gevangenis: ze konden niet meer vrij weg. In het westen werd de Muur gezien als bewijs dat het communistische systeem mensen alleen met geweld kon vasthouden."
+ ],
+ misverstanden: [
+  ["“De Muur liep langs de grens tussen Oost- en West-Duitsland.”","De Berlijnse Muur stond om West-Berlijn heen, dat midden in Oost-Duitsland lag. De grens tussen de twee Duitslanden was een aparte, nog veel langere grens."],
+  ["“De Muur was één stenen muur.”","Het was een brede strook met twee muren, prikkeldraad, wachttorens, honden, verlichting en een “dodenstrook” daartussen."]
+ ],
+ hoeWeten: [
+  "Er zijn talloze foto’s en filmbeelden, zoals de beroemde foto van Conrad Schumann. Na de val van de Muur werden de archieven van de Oost-Duitse geheime dienst, de Stasi, geopend. Daaruit bleek hoe streng mensen werden bewaakt. Ook verhalen van mensen die vluchtten of het probeerden, zijn opgetekend."
+ ],
+ nu: [
+  "In Berlijn staan nog stukken van de Muur, zoals bij de Gedenkstätte Berliner Mauer en de East Side Gallery. Een dubbele rij stenen in de straat laat zien waar hij liep. Checkpoint Charlie, een bekende grensovergang, is nu een toeristische trekpleister."
+ ],
+ vertellen: "Om de Muur over te steken, groeven Berlijners tunnels van kelders aan de ene kant naar kelders aan de andere kant. Eén Oost-Berlijner reed zelfs met een shovel dwars door de Muur heen.",
+ verbanden: [["De val van de Berlijnse Muur","het einde in 1989"],["De Cubacrisis","de Koude Oorlog op zijn heetst"],["Het Marshallplan","het begin van de tweedeling"]],
+ onderwijs: {"ka":["Blokvorming in de wereld met een wapenwedloop en de dreiging van een atoomoorlog (Koude Oorlog)."]},
  cijfers: [['Gebouwd','vanaf 13 augustus 1961'],['Grens rond West-Berlijn','167,8 km'],['Doden bij vluchtpogingen','minstens 138'],['Stond tot','9 november 1989']],
  figuren: [['Conrad Schumann','soldaat die over het prikkeldraad sprong'],['Oost-Duitse regering','liet de Muur bouwen']],
  bronnen: [['Wikipedia: Berlijnse Muur',W('Berlijnse Muur')]]
@@ -656,6 +798,26 @@ Object.assign(window.DETAILS, {
   'In de jaren vijftig en zestig groeide het aantal toestellen snel. In 1956 begon het NOS Journaal, in 1964 kwam een tweede net en in 1967 de eerste reclame en kleurenuitzendingen.',
   'Televisie veranderde hoe Nederlanders nieuws, sport en amusement beleefden. Grote gebeurtenissen zoals de maanlanding en het WK van 1974 werden gedeelde ervaringen voor het hele land.'
  ],
+ gevolgen: [
+  "De televisie veranderde de huiskamer. Gezinnen gingen ’s avonds samen kijken, en programma’s als het Journaal werden een vast ritueel. Grote gebeurtenissen, zoals de maanlanding in 1969 en de finale van het WK voetbal in 1974, werden door miljoenen mensen tegelijk gezien.",
+  "Door de televisie zagen katholieken, protestanten, socialisten en liberalen ook elkaars programma’s. Dat droeg bij aan de ontzuiling: de scheidslijnen tussen de zuilen werden minder scherp. Na 1969 kwamen er nieuwe omroepen bij, zoals de TROS, die uit de zendpiraterij voortkwam."
+ ],
+ perspectieven: [
+  "Niet iedereen was enthousiast. Sommige kerken en politici waarschuwden dat de televisie het gezinsleven en de zedelijkheid zou bedreigen. Anderen zagen juist kansen voor onderwijs en volksverheffing. Commerciële bedrijven wilden reclame maken, maar dat werd lang tegengehouden."
+ ],
+ misverstanden: [
+  ["“Philips heeft de televisie uitgevonden.”","De techniek werd in verschillende landen ontwikkeld, onder meer in Groot-Brittannië, de Verenigde Staten en Duitsland. Philips deed in Eindhoven belangrijk onderzoek en maakte later veel toestellen, maar was niet de uitvinder."],
+  ["“Iedereen had in de jaren vijftig een televisie.”","In 1951 waren er maar een paar honderd toestellen. Pas in de loop van de jaren zestig had de meerderheid van de gezinnen er een."]
+ ],
+ hoeWeten: [
+  "Het Nederlands Instituut voor Beeld & Geluid in Hilversum bewaart uitzendingen, programmagidsen en ook oude toestellen. Kijkcijfers, krantenberichten en foto’s van mensen die samen voor een etalage keken, laten zien hoe de televisie werd ontvangen."
+ ],
+ nu: [
+  "Het Journaal, sinds 1956 op televisie, is er nog steeds. Hilversum is nog altijd het centrum van de Nederlandse omroepen. Tegelijk kijken veel mensen, vooral jongeren, nu via internet en streamingdiensten, en wordt er minder samen naar dezelfde programma’s gekeken."
+ ],
+ vertellen: "Op 2 oktober 1951 begon de eerste officiële uitzending vanuit een studio in Bussum. Omdat bijna niemand een toestel had, kwamen buren, vrienden en soms complete straten samen bij die ene familie met een televisie, of keken ze voor de etalage van een radiowinkel.",
+ verbanden: [["De maanlanding","een van de eerste wereldwijde tv-momenten"],["Annie M.G. Schmidt","schreef ook voor de televisie"],["Internet en het world wide web","het volgende medium dat alles veranderde"]],
+ onderwijs: {"ka":["De toenemende westerse welvaart vanaf de jaren zestig en het ontstaan van ingrijpende sociaal-culturele veranderingen."],"venster":"41. De televisie"},
  cijfers: [['Eerste officiële uitzending','2 oktober 1951'],['Start Journaal','1956'],['Tweede net','1964'],['Reclame en kleur','1967']],
  figuren: [['Philips','pionier van de televisietechniek'],['Publieke omroepen','KRO, NCRV, VARA, AVRO, VPRO']],
  bronnen: [CANON,['Beeld & Geluid','https://www.beeldengeluid.nl/'],['Wikipedia: Televisie in Nederland',W('Televisie in Nederland geschiedenis')]]
@@ -671,6 +833,26 @@ Object.assign(window.DETAILS, {
   'Ze schreef boeken als Abeltje, Pluk van de Petteflet, Otje en Wiplala, en de liedjes en scripts voor tv-series en musicals zoals Ja zuster, nee zuster. Veel van haar zinnen zijn gewone uitdrukkingen geworden.',
   'In 1988 kreeg ze de Hans Christian Andersenprijs, de belangrijkste internationale prijs voor kinderliteratuur. Ze overleed in 1995 in Amsterdam.'
  ],
+ gevolgen: [
+  "Annie M.G. Schmidt veranderde de Nederlandse kinderliteratuur. Na haar werd het gewoon dat kinderboeken grappig, eigenwijs en een beetje ondeugend mochten zijn, en kinderen serieus namen zonder te preken.",
+  "Ook voor volwassenen schreef ze veel: cabaretteksten voor Wim Sonneveld en Wim Kan, musicals en televisieseries zoals Ja zuster, nee zuster, en toneelstukken als Er valt een traan op de tompoes. Veel van haar liedjes en uitdrukkingen kent bijna iedereen."
+ ],
+ perspectieven: [
+  "Niet iedereen vond haar werk geschikt voor kinderen. Sommige opvoeders vonden dat haar personages te brutaal waren en gezag niet respecteerden. Annie zelf vond dat kinderen recht hadden op plezier en dat volwassenen niet altijd gelijk hadden. Daarmee paste ze bij de veranderingen van de jaren zestig."
+ ],
+ misverstanden: [
+  ["“Jip en Janneke is meteen als boek verschenen.”","De verhaaltjes verschenen eerst van 1952 tot 1957 als wekelijks stukje in de krant Het Parool. Pas daarna werden ze in boekjes gebundeld."],
+  ["“Annie M.G. Schmidt schreef alleen voor kinderen.”","Ze schreef minstens zoveel voor volwassenen: cabaret, liedjes, hoorspelen, musicals en toneelstukken."]
+ ],
+ hoeWeten: [
+  "Haar boeken, liedteksten en scripts zijn allemaal bewaard en verschenen in vele drukken. Brieven, interviews en de biografie door Annejet van der Zijl geven inzicht in haar leven. Opnames van haar televisieseries zijn bewaard bij Beeld & Geluid."
+ ],
+ nu: [
+  "Pluk van de Petteflet, Abeltje, Otje en Jip en Janneke worden nog steeds gelezen en verfilmd. Elk jaar wordt de Annie M.G. Schmidtprijs uitgereikt voor het beste Nederlandstalige theaterlied. Uitdrukkingen als “Jip-en-Janneketaal” voor heel eenvoudige taal komen van haar werk."
+ ],
+ vertellen: "De bekende silhouetten van Jip en Janneke werden getekend door Fiep Westendorp. Ze tekende de twee kinderen als zwarte figuurtjes zonder gezicht, waardoor elk kind zich erin kon herkennen.",
+ verbanden: [["Nijntje","nog een klassieker van de Nederlandse kinderliteratuur"],["De televisie","ze schreef ook voor tv"],["Provo","de tijd van de jaren zestig"]],
+ onderwijs: {"ka":["De toenemende westerse welvaart vanaf de jaren zestig en het ontstaan van ingrijpende sociaal-culturele veranderingen."],"venster":"45. Annie M.G. Schmidt"},
  cijfers: [['Geboren','20 mei 1911, Kapelle'],['Jip en Janneke','1952 – 1957'],['Hans Christian Andersenprijs','1988'],['Overleden','21 mei 1995']],
  figuren: [['Annie M.G. Schmidt','schrijfster'],['Fiep Westendorp','illustrator van Jip en Janneke'],['Harry Bannink','componist van veel van haar liedjes']],
  bronnen: [CANON,['Wikipedia: Annie M.G. Schmidt',W('Annie M.G. Schmidt')]]
@@ -686,6 +868,26 @@ Object.assign(window.DETAILS, {
   'Bij Nieuwerkerk aan den IJssel werd een gat in de dijk gedicht door er een schip in te varen, De Twee Gebroeders. Daardoor bleef een groot deel van de Randstad droog.',
   'Na de ramp kwam de Deltacommissie met een plan om zeearmen af te sluiten en dijken te verhogen. De Deltawerken duurden tientallen jaren, met de Oosterscheldekering en de Maeslantkering als bekendste onderdelen.'
  ],
+ gevolgen: [
+  "Het Deltaplan werd in 1958 vastgelegd in de Deltawet. Zeearmen werden afgesloten met dammen en keringen, en dijken werden verhoogd tot deltahoogte. De Oosterscheldekering kwam in 1986 gereed, de Maeslantkering bij Rotterdam in 1997. Het hele project werd pas in 2010 helemaal voltooid.",
+  "De ramp leidde ook tot een grote hulpactie. Uit binnen- en buitenland kwamen geld, kleding en hulpverleners. Duizenden militairen, ook uit andere landen, hielpen dijken dichten. Binnen een jaar waren alle gaten gedicht."
+ ],
+ perspectieven: [
+  "Voor de getroffen dorpen was het een trauma dat generaties lang doorwerkte. Lang werd er weinig over gepraat; pas veel later kwamen de persoonlijke verhalen naar buiten. De ramp trof ook Engeland en België: in het Verenigd Koninkrijk vielen 307 doden en in België 28."
+ ],
+ misverstanden: [
+  ["“Niemand had dit kunnen zien aankomen.”","Deskundigen hadden al voor de oorlog gewaarschuwd dat de dijken in Zeeland en Zuid-Holland te laag en te zwak waren. Er waren plannen, maar door de oorlog en de wederopbouw kwam het er niet van."],
+  ["“De Deltawerken sluiten alle zeearmen helemaal af.”","De Oosterscheldekering is een open kering: de schuiven zijn meestal open, zodat getijden en natuur behouden blijven, en gaan alleen bij storm dicht. De Westerschelde en de Nieuwe Waterweg bleven open voor de scheepvaart naar Antwerpen en Rotterdam."]
+ ],
+ hoeWeten: [
+  "Er zijn veel foto’s, filmbeelden en krantenverslagen. Zendamateurs hielden logboeken bij van hun berichten. Het Watersnoodmuseum in Ouwerkerk, gevestigd in vier caissons die werden gebruikt om de dijk te dichten, verzamelt verhalen van overlevenden. Ook de meetgegevens van het water zijn bewaard."
+ ],
+ nu: [
+  "Elk jaar op 1 februari wordt de ramp herdacht. De Deltawerken zijn een toeristische trekpleister en worden internationaal als voorbeeld gezien. Door de stijgende zeespiegel denkt Nederland nu na over hoe de kustverdediging in de toekomst nog sterker moet worden."
+ ],
+ vertellen: "In de nacht van de ramp zond de radio niet uit: die stopte om middernacht. Zendamateurs bouwden binnen enkele uren een noodnetwerk op en verzorgden tien dagen en nachten lang de berichten tussen de getroffen gebieden en de rest van het land.",
+ verbanden: [["Allerheiligenvloed","een eerdere grote watersnood"],["Afsluitdijk","het noorden bleef in 1953 gespaard"],["Overstromingen in Zuid-Limburg","water blijft een bedreiging"]],
+ onderwijs: {"venster":"40. De watersnood"},
  cijfers: [['Datum','nacht van 31 jan op 1 feb 1953'],['Doden in Nederland','1836'],['Geëvacueerden','ca. 72.000'],['Overstroomd land','ca. 200.000 hectare']],
  figuren: [['Deltacommissie','ontwierp het Deltaplan'],['Schipper Arie Evegroen','voer De Twee Gebroeders in het dijkgat']],
  bronnen: [CANON,['Watersnoodmuseum','https://watersnoodmuseum.nl/'],['Wikipedia: Deltawerken',W('Deltawerken')]]
@@ -701,6 +903,26 @@ Object.assign(window.DETAILS, {
   'Haar belangrijkste wet was de Algemene Bijstandswet, die in 1965 inging. Voor die tijd waren mensen zonder inkomen afhankelijk van liefdadigheid van kerken en armenzorg. Met de bijstand kregen ze een wettelijk recht op een minimuminkomen van de overheid.',
   'Klompé was ook minister van Cultuur, Recreatie en Maatschappelijk Werk. Ze zette zich in voor kunst, cultuur en internationale samenwerking. Ze overleed in 1986.'
  ],
+ gevolgen: [
+  "Met de Algemene Bijstandswet werd ondersteuning voor wie geen inkomen had een recht in plaats van liefdadigheid. Daarvoor gold de Armenwet uit 1854, waarbij mensen afhankelijk waren van kerken en armenzorg. De bijstand werd een belangrijk onderdeel van de Nederlandse verzorgingsstaat.",
+  "De wet werd later vervangen: in 2004 door de Wet werk en bijstand, en in 2015 door de Participatiewet. Het idee dat iedereen recht heeft op een bestaansminimum bleef."
+ ],
+ perspectieven: [
+  "Voor de mensen die afhankelijk waren van armenzorg betekende de bijstand waardigheid: ze hoefden niet meer te bedelen bij kerk of liefdadigheid. Critici waarschuwden dat mensen minder zouden gaan werken als ze toch geld kregen. Die discussie over de balans tussen zekerheid en zelf verantwoordelijkheid nemen speelt nog steeds."
+ ],
+ misverstanden: [
+  ["“Marga Klompé was de eerste vrouw in de politiek.”","Vrouwen zaten al sinds 1918 in de Tweede Kamer. Klompé was wel de eerste vrouwelijke minister, in 1956."],
+  ["“De bijstand bestaat sinds de Tweede Wereldoorlog.”","De Algemene Bijstandswet ging pas in op 1 januari 1965. Daarvoor bestond alleen armenzorg op basis van liefdadigheid, geregeld in de Armenwet van 1854."]
+ ],
+ hoeWeten: [
+  "De debatten over de bijstandswet zijn vastgelegd in de Handelingen van het parlement. Klompé hield dagboeken en schreef brieven, die door historici zijn bestudeerd. Krantenartikelen uit 1956 laten zien hoe bijzonder een vrouwelijke minister toen werd gevonden."
+ ],
+ nu: [
+  "De bijstand bestaat nog steeds, nu onder de Participatiewet. Gemeenten voeren die uit. Klompé kreeg als eerste vrouw de eretitel minister van Staat. Veel scholen, straten en zorginstellingen zijn naar haar genoemd."
+ ],
+ vertellen: "Klompé zei over de bijstandswet dat mensen voortaan “niet meer met de pet in de hand” langs de deur hoefden te gaan om om hulp te vragen. Bijstand werd een recht, geen gunst.",
+ verbanden: [["Vrouwenkiesrecht","de weg naar vrouwen in de politiek"],["Het Kinderwetje","een eerdere sociale wet"],["Europa","Klompé zat ook in het parlement van de EGKS"]],
+ onderwijs: {"ka":["De toenemende westerse welvaart vanaf de jaren zestig en het ontstaan van ingrijpende sociaal-culturele veranderingen."],"venster":"43. Marga Klompé"},
  cijfers: [['Geboren','16 augustus 1912, Arnhem'],['Eerste vrouwelijke minister','1956'],['Algemene Bijstandswet','1965'],['Overleden','28 december 1986']],
  figuren: [['Marga Klompé','minister, KVP'],['Willem Drees','minister-president 1948–1958']],
  bronnen: [CANON,['Parlement.com','https://www.parlement.com/'],['Wikipedia: Algemene Bijstandswet',W('Algemene Bijstandswet')]]
@@ -716,6 +938,26 @@ Object.assign(window.DETAILS, {
   'Zo ontstond de Europese Economische Gemeenschap (EEG) met zes landen: België, Frankrijk, Italië, Luxemburg, Nederland en West-Duitsland. De Nederlander Sicco Mansholt werd verantwoordelijk voor het gezamenlijke landbouwbeleid.',
   'De EEG groeide uit tot de Europese Unie, die met het Verdrag van Maastricht in 1992 werd opgericht. Nederland is een van de landen die het meest verdienen aan de vrije Europese handel.'
  ],
+ gevolgen: [
+  "De zes landen schaften stap voor stap de invoerrechten tussen elkaar af. Er kwam een gezamenlijk landbouwbeleid, opgezet door de Nederlander Sicco Mansholt. Na 1973 sloten steeds meer landen aan, zoals het Verenigd Koninkrijk, Denemarken en Ierland, en na de val van de Berlijnse Muur ook Oost-Europese landen.",
+  "In 1992 werd met het Verdrag van Maastricht de Europese Unie opgericht, en in 2002 kwam de euro. In 2020 verliet het Verenigd Koninkrijk als eerste land de EU, na een referendum in 2016."
+ ],
+ perspectieven: [
+  "Voorstanders zien Europa als een vredesproject dat oorlog tussen de lidstaten ondenkbaar heeft gemaakt en welvaart heeft gebracht. Tegenstanders vinden dat er te veel macht naar Brussel gaat en dat landen hun zelfstandigheid verliezen. In Nederland kwam dat debat bijvoorbeeld naar boven toen een meerderheid in 2005 tegen de Europese grondwet stemde."
+ ],
+ misverstanden: [
+  ["“De EU is begonnen als politieke unie.”","Het begon heel praktisch, met kolen, staal en een gemeenschappelijke markt. Pas veel later, in 1992, kwam de Europese Unie met ook politieke samenwerking."],
+  ["“Europese samenwerking en de EU zijn hetzelfde.”","Er zijn ook andere organisaties, zoals de Raad van Europa uit 1949, die over mensenrechten gaat en waar meer landen lid van zijn dan van de EU."]
+ ],
+ hoeWeten: [
+  "De verdragen zelf, de verslagen van de onderhandelingen en de archieven van de Europese instellingen zijn openbaar. Foto’s en filmbeelden van de ondertekening in Rome laten zien hoe plechtig het moment was. Opiniepeilingen laten zien hoe Nederlanders er door de jaren heen over dachten."
+ ],
+ nu: [
+  "Je merkt Europa dagelijks: aan de euro, aan open grenzen, aan het etiket op voedsel en aan de roamingtarieven voor je telefoon. Nederlanders kiezen elke vijf jaar mee het Europees Parlement."
+ ],
+ vertellen: "De Verdragen van Rome werden op 25 maart 1957 in Rome ondertekend. Volgens een bekend verhaal waren de teksten op het moment van ondertekenen nog niet helemaal klaar, en tekenden de ministers deels op lege vellen met alleen de eerste en laatste pagina.",
+ verbanden: [["Het Marshallplan","samenwerking begon met Amerikaanse hulp"],["Verdrag van Maastricht","de oprichting van de Europese Unie"],["De euro","de gemeenschappelijke munt"]],
+ onderwijs: {"ka":["De eenwording van Europa."],"venster":"49. Europa"},
  cijfers: [['EGKS','1951'],['Verdragen van Rome','25 maart 1957'],['Oprichtende landen','6'],['Europese Unie','1992 (Maastricht)']],
  figuren: [['Johan Willem Beyen','minister van Buitenlandse Zaken'],['Sicco Mansholt','Eurocommissaris voor landbouw'],['Robert Schuman','Franse minister, plan voor de EGKS']],
  bronnen: [CANON,['Europa Nu','https://www.europa-nu.nl/'],['Wikipedia: Verdragen van Rome',W('Verdragen van Rome')]]
@@ -731,6 +973,26 @@ Object.assign(window.DETAILS, {
   'In de jaren zestig werd in hoog tempo een gasnet aangelegd. Binnen ongeveer tien jaar kookten en stookten vrijwel alle Nederlanders op aardgas. De staat verdiende honderden miljarden euro’s aan de gasbaten.',
   'De gaswinning veroorzaakte bodemdaling en aardbevingen. Na de beving bij Huizinge in 2012 nam de schade sterk toe. Een parlementaire enquête concludeerde in 2023 dat de belangen van Groningers jarenlang waren genegeerd. In 2023 werd de gaswinning gestopt.'
  ],
+ gevolgen: [
+  "In 1963 werden de Gasunie en de afspraken over de winning opgezet. In hoog tempo werd een gasnet aangelegd en kregen huishoudens nieuwe kachels, geisers en fornuizen. Kolenkachels en stadsgas verdwenen. Nederland ging ook gas exporteren naar België, Duitsland en Frankrijk.",
+  "De gasbaten betaalden mee aan de groei van de verzorgingsstaat in de jaren zestig en zeventig. Buitenlandse economen gebruikten later de term “Dutch disease”: door het gasgeld werd de gulden sterk, wat het voor andere bedrijven moeilijker maakte om te exporteren."
+ ],
+ perspectieven: [
+  "Voor heel Nederland betekende het gas comfort en welvaart: warme huizen zonder kolen sjouwen. Voor de Groningers werd het, toen de aardbevingen kwamen, een bron van schade en zorgen. Lange tijd zag het rijk vooral de opbrengst, en had de regio weinig te zeggen over wat er onder hun huizen gebeurde."
+ ],
+ misverstanden: [
+  ["“Het gas lag vlak onder het weiland.”","Het gas zit ongeveer drie kilometer diep, in een zandsteenlaag die is afgesloten door een laag zout. Pas met diepe boringen kon men erbij."],
+  ["“Men wist meteen hoe groot het gasveld was.”","In het begin werd de voorraad veel kleiner geschat. Pas in de loop van de jaren zestig bleek het om een van de grootste gasvelden ter wereld te gaan."]
+ ],
+ hoeWeten: [
+  "De NAM, Shell en de overheid hielden rapporten en schattingen bij, die later openbaar werden, onder meer bij de parlementaire enquête Groningen. Er zijn foto’s en filmbeelden van de eerste boortoren bij Kolham. De verhalen van monteurs die huizen ombouwden naar gas, zijn ook vastgelegd."
+ ],
+ nu: [
+  "Veel Nederlandse huizen hebben nog een cv-ketel op aardgas, maar het streven is om huizen van het gas af te halen. Sinds 2023 wordt er geen gas meer uit het Groningenveld gewonnen."
+ ],
+ vertellen: "De eerste boortoren stond op het land van boer Kees Boon in Kolham. Bijna niemand had verwacht dat juist hier een van de grootste gasvoorraden ter wereld zat, genoeg om Nederland zestig jaar lang van warmte te voorzien.",
+ verbanden: [["Gaskraan Groningen dicht","het einde van de gaswinning"],["Sluiting van de mijnen","aardgas maakte de steenkool overbodig"],["De televisie","ook in de huiskamer veranderde alles in deze jaren"]],
+ onderwijs: {"ka":["De toenemende westerse welvaart vanaf de jaren zestig en het ontstaan van ingrijpende sociaal-culturele veranderingen."],"venster":"46. Kolen en gas"},
  cijfers: [['Ontdekking','22 juli 1959, Kolham'],['Omvang veld (oorspronkelijk)','ca. 2.800 miljard m³'],['Beving Huizinge','2012, kracht 3,6'],['Einde winning','2023']],
  figuren: [['NAM','Shell en ExxonMobil (Esso)'],['Bewoners van Groningen','droegen de gevolgen van de winning']],
  bronnen: [CANON,['Wikipedia: Gasveld Groningen',W('Groningenveld')],['Wikipedia: Parlementaire enquête Fryslân/Groningen',W('Parlementaire enquête aardgaswinning Groningen')]]
