@@ -200,6 +200,26 @@ Object.assign(window.DETAILS, {
   'Napoleon vond zijn broer te veel opkomen voor Nederlandse belangen, bijvoorbeeld bij het smokkelverbod met Engeland. In juli 1810 trad Lodewijk af en lijfde Napoleon Holland in bij het Franse keizerrijk.',
   'Uit de Franse tijd stammen blijvende vernieuwingen. In 1811 werd de burgerlijke stand ingevoerd en moest iedereen een vaste achternaam laten registreren. Ook met de voorbereiding van een kadaster werd in deze periode begonnen.'
  ],
+ gevolgen: [
+  "Na de inlijving bij Frankrijk in 1810 werd Nederland drie jaar een deel van het Franse keizerrijk. Jonge mannen moesten in het Franse leger dienen, en duizenden Nederlanders gingen mee op de veldtocht naar Rusland in 1812, waarvan velen niet terugkeerden.",
+  "Lodewijk liet blijvende instellingen achter. Het Koninklijk Instituut werd later de Koninklijke Nederlandse Akademie van Wetenschappen. Het Koninklijk Museum werd het Rijksmuseum. En het stadhuis op de Dam bleef een koninklijk paleis."
+ ],
+ perspectieven: [
+  "Voor Napoleon was zijn broer te slap: hij liet de smokkel met Engeland oogluikend toe en weigerde Nederlandse jongens als soldaat te leveren. Voor veel Nederlanders werd Lodewijk juist een geliefde koning, omdat hij betrokken was bij het land, bijvoorbeeld bij de buskruitramp in Leiden in 1807 en bij overstromingen, waar hij zelf hulp bood."
+ ],
+ misverstanden: [
+  ["“Mensen kozen in 1811 expres rare achternamen om de Fransen te pesten.”","Dat is een hardnekkig verhaal, maar meestal klopt het niet. Namen als Naaktgeboren of Poepjes bestonden vaak al langer als bijnaam, of hadden toen een andere betekenis. De meeste mensen kozen een gewone naam, naar hun vader, beroep of woonplaats."],
+  ["“Lodewijk Napoleon was een Fransman die Nederland niet begreep.”","Hij deed juist zijn best om een Nederlandse koning te zijn, leerde de taal en kwam op voor Nederlandse belangen. Dat was zelfs de reden dat Napoleon hem afzette."]
+ ],
+ hoeWeten: [
+  "De archieven van het Koninkrijk Holland, met besluiten en brieven, zijn bewaard in het Nationaal Archief. Lodewijk schreef later zelf herinneringen. De registers van de burgerlijke stand uit 1811, waarin mensen hun achternaam opgaven, zijn voor iedereen te raadplegen."
+ ],
+ nu: [
+  "Het Koninklijk Paleis op de Dam is nog steeds een paleis van het koningshuis en wordt gebruikt voor staatsbezoeken. Via genealogiesites kun je in de registers van 1811 opzoeken welke achternaam je voorouders kozen."
+ ],
+ vertellen: "Lodewijk probeerde zijn onderdanen in het Nederlands toe te spreken. Volgens een bekend verhaal zei hij “Ik ben uw konijn” in plaats van “Ik ben uw koning”. Of het echt zo gebeurde, is niet zeker, maar zijn bijnaam “Konijn van ’Olland” bleef hangen.",
+ verbanden: [["Napoleon Bonaparte","zijn broer, de keizer"],["Het Rijksmuseum","Lodewijk bracht het museum naar Amsterdam"],["Koning Willem I","na de Franse tijd kwam het huis van Oranje terug"]],
+ onderwijs: {"ka":["De democratische revoluties in westerse landen met als gevolg discussies over grondwetten, grondrechten en staatsburgerschap. (tijdvak 7)"],"venster":"27. Napoleon Bonaparte"},
  cijfers: [['Koninkrijk Holland','1806 – 1810'],['Aftreden Lodewijk','juli 1810'],['Inlijving bij Frankrijk','1810'],['Vaste achternamen','1811']],
  figuren: [['Lodewijk Napoleon','koning van Holland'],['Napoleon Bonaparte','keizer van Frankrijk, zijn broer'],['Hortense de Beauharnais','koningin, echtgenote van Lodewijk']],
  bronnen: [CANON,['Wikipedia: Koninkrijk Holland',W('Koninkrijk Holland')],['Wikipedia: Lodewijk Napoleon',W('Lodewijk Napoleon Bonaparte')]]
@@ -215,6 +235,26 @@ Object.assign(window.DETAILS, {
   'Willem I regeerde met veel persoonlijke macht. Hij stimuleerde handel en industrie en kreeg de bijnaam koning-koopman. Hij liet kanalen graven, zoals het Noordhollandsch Kanaal en de Zuid-Willemsvaart, en richtte in 1824 de Nederlandsche Handel-Maatschappij op.',
   'De eenheid met het zuiden hield geen stand. In 1830 kwamen de Belgen in opstand. Willem I trad in 1840 af. Hij geldt als grondlegger van het Nederlandse koningshuis.'
  ],
+ gevolgen: [
+  "Willem I bouwde het land op met kanalen, wegen en banken, en kreeg de bijnaam kanalenkoning. Hij steunde ook het cultuurstelsel in Nederlands-Indië vanaf 1830, dat de schatkist veel geld opleverde, maar de Javaanse boeren zwaar belastte.",
+  "Na de Belgische Opstand kostte zijn weigering om België te erkennen veel geld. Toen hij in 1840 ook nog wilde trouwen met de katholieke Belgische gravin Henriëtte d’Oultremont, verloor hij veel steun. Hij trad af en vertrok naar Berlijn, waar hij in 1843 overleed."
+ ],
+ perspectieven: [
+  "Voor de noordelijke provincies was Willem I een energieke koning die de economie op gang bracht. In het zuiden vonden veel mensen dat hij te eigenmachtig regeerde en het noorden bevoordeelde, bijvoorbeeld met zijn taalbesluit dat het Nederlands verplicht maakte in bestuur en rechtspraak in de Vlaamse provincies. Voor de Javanen betekende zijn cultuurstelsel armoede."
+ ],
+ misverstanden: [
+  ["“Willem I was de eerste Oranje die Nederland bestuurde.”","De Oranjes waren al eeuwen stadhouder, te beginnen met Willem van Oranje. Willem I was wel de eerste die koning werd."],
+  ["“Het Koninkrijk der Nederlanden bestond meteen uit het huidige Nederland.”","Van 1815 tot 1830 hoorde ook het huidige België erbij. En de koning was tegelijk groothertog van Luxemburg."]
+ ],
+ hoeWeten: [
+  "De archieven van Willem I en zijn regering zijn bewaard in het Nationaal Archief en het Koninklijk Huisarchief. Daaruit blijkt hoeveel hij zelf besliste. Kaarten van zijn kanalen en de verslagen van de Staten-Generaal laten zien hoe het land onder hem veranderde."
+ ],
+ nu: [
+  "Kanalen als het Noordhollandsch Kanaal en de Zuid-Willemsvaart, en het kanaal Gent-Terneuzen, worden nog gebruikt. De Nederlandsche Handel-Maatschappij die hij oprichtte, is via fusies opgegaan in de bank ABN AMRO. Willem-Alexander is een directe nazaat."
+ ],
+ vertellen: "Op 30 november 1813 kwam de prins bij Scheveningen aan land, na achttien jaar ballingschap. Het was nog onzeker of de Fransen echt zouden vertrekken. Een paar dagen later werd hij in Amsterdam uitgeroepen tot soeverein vorst, en anderhalf jaar later tot koning.",
+ verbanden: [["Het Congres van Wenen","Europa gaf hem een koninkrijk"],["Belgische Opstand","het zuiden scheidde zich af"],["Max Havelaar","de gevolgen van het cultuurstelsel"],["Koning Willem-Alexander","een van zijn nazaten"]],
+ onderwijs: {"venster":"28. Koning Willem I"},
  cijfers: [['Landing in Scheveningen','30 november 1813'],['Koning','maart 1815'],['Nederlandsche Handel-Maatschappij','1824'],['Aftreden','1840']],
  figuren: [['Willem I','eerste koning der Nederlanden'],['Gijsbert Karel van Hogendorp','leidde de machtsovername in 1813'],['Kroonprins Willem','vocht bij Waterloo, later Willem II']],
  bronnen: [CANON,['Wikipedia: Willem I der Nederlanden',W('Willem I der Nederlanden')],['Koninklijk Huis','https://www.koninklijkhuis.nl/']]
@@ -230,6 +270,26 @@ Object.assign(window.DETAILS, {
   'Ook in Limburg kozen de meeste steden en dorpen voor België. Venlo viel in november 1830 in Belgische handen. Alleen Maastricht bleef Nederlands, omdat generaal Dibbets de vesting met een sterk garnizoen in handen hield. De stad lag jarenlang als een eiland in Belgisch gebied.',
   'In augustus 1831 voerde Willem I de Tiendaagse Veldtocht, maar Frankrijk greep in. Pas in 1839 erkende hij België en werd ook de toekomst van Limburg geregeld.'
  ],
+ gevolgen: [
+  "België werd een onafhankelijk koninkrijk met een liberale grondwet, die in Europa als modern gold. Leopold I werd de eerste koning. Nederland moest het verlies jarenlang verwerken; het leger bleef tot 1839 gemobiliseerd, wat veel geld kostte.",
+  "De Citadel van Antwerpen bleef nog tot december 1832 in Nederlandse handen, totdat een Frans leger hem innam. Pas met het Verdrag van Londen in 1839 werd de scheiding definitief en werden ook Limburg en Luxemburg verdeeld."
+ ],
+ perspectieven: [
+  "Voor Belgen is 1830 het begin van hun eigen land; de opstand wordt gezien als een strijd voor vrijheid. In Nederland werd het lang beleefd als verraad en verlies. Binnen België zelf waren er al vroeg spanningen tussen het Franstalige bestuur en de Nederlandstalige Vlamingen, die een rol bleven spelen in de Belgische geschiedenis."
+ ],
+ misverstanden: [
+  ["“België was al een eigen land dat Nederland had ingepikt.”","Het gebied hoorde eeuwenlang bij Spanje en Oostenrijk, en daarna bij Frankrijk. België als zelfstandige staat ontstond pas na 1830."],
+  ["“De opstand ging vooral over taal.”","Taal speelde mee, maar ook godsdienst, belastingen, de verdeling van functies tussen noord en zuid en de eigenmachtige stijl van Willem I."]
+ ],
+ hoeWeten: [
+  "Er zijn verslagen van het voorlopig bewind, brieven van Willem I en zijn ministers, en kranten uit Brussel en Den Haag. Schilderijen en prenten laten de gevechten in Brussel zien, vaak vanuit Belgisch perspectief. De diplomatieke stukken van de Londense conferentie zijn bewaard."
+ ],
+ nu: [
+  "België viert op 21 juli zijn nationale feestdag, de dag waarop Leopold I in 1831 de eed aflegde. Het Belgische volkslied, de Brabançonne, ontstond in 1830. Nederland en België zijn nu nauwe partners, onder meer in de Benelux en de Europese Unie."
+ ],
+ vertellen: "De opstand begon na een operavoorstelling. Op 25 augustus 1830 werd in de Muntschouwburg in Brussel De Stomme van Portici opgevoerd, een opera over een volksopstand. Toen het publiek naar buiten kwam, liep het onrustig uit op rellen in de stad.",
+ verbanden: [["Koning Willem I","zijn koninkrijk viel uiteen"],["Limburg gesplitst","de gevolgen voor Limburg"],["Het Congres van Wenen","waar het verenigde koninkrijk was bedacht"]],
+ onderwijs: {"ka":["De opkomst van politiek-maatschappelijke stromingen: liberalisme, nationalisme, socialisme, confessionalisme en feminisme."]},
  cijfers: [['Begin opstand','25 augustus 1830'],['Onafhankelijkheid uitgeroepen','4 oktober 1830'],['Tiendaagse Veldtocht','augustus 1831'],['Erkenning door Nederland','1839']],
  figuren: [['Willem I','koning, weigerde lang de afscheiding'],['Generaal Bernardus Dibbets','commandant van Maastricht'],['Leopold I','eerste koning der Belgen']],
  bronnen: [['Wikipedia: Belgische Revolutie',W('Belgische Revolutie')],['Wikipedia: Tiendaagse Veldtocht',W('Tiendaagse Veldtocht')]]
@@ -245,6 +305,26 @@ Object.assign(window.DETAILS, {
   'De lijn werd daarna doorgetrokken naar Leiden, Den Haag en Rotterdam. In 1843 kwam ook de lijn Amsterdam–Utrecht in gebruik. De eerste lijnen hadden een breder spoor dan later gebruikelijk werd en moesten worden omgebouwd.',
   'De spoorwegen maakten reizen sneller, goedkoper en betrouwbaarder. Ze brachten steden dichter bij elkaar en waren belangrijk voor de groei van industrie en handel in de tweede helft van de 19e eeuw.'
  ],
+ gevolgen: [
+  "Na Amsterdam–Haarlem groeide het spoornet snel, vooral na 1860, toen de staat zelf spoorlijnen ging aanleggen. Het breedspoor van de eerste lijnen, 1945 millimeter, werd tot 1866 omgebouwd naar het normale spoor, zodat treinen ook naar Duitsland en België konden rijden.",
+  "De trein maakte het mogelijk om in één dag naar een andere stad te reizen. Goederen als steenkool, landbouwproducten en fabrieksgoederen konden goedkoop worden vervoerd. Steden groeiden rond hun station, en er ontstonden nieuwe woonwijken voor forensen."
+ ],
+ perspectieven: [
+  "Voorstanders zagen de trein als vooruitgang. Tegenstanders, zoals de schippers van de trekschuiten, zagen hun werk verdwijnen. Sommige artsen waarschuwden dat de hoge snelheid ongezond zou zijn. En op het platteland waren boeren bang dat de trein hun vee zou laten schrikken of hun land zou doorsnijden."
+ ],
+ misverstanden: [
+  ["“Nederland had de eerste trein van Europa.”","Groot-Brittannië en België waren eerder. In België reed de eerste trein al in 1835, tussen Brussel en Mechelen."],
+  ["“De locomotief De Arend staat nog in het museum.”","Van het originele materieel is niets bewaard gebleven. In het Spoorwegmuseum in Utrecht staat een replica die in 1938 werd gebouwd voor het honderdjarig bestaan van de spoorwegen."]
+ ],
+ hoeWeten: [
+  "De archieven van de Hollandsche IJzeren Spoorweg-Maatschappij, met bouwtekeningen en dienstregelingen, zijn bewaard. Kranten berichtten over de feestelijke eerste rit. Prenten en schilderijen laten zien hoe de trein en het station eruitzagen."
+ ],
+ nu: [
+  "Nederland heeft een van de drukste spoornetten van Europa. Het traject Amsterdam–Haarlem wordt nog steeds gebruikt. In het Spoorwegmuseum in Utrecht kun je de replica van De Arend zien en meer leren over de geschiedenis van de trein."
+ ],
+ vertellen: "De eerste rit van Amsterdam naar Haarlem op 20 september 1839 duurde ongeveer een halfuur. Langs de lijn stonden duizenden mensen te kijken. Voor velen was het de eerste keer dat ze iets zo snel zagen bewegen zonder paard ervoor.",
+ verbanden: [["Koning Willem I","hij stimuleerde nieuwe verbindingen"],["De eerste auto","de volgende stap in het vervoer"],["Steenkoolmijnen in Parkstad","de trein vervoerde steenkool"]],
+ onderwijs: {"ka":["De industriële revolutie en het ontstaan van een industriële samenleving in de westerse wereld."],"venster":"29. De eerste spoorlijn"},
  cijfers: [['Eerste rit','20 september 1839'],['Traject','Amsterdam – Haarlem, ca. 16 km'],['Locomotieven','De Arend en De Snelheid'],['Lijn Amsterdam – Utrecht','1843']],
  figuren: [['Frederik Willem Conrad','ingenieur van de spoorlijn'],['Hollandsche IJzeren Spoorweg-Maatschappij','particuliere aanlegger en exploitant']],
  bronnen: [CANON,['Wikipedia: De Arend',W('De Arend locomotief')],['Spoorwegmuseum','https://www.spoorwegmuseum.nl/']]
@@ -260,6 +340,26 @@ Object.assign(window.DETAILS, {
   'Ook Luxemburg werd verdeeld. Het westelijke deel ging naar België. Als compensatie voor de Duitse Bond werd Nederlands Limburg als hertogdom lid van die Bond. Limburg was daardoor tegelijk een Nederlandse provincie en een Duits bondsland.',
   'Voor veel Limburgers voelde de splitsing kunstmatig. Families, handel en parochies lagen nu aan twee kanten van een grens. Zo ontstonden de twee provincies Limburg die er nu nog zijn.'
  ],
+ gevolgen: [
+  "Nederlands Limburg bleef tot 1866 tegelijk Nederlandse provincie en hertogdom van de Duitse Bond, behalve de vestingsteden Maastricht en Venlo. Limburgers stuurden zelfs afgevaardigden naar het Duitse parlement in Frankfurt. Pas in 1867 werd die band verbroken.",
+  "Belgisch Limburg en Nederlands Limburg groeiden daarna uit elkaar, met eigen hoofdsteden: Hasselt en Maastricht. Toch bleven familiebanden, dialecten en tradities zoals carnaval aan beide kanten van de grens bestaan."
+ ],
+ perspectieven: [
+  "Voor Den Haag was Limburg een verre provincie die vooral strategisch belangrijk was. Veel Limburgers voelden zich in die tijd meer verbonden met België of met de Duitse buren dan met Holland. Er waren zelfs groepen die wilden dat Limburg bij België of bij Duitsland zou horen. Pas in de loop van de 19e en 20e eeuw groeide een Nederlands-Limburgs gevoel."
+ ],
+ misverstanden: [
+  ["“Limburg hoorde altijd bij Nederland.”","Het gebied was eeuwenlang verdeeld over verschillende heren, zoals Spanje, Oostenrijk, Pruisen en het prinsbisdom Luik. Pas in 1839 ontstond het huidige Nederlands Limburg, en pas in 1867 was het volledig Nederlands."],
+  ["“De grens volgt precies de Maas.”","Op veel plaatsen ligt de grens langs de Maas, maar Maastricht en een strook met onder meer Weert liggen ten westen ervan en horen toch bij Nederland."]
+ ],
+ hoeWeten: [
+  "Het Verdrag van Londen met de grensbeschrijving en de kaarten zijn bewaard. Archieven in Maastricht en Hasselt laten zien hoe de splitsing in de praktijk werd geregeld, bijvoorbeeld voor parochies en gemeenten. Ook grenspalen uit die tijd staan op sommige plaatsen nog in het landschap."
+ ],
+ nu: [
+  "Er zijn twee provincies Limburg, een in Nederland en een in België. In het grensgebied werken mensen, winkelen en gaan naar school aan beide kanten. De Limburgse dialecten worden aan beide kanten van de grens gesproken."
+ ],
+ vertellen: "Bij de splitsing van 1839 werden niet alleen landen, maar ook parochies en families gescheiden. Mensen die naar hun kerk of familie liepen, moesten ineens een landsgrens over, met douane en grenspalen.",
+ verbanden: [["Belgische Opstand","de aanleiding voor de splitsing"],["Limburg geheel Nederlands","het einde van de band met de Duitse Bond"],["Verdrag van Maastricht","eeuwen later een Europese hoofdrol voor Limburg"]],
+ onderwijs: {"ka":["De opkomst van politiek-maatschappelijke stromingen: liberalisme, nationalisme, socialisme, confessionalisme en feminisme."]},
  cijfers: [['Verdrag van Londen','19 april 1839'],['Grens','grotendeels langs de Maas'],['Ook gesplitst','Luxemburg'],['Hertogdom in Duitse Bond','1839 – 1866']],
  figuren: [['Willem I','aanvaardde de scheiding in 1838'],['Leopold I','koning der Belgen'],['Lord Palmerston','Brits minister van Buitenlandse Zaken']],
  bronnen: [['Wikipedia: Verdrag van Londen 1839',W('Verdrag van Londen 1839')],['Wikipedia: Hertogdom Limburg',W('Hertogdom Limburg 1839-1867')]]
@@ -275,6 +375,26 @@ Object.assign(window.DETAILS, {
   'Voortaan waren de ministers verantwoordelijk en niet de koning. De Tweede Kamer werd rechtstreeks gekozen en kreeg het recht om de begroting te wijzigen en onderzoek te doen. Ook vrijheid van onderwijs, godsdienst, vergadering en vereniging werden vastgelegd.',
   'Het kiesrecht bleef beperkt tot mannen die genoeg belasting betaalden. Toch legde de Grondwet van 1848 de basis voor de parlementaire democratie. Thorbecke werd in 1849 zelf minister en leider van het kabinet.'
  ],
+ gevolgen: [
+  "Thorbecke werd in 1849 minister en voerde in de jaren daarna belangrijke wetten in, zoals de Gemeentewet en de Provinciewet, die het lokale bestuur regelden. De koning bleef staatshoofd, maar de echte macht verschoof naar de ministers en het parlement.",
+  "Het kiesrecht werd stap voor stap uitgebreid: in 1887 en 1896 mochten meer mannen stemmen, in 1917 alle mannen en in 1919 ook vrouwen. De vrijheid van onderwijs leidde tot de schoolstrijd, die pas in 1917 werd opgelost."
+ ],
+ perspectieven: [
+  "Liberalen zagen de Grondwet als de vervulling van hun idealen. Conservatieven vonden dat de koning te veel macht verloor. Katholieken waren blij met de vrijheid van godsdienst, waardoor in 1853 de bisschoppen terugkwamen. Gewone arbeiders merkten er in het begin weinig van: zij mochten nog lang niet stemmen."
+ ],
+ misverstanden: [
+  ["“In 1848 werd Nederland een democratie waarin iedereen stemde.”","Alleen mannen die genoeg belasting betaalden mochten stemmen, ongeveer één op de tien volwassen mannen. Algemeen kiesrecht kwam pas in 1917 en 1919."],
+  ["“De Grondwet bestond pas sinds 1848.”","Nederland had al een grondwet sinds 1814 en 1815. In 1848 werd die grondig herzien, met ministeriële verantwoordelijkheid en een rechtstreeks gekozen Tweede Kamer."]
+ ],
+ hoeWeten: [
+  "De tekst van de Grondwet en de verslagen van de debatten zijn bewaard. Brieven van Willem II en Thorbecke laten zien hoe snel de koning van gedachten veranderde. Kranten uit 1848 berichtten over de revoluties in Europa en over de onrust in Nederland."
+ ],
+ nu: [
+  "De Grondwet van nu gaat nog steeds uit van de principes van 1848: de koning is onschendbaar, de ministers zijn verantwoordelijk. In 1983 werd de Grondwet opnieuw herzien en kwam er een nieuw eerste artikel tegen discriminatie. In Amsterdam staat op het Thorbeckeplein een standbeeld van Thorbecke."
+ ],
+ vertellen: "Koning Willem II zei later dat hij in maart 1848 “in één nacht van zeer conservatief zeer liberaal” was geworden. Uit angst voor een revolutie zoals in Parijs en Berlijn gaf hij Thorbecke de opdracht voor een nieuwe grondwet, zonder eerst zijn ministers te raadplegen.",
+ verbanden: [["Koning Willem I","de koning met veel persoonlijke macht"],["Vrouwenkiesrecht","de uitbreiding van het kiesrecht"],["Koning Willem-Alexander","de rol van de koning nu"]],
+ onderwijs: {"ka":["Voortschrijdende democratisering; steeds meer mannen en vrouwen nemen deel aan de politiek.","De opkomst van politiek-maatschappelijke stromingen: liberalisme, nationalisme, socialisme, confessionalisme en feminisme."],"venster":"30. De Grondwet"},
  cijfers: [['Opdracht aan commissie','maart 1848'],['Afkondiging','3 november 1848'],['Kiesrecht','alleen mannen die genoeg belasting betaalden'],['Eerste kabinet-Thorbecke','1849']],
  figuren: [['Johan Rudolph Thorbecke','liberaal staatsman, schreef de Grondwet'],['Koning Willem II','gaf opdracht tot de herziening']],
  bronnen: [CANON,['Wikipedia: Grondwetsherziening 1848',W('Grondwetsherziening van 1848')],['Parlement.com','https://www.parlement.com/']]
@@ -290,6 +410,26 @@ Object.assign(window.DETAILS, {
   'Het boek is opvallend opgebouwd. Het begint bij de saaie Amsterdamse makelaar Batavus Droogstoppel en wisselt dan van verteller. Het verhaal van Saïdjah en Adinda laat de gevolgen van uitbuiting voor gewone Javanen zien.',
   'Max Havelaar maakte veel los en droeg bij aan het debat over het koloniale beleid. Het cultuurstelsel werd daarna stap voor stap afgebouwd. Het boek wordt gezien als een van de belangrijkste werken van de Nederlandse literatuur.'
  ],
+ gevolgen: [
+  "Het boek zette het koloniale beleid op de politieke agenda. Liberalen gebruikten het om kritiek te leveren op het cultuurstelsel, dat vanaf 1870 stap voor stap werd afgeschaft. Daarna kwamen particuliere ondernemingen in de plaats, wat voor de Javaanse bevolking niet altijd beter was.",
+  "Rond 1900 groeide in Nederland het idee van een “ereschuld” aan Indië, wat leidde tot de ethische politiek: meer onderwijs, irrigatie en gezondheidszorg in de kolonie. Ook voor Indonesische nationalisten werd het boek later belangrijk."
+ ],
+ perspectieven: [
+  "Voor veel Nederlandse lezers was het boek een aanklacht tegen misbruik. Critici wijzen erop dat Multatuli niet tegen het kolonialisme zelf was, maar tegen slecht bestuur: hij wilde een eerlijker koloniaal gezag. In Indonesië wordt het boek veel gelezen, en de Indonesische schrijver Pramoedya Ananta Toer noemde het “het boek dat het kolonialisme doodde”."
+ ],
+ misverstanden: [
+  ["“Het boek schafte het cultuurstelsel af.”","Het boek maakte veel los, maar het cultuurstelsel werd pas vanaf 1870 afgebouwd, ook om economische redenen en onder druk van liberalen die vrij ondernemerschap wilden."],
+  ["“Max Havelaar is een waargebeurd verhaal.”","Het boek is gebaseerd op Douwes Dekkers eigen ervaringen in Lebak, maar het is een roman, met verzonnen personages zoals Droogstoppel en Saïdjah en Adinda."]
+ ],
+ hoeWeten: [
+  "Het handschrift van Douwes Dekker en de aangepaste uitgave van Van Lennep zijn bewaard, zodat te zien is wat er veranderd is. Ook de ambtelijke stukken over het conflict in Lebak liggen in archieven. Historici hebben die vergeleken met het boek."
+ ],
+ nu: [
+  "Het boek is in meer dan veertig talen verschenen. Het keurmerk voor eerlijke handel, opgericht in 1988, heette naar het boek “Max Havelaar”; sinds 2021 heet het Fairtrade Nederland. In Amsterdam is het Multatuli Museum, in het huis waar hij geboren werd."
+ ],
+ vertellen: "Het boek begint niet met het verhaal over Java, maar met de saaie Amsterdamse koffiemakelaar Batavus Droogstoppel, die vindt dat romans leugens zijn. Multatuli maakte zo van de lezer een getuige: wie het boek uitleest, kan niet meer zeggen dat hij het niet wist.",
+ verbanden: [["VOC","het begin van de koloniale handel"],["Koning Willem I","hij voerde het cultuurstelsel in"],["Indonesië","de latere onafhankelijkheidsstrijd"],["Afschaffing van de slavernij","nog een kritiek op koloniale uitbuiting"]],
+ onderwijs: {"ka":["Het modern imperialisme dat verband hield met de industrialisatie."],"venster":"31. Max Havelaar"},
  cijfers: [['Cultuurstelsel','vanaf 1830'],['Assistent-resident in Lebak','1856'],['Geschreven in Brussel','1859'],['Verschenen','1860']],
  figuren: [['Multatuli (Eduard Douwes Dekker)','schrijver, oud-ambtenaar in Indië'],['Jacob van Lennep','schrijver, bezorgde de eerste uitgave'],['Everdine van Wijnbergen','echtgenote, in het boek Tine']],
  bronnen: [CANON,['Wikipedia: Max Havelaar',W('Max Havelaar boek')],['DBNL','https://www.dbnl.org/']]
@@ -407,13 +547,34 @@ Object.assign(window.DETAILS, {
 
 'Het Rijksmuseum': {
  aanloop: [
-  'De kunstverzameling van de stadhouders vormde de basis van het museum. Na hun val werd die verzameling nationaal bezit.'
+  'De kunstverzameling van de stadhouders vormde de basis van het museum. Na hun val werd die verzameling nationaal bezit.',
+  "In 1795 vielen Franse troepen het land binnen en vluchtte stadhouder Willem V naar Engeland. De nieuwe Bataafse Republiek wilde laten zien dat kunst en geschiedenis van het hele volk waren, niet van een vorst. Naar Frans voorbeeld, waar het Louvre in 1793 voor publiek was opengegaan, kwam er een nationaal museum."
  ],
  verloop: [
   'Op 31 mei 1800 opende de Nationale Konst-Gallery haar deuren in het Huis ten Bosch bij Den Haag. In 1806 kreeg het de naam Koninklijk Museum, toen Lodewijk Napoleon koning van Holland werd.',
   'In 1808 verhuisde het museum naar Amsterdam, naar het Paleis op de Dam. Daar kwam ook De Nachtwacht te hangen.',
   'In 1885 was het huidige gebouw klaar, ontworpen door Pierre Cuypers. Tussen 2003 en 2013 werd het gerestaureerd en verbouwd. In het museum hangen onder meer De Nachtwacht van Rembrandt, Het melkmeisje van Vermeer en De vrolijke drinker van Frans Hals.'
  ],
+ gevolgen: [
+  "Het museum werd een plek waar het verhaal van Nederland werd verteld, vooral dat van de Gouden Eeuw. Het gebouw van Pierre Cuypers uit 1885 was zelf een uiting van trots op het verleden, met afbeeldingen van Nederlandse kunstenaars en helden op de gevels.",
+  "Tussen 2003 en 2013 was het hoofdgebouw gesloten voor een grote verbouwing van 375 miljoen euro. In die tijd waren de topstukken te zien in de Philipsvleugel. Op 13 april 2013 heropende koningin Beatrix het museum."
+ ],
+ perspectieven: [
+  "Niet iedereen was blij met het gebouw van Cuypers. Protestanten vonden het met zijn torens en gotische vormen te veel op een katholieke kerk lijken. Tegenwoordig kijkt het museum ook kritisch naar zijn eigen verhaal: in tentoonstellingen over slavernij en koloniale geschiedenis komen ook de schaduwkanten van de Gouden Eeuw aan bod."
+ ],
+ misverstanden: [
+  ["“Het Rijksmuseum begon in Amsterdam.”","Het eerste nationale museum opende in 1800 in Huis ten Bosch bij Den Haag. Pas in 1808 verhuisde het naar Amsterdam, en pas in 1885 naar het huidige gebouw."],
+  ["“Het Rijksmuseum heeft alleen schilderijen.”","Het museum heeft ook beelden, meubels, poppenhuizen, wapens, scheepsmodellen, kostuums en foto’s: in totaal honderdduizenden voorwerpen, waarvan maar een klein deel tegelijk te zien is."]
+ ],
+ hoeWeten: [
+  "De archieven van het museum, met aankopen, inventarissen en bouwtekeningen, zijn bewaard. Oude catalogi laten zien welke werken er hingen. Ook kranten en prenten uit 1800 en 1885 tonen hoe het publiek op het museum reageerde."
+ ],
+ nu: [
+  "Het Rijksmuseum is een van de bekendste musea ter wereld en trekt miljoenen bezoekers per jaar. Via Rijksstudio zijn honderdduizenden werken gratis online te bekijken en te downloaden, handig voor in de les. Onder het gebouw loopt een fietstunnel, die na de verbouwing open bleef."
+ ],
+ vertellen: "Dwars onder het Rijksmuseum loopt een tunnel waar fietsers doorheen rijden. Bij de grote verbouwing wilden de architecten er een entreehal van maken, maar Amsterdamse fietsers voerden jarenlang actie, en kregen hun zin: de fietstunnel bleef.",
+ verbanden: [["Rembrandt van Rijn","zijn Nachtwacht is het bekendste schilderij van het museum"],["Lodewijk Napoleon koning","hij bracht het museum naar Amsterdam"],["Het Concertgebouw","nog een groot gebouw aan het Museumplein"]],
+ onderwijs: {},
  cijfers: [['Geopend','31 mei 1800, bij Den Haag'],['Naar Amsterdam','1808'],['Huidig gebouw','1885, Pierre Cuypers'],['Verbouwd','2003 – 2013']],
  figuren: [['Pierre Cuypers','architect van het gebouw'],['Lodewijk Napoleon','liet het museum naar Amsterdam verhuizen'],['Rembrandt','schilder van De Nachtwacht']],
  bronnen: [['Wikipedia: Rijksmuseum Amsterdam',W('Rijksmuseum Amsterdam')],['Rijksmuseum','https://www.rijksmuseum.nl/']]
@@ -429,6 +590,26 @@ Object.assign(window.DETAILS, {
   'Beethoven werd steeds slechter horend en uiteindelijk doof. Toch bleef hij componeren. Zijn Negende Symfonie, met het koor “Ode aan de vreugde”, klonk in 1824 voor het eerst in Wenen. De melodie is nu het Europese volkslied.',
   'Beethoven overleed op 26 maart 1827 in Wenen. Bij de opening van het Concertgebouw in 1888 werd ook muziek van hem gespeeld.'
  ],
+ gevolgen: [
+  "Beethoven veranderde wat een componist kon zijn. Hij was niet langer een dienaar van een vorst of de kerk, maar een kunstenaar die zijn eigen gevoelens uitdrukte. Hij werd een voorbeeld voor latere componisten in de romantiek, zoals Schubert, Brahms en Wagner.",
+  "Zijn symfonieën werden de basis van het concertleven in de 19e eeuw. Nieuwe concertzalen, zoals het Concertgebouw in Amsterdam, werden gebouwd voor orkesten die dit soort muziek speelden."
+ ],
+ perspectieven: [
+  "Tijdgenoten vonden zijn latere muziek soms te vreemd en te heftig. Pas later werd ze als meesterwerk gezien. In de 19e eeuw groeide het beeld van Beethoven als eenzaam en worstelend genie; historici laten zien dat hij ook gewoon een beroepsmusicus was met uitgevers, leerlingen en geldzorgen."
+ ],
+ misverstanden: [
+  ["“Beethoven was zijn hele leven doof.”","Hij werd rond zijn dertigste steeds slechter horend en was in zijn laatste levensjaren vrijwel doof. Veel van zijn bekendste werken schreef hij toen hij nog redelijk kon horen."],
+  ["“Beethoven was een Nederlander.”","Beethoven werd in Bonn geboren en woonde het grootste deel van zijn leven in Wenen. Zijn grootvader kwam wel uit Mechelen, in het huidige België, en de “van” in zijn naam wijst daarop."]
+ ],
+ hoeWeten: [
+  "Beethoven liet duizenden pagina’s schetsen, partituren en brieven na. Omdat hij later bijna niets meer hoorde, schreven bezoekers hun vragen op in gespreksschriften, waarvan veel bewaard zijn. Ook zijn hoortoestellen, grote koperen hoorns, zijn bewaard in het Beethoven-Haus in Bonn."
+ ],
+ nu: [
+  "De melodie van de “Ode aan de vreugde” uit de Negende Symfonie is het volkslied van de Europese Unie. Zijn Vijfde Symfonie, met het beroemde begin “ta-ta-ta-taaa”, kent bijna iedereen. Zijn muziek klinkt in reclames, films en op talloze concerten."
+ ],
+ vertellen: "Bij de eerste uitvoering van de Negende Symfonie in 1824 stond Beethoven op het podium. Doordat hij doof was, hoorde hij het daverende applaus na afloop niet. Een zangeres draaide hem om, zodat hij de juichende zaal kon zien.",
+ verbanden: [["Napoleon Bonaparte","de Eroica-symfonie"],["Wolfgang Amadeus Mozart","zijn grote voorbeeld"],["Het Concertgebouw","zijn muziek klonk bij de opening"]],
+ onderwijs: {},
  cijfers: [['Geboren','december 1770, Bonn'],['Naar Wenen','1792'],['Negende Symfonie','1824'],['Overleden','26 maart 1827, Wenen']],
  figuren: [['Ludwig van Beethoven','componist en pianist'],['Christian Gottlob Neefe','zijn eerste orgelleraar in Bonn'],['Lodewijck van Beethoven','zijn grootvader uit Mechelen']],
  bronnen: [['Wikipedia: Ludwig van Beethoven',W('Ludwig van Beethoven')]]
@@ -516,6 +697,26 @@ Object.assign(window.DETAILS, {
   'Zijn nieuwe burgerlijk wetboek, de Code Napoléon, had een grote en blijvende invloed op het recht in veel landen, waaronder Nederland en België.',
   'De veldtocht naar Rusland in 1812 was het keerpunt. In 1814 trad hij af en werd verbannen naar het eiland Elba. In 1815 keerde hij terug, maar werd bij Waterloo verslagen. Daarna werd hij verbannen naar het eiland Sint-Helena, waar hij op 5 mei 1821 overleed.'
  ],
+ gevolgen: [
+  "In Nederland bleven veel vernieuwingen uit de Franse tijd bestaan: de burgerlijke stand, vaste achternamen, het kadaster en een centraal bestuur in plaats van zelfstandige provincies. Het Nederlandse Burgerlijk Wetboek van 1838 was sterk gebaseerd op de Code Napoléon.",
+  "In heel Europa verspreidde Napoleon ideeën uit de Franse Revolutie, zoals gelijkheid voor de wet. Tegelijk wekten zijn veroveringen nationalisme op in de bezette landen, zoals in Duitsland en Spanje."
+ ],
+ perspectieven: [
+  "In Frankrijk wordt Napoleon vaak gezien als een groot staatsman en wetgever. Anderen benadrukken dat hij een dictator was die miljoenen soldaten de dood in joeg, in 1802 de slavernij in Franse koloniën herstelde en kritiek onderdrukte. In de bezette landen, zoals Nederland, voelde zijn bewind voor veel mensen als een last: belastingen, dienstplicht en een verbod op handel met Engeland."
+ ],
+ misverstanden: [
+  ["“Napoleon was heel klein.”","Napoleon was ongeveer 1,69 meter, gewoon voor een man in zijn tijd. Het idee dat hij klein was, komt onder meer van Britse spotprenten en van verwarring tussen Franse en Engelse maten."],
+  ["“Napoleon veroverde Nederland.”","Nederland werd in 1795 al door de Franse revolutionaire legers bezet, toen Napoleon nog generaal was. Hij maakte er in 1806 een koninkrijk van en lijfde het in 1810 in bij Frankrijk."]
+ ],
+ hoeWeten: [
+  "Er zijn duizenden brieven van Napoleon en zijn generaals, decreten, kaarten en verslagen van veldslagen. Schilders als Jacques-Louis David maakten propaganda-portretten. In Nederland laten archieven van de burgerlijke stand en het kadaster zien wat er uit de Franse tijd overbleef."
+ ],
+ nu: [
+  "Elke geboorteakte, elk huwelijk en elke achternaam in Nederland gaat terug op regels uit de Franse tijd. In veel straten zie je nog huisnummers en een kadaster dat in die periode werd voorbereid. Napoleons graf in de Dôme des Invalides in Parijs wordt nog steeds druk bezocht."
+ ],
+ vertellen: "Beethoven was zo onder de indruk van Napoleon dat hij zijn Derde Symfonie aan hem wilde opdragen. Toen Napoleon zich in 1804 tot keizer kroonde, kraste Beethoven woedend de naam van het titelblad, zo hard dat er een gat in het papier kwam. Het stuk heet sindsdien de Eroica.",
+ verbanden: [["De Franse Revolutie","zonder revolutie geen Napoleon"],["Lodewijk Napoleon koning","zijn broer werd koning van Holland"],["Ludwig van Beethoven","de Eroica-symfonie"],["Slag bij Waterloo","zijn definitieve nederlaag"]],
+ onderwijs: {"ka":["De democratische revoluties in westerse landen met als gevolg discussies over grondwetten, grondrechten en staatsburgerschap. (tijdvak 7)"],"venster":"27. Napoleon Bonaparte"},
  cijfers: [['Geboren','15 augustus 1769, Ajaccio'],['Keizer','2 december 1804 – 11 april 1814'],['Waterloo','18 juni 1815'],['Overleden','5 mei 1821, Sint-Helena']],
  figuren: [['Napoleon Bonaparte','Frans generaal en keizer'],['Lodewijk Napoleon','zijn broer, koning van Holland'],['Wellington','Britse bevelhebber bij Waterloo']],
  bronnen: [['Wikipedia: Napoleon Bonaparte',W('Napoleon Bonaparte')]]
@@ -530,6 +731,26 @@ Object.assign(window.DETAILS, {
   'Napoleon werd definitief verslagen door een coalitie van Britse, Nederlandse en Hannoverse eenheden onder Wellington en een Pruisisch leger onder maarschalk Blücher. De slag is genoemd naar Waterloo, waar Wellington zijn hoofdkwartier had.',
   'Napoleon gaf zich over aan de Britten en werd naar Sint-Helena verbannen. Jan Willem Pieneman schilderde de slag in 1824 voor het Rijksmuseum, met op het doek de gewonde Prins van Oranje.'
  ],
+ gevolgen: [
+  "Na Waterloo werd Napoleon verbannen naar Sint-Helena en was de Franse tijd in Europa voorbij. Het Congres van Wenen kon zijn werk afronden. Er volgde in West-Europa een lange periode zonder grote oorlogen tussen de grote mogendheden.",
+  "Voor het jonge Koninkrijk der Nederlanden was de slag een bron van trots. Koning Willem I liet op de plek waar zijn zoon, de Prins van Oranje, gewond was geraakt, een kunstmatige heuvel met een grote leeuw bouwen: de Leeuw van Waterloo."
+ ],
+ perspectieven: [
+  "Britten zagen Waterloo vooral als overwinning van Wellington. In Duitsland werd de beslissende rol van het Pruisische leger van Blücher benadrukt, dat in de middag aankwam. De bijdrage van de Nederlandse en Belgische troepen werd in Britse verslagen lang onderschat; Nederlandse historici hebben dat later rechtgezet."
+ ],
+ misverstanden: [
+  ["“De slag werd in Waterloo zelf uitgevochten.”","De gevechten vonden plaats bij Mont-Saint-Jean, een paar kilometer ten zuiden van Waterloo. De slag is genoemd naar Waterloo omdat Wellington daar zijn hoofdkwartier had."],
+  ["“Wellington won de slag alleen.”","Het was een coalitieleger met Britten, Nederlanders, Belgen en Duitsers, en de komst van de Pruisen onder Blücher was beslissend."]
+ ],
+ hoeWeten: [
+  "Er zijn rapporten van de bevelhebbers, brieven en dagboeken van soldaten, en schilderijen zoals dat van Jan Willem Pieneman. Op het slagveld zijn bij opgravingen kogels, knopen en zelfs skeletten van soldaten gevonden. Doordat getuigen elkaar soms tegenspreken, is het verloop van de slag nog steeds onderwerp van onderzoek."
+ ],
+ nu: [
+  "De Leeuw van Waterloo staat nog op zijn heuvel van 45 meter, met een museum aan de voet. Elk jaar spelen duizenden liefhebbers in uniform de slag na. Het woord “Waterloo” betekent in veel talen een definitieve nederlaag, en ABBA won er in 1974 het Eurovisie Songfestival mee."
+ ],
+ vertellen: "Koning Willem I gaf al veertig dagen na de slag opdracht voor een monument. Jarenlang werd aarde aangevoerd voor een kunstmatige heuvel van 45 meter hoog, met bovenop een gietijzeren leeuw: de Leeuw van Waterloo.",
+ verbanden: [["Napoleon Bonaparte","zijn laatste veldslag"],["Koning Willem I","zijn zoon vocht mee"],["Het Congres van Wenen","de vredesregeling na de oorlog"]],
+ onderwijs: {},
  cijfers: [['Datum','18 juni 1815'],['Plaats','Mont-Saint-Jean, bij Waterloo (nu België)'],['Legers','Wellington en Blücher tegen Napoleon'],['Daarvoor','Quatre-Bras en Ligny op 16 juni']],
  figuren: [['Napoleon Bonaparte','Frans keizer'],['Wellington','Brits bevelhebber'],['Gebhard Leberecht von Blücher','Pruisisch maarschalk'],['Prins van Oranje','Nederlands bevelhebber, raakte gewond']],
  bronnen: [['Wikipedia: Slag bij Waterloo',W('Slag bij Waterloo')]]
@@ -544,6 +765,26 @@ Object.assign(window.DETAILS, {
   'Veel leiders wilden de idealen van de Franse Revolutie niet overnemen, omdat ze hun oude rechten en privileges wilden behouden.',
   'Voor Nederland betekende het dat de Noordelijke en de Zuidelijke Nederlanden samen één koninkrijk werden, onder koning Willem I. Dat bleef niet duren: in 1830 volgde de Belgische Opstand.'
  ],
+ gevolgen: [
+  "De grote mogendheden, Groot-Brittannië, Oostenrijk, Pruisen, Rusland en later ook Frankrijk, spraken af elkaar op de hoogte te houden en samen te overleggen. Dat “Concert van Europa” hielp om lange tijd grote oorlogen te voorkomen.",
+  "Voor Nederland was de uitkomst groot: de Noordelijke en Zuidelijke Nederlanden werden één koninkrijk, als buffer tegen Frankrijk. Luxemburg werd een groothertogdom met de Nederlandse koning als groothertog. Ook kwam er een eerste internationale verklaring tegen de slavenhandel."
+ ],
+ perspectieven: [
+  "De vorsten en diplomaten wilden rust en het herstel van de oude orde. Voor liberalen en nationalisten, die geloofden in de idealen van de Franse Revolutie, was het juist een stap terug. Volken werden verdeeld zonder dat hun iets werd gevraagd, wat later tot opstanden leidde, zoals de Belgische Opstand van 1830."
+ ],
+ misverstanden: [
+  ["“Het congres was één grote vergadering.”","Er was bijna nooit een volledige vergadering. De belangrijkste beslissingen werden genomen in kleine kring door de grote mogendheden, en veel werd geregeld tijdens diners en bals."],
+  ["“België bestond al.”","België bestond nog niet als land. Het gebied werd in 1815 bij Nederland gevoegd en werd pas na de opstand van 1830 een zelfstandige staat."]
+ ],
+ hoeWeten: [
+  "De slotakte van het congres en de verslagen van de onderhandelingen zijn bewaard. Diplomaten en hun gasten schreven brieven en dagboeken over de onderhandelingen en de feesten. De prent van Jean-Baptiste Isabey laat de belangrijkste deelnemers zien."
+ ],
+ nu: [
+  "De grenzen van Nederland, België en Luxemburg gaan voor een deel terug op beslissingen van dit congres. Het idee dat landen samen overleggen om oorlog te voorkomen, kwam later terug in de Volkenbond en de Verenigde Naties. Ook de Zwitserse neutraliteit werd in Wenen erkend."
+ ],
+ vertellen: "Omdat er in Wenen zoveel bals en feesten waren, spotte de oude prins de Ligne: “Het congres danst, maar het komt niet vooruit.” Toch werd er achter de schermen hard onderhandeld, en de afspraken bepaalden decennialang de kaart van Europa.",
+ verbanden: [["Koning Willem I","hij kreeg een koninkrijk"],["Belgische Opstand","de nieuwe grenzen hielden niet stand"],["Slag bij Waterloo","Napoleon onderbrak het congres"]],
+ onderwijs: {"ka":["De democratische revoluties in westerse landen met als gevolg discussies over grondwetten, grondrechten en staatsburgerschap. (tijdvak 7)"]},
  cijfers: [['Begin','september of oktober 1814'],['Einde','juni 1815'],['Deelnemers','ruim 200 regeringsleiders en diplomaten'],['Plaats','Wenen']],
  figuren: [['Klemens von Metternich','Oostenrijks minister, belangrijkste figuur van het congres'],['Willem I','werd koning van het nieuwe Koninkrijk der Nederlanden']],
  bronnen: [['Wikipedia: Congres van Wenen',W('Congres van Wenen')]]
