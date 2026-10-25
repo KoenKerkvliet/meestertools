@@ -262,7 +262,7 @@ button.dot{cursor:pointer}
 footer{max-width:1100px;padding-block:8px 56px;font-size:16px;line-height:1.5;color:var(--muted2)}
 /* compacte footer: copyright, links en een info-icoon met de bronnen */
 .tlfoot{max-width:none;padding-block:18px calc(22px + env(safe-area-inset-bottom,0px));margin-top:36px;border-top:2px solid var(--line2);font-size:15px}
-.tlfoot-rij{max-width:1100px;margin-inline:auto;display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px}
+.tlfoot-rij{display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px}
 .tlfoot a{color:inherit}
 .tlfoot-c{font-weight:700;color:var(--ink2)}
 .tlfoot-nav{display:flex;flex-wrap:wrap;gap:4px 18px;margin-right:auto}
@@ -475,7 +475,7 @@ html.has-dl .printbtn{display:none}
 
 /* ---- losse pagina's per gebeurtenis en het overzicht (gemaakt door scripts/bouw-paginas.mjs) ---- */
 .sp .spin{max-width:1180px;margin-inline:auto}
-.sp footer{max-width:none}.sp .tlfoot-rij{max-width:1180px}
+.sp footer{max-width:none}
 a.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
 .pgnav a.btn{display:block}
 .pghero .btns{margin-top:8px}
