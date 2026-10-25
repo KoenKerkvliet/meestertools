@@ -36,6 +36,10 @@ verify_jwt = false
 [functions.feedback-mail]
 verify_jwt = false
 
+# Idem: de database roept hem aan met het gedeelde geheim.
+[functions.nieuwsbrief-sync]
+verify_jwt = false
+
 # Wordt extern aangeroepen (keepalive), dus zonder JWT.
 [functions.send-keepalive-notification]
 verify_jwt = false

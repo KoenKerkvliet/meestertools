@@ -80,6 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const fullName = document.getElementById('fullName').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            // Standaard uit: alleen wie zelf aanvinkt komt op de lijst (pas na het bevestigen van het e-mailadres).
+            const nieuwsbrief = document.getElementById('nieuwsbrief')?.checked === true;
             const registerBtn = document.getElementById('registerBtn');
             const errorEl = document.getElementById('registerError');
             const successEl = document.getElementById('registerSuccess');
@@ -95,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         email,
                         password,
                         options: {
-                            data: { full_name: fullName }
+                            data: { full_name: fullName, nieuwsbrief }
                         }
                     }),
                     15000

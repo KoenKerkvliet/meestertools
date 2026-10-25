@@ -26,7 +26,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Meestertools - Registreren</title>
-    <link rel="stylesheet" href="css/style.css?v=1.62.0">
+    <link rel="stylesheet" href="css/style.css?v=1.63.0">
 </head>
 <body>
     <div class="login-container">
@@ -56,6 +56,11 @@
                     <input type="password" id="password" placeholder="Minimaal 8 tekens" minlength="8" required>
                 </div>
 
+                <label class="optin">
+                    <input type="checkbox" id="nieuwsbrief">
+                    <span>Stuur me af en toe een mail over nieuwe tools. Afmelden kan altijd. <a href="/privacy" target="_blank" rel="noopener">Privacy</a></span>
+                </label>
+
                 <button type="submit" class="btn-login" id="registerBtn">Account aanmaken</button>
             </form>
 
@@ -66,7 +71,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.62.0"></script>
-    <script src="js/app.js?v=1.62.0"></script>
+    <script src="js/supabase-config.js?v=1.63.0"></script>
+    <script src="js/app.js?v=1.63.0"></script>
 </body>
 </html>

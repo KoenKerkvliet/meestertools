@@ -197,6 +197,31 @@ a {
     margin-bottom: 20px;
 }
 
+/* Vinkje voor de nieuwsbrief (registratie en instellingen) */
+.optin {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0 0 20px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-medium);
+    cursor: pointer;
+}
+
+.optin input {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin: 2px 0 0;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.optin a {
+    color: var(--primary);
+}
+
 .form-group label {
     display: block;
     font-size: 14px;

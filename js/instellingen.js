@@ -142,6 +142,14 @@
                                 <div class="profiel-message" id="profielMessage"></div>
                             </div>
                             <div class="profiel-card">
+                                <h4>E-mail over nieuwe tools</h4>
+                                <label class="optin">
+                                    <input type="checkbox" id="profielNieuwsbrief">
+                                    <span>Stuur me af en toe een mail als er een nieuwe tool op Meestertools staat.</span>
+                                </label>
+                                <div class="profiel-message" id="nieuwsbriefMessage"></div>
+                            </div>
+                            <div class="profiel-card">
                                 <h4>Wachtwoord wijzigen</h4>
                                 <div class="form-group">
                                     <label for="newPassword">Nieuw wachtwoord</label>
@@ -489,10 +497,30 @@
         // School-gegevens + suggesties van bestaande scholen
         try {
             const profRes = await supabase
-                .from('profiles').select('school_id, schools(name, city)').eq('id', user.id).single();
+                .from('profiles').select('school_id, nieuwsbrief, schools(name, city)').eq('id', user.id).single();
 
             const naamEl = overlayEl.querySelector('#profielSchool');
             const plaatsEl = overlayEl.querySelector('#profielPlaats');
+
+            const nbEl = overlayEl.querySelector('#profielNieuwsbrief');
+            nbEl.checked = profRes.data?.nieuwsbrief === true;
+            // Direct opslaan bij aan- of uitvinken; ook dit maar een keer aanhaken.
+            if (!nbEl.dataset.aan) {
+                nbEl.dataset.aan = '1';
+                nbEl.addEventListener('change', async () => {
+                    const msg = overlayEl.querySelector('#nieuwsbriefMessage');
+                    nbEl.disabled = true;
+                    const { error } = await supabase.from('profiles').update({ nieuwsbrief: nbEl.checked }).eq('id', user.id);
+                    nbEl.disabled = false;
+                    if (error) {
+                        console.error('Nieuwsbrief opslaan mislukt:', error);
+                        nbEl.checked = !nbEl.checked;
+                        showMessage(msg, 'Opslaan is niet gelukt. Probeer het nog een keer.', 'error');
+                        return;
+                    }
+                    showMessage(msg, nbEl.checked ? 'Opgeslagen. Je hoort het als er iets nieuws is.' : 'Opgeslagen. Je krijgt deze mails niet meer.', 'success');
+                });
+            }
 
             if (profRes.data?.schools) {
                 naamEl.value = profRes.data.schools.name || '';
