@@ -31,6 +31,11 @@ verify_jwt = true
 [functions.account-opruiming]
 verify_jwt = false
 
+# Idem: pg_cron roept hem aan met het gedeelde geheim. De proefmail uit beheer
+# controleert zijn eigen JWT in de functie.
+[functions.feedback-mail]
+verify_jwt = false
+
 # Wordt extern aangeroepen (keepalive), dus zonder JWT.
 [functions.send-keepalive-notification]
 verify_jwt = false

@@ -2562,6 +2562,73 @@ document.addEventListener('DOMContentLoaded', () => {
         renderFeedback();
     }
 
+    // ---------- Feedbackmail ----------
+    // Schakelaar, tellers en een proefmail. Wie er aan de beurt is staat in de
+    // database (public._feedbackmail_kandidaten); hier komt alleen een aantal uit.
+    let feedbackMailAan = false;
+
+    async function loadFeedbackMail() {
+        const [inst, wachtrij, verzonden] = await Promise.all([
+            supabase.from('feedbackmail_instellingen').select('aan').maybeSingle(),
+            supabase.rpc('admin_feedbackmail_wachtrij'),
+            supabase.from('feedbackmail_verzonden').select('feedback_id')
+        ]);
+        const stats = document.getElementById('fbMailStats');
+        if (inst.error || verzonden.error) {
+            if (stats) stats.innerHTML = '<div><span>De feedbackmail is nog niet in de database ge&iuml;nstalleerd.</span></div>';
+            return;
+        }
+        feedbackMailAan = inst.data?.aan === true;
+        const select = document.getElementById('fbMailAan');
+        if (select) select.value = feedbackMailAan ? 'aan' : 'uit';
+
+        const rijen = verzonden.data || [];
+        const beoordeeld = rijen.filter(r => r.feedback_id).length;
+        if (stats) {
+            stats.innerHTML = `
+                <div><strong>${wachtrij.error ? '?' : wachtrij.data}</strong><span>komen nu aan de beurt</span></div>
+                <div><strong>${rijen.length}</strong><span>mails verstuurd</span></div>
+                <div><strong>${beoordeeld}</strong><span>daarna beoordeeld</span></div>`;
+        }
+    }
+
+    document.getElementById('fbMailAan')?.addEventListener('change', async (e) => {
+        const select = e.target;
+        const aan = select.value === 'aan';
+
+        async function opslaan() {
+            const { error } = await supabase.from('feedbackmail_instellingen').update({ aan }).eq('id', true);
+            if (error) {
+                alert('Opslaan mislukt: ' + error.message);
+                select.value = feedbackMailAan ? 'aan' : 'uit';
+                return;
+            }
+            feedbackMailAan = aan;
+        }
+
+        if (aan) {
+            // Mails kunnen niet worden teruggehaald, dus eerst bevestigen.
+            select.value = feedbackMailAan ? 'aan' : 'uit';
+            showConfirm('Feedbackmail aanzetten',
+                'Vanaf morgenochtend gaat er elke dag een mail naar de eerstvolgende (hoogstens 20) gebruikers die aan de beurt zijn. Heb je de proefmail gezien en klopt de tekst?',
+                async () => { await opslaan(); select.value = feedbackMailAan ? 'aan' : 'uit'; });
+        } else {
+            await opslaan();
+        }
+    });
+
+    document.getElementById('fbMailProef')?.addEventListener('click', async (e) => {
+        const btn = e.currentTarget;
+        btn.disabled = true;
+        const { data, error } = await supabase.functions.invoke('feedback-mail', { body: { testmail: true } });
+        btn.disabled = false;
+        if (error || !data?.ok) {
+            alert('Proefmail versturen mislukt: ' + (data?.error || error?.message || 'onbekende fout'));
+            return;
+        }
+        alert('De proefmail is onderweg naar je eigen e-mailadres. De sterren erin slaan niets op.');
+    });
+
     function renderFeedbackSummary() {
         const box = document.getElementById('fbSummary');
         if (!box) return;
@@ -2815,7 +2882,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function initAdminData() {
         if (window.userRole !== 'super_admin') return;
         try {
-            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets(), loadSpellingSentences(), loadEscaperooms(), loadRoadmap(), loadIdeas(), loadFeedback(), loadOpruimen()]);
+            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets(), loadSpellingSentences(), loadEscaperooms(), loadRoadmap(), loadIdeas(), loadFeedback(), loadFeedbackMail(), loadOpruimen()]);
         } catch (e) {
             console.error('Error during initial load:', e);
         }

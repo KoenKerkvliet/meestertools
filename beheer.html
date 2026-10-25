@@ -26,9 +26,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Meestertools - Beheer</title>
-    <link rel="stylesheet" href="css/style.css?v=1.61.3">
-    <link rel="stylesheet" href="css/instellingen.css?v=1.61.3">
-    <link rel="stylesheet" href="css/ideeenbus.css?v=1.61.3">
+    <link rel="stylesheet" href="css/style.css?v=1.62.0">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.62.0">
+    <link rel="stylesheet" href="css/ideeenbus.css?v=1.62.0">
 </head>
 <body>
     <!-- Header -->
@@ -404,6 +404,25 @@
 
         <!-- Feedback Tab -->
         <div class="admin-tab-panel" id="tab-feedback">
+            <div class="op-card">
+                <div class="op-card-head">
+                    <div>
+                        <h3>Feedbackmail</h3>
+                        <p class="admin-toolbar-note">E&eacute;n mail met vijf sterren om op te klikken, voor gebruikers met een klas die al drie weken meedoen en nog geen beoordeling gaven.
+                            Hoogstens 20 per dag, &eacute;&eacute;n keer per persoon, niet in juli en augustus. Beoordelingen komen hieronder terecht.</p>
+                    </div>
+                    <div class="op-mode">
+                        <label for="fbMailAan">Wat mag er gebeuren?</label>
+                        <select class="search-input" id="fbMailAan">
+                            <option value="uit">Uit (er wordt niets verstuurd)</option>
+                            <option value="aan">Aan: elke ochtend de eerstvolgenden mailen</option>
+                        </select>
+                        <button type="button" class="btn-small" id="fbMailProef" style="margin-top:10px;">Proefmail naar mezelf</button>
+                    </div>
+                </div>
+                <div class="op-stats" id="fbMailStats"></div>
+            </div>
+
             <div class="fb-summary" id="fbSummary"></div>
 
             <div class="admin-toolbar">
@@ -875,13 +894,13 @@
     <!-- Footer -->
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.61.3"></script>
-    <script src="/js/template.js?v=1.61.3"></script>
+    <script src="/js/mt-shared.js?v=1.62.0"></script>
+    <script src="/js/template.js?v=1.62.0"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.61.3"></script>
-    <script src="js/app.js?v=1.61.3"></script>
-    <script src="js/instellingen.js?v=1.61.3"></script>
-    <script src="js/admin.js?v=1.61.3"></script>
+    <script src="js/supabase-config.js?v=1.62.0"></script>
+    <script src="js/app.js?v=1.62.0"></script>
+    <script src="js/instellingen.js?v=1.62.0"></script>
+    <script src="js/admin.js?v=1.62.0"></script>
 </body>
 </html>

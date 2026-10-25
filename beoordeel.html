@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="referrer" content="no-referrer">
+    <meta name="theme-color" content="#6C63FF">
+    <link rel="icon" href="/favicon.ico" sizes="48x48">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <title>Meestertools - Jouw beoordeling</title>
+    <link rel="stylesheet" href="css/style.css?v=1.62.0">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card feedback-modal">
+            <div class="login-logo">
+                <img class="logo-img" src="/assets/badge-220.png" width="110" height="110" alt="">
+                <h1>Meestertools</h1>
+                <p id="bdIntro">Even kijken...</p>
+            </div>
+
+            <div id="bdProef" class="form-success" style="display:none;">Dit is een proefversie: er wordt niets opgeslagen.</div>
+            <div id="bdError" class="form-error" style="display:none;"></div>
+
+            <!-- Stap 1: sterren (ook als je hier komt zonder ster te hebben aangeklikt) -->
+            <div id="bdSterren" hidden>
+                <div class="feedback-stars" id="bdStars" role="group" aria-label="Beoordeling in sterren"></div>
+                <div class="feedback-star-label" id="bdStarLabel" aria-live="polite">&nbsp;</div>
+            </div>
+
+            <!-- Stap 2: toelichting -->
+            <div id="bdToelichting" hidden style="margin-top:20px;">
+                <label class="feedback-comment-label" for="bdComment">Wil je er iets bij vertellen? <span>(niet verplicht)</span></label>
+                <textarea id="bdComment" rows="4" maxlength="2000"
+                    placeholder="Wat vind je goed aan Meestertools, en wat minder goed? Alles mag: ook wat je mist of wat anders zou kunnen."></textarea>
+                <p class="sj-note">Noem liever geen namen van leerlingen. Alleen de maker van Meestertools leest dit.</p>
+                <button type="button" class="btn-login" id="bdSend" style="margin-top:16px;">Klaar</button>
+            </div>
+
+            <div id="bdDank" hidden>
+                <p class="feedback-thanks">&#127881; Dank je wel! Hier word ik echt wijzer van.</p>
+            </div>
+
+            <div id="bdOngeldig" hidden>
+                <p style="font-size:14px;color:#666;margin-bottom:16px;">
+                    Wil je toch iets laten weten? Log in en kies <strong>Geef feedback</strong> in het menu bij je profiel.
+                </p>
+                <a class="btn-login" href="/inloggen" style="display:block;text-align:center;text-decoration:none;">Naar inloggen</a>
+            </div>
+
+            <div class="login-footer">
+                <a href="/">Naar Meestertools</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="js/supabase-config.js?v=1.62.0"></script>
+    <script src="js/beoordeel.js?v=1.62.0"></script>
+</body>
+</html>
