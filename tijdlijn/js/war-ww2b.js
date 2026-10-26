@@ -41,6 +41,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Het Achtste Leger was een leger van het hele Britse Rijk. Australiërs, Nieuw-Zeelanders, Zuid-Afrikanen en Indiase soldaten vochten mee, net als Vrije Fransen en Grieken. Aan de andere kant vormden Italianen een groot deel van het leger, vaak met verouderd materieel. Voor Egyptenaren was het een oorlog van buitenlandse machten op hun grondgebied. Veel nationalisten wilden van de Britse invloed af. Nog decennia later eisten de achtergelaten mijnen slachtoffers onder de bevolking.'
  ],
+ gevolgen: [
+  "Het Suezkanaal en de olie van het Midden-Oosten bleven in geallieerde handen. Na de overgave in Tunesië in mei 1943 gingen ongeveer een kwart miljoen Duitse en Italiaanse soldaten in krijgsgevangenschap. Vanuit Noord-Afrika volgde in juli 1943 de landing op Sicilië, en kort daarna viel Mussolini.",
+  "Voor Groot-Brittannië was het de eerste grote overwinning op het land tegen Duitsland, en een flinke steun voor het moreel na jaren van nederlagen."
+ ],
+ misverstanden: [
+  ["“Rommel was een ridderlijke generaal die niets met het naziregime te maken had.”","Rommel was geen lid van de nazipartij en werd ook door zijn tegenstanders gerespecteerd. Maar hij was jarenlang een bewonderaar van Hitler en profiteerde van diens gunst. Het beeld van de ‘woestijnvos’ die alleen een eerlijke oorlog voerde, is na de oorlog sterk gegroeid, ook door Britse boeken en films."]
+ ],
+ hoeWeten: [
+  "Er zijn Britse en Duitse legerverslagen, dagboeken en brieven van soldaten, en de berichten die Britse codebrekers ontcijferden. Daardoor wisten de Britten vaak welke Duitse aanvoerschepen ze moesten aanvallen. Dat bleef tot de jaren zeventig geheim."
+ ],
+ nu: [
+  "Bij El Alamein liggen grote oorlogsbegraafplaatsen van het Britse Gemenebest, Duitsland en Italië. In de Egyptische woestijn liggen nog steeds miljoenen landmijnen uit de oorlog, die geregeld slachtoffers maken onder herders en reizigers."
+ ],
+ vertellen: "Na de overwinning zei Churchill in een toespraak: “Dit is niet het einde. Het is zelfs niet het begin van het einde. Maar het is misschien wel het einde van het begin.” Later schreef hij dat de Britten vóór El Alamein nooit een overwinning hadden gehad, en daarna nooit meer een nederlaag.",
+ verbanden: [["Stalingrad","het keerpunt aan het oostfront in dezelfde maanden"],["D-Day","de volgende grote landing van de westelijke geallieerden"],["Slag om Engeland","de eerdere Britse overleving"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Duur','23 okt – 11 nov 1942'],['Geallieerde troepen','ca. 195.000'],['As-troepen','ca. 115.000'],['Afstand tot Alexandrië','ca. 100 km']],
  figuren: [['Bernard Montgomery','bevelhebber Britse Achtste Leger'],['Erwin Rommel','bevelhebber Duits-Italiaanse Pantserarmee'],['Winston Churchill','Britse premier']],
  bronnen: [['Wikipedia: Tweede Slag bij El Alamein',W('Tweede Slag bij El Alamein')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -59,6 +75,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de Sovjet-Unie werd Stalingrad een symbool van verzet, maar de prijs was enorm. Het Rode Leger behandelde ook eigen soldaten hard: deserteurs werden vaak doodgeschoten. Tienduizenden burgers konden niet vluchten en overleefden in kelders. In het Zesde Leger vochten naast Duitsers ook Roemenen, Italianen, Hongaren, Kroaten en Sovjetburgers die als hulptroepen dienden. In Duitsland kon de propaganda de nederlaag niet verbergen en sloeg de stemming om.'
  ],
+ gevolgen: [
+  "Na Stalingrad lag het initiatief aan het oostfront bij het Rode Leger. In Duitsland groeide de twijfel. Propagandaminister Goebbels hield in februari 1943 in Berlijn een beroemde toespraak waarin hij de zaal vroeg: “Willen jullie de totale oorlog?” De menigte schreeuwde ja.",
+  "Ook Duitslands bondgenoten, zoals Roemenië, Hongarije en Italië, verloren bij Stalingrad grote legers. Hun twijfel aan de oorlog groeide."
+ ],
+ misverstanden: [
+  ["“Het Rode Leger won alleen door enorme aantallen soldaten.”","Het Rode Leger had veel soldaten en leed zware verliezen, maar de omsingeling van het Zesde Leger was een goed voorbereide operatie. Die richtte zich op de zwakke Roemeense legers op de flanken, en werd in het geheim voorbereid."]
+ ],
+ hoeWeten: [
+  "Er zijn brieven van Duitse soldaten uit de omsingeling, Sovjetverslagen, foto’s en filmbeelden. Veel Duitse verslagen over Stalingrad werden na de oorlog door oud-officieren geschreven, en gaven vaak alle schuld aan Hitler. Sinds de jaren negentig zijn ook Russische archieven beter toegankelijk."
+ ],
+ nu: [
+  "De stad heet sinds 1961 Wolgograd. Op de heuvel Mamajev Koergan staat het enorme beeld Moederland roept, 85 meter hoog. In Duitsland is ‘Stalingrad’ in veel families een begrip gebleven, voor een vader of grootvader die nooit terugkwam."
+ ],
+ vertellen: "Een klein groepje Sovjetsoldaten onder sergeant Jakov Pavlov verdedigde bijna twee maanden lang één flatgebouw aan een plein. Het werd bekend als het Pavlovhuis. Generaal Tsjoejkov zou later gegrapt hebben dat de Duitsers bij de aanvallen op dat ene huis meer soldaten verloren dan bij de verovering van Parijs.",
+ verbanden: [["Operatie Barbarossa","het begin van de oorlog in het oosten"],["Slag bij Koersk","de laatste grote Duitse aanval in het oosten"],["De Witte Roos","studenten die na Stalingrad in actie kwamen"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","De rol van moderne propaganda- en communicatiemiddelen en vormen van massa-organisatie."]},
  cijfers: [['Ingesloten As-troepen','ca. 250.000–300.000'],['Krijgsgevangenen','ca. 91.000'],['Teruggekeerd uit gevangenschap','ca. 5000'],['Doden en gewonden totaal','naar schatting 1,5–2 miljoen']],
  figuren: [['Friedrich Paulus','bevelhebber Duitse Zesde Leger'],['Vasili Tsjoejkov','bevelhebber Sovjet 62e Leger'],['Georgi Zjoekov','mede-ontwerper van Operatie Uranus']],
  bronnen: [['Wikipedia: Slag om Stalingrad',W('Slag om Stalingrad')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -77,6 +109,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Het zesde pamflet werd naar Engeland gesmokkeld. Geallieerde vliegtuigen wierpen het daarna in grote aantallen boven Duitsland af. In de jaren na de oorlog werd De Witte Roos in Duitsland een belangrijk symbool. De groep liet zien dat ook gewone burgers wisten wat er gebeurde en konden kiezen. Tegelijk blijft het een verhaal van een kleine minderheid: de meeste Duitsers zwegen of steunden het regime.'
  ],
+ gevolgen: [
+  "Militair veranderde de actie niets, en de meeste Duitsers hoorden er nauwelijks van. Toch werd het zesde pamflet in Engeland gedrukt als ‘Manifest van de Münchense studenten’, en in grote aantallen door de RAF boven Duitsland uitgestrooid.",
+  "Na de oorlog werd de groep in Duitsland een belangrijk voorbeeld van moed en eigen geweten. Honderden scholen en straten kregen de naam van Hans en Sophie Scholl."
+ ],
+ misverstanden: [
+  ["“De Witte Roos was een grote verzetsbeweging.”","Het was een kleine groep vrienden, met een paar contacten in andere steden. Juist daardoor laat het verhaal zien dat verzet ook een persoonlijke keuze van enkelingen kon zijn."]
+ ],
+ hoeWeten: [
+  "Alle zes de pamfletten zijn bewaard. Er zijn brieven en dagboeken van de leden. De verhoorverslagen van de Gestapo lagen na de oorlog in Oost-Duitse archieven en werden pas na 1990 openbaar. Ook vrienden, familie en medegevangenen vertelden later wat er gebeurde."
+ ],
+ nu: [
+  "Voor de hoofdingang van de universiteit in München liggen bronzen pamfletten in de bestrating, alsof ze zojuist zijn neergegooid. Het plein heet Geschwister-Scholl-Platz. De film Sophie Scholl uit 2005 maakte het verhaal ook voor jongeren bekend."
+ ],
+ vertellen: "Sophie Scholl was 21 jaar toen ze werd onthoofd. Volgens getuigen riep haar broer Hans op het moment van zijn executie nog: “Lang leve de vrijheid!”",
+ verbanden: [["Stalingrad","de nederlaag waarna de laatste pamfletten verschenen"],["Aanslag op Hitler","verzet binnen het leger"],["Hitler aan de macht","de dictatuur waartegen ze in verzet kwamen"]],
+ onderwijs: {"ka":["De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme).","Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust)."]},
  cijfers: [['Aantal pamfletten','6'],['Gearresteerd','18 februari 1943'],['Eerste executies','22 februari 1943'],['Ter dood gebrachte kernleden','6']],
  figuren: [['Sophie Scholl','studente, lid van De Witte Roos'],['Hans Scholl','student geneeskunde, medeoprichter'],['Christoph Probst','student, samen met de Scholls geëxecuteerd'],['Kurt Huber','professor, schreef het laatste pamflet']],
  bronnen: [['Wikipedia: Witte Roos',W('Witte Roos verzetsgroep')],['Wikipedia: Sophie Scholl',W('Sophie Scholl')]]
@@ -95,6 +143,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de strijders ging het niet om winnen, maar om de keuze hoe te sterven. Het was de grootste Joodse opstand van de oorlog. Het Poolse ondergrondse verzet leverde enkele wapens, maar veel te weinig. Polen buiten de muren zagen de rook boven de stad; sommigen hielpen vluchtelingen, anderen keken weg of verraadden hen. Overlevende Marek Edelman vertelde later jarenlang over de opstand.'
  ],
+ gevolgen: [
+  "Het getto werd volledig verwoest. Maar de opstand inspireerde ander verzet: later in 1943 kwamen ook gevangenen in de vernietigingskampen Treblinka en Sobibor in opstand, en een aantal van hen wist te ontsnappen.",
+  "Na de oorlog werd de opstand een symbool, zowel in Israël als in Polen en de rest van de wereld. Op 19 april wordt de opstand jaarlijks herdacht."
+ ],
+ misverstanden: [
+  ["“De Joden lieten zich zonder verzet wegvoeren.”","Gewapend verzet was bijna onmogelijk: de Joden waren uitgehongerd, hadden geen wapens en wisten lang niet wat hun te wachten stond. Toch was er veel verzet, van gewapende opstanden in getto’s en kampen tot geheime scholen en het in het geheim vastleggen van wat er gebeurde."]
+ ],
+ hoeWeten: [
+  "SS-generaal Stroop schreef een trots verslag met foto’s, met als titel ‘Er is geen Joodse woonwijk in Warschau meer!’. Daarin staat de beroemde foto van een jongetje met zijn handen omhoog. Ook het geheime archief van historicus Emanuel Ringelblum, in melkbussen en kisten begraven in het getto, werd na de oorlog in 1946 en 1950 opgegraven."
+ ],
+ nu: [
+  "In Warschau staat het Monument voor de Helden van het Getto. Daar knielde in 1970 de West-Duitse bondskanselier Willy Brandt, een gebaar dat de wereld over ging. Vlakbij staat het museum POLIN over de geschiedenis van de Poolse Joden."
+ ],
+ vertellen: "Willy Brandt was zelf nooit een nazi geweest; hij was juist voor Hitler naar Noorwegen gevlucht. Toch knielde hij op 7 december 1970 onverwacht bij het monument voor de opstandelingen. Later zei hij dat hij deed wat mensen doen als woorden tekortschieten.",
+ verbanden: [["Inval in Polen","het begin van de bezetting"],["Opstand van Warschau","de andere opstand in Warschau, in 1944"],["Bevrijding van Auschwitz","het einde van de vernietigingskampen"]],
+ onderwijs: {"ka":["Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust).","Het voeren van twee wereldoorlogen."]},
  cijfers: [['Duur','19 april – 16 mei 1943'],['Gedeporteerd zomer 1942','ca. 265.000'],['Inwoners getto op hoogtepunt','ruim 400.000'],['Gewapende strijders','enkele honderden']],
  figuren: [['Mordechaj Anielewicz','leider van de ŻOB'],['Marek Edelman','commandant ŻOB, overleefde'],['Jürgen Stroop','SS-generaal, sloeg de opstand neer']],
  bronnen: [['Wikipedia: Opstand in het getto van Warschau',W('Opstand in het getto van Warschau')],['Yad Vashem','https://www.yadvashem.org/'],['USHMM','https://www.ushmm.org/']]
@@ -113,6 +177,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Koersk wordt vaak de grootste tankslag uit de geschiedenis genoemd. De Sovjet-Unie leed zwaardere verliezen dan Duitsland, maar kon die beter aanvullen. Voor de soldaten aan beide kanten was het een slag van hitte, stof en brandende voertuigen. Burgers in de regio waren deels geëvacueerd of hadden aan de linies gewerkt. In de Duitse herinnering na de oorlog werd de nederlaag vaak aan Hitler toegeschreven; de rol van de Sovjetvoorbereiding kreeg minder aandacht.'
  ],
+ gevolgen: [
+  "Na Koersk deed Duitsland in het oosten geen grote aanval meer. Het Rode Leger trok in de herfst van 1943 de Dnjepr over en bevrijdde in november Kiev. Vanaf nu ging het voortdurend naar het westen.",
+  "Omdat Hitler troepen moest wegsturen naar Italië, werd ook duidelijk hoe de fronten met elkaar samenhingen."
+ ],
+ misverstanden: [
+  ["“Bij Prochorovka werd het Duitse tankleger vernietigd.”","Sovjetpropaganda maakte er na de oorlog de grootste tankslag aller tijden van, met zware Duitse verliezen. Onderzoek in de archieven liet zien dat de Duitsers bij Prochorovka relatief weinig tanks verloren, en de Sovjettroepen juist veel. De slag als geheel won het Rode Leger wel."]
+ ],
+ hoeWeten: [
+  "Sinds de jaren negentig konden historici Duitse en Russische archieven naast elkaar leggen. Daardoor zijn veel cijfers van na de oorlog bijgesteld. Ook luchtfoto’s en de verslagen van tankeenheden zijn gebruikt."
+ ],
+ nu: [
+  "Bij Prochorovka staat een groot monument, en in Rusland wordt 23 augustus herdacht als dag van de overwinning bij Koersk. De slag speelt een grote rol in de Russische herinnering aan de oorlog."
+ ],
+ vertellen: "Het Rode Leger wist precies wanneer de aanval zou komen, onder meer door een gevangengenomen Duitse soldaat. Daarom liet het in de nacht van 4 op 5 juli, kort voor het Duitse bombardement zou beginnen, zelf al zijn geschut vuren op de plekken waar de Duitse troepen klaarstonden.",
+ verbanden: [["Stalingrad","het eerdere keerpunt"],["Operatie Bagration","het grote Sovjetoffensief van 1944"],["Val van Berlijn","het einde van de opmars"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Begin Zitadelle','5 juli 1943'],['Duitse troepen','ca. 750.000–900.000'],['Sovjettroepen incl. reserves','ca. 1,9 miljoen'],['Tanks totaal','naar schatting 6000–8000']],
  figuren: [['Erich von Manstein','Duitse veldmaarschalk, zuidelijke aanval'],['Walter Model','Duitse generaal, noordelijke aanval'],['Georgi Zjoekov','coördineerde de Sovjetverdediging'],['Konstantin Rokossovski','bevelhebber Centrale Front']],
  bronnen: [['Wikipedia: Slag om Koersk',W('Slag om Koersk')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -131,6 +211,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Indiase nationalisten werd de hongersnood het bewijs dat het koloniale bestuur de eigen bevolking ondergeschikt maakte aan de oorlog. Indiase soldaten vochten op dat moment juist voor het Britse Rijk. Historici zijn het oneens over het gewicht van natuur, markt en beleid. Amartya Sen, die het als kind meemaakte, liet later zien dat er niet per se te weinig voedsel was, maar dat arme mensen het niet konden betalen.'
  ],
+ gevolgen: [
+  "Naar schatting twee tot drie miljoen mensen kwamen om. De hongersnood versterkte de roep om onafhankelijkheid, die in 1947 werd bereikt, met de deling van Brits-Indië in India en Pakistan. Bengalen werd daarbij ook gesplitst; het oostelijke deel is nu Bangladesh.",
+  "De econoom Amartya Sen, die de hongersnood als kind meemaakte, onderzocht later hoe hongersnoden ontstaan. Hij kreeg in 1998 de Nobelprijs voor Economie. Een van zijn bekendste conclusies is dat er in een democratie met een vrije pers nog nooit een grote hongersnood is geweest."
+ ],
+ misverstanden: [
+  ["“De hongersnood kwam door een mislukte oogst.”","De cycloon en de slechte oogst speelden mee, maar de belangrijkste oorzaken waren de oorlogseconomie, de prijsstijgingen, het wegvallen van rijst uit Birma en beleidskeuzes van de koloniale overheid en de Britse regering. Er was voedsel, maar arme mensen konden het niet meer betalen."]
+ ],
+ hoeWeten: [
+  "Na de oorlog onderzocht een Britse commissie de hongersnood. Er zijn ook krantenberichten, foto’s, overheidsdocumenten en getuigenissen van overlevenden. Over de rol van Churchill wordt tussen historici nog steeds gediscussieerd."
+ ],
+ nu: [
+  "In India en Bangladesh is de hongersnood een belangrijk deel van de herinnering aan de koloniale tijd. In Groot-Brittannië is er de laatste jaren meer aandacht voor, ook als onderdeel van de discussie over het koloniale verleden."
+ ],
+ vertellen: "In augustus 1943 plaatste de Britse hoofdredacteur van de krant The Statesman in Calcutta foto’s van stervende mensen op straat, ondanks de censuur. De beelden schokten lezers in India en Groot-Brittannië, en droegen eraan bij dat er eindelijk hulp op gang kwam.",
+ verbanden: [["Indiase soldaten aan het Westfront","Indiërs in de Eerste Wereldoorlog"],["De Hongerwinter","honger in bezet Nederland"],["De Birma-spoorweg","de Japanse bezetting van Birma"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Opkomst van verzet in de koloniën tegen het West-Europese imperialisme."]},
  cijfers: [['Doden','naar schatting 2–3 miljoen'],['Inwoners Bengalen','ca. 60 miljoen'],['Cycloon','oktober 1942'],['Zwaarste periode','1943']],
  figuren: [['Archibald Wavell','onderkoning vanaf oktober 1943'],['Winston Churchill','Britse premier'],['Amartya Sen','econoom, onderzocht de oorzaken']],
  bronnen: [['Wikipedia: Hongersnood in Bengalen 1943',W('Hongersnood Bengalen 1943')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -149,6 +245,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Franse burgers in Normandië bracht de bevrijding ook verwoesting. Steden als Caen werden zwaar gebombardeerd en in de hele slag om Normandië kwamen ca. 20.000 Franse burgers om. Aan Duitse kant stonden veel jonge rekruten en ook Oost-Europese krijgsgevangenen die in het Duitse leger waren ingelijfd. Ook Franse, Poolse en Noorse eenheden en Nederlandse schepen deden mee.'
  ],
+ gevolgen: [
+  "Er was nu een tweede front in het westen, en Duitsland moest op twee fronten tegelijk vechten. Binnen drie maanden waren Frankrijk en België grotendeels bevrijd, en in september 1944 bereikten de geallieerden het zuiden van Nederland.",
+  "De landing in Normandië is ook een voorbeeld van samenwerking op enorme schaal: legers, marines en luchtmachten van een tiental landen werkten samen in één operatie."
+ ],
+ misverstanden: [
+  ["“D-Day besliste de oorlog.”","D-Day was heel belangrijk, maar in dezelfde maanden vocht het grootste deel van het Duitse leger aan het oostfront, waar het Rode Leger met Operatie Bagration een nog grotere aanval deed."],
+  ["“De D in D-Day staat voor iets bijzonders.”","De D staat gewoon voor ‘day’. Legers gebruikten D-Day voor de dag waarop een operatie begint, en H-Hour voor het uur."]
+ ],
+ hoeWeten: [
+  "Er zijn duizenden foto’s en filmbeelden. De bekende foto’s van fotograaf Robert Capa op Omaha Beach zijn maar met een handvol overgebleven, omdat een groot deel van zijn filmrolletjes in Londen bij het ontwikkelen mislukte. Ook duizenden veteranen hebben hun verhaal verteld."
+ ],
+ nu: [
+  "Langs de kust van Normandië liggen musea, bunkers en grote begraafplaatsen, zoals de Amerikaanse begraafplaats bij Colleville. Bij Arromanches zijn nog resten te zien van de kunstmatige haven die de geallieerden meenamen. Ook de Nederlandse kanonneerboten Soemba en Flores beschoten op 6 juni de Duitse stellingen."
+ ],
+ vertellen: "De landing was gepland op 5 juni, maar er was storm. De Britse weerman James Stagg voorspelde een korte opklaring op 6 juni, en generaal Eisenhower besloot het erop te wagen. De Duitse weermannen zagen die opklaring niet. Generaal Rommel was daarom naar huis gereden, voor de verjaardag van zijn vrouw op 6 juni.",
+ verbanden: [["Evacuatie bij Duinkerken","het vertrek uit Frankrijk in 1940"],["Operatie Bagration","het grote Sovjetoffensief in dezelfde maand"],["Operatie Market Garden","de opmars naar Nederland"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Troepen aan land op 6 juni','ca. 156.000'],['Schepen en vaartuigen','ca. 7000'],['Geallieerde verliezen op D-Day','ca. 10.000 doden, gewonden en vermisten'],['Landingsstranden','5']],
  figuren: [['Dwight D. Eisenhower','opperbevelhebber geallieerde strijdkrachten'],['Bernard Montgomery','bevelhebber landstrijdkrachten'],['Erwin Rommel','Duitse bevelhebber kustverdediging'],['Gerd von Rundstedt','Duitse opperbevelhebber West']],
  bronnen: [['Wikipedia: Operatie Overlord',W('Operatie Overlord')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -167,6 +280,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Duitsland was het een grotere nederlaag dan Stalingrad, maar in het Westen kreeg Bagration minder aandacht dan D-Day, dat twee weken eerder plaatsvond. Voor de bevolking van Wit-Rusland kwam de bevrijding na enorme verliezen: in de hele oorlog verloor het land naar schatting een kwart van zijn inwoners. Na de bevrijding volgden ook Sovjetrepressie en mobilisatie van mannen voor het leger.'
  ],
+ gevolgen: [
+  "De Duitse Legergroep Midden was vrijwel vernietigd, met honderdduizenden doden, gewonden en gevangenen. Het was een van de grootste nederlagen in de Duitse militaire geschiedenis. Het Rode Leger stond in augustus 1944 aan de grens van Oost-Pruisen en bij Warschau.",
+  "Met de bevrijding van Majdanek in juli 1944 viel voor het eerst een groot vernietigingskamp bijna intact in geallieerde handen. Journalisten konden de gaskamers met eigen ogen zien."
+ ],
+ misverstanden: [
+  ["“D-Day was het grootste offensief van 1944.”","Bagration was veel groter, met ruim twee miljoen Sovjetsoldaten. In West-Europa is het veel minder bekend, omdat de herinnering aan de oorlog daar vooral over het westfront gaat."]
+ ],
+ hoeWeten: [
+  "Er zijn Sovjet- en Duitse legerarchieven, foto’s en filmbeelden van de bevrijding van Minsk en van Majdanek. Lange tijd was in het Westen vooral de Duitse kant van het verhaal bekend, uit memoires van Duitse generaals."
+ ],
+ nu: [
+  "In Belarus herinnert het monument van Chatyn aan de honderden dorpen die door Duitse eenheden werden platgebrand, vaak met de bewoners erin. Op 3 juli, de dag van de bevrijding van Minsk, viert Belarus zijn onafhankelijkheidsdag."
+ ],
+ vertellen: "Op 17 juli 1944 liet Stalin ruim 57.000 Duitse krijgsgevangenen in lange colonnes door Moskou lopen. Achter de stoet reden sproeiwagens die de straten schoonspoten, alsof de stad van de vijand werd gereinigd.",
+ verbanden: [["D-Day","de landing in het westen in dezelfde maand"],["Opstand van Warschau","waarbij het Rode Leger aan de Weichsel stopte"],["Bevrijding van Auschwitz","de bevrijding van de kampen"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust)."]},
  cijfers: [['Begin','22 juni 1944'],['Duitse verliezen','naar schatting 300.000–450.000'],['Opmars','ca. 500 km'],['Bevrijding Minsk','3 juli 1944']],
  figuren: [['Georgi Zjoekov','coördineerde het offensief'],['Konstantin Rokossovski','bevelhebber 1e Wit-Russische Front'],['Ernst Busch','Duitse bevelhebber Legergroep Midden'],['Walter Model','volgde Busch op']],
  bronnen: [['Wikipedia: Operatie Bagration',W('Operatie Bagration')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -185,6 +314,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Na de oorlog was het beeld van de samenzweerders lang omstreden. Veel Duitsers zagen hen eerst als verraders. Later werden ze geëerd als verzetsstrijders. Historici wijzen erop dat sommigen eerder hadden meegewerkt aan het regime en de oorlog. Voor geallieerde soldaten en voor de slachtoffers in de kampen veranderde de mislukte aanslag niets: de oorlog en de moordpartijen gingen nog bijna een jaar door.'
  ],
+ gevolgen: [
+  "Het regime werd daarna nog harder. Ook Rommel werd verdacht en moest in oktober 1944 zelfmoord plegen. In het laatste oorlogsjaar, na de mislukte aanslag, vielen meer Duitse soldaten dan in alle jaren daarvoor.",
+  "Na de oorlog werd 20 juli in West-Duitsland een belangrijke herdenkingsdag. Het liet zien dat er ook Duitsers waren die zich tegen Hitler keerden."
+ ],
+ misverstanden: [
+  ["“De samenzweerders wilden een democratie zoals die van nu.”","De meeste samenzweerders waren conservatief en nationalistisch. Ze wilden een einde aan Hitler en de oorlog, maar dachten niet aan een parlementaire democratie zoals de latere Bondsrepubliek. Sommigen hadden het regime eerder ook gesteund."]
+ ],
+ hoeWeten: [
+  "De Gestapo maakte uitgebreide rapporten over de verhoren. De processen voor het Volksgerichtshof werden gefilmd, omdat de nazi’s de beschuldigden wilden vernederen; op de beelden is te zien hoe rechter Freisler tegen hen schreeuwt. Juist die beelden maakten later indruk."
+ ],
+ nu: [
+  "In het Bendlerblock in Berlijn, waar Stauffenberg werd doodgeschoten, staat het Gedenkcentrum Duits Verzet. Op 20 juli leggen nieuwe soldaten van het Duitse leger daar hun eed af. De film Valkyrie uit 2008 maakte het verhaal wereldwijd bekend."
+ ],
+ vertellen: "Hitler overleefde vaker een aanslag. In november 1939 verstopte de timmerman Georg Elser in zijn eentje een bom in een pilaar van een bierkelder in München, waar Hitler een toespraak hield. Hitler vertrok dertien minuten eerder dan gepland. Toen de bom ontplofte, was hij al weg.",
+ verbanden: [["De Witte Roos","verzet van studenten"],["Val van Berlijn","het einde van Hitler"],["Hitler aan de macht","het begin van de dictatuur"]],
+ onderwijs: {"ka":["De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme).","Het voeren van twee wereldoorlogen."]},
  cijfers: [['Datum','20 juli 1944'],['Doden bij de explosie','4'],['Arrestaties','ca. 7000'],['Terechtgesteld','ca. 200']],
  figuren: [['Claus von Stauffenberg','plaatste de bom'],['Ludwig Beck','beoogd staatshoofd na de staatsgreep'],['Friedrich Olbricht','generaal, mede-organisator'],['Roland Freisler','voorzitter Volksgerichtshof']],
  bronnen: [['Wikipedia: Aanslag van 20 juli 1944',W('Aanslag van 20 juli 1944')],['Wikipedia: Claus von Stauffenberg',W('Claus von Stauffenberg')]]
@@ -203,6 +348,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Polen werd de opstand een nationaal trauma en een symbool van moed. Of hij verstandig was, is nog altijd een gevoelige vraag. In de communistische tijd werd de rol van het Thuisleger verzwegen. Over Stalins houding verschillen historici: militaire redenen speelden mee, maar ook het politieke belang van een verzwakt Pools verzet. Onder de piloten die voorraden droppen waren Poolse, Britse en Zuid-Afrikaanse bemanningen.'
  ],
+ gevolgen: [
+  "Warschau werd voor ongeveer 85 procent verwoest, en naar schatting 150.000 tot 200.000 burgers kwamen om. Het Thuisleger was verslagen, en na de oorlog kon de Sovjet-Unie in Polen een communistisch bewind installeren.",
+  "De herbouw van de oude stad werd een nationaal project. In 1980 kwam het historische centrum van Warschau op de Werelderfgoedlijst, als voorbeeld van een bijna volledige reconstructie."
+ ],
+ misverstanden: [
+  ["“De Opstand van Warschau en de opstand in het getto zijn hetzelfde.”","Het zijn twee verschillende opstanden. In 1943 kwamen de laatste Joden van het getto in opstand. In 1944 kwam het Poolse Thuisleger in de hele stad in opstand. Ook sommige Joodse overlevenden van het getto vochten in 1944 mee."]
+ ],
+ hoeWeten: [
+  "Er zijn veel foto’s en filmbeelden, gemaakt door de opstandelingen zelf, die een eigen persdienst hadden. Daarnaast zijn er dagboeken, radio-uitzendingen van de opstandelingen en Duitse verslagen. In de communistische tijd was het lange tijd moeilijk om er openlijk over te schrijven."
+ ],
+ nu: [
+  "Elk jaar op 1 augustus om vijf uur ’s middags klinken in Warschau sirenes en staat de stad een minuut stil: auto’s stoppen, voetgangers blijven staan. In 2004 opende het Museum van de Opstand van Warschau."
+ ],
+ vertellen: "Bij de herbouw van de oude stad gebruikten architecten onder meer schilderijen van Bernardo Bellotto, een Italiaanse schilder die in de 18e eeuw de straten van Warschau heel precies had geschilderd. Zo konden gevels die helemaal verdwenen waren, toch weer worden nagebouwd.",
+ verbanden: [["Opstand in het getto van Warschau","de eerdere opstand in 1943"],["Operatie Bagration","het Rode Leger dat aan de Weichsel stond"],["Inval in Polen","het begin van de bezetting"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering.","De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme)."]},
  cijfers: [['Duur','63 dagen'],['Gesneuvelde opstandelingen','ca. 16.000–18.000'],['Burgerdoden','naar schatting 150.000–200.000'],['Verwoesting stad','ca. 85% na de oorlog']],
  figuren: [['Tadeusz Bór-Komorowski','commandant Thuisleger'],['Erich von dem Bach-Zelewski','SS-generaal, sloeg de opstand neer'],['Jozef Stalin','Sovjetleider']],
  bronnen: [['Wikipedia: Opstand van Warschau',W('Opstand van Warschau 1944')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -221,6 +382,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de bewoners van Arnhem en Oosterbeek eindigde de korte hoop in evacuatie: de hele stad Arnhem moest leeg. Op verzoek van de regering in Londen begon op 17 september een spoorwegstaking. Als vergelding legde de bezetter het voedseltransport stil, wat bijdroeg aan de Hongerwinter. De Poolse brigade van generaal Sosabowski kreeg na afloop ten onrechte een deel van de schuld. Voor de Duitsers was het een zeldzaam succes in een periode van terugtrekking.'
  ],
+ gevolgen: [
+  "Eindhoven, Nijmegen en een deel van Brabant en Limburg waren bevrijd, maar boven de grote rivieren bleef Nederland nog maanden bezet. Arnhem werd geëvacueerd en daarna geplunderd. Door de spoorwegstaking en de Duitse vergelding volgde in het westen de Hongerwinter.",
+  "De hoop op een einde van de oorlog voor Kerstmis vervloog. Pas in het voorjaar van 1945 werden de rest van Nederland en Arnhem bevrijd."
+ ],
+ misverstanden: [
+  ["“Market Garden was een volledige mislukking.”","Het hoofddoel, een brug over de Rijn, werd niet gehaald. Maar een groot deel van Zuid-Nederland werd wel bevrijd, en de Waalbrug in Nijmegen bleef in geallieerde handen."],
+  ["“De Polen waren schuld aan de nederlaag.”","Generaal Sosabowski kreeg na afloop een deel van de schuld, terwijl hij juist voor het plan had gewaarschuwd. In 2006 kreeg zijn Poolse brigade alsnog de Militaire Willems-Orde, en Sosabowski postuum de Bronzen Leeuw."]
+ ],
+ hoeWeten: [
+  "Er zijn legerverslagen, foto’s van Britse legerfotografen, dagboeken van soldaten en Nederlandse burgers, en veel interviews met veteranen. Het boek A Bridge Too Far van Cornelius Ryan uit 1974 en de film uit 1977 bepaalden lang het beeld."
+ ],
+ nu: [
+  "De verkeersbrug in Arnhem heet sinds 1977 de John Frostbrug, naar de Britse bataljonscommandant. In Oosterbeek staan het Airborne Museum en de Airborne-begraafplaats. Elk jaar lopen tienduizenden mensen de Airborne Wandeltocht en worden er herdenkingen gehouden."
+ ],
+ vertellen: "In Oosterbeek richtten Britse soldaten een hulppost in in het huis van Kate ter Horst, een moeder met jonge kinderen. Er lagen honderden gewonden in alle kamers. Kate ging bij hen langs en las hun voor uit de Bijbel, onder meer psalm 91. De Britse soldaten noemden haar de engel van Arnhem.",
+ verbanden: [["D-Day","de opmars door Frankrijk en België"],["Slag om de Schelde","wat er ondertussen bij Antwerpen bleef liggen"],["De Hongerwinter","het gevolg voor het westen van Nederland"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","De Duitse bezetting van Nederland."],"venster":"37. De Tweede Wereldoorlog"},
  cijfers: [['Duur','17 – 25 september 1944'],['Luchtlandingstroepen','ca. 35.000'],['Teruggehaald uit Oosterbeek','ruim 2000'],['Britse krijgsgevangenen','ca. 6000']],
  figuren: [['Bernard Montgomery','bedenker van het plan'],['Roy Urquhart','commandant Britse 1e Luchtlandingsdivisie'],['Stanisław Sosabowski','commandant Poolse parachutistenbrigade'],['John Frost','leidde het bataljon bij de brug']],
  bronnen: [['Wikipedia: Operatie Market Garden',W('Operatie Market Garden')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -239,6 +417,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de Zeeuwen was de bevrijding duur betaald. Bij het bombardement op Westkapelle kwamen ruim 150 burgers om. Walcheren stond maandenlang onder water en het zoute water verwoestte de landbouwgrond. De Canadezen leden zware verliezen, maar deze slag kreeg na de oorlog minder bekendheid dan Market Garden. Voor de vele Duitse soldaten op Walcheren, onder wie oudere mannen en zieken, eindigde de slag in gevangenschap.'
  ],
+ gevolgen: [
+  "Vanaf eind november 1944 kon de haven van Antwerpen gebruikt worden, en dat loste een groot deel van de aanvoerproblemen van de geallieerden op. Daarom richtten de Duitsers hun V-wapens op de stad.",
+  "Walcheren bleef bijna een jaar onder water. Pas in oktober 1945 werden de gaten in de dijken gedicht. Daarna moest de verzilte grond worden hersteld, en de herinrichting van het eiland duurde jaren."
+ ],
+ misverstanden: [
+  ["“Zeeland werd in september 1944 samen met België bevrijd.”","De Belgische steden werden in september bevrijd, maar in Zeeland duurde de strijd tot begin november. De Canadezen, Britten en Polen moesten polder voor polder veroveren."]
+ ],
+ hoeWeten: [
+  "Er zijn Canadese en Britse legerverslagen, luchtfoto’s van het ondergelopen Walcheren, en dagboeken en interviews van Zeeuwse burgers. Ook de oorlogsjournalisten van de Canadese legerfilmdienst maakten veel beelden."
+ ],
+ nu: [
+  "In Bergen op Zoom ligt een grote Canadese oorlogsbegraafplaats. Op de dijk bij Westkapelle staat een Sherman-tank als monument. In Zeeland wordt elk jaar herdacht, en Canadese veteranen werden tot hoge leeftijd met veel warmte ontvangen."
+ ],
+ vertellen: "Na de opening van de haven werd Antwerpen het belangrijkste doelwit van de Duitse V-wapens. Waarschijnlijk werd geen enkele stad door meer V-1’s en V-2’s getroffen. Een deel van de V-2’s werd afgevuurd vanuit Den Haag en omgeving.",
+ verbanden: [["Operatie Market Garden","waardoor de Schelde eerst bleef liggen"],["Bombardement op het Bezuidenhout","het mislukte bombardement op de V-2-lanceerplaatsen"],["Maastricht bevrijd","de bevrijding van het zuiden"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering.","De Duitse bezetting van Nederland."],"venster":"37. De Tweede Wereldoorlog"},
  cijfers: [['Duur','2 okt – 8 nov 1944'],['Geallieerde verliezen','ca. 12.000–13.000 doden, gewonden en vermisten'],['Burgerdoden Westkapelle 3 okt','ruim 150'],['Eerste konvooi in Antwerpen','28 november 1944']],
  figuren: [['Guy Simonds','Canadese bevelhebber tijdens de slag'],['Bernard Montgomery','Britse bevelhebber'],['Stanisław Maczek','commandant Poolse pantserdivisie']],
  bronnen: [['Wikipedia: Slag om de Schelde',W('Slag om de Schelde')],['Wikipedia: Inundatie van Walcheren',W('Inundatie van Walcheren')]]
