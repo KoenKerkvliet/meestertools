@@ -41,6 +41,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'In Japan werd de verovering door veel mensen toegejuicht. Voor Chinezen was het een nationale vernedering die leidde tot boycots van Japanse waren. In Mantsjoekwo werden Chinese en Koreaanse boeren van hun land verdreven voor Japanse kolonisten. In de buurt van Harbin richtte het Japanse leger later Eenheid 731 op, waar dodelijke experimenten op gevangenen werden gedaan.'
  ],
+ gevolgen: [
+  "Mantsjoerije werd een Japanse kolonie in alles behalve naam. Het leverde grondstoffen en werd een uitvalsbasis voor verdere expansie. In 1937 begon vanuit het noorden een open oorlog tegen heel China, die pas in 1945 eindigde.",
+  "Omdat de Volkenbond niets kon doen, zagen ook andere landen dat agressie weinig risico had. Italië viel in 1935 Ethiopië binnen en Duitsland trok zich steeds minder aan van internationale afspraken."
+ ],
+ misverstanden: [
+  ["“De Tweede Wereldoorlog begon op 1 september 1939.”","Dat geldt voor Europa. In Azië wordt het begin vaak gelegd bij de Japanse aanval op China in 1937, en in China zelf zelfs bij de inval in Mantsjoerije in 1931. Voor veel Chinezen duurde de oorlog veertien jaar."]
+ ],
+ hoeWeten: [
+  "Het rapport van de commissie-Lytton, die in 1932 namens de Volkenbond ter plaatse onderzoek deed, is een belangrijke bron. Daarnaast zijn er Japanse legerdocumenten, Chinese archieven en berichten van buitenlandse journalisten. Over Eenheid 731 kwam veel pas decennia later aan het licht."
+ ],
+ nu: [
+  "In China klinken op 18 september in veel steden luchtalarmsirenes ter herinnering aan het incident bij Mukden. In Shenyang staat een museum over 18 september 1931. De herinnering aan de Japanse bezetting speelt in de relatie tussen China en Japan nog steeds een grote rol."
+ ],
+ vertellen: "De marionettenkeizer Puyi had al op zijn tweede de Chinese troon bestegen, als laatste keizer van China. Na de oorlog zat hij jaren gevangen. Zijn leven eindigde heel gewoon: hij werkte als tuinman in de botanische tuin van Peking. Zijn verhaal werd in 1987 verfilmd als The Last Emperor.",
+ verbanden: [["Bloedbad van Nanking","de oorlog tegen China vanaf 1937"],["De Volkenbond","die machteloos bleek"],["Pearl Harbor","de uitbreiding van de oorlog in Azië"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","De economische wereldcrisis."]},
  cijfers: [['Incident bij Mukden','18 september 1931'],['Mantsjoekwo uitgeroepen','maart 1932'],['Japan uit de Volkenbond','1933'],['Oppervlakte Mantsjoekwo','ca. 1,3 miljoen km²']],
  figuren: [['Puyi','laatste keizer van China, staatshoofd van Mantsjoekwo'],['Zhang Xueliang','Chinese legeraanvoerder in Mantsjoerije'],['Ishiwara Kanji','Japanse officier, medeplanner van het incident']],
  bronnen: [['Wikipedia: Incident van Mukden',W('Mukden-incident')],['Wikipedia: Mantsjoekwo',W('Mantsjoekwo')]]
@@ -59,6 +75,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Veel Duitsers zagen Hitler als redder die orde en werk zou brengen. Voor politieke tegenstanders, Joden en andere minderheden begon direct een tijd van angst. Al op 1 april 1933 werden Joodse winkels geboycot. In Nederland en andere buurlanden volgde men het nieuws met zorg, maar ook met de hoop dat het zou overwaaien.'
  ],
+ gevolgen: [
+  "Binnen anderhalf jaar was Duitsland een dictatuur. Tegenstanders verdwenen in kampen of vluchtten naar het buitenland, en Joden werden stap voor stap uit de samenleving gestoten. Hitler begon direct met de herbewapening, wat in 1939 uitmondde in oorlog.",
+  "De machtsovername wordt vaak gebruikt als voorbeeld van hoe een democratie van binnenuit kan worden afgebroken, met legale middelen en de hulp van mensen die dachten de nazi’s te kunnen beheersen."
+ ],
+ misverstanden: [
+  ["“De Duitsers kozen Hitler met een meerderheid aan de macht.”","De NSDAP kreeg bij vrije verkiezingen nooit een meerderheid; het hoogste was 37 procent. Hitler werd benoemd door president Hindenburg. Bij de verkiezingen van maart 1933, al onder terreur, haalde de partij 44 procent."],
+  ["“Hitler loste de werkloosheid op met de aanleg van snelwegen.”","De snelwegen leverden relatief weinig banen op. De werkloosheid daalde vooral door de wereldwijde economische opleving, de herbewapening, de dienstplicht en doordat vrouwen en Joden uit de statistieken werden gedrukt."]
+ ],
+ hoeWeten: [
+  "Er zijn verkiezingsuitslagen, verslagen van de Rijksdag, kranten, de dagboeken van propagandaminister Goebbels en foto’s en films die de nazi’s zelf maakten. Juist die propaganda laat zien hoe de nazi’s zichzelf wilden presenteren."
+ ],
+ nu: [
+  "De Duitse grondwet van 1949 werd zo gemaakt dat een machtsovername als in 1933 moeilijker is: partijen die de democratie willen afschaffen, kunnen worden verboden. In Berlijn laat het museum Topographie des Terrors zien hoe het naziregime werkte."
+ ],
+ vertellen: "Bij de stemming over de Machtigingswet in maart 1933 stonden SA-mannen in de zaal. Alleen de sociaaldemocraten stemden tegen; de communisten waren al opgepakt. Hun leider Otto Wels zei: “Vrijheid en leven kunt u ons afnemen, maar onze eer niet.”",
+ verbanden: [["De Neurenberger rassenwetten","de eerste wettelijke vervolging van Joden"],["Revolutie in Duitsland","het begin van de republiek die Hitler afschafte"],["Verdrag van Versailles","de wrok die Hitler uitbuitte"]],
+ onderwijs: {"ka":["De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme).","De rol van moderne propaganda- en communicatiemiddelen en vormen van massa-organisatie.","De economische wereldcrisis."]},
  cijfers: [['NSDAP juli 1932','ca. 37% van de stemmen'],['Nazi’s in eerste kabinet','3 van de ca. 11 ministers'],['Machtigingswet','23 maart 1933'],['Werklozen begin 1933','ca. 6 miljoen']],
  figuren: [['Adolf Hitler','leider van de NSDAP, rijkskanselier'],['Paul von Hindenburg','rijkspresident'],['Franz von Papen','vicekanselier, hielp Hitler aan de macht']],
  bronnen: [['Wikipedia: Machtsovername van de nazi’s',W('Machtsovername van de NSDAP')],['Wikipedia: Machtigingswet',W('Machtigingswet 1933')]]
@@ -77,6 +110,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Duitse Joden voelde de wet als een definitief signaal dat ze er niet meer bij hoorden. Velen probeerden te emigreren, maar andere landen lieten maar beperkt vluchtelingen toe. In het buitenland klonk kritiek, maar in 1936 kwamen de meeste landen gewoon naar de Olympische Spelen in Berlijn. Later dienden de definities uit 1935 als basis voor registratie en deportatie in bezet Europa, ook in Nederland.'
  ],
+ gevolgen: [
+  "De wetten maakten discriminatie tot gewoon recht. Joodse Duitsers verloren hun rechten als burger, en in de jaren daarna volgden steeds meer verboden: op beroepen, op scholen, op bezit. De vastgelegde definitie van wie Jood was, werd later gebruikt om mensen te registreren en te deporteren.",
+  "In het bezette Nederland voerden de Duitsers in 1940 en 1941 vergelijkbare regels in. Ambtenaren moesten de ‘ariërverklaring’ tekenen, Joodse ambtenaren werden ontslagen en Joden moesten zich laten registreren. Hun persoonsbewijs kreeg een grote J."
+ ],
+ misverstanden: [
+  ["“De nazi’s bepaalden wie Joods was aan de hand van het geloof.”","Wat iemand zelf geloofde, deed er niet toe. Beslissend was het aantal grootouders dat lid was geweest van een Joodse gemeente. Ook mensen die christen waren of helemaal niet gelovig, golden zo als Jood."]
+ ],
+ hoeWeten: [
+  "De wetten zijn gewoon gepubliceerd in het Duitse staatsblad. Een door Hitler ondertekend origineel werd in 1945 door Amerikaanse soldaten gevonden en door generaal Patton meegenomen. Het lag tientallen jaren in een bibliotheek in Californië en is sinds 2010 in het Nationaal Archief van de Verenigde Staten."
+ ],
+ nu: [
+  "In Neurenberg staat op het oude partijdagterrein van de nazi’s een documentatiecentrum. Wetten tegen discriminatie en het eerste artikel van de Nederlandse Grondwet worden vaak uitgelegd tegen deze achtergrond."
+ ],
+ vertellen: "Om de wetten uit te leggen, maakten de nazi’s een schema met rondjes: witte rondjes voor ‘Duitse’ en zwarte voor ‘Joodse’ grootouders. Zo kon je aflezen of iemand ‘Duitsbloedig’, ‘gemengd’ of ‘Joods’ was. Dat zo’n schema gewoon in boekjes en op affiches stond, laat zien hoe de vervolging werd georganiseerd als een kwestie van papier en regels.",
+ verbanden: [["Hitler aan de macht","het begin van de vervolging"],["Kristallnacht","het geweld van 1938"],["Wannseeconferentie","de organisatie van de moord"]],
+ onderwijs: {"ka":["Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust).","De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme)."]},
  cijfers: [['Joden in Duitsland 1933','ca. 500.000'],['Aantal wetten','2, plus uitvoeringsregels'],['Aangenomen','15 september 1935'],['Joden vertrokken uit Duitsland tot 1939','naar schatting ca. 250.000–300.000']],
  figuren: [['Adolf Hitler','kondigde de wetten aan in Neurenberg'],['Wilhelm Frick','minister van Binnenlandse Zaken'],['Hans Globke','ambtenaar, schreef commentaar bij de wetten']],
  bronnen: [['Wikipedia: Neurenberger wetten',W('Neurenberger wetten')],['United States Holocaust Memorial Museum','https://www.ushmm.org/']]
@@ -95,6 +144,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor China is Nanking een centraal symbool van het lijden onder Japan. In Japan is de herinnering omstreden; sommige nationalisten bagatelliseren of ontkennen het bloedbad, wat steeds opnieuw leidt tot diplomatieke spanningen. De dagboeken van buitenlanders zoals Rabe en de Amerikaanse lerares Minnie Vautrin zijn belangrijke bronnen geworden.'
  ],
+ gevolgen: [
+  "De val van Nanking brak het Chinese verzet niet. De regering verhuisde naar Chongqing en vocht door. Het bloedbad versterkte de wil om tegen Japan te strijden en werd internationaal bekend door berichten van buitenlanders.",
+  "Na de oorlog werden Japanse officieren in Tokio en Nanking berecht voor de misdaden. De gebeurtenissen speelden een belangrijke rol in de ontwikkeling van het begrip oorlogsmisdaad in internationaal recht."
+ ],
+ misverstanden: [
+  ["“Over Nanking bestaan alleen Chinese verhalen.”","Er zijn ook dagboeken en brieven van Amerikanen en Europeanen die in de stad waren, foto’s, en zelfs filmbeelden van de Amerikaanse dominee John Magee. Daarnaast zijn er dagboeken van Japanse soldaten. Over het precieze aantal doden verschillen historici, maar niet over het feit dat het gebeurde."]
+ ],
+ hoeWeten: [
+  "Belangrijke bronnen zijn de dagboeken van John Rabe en Minnie Vautrin, de film van John Magee, de processtukken van het Tribunaal van Tokio en getuigenissen van overlevenden. In 2015 kwamen de documenten over Nanking op de UNESCO-lijst van het Geheugen van de Wereld, tot ongenoegen van de Japanse regering."
+ ],
+ nu: [
+  "In Nanjing staat een groot herdenkingsmuseum. Sinds 2014 is 13 december in China een nationale herdenkingsdag. Het onderwerp leidt nog regelmatig tot spanningen tussen China en Japan, bijvoorbeeld over Japanse schoolboeken."
+ ],
+ vertellen: "De Duitse zakenman John Rabe was lid van de nazipartij. Toch redde hij in Nanking duizenden Chinezen. Hij liet een enorme hakenkruisvlag uitspreiden in zijn tuin, zodat Japanse vliegers het terrein niet zouden bombarderen, en ving er honderden vluchtelingen op. Terug in Duitsland werd hij door de Gestapo verhoord omdat hij over de misdaden vertelde.",
+ verbanden: [["Japan valt Mantsjoerije binnen","het begin van de Japanse expansie"],["Proces van Neurenberg","de berechting van oorlogsmisdaden"],["Japan capituleert","het einde van de oorlog in Azië"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering."]},
  cijfers: [['Duur van het geweld','ca. 6 weken'],['Doden (schattingen)','ca. 40.000 tot ruim 200.000'],['Officieel Chinees cijfer','300.000'],['Mensen in de veiligheidszone','ca. 200.000–250.000']],
  figuren: [['John Rabe','Duitse zakenman, leider van de veiligheidszone'],['Minnie Vautrin','Amerikaanse lerares, beschermde vrouwen'],['Iwane Matsui','Japanse bevelhebber, later geëxecuteerd'],['Chiang Kai-shek','leider van nationalistisch China']],
  bronnen: [['Wikipedia: Bloedbad van Nanking',W('Bloedbad van Nanking')],['Wikipedia: John Rabe',W('John Rabe')]]
@@ -113,6 +178,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Tsjechen en Slowaken was München verraad door hun bondgenoten; ze spreken nog altijd van ‘over ons, zonder ons’. Het land verloor zijn verdedigingslinies en zware industrie. Sovjetleider Stalin, die ook niet was uitgenodigd, wantrouwde het Westen daarna nog meer. Veel Joden en tegenstanders van de nazi’s in het Sudetenland moesten vluchten.'
  ],
+ gevolgen: [
+  "Tsjechoslowakije verloor zijn grensgebied, zijn verdedigingswerken en een groot deel van zijn industrie. Een half jaar later bezette Duitsland de rest van het land. Daarna gaven Groot-Brittannië en Frankrijk Polen een garantie, wat in september 1939 tot oorlog leidde.",
+  "München werd het symbool van de mislukte politiek van toegeven, de appeasement. In latere crises, tot in onze tijd, waarschuwen politici vaak voor ‘een nieuw München’."
+ ],
+ misverstanden: [
+  ["“Chamberlain was naïef en had Hitler meteen moeten tegenhouden.”","Achteraf lijkt dat duidelijk, maar in 1938 wilde bijna niemand in Groot-Brittannië en Frankrijk een nieuwe oorlog. Het leger was er nog niet klaar voor. Sommige historici zien München als een manier om tijd te winnen voor de herbewapening; anderen vinden dat Hitler daardoor juist sterker werd."]
+ ],
+ hoeWeten: [
+  "Er zijn verslagen van de besprekingen, diplomatieke telegrammen, dagboeken van betrokkenen en film- en geluidsopnamen van Chamberlains terugkeer. Ook Tsjechoslowaakse archieven laten zien hoe het land zelf de gebeurtenissen beleefde."
+ ],
+ nu: [
+  "In Tsjechië is de uitdrukking ‘over ons, zonder ons’ nog altijd bekend. Het Sudetenland bleef na 1945 bij Tsjechoslowakije, en de Duitstalige bevolking werd toen verdreven. Dat is tot vandaag een gevoelig onderwerp tussen Duitsland en Tsjechië."
+ ],
+ vertellen: "Bij zijn terugkeer zwaaide Chamberlain op het vliegveld met een velletje papier, ondertekend door hemzelf en Hitler. Later die dag sprak hij vanuit Downing Street over “vrede voor onze tijd”. Elf maanden later was het oorlog.",
+ verbanden: [["Molotov-Ribbentroppact","Stalins reactie op het wantrouwen"],["Inval in Polen","waar het toegeven eindigde"],["Verdrag van Versailles","de grenzen van 1919 die Hitler wilde veranderen"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme)."]},
  cijfers: [['Duitstaligen in het Sudetenland','ca. 3 miljoen'],['Deelnemende landen','4'],['Termijn voor overdracht','10 dagen'],['Bezetting rest-Tsjechië','maart 1939']],
  figuren: [['Neville Chamberlain','Britse premier'],['Édouard Daladier','Franse premier'],['Edvard Beneš','president van Tsjechoslowakije'],['Benito Mussolini','Italiaanse dictator, bemiddelaar']],
  bronnen: [['Wikipedia: Akkoord van München',W('Akkoord van München')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -131,6 +212,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Joden in Duitsland was nu duidelijk dat er geen toekomst was. Duizenden probeerden te vluchten, maar veel landen hielden de grenzen grotendeels dicht. Nederland liet in beperkte mate vluchtelingen toe en bouwde in 1939 Kamp Westerbork. Groot-Brittannië nam met de Kindertransporten ca. 10.000 Joodse kinderen op, meestal zonder hun ouders. Veel niet-Joodse Duitsers keken toe of keken weg.'
  ],
+ gevolgen: [
+  "Na de Kristallnacht vluchtten zoveel Joden als maar konden. Tussen november 1938 en het begin van de oorlog verlieten nog tienduizenden Duitsland en Oostenrijk. Velen kwamen terecht in buurlanden als Nederland, waar ze in 1940 opnieuw onder Duits gezag vielen.",
+  "Joden werden daarna volledig uit het economische leven verdreven. Hun bedrijven werden ‘gearianiseerd’, Joodse kinderen mochten niet meer naar gewone scholen. De stap van uitsluiting naar geweld was gezet."
+ ],
+ misverstanden: [
+  ["“Het was een spontane uitbarsting van woede onder de Duitse bevolking.”","Zo presenteerde de nazipropaganda het. In werkelijkheid werd het geweld georganiseerd door Goebbels en uitgevoerd door de SA, SS en andere partijorganisaties, vaak in burgerkleding. Een deel van de bevolking deed mee, een ander deel keek zwijgend toe."]
+ ],
+ hoeWeten: [
+  "Er zijn foto’s van brandende synagogen en vernielde winkels, interne nazi-rapporten over de schade, berichten van buitenlandse diplomaten en journalisten, en getuigenissen van Joodse overlevenden."
+ ],
+ nu: [
+  "Op 9 november wordt de Kristallnacht in Duitsland, Oostenrijk en Nederland herdacht. Op veel plekken herinneren gedenkstenen of lege plekken aan verwoeste synagogen, en de Stolpersteine in het trottoir aan de mensen die er woonden."
+ ],
+ vertellen: "Na de Kristallnacht reisde de Amsterdamse Truus Wijsmuller naar Wenen, naar Adolf Eichmann zelf. Om haar af te schepen, gaf hij toestemming om binnen vijf dagen zeshonderd Joodse kinderen mee te nemen, op de sabbat. Het lukte: op 10 december 1938 vertrokken ze. Vijfhonderd reisden via Hoek van Holland naar Engeland, honderd bleven in Nederland.",
+ verbanden: [["De Neurenberger rassenwetten","de wettelijke uitsluiting"],["Kamp Westerbork","het kamp voor Joodse vluchtelingen"],["Wannseeconferentie","de stap naar massamoord"]],
+ onderwijs: {"ka":["Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust).","De rol van moderne propaganda- en communicatiemiddelen en vormen van massa-organisatie."]},
  cijfers: [['Opgepakte Joodse mannen','ca. 30.000'],['Beschadigde of verwoeste synagogen','ruim 1000'],['Boete opgelegd aan Joden','1 miljard rijksmark'],['Kinderen naar Groot-Brittannië','ca. 10.000']],
  figuren: [['Herschel Grynszpan','schoot Ernst vom Rath neer'],['Joseph Goebbels','propagandaminister, zette het geweld in gang'],['Reinhard Heydrich','leidde de arrestaties']],
  bronnen: [['Wikipedia: Kristallnacht',W('Kristallnacht')],['Yad Vashem','https://www.yadvashem.org/'],['United States Holocaust Memorial Museum','https://www.ushmm.org/']]
@@ -149,6 +246,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Polen en de Baltische volken betekende het pact bezetting, deportaties en massamoord door twee dictaturen tegelijk. Communisten in West-Europa, ook in Nederland, raakten in verwarring omdat ze opeens geen kritiek meer mochten hebben op Duitsland. De Sovjet-Unie ontkende het bestaan van het geheime protocol tot 1989. Datzelfde jaar vormden ca. twee miljoen mensen in de Baltische staten op de verjaardag een menselijke keten.'
  ],
+ gevolgen: [
+  "Hitler kon Polen aanvallen zonder een oorlog met de Sovjet-Unie te riskeren. Stalin kreeg tijd en grondgebied: Oost-Polen, de Baltische staten en Bessarabië. Hij viel ook Finland aan, dat zich in de Winteroorlog fel verzette.",
+  "Na de oorlog hield de Sovjet-Unie de gebieden die ze dankzij het pact had gekregen. De Baltische staten werden pas in 1991 weer onafhankelijk."
+ ],
+ misverstanden: [
+  ["“De Sovjet-Unie stond vanaf het begin aan de kant van de geallieerden.”","Van 1939 tot juni 1941 werkten de Sovjet-Unie en nazi-Duitsland samen. Ze verdeelden Polen en dreven handel: de Sovjet-Unie leverde graan en olie aan Duitsland. Pas na de Duitse aanval in 1941 werd ze een bondgenoot van Groot-Brittannië en later de Verenigde Staten."]
+ ],
+ hoeWeten: [
+  "Een kopie van het geheime protocol werd na de oorlog in Duitse archieven gevonden en al in 1948 in het Westen gepubliceerd. De Sovjet-Unie hield vol dat het nep was, tot ze in 1989 toegaf dat het echt bestond. Het Russische origineel werd pas in 1992 openbaar."
+ ],
+ nu: [
+  "Op 23 augustus herdenkt de Europese Unie de slachtoffers van totalitaire regimes, zowel van het nazisme als van het communisme. In Rusland wordt het pact nog altijd vaak verdedigd als een noodzakelijke stap."
+ ],
+ vertellen: "Volgens Duitse verslagen hief Stalin bij de ondertekening in Moskou het glas op Hitler. “Ik weet hoeveel het Duitse volk van zijn Führer houdt,” zou hij gezegd hebben. Twee jaar later stonden hun legers tegenover elkaar in de bloedigste oorlog uit de geschiedenis.",
+ verbanden: [["Inval in Polen","de gezamenlijke aanval"],["Akkoord van München","Stalins wantrouwen tegenover het Westen"],["Operatie Barbarossa","het einde van het pact"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme)."]},
  cijfers: [['Getekend','23 augustus 1939'],['Geldig tot','22 juni 1941'],['Erkenning geheim protocol door Moskou','1989'],['Baltische Weg (1989)','ca. 2 miljoen deelnemers']],
  figuren: [['Vjatsjeslav Molotov','Sovjet-minister van Buitenlandse Zaken'],['Joachim von Ribbentrop','Duitse minister van Buitenlandse Zaken'],['Jozef Stalin','leider van de Sovjet-Unie']],
  bronnen: [['Wikipedia: Molotov-Ribbentroppact',W('Molotov-Ribbentroppact')],['Wikipedia: Baltische Weg',W('Baltische Weg')]]
@@ -167,6 +280,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Polen begon een bezetting van bijna zes jaar. Duitsland vermoordde Poolse leiders, priesters en intellectuelen en sloot Joden op in getto’s. In het Sovjet-deel werden honderdduizenden mensen gedeporteerd, en in 1940 vermoordde de Sovjet-geheime dienst ca. 22.000 Poolse officieren en anderen, onder meer bij Katyn. Duizenden Poolse soldaten ontsnapten en vochten later mee aan geallieerde zijde, ook bij de bevrijding van Breda in 1944.'
  ],
+ gevolgen: [
+  "Met de inval begon de Tweede Wereldoorlog in Europa. Polen verdween van de kaart en werd verdeeld tussen Duitsland en de Sovjet-Unie. In het Duitse deel werden later de meeste vernietigingskampen gebouwd, zoals Auschwitz-Birkenau, Treblinka en Sobibor.",
+  "Na 1945 kreeg Polen nieuwe grenzen: het verloor gebied in het oosten aan de Sovjet-Unie en kreeg Duitse gebieden in het westen. Miljoenen mensen moesten verhuizen."
+ ],
+ misverstanden: [
+  ["“Poolse cavaleristen vielen met lansen Duitse tanks aan.”","Dat verhaal ontstond na een gevecht bij Krojanty, waar Poolse ruiters Duitse infanterie aanvielen en daarna door pantserwagens werden beschoten. Duitse en later ook Sovjetpropaganda maakten er een verhaal van over dappere maar domme Polen. Poolse cavalerie vocht meestal te voet, met moderne antitankwapens."]
+ ],
+ hoeWeten: [
+  "Er zijn Duitse en Poolse legerverslagen, foto’s die Duitse soldaten zelf maakten, en berichten van buitenlandse journalisten. Over de misdaden in het Sovjet-deel, zoals Katyn, waren de bronnen lang geheim; pas in 1990 erkende de Sovjet-Unie dat zij verantwoordelijk was."
+ ],
+ nu: [
+  "Op 1 september wordt bij de Westerplatte in Gdańsk het begin van de oorlog herdacht. In Nederland zijn de Polen vooral bekend als bevrijders van Breda in 1944, onder generaal Maczek, die in Breda begraven ligt."
+ ],
+ vertellen: "De Duitsers dachten dat de Poolse post op de Westerplatte bij Danzig binnen een paar uur zou vallen. Er lagen maar ongeveer tweehonderd soldaten. Ze hielden het zeven dagen vol tegen beschietingen van een slagschip, bombardementen en dertien aanvallen.",
+ verbanden: [["Molotov-Ribbentroppact","het geheime plan om Polen te verdelen"],["Opstand in het getto van Warschau","verzet in bezet Polen"],["Bevrijding van Auschwitz","het kamp in bezet Polen"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering."]},
  cijfers: [['Poolse militaire doden 1939','naar schatting ca. 66.000'],['Duitse militaire doden 1939','ca. 16.000'],['Slachtoffers Katyn en andere plaatsen','ca. 22.000'],['Poolse doden in de hele oorlog','ca. 5,5–6 miljoen, onder wie ca. 3 miljoen Joden']],
  figuren: [['Edward Rydz-Śmigły','Poolse opperbevelhebber'],['Ignacy Mościcki','president van Polen'],['Gerd von Rundstedt','Duitse legergroepscommandant']],
  bronnen: [['Wikipedia: Duitse inval in Polen',W('Duitse inval in Polen')],['Wikipedia: Bloedbad van Katyn',W('Bloedbad van Katyn')]]
@@ -185,6 +314,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de eerste bewoners was Westerbork een plek van veiligheid, maar ook van isolement. Voor de ruim 100.000 mensen die er later doorheen gingen, was het een wachtkamer in angst. Na de oorlog werd het een interneringskamp voor NSB’ers, daarna een woonoord voor Molukse gezinnen. Nu is het Herinneringscentrum Kamp Westerbork.'
  ],
+ gevolgen: [
+  "Westerbork werd de laatste plek in Nederland die ruim honderdduizend Joden zagen. Vanaf juli 1942 vertrokken er elke week treinen, meestal op dinsdag, naar Auschwitz en Sobibor, en later ook naar Theresienstadt en Bergen-Belsen. Ook Sinti en Roma werden via Westerbork gedeporteerd.",
+  "Van de ongeveer 140.000 Joden die in 1940 in Nederland woonden, werd ruim driekwart vermoord. Dat is een van de hoogste percentages in West-Europa."
+ ],
+ misverstanden: [
+  ["“De Duitsers hebben Kamp Westerbork gebouwd.”","De Nederlandse regering liet het kamp in 1939 bouwen als opvangkamp voor Joodse vluchtelingen uit Duitsland. De Duitsers maakten er in 1942 een doorgangskamp van."],
+  ["“Omdat er weinig mensen stierven, was Westerbork een mild kamp.”","Het kamp had een ziekenhuis, scholen en cabaret, en dat gaf veel bewoners hoop. Maar die schijn van normaliteit hield mensen rustig. Elke week moest een volgende groep op transport, en bijna niemand kwam terug."]
+ ],
+ hoeWeten: [
+  "Er zijn deportatielijsten, brieven en dagboeken, zoals de brieven van Etty Hillesum. In 1944 liet kampcommandant Gemmeker door de gevangene Rudolf Breslauer een film maken over het kamp. Die beelden, ook van vertrekkende treinen, zijn een van de belangrijkste bronnen geworden."
+ ],
+ nu: [
+  "Herinneringscentrum Kamp Westerbork vertelt het verhaal van het kamp. Op de appelplaats staat een monument van 102.000 stenen, één voor iedere gedeporteerde die niet terugkwam. Vlakbij staan de radiotelescopen van Westerbork."
+ ],
+ vertellen: "Een van de bekendste beelden uit de film van Westerbork laat een meisje met een hoofddoek zien in de deur van een wagon. Jarenlang werd ze gezien als symbool van de Jodenvervolging. In 1994 ontdekte een journalist wie ze was: Settela Steinbach, een Sintimeisje uit Buchten bij Born in Limburg. Ze werd in mei 1944 gedeporteerd en in Auschwitz vermoord. Ze was negen jaar.",
+ verbanden: [["Deportaties uit Westerbork","de transporten vanaf 1942"],["Anne Frank","die via Westerbork werd gedeporteerd"],["Kristallnacht","waarna de vluchtelingen kwamen"]],
+ onderwijs: {"ka":["Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust).","De Duitse bezetting van Nederland."],"venster":"37. De Tweede Wereldoorlog"},
  cijfers: [['Opening','9 oktober 1939'],['Onder Duits bevel','vanaf 1 juli 1942'],['Mensen via Westerbork gedeporteerd','ca. 102.000–107.000'],['Bevrijd','12 april 1945']],
  figuren: [['Albert Konrad Gemmeker','Duitse kampcommandant 1942–1945'],['Kurt Schlesinger','Duits-Joodse vluchteling, hoofd van de kampadministratie'],['Etty Hillesum','schreef brieven over het kamp']],
  bronnen: [['Herinneringscentrum Kamp Westerbork','https://www.kampwesterbork.nl/'],['Wikipedia: Kamp Westerbork',W('Kamp Westerbork')]]
@@ -203,6 +349,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Miljoenen Franse en Belgische burgers sloegen op de vlucht en verstopten de wegen. Ca. 1,8 miljoen Franse soldaten raakten in krijgsgevangenschap. Ook Afrikaanse koloniale soldaten vochten mee; zij werden soms na hun overgave door Duitse eenheden vermoord. Voor Duitse soldaten voelde de overwinning als een wonder, maar de snelheid ervan maakte Hitler overmoedig.'
  ],
+ gevolgen: [
+  "In zes weken waren Nederland, België, Luxemburg en Frankrijk verslagen. Groot-Brittannië stond er een jaar lang alleen voor, onder de nieuwe premier Winston Churchill, die op 10 mei aantrad.",
+  "Voor Nederland begon een bezetting van vijf jaar. Koningin Wilhelmina en de regering waren naar Londen uitgeweken, van waaruit ze via Radio Oranje bleven spreken. Het bestuur in Nederland kwam in handen van rijkscommissaris Seyss-Inquart."
+ ],
+ misverstanden: [
+  ["“De Duitsers hadden meer en betere tanks.”","Frankrijk en Groot-Brittannië hadden samen meer tanks, en sommige Franse tanks waren beter bewapend. Het Duitse voordeel zat in de manier van vechten: tanks werden geconcentreerd ingezet, met radio’s en steun van vliegtuigen. Ook de verrassing in de Ardennen was beslissend."],
+  ["“De Blitzkrieg was een vooraf bedachte Duitse strategie.”","Het woord kwam vooral uit de pers. Het plan was een riskante gok, en commandanten als Guderian en Rommel gingen vaak sneller dan hun eigen legerleiding wilde."]
+ ],
+ hoeWeten: [
+  "Er zijn uitgebreide legerarchieven van alle betrokken landen, dagboeken van soldaten en vluchtelingen, en veel foto’s en bioscoopjournaals, ook Duitse propagandafilms over de snelle overwinning."
+ ],
+ nu: [
+  "Delen van de Maginotlinie zijn te bezoeken. In Nederland herinneren monumenten bij de Grebbeberg, de Afsluitdijk en Rotterdam aan de meidagen van 1940. Op de Grebbeberg ligt een militair ereveld voor de gesneuvelden."
+ ],
+ vertellen: "Om dagenlang door te kunnen rijden, kregen veel Duitse soldaten pillen met de naam Pervitin, een soort speed. Er gingen miljoenen tabletten naar het front. Soldaten bleven er dagen mee wakker, maar raakten daarna uitgeput of verslaafd.",
+ verbanden: [["Bombardement op Rotterdam","de capitulatie van Nederland"],["Evacuatie bij Duinkerken","de ontsnapping van het Britse leger"],["De wapenstilstand","dezelfde treinwagon als in 1918"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","De Duitse bezetting van Nederland."],"venster":"37. De Tweede Wereldoorlog"},
  cijfers: [['Duur','ca. 6 weken'],['Franse krijgsgevangenen','ca. 1,8 miljoen'],['Franse militaire doden','naar schatting ca. 60.000–90.000'],['Duitse militaire doden','ca. 27.000']],
  figuren: [['Erich von Manstein','bedenker van het aanvalsplan'],['Heinz Guderian','Duitse pantsergeneraal'],['Maurice Gamelin','Franse opperbevelhebber'],['Charles de Gaulle','Franse officier, riep op 18 juni op tot verzet']],
  bronnen: [['Wikipedia: Slag om Frankrijk',W('Slag om Frankrijk')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -221,6 +384,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de Rotterdammers was het een trauma: ca. 600 tot 900 mensen kwamen om en ca. 80.000 werden dakloos. Duitsland gebruikte het bombardement als dreigement tegen andere landen. Voor de Britten werd het een argument om zelf ook Duitse steden aan te vallen. Het monument De verwoeste stad van Ossip Zadkine herinnert aan de verwoesting.'
  ],
+ gevolgen: [
+  "Nederland capituleerde dezelfde dag. Rotterdam verloor zijn historische binnenstad, en al in 1940 begonnen de plannen voor de wederopbouw. Na de oorlog werd het centrum heel anders opgebouwd, met brede straten en moderne gebouwen, zoals de Lijnbaan, een van de eerste autovrije winkelstraten van Europa.",
+  "Het bombardement werd een symbool van de Duitse agressie. Rotterdam groeide daarna uit tot een stad die bekendstaat om moderne architectuur."
+ ],
+ misverstanden: [
+  ["“De Duitsers bombardeerden Rotterdam nadat Nederland zich had overgegeven.”","De stad werd gebombardeerd terwijl er nog werd onderhandeld over de overgave. Daardoor voelde het als verraad. Een deel van de bommenwerpers zag de lichtkogels die de aanval moesten afblazen niet."],
+  ["“Rotterdam werd alleen in mei 1940 gebombardeerd.”","Ook de geallieerden bombardeerden Rotterdam later, vanwege de haven. Bij een Amerikaans bombardement op Rotterdam-West op 31 maart 1943 kwamen ongeveer 400 mensen om."]
+ ],
+ hoeWeten: [
+  "Er zijn foto’s en filmbeelden van de brandende en verwoeste stad, verslagen van de onderhandelingen, Duitse militaire stukken en getuigenissen van Rotterdammers. Op een speciale website staat een register van de mensen die omkwamen."
+ ],
+ nu: [
+  "Sinds 2010 is de grens van het afgebrande gebied in de straten gemarkeerd met lampjes in de vorm van rode vlammetjes. Elk jaar op 14 mei wordt het bombardement herdacht, onder meer bij het beeld De verwoeste stad van Ossip Zadkine, een figuur zonder hart."
+ ],
+ vertellen: "Wie door het centrum van Rotterdam loopt, kan de brandgrens nog volgen. In het trottoir liggen lichtjes die precies laten zien tot waar de stad in mei 1940 afbrandde. Aan de ene kant staan oude huizen, aan de andere kant gebouwen van na de oorlog.",
+ verbanden: [["Blitzkrieg in het westen","de Duitse aanval op Nederland"],["Bombardement op het Bezuidenhout","een ander bombardement op een Nederlandse stad"],["Bombardement op Dresden","bombardementen op steden later in de oorlog"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering.","De Duitse bezetting van Nederland."],"venster":"37. De Tweede Wereldoorlog"},
  cijfers: [['Doden','ca. 600–900'],['Daklozen','ca. 80.000'],['Verwoeste woningen','ca. 25.000'],['Capitulatie getekend','15 mei 1940, Rijsoord']],
  figuren: [['Pieter Scharroo','Nederlandse commandant van Rotterdam'],['Rudolf Schmidt','Duitse generaal, stelde het ultimatum'],['Henri Winkelman','Nederlandse opperbevelhebber']],
  bronnen: [['Wikipedia: Bombardement op Rotterdam',W('Bombardement op Rotterdam')],['NIOD','https://www.niod.nl/']]
@@ -239,6 +419,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'In Groot-Brittannië werd Duinkerken een verhaal van redding en veerkracht. Churchill waarschuwde echter dat oorlogen niet worden gewonnen met evacuaties. Voor de Franse soldaten die de achterhoede vormden, lag dat anders: tienduizenden van hen raakten in krijgsgevangenschap. In Frankrijk ontstond bitterheid over het gevoel dat de Britten eerst zichzelf in veiligheid brachten.'
  ],
+ gevolgen: [
+  "Groot-Brittannië verloor bijna al zijn zware wapens, maar het grootste deel van het leger was gered. Daardoor kon het land doorvechten. Kort daarna, in de zomer van 1940, volgde de Slag om Engeland.",
+  "Voor Frankrijk betekende de evacuatie dat de strijd op het vasteland bijna verloren was. Drie weken later tekende het land de wapenstilstand."
+ ],
+ misverstanden: [
+  ["“De meeste soldaten werden door kleine bootjes gered.”","De kleine boten waren belangrijk om soldaten vanaf het strand naar grotere schepen te brengen. Maar het grootste deel van de soldaten werd door torpedobootjagers en andere grote schepen opgehaald, vooral vanaf een lange havendam."]
+ ],
+ hoeWeten: [
+  "Er zijn verslagen van de Britse marine, logboeken van schepen, foto’s van de wachtende rijen op het strand en duizenden getuigenissen van soldaten. Ook Duitse en Franse bronnen beschrijven de strijd rond de stad."
+ ],
+ nu: [
+  "In Engeland bestaat nog een vereniging van de ‘Dunkirk Little Ships’, de bootjes die meededen; ze varen af en toe samen terug naar Duinkerken. De uitdrukking ‘de geest van Duinkerken’ staat in het Engels voor volhouden in moeilijke tijden. In 2017 verscheen de bekende film Dunkirk."
+ ],
+ vertellen: "Op 4 juni 1940, de laatste dag van de evacuatie, hield Churchill in het parlement zijn beroemdste toespraak: “Wij zullen vechten op de stranden, wij zullen vechten op de landingsplaatsen, in de velden en in de straten. Wij zullen ons nooit overgeven.” Hij waarschuwde ook dat oorlogen niet met evacuaties worden gewonnen.",
+ verbanden: [["Blitzkrieg in het westen","de doorbraak die tot de insluiting leidde"],["Slag om Engeland","de volgende fase"],["D-Day","de terugkeer naar Frankrijk in 1944"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Geëvacueerde soldaten','ca. 338.000'],['Waarvan Frans en overig geallieerd','ca. 140.000'],['Duur','26 mei – 4 juni 1940'],['Deelnemende schepen en boten','ca. 850']],
  figuren: [['Bertram Ramsay','Britse admiraal, leidde Operatie Dynamo'],['Winston Churchill','Britse premier'],['Lord Gort','bevelhebber van de Britse expeditiemacht']],
  bronnen: [['Wikipedia: Operatie Dynamo',W('Operatie Dynamo')],['Imperial War Museums','https://www.iwm.org.uk/']]
