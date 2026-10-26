@@ -2,7 +2,7 @@
 // - Pagina en gegevens: eerst het netwerk (zo zie je updates meteen), offline uit de cache.
 // - Afbeeldingen: uit de cache zodra ze één keer bekeken zijn.
 // - Lettertypen en de pdf-maker (externe bronnen): cache, op de achtergrond ververst.
-const VERSION = 'v19';
+const VERSION = 'v20';
 const SHELL = 'tijdlijn-shell-' + VERSION;
 const IMG = 'tijdlijn-img-v2';
 const EXT = 'tijdlijn-ext-v1';

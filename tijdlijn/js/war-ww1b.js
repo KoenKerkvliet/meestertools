@@ -39,6 +39,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor veel Arabieren voelde de afloop als verraad. Na de oorlog kregen Frankrijk en Groot-Brittannië Syrië, Libanon, Irak en Palestina als mandaatgebied. In 1920 verdreef het Franse leger Faisal uit Damascus. Voor de Ottomaanse regering was de opstand juist een dolksteek van onderdanen in een oorlog om het voortbestaan van het rijk, en ook onder Arabieren steunde lang niet iedereen Hoessein.'
  ],
+ gevolgen: [
+  "De opstand hielp de Britten het Ottomaanse Rijk te verslaan, maar de beloofde Arabische staat kwam er niet. Wel kregen de zonen van Hoessein elk een troon onder Brits toezicht: Faisal werd in 1921 koning van Irak en Abdoellah emir van Transjordanië, het latere Jordanië.",
+  "De verdeling van het Midden-Oosten in Britse en Franse mandaatgebieden legde de basis voor de grenzen van Syrië, Libanon, Irak, Jordanië en Israël. Het gevoel van verraad door het Westen speelt in het Arabische nationalisme nog altijd een rol."
+ ],
+ misverstanden: [
+  ["“Lawrence of Arabia leidde de Arabische Opstand.”","Lawrence was een Britse verbindingsofficier en adviseur. De opstand werd geleid door Sharif Hoessein en zijn zonen, vooral Faisal. Het beeld van Lawrence als leider ontstond door Amerikaanse lezingen en films, en door zijn eigen boek."]
+ ],
+ hoeWeten: [
+  "Lawrence schreef er een beroemd boek over, De zeven zuilen der wijsheid, dat spannend is maar niet altijd betrouwbaar. Daarnaast zijn er Britse rapporten, de briefwisseling tussen Hoessein en McMahon en het Sykes-Picotakkoord, dat de bolsjewieken in 1917 openbaar maakten."
+ ],
+ nu: [
+  "De Jordaanse koning stamt af van Sharif Hoessein, en de vlag van Jordanië is gebaseerd op de vlag van de Arabische Opstand. In de woestijn van Saoedi-Arabië liggen nog resten van de Hejaz-spoorlijn, met omgekiepte locomotieven. De film Lawrence of Arabia uit 1962 bepaalt voor veel mensen nog het beeld."
+ ],
+ vertellen: "De havenstad Akaba was zwaar verdedigd, maar de kanonnen wezen allemaal naar zee. In juli 1917 trokken Arabische strijders samen met Lawrence in een lange tocht door de woestijn en vielen de stad vanaf het land aan. Akaba viel bijna zonder verliezen.",
+ verbanden: [["Het Ottomaanse Rijk kiest partij","het begin van de oorlog in het Midden-Oosten"],["Britten nemen Jeruzalem in","het Britse leger waarmee de Arabieren optrokken"],["De Volkenbond","die de mandaatgebieden verdeelde"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Opkomst van verzet in de koloniën tegen het West-Europese imperialisme."]},
  cijfers: [['Begin opstand','juni 1916, Mekka'],['Inname Akaba','juli 1917'],['Intocht Damascus','begin oktober 1918'],['Sykes-Picotakkoord','mei 1916']],
  figuren: [['Sharif Hoessein','emir van Mekka, begon de opstand'],['Faisal','zoon van Hoessein, leider van de noordelijke strijdmacht'],['T.E. Lawrence','Britse verbindingsofficier'],['Henry McMahon','Britse hoge commissaris in Egypte']],
  bronnen: [['Wikipedia: Arabische Opstand',W('Arabische Opstand 1916')],['Wikipedia: Sykes-Picotverdrag',W('Sykes-Picotverdrag')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -57,6 +73,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Ook voor de Duitse soldaten was de Somme een hel. Hun leiding liet verloren loopgraven steeds opnieuw heroveren, wat zware verliezen kostte. Duitsers spraken later van de Materialschlacht, een strijd van staal tegen mensen. In Groot-Brittannië, Ierland en Newfoundland raakten hele dorpen en straten in één dag hun jonge mannen kwijt. Het Newfoundland Regiment werd bij Beaumont-Hamel op de eerste dag bijna volledig uitgeschakeld.'
  ],
+ gevolgen: [
+  "De Somme werd in Groot-Brittannië het symbool van de zinloosheid van de oorlog. De eerste dag is tot vandaag de bloedigste dag uit de Britse militaire geschiedenis. Toch leerde het Britse leger er veel van, en in 1918 vocht het veel effectiever.",
+  "Ook het Duitse leger was na de Somme en Verdun zwaar verzwakt. Begin 1917 trok het zich terug op een nieuwe, beter verdedigde lijn, de Hindenburglinie."
+ ],
+ misverstanden: [
+  ["“De Britse generaals waren domme ezels die leeuwen de dood in stuurden.”","De uitdrukking ‘leeuwen geleid door ezels’ is populair, maar historici vinden het te simpel. De legerleiding maakte grote fouten, maar stond ook voor een nieuw soort oorlog waar niemand een antwoord op had. Ze paste haar tactiek in de loop van de slag aan."],
+  ["“Op de eerste dag liepen de soldaten overal langzaam rechtop naar voren.”","Op veel plaatsen wel, maar andere eenheden kropen al voor het einde van de beschieting dichter naar de Duitse linie of renden. De verliezen hingen sterk af van de plek en de manier van aanvallen."]
+ ],
+ hoeWeten: [
+  "Er zijn talloze brieven en dagboeken van Britse en Duitse soldaten. Al in augustus 1916 draaide in Britse bioscopen de film The Battle of the Somme, met echte beelden van het front. Binnen zes weken zagen ongeveer twintig miljoen Britten hem. Een bekende scène waarin soldaten over de rand gaan, bleek achter de linies in scène gezet."
+ ],
+ nu: [
+  "Bij Thiepval staat een enorm gedenkteken met de namen van ruim 72.000 Britse en Zuid-Afrikaanse soldaten zonder bekend graf. Ook de krater van de Lochnagar-mijn is nog te zien. In Newfoundland is 1 juli nog steeds een herdenkingsdag."
+ ],
+ vertellen: "Onder de Britse soldaten aan de Somme was een jonge officier, J.R.R. Tolkien. Hij werd ziek door loopgravenkoorts en ging naar huis, maar bijna al zijn beste vrienden sneuvelden. Later schreef hij De Hobbit en In de ban van de ring, en veel lezers herkennen in de dodenmoerassen en verwoeste landschappen het slagveld.",
+ verbanden: [["Verdun","de slag die de Somme moest ontlasten"],["Passendale","de volgende grote Britse aanval in 1917"],["Honderddagenoffensief","hoe het Britse leger in 1918 wel doorbrak"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering.","De rol van moderne propaganda- en communicatiemiddelen en vormen van massa-organisatie."]},
  cijfers: [['Duur','1 juli – 18 november 1916'],['Britse slachtoffers eerste dag','ca. 57.000, van wie ca. 19.000 doden'],['Totaal slachtoffers','naar schatting ruim 1 miljoen'],['Eerste inzet tanks','15 september 1916']],
  figuren: [['Douglas Haig','Brits opperbevelhebber'],['Henry Rawlinson','bevelhebber van het Britse Vierde Leger'],['Ferdinand Foch','leidde de Franse legers aan de Somme'],['Erich von Falkenhayn','Duits chef van de generale staf tot augustus 1916']],
  bronnen: [['Wikipedia: Slag aan de Somme',W('Slag aan de Somme 1916')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -75,6 +108,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'De Britse regering zag de blokkade als een gewoon middel van oorlogvoering, net zoals Duitsland met duikboten Groot-Brittannië probeerde uit te hongeren. Voor Duitse burgers voelde het als een oorlog tegen vrouwen en kinderen. Hoeveel mensen door de honger stierven, is omstreden. Schattingen voor de hele oorlog lopen uiteen van ca. 400.000 tot ruim 700.000 extra doden. De blokkade bleef ook na de wapenstilstand nog tot 1919 van kracht.'
  ],
+ gevolgen: [
+  "De honger ondermijnde het vertrouwen in de keizer en in de oorlog. In 1918 waren de Duitse burgers zo uitgeput dat de revolutie van november op veel steun kon rekenen.",
+  "De herinnering aan de hongerjaren had lange gevolgen. De nazi’s wilden voorkomen dat de Duitse bevolking in een nieuwe oorlog opnieuw honger zou lijden. In de Tweede Wereldoorlog lieten ze daarom voedsel weghalen uit bezette landen, waardoor elders juist hongersnood ontstond."
+ ],
+ misverstanden: [
+  ["“De honger kwam alleen door de Britse blokkade.”","De blokkade speelde een grote rol, maar ook slechte oogsten, het tekort aan boeren, paarden en kunstmest, en een slecht georganiseerde voedselverdeling droegen bij. Wie op het platteland woonde of geld had, had het vaak veel beter."]
+ ],
+ hoeWeten: [
+  "Er zijn rantsoenkaarten, kookboeken met recepten voor steekrapen, dagboeken en brieven van gezinnen, en gemeentelijke statistieken over ziekte en sterfte. Na de oorlog maakte de Duitse regering ook berekeningen van het aantal hongerdoden, die mogelijk aan de hoge kant waren."
+ ],
+ nu: [
+  "In Duitsland is de Steckrübenwinter een begrip gebleven voor bittere armoede. Ook in Nederland werden in de oorlog en later in de Hongerwinter van 1944–1945 voedingsmiddelen gegeten die normaal voor het vee waren."
+ ],
+ vertellen: "In de steekrapenwinter verschenen er hele kookboekjes met recepten om van de raap iets eetbaars te maken: soep, pannenkoeken, jam en zelfs nepkoffie. Een Duitse grap uit die tijd ging dat je ’s ochtends steekrapensoep at, ’s middags steekrapenschotel en ’s avonds steekrapenpudding.",
+ verbanden: [["Aardappeloproer","voedselnood in neutraal Nederland"],["Revolutie in Duitsland","waar de honger aan bijdroeg"],["De Hongerwinter","honger in Nederland in de Tweede Wereldoorlog"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering."]},
  cijfers: [['Periode','winter 1916–1917'],['Extra burgerdoden in Duitsland door ondervoeding (hele oorlog)','naar schatting 400.000 – 700.000'],['Einde zeeblokkade','juli 1919']],
  figuren: [['Adolf von Batocki','hoofd van het Duitse oorlogsvoedingsbureau vanaf 1916'],['Paul von Hindenburg','legerleider, gaf voorrang aan wapenproductie']],
  bronnen: [['Wikipedia: Steekrapenwinter',W('Steekrapenwinter')],['Wikipedia: Blokkade van Duitsland',W('Blokkade van Duitsland 1914-1919')]]
@@ -93,6 +142,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor zeelieden op koopvaardijschepen, vaak ook uit India, China en de Caraïben, was elke tocht levensgevaarlijk. De Nederlandse koopvaardij en visserij verloren tientallen schepen door torpedo’s en mijnen. Ook de duikbootbemanningen betaalden een hoge prijs: ongeveer de helft van de Duitse duikboten keerde niet terug, en ca. 5000 bemanningsleden kwamen om.'
  ],
+ gevolgen: [
+  "De Duitse gok mislukte: Groot-Brittannië werd niet uitgehongerd, en de Verenigde Staten gingen de oorlog in. Daarmee kreeg de geallieerde kant er een land bij met een enorme bevolking en industrie.",
+  "Het konvooisysteem bleek het beste antwoord op duikboten. In de Tweede Wereldoorlog werd het opnieuw toegepast, toen Duitse duikboten in de Atlantische Oceaan in ‘wolvenroedels’ op konvooien jaagden."
+ ],
+ misverstanden: [
+  ["“Konvooien waren vanaf het begin de logische oplossing.”","De Britse admiraliteit was er lang tegen. Ze dacht dat een grote groep schepen een makkelijk doelwit was en dat er te weinig begeleiders waren. Pas na de zware verliezen van het voorjaar van 1917 en druk van premier Lloyd George werd het geprobeerd, met groot succes."]
+ ],
+ hoeWeten: [
+  "Er zijn nauwkeurige lijsten van alle verloren schepen, Duitse logboeken en de verslagen van de Britse admiraliteit. Ook berichten in neutrale kranten, zoals de Nederlandse, laten zien hoeveel schepen van neutrale landen verloren gingen."
+ ],
+ nu: [
+  "Op de bodem van de Noordzee en het Kanaal liggen nog vele wrakken uit 1917. Duikers en archeologen vinden er soms nog duikboten met de bemanning aan boord. Zulke wrakken worden als oorlogsgraf beschermd."
+ ],
+ vertellen: "Vanaf 1917 schilderden de Britten hun schepen in wilde zigzagpatronen van zwart, wit en blauw, de zogeheten dazzle-camouflage. Het doel was niet om onzichtbaar te zijn, maar om de commandant van een duikboot in de war te brengen over de richting en snelheid van het schip.",
+ verbanden: [["Duikbootoorlog rond Groot-Brittannië","de eerste fase in 1915"],["Amerika gaat de oorlog in","het directe gevolg"],["Steekrapenwinter","de Britse blokkade waarop Duitsland reageerde"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering."]},
  cijfers: [['Begin','1 februari 1917'],['Scheepsverlies april 1917','ruim 850.000 ton'],['Omgekomen Duitse duikbootbemanningen (hele oorlog)','ca. 5000'],['Lusitania gezonken','7 mei 1915, ca. 1200 doden']],
  figuren: [['Henning von Holtzendorff','chef van de Duitse admiraalsstaf, pleitte voor de duikbootoorlog'],['John Jellicoe','Britse marineleider'],['Woodrow Wilson','Amerikaanse president']],
  bronnen: [['Wikipedia: Onbeperkte duikbootoorlog',W('Onbeperkte duikbootoorlog')],['Wikipedia: Lusitania',W('RMS Lusitania')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -111,6 +176,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'De geallieerden waren eerst opgelucht, omdat de nieuwe regering doorvocht en democratischer leek. Voor gewone soldaten aan het front was dat een teleurstelling: zij wilden vooral vrede en land. Duitsland zag kansen en hielp de verbannen Lenin in april 1917 met een trein vanuit Zwitserland terug naar Rusland. Volken als Finnen, Polen en Oekraïners begonnen meer zelfbestuur te eisen.'
  ],
+ gevolgen: [
+  "Na driehonderd jaar kwam er een einde aan de heerschappij van de Romanovs. Een parlementaire democratie kreeg kort een kans, maar de Voorlopige Regering bleef doorvechten en stelde de landhervorming uit. Daardoor verloor ze snel steun.",
+  "De verbannen tsaar en zijn gezin werden in juli 1918 door bolsjewieken in Jekaterinenburg vermoord."
+ ],
+ misverstanden: [
+  ["“De bolsjewieken van Lenin maakten de Februarirevolutie.”","De revolutie van februari ontstond grotendeels spontaan, uit protest tegen honger en oorlog. Lenin zat op dat moment nog in Zwitserland. Pas in de Oktoberrevolutie grepen de bolsjewieken de macht."],
+  ["“De Februarirevolutie vond in februari plaats.”","Volgens onze kalender gebeurde het in maart 1917. Rusland gebruikte toen nog de juliaanse kalender, die dertien dagen achterliep. Pas in februari 1918 stapte het land over op de gregoriaanse kalender."]
+ ],
+ hoeWeten: [
+  "Er zijn dagboeken van de tsaar en tsarina, verslagen van politici, diplomaten en journalisten, en duizenden foto’s van de straten van Petrograd. Na 1991 werden veel Russische archieven toegankelijker voor historici."
+ ],
+ nu: [
+  "Internationale Vrouwendag op 8 maart herinnert ook aan het protest van de textielarbeidsters waarmee de revolutie begon. In 2000 heeft de Russisch-Orthodoxe Kerk de vermoorde tsarenfamilie heilig verklaard."
+ ],
+ vertellen: "In april 1917 liet de Duitse regering Lenin en ruim dertig andere ballingen in een trein vanuit Zwitserland door Duitsland naar Rusland reizen. De wagon werd ‘verzegeld’ genoemd. Duitsland hoopte dat Lenin Rusland uit de oorlog zou halen. Een half jaar later gebeurde dat ook.",
+ verbanden: [["Oktoberrevolutie","de tweede revolutie van 1917"],["Broesilov-offensief","de verliezen die het leger uitputten"],["Vrede van Brest-Litovsk","hoe Rusland uit de oorlog stapte"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme)."]},
  cijfers: [['Begin protesten','8 maart 1917 (23 februari juliaans)'],['Troonsafstand Nicolaas II','15 maart 1917'],['Doden bij de onlusten','naar schatting ruim 1000']],
  figuren: [['Nicolaas II','laatste tsaar van Rusland'],['Aleksandr Kerenski','minister, vanaf juli 1917 premier van de Voorlopige Regering'],['Georgi Lvov','eerste premier van de Voorlopige Regering'],['Vladimir Lenin','bolsjewistische leider, keerde in april 1917 terug']],
  bronnen: [['Wikipedia: Februarirevolutie',W('Februarirevolutie')],['Wikipedia: Russische Revolutie',W('Russische Revolutie 1917')]]
@@ -129,6 +211,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor uitgeputte Britse en Franse soldaten was de komst van verse Amerikaanse troepen een grote steun. Voor Duitsland betekende het dat de tijd begon te dringen. Zwarte Amerikaanse soldaten vochten in gescheiden eenheden en kregen thuis nauwelijks erkenning. Het 369e regiment, de Harlem Hellfighters, vocht onder Frans bevel. In de Verenigde Staten zelf werden Duitse Amerikanen en oorlogstegenstanders gewantrouwd en soms vervolgd.'
  ],
+ gevolgen: [
+  "De komst van miljoenen Amerikaanse soldaten gaf de doorslag in 1918. De Verenigde Staten kwamen uit de oorlog als grootste economie en grootste geldschieter van de wereld.",
+  "Toch keerde het land zich daarna weer af van Europa. De Amerikaanse Senaat weigerde het Verdrag van Versailles te bekrachtigen, en de Verenigde Staten werden nooit lid van de Volkenbond die Wilson zelf had bedacht."
+ ],
+ misverstanden: [
+  ["“Vanaf april 1917 vochten de Amerikanen mee aan het front.”","Het Amerikaanse leger moest eerst worden opgebouwd. In 1917 waren er nog weinig Amerikaanse troepen in Frankrijk. Pas vanaf het voorjaar van 1918 kwamen ze in grote aantallen en speelden ze een echte rol in de gevechten."],
+  ["“Amerika heeft de oorlog in zijn eentje gewonnen.”","De Amerikaanse bijdrage was beslissend voor het moreel en de aantallen, maar het grootste deel van de gevechten in 1918 werd door Franse en Britse legers gevoerd. Ook de Amerikanen gebruikten vooral Frans en Brits geschut en vliegtuigen."]
+ ],
+ hoeWeten: [
+  "Het Zimmermann-telegram werd door Britse codebrekers in ‘Room 40’ ontcijferd. Er zijn verslagen van het Congres, de toespraken van Wilson, en brieven en foto’s van Amerikaanse soldaten."
+ ],
+ nu: [
+  "In Frankrijk en België liggen grote Amerikaanse militaire begraafplaatsen, zoals bij Waregem in West-Vlaanderen en in de Argonne, de grootste Amerikaanse begraafplaats in Europa. Het jaar 1917 geldt als het begin van de Verenigde Staten als wereldmacht."
+ ],
+ vertellen: "Op 4 juli 1917 bezochten Amerikaanse officieren in Parijs het graf van de Franse markies De Lafayette, die in de 18e eeuw had meegevochten in de Amerikaanse Vrijheidsoorlog. Een van hen sprak de beroemde woorden: “Lafayette, we zijn er!” Amerika betaalde zo een oude schuld terug.",
+ verbanden: [["Onbeperkte duikbootoorlog","de directe aanleiding"],["Honderddagenoffensief","waar de Amerikaanse troepen meevochten"],["De Volkenbond","het plan van Wilson"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Oorlogsverklaring','6 april 1917'],['Amerikaanse soldaten in Frankrijk eind 1918','ca. 2 miljoen'],['Amerikaanse militaire doden','ca. 116.000, ongeveer de helft door ziekte']],
  figuren: [['Woodrow Wilson','president van de Verenigde Staten'],['John Pershing','bevelhebber van de Amerikaanse troepen in Europa'],['Arthur Zimmermann','Duitse minister van Buitenlandse Zaken']],
  bronnen: [['Wikipedia: Zimmermanntelegram',W('Zimmermanntelegram')],['Wikipedia: Veertien Punten',W('Veertien Punten Wilson')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -147,6 +246,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de soldaten zelf was Europa een vreemde, koude wereld. Ze kregen zware taken en werden in propaganda tegelijk als heldhaftig en als primitief afgeschilderd. Duitse propaganda noemde hun inzet onbeschaafd. Na de oorlog wachtten de meesten tevergeefs op gelijke pensioenen en rechten. In Afrika lieten de rekrutering en de verliezen diepe sporen na in families en dorpen.'
  ],
+ gevolgen: [
+  "Afrikaanse veteranen kregen na de oorlog vaak een lager pensioen dan Franse soldaten, en de beloofde rechten bleven grotendeels uit. Hun ervaring in Europa voedde wel de vraag naar gelijkheid en later naar onafhankelijkheid.",
+  "Ook in de Tweede Wereldoorlog vochten weer tienduizenden tirailleurs voor Frankrijk. Toen in 1944 bij Thiaroye in Senegal teruggekeerde soldaten protesteerden over hun achterstallig loon, werden velen van hen doodgeschoten."
+ ],
+ misverstanden: [
+  ["“Afrikaanse soldaten werden gebruikt als kanonnenvoer.”","Dat dachten veel tijdgenoten, en er waren inderdaad aanvallen met zeer zware verliezen. Uit onderzoek blijkt echter dat het sterftecijfer van tirailleurs gemiddeld niet veel hoger lag dan dat van Franse infanteristen. De ongelijkheid zat vooral in de rekrutering en de behandeling na de oorlog."]
+ ],
+ hoeWeten: [
+  "Er zijn Franse legerarchieven, foto’s en propagandaplaten. Van de soldaten zelf zijn weinig brieven bewaard, omdat de meesten niet konden schrijven. Historici gebruiken daarom ook mondelinge verhalen van nabestaanden."
+ ],
+ nu: [
+  "In Reims staat een monument voor de soldaten van het ‘zwarte leger’ die de stad in 1918 verdedigden. Het oorspronkelijke beeld werd in 1940 door de Duitsers weggehaald, en in 2013 kwam er een nieuw exemplaar. In Zuid-Afrika is de hoogste onderscheiding voor moed genoemd naar het schip Mendi."
+ ],
+ vertellen: "Volgens de overlevering riep de dominee Isaac Dyobha de mannen op het zinkende troepenschip Mendi op om waardig te sterven. “Broeders, wij oefenen de dodendans,” zou hij gezegd hebben, waarna de mannen zingend en stampend op het dek dansten. Of het zo is gegaan, is niet zeker, maar het verhaal is in Zuid-Afrika beroemd.",
+ verbanden: [["Indiase soldaten aan het Westfront","ook uit Brits-Indië kwamen soldaten"],["Chinese arbeiders in Europa","arbeiders uit Azië"],["Strijd om Duits-Oost-Afrika","de oorlog in Afrika zelf"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Opkomst van verzet in de koloniën tegen het West-Europese imperialisme."]},
  cijfers: [['West-Afrikaanse soldaten in Franse dienst','naar schatting ca. 170.000 – 200.000'],['Gesneuveld','naar schatting ca. 30.000'],['Omgekomen bij ramp met de Mendi','ruim 600 (februari 1917)']],
  figuren: [['Blaise Diagne','Senegalese parlementariër, wierf in 1918 soldaten'],['Charles Mangin','Franse generaal, pleitbezorger van Afrikaanse troepen']],
  bronnen: [['Wikipedia: Tirailleurs sénégalais',W('Tirailleurs sénégalais')],['Wikipedia: Slag aan de Chemin des Dames',W('Tweede Slag aan de Aisne')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -165,6 +280,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Hoeveel Chinese arbeiders omkwamen, is onzeker. Officiële Britse cijfers noemen ongeveer tweeduizend doden, sommige historici schatten het aantal veel hoger. Op de begraafplaats van Noyelles-sur-Mer liggen meer dan achthonderd van hen. In China sloeg de hoop om in woede toen de vredesconferentie in 1919 de Duitse rechten in Shandong aan Japan gaf. Dat leidde tot de Vierde Mei-beweging, een belangrijke stap in het moderne Chinese nationalisme.'
  ],
+ gevolgen: [
+  "China zat in 1919 aan de vredestafel, maar kreeg Shandong niet terug. De woede daarover leidde tot de Vierde Mei-beweging, waarin studenten en arbeiders protesteerden en een moderner, sterker China eisten. Uit die beweging kwamen later ook leiders van de Chinese Communistische Partij voort.",
+  "Een paar duizend arbeiders bleven na de oorlog in Frankrijk. Zij vormden een van de eerste Chinese gemeenschappen in Parijs."
+ ],
+ misverstanden: [
+  ["“De Chinese arbeiders waren soldaten.”","Ze waren contractarbeiders en mochten niet vechten. Toch werkten ze vaak vlak achter het front, onder beschietingen en bombardementen, en ruimden ze na de oorlog gevaarlijke munitie op."]
+ ],
+ hoeWeten: [
+  "Er zijn Britse en Franse administraties van het Chinese Labour Corps, foto’s en brieven. Een belangrijke bron zijn ook de verslagen van de YMCA, die in de kampen onderwijs en ontspanning organiseerde. Lange tijd werd de rol van deze arbeiders in de geschiedenisboeken bijna vergeten."
+ ],
+ nu: [
+  "Op de begraafplaats van Noyelles-sur-Mer en op andere Britse militaire begraafplaatsen in Frankrijk en België, zoals Lijssenthoek bij Poperinge, liggen Chinese arbeiders. Hun graven zijn herkenbaar aan de Chinese tekens op de grafsteen. Sinds de herdenkingen van 2014 tot 2018 is er meer aandacht voor hen."
+ ],
+ vertellen: "De Chinese student James Yen werkte in Frankrijk als vrijwilliger in de kampen. Hij merkte dat de meeste arbeiders hun eigen brieven niet konden lezen en schreef een lesboekje met de duizend belangrijkste Chinese tekens. Terug in China gebruikte hij die methode om miljoenen mensen te leren lezen.",
+ verbanden: [["Japan verovert Tsingtao","de strijd om Shandong"],["Verdrag van Versailles","dat Shandong aan Japan gaf"],["Afrikaanse soldaten aan het Westfront","ook uit Afrika kwamen mensen naar het front"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Opkomst van verzet in de koloniën tegen het West-Europese imperialisme."]},
  cijfers: [['Chinese arbeiders in Europa','ca. 140.000'],['Omgekomen','officieel ca. 2000, schattingen lopen sterk uiteen'],['China in oorlog met Duitsland','vanaf augustus 1917']],
  figuren: [['Liang Shiyi','Chinese politicus, bedacht het plan voor arbeiders'],['Yan Yangchu (James Yen)','gaf de arbeiders in Frankrijk les in lezen en schrijven']],
  bronnen: [['Wikipedia: Chinese Labour Corps',W('Chinese Labour Corps')],['Wikipedia: Vierde Mei-beweging',W('Vierde Mei-beweging')],['In Flanders Fields Museum','https://www.inflandersfields.be/']]
@@ -183,6 +314,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de vrouwen die de schuiten leeghaalden, ging het om het eten van hun kinderen, niet om politiek. Voor de overheid en de gegoede burgerij leek het oproer een begin van revolutionaire onrust, zoals in Rusland. Ook in andere steden, zoals Rotterdam, was er onrust. De ervaring droeg ertoe bij dat de angst voor revolutie in november 1918 zo groot was.'
  ],
+ gevolgen: [
+  "Het oproer liet zien hoe gespannen de verhoudingen in neutraal Nederland waren geworden. De overheid breidde daarna de distributie uit, en er kwamen meer gaarkeukens waar arme gezinnen goedkoop konden eten.",
+  "De angst voor onrust bleef. Toen Troelstra in november 1918 opriep tot revolutie, reageerden regering en burgerij snel en hard, mede door de ervaring met het Aardappeloproer."
+ ],
+ misverstanden: [
+  ["“Het was een politiek georganiseerde opstand.”","Het begon bij vrouwen uit de Jordaan die eten zochten voor hun gezin. Pas later probeerden partijen en vakbonden er een politieke actie van te maken. Tegelijk sloten ook stakende arbeiders, zoals die van de munitiefabriek Hembrug, zich bij de protesten aan."]
+ ],
+ hoeWeten: [
+  "De Amsterdamse kranten berichtten dagelijks over de onlusten, en de politie en het leger maakten verslagen. Er zijn foto’s van de plunderingen en van militairen in de straten. Ook de verslagen van de gemeenteraad laten zien hoe het bestuur op de crisis reageerde."
+ ],
+ nu: [
+  "De Jordaan is nu een geliefde Amsterdamse wijk, maar was in 1917 een van de armste buurten van de stad. Het Aardappeloproer wordt in Amsterdam nog herdacht als voorbeeld van protest van gewone vrouwen."
+ ],
+ vertellen: "Toen er in 1917 bijna geen aardappelen meer waren, stelde de Amsterdamse wethouder Josephus Jitta voor dat de mensen dan maar rijst moesten eten, waarvan er wel genoeg was. Voor de arbeidersgezinnen van de Jordaan, die aan aardappelen gewend waren, voelde dat als een belediging. Op 28 juni 1917 ging het mis toen bekend werd dat er een schip met aardappelen voor het leger in de Prinsengracht lag.",
+ verbanden: [["Nederland mobiliseert","het leger waarvoor de aardappelen bestemd waren"],["Steekrapenwinter","honger in Duitsland"],["Troelstra’s vergissing","de angst voor revolutie in 1918"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."],"venster":"35. De Eerste Wereldoorlog"},
  cijfers: [['Begin','eind juni 1917'],['Plaats','vooral Amsterdam'],['Slachtoffers','enkele doden, tientallen gewonden']],
  figuren: [['Folkert Posthuma','minister van Landbouw, verantwoordelijk voor de voedselvoorziening'],['David Wijnkoop','leider van de radicaal-linkse SDP']],
  bronnen: [['Wikipedia: Aardappeloproer',W('Aardappeloproer 1917')],['Wikipedia: Nederland tijdens de Eerste Wereldoorlog',W('Nederland tijdens de Eerste Wereldoorlog')]]
@@ -201,6 +348,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Aan beide kanten vielen naar schatting elk tussen de 200.000 en 300.000 doden, gewonden en vermisten; historici verschillen hierover sterk. Duitse soldaten lagen in betonnen bunkers in hetzelfde moeras en werden dag en nacht beschoten. Voor de Belgische bewoners was de streek rond Ieper volledig verwoest. Op Tyne Cot, de grootste begraafplaats van het Gemenebest, liggen bijna 12.000 soldaten.'
  ],
+ gevolgen: [
+  "Het doel, de Belgische kust bereiken, werd niet gehaald. Al in het voorjaar van 1918 gaven de Britten het veroverde gebied bij een Duitse aanval weer prijs. De naam Passendale werd daardoor het symbool van de zinloosheid van de loopgravenoorlog.",
+  "Voor Canada, waarvan de troepen het dorp innamen, werd de slag een van de momenten waarop het land zich als zelfstandige natie ging zien."
+ ],
+ misverstanden: [
+  ["“De slag bij Passendale ging alleen om het dorp Passendale.”","De Britten noemen het de Derde Slag om Ieper. Het was een reeks aanvallen van juli tot november over een breed front. Het dorp Passendale was pas aan het eind het doel."]
+ ],
+ hoeWeten: [
+  "Er zijn duizenden foto’s van het modderlandschap, legerverslagen en dagboeken. Luchtfoto’s laten zien hoe dorpen in enkele maanden helemaal verdwenen. Archeologen vinden bij bouwwerken in de streek nog steeds resten van soldaten, die dan opnieuw worden begraven."
+ ],
+ nu: [
+  "In Zonnebeke staat het Memorial Museum Passchendaele 1917, met nagebouwde loopgraven en onderstanden. Op Tyne Cot liggen bijna 12.000 soldaten, en onder de Menenpoort in Ieper wordt sinds 1928 elke avond om acht uur de Last Post geblazen."
+ ],
+ vertellen: "In juni 1917 bliezen de Britten bij Mesen negentien grote ondergrondse mijnen tegelijk op. Twee andere ontploften toen niet. Een daarvan ging in 1955 alsnog af, nadat de bliksem in de buurt was ingeslagen. Er kwam alleen een koe om. De laatste mijn ligt nog steeds ergens onder een Vlaamse akker.",
+ verbanden: [["Gifgas bij Ieper","eerdere strijd om Ieper"],["De Somme","de grote Britse aanval van 1916"],["Duits Lenteoffensief","waarbij het gebied weer verloren ging"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering."]},
  cijfers: [['Duur','31 juli – 10 november 1917'],['Terreinwinst','ca. 8 kilometer'],['Slachtoffers per kant','naar schatting 200.000 – 300.000'],['Graven op Tyne Cot','bijna 12.000']],
  figuren: [['Douglas Haig','Brits opperbevelhebber'],['Herbert Plumer','Britse generaal, leidde de aanvallen in september'],['Arthur Currie','bevelhebber van het Canadese Korps']],
  bronnen: [['Wikipedia: Slag bij Passendale',W('Slag bij Passendale')],['In Flanders Fields Museum','https://www.inflandersfields.be/'],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -219,6 +382,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor veel arbeiders en soldaten voelde de revolutie als een bevrijding. Voor anderen, zoals adel, kerk, ondernemers en veel boeren, betekende ze onteigening en vervolging. De geallieerden stuurden troepen om de Witten te steunen. Volken aan de randen van het rijk, zoals Finnen, Esten en Polen, grepen de kans om onafhankelijk te worden. In de burgeroorlog en de bijbehorende hongersnood en epidemieën kwamen naar schatting 7 tot 12 miljoen mensen om.'
  ],
+ gevolgen: [
+  "De bolsjewieken sloten in maart 1918 vrede met Duitsland en wonnen de burgeroorlog. In 1922 ontstond de Sovjet-Unie, de eerste communistische staat ter wereld. Onder Stalin werd het een totalitaire dictatuur, met terreur, strafkampen en miljoenen doden.",
+  "De revolutie veranderde de wereldpolitiek voor de rest van de eeuw. Overal ontstonden communistische partijen, ook in Nederland, en de tegenstelling tussen communisme en kapitalisme leidde na 1945 tot de Koude Oorlog."
+ ],
+ misverstanden: [
+  ["“Duizenden revolutionairen bestormden het Winterpaleis.”","Dat beeld komt vooral uit een groot toneelspektakel van 1920 en uit de film Oktober van Sergej Eisenstein uit 1928. In werkelijkheid werd het slecht verdedigde paleis vrij rustig ingenomen, met weinig doden."],
+  ["“De Oktoberrevolutie vond in oktober plaats.”","Net als bij de Februarirevolutie gaat het om de oude Russische kalender. Volgens onze kalender gebeurde het op 7 november 1917. In de Sovjet-Unie werd de revolutie daarom elk jaar in november gevierd."]
+ ],
+ hoeWeten: [
+  "Er zijn verslagen van betrokkenen, zoals Trotski, en van buitenlandse journalisten, waaronder de Amerikaan John Reed, die er het boek Tien dagen die de wereld deden wankelen over schreef. Lang mochten historici in de Sovjet-Unie alleen de officiële versie vertellen; sinds 1991 zijn veel archieven open."
+ ],
+ nu: [
+  "In Rusland was 7 november tot 2004 een nationale feestdag; sinds 2005 is dat 4 november, Dag van de Nationale Eenheid. Overal in het voormalige Oostblok zijn standbeelden van Lenin weggehaald, maar zijn lichaam ligt nog altijd in het mausoleum op het Rode Plein."
+ ],
+ vertellen: "Het startsein voor de inname van het Winterpaleis was volgens de overlevering een losse schot van de kruiser Aurora, die in de rivier de Neva lag. Het schip ligt er nog steeds, als museum in Sint-Petersburg.",
+ verbanden: [["Februarirevolutie in Rusland","de eerste revolutie van 1917"],["Vrede van Brest-Litovsk","de vrede die Lenin met Duitsland sloot"],["Troelstra’s vergissing","de angst voor revolutie in Nederland"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme)."]},
  cijfers: [['Machtsovername','7 november 1917 (25 oktober juliaans)'],['Burgeroorlog','ca. 1918 – 1921'],['Doden burgeroorlog, honger en ziekte','naar schatting 7 – 12 miljoen']],
  figuren: [['Vladimir Lenin','leider van de bolsjewieken'],['Leon Trotski','organisator van de opstand, later leider van het Rode Leger'],['Aleksandr Kerenski','premier van de Voorlopige Regering']],
  bronnen: [['Wikipedia: Oktoberrevolutie',W('Oktoberrevolutie')],['Wikipedia: Russische Burgeroorlog',W('Russische Burgeroorlog')]]
