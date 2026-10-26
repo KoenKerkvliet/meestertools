@@ -229,7 +229,7 @@ function colHTML(t,i){
   return `${tv}${pr}<div class="conn" style="background:${P.acc}"></div>
    <div class="card${open?' open':''}" data-i="${i}" ${open?'':'role="button" tabindex="0"'} aria-expanded="${open}" style="border-color:${open?P.acc:''};box-shadow:0 4px 0 ${open?P.bg:'var(--shadow)'}">
      <div class="ch"><div class="ct"><h3 class="ctitle">${esc(tileName(t))}</h3><span class="crange" style="background:${P.bg};color:${P.ink}">${esc(t.rng)}</span></div>
-       <div class="cbtns">${VERHALEN[t.id]?`<button class="vbtn" data-v="${t.id}" style="background:${P.bg};color:${P.ink}" aria-label="Verhaal om voor te lezen bij ${esc(tileName(t))}" title="Verhaal om voor te lezen"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></button>`:''}<button class="tog" aria-label="${open?'Vouw dicht':'Vouw open'}" tabindex="${open?0:-1}">${open?'−':'+'}</button></div></div>
+       <div class="cbtns">${VERHALEN[t.id]?`<button class="vbtn" data-v="${t.id}" style="background:${P.bg};color:${P.ink}" aria-label="Voorleesverhaal bij ${esc(tileName(t))}, groep 5 t/m 8" title="Voorleesverhaal (groep 5 t/m 8)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></button>`:''}<button class="tog" aria-label="${open?'Vouw dicht':'Vouw open'}" tabindex="${open?0:-1}">${open?'−':'+'}</button></div></div>
      ${dots}${body}
      <div class="cf"><span class="cnt">${evs.length===1?'1 gebeurtenis':evs.length+' gebeurtenissen'}</span>${lim?`<span class="lpill">${lim}× Limburg</span>`:''}</div>
    </div>`;
@@ -369,7 +369,7 @@ function openVerhaal(id){
   $('#vctx').textContent='Verhaal bij '+tileName(t);
   const evs=(v.gebeurtenissen||[]).map(n=>EVENTS.find(e=>e.t===n)).filter(e=>e&&DETAILS[e.t]);
   $('#vbody').innerHTML=`
-   <div class="pghero" style="background:${P.bg}"><div class="pmeta"><span class="cat vcat">Verhaal om voor te lezen</span>${v.gepubliceerd?'':'<span class="cat vconcept">Concept · alleen zichtbaar voor de beheerder</span>'}<span class="yr" style="color:${P.ink}">${esc(tileName(t))}</span></div><h2>${esc(v.titel)}</h2>${v.ondertitel?`<p class="lead">${esc(v.ondertitel)}</p>`:''}</div>
+   <div class="pghero" style="background:${P.bg}"><div class="pmeta"><span class="cat vcat">Voorleesverhaal · groep 5 t/m 8</span>${v.gepubliceerd?'':'<span class="cat vconcept">Concept · alleen zichtbaar voor de beheerder</span>'}<span class="yr" style="color:${P.ink}">${esc(tileName(t))}</span></div><h2>${esc(v.titel)}</h2>${v.ondertitel?`<p class="lead">${esc(v.ondertitel)}</p>`:''}</div>
    <div class="vgrid">
      <article class="vtekst">${(v.tekst||[]).map(p=>`<p>${esc(p)}</p>`).join('')}</article>
      <aside class="vside">
