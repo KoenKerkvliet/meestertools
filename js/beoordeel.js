@@ -1,14 +1,17 @@
 /* ============================================
    MEESTERTOOLS - Beoordeel-pagina (vanuit de feedbackmail)
-   Versie: v1.0.0
+   Versie: v1.1.0
 
    Een ster in de feedbackmail is een link: /beoordeel?t=<code>&s=<1-5>.
-   Deze pagina slaat die beoordeling op via de database-functie
-   feedback_via_mail (zonder inloggen: de code is de sleutel) en laat de lezer
-   daarna de sterren nog aanpassen en er een toelichting bij zetten.
+   Deze pagina zet die ster klaar; de lezer kan hem nog aanpassen, er een
+   toelichting bij zetten en slaat pas op met de knop Versturen, via de
+   database-functies feedback_via_mail en feedback_mail_toelichting (zonder
+   inloggen: de code is de sleutel).
 
-   - De beoordeling wordt pas opgeslagen als de pagina in een browser laadt,
-     niet als een mailscanner de link alleen ophaalt.
+   - Er wordt NOOIT opgeslagen bij het laden. Mailscanners van scholen
+     (Microsoft 365) openen elke link in een echte browser en draaien daarbij
+     de JavaScript; ze openden alle 5 sterlinks en gaven zo willekeurige
+     cijfers (26 okt 2026). Op een knop klikken doen ze niet.
    - t=proef is de proefmail uit beheer: alles werkt, er wordt niets opgeslagen.
    - Geen app.js: deze pagina is bewust openbaar.
 
@@ -51,6 +54,14 @@
         $('bdStarLabel').textContent = n ? LABELS[n - 1] : ' ';
     }
 
+    // Ster kiezen: alleen klaarzetten, nog niet opslaan.
+    function kies(n) {
+        rating = n;
+        paint(n);
+        fout('');
+        $('bdSend').disabled = false;
+    }
+
     function bouwSterren() {
         var html = '';
         for (var i = 1; i <= 5; i++) {
@@ -62,72 +73,51 @@
             var n = parseInt(el.dataset.n, 10);
             el.addEventListener('mouseenter', function () { paint(n); });
             el.addEventListener('focus', function () { paint(n); });
-            el.addEventListener('click', function () { rate(n); });
+            el.addEventListener('click', function () { kies(n); });
         });
         $('bdStars').addEventListener('mouseleave', function () { paint(rating); });
         $('bdStars').addEventListener('focusout', function () { paint(rating); });
     }
 
-    // Beoordeling opslaan. Een volgende klik (iemand bedenkt zich) past dezelfde
-    // beoordeling aan.
-    async function rate(n) {
-        if (saving) return;
+    async function rpc(naam, args) {
+        try {
+            return await supabase.rpc(naam, args);
+        } catch (e) {
+            return { error: e };
+        }
+    }
+
+    // Versturen: eerst de sterren, dan (als die er is) de toelichting.
+    $('bdSend').addEventListener('click', async function () {
+        if (saving || !rating) return;
+        var btn = this;
+        var tekst = $('bdComment').value.trim();
         saving = true;
+        btn.disabled = true;
         fout('');
 
         if (!proef) {
-            var res;
-            try {
-                res = await supabase.rpc('feedback_via_mail', { p_token: code, p_rating: n });
-            } catch (e) {
-                res = { error: e };
-            }
-            if (res.error) {
-                console.error('Beoordeling opslaan mislukt:', res.error);
-                saving = false;
-                fout('Opslaan is niet gelukt. Probeer het nog een keer.');
-                return;
-            }
-            if (!res.data || res.data.ok !== true) {
+            var res = await rpc('feedback_via_mail', { p_token: code, p_rating: rating });
+            if (res.error) console.error('Beoordeling opslaan mislukt:', res.error);
+            if (!res.error && (!res.data || res.data.ok !== true)) {
                 saving = false;
                 ongeldig();
                 return;
             }
-        }
-
-        rating = n;
-        saving = false;
-        paint(n);
-        $('bdIntro').textContent = 'Bedankt voor je beoordeling!';
-        toon('bdSterren', true);
-        toon('bdToelichting', true);
-    }
-
-    $('bdComment').addEventListener('input', function () {
-        $('bdSend').textContent = this.value.trim() ? 'Versturen' : 'Klaar';
-    });
-
-    $('bdSend').addEventListener('click', async function () {
-        var btn = this;
-        var tekst = $('bdComment').value.trim();
-
-        if (tekst && !proef) {
-            btn.disabled = true;
-            var res;
-            try {
-                res = await supabase.rpc('feedback_mail_toelichting', { p_token: code, p_comment: tekst });
-            } catch (e) {
-                res = { error: e };
-            }
-            btn.disabled = false;
-            if (res.error || !res.data || res.data.ok !== true) {
+            if (!res.error && tekst) {
+                res = await rpc('feedback_mail_toelichting', { p_token: code, p_comment: tekst });
                 if (res.error) console.error('Toelichting opslaan mislukt:', res.error);
+                else if (!res.data || res.data.ok !== true) res = { error: 'niet ok' };
+            }
+            if (res.error) {
+                saving = false;
+                btn.disabled = false;
                 fout('Versturen is niet gelukt. Probeer het nog een keer.');
                 return;
             }
         }
 
-        fout('');
+        saving = false;
         toon('bdSterren', false);
         toon('bdToelichting', false);
         toon('bdDank', true);
@@ -142,13 +132,13 @@
         if (proef) $('bdProef').style.display = 'block';
 
         bouwSterren();
-
-        if (gekozen) {
-            rate(gekozen);
-        } else {
-            $('bdIntro').textContent = 'Hoeveel sterren geef je Meestertools?';
-            toon('bdSterren', true);
-        }
+        $('bdIntro').textContent = gekozen
+            ? 'Klopt dit? Klik op Versturen om je beoordeling op te slaan.'
+            : 'Hoeveel sterren geef je Meestertools?';
+        if (gekozen) kies(gekozen);
+        else $('bdSend').disabled = true;
+        toon('bdSterren', true);
+        toon('bdToelichting', true);
     }
 
     init();

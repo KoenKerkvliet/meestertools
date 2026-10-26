@@ -25,19 +25,19 @@
             <div id="bdProef" class="form-success" style="display:none;">Dit is een proefversie: er wordt niets opgeslagen.</div>
             <div id="bdError" class="form-error" style="display:none;"></div>
 
-            <!-- Stap 1: sterren (ook als je hier komt zonder ster te hebben aangeklikt) -->
+            <!-- Sterren: de ster uit de mail staat klaar, opslaan pas met Versturen -->
             <div id="bdSterren" hidden>
                 <div class="feedback-stars" id="bdStars" role="group" aria-label="Beoordeling in sterren"></div>
                 <div class="feedback-star-label" id="bdStarLabel" aria-live="polite">&nbsp;</div>
             </div>
 
-            <!-- Stap 2: toelichting -->
+            <!-- Toelichting + Versturen -->
             <div id="bdToelichting" hidden style="margin-top:20px;">
                 <label class="feedback-comment-label" for="bdComment">Wil je er iets bij vertellen? <span>(niet verplicht)</span></label>
                 <textarea id="bdComment" rows="4" maxlength="2000"
                     placeholder="Wat vind je goed aan Meestertools, en wat minder goed? Alles mag: ook wat je mist of wat anders zou kunnen."></textarea>
                 <p class="sj-note">Noem liever geen namen van leerlingen. Alleen de maker van Meestertools leest dit.</p>
-                <button type="button" class="btn-login" id="bdSend" style="margin-top:16px;">Klaar</button>
+                <button type="button" class="btn-login" id="bdSend" style="margin-top:16px;">Versturen</button>
             </div>
 
             <div id="bdDank" hidden>
@@ -59,7 +59,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
     <script src="js/supabase-config.js?v=1.64.0"></script>
-    <script src="js/beoordeel.js?v=1.64.0"></script>
+    <script src="js/beoordeel.js?v=1.64.1"></script>
     <script src="/js/teller.js?v=1.64.0" defer></script>
 </body>
 </html>
