@@ -25,6 +25,9 @@ const SCHOOL=[
  {n:9,t:'Tijd van wereldoorlogen',s:1900,e:1950,r:'1900 – 1950'},
  {n:10,t:'Tijd van televisie en computer',s:1950,e:2026,r:'1950 – nu'}
 ];
+// illustratie per schooltijdvak (rond, 320 px), voor de tijdbalk, de leespagina's en de pdf
+const tvIcon=n=>'img/tijdvak/tv'+n+'.webp';
+const tvOf=y=>SCHOOL.find(s=>y>=s.s&&y<s.e);
 const TILES=[
  {id:'steentijd',big:'Steentijd',rng:'tot ca. 2000 v.C.',s:-300000,e:-2000,pre:1},
  {id:'bronstijd',big:'Bronstijd',rng:'2000 – 800 v.C.',s:-2000,e:-800,pre:1},

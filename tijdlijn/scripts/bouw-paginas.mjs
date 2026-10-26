@@ -84,6 +84,9 @@ function eventPage(e) {
   const crumbs = e.war
     ? [['Tijdlijn', './'], [WARS[e.war].n, './#' + e.war], [THEMES[e.th].n]]
     : [['Tijdlijn', './'], [e.era.n], [tileName(TILES[e.tile]), './#' + TILES[e.tile].id]];
+  const tv = Dt.geenTijdvak ? null : SCHOOL.find(s => e.y >= s.s && e.y < s.e);
+  const tvShort = t => { const r = t.replace(/^Tijd van (de )?/, ''); return r.charAt(0).toUpperCase() + r.slice(1); };
+  const tvBadge = tv ? `<span class="tvbadge" title="Tijdvak ${tv.n}: ${esc(tv.t)}"><img src="img/tijdvak/tv${tv.n}.webp" alt="" width="46" height="46"><span><small>Tijdvak ${tv.n}</small>${esc(tvShort(tv.t))}</span></span>` : '';
   const title = `${e.t} (${e.d}) – Tijdlijn van Nederland | Meestertools`;
   const desc = short(e.x);
   const vids = V.length ? `<section class="pgvid" aria-label="Video's"><div class="pvhead"><h3>Bekijken</h3></div>
@@ -100,7 +103,7 @@ function eventPage(e) {
 ${MTBAR}
 <main class="pgin px spin">
   <nav class="crumbs" aria-label="Kruimelpad">${crumbs.map(([n, h]) => h ? `<a href="${h}">${esc(n)}</a>` : `<span>${esc(n)}</span>`).join('<i aria-hidden="true">›</i>')}</nav>
-  <div class="pghero" style="background:${H.bg}"><div class="pmeta">${catPill(e)}<span class="yr" style="color:${H.ink}">${esc(e.d)}</span></div><h1>${esc(e.t)}</h1><p class="lead">${esc(e.x)}</p>
+  <div class="pghero" style="background:${H.bg}"><div class="pmeta">${catPill(e)}<span class="yr" style="color:${H.ink}">${esc(e.d)}</span>${tvBadge}</div><h1>${esc(e.t)}</h1><p class="lead">${esc(e.x)}</p>
     <div class="btns"><a class="btn dk" href="./#${slug}">Bekijk in de interactieve tijdlijn</a></div></div>
   ${imgs.length ? `<div class="pgimgs n${imgs.length}">${imgs.map(figHTML).join('')}</div>` : ''}
   <div class="pggrid">
