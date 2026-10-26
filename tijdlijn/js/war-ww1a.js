@@ -424,6 +424,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Het meest bekend is het bestand tussen Britten en Duitsers rond Ieper. Ook tussen Duitse en Franse of Belgische soldaten waren er contacten, al lag het daar gevoeliger, omdat hun land bezet was. Voor veel soldaten bevestigde het dat de vijand aan de overkant ook gewone mensen waren. Commandanten zagen het als een gevaar voor de vechtlust.'
  ],
+ gevolgen: [
+  "Militair veranderde het bestand niets: na een paar dagen werd er weer geschoten. Wel werden de regels strenger. In 1915 kregen officieren opdracht om verbroedering met de vijand te voorkomen, en op sommige plaatsen werd rond Kerstmis juist extra geschoten.",
+  "Het bestand werd al snel een symbool. Het liet zien dat gewone soldaten aan beide kanten geen haat voelden voor de mannen aan de overkant, en het werd een van de bekendste verhalen over vrede midden in een oorlog."
+ ],
+ misverstanden: [
+  ["“Op eerste kerstdag werd overal langs het front gevoetbald.”","Er zijn een paar betrouwbare verslagen van balspel tussen Britse en Duitse soldaten, maar meestal ging het om een kort potje, soms met een blik of een prop als bal. Een echte wedstrijd met teams en een uitslag is niet met zekerheid aangetoond. Veel meer tijd ging op aan praten, ruilen en het begraven van doden."],
+  ["“Het bestand was een uitzondering voor één dag.”","Op sommige stukken van het front duurde het tot na nieuwjaar. En ook later in de oorlog bestonden er op rustige plekken stilzwijgende afspraken, zoals niet schieten tijdens het ontbijt of bij het ophalen van gewonden."]
+ ],
+ hoeWeten: [
+  "Veel Britse soldaten schreven er brieven over naar huis, en die werden in januari 1915 in Britse kranten afgedrukt, ook in The Times. Er zijn ook dagboeken, enkele foto’s die soldaten zelf maakten, en Duitse brieven en regimentsgeschiedenissen."
+ ],
+ nu: [
+  "Bij Mesen, in de buurt van Ieper, staat een gedenkteken voor het kerstbestand, waar vaak voetballen en sjaals van clubs worden neergelegd. Het verhaal wordt nog elk jaar verteld, in films, liedjes en zelfs in reclames."
+ ],
+ vertellen: "Aan de IJzer vroegen Belgische soldaten met Kerstmis 1914 aan de Duitsers aan de overkant een gunst: of zij hun brieven wilden meenemen naar hun families in het bezette deel van België. Ze wisten niet of hun ouders, vrouwen en kinderen nog leefden.",
+ verbanden: [["Slag aan de Marne","waarna de loopgraven ontstonden"],["Gifgas bij Ieper","hoe de oorlog in 1915 harder werd"],["De wapenstilstand","het echte einde van het schieten in 1918"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Datum','24 – 26 december 1914'],['Afstand tussen loopgraven','soms tientallen meters'],['Herhaling op grote schaal','niet meer na 1914']],
  figuren: [['Paus Benedictus XV','riep op tot een kerstbestand'],['Bruce Bairnsfather','Britse officier en tekenaar, maakte het bestand mee'],['Horace Smith-Dorrien','Britse generaal, verbood verbroedering']],
  bronnen: [['Wikipedia: Kerstbestand',W('Kerstbestand')],['In Flanders Fields Museum','https://www.inflandersfields.be/'],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -442,6 +459,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Ook Nederlandse koopvaardij- en vissersschepen werden getroffen, door torpedo’s en door zeemijnen. Voor zeelieden van alle landen was de zee een gevaarlijke werkplek. Aan Duitse kant zagen velen de duikbootoorlog als antwoord op de Britse blokkade, die in Duitsland tot ernstige honger leidde. Duikbootbemanningen hadden zelf ook zware verliezen: ongeveer de helft van de Duitse duikboten keerde niet terug. Voor de Britse bevolking werd voedsel schaars, en in 1918 gingen onder meer suiker, vlees en boter op de bon.'
  ],
+ gevolgen: [
+  "De duikbootoorlog bracht Duitsland in conflict met neutrale landen, vooral de Verenigde Staten. Toen Duitsland in 1917 opnieuw zonder waarschuwing ging aanvallen, was dat een belangrijke reden voor Amerika om de oorlog in te gaan.",
+  "Na de oorlog werd geprobeerd regels af te spreken voor duikboten, maar in de Tweede Wereldoorlog voerde Duitsland opnieuw een grote duikbootoorlog in de Atlantische Oceaan. Ook toen waren konvooien het belangrijkste antwoord."
+ ],
+ misverstanden: [
+  ["“Duikboten waren in 1914 al een beproefd wapen.”","Niemand wist nog goed wat duikboten konden. De meeste marines zagen ze als hulpwapen voor de kust. Pas in de eerste oorlogsmaanden bleek hoe gevaarlijk ze waren, ook voor grote oorlogsschepen."],
+  ["“De duikbootoorlog trof alleen Groot-Brittannië.”","Ook schepen van neutrale landen zoals Nederland, Noorwegen en Denemarken werden getorpedeerd of liepen op mijnen. Nederland verloor tientallen koopvaardij- en vissersschepen."]
+ ],
+ hoeWeten: [
+  "Van de Duitse duikboten zijn logboeken bewaard, en de Britse marine hield nauwkeurig bij welke schepen verloren gingen. Ook verslagen van overlevenden, krantenberichten en de wrakken op de bodem van de Noordzee en de Atlantische Oceaan zijn bronnen."
+ ],
+ nu: [
+  "Op de bodem van de Noordzee liggen nog veel wrakken uit die tijd, ook van duikboten met hun bemanning. Veel van die wrakken gelden als oorlogsgraf. In Noordwijk staat een monument voor de zeelieden van 22 september 1914."
+ ],
+ vertellen: "Op 22 september 1914 bracht de kleine Duitse duikboot U 9 voor de Nederlandse kust in anderhalf uur drie Britse oorlogsschepen tot zinken. Ruim 1400 zeelieden kwamen om. Nederlandse vrachtschepen en vissers redden er 837, de Rotterdamse Flora alleen al 286.",
+ verbanden: [["De Lusitania","de bekendste ramp van de duikbootoorlog"],["Onbeperkte duikbootoorlog","de hervatting in 1917"],["Amerika gaat de oorlog in","het gevolg van die hervatting"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering."]},
  cijfers: [['Afkondiging oorlogsgebied','4 februari 1915'],['Hervatting onbeperkte duikbootoorlog','1 februari 1917'],['Tot zinken gebrachte schepen 1914 – 1918','naar schatting ruim 5000'],['Hongerdoden Duitsland door blokkade','schattingen ca. 400.000 – 750.000']],
  figuren: [['Hugo von Pohl','Duitse admiraal, kondigde het oorlogsgebied af'],['Alfred von Tirpitz','Duitse marineminister'],['Woodrow Wilson','Amerikaanse president']],
  bronnen: [['Wikipedia: Onbeperkte duikbootoorlog',W('Onbeperkte duikbootoorlog')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -460,6 +494,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'De eerste slachtoffers waren voor een groot deel koloniale soldaten uit Noord-Afrika, die ver van huis vochten. Duitsland verdedigde het gebruik als een nieuw wapen zoals andere, de geallieerden noemden het barbaars. Veel overlevenden hadden levenslang last van hun longen en ogen. In 1925 werd het gebruik van gifgas in oorlog verboden in het Protocol van Genève.'
  ],
+ gevolgen: [
+  "Gifgas werd een vast onderdeel van de oorlog. Het doodde minder soldaten dan geweervuur of granaten, maar zorgde voor angst en voor veel gewonden met blijvende schade aan longen, huid en ogen.",
+  "Na de oorlog werd gifgas in 1925 verboden in het Protocol van Genève. In 1993 volgde het Chemischewapenverdrag, dat ook de productie en opslag verbiedt. Toch werd gifgas later nog ingezet, onder meer door Italië in Ethiopië, door Irak in de jaren tachtig en in de burgeroorlog in Syrië."
+ ],
+ misverstanden: [
+  ["“Gifgas was het dodelijkste wapen van de Eerste Wereldoorlog.”","Ongeveer negentigduizend van de miljoenen doden kwamen door gas. Artillerie maakte verreweg de meeste slachtoffers. De angst voor gas was wel enorm, juist omdat je het niet altijd zag aankomen."],
+  ["“De Duitsers waren de enigen die gifgas gebruikten.”","Duitsland zette het als eerste op grote schaal in, maar Britten en Fransen volgden al in 1915. Aan het eind van de oorlog gebruikten alle grote legers gas."]
+ ],
+ hoeWeten: [
+  "Er zijn medische verslagen van artsen die de eerste slachtoffers behandelden, verslagen van soldaten en officieren, en Duitse stukken over de voorbereiding. De rol van Fritz Haber is goed gedocumenteerd. Hij kreeg in 1918 toch de Nobelprijs voor Scheikunde, voor een heel andere uitvinding: het maken van kunstmest uit stikstof uit de lucht."
+ ],
+ nu: [
+  "In Den Haag zit de Organisatie voor het Verbod op Chemische Wapens, die toeziet op het verdrag van 1993. In 2013 kreeg die organisatie de Nobelprijs voor de Vrede. Rond Ieper worden elk jaar nog tonnen oude granaten opgegraven, soms nog met gas gevuld."
+ ],
+ vertellen: "In mei 1915, een paar weken na de eerste gasaanval, schreef de Canadese legerarts John McCrae bij Ieper het gedicht In Flanders Fields, over klaprozen tussen de graven. Daardoor werd de rode klaproos het symbool van de herdenking van de oorlogsdoden, vooral in Groot-Brittannië en de landen van het Gemenebest.",
+ verbanden: [["Indiase soldaten aan het Westfront","ook zij vochten in de gasaanval van 1915"],["Passendale","de strijd om Ieper in 1917"],["Hiroshima en Nagasaki","een ander massavernietigingswapen"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering."]},
  cijfers: [['Eerste grootschalige gasaanval','22 april 1915'],['Gebruikt chloorgas','naar schatting ca. 150 ton'],['Gasdoden hele oorlog','naar schatting ca. 90.000'],['Verbod','Protocol van Genève 1925']],
  figuren: [['Fritz Haber','Duitse chemicus, leidde het gasprogramma'],['Albrecht van Württemberg','bevelhebber van het Duitse Vierde Leger']],
  bronnen: [['Wikipedia: Tweede Slag om Ieper',W('Tweede Slag om Ieper')],['Wikipedia: Gifgas in de Eerste Wereldoorlog',W('Gifgas Eerste Wereldoorlog')],['In Flanders Fields Museum','https://www.inflandersfields.be/']]
@@ -478,6 +529,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Diplomaten, zendelingen en artsen, onder wie de Amerikaanse ambassadeur Henry Morgenthau, berichtten over de deportaties. Sommige Turkse en Koerdische burgers verborgen Armeniërs, anderen deden mee aan het geweld. Turkije erkent de massamoord, maar wijst het woord genocide af. Veel landen, waaronder Nederland in 2018, erkennen het wel als genocide. De jurist Raphael Lemkin betrok het lot van de Armeniërs bij het bedenken van het begrip genocide.'
  ],
+ gevolgen: [
+  "Een eeuwenoude Armeense aanwezigheid in Oost-Anatolië verdween bijna helemaal. De overlevenden en hun nakomelingen vormen nu een grote diaspora, onder meer in Frankrijk, de Verenigde Staten, Rusland, Libanon en ook in Nederland. In 1918 ontstond een kleine Armeense republiek, die in 1920 deel werd van de Sovjet-Unie en sinds 1991 het onafhankelijke Armenië is.",
+  "De genocide speelde een rol in het ontstaan van het internationaal recht rond genocide. Na de Tweede Wereldoorlog werd in 1948 het Genocideverdrag van de Verenigde Naties aangenomen."
+ ],
+ misverstanden: [
+  ["“De Armeniërs stierven vooral door de gewone gevolgen van de oorlog.”","Honger en ziekte speelden een grote rol, maar de deportaties en moordpartijen werden van bovenaf georganiseerd door de regering. Dat blijkt uit telegrammen, getuigenissen en zelfs uit Ottomaanse rechtszaken direct na de oorlog."],
+  ["“Alleen Armeniërs werden slachtoffer.”","Ook Assyrische en Griekse christenen werden in dezelfde periode op grote schaal vermoord of verdreven."]
+ ],
+ hoeWeten: [
+  "Er zijn veel verslagen van buitenlanders die het zagen: Amerikaanse diplomaten en zendelingen, en ook Duitse consuls en officieren, hoewel Duitsland een bondgenoot was. In 1919 en 1920 hielden Ottomaanse militaire rechtbanken processen, waarin Talaat en andere leiders bij verstek ter dood werden veroordeeld. Daarnaast zijn er duizenden getuigenissen van overlevenden."
+ ],
+ nu: [
+  "Op 24 april wordt de genocide wereldwijd herdacht, onder meer bij het grote monument Tsitsernakaberd in Jerevan. De erkenning blijft een gevoelig diplomatiek onderwerp tussen Turkije en andere landen. In Nederland erkende de Tweede Kamer de genocide in 2018."
+ ],
+ vertellen: "In 1921 schoot de jonge Armeniër Soghomon Tehlirian in Berlijn Talaat Pasja dood. Tijdens het proces vertelde hij hoe zijn familie was vermoord, en de Duitse jury sprak hem vrij. De Poolse rechtenstudent Raphael Lemkin las erover en vroeg zich af waarom het moorden op een heel volk geen misdrijf was. Later bedacht hij het woord genocide.",
+ verbanden: [["Het Ottomaanse Rijk kiest partij","de oorlog waarin het gebeurde"],["Gallipoli","begon dezelfde maand"],["Wannseeconferentie","de georganiseerde moord op de Europese Joden"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust)."]},
  cijfers: [['Arrestaties Constantinopel','24 april 1915'],['Slachtoffers','naar schatting 600.000 – 1,5 miljoen'],['Erkenning door Nederlandse Tweede Kamer','2018']],
  figuren: [['Talaat Pasja','minister van Binnenlandse Zaken, hoofdverantwoordelijke'],['Henry Morgenthau sr.','Amerikaanse ambassadeur, rapporteerde erover'],['Raphael Lemkin','jurist, bedacht het woord genocide']],
  bronnen: [['Wikipedia: Armeense genocide',W('Armeense genocide')],['United States Holocaust Memorial Museum','https://www.ushmm.org/']]
@@ -496,6 +564,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'In Australië en Nieuw-Zeeland werd Gallipoli een vormend moment voor het nationale gevoel. Op 25 april is daar Anzac Day. In Turkije heet de slag Çanakkale en geldt die als een grote overwinning, die Mustafa Kemal, later Atatürk, beroemd maakte. Ook Indiase, Senegalese en Newfoundlandse soldaten vochten mee. De Ottomaanse verliezen waren minstens zo groot als die van de geallieerden.'
  ],
+ gevolgen: [
+  "Het plan om Rusland via de zeestraten te bevoorraden was mislukt. Winston Churchill moest als marineminister aftreden, en zijn reputatie herstelde zich pas veel later. De Ottomaanse overwinning gaf het rijk nieuw zelfvertrouwen.",
+  "Mustafa Kemal werd na de oorlog de leider van de Turkse onafhankelijkheidsstrijd en in 1923 de eerste president van de Republiek Turkije. Hij kreeg later de achternaam Atatürk, vader van de Turken."
+ ],
+ misverstanden: [
+  ["“Bij Gallipoli vochten vooral Australiërs en Nieuw-Zeelanders.”","De Anzacs zijn het bekendst, maar er vochten meer Britse en Franse soldaten, en er vielen ook meer Britse doden. Ook Indiase, Senegalese en Newfoundlandse soldaten en Joodse vrijwilligers uit Palestina deden mee."],
+  ["“De geallieerden werden de zee in gedreven.”","Ze bleven acht maanden op het schiereiland. De evacuatie aan het eind gebeurde zo geheim dat er bijna niemand bij omkwam."]
+ ],
+ hoeWeten: [
+  "Er zijn brieven en dagboeken van soldaten van alle kanten, officiële verslagen, en een uitgebreide Britse onderzoekscommissie die in 1917 de mislukking onderzocht. Ook de Australische oorlogscorrespondent Charles Bean schreef uitgebreid over de strijd."
+ ],
+ nu: [
+  "Op 25 april, Anzac Day, worden in Australië en Nieuw-Zeeland bij zonsopgang de doden herdacht, ook bij Anzac Cove zelf, waar elk jaar duizenden bezoekers komen. Het schiereiland is een nationaal park met tientallen begraafplaatsen en monumenten van beide kanten."
+ ],
+ vertellen: "Bij de evacuatie van december 1915 bedacht de Australische soldaat William Scurry het ‘druppelgeweer’. Water druppelde van het ene blik in het andere, en als dat vol genoeg was, trok het gewicht de trekker over. Zo vuurden lege loopgraven nog schoten af terwijl de laatste soldaten al op de schepen zaten.",
+ verbanden: [["Het Ottomaanse Rijk kiest partij","waarom de zeestraten dicht waren"],["Indiase soldaten aan het Westfront","Indiase troepen buiten Europa"],["Armeense genocide","begon in dezelfde weken"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Landing','25 april 1915'],['Laatste evacuatie','januari 1916'],['Doden totaal','naar schatting ca. 100.000 – 130.000'],['Geallieerde troepen ingezet','ca. 500.000']],
  figuren: [['Mustafa Kemal','Ottomaanse officier, later Atatürk'],['Otto Liman von Sanders','Duitse bevelhebber van de verdediging'],['Ian Hamilton','Britse bevelhebber'],['Winston Churchill','Britse marineminister, trad af']],
  bronnen: [['Wikipedia: Slag om Gallipoli',W('Slag om Gallipoli')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -514,6 +599,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor grensbewoners in Limburg, Brabant en Zeeuws-Vlaanderen werd een vertrouwde grens plotseling dodelijk. Families aan weerszijden konden elkaar niet meer bezoeken. Voor Belgische mannen was de draad een obstakel op weg naar hun leger. De Duitse wachters waren vaak oudere landweersoldaten, die zelf ook gevaar liepen. Op enkele plaatsen staan nu reconstructies.'
  ],
+ gevolgen: [
+  "Het verkeer tussen bezet België en Nederland werd veel moeilijker. Vluchten naar Nederland of naar het Belgische leger aan de IJzer werd levensgevaarlijk, en de smokkel verplaatste zich naar plaatsen waar de draad een bocht maakte of een stuk grond buiten de afrastering viel.",
+  "Voor grensdorpen betekende de draad een harde breuk. Families, boeren met land aan de andere kant en kerkgangers konden niet meer zomaar over de grens."
+ ],
+ misverstanden: [
+  ["“Nederland heeft de draad aangelegd.”","De Duitse bezetter bouwde de draad, op Belgisch grondgebied, om bezet België af te sluiten. Nederland had er niets over te zeggen, al hielden Nederlandse marechaussees en soldaten aan hun kant wel de grens in de gaten."]
+ ],
+ hoeWeten: [
+  "In Belgische en Nederlandse archieven liggen verslagen van ongelukken en ontsnappingen. Nederlandse kranten berichtten over doden aan de draad, en de marechaussee hield registers bij. Er zijn ook foto’s van de draad en verhalen van grensbewoners die later zijn opgetekend."
+ ],
+ nu: [
+  "Op verschillende plekken langs de grens staan reconstructies van de draad, onder meer in het Leenderbos, bij Reusel, Zondereigen en Molenbeersel. In het Nederlands Openluchtmuseum in Arnhem is sinds 2015 een nagebouwde doorgang te zien."
+ ],
+ vertellen: "De draad liep dwars over het terrein van de abdij van Achel, die precies op de grens ligt. Een deel van de abdij lag daardoor binnen het bezette gebied, het andere deel was via Nederland bereikbaar. De Achelse Kluis was een bekende plek voor vluchtelingen en smokkelaars.",
+ verbanden: [["Val van Antwerpen","de vluchtelingenstroom die eraan voorafging"],["Nederland mobiliseert","de Nederlandse kant van de grens"],["Inval in België","het begin van de bezetting"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering."],"venster":"35. De Eerste Wereldoorlog"},
  cijfers: [['Lengte','ruim 200 km'],['Spanning','ca. 2000 volt'],['Aanleg','voorjaar en zomer 1915'],['Doden','schattingen lopen uiteen, minstens enkele honderden']],
  figuren: [['Moritz von Bissing','Duitse gouverneur-generaal van bezet België']],
  bronnen: [['Wikipedia: Dodendraad',W('Dodendraad')],['Wikipedia: Nederland in de Eerste Wereldoorlog',W('Nederland tijdens de Eerste Wereldoorlog')]]
@@ -532,6 +633,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'In Groot-Brittannië en de Verenigde Staten werd de aanval gezien als moord op burgers. In Britse steden braken rellen uit tegen Duitse winkels en inwoners. De Duitse regering wees erop dat het schip ook munitie vervoerde, wat klopte. Voor de nabestaanden in Ierland, Groot-Brittannië en Amerika telde vooral het verlies. Het voorval kwam daarna steeds terug in de propaganda.'
  ],
+ gevolgen: [
+  "In Amerika sloeg de publieke opinie om tegen Duitsland, en de Verenigde Staten zetten Berlijn onder druk om burgerschepen te ontzien. Die druk werkte tijdelijk: Duitsland beperkte de duikbootaanvallen.",
+  "De ramp werd een van de krachtigste beelden van de geallieerde propaganda. Affiches met verdrinkende vrouwen en kinderen werden gebruikt om soldaten te werven, eerst in Groot-Brittannië en later in Amerika."
+ ],
+ misverstanden: [
+  ["“Door de Lusitania ging Amerika de oorlog in.”","Amerika verklaarde Duitsland pas bijna twee jaar later de oorlog, in april 1917. Dat gebeurde vooral door de hervatting van de onbeperkte duikbootoorlog en het Zimmermann-telegram."],
+  ["“De Lusitania vervoerde helemaal geen oorlogsmateriaal.”","Het schip had wel degelijk munitie aan boord, zoals geweerpatronen. Of dat de tweede ontploffing veroorzaakte, is niet zeker. Ook een ontploffing van een stoomketel of van kolenstof wordt genoemd."]
+ ],
+ hoeWeten: [
+  "Er zijn verklaringen van honderden overlevenden, een Brits en een Amerikaans onderzoek, en het logboek van de U-20. Het wrak ligt op ongeveer 90 meter diepte voor de Ierse kust en is meerdere keren door duikers en onderzoekers bezocht."
+ ],
+ nu: [
+  "In het Ierse havenstadje Cobh, waar veel overlevenden en doden aan land werden gebracht, staat een monument en liggen slachtoffers begraven. De vraag naar de tweede ontploffing blijft onderzoekers bezighouden."
+ ],
+ vertellen: "De Duitse kunstenaar Karl Goetz maakte in 1915 een spotpenning over de Lusitania, waarop de doden werden afgebeeld als slachtoffers van hun eigen roekeloosheid. De Britten lieten daar honderdduizenden kopieën van maken en verkochten die als bewijs van Duitse wreedheid. Zo werd Duitse spot Britse propaganda.",
+ verbanden: [["Duikbootoorlog rond Groot-Brittannië","de oorlog op zee"],["Amerika gaat de oorlog in","hoe het in 1917 alsnog gebeurde"],["Zeeslag bij Jutland","de grote zeeslag tussen de slagvloten"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","De rol van moderne propaganda- en communicatiemiddelen en vormen van massa-organisatie."]},
  cijfers: [['Datum','7 mei 1915'],['Doden','ca. 1200'],['Amerikaanse doden','128'],['Tijd tot zinken','ca. 18 minuten']],
  figuren: [['Walther Schwieger','commandant van de U-20'],['William Turner','kapitein van de Lusitania'],['Woodrow Wilson','Amerikaanse president']],
  bronnen: [['Wikipedia: RMS Lusitania',W('RMS Lusitania')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -550,6 +668,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Aan Oostenrijkse kant vochten Slovenen, Kroaten, Hongaren en Oostenrijkers, vaak om hun eigen streek te verdedigen. Italiaanse soldaten kregen te maken met harde straffen, ook executies. Burgers in de grensgebieden werden geëvacueerd of geïnterneerd. Na de oorlog kreeg Italië minder dan beloofd. Het gevoel van een verminkte overwinning hielp het fascisme opkomen.'
  ],
+ gevolgen: [
+  "Na de oorlog kreeg Italië Trentino, Zuid-Tirol, Triëst en Istrië, maar niet Dalmatië en de stad Fiume. Veel Italianen vonden dat hun land was bedrogen. In 1919 bezette de dichter D’Annunzio met vrijwilligers Fiume, en in 1922 kwam Mussolini aan de macht.",
+  "Zuid-Tirol, waar vooral Duitstalige mensen woonden, bleef bij Italië. Tot vandaag heeft het gebied een eigen autonomie en zijn Duits en Italiaans er allebei officiële talen."
+ ],
+ misverstanden: [
+  ["“Het Italiaanse leger vocht slecht.”","Na de nederlaag bij Caporetto ontstond dat beeld, maar Italiaanse soldaten vochten jarenlang onder zware omstandigheden en met enorme verliezen. De legerleiding van Cadorna, met zinloze aanvallen en harde straffen, droeg een groot deel van de schuld."]
+ ],
+ hoeWeten: [
+  "Er zijn brieven, dagboeken en foto’s van soldaten van beide kanten. Bekende schrijvers vochten of werkten aan dit front en schreven erover. In de Alpen komen door het smelten van gletsjers nog steeds voorwerpen en zelfs lichamen van soldaten tevoorschijn, die archeologen onderzoeken."
+ ],
+ nu: [
+  "In de Dolomieten liggen nog tunnels, stellingen en paden uit de oorlog. Veel van de bekende klimroutes met ijzeren kabels, de via ferrata, werden in de oorlog aangelegd om soldaten en voorraden de bergen op te krijgen. Er zijn ook openluchtmusea op de oude frontlinie."
+ ],
+ vertellen: "De jonge Amerikaanse schrijver Ernest Hemingway werkte als ambulancechauffeur aan het Italiaanse front. In juli 1918 raakte hij bij de Piave zwaar gewond. Zijn ervaringen gebruikte hij later in zijn bekende roman Afscheid van de wapenen.",
+ verbanden: [["Broesilov-offensief","de Russische aanval die de Italianen ontlastte"],["De wapenstilstand","het einde van de oorlog"],["Verdrag van Versailles","de vrede waar Italië teleurgesteld over was"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme)."]},
  cijfers: [['Oorlogsverklaring aan Oostenrijk-Hongarije','23 mei 1915'],['Slagen aan de Isonzo','12'],['Italiaanse gesneuvelden hele oorlog','naar schatting ca. 460.000 – 650.000']],
  figuren: [['Luigi Cadorna','Italiaanse opperbevelhebber tot 1917'],['Antonio Salandra','Italiaanse premier'],['Gabriele D’Annunzio','dichter en interventionist'],['Svetozar Boroević','Oostenrijks-Hongaarse bevelhebber aan de Isonzo']],
  bronnen: [['Wikipedia: Italiaans front',W('Italiaanse front Eerste Wereldoorlog')],['Wikipedia: Slagen aan de Isonzo',W('Slagen aan de Isonzo')]]
@@ -568,6 +702,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Frankrijk werd Verdun de slag die elke familie raakte. Duitse soldaten ervoeren hetzelfde: modder, honger, dorst en voortdurende beschietingen. Negen dorpen werden volledig verwoest en nooit herbouwd. Het knekelhuis van Douaumont bewaart de resten van tienduizenden onbekende soldaten van beide kanten. In 1984 stonden de Franse president Mitterrand en de Duitse kanselier Kohl daar hand in hand.'
  ],
+ gevolgen: [
+  "Geen van beide partijen won iets. Het Franse leger was wel ernstig uitgeput, wat in 1917 bijdroeg aan muiterijen. Falkenhayn werd in augustus 1916 vervangen door Hindenburg en Ludendorff.",
+  "Pétain werd een nationale held, de redder van Verdun. Die reputatie hielp hem in 1940 aan de macht, toen hij het Vichy-regime leidde dat met nazi-Duitsland samenwerkte. Ook de Maginotlinie, de Franse verdedigingslinie uit de jaren dertig, was een les die Frankrijk uit Verdun trok."
+ ],
+ misverstanden: [
+  ["“Falkenhayn had van tevoren precies dit plan opgeschreven.”","Het bekende memorandum waarin hij het ‘laten uitbloeden’ van het Franse leger uitlegt, kennen we alleen uit zijn memoires van na de oorlog. Veel historici denken dat hij het achteraf zo heeft opgeschreven om zijn mislukking te verklaren."]
+ ],
+ hoeWeten: [
+  "Er zijn duizenden brieven, dagboeken en foto’s van Franse en Duitse soldaten, en de Franse regimenten hielden dagboeken bij. Ook het landschap zelf is een bron: het slagveld van Verdun is nog steeds bezaaid met granaattrechters, loopgraven en resten van forten."
+ ],
+ nu: [
+  "Rond Verdun ligt een groot bos, aangeplant op grond die te vergiftigd en te vol met munitie was om nog te bewerken. Het knekelhuis van Douaumont en het Mémorial de Verdun trekken elk jaar veel bezoekers. De handdruk van Mitterrand en Kohl in 1984 wordt gezien als symbool van de Frans-Duitse verzoening."
+ ],
+ vertellen: "De negen dorpen bij Verdun die volledig zijn verwoest, zijn nooit herbouwd, maar bestaan officieel nog wel. Ze heten ‘gestorven voor Frankrijk’ en hebben elk een burgemeester, terwijl er niemand woont. Op de plek van de huizen staan bordjes die laten zien waar de bakker of de smid woonde.",
+ verbanden: [["De Somme","het offensief dat Verdun moest ontlasten"],["Slag aan de Marne","het begin van de loopgravenoorlog"],["Verdrag van Versailles","de vrede na de uitputtingsoorlog"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering."]},
  cijfers: [['Duur','21 februari – 18 december 1916'],['Doden','naar schatting ca. 300.000'],['Doden, gewonden en vermisten','ca. 700.000'],['Verwoeste dorpen','9']],
  figuren: [['Erich von Falkenhayn','Duitse stafchef'],['Philippe Pétain','Franse bevelhebber bij Verdun'],['Robert Nivelle','Franse generaal, leidde de tegenaanvallen']],
  bronnen: [['Wikipedia: Slag om Verdun',W('Slag om Verdun')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -586,6 +736,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Duitsland vierde de Skagerrakschlacht als overwinning. Voor de Britten was het een schok, maar strategisch veranderde er weinig: de blokkade bleef bestaan en de Duitse vloot waagde zich nauwelijks meer op volle zee. Duitsland richtte zich daarna vooral op de duikbootoorlog. Voor zeelieden aan beide kanten was de slag kort en zeer dodelijk. In 1918 kwamen Duitse matrozen in opstand toen ze opnieuw moesten uitvaren.'
  ],
+ gevolgen: [
+  "Strategisch veranderde er weinig: de Britse vloot beheerste de Noordzee en de blokkade van Duitsland bleef. De Duitse slagvloot bleef de rest van de oorlog grotendeels in de haven, en Duitsland zette vanaf 1917 vooral in op de onbeperkte duikbootoorlog.",
+  "Toen de Duitse vloot eind oktober 1918 toch nog één keer moest uitvaren, weigerden matrozen in Wilhelmshaven en Kiel. Hun opstand was het begin van de Duitse revolutie. In 1919 brachten Duitse bemanningen de geïnterneerde vloot in Scapa Flow zelf tot zinken."
+ ],
+ misverstanden: [
+  ["“Duitsland won de zeeslag bij Jutland.”","De Britten verloren meer schepen en mannen, dus tactisch had Duitsland een voordeel. Maar het Duitse doel, de Britse overmacht breken, werd niet gehaald. Een Amerikaanse krant vatte het samen: de gevangene had zijn bewaker aangevallen, maar zat nog steeds in de cel."]
+ ],
+ hoeWeten: [
+  "Beide marines hielden logboeken en signaalverslagen bij, en na de oorlog volgden er lange discussies tussen de admiraals over wie welke fout had gemaakt. De wrakken liggen nog op de bodem van de Noordzee en zijn met duikers en sonar onderzocht."
+ ],
+ nu: [
+  "De wrakken bij Jutland gelden als oorlogsgraf, maar worden ook bedreigd door illegale bergers die er metaal uit halen. In het Deense Thyborøn staat een museum over de zeeslag, met de namen van alle gesneuvelden van beide kanten."
+ ],
+ vertellen: "Toen in een halfuur twee van zijn slagkruisers waren ontploft, zei de Britse admiraal Beatty volgens ooggetuigen droogjes: “Er lijkt vandaag iets mis te zijn met onze verdomde schepen.” Later bleek dat munitie onveilig werd bewaard, waardoor een voltreffer een heel schip kon laten exploderen.",
+ verbanden: [["Duikbootoorlog rond Groot-Brittannië","waar Duitsland daarna op inzette"],["Revolutie in Duitsland","begonnen bij de matrozen van de vloot"],["Onbeperkte duikbootoorlog","de Duitse keuze voor 1917"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Datum','31 mei – 1 juni 1916'],['Britse doden','ca. 6000'],['Duitse doden','ca. 2500'],['Gezonken schepen','14 Brits, 11 Duits']],
  figuren: [['John Jellicoe','bevelhebber Britse Grand Fleet'],['David Beatty','bevelhebber Britse slagkruisers'],['Reinhard Scheer','bevelhebber Duitse Hochseeflotte'],['Franz von Hipper','bevelhebber Duitse slagkruisers']],
  bronnen: [['Wikipedia: Zeeslag bij Jutland',W('Zeeslag bij Jutland')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -604,6 +770,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Oostenrijk-Hongarije was het een zware klap; het leger werd daarna steeds afhankelijker van Duitsland. Ook voor Rusland waren de verliezen enorm, wat de onvrede voedde die in 1917 tot revolutie leidde. De burgers in Galicië, onder wie veel Joden, Oekraïners en Polen, leden onder vlucht, deportaties en vernielingen door beide legers.'
  ],
+ gevolgen: [
+  "Het offensief was het grootste succes van de geallieerden in 1916, maar kostte Rusland enorme aantallen soldaten. Daarna was het Russische leger uitgeput, en het vertrouwen in de tsaar daalde verder. Een half jaar later brak de Februarirevolutie uit.",
+  "Oostenrijk-Hongarije kon na deze nederlaag niet meer zelfstandig oorlog voeren en kwam onder Duits militair toezicht. De druk op Verdun en het Italiaanse front werd wel minder, omdat Duitsland en Oostenrijk-Hongarije troepen naar het oosten moesten sturen."
+ ],
+ misverstanden: [
+  ["“Het Russische leger was in de Eerste Wereldoorlog hopeloos.”","Rusland leed zware nederlagen, maar het Broesilov-offensief laat zien dat het ook succesvol kon zijn. Broesilovs aanpak, op veel plaatsen tegelijk en met verrassing, werd later ook door andere legers gebruikt."]
+ ],
+ hoeWeten: [
+  "Broesilov schreef zelf memoires, en er zijn Russische, Duitse en Oostenrijkse legerarchieven. Lang werd het oostfront in westerse geschiedenisboeken veel minder belicht dan het westfront, en pas de laatste decennia is er meer onderzoek naar."
+ ],
+ nu: [
+  "De strijd vond plaats in wat nu het westen van Oekraïne is. Daar en in Polen liggen veel vergeten militaire begraafplaatsen uit de Eerste Wereldoorlog. Aan het oostfront wordt in West-Europa nog altijd weinig herdacht."
+ ],
+ vertellen: "Om zijn aanval voor te bereiden, liet Broesilov achter de linies nagemaakte vijandelijke loopgraven aanleggen. Daar oefenden zijn soldaten de aanval, zodat iedereen precies wist wat hij moest doen. Ook groeven ze ongemerkt loopgraven tot dicht bij de vijand, zodat ze minder ver hoefden te rennen.",
+ verbanden: [["Verdun","het front dat de Russen wilden ontlasten"],["Februarirevolutie in Rusland","het gevolg van de uitputting"],["Slag bij Tannenberg","de Russische nederlaag van 1914"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Begin','4 juni 1916'],['Russische verliezen','naar schatting 0,5 – 1 miljoen'],['Verliezen Centrale mogendheden','naar schatting 1 – 1,5 miljoen, onder wie ca. 400.000 gevangenen'],['Toetreding Roemenië','augustus 1916']],
  figuren: [['Aleksej Broesilov','Russische generaal'],['Franz Conrad von Hötzendorf','Oostenrijks-Hongaarse stafchef'],['Tsaar Nicolaas II','Russisch opperbevelhebber']],
  bronnen: [['Wikipedia: Broesilov-offensief',W('Broesilov-offensief')],['Imperial War Museums','https://www.iwm.org.uk/']]
