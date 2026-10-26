@@ -108,7 +108,7 @@
 
   <div class="scrim big" id="scrim2"></div>
   <section class="page" id="page" role="dialog" aria-label="Achtergrond" aria-hidden="true">
-    <div class="pgbar px"><button class="btn" id="pgback">← Terug</button><div class="ctx" id="pgctx"></div><div class="pgacts"><span class="pgmsg" id="pgmsg" role="status"></span><button class="btn linkbtn cplink" id="pglink" title="Link kopiëren" aria-label="Link kopiëren"><svg class="i-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><svg class="i-ok" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2F7A4F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button><button class="btn pdfbtn" id="pgpdf"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span>Opslaan als pdf</span></button><button class="btn printbtn" id="pgprint"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V4h10v5M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M7 14h10v6H7z"/></svg><span>Afdrukken</span></button></div><button class="xbtn" id="pgclose" aria-label="Sluiten"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F2430" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="pgbar px"><button class="btn" id="pgback">← Terug</button><div class="ctx" id="pgctx"></div><div class="pgacts"><span class="pgmsg" id="pgmsg" role="status"></span><button class="btn linkbtn cplink" id="pglink" title="Link kopiëren" aria-label="Link kopiëren"><svg class="i-link" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><svg class="i-ok" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2F7A4F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button><button class="btn pdfbtn" id="pgpdf"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span>Opslaan als pdf</span></button><button class="btn printbtn" id="pgprint"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V4h10v5M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M7 14h10v6H7z"/></svg><span>Afdrukken</span></button><button class="btn linkbtn" id="pgimgs" title="Afbeeldingen downloaden of afdrukken" aria-label="Afbeeldingen downloaden of afdrukken" aria-expanded="false" aria-controls="pgimenu" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg></button></div><div class="imenu" id="pgimenu" hidden></div><button class="xbtn" id="pgclose" aria-label="Sluiten"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F2430" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="pgin px" id="pgbody"></div>
   </section>
   <section class="page vpage" id="vpage" role="dialog" aria-label="Verhaal" aria-hidden="true">
@@ -367,9 +367,10 @@ function openPage(id){
   const p=$('#page');p.scrollTop=0;p.classList.add('on');p.setAttribute('aria-hidden','false');
   $('#pgprev')&&($('#pgprev').onclick=()=>{stepTo(pv);openPage(pv.id)});
   $('#pgnext')&&($('#pgnext').onclick=()=>{stepTo(nx);openPage(nx.id)});
+  closeImgs();$('#pgimgs').hidden=!IMG(e.t).length;
   $('#pgclose').focus({preventScroll:true});syncHash();
 }
-function closePage(toModal){const p=$('#page');const id=pgid;p.classList.remove('on');p.setAttribute('aria-hidden','true');$('#scrim2').classList.remove('on');pgid=null;
+function closePage(toModal){closeImgs();const p=$('#page');const id=pgid;p.classList.remove('on');p.setAttribute('aria-hidden','true');$('#scrim2').classList.remove('on');pgid=null;
   if(toModal&&id){openPanel(id);const rm=$('#readmore');rm&&rm.focus({preventScroll:true})}else closePanel()}
 $('#pgback').onclick=()=>closePage(true);
 
@@ -574,6 +575,44 @@ async function savePdf(){
 $('#pgpdf').onclick=savePdf;
 $('#pgprint').onclick=()=>window.print();
 
+/* ---- afbeeldingen los downloaden of afdrukken (om op te hangen in de klas) ---- */
+function openImgs(){
+  const e=EVMAP[pgid];const L=e?IMG(e.t):[];if(!L.length)return;const m=$('#pgimenu');
+  m.innerHTML=`<p class="imh">Afbeeldingen bij dit onderwerp</p>${L.map((im,i)=>`<div class="imi"><img src="${esc(im.src)}" alt="" loading="lazy"><div class="imt"><b>${esc(im.cap)}</b><span>Foto: ${esc(im.by)} · ${esc(im.lic)}</span></div><div class="ima"><button class="btn" data-dl="${i}">Downloaden</button><button class="btn imp" data-pr="${i}">Afdrukken</button></div></div>`).join('')}
+   ${L.length>1?`<button class="btn imall imp" data-pr="all">Alle ${L.length} afbeeldingen afdrukken</button>`:''}
+   <p class="imn">Bij het afdrukken komen de maker en de licentie onder de afbeelding, zoals de licentie vraagt.</p>`;
+  m.hidden=false;$('#pgimgs').setAttribute('aria-expanded','true');const f=m.querySelector('button');f&&f.focus({preventScroll:true})}
+function closeImgs(){const m=$('#pgimenu');if(!m)return;m.hidden=true;$('#pgimgs').setAttribute('aria-expanded','false')}
+$('#pgimgs').onclick=()=>$('#pgimenu').hidden?openImgs():closeImgs();
+document.addEventListener('click',ev=>{if(!$('#pgimenu').hidden&&!ev.target.closest('#pgimenu,#pgimgs'))closeImgs()});
+$('#pgimenu').addEventListener('click',ev=>{const b=ev.target.closest('[data-dl],[data-pr]');if(!b)return;const e=EVMAP[pgid];if(!e)return;const L=IMG(e.t);
+  if(b.dataset.dl!==undefined)saveImg(e,L[+b.dataset.dl],+b.dataset.dl);else{closeImgs();printImgs(b.dataset.pr==='all'?L:[L[+b.dataset.pr]])}});
+// Als jpg: dat opent overal (ook in Word en de fotoviewer), webp niet altijd.
+async function saveImg(e,im,i){const msg=$('#pgmsg');
+  const name=('Tijdlijn - '+e.t+(IMG(e.t).length>1?' - '+(i+1):'')).replace(/[\\/:*?"<>|]/g,'').replace(/\s+/g,' ').trim().slice(0,120)+'.jpg';
+  try{const bmp=await createImageBitmap(await (await fetch(im.src)).blob());const c=document.createElement('canvas');c.width=bmp.width;c.height=bmp.height;
+    const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(bmp,0,0);
+    const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',.92));
+    if(DL){await DL.save({filename:name,data:blob});msg.textContent='Afbeelding opgeslagen'}
+    else{const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),4000);msg.textContent='Afbeelding gedownload'}}
+  catch(err){const c=err&&err.code;msg.textContent=c==='declined'?'':c==='rate_limited'?'Er staat al een opslagvraag open.':'Downloaden lukte niet.'}
+  setTimeout(()=>{msg.textContent=''},4000)}
+// Elke afbeelding op een eigen A4, liggend of staand naar de vorm van de foto.
+async function printImgs(L){
+  const wide=await Promise.all(L.map(im=>new Promise(r=>{const g=new Image();g.onload=()=>r(g.naturalWidth>g.naturalHeight);g.onerror=()=>r(false);g.src=im.src})));
+  const old=$('#imgprint');old&&old.remove();
+  const f=document.createElement('iframe');f.id='imgprint';f.setAttribute('aria-hidden','true');f.tabIndex=-1;f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0';
+  f.srcdoc=`<!doctype html><html lang="nl"><head><meta charset="utf-8"><title>Tijdlijn van Nederland</title><style>
+@page{size:A4;margin:10mm}@page l{size:A4 landscape;margin:10mm}@page p{size:A4 portrait;margin:10mm}
+html,body{margin:0}body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#1F2430}
+section{display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;break-after:page}section:last-child{break-after:auto}
+section.p{page:p;width:189mm;height:276mm}section.l{page:l;width:276mm;height:189mm}
+img{display:block;max-width:100%;max-height:calc(100% - 22mm);object-fit:contain}
+.cap{font-size:14pt;font-weight:700;margin:5mm 0 1.5mm;text-align:center}.cr{font-size:8pt;color:#5B6170;margin:0;text-align:center}
+</style></head><body>${L.map((im,i)=>`<section class="${wide[i]?'l':'p'}"><img src="${esc(new URL(im.src,location.href).href)}" alt=""><p class="cap">${esc(im.cap)}</p><p class="cr">Foto: ${esc(im.by)} · ${esc(im.lic)} · Wikimedia Commons · Tijdlijn van Nederland, meestertools.nl</p></section>`).join('')}</body></html>`;
+  f.onload=()=>{try{f.contentWindow.focus();f.contentWindow.print()}catch(_){}};
+  document.body.appendChild(f)}
+
 /* ---- oorlogen ---- */
 function openWar(k,scroll){
   const W0=WARS[k];curWar=k;const z=$('#war');
@@ -742,7 +781,7 @@ function applyToggles(){$('#f-school').setAttribute('aria-pressed',showSchool);d
 $('#f-school').onclick=()=>{showSchool=!showSchool;store.set('nl-tl-school',showSchool?'1':'0');applyToggles();renderCols()};
 document.addEventListener('keydown',ev=>{
   const typing=/input|textarea/i.test(document.activeElement.tagName);
-  if(ev.key==='Escape'){if(!$('#jmenu').hidden){closeJump();$('#jumpbtn').focus();return}if(vid){closeVerhaal();return}if(pgid){closePage(false);return}if(pid){closePanel();return}}
+  if(ev.key==='Escape'){if(!$('#jmenu').hidden){closeJump();$('#jumpbtn').focus();return}if(!$('#pgimenu').hidden){closeImgs();$('#pgimgs').focus();return}if(vid){closeVerhaal();return}if(pgid){closePage(false);return}if(pid){closePanel();return}}
   if(pid&&!pgid&&!typing){if(ev.key==='ArrowRight'&&!$('#pnext').disabled)$('#pnext').click();if(ev.key==='ArrowLeft'&&!$('#pprev').disabled)$('#pprev').click()}
   if(ev.key==='/'&&!pid&&!pgid&&!typing){ev.preventDefault();$('#q').focus()}
 });
