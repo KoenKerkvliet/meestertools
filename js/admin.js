@@ -14,17 +14,56 @@ document.addEventListener('DOMContentLoaded', () => {
     let confirmCallback = null;
 
     // ---------- Tab Switching ----------
+    // Twee hoofdgroepen (platform / tools), elk met eigen tabs. De gekozen tab
+    // staat in de hash (#feedback), zodat links naar een tab werken, en per
+    // groep in localStorage, zodat je bij terugkomen weer op dezelfde plek zit.
     const tabs = document.querySelectorAll('.admin-tab');
     const panels = document.querySelectorAll('.admin-tab-panel');
+    const groups = document.querySelectorAll('.admin-group');
+    const TAB_KEY = 'mt-beheer-tab';
+    const tabByName = name => Array.from(tabs).find(t => t.dataset.tab === name);
+
+    function store(key, value) {
+        try { localStorage.setItem(key, value); } catch (_) {}
+    }
+    function stored(key) {
+        try { return localStorage.getItem(key); } catch (_) { return null; }
+    }
+
+    function showTab(name) {
+        const tab = tabByName(name) || tabs[0];
+        const group = tab.dataset.group;
+        groups.forEach(g => g.classList.toggle('active', g.dataset.group === group));
+        tabs.forEach(t => {
+            t.hidden = t.dataset.group !== group;
+            t.classList.toggle('active', t === tab);
+        });
+        panels.forEach(p => p.classList.toggle('active', p.id === 'tab-' + tab.dataset.tab));
+        store(TAB_KEY, tab.dataset.tab);
+        store(TAB_KEY + '-' + group, tab.dataset.tab);
+        if (location.hash !== '#' + tab.dataset.tab) {
+            history.replaceState(null, '', location.pathname + location.search + '#' + tab.dataset.tab);
+        }
+    }
 
     tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('active'));
-            panels.forEach(p => p.classList.remove('active'));
-            tab.classList.add('active');
-            document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+        tab.addEventListener('click', () => showTab(tab.dataset.tab));
+    });
+
+    groups.forEach(group => {
+        group.addEventListener('click', () => {
+            const last = tabByName(stored(TAB_KEY + '-' + group.dataset.group));
+            const first = Array.from(tabs).find(t => t.dataset.group === group.dataset.group);
+            showTab((last && last.dataset.group === group.dataset.group ? last : first).dataset.tab);
         });
     });
+
+    window.addEventListener('hashchange', () => {
+        const name = location.hash.slice(1);
+        if (tabByName(name)) showTab(name);
+    });
+
+    showTab(tabByName(location.hash.slice(1)) ? location.hash.slice(1) : stored(TAB_KEY));
 
     // ---------- Sub-Tab Switching (Woorden Flitsen) ----------
     const subTabs = document.querySelectorAll('.words-sub-tab');

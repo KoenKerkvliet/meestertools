@@ -26,9 +26,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Meestertools - Beheer</title>
-    <link rel="stylesheet" href="css/style.css?v=1.64.1">
-    <link rel="stylesheet" href="css/instellingen.css?v=1.64.1">
-    <link rel="stylesheet" href="css/ideeenbus.css?v=1.64.1">
+    <link rel="stylesheet" href="css/style.css?v=1.64.2">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.64.2">
+    <link rel="stylesheet" href="css/ideeenbus.css?v=1.64.2">
 </head>
 <body>
     <!-- Header -->
@@ -41,19 +41,25 @@
             <p>Beheer scholen en gebruikers</p>
         </div>
 
-        <!-- Tabs -->
+        <!-- Hoofdgroepen: platformbeheer en beheer van tools -->
+        <div class="admin-groups">
+            <button class="admin-group active" data-group="platform">Platformbeheer</button>
+            <button class="admin-group" data-group="tools">Beheer van tools</button>
+        </div>
+
+        <!-- Tabs (alleen die van de gekozen groep zijn zichtbaar) -->
         <div class="admin-tabs">
-            <button class="admin-tab active" data-tab="users">Gebruikers</button>
-            <button class="admin-tab" data-tab="schools">Scholen</button>
-            <button class="admin-tab" data-tab="bezoek">Bezoek</button>
-            <button class="admin-tab" data-tab="words">Woorden Flitsen</button>
-            <button class="admin-tab" data-tab="spelling">Spelling</button>
-            <button class="admin-tab" data-tab="game24">24 Game</button>
-            <button class="admin-tab" data-tab="escaperooms">Escape rooms</button>
-            <button class="admin-tab" data-tab="ideas">Idee&euml;nbus <span class="admin-tab-badge" id="ideasBadge" hidden>0</span></button>
-            <button class="admin-tab" data-tab="feedback">Feedback</button>
-            <button class="admin-tab" data-tab="opruimen">Opruimen</button>
-            <button class="admin-tab" data-tab="roadmap">Roadmap</button>
+            <button class="admin-tab active" data-group="platform" data-tab="users">Gebruikers</button>
+            <button class="admin-tab" data-group="platform" data-tab="schools">Scholen</button>
+            <button class="admin-tab" data-group="platform" data-tab="bezoek">Bezoek</button>
+            <button class="admin-tab" data-group="platform" data-tab="feedback">Feedback</button>
+            <button class="admin-tab" data-group="platform" data-tab="opruimen">Opruimen</button>
+            <button class="admin-tab" data-group="platform" data-tab="ideas">Idee&euml;nbus <span class="admin-tab-badge" id="ideasBadge" hidden>0</span></button>
+            <button class="admin-tab" data-group="platform" data-tab="roadmap">Roadmap</button>
+            <button class="admin-tab" data-group="tools" data-tab="words" hidden>Woorden Flitsen</button>
+            <button class="admin-tab" data-group="tools" data-tab="spelling" hidden>Spelling</button>
+            <button class="admin-tab" data-group="tools" data-tab="game24" hidden>24 Game</button>
+            <button class="admin-tab" data-group="tools" data-tab="escaperooms" hidden>Escape rooms</button>
         </div>
 
         <!-- Schools Tab -->
@@ -941,13 +947,13 @@
     <!-- Footer -->
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.64.1"></script>
-    <script src="/js/template.js?v=1.64.1"></script>
+    <script src="/js/mt-shared.js?v=1.64.2"></script>
+    <script src="/js/template.js?v=1.64.2"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.64.1"></script>
-    <script src="js/app.js?v=1.64.1"></script>
-    <script src="js/instellingen.js?v=1.64.1"></script>
-    <script src="js/admin.js?v=1.64.1"></script>
+    <script src="js/supabase-config.js?v=1.64.2"></script>
+    <script src="js/app.js?v=1.64.2"></script>
+    <script src="js/instellingen.js?v=1.64.2"></script>
+    <script src="js/admin.js?v=1.64.2"></script>
 </body>
 </html>

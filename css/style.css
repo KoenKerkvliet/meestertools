@@ -1647,9 +1647,42 @@ a {
     font-size: 15px;
 }
 
+/* Admin hoofdgroepen (platformbeheer / beheer van tools) */
+.admin-groups {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.admin-group {
+    padding: 10px 20px;
+    border: 2px solid #E8E8F0;
+    background: var(--bg-white);
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-medium);
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.admin-group:hover {
+    color: var(--text-dark);
+    border-color: #D0D0DE;
+}
+
+.admin-group.active {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: #F0EFFF;
+}
+
 /* Admin Tabs */
 .admin-tabs {
     display: flex;
+    flex-wrap: wrap;
     gap: 4px;
     background: var(--bg-white);
     border-radius: var(--radius-md);
@@ -1680,6 +1713,23 @@ a {
 .admin-tab.active {
     background: var(--primary);
     color: white;
+}
+
+.admin-tab[hidden] {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .admin-group {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 10px 8px;
+        font-size: 14px;
+    }
+
+    .admin-tab {
+        padding: 8px 14px;
+    }
 }
 
 /* Admin Tab Panels */
