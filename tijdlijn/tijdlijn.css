@@ -327,7 +327,8 @@ footer{max-width:1100px;padding-block:8px 56px;font-size:16px;line-height:1.5;co
 .site{position:sticky;top:env(safe-area-inset-top,0px);z-index:35;background:var(--surface);border-bottom:2px solid var(--line2);display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;padding-block:12px}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);flex:none}
 .brand:hover{color:var(--ink)}
-.mark{width:44px;height:44px;border-radius:14px;background:var(--bg);border:2px solid var(--line);display:grid;place-items:center}
+.mark{width:44px;height:44px;flex:none;display:grid;place-items:center}
+.mark img{display:block;width:100%;height:100%}
 .bt{font-family:var(--f-display);font-weight:800;font-size:22px;letter-spacing:-.02em;line-height:1;white-space:nowrap}
 .site .sbox{flex:1 1 300px;max-width:560px}
 .site .sfield{height:50px;border-radius:16px;background:var(--bg);box-shadow:none;padding:0 14px}
