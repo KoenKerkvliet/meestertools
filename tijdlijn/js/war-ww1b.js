@@ -417,6 +417,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de bewoners van Jeruzalem, moslims, christenen en Joden, kwam er een einde aan jaren van honger, ziekte en ontberingen. In de oorlog stierven in Syrië en Libanon honderdduizenden mensen door honger, mede door een sprinkhanenplaag en Ottomaanse en geallieerde blokkades. Voor de Ottomanen was het verlies van de stad na vier eeuwen een zware klap. Arabische leiders zagen met zorg hoe de Britse beloften aan hen en aan de zionisten elkaar tegenspraken.'
  ],
+ gevolgen: [
+  "Na de oorlog kreeg Groot-Brittannië van de Volkenbond Palestina als mandaatgebied. De Balfourverklaring werd onderdeel van dat mandaat. In de jaren twintig en dertig kwamen steeds meer Joodse immigranten, en de spanningen met de Arabische bevolking groeiden.",
+  "In 1948 trokken de Britten zich terug en werd de staat Israël uitgeroepen. Daarop volgde een oorlog waarin honderdduizenden Palestijnen hun huizen verloren. Het conflict over het land en over Jeruzalem duurt tot vandaag."
+ ],
+ misverstanden: [
+  ["“In de Balfourverklaring beloofden de Britten een Joodse staat.”","De brief sprak van een ‘nationaal tehuis’ voor het Joodse volk, niet van een staat, en voegde eraan toe dat de rechten van de niet-Joodse bewoners niet mochten worden geschaad. Die vage formulering liet ruimte voor heel verschillende verwachtingen."]
+ ],
+ hoeWeten: [
+  "Er zijn filmbeelden en foto’s van de intocht van Allenby, Britse legerverslagen en de originele Balfourbrief, die in de British Library ligt. Ook dagboeken van inwoners van Jeruzalem beschrijven de laatste Ottomaanse jaren en de komst van de Britten."
+ ],
+ nu: [
+  "De verklaring is nog altijd omstreden. Bij de honderdste verjaardag in 2017 werd ze in Israël en door de Britse regering herdacht, terwijl Palestijnen protesteerden en Groot-Brittannië om excuses vroegen. Op de Britse oorlogsbegraafplaats op de Olijfberg liggen soldaten die bij de strijd om Jeruzalem vielen."
+ ],
+ vertellen: "Op de ochtend van 9 december 1917 liep de burgemeester van Jeruzalem met een witte vlag de stad uit om de overgave aan te bieden. De eerste Britten die hij tegenkwam, waren twee sergeanten op verkenning. Zij weigerden de brief aan te nemen, omdat zoiets niet bij hun rang paste. Pas later die dag nam een generaal de overgave aan.",
+ verbanden: [["Arabische Opstand","de Arabieren die met de Britten optrokken"],["Het Ottomaanse Rijk kiest partij","het begin van de oorlog in het Midden-Oosten"],["De Volkenbond","die Palestina als mandaat aan Groot-Brittannië gaf"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Opkomst van verzet in de koloniën tegen het West-Europese imperialisme."]},
  cijfers: [['Inname Beersheba','31 oktober 1917'],['Balfourverklaring','2 november 1917'],['Overgave van de stad','9 december 1917'],['Intocht Allenby','11 december 1917']],
  figuren: [['Edmund Allenby','Brits bevelhebber in Egypte en Palestina'],['Arthur Balfour','Britse minister van Buitenlandse Zaken'],['Erich von Falkenhayn','Duitse generaal, leidde Ottomaans-Duitse troepen in Palestina']],
  bronnen: [['Wikipedia: Slag om Jeruzalem',W('Slag om Jeruzalem 1917')],['Wikipedia: Balfour-declaratie',W('Balfour-declaratie')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -435,6 +451,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Duitsland leek het een grote overwinning, maar de bezetting van het oosten bond nog altijd veel troepen. Voor veel Russen was het een vernedering, en een deel van de linkse sociaal-revolutionairen brak met de bolsjewieken. Voor Finnen, Esten, Letten, Litouwers en Polen opende het de weg naar onafhankelijkheid. Na de Duitse nederlaag werd het verdrag in november 1918 ongeldig verklaard.'
  ],
+ gevolgen: [
+  "Rusland stapte uit de oorlog, en Duitsland kon zijn troepen naar het westen sturen voor een laatste grote aanval. Toch bleven er honderdduizenden Duitse soldaten in het oosten nodig om het enorme bezette gebied te beheersen.",
+  "Na de Duitse nederlaag werd het verdrag geschrapt, maar de landen die zich hadden losgemaakt, bleven bestaan. Finland, Estland, Letland, Litouwen en Polen werden onafhankelijk. Het idee van een Duits rijk in het oosten verdween niet: Hitler pakte het later weer op met zijn plannen voor ‘leefruimte’."
+ ],
+ misverstanden: [
+  ["“Het Verdrag van Versailles was de zwaarste vrede van de oorlog.”","De vrede die Duitsland een jaar eerder aan Rusland oplegde, was veel zwaarder. Rusland verloor ongeveer een derde van zijn bevolking en het grootste deel van zijn industrie. Historici gebruiken dat vaak om te laten zien hoe Duitsland zelf een overwinningsvrede had willen sluiten."]
+ ],
+ hoeWeten: [
+  "Van de onderhandelingen zijn uitgebreide verslagen bewaard, omdat de bolsjewieken ze openbaar maakten om de wereld te laten zien wat Duitsland eiste. Ook Trotski en de Duitse onderhandelaars schreven er later over."
+ ],
+ nu: [
+  "Finland viert zijn onafhankelijkheid op 6 december, Litouwen op 16 februari en Estland op 24 februari, allemaal uit deze maanden. In de Oekraïense geschiedenis is deze korte periode van eigen staat belangrijk."
+ ],
+ vertellen: "Trotski had een opvallende tactiek. Hij weigerde het verdrag te tekenen, maar verklaarde ook dat Rusland niet meer zou vechten. Zijn formule was: geen oorlog, geen vrede. De Duitsers rukten daarop gewoon verder op, en een paar weken later moest Rusland nog zwaardere voorwaarden tekenen.",
+ verbanden: [["Oktoberrevolutie","de bolsjewieken die vrede wilden"],["Duits Lenteoffensief","waar de vrijgekomen troepen werden ingezet"],["Verdrag van Versailles","de vrede een jaar later"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme)."]},
  cijfers: [['Ondertekening','3 maart 1918'],['Verloren bevolking','ca. een derde van de Russische bevolking'],['Afgeschaft','november 1918']],
  figuren: [['Leon Trotski','Russisch onderhandelaar'],['Vladimir Lenin','drong aan op ondertekening'],['Richard von Kühlmann','Duitse minister van Buitenlandse Zaken, onderhandelaar'],['Max Hoffmann','Duitse generaal bij de onderhandelingen']],
  bronnen: [['Wikipedia: Vrede van Brest-Litovsk',W('Vrede van Brest-Litovsk')],['Wikipedia: Oostfront (Eerste Wereldoorlog)',W('Oostfront Eerste Wereldoorlog')]]
@@ -453,6 +485,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'De griep trof koloniën en arme gebieden het zwaarst. In Brits-Indië stierven naar schatting ruim tien miljoen mensen. Voor Java lopen de schattingen uiteen van ca. 1,5 tot ruim 4 miljoen doden. Op West-Samoa stierf ongeveer een op de vijf inwoners nadat een besmet schip uit Nieuw-Zeeland was aangekomen. Aan het front verzwakte de ziekte legers aan beide kanten en ook het Duitse lenteoffensief had er last van.'
  ],
+ gevolgen: [
+  "De Spaanse griep doodde in ruim een jaar meer mensen dan de hele oorlog. In veel landen leidde dat tot meer aandacht voor volksgezondheid, met betere registratie van ziektes en meer internationale samenwerking op het gebied van gezondheid.",
+  "In veel gezinnen vielen ouders weg, waardoor kinderen wees werden. Omdat vooral jonge volwassenen stierven, waren de gevolgen voor gezinnen en de economie extra groot."
+ ],
+ misverstanden: [
+  ["“De Spaanse griep kwam uit Spanje.”","Spanje was neutraal en had geen oorlogscensuur, dus daar werd er openlijk over geschreven. Daardoor leek het een Spaanse ziekte. Waar het virus echt ontstond, is nog steeds onbekend."],
+  ["“In 1918 wisten artsen dat griep door een virus komt.”","Veel artsen dachten aan een bacterie. Het griepvirus werd pas in de jaren dertig ontdekt. Daardoor waren er geen goede medicijnen of vaccins, en antibiotica tegen de longontstekingen bestonden ook nog niet."]
+ ],
+ hoeWeten: [
+  "De sterfte is af te lezen uit overlijdensregisters en krantenberichten, al is het aantal doden in veel landen nooit goed geteld. In 2005 wisten wetenschappers het virus van 1918 te reconstrueren uit bewaarde longweefsels van slachtoffers, onder wie een vrouw die in de bevroren grond van Alaska was begraven."
+ ],
+ nu: [
+  "Tijdens de coronapandemie werd de Spaanse griep vaak als vergelijking gebruikt, bijvoorbeeld bij maatregelen als het sluiten van scholen en het dragen van mondkapjes, die in 1918 ook al werden toegepast. Afstammelingen van het virus van 1918 circuleren nog steeds als gewone griep."
+ ],
+ vertellen: "Engelse kinderen sprongen in 1918 touwtje op een liedje: “I had a little bird, its name was Enza. I opened the window, and in-flew-Enza.” Het grapje zit in de klank: ‘in flew Enza’ klinkt als influenza, het Engelse woord voor griep.",
+ verbanden: [["Coronapandemie","de pandemie van onze tijd"],["Duits Lenteoffensief","legers die door de griep werden verzwakt"],["De wapenstilstand","de tweede golf piekte rond het einde van de oorlog"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Wereldwijde doden','naar schatting 20 – 50 miljoen'],['Besmet','ca. een derde van de wereldbevolking'],['Doden Brits-Indië','naar schatting ruim 10 miljoen'],['Golven','voorjaar 1918, najaar 1918, begin 1919']],
  figuren: [['Alfonso XIII','koning van Spanje, werd zelf ziek'],['Egon Schiele','Oostenrijkse schilder, stierf in oktober 1918 aan de griep']],
  bronnen: [['Wikipedia: Spaanse griep',W('Spaanse griep')],['Wikipedia: Grieppandemie',W('Grieppandemie')]]
@@ -471,6 +520,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Duitse soldaten ontdekten in veroverde Britse depots hoeveel voedsel en materiaal de tegenstander had, wat het moreel aantastte. Voor Britse en Franse soldaten waren het de zwaarste weken sinds 1914. Franse en Belgische burgers moesten opnieuw voor de oorlog vluchten. Beide kanten samen verloren in deze maanden naar schatting ruim een miljoen man aan doden, gewonden en gevangenen.'
  ],
+ gevolgen: [
+  "Het offensief kostte Duitsland zijn beste troepen, terwijl er geen beslissing kwam. Daarna kon het Duitse leger de verliezen niet meer aanvullen, terwijl er elke maand meer Amerikanen bij kwamen.",
+  "Voor de geallieerden had de crisis een belangrijk gevolg: met Foch kregen ze voor het eerst één opperbevelhebber die de Britse, Franse en Amerikaanse legers op elkaar afstemde."
+ ],
+ misverstanden: [
+  ["“De Dikke Bertha beschoot Parijs.”","De Dikke Bertha was een zware houwitser die in 1914 de forten van Luik kapotschoot. Parijs werd in 1918 beschoten door een ander kanon, het Parijse kanon, met een loop van meer dan dertig meter en een bereik van ruim honderd kilometer. De Fransen noemden het wel Bertha, waardoor de namen vaak door elkaar lopen."]
+ ],
+ hoeWeten: [
+  "Er zijn Duitse en geallieerde legerverslagen, dagboeken en foto’s. Over het Parijse kanon is weinig bekend, omdat de Duitsers het bij de terugtocht vernietigden; er is nooit een exemplaar teruggevonden."
+ ],
+ nu: [
+  "In Villers-Bretonneux, waar Australische troepen in april 1918 de Duitse opmars stopten, staat het grote Australische oorlogsmonument. Op de lagere school van het dorp hangt nog steeds de tekst: ‘Vergeet Australië nooit’."
+ ],
+ vertellen: "Op Goede Vrijdag, 29 maart 1918, trof een granaat van het Parijse kanon de kerk Saint-Gervais in Parijs tijdens de dienst. Het dak stortte in. Er kwamen 91 mensen om. Niemand in de kerk had het kanon horen schieten, want het stond meer dan honderd kilometer verderop.",
+ verbanden: [["Vrede van Brest-Litovsk","waardoor de troepen uit het oosten vrijkwamen"],["Honderddagenoffensief","het geallieerde antwoord"],["Spaanse griep","die ook de Duitse aanvallers verzwakte"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering."]},
  cijfers: [['Begin Operatie Michael','21 maart 1918'],['Opmars','tot ca. 60 kilometer'],['Slachtoffers beide kanten samen','naar schatting ruim 1 miljoen'],['Foch coördinator','26 maart 1918']],
  figuren: [['Erich Ludendorff','Duitse legerleider, bedacht het offensief'],['Ferdinand Foch','geallieerd opperbevelhebber'],['Douglas Haig','Brits opperbevelhebber']],
  bronnen: [['Wikipedia: Lenteoffensief',W('Lenteoffensief 1918')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -489,6 +554,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Het Duitse leger was uitgeput, slecht gevoed en verzwakt door de griep, maar vocht vaak nog taai tot het einde. Omdat het aan het eind van de oorlog nog op Frans en Belgisch grondgebied stond, konden nationalisten later beweren dat het leger niet verslagen was. Die dolkstootlegende werd een gevaarlijke mythe. Voor de bevrijde Fransen en Belgen kwam er na vier jaar bezetting een einde aan dwangarbeid en vorderingen.'
  ],
+ gevolgen: [
+  "Het offensief dwong Duitsland om een wapenstilstand te vragen. Omdat het Duitse leger nooit van Duits grondgebied was verdreven, ontstond in Duitsland de mythe dat het leger niet verslagen was, maar door verraders in de rug was gestoken: de dolkstootlegende.",
+  "Die legende werd door rechtse partijen en later door de nazi’s gebruikt om socialisten, democraten en Joden de schuld te geven van de nederlaag."
+ ],
+ misverstanden: [
+  ["“Het Duitse leger was in 1918 niet verslagen.”","De Duitse legerleiding wist eind september zelf dat de oorlog verloren was. Ludendorff vroeg om een wapenstilstand voordat de revolutie uitbrak. De dolkstootlegende verdraaide die volgorde."]
+ ],
+ hoeWeten: [
+  "Er zijn veel bronnen, van legerverslagen tot de memoires van Ludendorff, waarin hij 8 augustus zelf de zwarte dag noemde. Na de oorlog onderzocht een Duitse parlementaire commissie de oorzaken van de nederlaag. Ook luchtfoto’s laten zien hoe snel het front nu bewoog."
+ ],
+ nu: [
+  "In Canada heet deze periode ‘Canada’s Honderd Dagen’, omdat Canadese troepen een grote rol speelden. In Australië wordt de slag bij Amiens herdacht. In Frankrijk liggen langs de route van het offensief veel begraafplaatsen van de landen die meevochten."
+ ],
+ vertellen: "Om het diepe Sint-Quentinkanaal bij de Hindenburglinie over te steken, gebruikten Britse soldaten op 29 september 1918 duizenden reddingsvesten van veerboten die tussen Engeland en Frankrijk voeren. Een beroemde foto laat honderden soldaten zien die na de geslaagde oversteek, nog met die vesten om, op de oever van het kanaal staan.",
+ verbanden: [["Duits Lenteoffensief","de laatste Duitse aanval"],["Amerika gaat de oorlog in","de Amerikaanse troepen die meevochten"],["De wapenstilstand","het resultaat van het offensief"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Duur','8 augustus – 11 november 1918'],['Tanks bij Amiens','ca. 500'],['Amerikaanse doden in het Argonnewoud','ruim 26.000']],
  figuren: [['Ferdinand Foch','geallieerd opperbevelhebber'],['John Monash','bevelhebber van het Australische Korps'],['Arthur Currie','bevelhebber van het Canadese Korps'],['Erich Ludendorff','Duitse legerleider']],
  bronnen: [['Wikipedia: Honderddagenoffensief',W('Honderddagenoffensief')],['Wikipedia: Slag bij Amiens',W('Slag bij Amiens 1918')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -507,6 +588,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Gematigde sociaaldemocraten wilden een parlementaire democratie, radicale socialisten een radenrepubliek zoals in Rusland. In januari 1919 sloeg de regering met hulp van vrijkorpsen een opstand in Berlijn neer, waarbij Rosa Luxemburg en Karl Liebknecht werden vermoord. Voor conservatieve Duitsers en veel officieren was de revolutie verraad aan het front. Voor buurlanden als Nederland voedde ze de angst dat revolutie zou overslaan.'
  ],
+ gevolgen: [
+  "Duitsland werd een democratische republiek, genoemd naar de stad Weimar, waar de grondwet werd geschreven. Vrouwen kregen stemrecht en mochten in januari 1919 voor het eerst stemmen.",
+  "De jonge republiek had het moeilijk. Ze werd verantwoordelijk gehouden voor de nederlaag en het Verdrag van Versailles, en kreeg te maken met opstanden van links en rechts, inflatie en later de economische crisis. In 1933 kwamen de nazi’s aan de macht."
+ ],
+ misverstanden: [
+  ["“Door de revolutie verloor Duitsland de oorlog.”","De volgorde was andersom: de oorlog was al verloren, en de legerleiding had al om een wapenstilstand gevraagd. De revolutie kwam voort uit de nederlaag, de honger en het verzet tegen een zinloze laatste aanval van de vloot."]
+ ],
+ hoeWeten: [
+  "Er zijn veel foto’s en filmbeelden van demonstraties en raden, krantenberichten, pamfletten en de verslagen van de nieuwe regering. De toespraak van Scheidemann vanaf een balkon van de Rijksdag is beroemd geworden."
+ ],
+ nu: [
+  "De Weimarrepubliek wordt in Duitsland vaak gebruikt als waarschuwing: een democratie kan ten onder gaan als te weinig mensen haar verdedigen. Rosa Luxemburg en Karl Liebknecht worden in Berlijn elk jaar in januari herdacht."
+ ],
+ vertellen: "In Duitsland heet 9 november de ‘noodlotsdag’. Op 9 november 1918 werd de republiek uitgeroepen, op 9 november 1923 deed Hitler een mislukte staatsgreep in München, op 9 november 1938 vond de Kristallnacht plaats en op 9 november 1989 viel de Berlijnse Muur.",
+ verbanden: [["Zeeslag bij Jutland","de vloot die niet meer wilde uitvaren"],["Troelstra’s vergissing","de angst voor revolutie in Nederland"],["Hitler aan de macht","het einde van de republiek"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme).","Voortschrijdende democratisering; steeds meer mannen en vrouwen nemen deel aan de politiek. (tijdvak 8)"]},
  cijfers: [['Opstand in Kiel','3 november 1918'],['Uitroeping republiek','9 november 1918'],['Moord op Luxemburg en Liebknecht','15 januari 1919'],['Weimar-grondwet','augustus 1919']],
  figuren: [['Friedrich Ebert','sociaaldemocratisch leider, later rijkspresident'],['Philipp Scheidemann','riep de republiek uit'],['Karl Liebknecht','leider van de radicale Spartakusbond'],['Rosa Luxemburg','socialistische denker en leider']],
  bronnen: [['Wikipedia: Novemberrevolutie',W('Novemberrevolutie')],['Wikipedia: Weimarrepubliek',W('Weimarrepubliek')]]
@@ -525,6 +622,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'In Groot-Brittannië en Frankrijk werd de weigering slecht ontvangen; in Britse verkiezingen in 1918 klonk zelfs de roep om hem op te hangen. Veel Nederlanders vonden de aanwezigheid van de keizer ongemakkelijk. Voor de vele soldaten en burgers die in de oorlog hun familie verloren, kwam de man die zij als hoofdverantwoordelijke zagen er gemakkelijk vanaf. Na de Duitse inval van 1940 werd hij in Doorn met rust gelaten door de bezetter.'
  ],
+ gevolgen: [
+  "Met het vertrek van de keizer kwam er een einde aan de Duitse monarchie. Voor Nederland leverde zijn verblijf een diplomatiek probleem op, omdat de geallieerden hem wilden berechten. Nederland hield vast aan zijn neutraliteit en weigerde hem uit te leveren.",
+  "Wilhelm bleef hopen op een terugkeer naar de troon. Hij volgde de opkomst van Hitler met belangstelling, maar de nazi’s hadden geen plaats voor hem. Hij stierf in 1941 in Doorn, toen Nederland al door Duitsland bezet was."
+ ],
+ misverstanden: [
+  ["“Nederland had de keizer uitgenodigd.”","De regering werd volledig verrast door zijn komst. Het was koningin Wilhelmina en de regering niet eens duidelijk of hij als vluchteling of als militair moest worden behandeld. Na overleg mocht hij blijven, maar welkom was hij niet overal."]
+ ],
+ hoeWeten: [
+  "Er zijn verslagen van Nederlandse ambtenaren, foto’s van de keizer in Eijsden en Amerongen, en de briefwisseling over het uitleveringsverzoek. In Doorn hield zijn hofhouding uitgebreide administratie bij, en zijn bezittingen zijn grotendeels bewaard."
+ ],
+ nu: [
+  "Huis Doorn is nu een museum, met de inboedel van de keizer zoals hij die achterliet. In het park staat zijn mausoleum. Hij wilde pas in Duitsland begraven worden als daar de monarchie was hersteld, en ligt er daarom nog steeds."
+ ],
+ vertellen: "In Doorn ontwikkelde de oud-keizer een opvallende hobby: houthakken. Bijna elke dag hakte hij bomen om en zaagde ze in stukken. In de ruim twintig jaar dat hij er woonde, gingen er zo duizenden bomen om.",
+ verbanden: [["Revolutie in Duitsland","waardoor hij moest vertrekken"],["Verdrag van Versailles","dat zijn berechting eiste"],["Nederland mobiliseert","de Nederlandse neutraliteit"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."],"venster":"35. De Eerste Wereldoorlog"},
  cijfers: [['Grensovergang','10 november 1918, Eijsden'],['Formele troonsafstand','28 november 1918, Amerongen'],['Uitleveringsverzoek afgewezen','januari 1920'],['Overleden','4 juni 1941, Doorn']],
  figuren: [['Wilhelm II','laatste Duitse keizer'],['Godard Bentinck','graaf, gastheer op kasteel Amerongen'],['Charles Ruijs de Beerenbrouck','minister-president, weigerde uitlevering'],['Koningin Wilhelmina','Nederlands staatshoofd']],
  bronnen: [['Wikipedia: Wilhelm II van Duitsland',W('Wilhelm II van Duitsland')],['Wikipedia: Huis Doorn',W('Huis Doorn')]]
@@ -543,6 +656,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de soldaten aan het front was het moment vaak vreemd stil, zonder veel gejuich. In Duitsland was de verbijstering groot, omdat de propaganda tot kort ervoor over overwinningen had gesproken. In Oost-Afrika gaf de Duitse generaal Von Lettow-Vorbeck zich pas op 25 november over. In Rusland, de Balkan en het Midden-Oosten ging het geweld nog jaren door. In de hele oorlog stierven naar schatting 9 tot 10 miljoen militairen en vele miljoenen burgers.'
  ],
+ gevolgen: [
+  "Aan het Westfront zweeg het geschut, maar de oorlog was formeel nog niet voorbij. De wapenstilstand moest een paar keer worden verlengd, tot de vredesverdragen van 1919 en 1920 klaar waren. De Britse blokkade van Duitsland bleef tot juli 1919 bestaan.",
+  "De dag zelf werd een herdenkingsdag. In Groot-Brittannië, Frankrijk, België en andere landen wordt op 11 november om elf uur nog altijd twee minuten stilte gehouden voor de oorlogsdoden."
+ ],
+ misverstanden: [
+  ["“Op 11 november 1918 hield het vechten overal op.”","In Oost-Afrika gaf Lettow-Vorbeck zich pas op 25 november over. In Rusland woedde een burgeroorlog, en ook in Polen, de Baltische staten, Turkije en Ierland werd nog jaren gevochten."]
+ ],
+ hoeWeten: [
+  "Er zijn het ondertekende document, foto’s van de treinwagon in Compiègne, legerverslagen van de laatste uren en ontelbare brieven waarin soldaten beschrijven hoe het moment voelde. Ook het geluid van het front werd die ochtend vastgelegd met een geluidsmeetinstrument dat het geschut registreerde."
+ ],
+ nu: [
+  "In België en Frankrijk is 11 november een officiële feestdag. Op de open plek bij Compiègne staat een museum met een kopie van de treinwagon. In juni 1940 liet Hitler Frankrijk juist in die wagon de capitulatie tekenen, als wraak voor 1918. De echte wagon werd daarna naar Duitsland gebracht en ging in 1945 verloren."
+ ],
+ vertellen: "De Amerikaanse soldaat Henry Gunther stormde op 11 november om 10.59 uur nog op een Duitse stelling af. De Duitse soldaten, die wisten dat de oorlog over een minuut voorbij zou zijn, gebaarden hem weg te gaan. Toen hij doorliep, schoten ze. Hij geldt als de laatste soldaat die in de Eerste Wereldoorlog sneuvelde.",
+ verbanden: [["Honderddagenoffensief","waardoor Duitsland om een wapenstilstand vroeg"],["Verdrag van Versailles","de vrede die erop volgde"],["Capitulatie van Duitsland","het einde van de Tweede Wereldoorlog in Europa"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Ondertekening','11 november 1918, ca. 5 uur ’s ochtends'],['Ingang','11 november 1918, 11 uur'],['Militaire doden in de oorlog','naar schatting 9 – 10 miljoen']],
  figuren: [['Ferdinand Foch','geallieerd opperbevelhebber, leidde de onderhandelingen'],['Matthias Erzberger','leider van de Duitse delegatie'],['Paul von Lettow-Vorbeck','Duits bevelhebber in Oost-Afrika, gaf zich als laatste over']],
  bronnen: [['Wikipedia: Wapenstilstand van Compiègne',W('Wapenstilstand van Compiègne 1918')],['Imperial War Museums','https://www.iwm.org.uk/'],['In Flanders Fields Museum','https://www.inflandersfields.be/']]
@@ -561,6 +690,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor confessionele en liberale partijen bevestigde de gebeurtenis dat de meeste Nederlanders achter koningin en regering stonden. Voor Troelstra en zijn partij was het een politieke nederlaag. Toch voerde de regering in de jaren erna sociale hervormingen door, zoals een kortere werkdag, mede om onrust te voorkomen. In 1919 kregen ook vrouwen actief kiesrecht. De angst voor revolutie bleef de politiek nog lang kleuren. De term Troelstra’s vergissing werd een begrip voor een verkeerde inschatting van de stemming in het land.'
  ],
+ gevolgen: [
+  "De SDAP raakte politiek geïsoleerd. Andere partijen wilden lange tijd niet met de sociaaldemocraten regeren, en pas in 1939 kregen zij voor het eerst ministers.",
+  "Tegelijk voerde de regering belangrijke hervormingen door, mede om onrust te voorkomen. In 1919 kwamen de Arbeidswet met de achturige werkdag en het actief kiesrecht voor vrouwen. Het koningshuis kwam juist sterker uit de crisis."
+ ],
+ misverstanden: [
+  ["“In november 1918 stond Nederland op het randje van een revolutie.”","Troelstra rekende erop dat arbeiders en soldaten in beweging zouden komen, zoals in Duitsland. Maar zijn eigen partij en de vakbonden steunden hem nauwelijks, en de regering had de situatie snel in handen. Van een echte machtsovername was geen sprake."]
+ ],
+ hoeWeten: [
+  "De toespraken van Troelstra staan in de Handelingen van de Tweede Kamer. Er zijn krantenberichten, foto’s van de aanhankelijkheidsbetuiging op het Malieveld en herinneringen van betrokkenen, onder wie Troelstra zelf."
+ ],
+ nu: [
+  "De uitdrukking ‘de vergissing van Troelstra’ wordt nog gebruikt voor iemand die een situatie volkomen verkeerd inschat. Het Malieveld is tot vandaag de plek voor grote demonstraties in Den Haag."
+ ],
+ vertellen: "Op het Malieveld spanden soldaten op 18 november 1918 de paarden uit van de koets van koningin Wilhelmina en prinses Juliana, en trokken de koets zelf door de juichende menigte. Het katholieke Kamerlid Jan Bomans, de vader van schrijver Godfried Bomans, spotte daarna: “Wat zal de heer Troelstra het koud hebben nu hij in zijn hemd staat.”",
+ verbanden: [["Revolutie in Duitsland","het voorbeeld waar Troelstra op hoopte"],["Aardappeloproer","eerdere onrust in Nederland"],["Vrouwenkiesrecht","de hervorming van 1919"]],
+ onderwijs: {"ka":["Voortschrijdende democratisering; steeds meer mannen en vrouwen nemen deel aan de politiek. (tijdvak 8)"],"venster":"35. De Eerste Wereldoorlog"},
  cijfers: [['Rede in Rotterdam','11 november 1918'],['Rede in de Tweede Kamer','12 november 1918'],['Aanhankelijkheidsbetuiging Malieveld','18 november 1918']],
  figuren: [['Pieter Jelles Troelstra','leider van de SDAP'],['Charles Ruijs de Beerenbrouck','minister-president'],['Koningin Wilhelmina','staatshoofd']],
  bronnen: [['Wikipedia: Troelstra’s vergissing',W('Vergissing van Troelstra')],['Wikipedia: Pieter Jelles Troelstra',W('Pieter Jelles Troelstra')]]
@@ -579,6 +724,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Bijna alle Duitse partijen zagen het verdrag als een opgelegde vrede, en die wrok werd later door de nazi’s uitgebuit. Veel Fransen vonden het juist te mild. Buiten Europa was de teleurstelling groot: een Japans voorstel om rassengelijkheid op te nemen werd verworpen, en de Duitse koloniën werden mandaatgebieden van de overwinnaars. Jonge nationalisten uit Vietnam, Egypte, Korea en China, die op zelfbeschikking hadden gehoopt, voelden zich genegeerd.'
  ],
+ gevolgen: [
+  "Met de andere verliezers werden aparte verdragen gesloten. Oostenrijk-Hongarije werd opgedeeld, en er ontstonden nieuwe staten als Polen, Tsjechoslowakije en Joegoslavië. Hongarije verloor bij het Verdrag van Trianon twee derde van zijn grondgebied.",
+  "In Duitsland voedde het verdrag een diepe wrok, die door nationalisten en later door Hitler werd uitgebuit. Hij brak de bepalingen stap voor stap, met de herbewapening en de bezetting van het Rijnland in 1936. Toch was het verdrag niet de enige oorzaak van de Tweede Wereldoorlog; de keuzes van de jaren dertig speelden een minstens zo grote rol."
+ ],
+ misverstanden: [
+  ["“De herstelbetalingen maakten Duitsland arm en veroorzaakten de grote inflatie.”","De betalingen waren zwaar, maar werden in de jaren twintig verlaagd en uiteindelijk maar voor een klein deel betaald. De enorme inflatie van 1923 kwam vooral doordat de Duitse regering de oorlog met geleend geld had betaald en daarna massaal geld liet bijdrukken."],
+  ["“Het Verdrag van Versailles maakte een einde aan de oorlog met alle landen.”","Versailles ging alleen over Duitsland. Met Oostenrijk, Hongarije, Bulgarije en het Ottomaanse Rijk werden aparte verdragen gesloten, in Saint-Germain, Trianon, Neuilly en Sèvres."]
+ ],
+ hoeWeten: [
+  "Van de conferentie zijn notulen, brieven en dagboeken van de betrokkenen bewaard. Al in 1919 schreef de Britse econoom John Maynard Keynes een invloedrijk boek waarin hij waarschuwde dat de vrede te hard was. Historici zijn daar later deels genuanceerder over gaan denken."
+ ],
+ nu: [
+  "In Hongarije wordt Trianon nog steeds als een nationaal trauma herdacht. Veel grenzen in Midden- en Oost-Europa en het Midden-Oosten gaan terug op de verdragen van 1919 en 1920."
+ ],
+ vertellen: "De allerlaatste betaling die met de herstelbetalingen samenhing, deed Duitsland pas op 3 oktober 2010, op de twintigste verjaardag van de Duitse eenwording. Het ging om rente op leningen uit de jaren twintig, die Duitsland had afgesloten om de herstelbetalingen te kunnen betalen.",
+ verbanden: [["De Volkenbond","opgericht in hetzelfde verdrag"],["Hitler aan de macht","die de wrok over het verdrag uitbuitte"],["De wapenstilstand","het einde van het vechten"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme)."]},
  cijfers: [['Ondertekening','28 juni 1919'],['Maximale omvang Duits leger','100.000 man'],['Herstelbetalingen (vastgesteld in 1921)','132 miljard goudmark'],['Verloren Duits grondgebied','ca. 13 procent']],
  figuren: [['Woodrow Wilson','president van de Verenigde Staten'],['Georges Clemenceau','Frans premier'],['David Lloyd George','Brits premier'],['Vittorio Emanuele Orlando','Italiaans premier']],
  bronnen: [['Wikipedia: Verdrag van Versailles',W('Verdrag van Versailles 1919')],['Wikipedia: Vredesconferentie van Parijs',W('Vredesconferentie van Parijs 1919')]]
@@ -597,6 +759,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor kleine landen als Nederland was de bond een kans om via internationaal recht invloed te hebben. Voor de volken in de voormalige Duitse koloniën en Ottomaanse gebieden betekende het mandaatsysteem vooral dat Groot-Brittannië, Frankrijk en anderen het bestuur overnamen. Ethiopië, zelf lid, ervoer hoe weinig bescherming de bond bood. In 1946 werd de Volkenbond opgeheven en nam de Verenigde Naties het werk over.'
  ],
+ gevolgen: [
+  "De Volkenbond kon de Tweede Wereldoorlog niet voorkomen, maar werd wel het voorbeeld voor de Verenigde Naties, die in 1945 werden opgericht. Die kregen een Veiligheidsraad met meer macht, en ditmaal deden de Verenigde Staten en de Sovjet-Unie wel mee.",
+  "Ook het internationale hof in Den Haag ging over naar de VN als Internationaal Gerechtshof. Daarmee werd Den Haag de stad van vrede en recht."
+ ],
+ misverstanden: [
+  ["“De Volkenbond heeft niets bereikt.”","Tegen grote landen was de bond machteloos, maar hij loste ook conflicten op, zoals in 1921 de ruzie tussen Finland en Zweden over de Ålandeilanden. Daarnaast deed hij belangrijk werk voor vluchtelingen, krijgsgevangenen en de bestrijding van ziektes."]
+ ],
+ hoeWeten: [
+  "Het archief van de Volkenbond ligt in Genève en staat op de UNESCO-lijst van het Geheugen van de Wereld. Het is grotendeels gedigitaliseerd en voor iedereen in te zien."
+ ],
+ nu: [
+  "Het Palais des Nations in Genève, gebouwd voor de Volkenbond, is nu een belangrijk kantoor van de Verenigde Naties. In het Vredespaleis in Den Haag zetelt het Internationaal Gerechtshof, de opvolger van het hof uit de tijd van de Volkenbond."
+ ],
+ vertellen: "De Noorse ontdekkingsreiziger Fridtjof Nansen werd hoge commissaris voor vluchtelingen van de Volkenbond. Voor mensen die na de oorlog en de Russische revolutie geen land meer hadden, bedacht hij een eigen reisdocument: het Nansenpaspoort. Honderdduizenden vluchtelingen konden daarmee weer reizen en werk zoeken. In 1922 kreeg hij de Nobelprijs voor de Vrede.",
+ verbanden: [["Verdrag van Versailles","waarin de bond werd opgericht"],["De Verenigde Naties","de opvolger na 1945"],["Japan valt Mantsjoerije binnen","het conflict dat de zwakte van de bond liet zien"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['In werking','10 januari 1920'],['Zetel','Genève'],['Leden bij oprichting','ruim 40'],['Opgeheven','1946']],
  figuren: [['Woodrow Wilson','Amerikaanse president, bedenker van het plan'],['Eric Drummond','eerste secretaris-generaal'],['Haile Selassie','keizer van Ethiopië, vroeg in 1936 vergeefs om hulp']],
  bronnen: [['Wikipedia: Volkenbond',W('Volkenbond')],['Wikipedia: Permanent Hof van Internationale Justitie',W('Permanent Hof van Internationale Justitie')]]
