@@ -113,7 +113,7 @@ ${MTBAR}
       ${VERDIEPING.zijBoven(Dt, 'h2', esc)}
       <div class="box"><h2>Kerncijfers</h2><dl class="facts">${Dt.cijfers.map(([a, b]) => `<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl></div>
       <div class="box"><h2>Sleutelfiguren</h2><ul class="people">${Dt.figuren.map(([n, r]) => `<li><span class="av" style="background:${H.bg};color:${H.ink}">${esc(ini(n))}</span><div><b>${esc(n)}</b><span>${esc(r)}</span></div></li>`).join('')}</ul></div>
-      ${VERDIEPING.zijOnder(Dt, 'h2', esc, { tijdvak: (e.war || Dt.geenTijdvak) ? null : SCHOOL.find(s => e.y >= s.s && e.y < s.e), href: t => { const x = EVENTS.concat(WEV).find(v => v.t === t); return x ? EVSLUG[x.id] : null; } })}
+      ${VERDIEPING.zijOnder(Dt, 'h2', esc, { tijdvak: Dt.geenTijdvak ? null : SCHOOL.find(s => e.y >= s.s && e.y < s.e), href: t => { const x = EVENTS.concat(WEV).find(v => v.t === t); return x ? EVSLUG[x.id] : null; } })}
       <div class="box"><h2>Verder lezen</h2><ul class="links">${Dt.bronnen.map(([l, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a></li>`).join('')}</ul></div>
     </aside>
   </div>

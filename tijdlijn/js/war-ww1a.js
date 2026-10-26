@@ -40,6 +40,24 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Wenen was de moord een aanval op het hart van de monarchie. Veel Serviërs en later Joegoslaven zagen Princip juist als vrijheidsstrijder. Voor Bosnische moslims en Kroaten lag dat anders, en tot vandaag verschillen de meningen over hem in de regio sterk. De meeste gewone Europeanen verwachtten in juni 1914 nog geen grote oorlog.'
  ],
+ gevolgen: [
+  "De moord zelf maakte nog geen wereldoorlog. Het waren de beslissingen in de weken daarna, in Wenen, Berlijn, Sint-Petersburg, Parijs en Londen, die een moord in een provinciestad lieten uitgroeien tot een Europese oorlog. Binnen vijf weken waren vijf grote mogendheden met elkaar in oorlog.",
+  "Op lange termijn verdween juist het rijk dat de moord wilde wreken. Oostenrijk-Hongarije viel in 1918 uiteen, en Bosnië werd onderdeel van het nieuwe Koninkrijk der Serviërs, Kroaten en Slovenen, het latere Joegoslavië: precies het soort Zuid-Slavische staat waar Princip van had gedroomd."
+ ],
+ misverstanden: [
+  ["“De moord was de oorzaak van de Eerste Wereldoorlog.”","De moord was de aanleiding. De oorzaken liggen dieper: de rivaliteit tussen de grote mogendheden, de bewapeningswedloop, nationalisme op de Balkan en militaire plannen die snel handelen beloonden. Het onderscheid tussen aanleiding en oorzaak is met dit voorbeeld goed uit te leggen."],
+  ["“Princip stond toevallig een broodje te eten toen de auto voor hem stopte.”","Dat verhaal duikt pas in deze eeuw op en staat in geen enkele bron uit 1914. Wel klopt dat de chauffeur verkeerd reed en vlak bij Princip stilstond."],
+  ["“De Servische regering gaf opdracht tot de moord.”","De wapens en de training kwamen van officieren van de Zwarte Hand, een geheim genootschap binnen het Servische leger. Een opdracht van de regering zelf is nooit aangetoond. Premier Pašić wist waarschijnlijk wel iets van plannen, maar hoeveel is onzeker."]
+ ],
+ hoeWeten: [
+  "Na de aanslag werden Princip en zijn medeplichtigen in Sarajevo berecht. De verhoren en het proces zijn uitgebreid vastgelegd en vormen de belangrijkste bron over de voorbereiding. Er zijn ook ooggetuigenverslagen, onder anderen van graaf Harrach, die op de treeplank van de auto stond, en foto’s van die ochtend."
+ ],
+ nu: [
+  "De open auto en het bebloede uniform van Franz Ferdinand zijn te zien in het Heeresgeschichtliches Museum in Wenen. In Sarajevo staat bij de Latijnse brug een klein museum op de plek van de aanslag. Over Princip zijn de meningen nog steeds verdeeld: in 2014 kreeg hij een standbeeld in Oost-Sarajevo, terwijl veel Bosniërs hem als terrorist zien."
+ ],
+ vertellen: "Volgens graaf Harrach waren de laatste woorden van Franz Ferdinand voor zijn vrouw: “Sopherl, Sopherl, sterf niet. Blijf leven voor onze kinderen.” Ze stierven allebei binnen een kwartier. Hun drie kinderen waren toen 12, 10 en 11 jaar oud.",
+ verbanden: [["De Julicrisis","hoe de moord binnen vijf weken tot oorlog leidde"],["De Eerste Wereldoorlog","wat de oorlog voor Nederland betekende"],["Verdrag van Versailles","het einde van de oude rijken"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Datum','28 juni 1914'],['Leeftijd Princip','19 jaar'],['Annexatie Bosnië','1908'],['Straf Princip','20 jaar cel']],
  figuren: [['Franz Ferdinand','Oostenrijkse troonopvolger'],['Sophie Chotek','echtgenote van Franz Ferdinand'],['Gavrilo Princip','dader, lid van Jong-Bosnië'],['Dragutin Dimitrijević','leider van de Zwarte Hand']],
  bronnen: [['Wikipedia: Aanslag in Sarajevo',W('Aanslag in Sarajevo')],['Wikipedia: Gavrilo Princip',W('Gavrilo Princip')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -58,6 +76,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Elke regering zag zichzelf als verdediger. In Berlijn sprak men van omsingeling, in Parijs en Londen van Duitse agressie. In veel steden juichten menigten, maar op het platteland heerste vaker bezorgdheid. Arbeiders en socialisten die eerder tegen oorlog hadden betoogd, steunden toch grotendeels hun eigen regering. Historici discussiëren tot vandaag over wie de meeste schuld droeg.'
  ],
+ gevolgen: [
+  "In vijf weken werd een conflict tussen Oostenrijk-Hongarije en Servië een oorlog tussen alle Europese grootmachten. Door hun koloniën en bondgenoten raakten al snel ook landen in Afrika, Azië en het Midden-Oosten betrokken.",
+  "De vraag wie schuldig was, kreeg na de oorlog grote gevolgen. In artikel 231 van het Verdrag van Versailles moest Duitsland de verantwoordelijkheid voor de oorlog aanvaarden. In Duitsland werd dat als een vernedering gezien, en de nazi’s maakten er later dankbaar gebruik van."
+ ],
+ misverstanden: [
+  ["“Door de bondgenootschappen moesten de landen automatisch meedoen.”","De verdragen verplichtten minder dan vaak wordt gedacht. Italië was bondgenoot van Duitsland, maar bleef in 1914 neutraal en koos in 1915 de andere kant. Groot-Brittannië had geen bindend verdrag met Frankrijk. Elke regering nam zelf de beslissing om mee te doen."],
+  ["“Overal in Europa juichten de mensen bij het uitbreken van de oorlog.”","De beelden van juichende menigten in Berlijn, Parijs en Londen zijn echt, maar laten vooral de grote steden zien. Onderzoek naar dagboeken en kranten toont dat veel mensen op het platteland en in arbeiderswijken bezorgd en somber waren."]
+ ],
+ hoeWeten: [
+  "Na de oorlog publiceerden alle landen documenten uit hun archieven, vaak om hun eigen onschuld te bewijzen. Daardoor zijn de telegrammen en notulen van de crisis goed bekend. In 1961 stelde de Duitse historicus Fritz Fischer dat Duitsland bewust op oorlog had aangestuurd, wat een felle discussie opleverde. In 2012 beschreef de historicus Christopher Clark de leiders juist als ‘slaapwandelaars’, die samen in de oorlog gleden."
+ ],
+ nu: [
+  "Het debat over de schuldvraag is nog steeds niet beslecht, en het is een klassiek voorbeeld van hoe historici dezelfde bronnen verschillend kunnen uitleggen. De Julicrisis wordt ook gebruikt om te laten zien hoe snel een crisis kan escaleren als niemand een stap terug wil doen."
+ ],
+ vertellen: "Keizer Wilhelm II en tsaar Nicolaas II waren familie van elkaar. In de laatste dagen van juli 1914 stuurden ze elkaar telegrammen, in het Engels, ondertekend met “Willy” en “Nicky”. Nicky smeekte om de crisis te stoppen, Willy vroeg Rusland de mobilisatie terug te draaien. Een paar dagen later waren hun landen in oorlog.",
+ verbanden: [["Moord in Sarajevo","de aanleiding"],["Inval in België","waardoor Groot-Brittannië meedeed"],["Verdrag van Versailles","waar de schuldvraag werd vastgelegd"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Ultimatum aan Servië','23 juli 1914, 48 uur'],['Oorlogsverklaring aan Servië','28 juli 1914'],['Russische mobilisatie','30 juli 1914'],['Britse oorlogsverklaring','4 augustus 1914']],
  figuren: [['Leopold Berchtold','Oostenrijks-Hongaarse minister van Buitenlandse Zaken'],['Theobald von Bethmann Hollweg','Duitse rijkskanselier'],['Edward Grey','Britse minister van Buitenlandse Zaken'],['Tsaar Nicolaas II','Russisch staatshoofd']],
  bronnen: [['Wikipedia: Julicrisis',W('Julicrisis')],['Wikipedia: Eerste Wereldoorlog',W('Eerste Wereldoorlog')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -76,6 +111,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Duitsland had bewust besloten Nederland niet binnen te vallen. Een neutraal Nederland bleef een route voor handel en aanvoer. Groot-Brittannië controleerde juist streng wat er via Nederland naar Duitsland ging. Voor gewone Nederlandse gezinnen betekende de mobilisatie vaak een vader of zoon die jarenlang weg was en een lager inkomen. Sommige handelaren werden juist rijk; zij kregen de bijnaam OW’ers, oorlogswinstmakers.'
  ],
+ gevolgen: [
+  "Nederland bleef de hele oorlog buiten de strijd. Dat versterkte het geloof dat strikte neutraliteit het land kon beschermen. In 1939 mobiliseerde Nederland opnieuw met dezelfde gedachte, maar in mei 1940 respecteerde Duitsland die neutraliteit niet.",
+  "De mobilisatie was duur, en de oorlog raakte de economie hard. De handel liep terug, en vanaf 1916 werden brood, aardappelen en andere levensmiddelen op de bon gedaan. In 1917 en 1918 kwam het tot rellen over voedsel, zoals het Aardappeloproer in Amsterdam."
+ ],
+ misverstanden: [
+  ["“Omdat Nederland neutraal was, merkte het weinig van de oorlog.”","Nederland ving ongeveer een miljoen Belgische vluchtelingen op, had te maken met voedseltekort en smokkel, en verloor schepen en vissers door mijnen en torpedo’s. Langs de Belgische grens stond een dodelijke stroomdraad. Neutraal betekende niet onaangetast."]
+ ],
+ hoeWeten: [
+  "De Nederlandse kranten uit die jaren zijn te doorzoeken via Delpher van de Koninklijke Bibliotheek. Er zijn ook veel foto’s en ansichtkaarten van gemobiliseerde soldaten, en brieven en dagboeken van soldaten die vier jaar aan de grens of in de forten lagen."
+ ],
+ nu: [
+  "De forten en dijken van de Stelling van Amsterdam en de Nieuwe Hollandse Waterlinie werden tijdens de mobilisatie bemand. Samen staan ze sinds 2021 als de Hollandse Waterlinies op de Werelderfgoedlijst van UNESCO. Veel forten zijn nu te bezoeken."
+ ],
+ vertellen: "In maart 1916 zonk het grote Nederlandse passagiersschip Tubantia bij de Noordzee, getroffen door een torpedo. Alle 374 opvarenden werden gered. Duitsland beweerde eerst dat het een Britse mijn was, en daarna zelfs dat een Duitse torpedo tien dagen lang verdwaald had rondgedreven. Pas in 1922 kreeg de rederij schadevergoeding.",
+ verbanden: [["Val van Antwerpen","waarna een miljoen Belgen Nederland in vluchtten"],["De Dodendraad","de grens met bezet België"],["Aardappeloproer","de voedselnood in Nederland"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."],"venster":"35. De Eerste Wereldoorlog"},
  cijfers: [['Gemobiliseerden','ca. 200.000 militairen'],['Afkondiging','31 juli 1914'],['Geïnterneerde Belgische militairen','ruim 30.000'],['Duur','1914 – 1918']],
  figuren: [['Generaal C.J. Snijders','opperbevelhebber land- en zeemacht'],['P.W.A. Cort van der Linden','minister-president'],['Koningin Wilhelmina','staatshoofd, bezocht vaak de troepen']],
  bronnen: [['Wikipedia: Mobilisatie 1914',W('Mobilisatie 1914 Nederland')],['Wikipedia: Nederland in de Eerste Wereldoorlog',W('Nederland tijdens de Eerste Wereldoorlog')],['NIOD','https://www.niod.nl/']]
@@ -94,6 +145,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor België begon een bezetting van ruim vier jaar, met voedseltekort, dwangarbeid en deportaties. De Britse en Franse propaganda maakte van het lot van België een symbool en overdreef soms de verhalen. Daardoor geloofden mensen na de oorlog ook echte berichten over gruweldaden minder snel. Duitse soldaten waren vaak oprecht overtuigd dat ze door burgers werden beschoten.'
  ],
+ gevolgen: [
+  "Door de inval verklaarde Groot-Brittannië Duitsland de oorlog. Voor België begon een bezetting van ruim vier jaar. Honderdduizenden Belgen vluchtten naar Nederland, Groot-Brittannië en Frankrijk, en een klein Belgisch leger hield tot 1918 stand achter de IJzer.",
+  "Na de oorlog kreeg België de gebieden rond Eupen en Malmedy. Het land gaf zijn verplichte neutraliteit op, maar keerde in 1936 terug naar een neutrale koers. In mei 1940 werd België opnieuw door Duitsland binnengevallen."
+ ],
+ misverstanden: [
+  ["“De verhalen over Duitse wreedheden waren alleen propaganda.”","Een deel van de Britse en Franse verhalen was sterk overdreven, zoals dat over afgehakte kinderhanden. Maar onderzoek van de historici John Horne en Alan Kramer heeft aangetoond dat er in 1914 werkelijk zo’n 6500 Belgische en Franse burgers zijn gedood, vaak bij massa-executies."],
+  ["“België werd in een paar dagen helemaal veroverd.”","De forten van Luik hielden het bijna twee weken vol, Antwerpen viel pas in oktober, en een strook land achter de IJzer bleef de hele oorlog vrij."]
+ ],
+ hoeWeten: [
+  "Al in 1914 en 1915 verschenen rapporten van Belgische en Britse commissies over de gruweldaden, en een Duits Witboek dat de schuld bij gewapende burgers legde. Historici hebben later deze bronnen naast getuigenissen, Duitse legerdagboeken en archieven van gemeenten gelegd."
+ ],
+ nu: [
+  "De universiteitsbibliotheek van Leuven werd na de oorlog herbouwd, grotendeels met Amerikaans geld, en in 1940 opnieuw in brand geschoten. In Dinant, Leuven en andere plaatsen herinneren monumenten aan de burgers die in augustus 1914 werden gedood."
+ ],
+ vertellen: "Toen de Britse ambassadeur in Berlijn op 4 augustus 1914 kwam vertellen dat Groot-Brittannië België zou verdedigen, reageerde de Duitse rijkskanselier verbijsterd. Ging Groot-Brittannië echt oorlog voeren voor “een vodje papier”? Hij bedoelde het verdrag uit 1839 dat de Belgische neutraliteit garandeerde. Die uitspraak werd een van de bekendste stukken Britse propaganda.",
+ verbanden: [["Val van Antwerpen","het einde van de Belgische verdediging in 1914"],["De Dodendraad","het afgesloten bezette België"],["Belgische Opstand","het begin van België, en later van zijn neutraliteit"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering.","De rol van moderne propaganda- en communicatiemiddelen en vormen van massa-organisatie."]},
  cijfers: [['Duitse eis tot doortocht','2 augustus 1914'],['Gedode burgers 1914','naar schatting ca. 6000'],['Verzet Luikse forten','ca. 12 dagen'],['Neutraliteitsverdrag','1839']],
  figuren: [['Koning Albert I','Belgisch staatshoofd en legerleider'],['Gérard Leman','commandant van de vesting Luik'],['Helmuth von Moltke','chef van de Duitse generale staf']],
  bronnen: [['Wikipedia: Duitse inval in België',W('Duitse inval in België 1914')],['Wikipedia: Verkrachting van België',W('Verkrachting van België')],['In Flanders Fields Museum','https://www.inflandersfields.be/']]
@@ -112,6 +180,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Rusland was Tannenberg een vernedering, al hielp de Russische aanval Frankrijk wel. Duitsland haalde troepen uit het westen weg, die ontbraken bij de Marne. Voor de Duitse en Poolse bevolking van Oost-Pruisen betekende de korte Russische inval vlucht en angst. Hindenburg groeide uit tot een mythe, wat zijn latere politieke carrière sterk hielp.'
  ],
+ gevolgen: [
+  "Militair redde de slag Oost-Pruisen, maar Rusland was nog lang niet verslagen. De oorlog in het oosten duurde nog ruim drie jaar. Belangrijker werd de politieke betekenis: Hindenburg en Ludendorff kregen in 1916 de leiding over de hele Duitse oorlogvoering.",
+  "Hindenburg bleef een nationale held. In 1925 werd hij gekozen tot president van Duitsland. In die functie benoemde hij in januari 1933 Adolf Hitler tot rijkskanselier."
+ ],
+ misverstanden: [
+  ["“De slag werd bij Tannenberg uitgevochten.”","De gevechten vonden plaats in een groot gebied rond Allenstein en Hohenstein. De naam Tannenberg werd gekozen omdat de Duitse Orde daar in 1410 was verslagen door Polen en Litouwers. Zo werd een overwinning omgedoopt tot wraak voor een eeuwenoude nederlaag."],
+  ["“Na Tannenberg had Rusland de oorlog verloren.”","Het Russische leger vocht door en boekte in 1916 met het Broesilov-offensief nog een groot succes tegen Oostenrijk-Hongarije. Rusland stopte pas na de revoluties van 1917."]
+ ],
+ hoeWeten: [
+  "Hindenburg, Ludendorff en stafofficier Max Hoffmann schreven alle drie memoires, waarin ze elkaar de eer van het plan betwistten. Uit Duitse en Russische legerarchieven blijkt dat de onversleutelde Russische radioberichten een grote rol speelden."
+ ],
+ nu: [
+  "Het reusachtige Tannenberg-monument werd in 1945 door terugtrekkende Duitse troepen deels opgeblazen. De kisten van Hindenburg en zijn vrouw waren vooraf weggehaald; ze liggen nu in de Elisabethkerk in Marburg. Het gebied hoort sinds 1945 bij Polen, waar juist de overwinning van 1410 groots wordt herdacht."
+ ],
+ vertellen: "Max Hoffmann, de stafofficier die een groot deel van het plan bedacht, liet later bezoekers graag het slagveld zien. Volgens een bekende anekdote wees hij dan aan: “Hier sliep de veldmaarschalk vóór de slag, hier sliep hij na de slag, en hier sliep hij tijdens de slag.”",
+ verbanden: [["Broesilov-offensief","het Russische succes in 1916"],["Oktoberrevolutie","waarom Rusland uit de oorlog stapte"],["Slag aan de Marne","tegelijk beslist in het westen"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Duur','26 – 30 augustus 1914'],['Russische krijgsgevangenen','ca. 90.000'],['Duitse verliezen','naar schatting 10.000 – 20.000 doden en gewonden']],
  figuren: [['Paul von Hindenburg','Duitse bevelhebber'],['Erich Ludendorff','Duitse stafchef'],['Aleksandr Samsonov','bevelhebber Russische Tweede Leger'],['Paul von Rennenkampf','bevelhebber Russische Eerste Leger']],
  bronnen: [['Wikipedia: Slag bij Tannenberg (1914)',W('Slag bij Tannenberg 1914')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -130,6 +215,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'In Frankrijk heette de slag al snel het wonder van de Marne. In Duitsland werd de mislukking stil gehouden en moest stafchef Moltke vertrekken. Voor de soldaten aan beide kanten waren de verliezen enorm: in de eerste maanden van de oorlog vielen meer doden per dag dan in bijna elke latere periode. Franse soldaten droegen nog rode broeken en hadden weinig dekking. Ook burgers in de frontstreek verloren huis en have.'
  ],
+ gevolgen: [
+  "Het Duitse plan om Frankrijk binnen zes weken te verslaan was mislukt. Daarmee was de hoop op een korte oorlog voorbij. Stafchef Moltke werd vervangen door Erich von Falkenhayn.",
+  "Na de race naar de zee groeven beide legers zich in. Er ontstond een vast front van loopgraven, waar vier jaar lang met enorme verliezen om enkele kilometers werd gevochten. Die uitputtingsoorlog werd het beeld van de Eerste Wereldoorlog."
+ ],
+ misverstanden: [
+  ["“De Parijse taxi’s hebben de slag gewonnen.”","Generaal Gallieni liet ongeveer zeshonderd taxi’s soldaten naar het front brengen, maar de meeste versterkingen kwamen per trein en vrachtwagen. Gallieni schreef zelf al dat het belang van de taxi’s was overdreven. Ze werden wel een krachtig symbool van een stad die zich verdedigde."],
+  ["“De Marne was een kleine slag vlak bij Parijs.”","Er vochten ruim twee miljoen soldaten mee, over een front van honderden kilometers van Parijs tot Verdun. Het was een van de grootste veldslagen tot dan toe."]
+ ],
+ hoeWeten: [
+  "De Franse en Duitse legers hielden dagboeken bij van alle eenheden, die bewaard zijn gebleven. Daarnaast schreven bevelhebbers als Joffre, Gallieni en French uitgebreide memoires. Over de rol van de Duitse stafofficier Hentsch, die de terugtocht adviseerde, wordt nog steeds gediscussieerd."
+ ],
+ nu: [
+  "Langs de Marne liggen veel militaire begraafplaatsen en gedenktekens, zoals het grote monument bij Mondement. Een van de taxi’s van de Marne is te zien in het Musée de l’Armée in Parijs."
+ ],
+ vertellen: "De taxichauffeurs die in september 1914 soldaten naar het front brachten, lieten volgens de regels hun meter gewoon doorlopen. Achteraf betaalde de Franse schatkist de rekening: in totaal 70.012 frank.",
+ verbanden: [["Inval in België","het begin van de Duitse opmars"],["Het Kerstbestand","de eerste winter in de loopgraven"],["Verdun","de uitputtingsoorlog op zijn hevigst"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Duur','6 – 12 september 1914'],['Verliezen beide kanten','naar schatting ruim 400.000 doden, gewonden en vermisten'],['Frontlengte eind 1914','ca. 700 km']],
  figuren: [['Joseph Joffre','Franse opperbevelhebber'],['Joseph Gallieni','militair gouverneur van Parijs'],['Helmuth von Moltke','Duitse stafchef, na de slag vervangen'],['John French','bevelhebber Brits expeditieleger']],
  bronnen: [['Wikipedia: Eerste Slag aan de Marne',W('Eerste Slag aan de Marne')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -148,6 +250,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'De Nederlandse bevolking ving de vluchtelingen eerst hartelijk op. Na enkele maanden keerden de meeste Belgen terug, mede op aandringen van de Duitse en Nederlandse overheid. Ongeveer honderdduizend bleven tot 1918, vaak in kampen zoals bij Nunspeet, Ede en Uden. Voor de Belgen in het bezette land begon een lange periode van schaarste en controle.'
  ],
+ gevolgen: [
+  "Met de val van Antwerpen was bijna heel België bezet. Het Belgische leger wist te ontsnappen en hield vanaf eind oktober 1914 achter de IJzer stand, mede doordat het land rond de rivier onder water werd gezet.",
+  "Voor Nederland was het de grootste vluchtelingenstroom uit zijn geschiedenis. Gemeenten, kerken en particulieren vingen in korte tijd een miljoen mensen op. De overheid richtte later speciale vluchtoorden in, en de geïnterneerde Belgische soldaten kwamen in kampen terecht, onder meer in Zeist, Harderwijk en Amersfoort."
+ ],
+ misverstanden: [
+  ["“De Belgische vluchtelingen bleven welkom tot het einde van de oorlog.”","De eerste opvang was hartelijk, maar al na enkele weken drongen de Nederlandse en Duitse autoriteiten aan op terugkeer. Vluchtelingen die bleven, werden vaak ondergebracht in afgesloten kampen. Er waren ook spanningen over werk, voedsel en het gedrag van geïnterneerde soldaten."]
+ ],
+ hoeWeten: [
+  "Er zijn veel foto’s van de vluchtelingen bij de grens en in Nederlandse steden. Nederlandse kranten berichtten er dagelijks over, en de archieven van de vluchtoorden en interneringskampen zijn bewaard. Er zijn ook dagboeken en brieven van vluchtelingen en geïnterneerden."
+ ],
+ nu: [
+  "Op de Amersfoortse Berg staat het Belgenmonument, gebouwd door geïnterneerde Belgische soldaten als dank voor de opvang. Het is het grootste monument van Nederland. Op verschillende Nederlandse begraafplaatsen liggen Belgische vluchtelingen en soldaten die hier tijdens de oorlog zijn gestorven."
+ ],
+ vertellen: "De Britse mariniers die in Groningen werden geïnterneerd, noemden hun barakkenkamp “HMS Timbertown”, alsof het een schip was. Ze hadden een eigen cabaretgroep, de Timbertown Follies, en speelden voetbalwedstrijden tegen Groningse clubs als Be Quick. Een van hun doelmannen speelde later in het Engelse profvoetbal.",
+ verbanden: [["Inval in België","het begin van de bezetting"],["Nederland mobiliseert","het leger dat de geïnterneerden bewaakte"],["De Dodendraad","hoe de grens daarna werd afgesloten"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering."],"venster":"35. De Eerste Wereldoorlog"},
  cijfers: [['Overgave','10 oktober 1914'],['Belgische vluchtelingen','ca. 1 miljoen (piek)'],['Blijvers tot 1918','ca. 100.000'],['Geïnterneerde Britten','ca. 1500']],
  figuren: [['Koning Albert I','leidde het Belgische leger naar de IJzer'],['Winston Churchill','Britse marineminister, stuurde de mariniers'],['Hans von Beseler','Duitse bevelhebber bij het beleg']],
  bronnen: [['Wikipedia: Beleg van Antwerpen (1914)',W('Beleg van Antwerpen 1914')],['Wikipedia: Belgische vluchtelingen',W('Belgische vluchtelingen Eerste Wereldoorlog Nederland')]]
@@ -166,6 +284,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Brieven naar huis werden gecensureerd, maar laten heimwee, trots en wanhoop zien. Veel Indiërs hoopten dat hun inzet zou leiden tot meer zelfbestuur. Die belofte werd na de oorlog niet waargemaakt, wat het nationalisme versterkte. Belgische en Franse burgers keken met verbazing naar de onbekende soldaten. Hun namen staan onder meer op de Menenpoort in Ieper.'
  ],
+ gevolgen: [
+  "Na 1915 vochten Indiase troepen vooral in het Midden-Oosten en Oost-Afrika. Bij Kut in Mesopotamië moest in 1916 een groot Brits-Indisch leger zich na een lang beleg overgeven aan het Ottomaanse leger.",
+  "Veel Indiërs verwachtten dat hun inzet beloond zou worden met zelfbestuur. In plaats daarvan kwamen er in 1919 strengere wetten, en in april van dat jaar schoten Britse troepen in Amritsar honderden ongewapende demonstranten dood. Dat dreef veel Indiërs naar de onafhankelijkheidsbeweging van Gandhi."
+ ],
+ misverstanden: [
+  ["“De Eerste Wereldoorlog was een oorlog tussen Europeanen.”","Uit de koloniën en dominions kwamen miljoenen soldaten en arbeiders, uit India, Afrika, Australië, Canada, Indochina en China. Zonder hen hadden Groot-Brittannië en Frankrijk de oorlog niet kunnen volhouden."],
+  ["“De Indiase soldaten werden gedwongen te vechten.”","Het Brits-Indische leger bestond uit vrijwilligers; er was geen dienstplicht. Wel werd er in de oorlog hard geworven, soms onder druk van dorpshoofden en grootgrondbezitters, en speelden armoede en het vaste soldij een grote rol."]
+ ],
+ hoeWeten: [
+  "De Britse censuur las de brieven van Indiase soldaten en maakte er Engelse samenvattingen van. Die zijn bewaard in de British Library en vormen een unieke bron over hoe gewone soldaten de oorlog beleefden. Daarnaast maakten Duitse wetenschappers in krijgsgevangenkampen geluidsopnamen van Indiase gevangenen, die nog in een archief in Berlijn liggen."
+ ],
+ nu: [
+  "Op de Menenpoort in Ieper staan de namen van Indiase soldaten zonder bekend graf, en bij Neuve-Chapelle staat een groot Indiaas monument. Lang werd hun rol in Europa nauwelijks herdacht, maar sinds de herdenkingen van 2014 tot 2018 is er veel meer aandacht voor."
+ ],
+ vertellen: "In het Royal Pavilion in Brighton, een paleis in oosterse stijl, werden tussen eind 1914 en begin 1916 ruim 4300 gewonde Indiase soldaten verpleegd. Hindoes en sikhs die overleden, werden op een heuvel buiten de stad gecremeerd. Op die plek staat sinds 1921 een wit gedenkteken, de Chattri.",
+ verbanden: [["Afrikaanse soldaten aan het Westfront","ook uit de Franse koloniën kwamen soldaten"],["Chinese arbeiders in Europa","arbeiders achter het front"],["Gifgas bij Ieper","waar ook Indiase troepen vochten"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Opkomst van verzet in de koloniën tegen het West-Europese imperialisme."]},
  cijfers: [['Indiase militairen in de hele oorlog','ca. 1,3 miljoen'],['Aankomst in Marseille','eind september 1914'],['Indiase doden hele oorlog','naar schatting ca. 70.000 – 75.000']],
  figuren: [['Khudadad Khan','eerste Indiase drager van het Victoria Cross'],['James Willcocks','Britse bevelhebber van het Indiase Korps']],
  bronnen: [['Wikipedia: Brits-Indisch Leger in de Eerste Wereldoorlog',W('Brits-Indisch Leger Eerste Wereldoorlog')],['In Flanders Fields Museum','https://www.inflandersfields.be/'],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -184,6 +319,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de geallieerden werd de verbinding met Rusland via de Zwarte Zee afgesneden. Moslims in Brits-Indië en Frans Noord-Afrika volgden de oproep tot heilige oorlog grotendeels niet op. Voor Armeniërs, Arabieren, Grieken en Koerden in het rijk had de oorlog zeer verschillende gevolgen, van vervolging tot opstand.'
  ],
+ gevolgen: [
+  "Door de Ottomaanse keuze waren de zeestraten naar de Zwarte Zee dicht en kon Rusland nauwelijks nog hulp krijgen uit het westen. Om die route open te breken, probeerden de geallieerden in 1915 Gallipoli te veroveren.",
+  "De oorlog werd fataal voor het rijk. In 1915 begon de genocide op de Armeniërs, in 1916 kwamen Arabieren in opstand, en Britse en Franse diplomaten verdeelden al in het geheim het Midden-Oosten. Na de nederlaag in 1918 viel het rijk uiteen. In 1923 werd de Republiek Turkije uitgeroepen, en Syrië, Libanon, Irak, Palestina en Jordanië kwamen onder Brits of Frans bestuur."
+ ],
+ misverstanden: [
+  ["“Het Ottomaanse Rijk was zwak en stortte meteen in.”","Het rijk werd vaak de ‘zieke man van Europa’ genoemd, maar het hield vier jaar stand. Het won bij Gallipoli en dwong in 1916 bij Kut een groot Brits-Indisch leger tot overgave. Pas in oktober 1918 tekende het een wapenstilstand."],
+  ["“Het Ottomaanse Rijk en Turkije zijn hetzelfde.”","Het Ottomaanse Rijk was een groot rijk met Turken, Arabieren, Armeniërs, Grieken, Koerden, Joden en vele anderen. Turkije is een van de staten die na 1918 uit het rijk zijn ontstaan."]
+ ],
+ hoeWeten: [
+  "Naast Ottomaanse archieven zijn vooral de Duitse diplomatieke stukken belangrijk, omdat Duitse officieren en diplomaten nauw betrokken waren bij de Ottomaanse oorlogvoering. Ook Britse en Russische archieven en memoires van betrokkenen worden gebruikt."
+ ],
+ nu: [
+  "Veel grenzen in het Midden-Oosten gaan terug op de verdeling van het Ottomaanse Rijk na 1918, en conflicten in de regio worden daar nog vaak mee in verband gebracht. Het Duitse schip Goeben bleef tot 1950 het vlaggenschip van de Turkse marine en werd pas in 1973 gesloopt."
+ ],
+ vertellen: "Toen de Duitse oorlogsschepen Goeben en Breslau in augustus 1914 ‘verkocht’ werden aan het Ottomaanse Rijk, kregen ze Turkse namen. De Duitse bemanningen trokken Ottomaanse uniformen aan en zetten een fez op, maar bleven onder Duits bevel varen.",
+ verbanden: [["Gallipoli","de strijd om de zeestraten"],["Armeense genocide","de vervolging binnen het rijk"],["Arabische Opstand","het verzet van Arabieren tegen het rijk"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Geheim verdrag met Duitsland','2 augustus 1914'],['Beschieting Zwarte Zeehavens','29 oktober 1914'],['Oorlogsverklaringen geallieerden','2 – 5 november 1914']],
  figuren: [['Enver Pasja','minister van Oorlog'],['Talaat Pasja','minister van Binnenlandse Zaken'],['Wilhelm Souchon','Duitse admiraal van de vloot'],['Sultan Mehmed V','staatshoofd en kalief']],
  bronnen: [['Wikipedia: Ottomaanse Rijk in de Eerste Wereldoorlog',W('Ottomaanse Rijk Eerste Wereldoorlog')],['Wikipedia: SMS Goeben',W('SMS Goeben')]]
@@ -202,6 +354,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'In Duitsland werd Lettow-Vorbeck later als onoverwonnen held gevierd. Voor de Afrikaanse bevolking was de oorlog een ramp. Alle partijen dwongen honderdduizenden mannen om als drager voorraden te sjouwen. Velen stierven door ziekte, uitputting en honger. Legers namen voedsel en vee mee, waardoor ook in dorpen hongersnood ontstond. De askari’s aan beide kanten vochten voor koloniale machten die hun land beheersten.'
  ],
+ gevolgen: [
+  "Na de oorlog verloor Duitsland al zijn koloniën. Het grootste deel van Duits-Oost-Afrika werd als Tanganyika een Brits mandaatgebied, en Ruanda-Urundi, het latere Rwanda en Burundi, kwam onder Belgisch bestuur. Belgen bouwden daar voort op het onderscheid tussen Hutu en Tutsi, wat later grote gevolgen had.",
+  "Voor de bevolking liet de oorlog verwoeste dorpen, hongersnood en ziekte achter. In sommige gebieden duurde het jaren voor de landbouw zich herstelde."
+ ],
+ misverstanden: [
+  ["“Lettow-Vorbeck was een ridderlijke held die nooit verslagen werd.”","Zijn troepen gaven zich inderdaad pas na de wapenstilstand over, maar zijn strategie betekende dat Afrikaanse dorpen werden leeggehaald en dat duizenden dragers omkwamen. Het beeld van de onoverwonnen held is in Duitsland lang gekoesterd, ook door de nazi’s."],
+  ["“In Afrika werd nauwelijks gevochten.”","In Oost-Afrika duurde de oorlog vier jaar, over een gebied groter dan West-Europa. Er kwamen naar schatting honderdduizenden mensen om, de meesten geen soldaten maar dragers en burgers."]
+ ],
+ hoeWeten: [
+  "Lettow-Vorbeck schreef al in 1920 zijn herinneringen, en ook Britse officieren publiceerden memoires en officiële geschiedenissen. Over de ervaringen van Afrikaanse dragers en askari’s is veel minder opgeschreven. Historici gebruiken daarom ook mondelinge overlevering en koloniale administratie."
+ ],
+ nu: [
+  "Op het Tanganyikameer vaart nog steeds de veerboot Liemba. Het schip werd in 1913 in Duitsland gebouwd als Graf von Götzen, in 1916 door de Duitsers tot zinken gebracht en later door de Britten weer opgehaald. Het is het laatste schip van de Duitse keizerlijke marine dat nog in de vaart is."
+ ],
+ vertellen: "Om het Tanganyikameer te veroveren, lieten de Britten in 1915 twee kleine motorboten, de Mimi en de Toutou, per schip, trein, stoomtractor en ossenspan dwars door Afrika naar het meer brengen. Daar veroverden ze een Duits schip, dat ze omdoopten tot Fifi. Het verhaal inspireerde de beroemde film The African Queen.",
+ verbanden: [["Afrikaanse soldaten aan het Westfront","Afrikanen in de oorlog in Europa"],["De wapenstilstand","waarna Lettow-Vorbeck zich pas overgaf"],["Verdrag van Versailles","waarbij Duitsland zijn koloniën verloor"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Slag bij Tanga','2 – 5 november 1914'],['Duitse troepenmacht op zijn grootst','ca. 14.000, merendeels askari’s'],['Omgekomen dragers (alle partijen)','naar schatting ruim 100.000'],['Duitse overgave','25 november 1918']],
  figuren: [['Paul von Lettow-Vorbeck','Duitse bevelhebber'],['Jan Smuts','Zuid-Afrikaanse generaal, leidde vanaf 1916 de Britse campagne']],
  bronnen: [['Wikipedia: Oost-Afrikaanse veldtocht',W('Oost-Afrikaanse veldtocht Eerste Wereldoorlog')],['Wikipedia: Paul von Lettow-Vorbeck',W('Paul von Lettow-Vorbeck')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -220,6 +389,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'China was neutraal, maar er werd op zijn grondgebied gevochten zonder dat het iets te zeggen had. In 1915 legde Japan China de Eenentwintig Eisen op. Toen het Verdrag van Versailles in 1919 de Duitse rechten in Shandong aan Japan gaf, braken in China grote protesten uit: de Vierde Mei-beweging. Voor de Duitse gevangenen in Japan waren de omstandigheden relatief goed.'
  ],
+ gevolgen: [
+  "Japan gebruikte de oorlog om zijn macht in China en de Stille Oceaan uit te breiden. Op de conferentie van Versailles kreeg het de Duitse rechten in Shandong en de Duitse eilanden in de Stille Oceaan. China weigerde daarom het verdrag te tekenen. Pas in 1922 gaf Japan Shandong terug aan China.",
+  "De eilanden in de Stille Oceaan bleven Japans. In de Tweede Wereldoorlog werden ze belangrijke Japanse bases, en er werd zwaar om gevochten."
+ ],
+ misverstanden: [
+  ["“De Eerste Wereldoorlog werd alleen in Europa uitgevochten.”","Er werd ook gevochten in Afrika, het Midden-Oosten, Azië en op alle oceanen. Tsingtao was een van de eerste plaatsen buiten Europa waar een Duitse basis werd veroverd."],
+  ["“Japan stond in beide wereldoorlogen aan de kant van Duitsland.”","In de Eerste Wereldoorlog vocht Japan juist tegen Duitsland, als bondgenoot van Groot-Brittannië. Pas in de jaren dertig kwamen Japan en Duitsland dichter bij elkaar."]
+ ],
+ hoeWeten: [
+  "Over het beleg zijn Japanse, Duitse en Britse militaire verslagen bewaard. Over de Duitse krijgsgevangenen in Japan zijn veel brieven, foto’s, kampkranten en concertprogramma’s overgebleven, die nu in Japanse en Duitse archieven en musea liggen."
+ ],
+ nu: [
+  "In Qingdao zijn nog veel Duitse gebouwen te zien, zoals kerken en villa’s. Ook het bekende bier Tsingtao herinnert aan de Duitse tijd: de brouwerij werd in 1903 door een Brits-Duits bedrijf opgericht."
+ ],
+ vertellen: "De Duitse krijgsgevangenen uit Tsingtao werden in Japan ondergebracht in kampen. In het kamp Bandō hadden ze verschillende orkesten. Op 1 juni 1918 voerden ze daar voor het eerst in Japan de Negende Symfonie van Beethoven uit. Sindsdien is het stuk in Japan razend populair en wordt het elk jaar in december overal uitgevoerd.",
+ verbanden: [["Strijd om Duits-Oost-Afrika","de oorlog om de andere Duitse koloniën"],["Verdrag van Versailles","dat Shandong aan Japan gaf"],["De Volkenbond","die de mandaatgebieden verdeelde"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Japanse oorlogsverklaring','23 augustus 1914'],['Overgave Tsingtao','7 november 1914'],['Duitse krijgsgevangenen','ca. 4700'],['Vierde Mei-beweging','1919']],
  figuren: [['Kamio Mitsuomi','Japanse bevelhebber bij het beleg'],['Alfred Meyer-Waldeck','Duitse gouverneur van Tsingtao']],
  bronnen: [['Wikipedia: Beleg van Tsingtao',W('Beleg van Tsingtao')],['Wikipedia: Vierde Mei-beweging',W('Vierde Mei-beweging')]]
