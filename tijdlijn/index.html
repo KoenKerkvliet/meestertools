@@ -365,11 +365,12 @@ $('#pgback').onclick=()=>closePage(true);
 /* ---- verhalen om voor te lezen (js/verhalen.js) ---- */
 let vid=null;
 function openVerhaal(id){
-  const v=VERHALEN[id];const i=TILES.findIndex(t=>t.id===id);if(!v||i<0)return;vid=id;const P=domP(i);const t=TILES[i];
-  $('#vctx').textContent='Verhaal bij '+tileName(t);
-  const evs=(v.gebeurtenissen||[]).map(n=>EVENTS.find(e=>e.t===n)).filter(e=>e&&DETAILS[e.t]);
+  const v=VERHALEN[id];const i=TILES.findIndex(t=>t.id===id);const W=WARS[id];if(!v||(i<0&&!W))return;vid=id;
+  const P=W?{bg:'#E4E2D5',ink:'#4A4A36'}:domP(i);const naam=W?W.n:tileName(TILES[i]);
+  $('#vctx').textContent='Verhaal bij '+(W?'de ':'')+naam;
+  const evs=(v.gebeurtenissen||[]).map(n=>EVENTS.concat(WEV).find(e=>e.t===n)).filter(e=>e&&DETAILS[e.t]);
   $('#vbody').innerHTML=`
-   <div class="pghero" style="background:${P.bg}"><div class="pmeta"><span class="cat vcat">Voorleesverhaal · groep 5 t/m 8</span>${v.gepubliceerd?'':'<span class="cat vconcept">Concept · alleen zichtbaar voor de beheerder</span>'}<span class="yr" style="color:${P.ink}">${esc(tileName(t))}</span></div><h2>${esc(v.titel)}</h2>${v.ondertitel?`<p class="lead">${esc(v.ondertitel)}</p>`:''}</div>
+   <div class="pghero" style="background:${P.bg}"><div class="pmeta"><span class="cat vcat">Voorleesverhaal · groep 5 t/m 8</span>${v.gepubliceerd?'':'<span class="cat vconcept">Concept · alleen zichtbaar voor de beheerder</span>'}<span class="yr" style="color:${P.ink}">${esc(naam)}</span></div><h2>${esc(v.titel)}</h2>${v.ondertitel?`<p class="lead">${esc(v.ondertitel)}</p>`:''}</div>
    <div class="vgrid">
      <article class="vtekst">${(v.tekst||[]).map(p=>`<p>${esc(p)}</p>`).join('')}</article>
      <aside class="vside">
@@ -382,9 +383,9 @@ function openVerhaal(id){
   const p=$('#vpage');p.scrollTop=0;p.classList.add('on');p.setAttribute('aria-hidden','false');$('#vclose').focus({preventScroll:true});
 }
 function closeVerhaal(keep){const p=$('#vpage');p.classList.remove('on');p.setAttribute('aria-hidden','true');const id=vid;vid=null;
-  if(!keep){$('#scrim2').classList.remove('on');document.documentElement.style.overflow='';const b=document.querySelector(`.vbtn[data-v="${id}"]`);b&&b.focus({preventScroll:true})}}
+  if(!keep){$('#scrim2').classList.remove('on');document.documentElement.style.overflow='';const b=document.querySelector(`.vbtn[data-v="${id}"],.vwbtn[data-v="${id}"]`);b&&b.focus({preventScroll:true})}}
 $('#vback').onclick=()=>closeVerhaal();$('#vclose').onclick=()=>closeVerhaal();$('#vprint').onclick=()=>window.print();
-document.addEventListener('verhalen',()=>renderCols());$('#pgclose').onclick=()=>closePage(false);$('#scrim2').onclick=()=>vid?closeVerhaal():closePage(false);
+document.addEventListener('verhalen',()=>{renderCols();if(curWar){const sx=$('.wtl')&&$('.wtl').scrollLeft;openWar(curWar,false);if(sx&&$('.wtl'))$('.wtl').scrollLeft=sx}});$('#pgclose').onclick=()=>closePage(false);$('#scrim2').onclick=()=>vid?closeVerhaal():closePage(false);
 
 
 /* ---- pdf ---- */
@@ -570,7 +571,7 @@ function openWar(k,scroll){
   const counts={};all.forEach(e=>counts[e.th]=(counts[e.th]||0)+1);
   z.innerHTML=`<div class="wcard">
    <div class="whead"><div><span class="pill">20e eeuw · ${W0.r}</span><h2>${W0.n}</h2><p>${W0.sub}. Elke gebeurtenis vanuit meerdere kanten bekeken.</p></div>
-     <div class="btns"><button class="btn" id="wback">← 20e eeuw</button><button class="btn dk" id="wother">${k==='ww1'?'Tweede Wereldoorlog →':'← Eerste Wereldoorlog'}</button></div></div>
+     <div class="btns">${VERHALEN[k]?`<button class="btn vwbtn" data-v="${k}" title="Voorleesverhaal (groep 5 t/m 8)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg><span>Voorleesverhaal</span></button>`:''}<button class="btn" id="wback">← 20e eeuw</button><button class="btn dk" id="wother">${k==='ww1'?'Tweede Wereldoorlog →':'← Eerste Wereldoorlog'}</button></div></div>
    <div class="tchips" role="group" aria-label="Filter op front of thema">${Object.entries(THEMES).filter(([t])=>counts[t]).map(([t,v])=>`<button class="tchip" data-t="${t}" aria-pressed="${warShow[t]}" style="--c:var(${v.c})"><i></i>${v.n}<em>${counts[t]}</em></button>`).join('')}</div>
    <div class="wtl"><div class="wtlin" style="width:${width}px">
      <div class="wphrow">${ph}</div><div class="wyears">${yrs}</div>
@@ -579,6 +580,7 @@ function openWar(k,scroll){
    ${Object.keys(byYear).sort().map(y=>`<h3 class="yrh">${y}<small>${byYear[y].length} gebeurtenis${byYear[y].length===1?'':'sen'}</small></h3><div class="wgrid">${byYear[y].map(evHTML).join('')}</div>`).join('')||'<p class="empty" style="margin-top:24px">Geen gebeurtenissen in deze selectie.</p>'}
   </div>`;
   z.hidden=false;syncHash();
+  z.querySelector('.vwbtn')&&(z.querySelector('.vwbtn').onclick=()=>openVerhaal(k));
   $('#wback').onclick=()=>{closeWar();const i20=TILES.findIndex(t=>t.n===20);toggleCol(i20,true);$('#scroller').scrollIntoView({behavior:smooth(),block:'center'})};
   $('#wother').onclick=()=>openWar(k==='ww1'?'ww2':'ww1',true);
   z.querySelectorAll('.tchip').forEach(c=>c.onclick=()=>{warShow[c.dataset.t]=!warShow[c.dataset.t];const sx=z.querySelector('.wtl').scrollLeft;openWar(k,false);z.querySelector('.wtl').scrollLeft=sx;renderStatus()});
