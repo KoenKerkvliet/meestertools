@@ -453,6 +453,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Bij de RAF vochten niet alleen Britten, maar ook vliegers uit onder meer Polen, Tsjechoslowakije, Canada en Nieuw-Zeeland. Het Poolse 303 Squadron behaalde de meeste overwinningen. Voor Duitse vliegers waren de verliezen zwaar en de afstanden lang. Voor Britse burgers betekende de Blitz nachten in schuilkelders; ca. 43.000 van hen kwamen om.'
  ],
+ gevolgen: [
+  "Het was de eerste grote nederlaag voor Hitler. Groot-Brittannië bleef in de oorlog en werd later de uitvalsbasis voor de bombardementen op Duitsland en voor de landing in Normandië. Ook de Nederlandse regering en koningin Wilhelmina konden vanuit Londen doorgaan.",
+  "Hitler richtte zijn aandacht daarna op het oosten. In juni 1941 viel hij de Sovjet-Unie aan, terwijl Groot-Brittannië nog niet was verslagen. Zo raakte Duitsland toch in een oorlog op twee fronten."
+ ],
+ misverstanden: [
+  ["“De RAF had veel minder jachtvliegtuigen dan de Luftwaffe.”","Aan jachtvliegtuigen hadden beide kanten ongeveer evenveel, en de Britse fabrieken bouwden er in 1940 meer dan de Duitse. Het tekort zat vooral bij ervaren piloten. Het Britse voordeel lag ook in radar en in het feit dat neergeschoten Britse piloten boven eigen land landden."],
+  ["“De Spitfire won de Slag om Engeland.”","De Spitfire is het bekendst, maar er waren meer Hurricanes, en die schoten meer Duitse vliegtuigen neer."]
+ ],
+ hoeWeten: [
+  "Er zijn verslagen van de RAF en de Luftwaffe, logboeken van piloten, radarverslagen en veel foto’s en filmbeelden. De verliescijfers die beide kanten tijdens de slag bekendmaakten, waren sterk overdreven; pas na de oorlog konden ze met elkaar worden vergeleken."
+ ],
+ nu: [
+  "In Groot-Brittannië is 15 september Battle of Britain Day. Een historische vlucht met een Spitfire, een Hurricane en een Lancaster vliegt nog bij herdenkingen. Aan de kust bij Folkestone staat een groot nationaal monument voor de piloten."
+ ],
+ vertellen: "Om de nieuwe radar geheim te houden, verspreidden de Britten het verhaal dat hun piloten zo goed in het donker konden zien omdat ze veel wortels aten. Het verhaal werd zo populair dat veel mensen nu nog denken dat wortels goed zijn voor je ogen in het donker.",
+ verbanden: [["Evacuatie bij Duinkerken","het leger dat werd gered"],["Operatie Barbarossa","waar Hitler zich daarna op richtte"],["Bombardement op Dresden","de luchtoorlog boven Duitsland later"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering.","De rol van moderne propaganda- en communicatiemiddelen en vormen van massa-organisatie."]},
  cijfers: [['Verloren Duitse vliegtuigen','ca. 1700–1900'],['Verloren RAF-vliegtuigen','ca. 1000'],['Burgerdoden door de Blitz (1940–1941)','ca. 43.000'],['Officiële periode','10 juli – 31 oktober 1940']],
  figuren: [['Hugh Dowding','bevelhebber RAF Fighter Command'],['Hermann Göring','opperbevelhebber van de Luftwaffe'],['Winston Churchill','Britse premier']],
  bronnen: [['Wikipedia: Slag om Engeland',W('Slag om Engeland')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -471,6 +488,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de opgepakte Joodse mannen hielp de staking niet: zij werden naar Buchenwald en daarna Mauthausen gebracht, en vrijwel allen kwamen om. Voor de bezetter was het een teken dat de Nederlanders zich niet vanzelf lieten inpalmen. Na de oorlog werd de staking een belangrijk symbool van verzet tegen de Jodenvervolging. Elk jaar wordt bij De Dokwerker herdacht.'
  ],
+ gevolgen: [
+  "De staking was de eerste en enige grote openlijke protestactie in bezet Europa tegen de Jodenvervolging. De bezetter trad daarna harder op, en de illusie dat de bezetting mild zou blijven, verdween. Het verzet groeide, al bleef het voorlopig klein.",
+  "Voor de Joden zelf veranderde er weinig. Al in 1942 begonnen de deportaties, en de vervolging ging door tot 1944."
+ ],
+ misverstanden: [
+  ["“De Februaristaking was de grootste staking van de bezetting.”","De April-meistakingen van 1943, tegen het plan om Nederlandse oud-militairen weer krijgsgevangen te maken, waren groter. Daarbij werden ongeveer 200 mensen gedood of geëxecuteerd. In september 1944 volgde nog de spoorwegstaking."]
+ ],
+ hoeWeten: [
+  "Het pamflet van de CPN met de oproep ‘Staakt! Staakt! Staakt!’ is bewaard gebleven. Er zijn foto’s van de razzia op het Jonas Daniël Meijerplein, die heimelijk vanuit een raam werden genomen, en Duitse en Nederlandse politieverslagen."
+ ],
+ nu: [
+  "Elk jaar op 25 februari wordt de staking herdacht bij het beeld De Dokwerker van Mari Andriessen op het Jonas Daniël Meijerplein in Amsterdam. Het is een van de oudste jaarlijkse herdenkingen van de oorlog in Nederland."
+ ],
+ vertellen: "In 1947 gaf koningin Wilhelmina Amsterdam drie woorden voor in het stadswapen: Heldhaftig, Vastberaden, Barmhartig. Daarmee eerde ze onder meer de Februaristaking. Die woorden staan nog steeds in het wapen van de stad.",
+ verbanden: [["Deportaties uit Westerbork","de vervolging die doorging"],["Kamp Westerbork","het kamp waar de transporten vertrokken"],["Anne Frank","een Amsterdams Joods meisje in de onderduik"]],
+ onderwijs: {"ka":["De Duitse bezetting van Nederland.","Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust)."],"venster":"37. De Tweede Wereldoorlog"},
  cijfers: [['Opgepakte Joodse mannen','ca. 425'],['Stakers','naar schatting enkele tienduizenden'],['Gefusilleerd op 13 maart 1941','18 mannen'],['Overlevenden van de razzia','enkelingen']],
  figuren: [['Piet Nak','een van de organisatoren van de staking'],['Dirk van Nimwegen','communist, sprak de stakers toe'],['Jan Campert','dichter van De achttien dooden']],
  bronnen: [['Wikipedia: Februaristaking',W('Februaristaking')],['NIOD','https://www.niod.nl/']]
@@ -489,6 +522,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Sovjet-burgers begon de ‘Grote Vaderlandse Oorlog’. In de hele oorlog kwamen naar schatting ca. 27 miljoen Sovjet-burgers en -soldaten om. Van de ca. 5,7 miljoen Sovjet-krijgsgevangenen stierven er ca. 3 miljoen, vooral door honger. In Oekraïne en de Baltische staten verwelkomden sommigen de Duitsers eerst als bevrijders van Stalin, maar dat sloeg snel om.'
  ],
+ gevolgen: [
+  "Het oostfront werd het belangrijkste front van de oorlog in Europa. Daar vielen de meeste Duitse soldaten. Tegelijk ging de Holocaust een nieuwe fase in: in de bezette gebieden werden Joden massaal doodgeschoten, en het plan groeide om alle Joden van Europa te vermoorden.",
+  "Na de oorlog stond het Rode Leger in het hart van Europa. Dat legde de basis voor de verdeling van Europa tijdens de Koude Oorlog."
+ ],
+ misverstanden: [
+  ["“De Russische winter heeft de Duitsers verslagen.”","De kou speelde mee, maar de Duitse opmars liep al vast door de modder van de herfst, de enorme afstanden, aanvoerproblemen en vooral het verbeten verzet van het Rode Leger. De Duitse plannen waren gebaseerd op een overwinning binnen een paar maanden."],
+  ["“Alleen de SS pleegde misdaden; het gewone leger vocht eervol.”","Dat beeld van de ‘schone Wehrmacht’ was na de oorlog lang populair. Onderzoek en een grote tentoonstelling in Duitsland in de jaren negentig lieten zien dat ook het gewone leger meedeed aan het doodschieten van Joden en burgers en aan de uithongering van krijgsgevangenen."]
+ ],
+ hoeWeten: [
+  "Er zijn Duitse legerverslagen, rapporten van de Einsatzgruppen, Sovjetdocumenten die na 1991 toegankelijk werden, en duizenden brieven van soldaten aan beide kanten. Ook foto’s die Duitse soldaten zelf maakten, laten de misdaden zien."
+ ],
+ nu: [
+  "In Rusland, Oekraïne en Belarus is 22 juni een dag van rouw. Ook ongeveer 20.000 tot 25.000 Nederlanders meldden zich vrijwillig voor de Waffen-SS en vochten vooral aan het oostfront; na de oorlog werden velen van hen bestraft."
+ ],
+ vertellen: "Tot het allerlaatste moment hield Stalin zich aan de handelsafspraken met Duitsland. In de nacht van de aanval reden er nog Sovjettreinen met graan en grondstoffen over de grens naar Duitsland, terwijl de Duitse legers al klaarstonden.",
+ verbanden: [["Molotov-Ribbentroppact","het verdrag dat Hitler brak"],["Babi Jar","de massamoord achter het front"],["Stalingrad","het keerpunt aan het oostfront"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust).","De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme)."]},
  cijfers: [['Aanvallende Duitse soldaten','ruim 3 miljoen'],['Sovjet-krijgsgevangenen omgekomen','ca. 3 miljoen'],['Krijgsgevangenen bij Kiev','ca. 600.000'],['Sovjet-doden in de hele oorlog','ca. 27 miljoen']],
  figuren: [['Jozef Stalin','leider van de Sovjet-Unie'],['Georgi Zjoekov','Sovjet-generaal, verdedigde Moskou'],['Fedor von Bock','commandant Duitse Legergroep Centrum']],
  bronnen: [['Wikipedia: Operatie Barbarossa',W('Operatie Barbarossa')],['United States Holocaust Memorial Museum','https://www.ushmm.org/']]
@@ -507,6 +557,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Naar schatting 800.000 tot meer dan een miljoen burgers kwamen om, vooral door honger en kou. Het dagboek van het meisje Tanja Savitsjeva, wier familie stierf, werd een bekend symbool. In augustus 1942 werd in de stad de Zevende symfonie van Sjostakovitsj uitgevoerd. Voor de Duitse en Spaanse soldaten aan het front betekende het beleg jarenlang loopgravenoorlog in de kou.'
  ],
+ gevolgen: [
+  "De stad werd nooit ingenomen, maar verloor een groot deel van haar bevolking. In de Sovjet-Unie werd het beleg een symbool van uithoudingsvermogen. In 1945 kreeg Leningrad de titel Heldenstad.",
+  "Het beleg is een van de duidelijkste voorbeelden van honger als wapen. Na de oorlog werd het opzettelijk uithongeren van burgers in het oorlogsrecht als misdaad vastgelegd."
+ ],
+ misverstanden: [
+  ["“Leningrad werd door de Duitsers veroverd.”","De Duitse en Finse troepen sloten de stad in, maar kwamen er nooit binnen. Hitler wilde de stad juist niet innemen, omdat hij dan de bevolking zou moeten voeden."]
+ ],
+ hoeWeten: [
+  "Er zijn veel dagboeken van inwoners, zoals de korte aantekeningen van het meisje Tanja Savitsjeva, die in een paar regels de dood van haar familie noteerde. Ook stadsarchieven, foto’s en Duitse legerstukken laten zien hoe het beleg verliep. Lang mocht in de Sovjet-Unie niet worden geschreven over de chaos en het falen van de leiding."
+ ],
+ nu: [
+  "Op de Piskarjovskoje-begraafplaats in Sint-Petersburg liggen honderdduizenden slachtoffers in massagraven. Op 27 januari wordt het einde van het beleg herdacht. Dezelfde datum is ook de internationale Holocaustherdenkingsdag, omdat op 27 januari 1945 Auschwitz werd bevrijd."
+ ],
+ vertellen: "Op 9 augustus 1942 werd in de belegerde stad de Zevende symfonie van Sjostakovitsj uitgevoerd. De partituur was per vliegtuig door de blokkade gebracht. De uitgehongerde musici kregen extra rantsoenen om te kunnen spelen. Het concert werd met luidsprekers uitgezonden, ook in de richting van de Duitse linies.",
+ verbanden: [["Operatie Barbarossa","de aanval waarmee het begon"],["De Hongerwinter","honger in bezet Nederland"],["Stalingrad","een andere belegerde stad aan het oostfront"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering."]},
  cijfers: [['Duur','ca. 872 dagen'],['Burgerdoden','naar schatting 800.000 tot ruim 1 miljoen'],['Laagste broodrantsoen','125 gram per dag'],['Ingesloten bewoners','ca. 2,5–3 miljoen']],
  figuren: [['Dmitri Sjostakovitsj','componist van de Leningrad-symfonie'],['Tanja Savitsjeva','meisje dat een dagboek bijhield'],['Wilhelm von Leeb','commandant Duitse Legergroep Noord']],
  bronnen: [['Wikipedia: Beleg van Leningrad',W('Beleg van Leningrad')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -525,6 +591,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'In de Sovjet-Unie werd lang verzwegen dat de slachtoffers vooral Joden waren; er werd alleen gesproken over ‘vreedzame Sovjet-burgers’. Het gedicht ‘Babi Jar’ van Jevgeni Jevtoesjenko uit 1961 doorbrak dat zwijgen. Overlevenden waren er nauwelijks. In totaal kwamen er naar schatting ca. 100.000 mensen om.'
  ],
+ gevolgen: [
+  "Babi Jar werd het symbool van de ‘Holocaust door kogels’: de moord op Joden in de bezette Sovjet-Unie door massa-executies bij de woonplaats van de slachtoffers. Op die manier werden naar schatting anderhalf tot twee miljoen Joden vermoord.",
+  "Na de oorlog wilde de Sovjetleiding geen aandacht voor het Joodse karakter van de slachtoffers. In 1961 brak een dam van een slibvijver in het ravijn door, en een modderstroom overspoelde een deel van Kiev. Pas in 1976 kwam er een monument, zonder het woord Joden erop."
+ ],
+ misverstanden: [
+  ["“De Holocaust vond alleen plaats in gaskamers.”","Ongeveer een derde van de vermoorde Joden werd doodgeschoten, vooral in Oost-Europa, vaak in ravijnen, bossen of bij dorpen. De vernietigingskampen met gaskamers kwamen pas vanaf eind 1941 en 1942 in gebruik."]
+ ],
+ hoeWeten: [
+  "De Einsatzgruppen stuurden rapporten naar Berlijn met precieze aantallen slachtoffers; daar komt het getal 33.771 vandaan. Er zijn ook enkele getuigenissen van overlevenden en van omwonenden, en verklaringen uit processen tegen daders na de oorlog."
+ ],
+ nu: [
+  "In Kiev, het huidige Kyiv, is in Babi Jar een herdenkingsplaats met verschillende monumenten. In 2016 en 2021 werd daar groot herdacht. In maart 2022 sloeg een Russische raket in vlakbij het herdenkingsterrein, wat internationaal veel verontwaardiging opriep."
+ ],
+ vertellen: "Een van de weinige overlevenden was Dina Pronitsjeva, een actrice van het poppentheater. Toen er op de rand van het ravijn werd geschoten, sprong ze naar beneden en hield zich dood. ’s Nachts kroop ze weg. Na de oorlog getuigde ze tegen de daders, en haar verklaring is een van de belangrijkste bronnen over wat er gebeurde.",
+ verbanden: [["Operatie Barbarossa","de oorlog in het oosten"],["Wannseeconferentie","de organisatie van de moord op alle Joden"],["Bevrijding van Auschwitz","de vernietigingskampen"]],
+ onderwijs: {"ka":["Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust).","Het voeren van twee wereldoorlogen."]},
  cijfers: [['Joodse slachtoffers 29–30 september 1941','33.771 (Duits rapport)'],['Totaal aantal doden 1941–1943','naar schatting ca. 100.000'],['Overlevenden van de eerste dagen','enkelingen'],['Inname Kiev','19 september 1941']],
  figuren: [['Paul Blobel','commandant Sonderkommando 4a'],['Jevgeni Jevtoesjenko','dichter van Babi Jar'],['Dina Pronitsjeva','een van de weinige overlevenden']],
  bronnen: [['Wikipedia: Babi Jar',W('Babi Jar')],['Yad Vashem','https://www.yadvashem.org/']]
@@ -543,6 +625,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor Amerikanen werd 7 december een ‘dag van schande’, zoals Roosevelt zei. De aanval maakte een einde aan de Amerikaanse neutraliteit. In 1942 werden ca. 120.000 Amerikanen van Japanse afkomst gedwongen in kampen opgesloten, terwijl de meesten Amerikaans staatsburger waren. In Japan werd de aanval eerst als grote overwinning gevierd.'
  ],
+ gevolgen: [
+  "De Verenigde Staten gingen de oorlog in, tegen Japan en, na de Duitse oorlogsverklaring, ook tegen Duitsland. Daarmee werd het definitief een wereldoorlog. De enorme Amerikaanse industrie zou uiteindelijk beslissend zijn.",
+  "Japan veroverde in de maanden daarna grote delen van Zuidoost-Azië, waaronder Nederlands-Indië. Voor de Nederlandse kolonie begon zo de oorlog."
+ ],
+ misverstanden: [
+  ["“Roosevelt wist van de aanval en liet die bewust gebeuren.”","Dat idee duikt steeds weer op, maar er is geen bewijs voor. De Amerikanen wisten dat Japan ergens zou aanvallen en hadden berichten onderschept, maar verwachtten eerder een aanval in Zuidoost-Azië. Waarschuwingen werden onderschat en slecht doorgegeven."],
+  ["“Bij Pearl Harbor werd de Amerikaanse vloot vernietigd.”","De vliegdekschepen waren op zee, en de meeste getroffen slagschepen werden later gerepareerd en vochten weer mee. Ook de olievoorraden en werven op Hawaï bleven grotendeels heel."]
+ ],
+ hoeWeten: [
+  "Er zijn foto’s en filmbeelden van de aanval, ook van Japanse piloten. Na de oorlog onderzochten verschillende Amerikaanse commissies waarom de aanval zo onverwacht kwam. Japanse plannen en verslagen kwamen na 1945 beschikbaar."
+ ],
+ nu: [
+  "Boven het wrak van de USS Arizona staat een wit monument. Nog altijd lekt er elke dag een beetje olie uit het schip, dat als een dunne laag op het water drijft. Bezoekers noemen dat de ‘zwarte tranen van de Arizona’."
+ ],
+ vertellen: "In zijn toespraak de dag na de aanval noemde president Roosevelt 7 december 1941 “een datum die zal voortleven als een dag van schande”. Het Congres verklaarde Japan binnen een uur de oorlog, met maar één tegenstem.",
+ verbanden: [["Japan verovert Nederlands-Indië","de oorlog in Azië na Pearl Harbor"],["Slag bij Midway","het Amerikaanse antwoord"],["Hiroshima en Nagasaki","het einde van de oorlog met Japan"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Amerikaanse doden','ruim 2400'],['Doden op de USS Arizona','ruim 1100'],['Japanse vliegtuigen','ruim 350'],['Geïnterneerde Japanse Amerikanen','ca. 120.000']],
  figuren: [['Isoroku Yamamoto','Japanse admiraal, bedenker van de aanval'],['Chuichi Nagumo','commandant van de Japanse vliegdekschepen'],['Franklin D. Roosevelt','Amerikaanse president']],
  bronnen: [['Wikipedia: Aanval op Pearl Harbor',W('Aanval op Pearl Harbor')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -561,6 +660,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Het verslag is een van de meest schokkende documenten van de Holocaust, omdat het laat zien hoe zakelijk en bureaucratisch de moord werd voorbereid. Er werd door geen enkele deelnemer bezwaar gemaakt. Na de oorlog werd een exemplaar van het verslag gevonden. De villa is sinds 1992 een gedenkplaats en documentatiecentrum.'
  ],
+ gevolgen: [
+  "Na de conferentie werkten ministeries, politie, SS en spoorwegen nauw samen bij de deportatie van Joden uit heel Europa. In 1942 werden de meeste slachtoffers van de Holocaust vermoord. Ook de deportaties uit Nederland begonnen dat jaar.",
+  "Van de ongeveer elf miljoen Joden in het verslag werden er uiteindelijk zo’n zes miljoen vermoord."
+ ],
+ misverstanden: [
+  ["“Op de Wannseeconferentie werd besloten tot de Holocaust.”","Het besluit om de Joden te vermoorden was al eerder genomen, en de massamoord was al begonnen. Op de conferentie ging het vooral om de organisatie en samenwerking tussen de diensten."]
+ ],
+ hoeWeten: [
+  "Er werden dertig exemplaren van het verslag gemaakt. Er is er maar één bewaard gebleven: nummer 16, van het ministerie van Buitenlandse Zaken. Dat werd in 1947 gevonden door de Amerikaanse aanklager Robert Kempner, die bewijs zocht voor de processen in Neurenberg."
+ ],
+ nu: [
+  "De villa aan de Wannsee is sinds 1992 een gedenk- en onderwijsplaats. Er komen veel scholieren en studenten, en er worden ook cursussen gegeven voor ambtenaren en politie over hun verantwoordelijkheid."
+ ],
+ vertellen: "Het verslag van de conferentie bevat een tabel met het aantal Joden per land. Daarin staan ook landen die Duitsland nooit heeft bezet, zoals Engeland, Zweden, Zwitserland en Ierland, met 4000 Joden. Dat laat zien hoe ver de plannen reikten.",
+ verbanden: [["De Neurenberger rassenwetten","de definitie van wie Jood was"],["Deportaties uit Westerbork","de uitvoering in Nederland"],["Proces van Neurenberg","waar het verslag als bewijs diende"]],
+ onderwijs: {"ka":["Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust).","De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme)."]},
  cijfers: [['Deelnemers','15'],['Duur van het overleg','ca. 1,5 uur'],['Joden in Europa volgens het verslag','ca. 11 miljoen'],['Genoemd aantal voor Nederland','ca. 160.000']],
  figuren: [['Reinhard Heydrich','voorzitter, hoofd Sicherheitspolizei en SD'],['Adolf Eichmann','maakte het verslag'],['Heinrich Müller','hoofd van de Gestapo']],
  bronnen: [['Wikipedia: Wannseeconferentie',W('Wannseeconferentie')],['Yad Vashem','https://www.yadvashem.org/']]
@@ -579,6 +694,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de bewoners van Aruba kwam de oorlog die nacht ineens heel dichtbij; vanaf de kust waren de brandende tankers te zien. Op de tankers vielen tientallen doden onder de zeelieden, die uit veel verschillende landen kwamen. De raffinaderij draaide de hele oorlog door en de werknemers uit het Caribisch gebied leverden zo een belangrijke bijdrage aan de geallieerde oorlogvoering.'
  ],
+ gevolgen: [
+  "De Amerikanen stuurden troepen om de eilanden te beschermen, en de verdediging met kustgeschut en vliegtuigen werd versterkt. Toch bleven Duitse onderzeeboten in 1942 nog veel tankers in de Caribische Zee tot zinken brengen.",
+  "De raffinaderijen bleven de hele oorlog draaien. Een groot deel van de brandstof voor de geallieerde vliegtuigen kwam uit Aruba en Curaçao."
+ ],
+ misverstanden: [
+  ["“De Caribische delen van het Koninkrijk merkten weinig van de oorlog.”","Er werden tankers getorpedeerd voor de kust, er kwamen buitenlandse troepen, en honderden vrijwilligers uit Suriname, Curaçao en Aruba vochten mee in het geallieerde leger of voeren op de koopvaardij."]
+ ],
+ hoeWeten: [
+  "Het logboek van U-156 is bewaard gebleven. Daarnaast zijn er verslagen van de Nederlandse marine, van het oliebedrijf en van ooggetuigen op Aruba, en berichten in lokale kranten."
+ ],
+ nu: [
+  "Op Aruba wordt de aanval herdacht. De Lago-raffinaderij bij San Nicolaas sloot in 1985, wat het eiland in een economische crisis bracht. Daarna werd toerisme de belangrijkste bron van inkomsten."
+ ],
+ vertellen: "De commandant van U-156, Werner Hartenstein, torpedeerde later in 1942 het Britse schip Laconia. Toen hij merkte dat er duizenden opvarenden waren, onder wie vrouwen en kinderen, begon hij een reddingsactie en riep hij via de radio om hulp. Toch werd zijn onderzeeboot door een Amerikaans vliegtuig aangevallen. Daarna verbood de Duitse marineleiding om drenkelingen nog te redden.",
+ verbanden: [["Pearl Harbor","de Amerikaanse deelname aan de oorlog"],["Japan verovert Nederlands-Indië","het Koninkrijk in oorlog in Azië"],["Slag bij Midway","de oorlog op zee"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Datum','16 februari 1942'],['Raffinaderij','Lago, bij San Nicolaas'],['Gezonken tanker in de haven','Oranjestad'],['Doden onder zeelieden','tientallen']],
  figuren: [['Werner Hartenstein','commandant van U-156'],['Karl Dönitz','bevelhebber van de Duitse onderzeeboten']],
  bronnen: [['Wikipedia: Aanval op Aruba',W('Aanval op Aruba 1942')],['Wikipedia: Operatie Neuland',W('Operatie Neuland')]]
@@ -597,6 +728,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor veel Indonesiërs leek de val van het Nederlandse gezag eerst een bevrijding. Nationalisten als Soekarno werkten met Japan samen. Maar de bezetting werd hard: honderdduizenden romoesja’s werden tot dwangarbeid gedwongen en in 1944 en 1945 stierven op Java grote aantallen mensen door hongersnood; schattingen lopen op tot ca. 2,4 miljoen. Indische Nederlanders buiten de kampen leefden in armoede en onzekerheid.'
  ],
+ gevolgen: [
+  "Het Nederlandse gezag in Indië was in een paar maanden verdwenen, en het kwam nooit meer echt terug. Twee dagen na de Japanse capitulatie, op 17 augustus 1945, riepen Soekarno en Hatta de onafhankelijke Republiek Indonesië uit. Er volgde een periode van geweld, de bersiap, en een oorlog met Nederland tot 1949.",
+  "Na de oorlog kwamen honderdduizenden Indische Nederlanders en Molukkers naar Nederland. Hun ervaringen in de kampen en de bersiap werden in Nederland lang weinig gehoord."
+ ],
+ misverstanden: [
+  ["“Voor Nederlanders eindigde de oorlog op 5 mei 1945.”","In Nederlands-Indië duurde de oorlog tot de Japanse capitulatie in augustus 1945. Daarom wordt op 15 augustus in Nederland de Nationale Herdenking van het einde van de Tweede Wereldoorlog in Azië gehouden."]
+ ],
+ hoeWeten: [
+  "Er zijn dagboeken en tekeningen uit de kampen, vaak in het geheim gemaakt, verslagen van militairen, en Japanse en Nederlandse archieven. Het NIOD en het Indisch Herinneringscentrum bewaren veel van deze bronnen."
+ ],
+ nu: [
+  "Bij het Indië-monument in Den Haag wordt elk jaar op 15 augustus herdacht. Veel Nederlandse families hebben een Indische achtergrond, en verhalen over de kampen en de oorlog worden in de familie doorgegeven."
+ ],
+ vertellen: "Over Karel Doorman wordt vaak verteld dat hij tijdens de Slag in de Javazee seinde: “Ik val aan, volg mij.” Het werd een beroemde uitspraak, ook al is niet zeker of hij het precies zo gezegd heeft. Doorman kwam om met zijn schip De Ruyter. Een schip van de Nederlandse marine draagt nog altijd zijn naam.",
+ verbanden: [["Pearl Harbor","het begin van de oorlog in de Stille Oceaan"],["De Birma-spoorweg","waar veel Nederlandse krijgsgevangenen werkten"],["Indonesië","de onafhankelijkheid na de oorlog"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Opkomst van verzet in de koloniën tegen het West-Europese imperialisme."],"venster":"39. Indonesië"},
  cijfers: [['Capitulatie','8 maart 1942, Kalidjati'],['Geïnterneerde Europese burgers','ca. 100.000'],['Nederlandse doden in de Slag in de Javazee','ruim 900'],['Hongersnood op Java 1944–1945','schattingen tot ca. 2,4 miljoen doden']],
  figuren: [['Karel Doorman','schout-bij-nacht, sneuvelde in de Javazee'],['Tjarda van Starkenborgh Stachouwer','gouverneur-generaal'],['Hein ter Poorten','commandant van het KNIL'],['Soekarno','Indonesische nationalist']],
  bronnen: [['Wikipedia: Japanse bezetting van Nederlands-Indië',W('Japanse bezetting van Nederlands-Indië')],['NIOD','https://www.niod.nl/']]
@@ -615,6 +762,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de Verenigde Staten was Midway het keerpunt in de Stille Oceaan. In Japan werden de verliezen lang verzwegen, zelfs voor eigen militairen. Gewonde overlevenden werden afgezonderd. Aan Japanse kant kwamen ca. 3000 mensen om, aan Amerikaanse kant ca. 300. Daarna was Japan in de verdediging.'
  ],
+ gevolgen: [
+  "Japan verloor vier van zijn grote vliegdekschepen en kon die niet snel vervangen, terwijl de Amerikaanse werven er tientallen nieuwe bouwden. Vanaf dat moment was Japan in de Stille Oceaan in de verdediging.",
+  "In augustus 1942 begonnen de Amerikanen met hun eerste grote aanval, op het eiland Guadalcanal. Daarna volgde de lange tocht van eiland naar eiland richting Japan."
+ ],
+ misverstanden: [
+  ["“De Amerikanen wonnen bij Midway puur door geluk.”","Geluk speelde mee, bijvoorbeeld bij het moment dat de duikbommenwerpers de Japanse vloot vonden. Maar de basis was het kraken van de Japanse codes, waardoor de Amerikanen precies wisten waar en wanneer de aanval kwam."]
+ ],
+ hoeWeten: [
+  "Er zijn verslagen van beide marines, interviews met overlevenden en de berichten van de codebrekers. In 2019 werden de wrakken van twee Japanse vliegdekschepen op meer dan vijf kilometer diepte teruggevonden."
+ ],
+ nu: [
+  "Het atol Midway is nu een natuurreservaat, bekend om de honderdduizenden albatrossen die er broeden. De slag wordt in de Amerikaanse marine elk jaar herdacht."
+ ],
+ vertellen: "De Amerikanen wisten dat de Japanners een doel aanduidden met de code ‘AF’, maar niet welk eiland dat was. Daarom lieten ze Midway een onversleuteld bericht sturen dat de waterzuivering kapot was. Kort daarna onderschepten ze een Japans bericht: ‘AF heeft een tekort aan water.’ Toen wisten ze genoeg.",
+ verbanden: [["Pearl Harbor","de aanval die Midway moest afmaken"],["Slag om Okinawa","de opmars naar Japan"],["Japan capituleert","het einde van de oorlog in de Stille Oceaan"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Verloren Japanse vliegdekschepen','4'],['Verloren Amerikaanse vliegdekschepen','1 (Yorktown)'],['Japanse doden','ca. 3000'],['Amerikaanse doden','ca. 300']],
  figuren: [['Chester Nimitz','Amerikaanse opperbevelhebber in de Stille Oceaan'],['Raymond Spruance','Amerikaanse admiraal op zee'],['Isoroku Yamamoto','Japanse opperbevelhebber'],['Joseph Rochefort','leider van de codebrekers op Hawaï']],
  bronnen: [['Wikipedia: Slag bij Midway',W('Slag bij Midway')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -633,6 +796,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Van de ca. 107.000 mensen die uit Nederland werden gedeporteerd, overleefden er ca. 5000. Etty Hillesum en Philip Mechanicus schreven over het leven in het kamp. Veel niet-Joodse Nederlanders zagen de treinen of wisten van de razzia’s, maar keken weg. Spoorwegpersoneel reed de treinen tot de Duitse grens.'
  ],
+ gevolgen: [
+  "Van de ongeveer 140.000 Joden in Nederland werden er ruim 100.000 vermoord. Ook ongeveer 200 Sinti en Roma uit Nederland kwamen om. Na de oorlog keerden de weinige overlevenden terug in een land dat vaak weinig oog had voor hun verdriet, en soms moesten ze zelfs vechten om hun huis of bezittingen terug te krijgen.",
+  "Pas vanaf de jaren zestig kwam er in Nederland meer aandacht voor de Jodenvervolging, onder meer door het boek Ondergang van de historicus Jacques Presser."
+ ],
+ misverstanden: [
+  ["“De Nederlanders konden niets weten van wat er met de Joden gebeurde.”","Dat ze werden weggevoerd, zag iedereen: de razzia’s gebeurden op straat. Wat er precies in het oosten gebeurde, wisten de meesten niet, al kwamen er via de radio en illegale kranten vanaf 1942 berichten over massamoord. Veel mensen geloofden die niet of wilden het niet weten."]
+ ],
+ hoeWeten: [
+  "Er zijn deportatielijsten en kaartsystemen, waaruit precies blijkt wie met welke trein vertrok. De brieven van Etty Hillesum en het dagboek van Philip Mechanicus beschrijven het kamp van binnenuit, en de film van Rudolf Breslauer toont een vertrekkende trein."
+ ],
+ nu: [
+  "In Amsterdam staat sinds 2021 het Nationaal Holocaust Namenmonument, met de namen van ruim 102.000 Joden en ruim 200 Sinti en Roma uit Nederland. De NS maakte in 2005 excuses voor haar rol bij de transporten en betaalde vanaf 2019 een tegemoetkoming aan overlevenden en nabestaanden."
+ ],
+ vertellen: "Op 7 september 1943 zat Etty Hillesum met haar ouders en broer in een trein naar Auschwitz. Onderweg gooide ze een briefkaart uit de trein. Iemand vond hem en deed hem op de post, en hij kwam aan bij een vriendin. Daarop schreef ze: “We hebben zingend dit kamp verlaten.” Ze werd eind november 1943 in Auschwitz vermoord.",
+ verbanden: [["Kamp Westerbork","het kamp zelf"],["Anne Frank","die met de laatste trein naar Auschwitz ging"],["Bevrijding van Auschwitz","het kamp waar de meeste treinen naartoe gingen"]],
+ onderwijs: {"ka":["Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust).","De Duitse bezetting van Nederland."],"venster":"38. Anne Frank"},
  cijfers: [['Gedeporteerden uit Nederland','ca. 107.000'],['Overlevenden','ca. 5000'],['Treinen uit Westerbork','ca. 93'],['Overlevenden van Sobibor','18']],
  figuren: [['Albert Konrad Gemmeker','kampcommandant'],['Etty Hillesum','schrijfster, vermoord in Auschwitz'],['Anne Frank','vertrok met het laatste transport naar Auschwitz'],['Settela Steinbach','Sinti-meisje, vermoord in Auschwitz']],
  bronnen: [['Herinneringscentrum Kamp Westerbork','https://www.kampwesterbork.nl/'],['Anne Frank Stichting','https://www.annefrank.org/nl/'],['NIOD','https://www.niod.nl/']]
@@ -651,6 +830,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Van de krijgsgevangenen stierven er ca. 12.000 tot 13.000, onder wie ca. 3000 Nederlanders. Onder de Aziatische dwangarbeiders, uit Birma, Malakka, Thailand en Java, was de sterfte nog veel hoger: schattingen lopen van ca. 70.000 tot 100.000 doden. Over hen is veel minder bekend, omdat ze nauwelijks werden geregistreerd. Kampartsen als de Australiër Weary Dunlop en de Nederlander Henri Hekking redden met weinig middelen veel levens.'
  ],
+ gevolgen: [
+  "De spoorlijn werd maar korte tijd gebruikt, en na de oorlog werd een groot deel afgebroken. Voor de overlevenden duurden de gevolgen een leven lang, met lichamelijke klachten en trauma’s.",
+  "Veel Nederlandse en Indische overlevenden kwamen na de oorlog naar Nederland, waar weinig mensen begrepen wat zij hadden meegemaakt. Hun verhalen kregen pas later meer aandacht."
+ ],
+ misverstanden: [
+  ["“De film The Bridge on the River Kwai laat zien hoe het echt ging.”","De film uit 1957 is grotendeels verzonnen. De echte krijgsgevangenen bouwden de brug niet uit trots, maar onder dwang, en de officier uit de film bestond niet. Overlevenden waren vaak boos over het beeld dat de film gaf."]
+ ],
+ hoeWeten: [
+  "Krijgsgevangenen hielden in het geheim dagboeken bij en maakten tekeningen, die nu in musea liggen. Na de oorlog getuigden overlevenden bij processen tegen Japanse bewakers. Over de Aziatische dwangarbeiders, de grootste groep slachtoffers, zijn veel minder bronnen."
+ ],
+ nu: [
+  "Bij Kanchanaburi en Chungkai in Thailand liggen erebegraafplaatsen, ook met veel Nederlandse graven. Bij Hellfire Pass, een doorgang die met de hand door de rots werd uitgehakt, staat een museum. Een deel van de lijn wordt nog gebruikt door een toeristentrein."
+ ],
+ vertellen: "Over de spoorlijn werd na de oorlog gezegd: “Onder iedere dwarsligger ligt een dode.” Dat is geen precieze rekensom, maar het geeft goed aan hoeveel mensenlevens de aanleg kostte, vooral onder de Aziatische dwangarbeiders.",
+ verbanden: [["Japan verovert Nederlands-Indië","hoe Nederlandse militairen krijgsgevangen werden"],["Japan capituleert","de bevrijding van de krijgsgevangenen"],["Indonesië","de gevolgen van de oorlog in Azië"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Opkomst van verzet in de koloniën tegen het West-Europese imperialisme."]},
  cijfers: [['Lengte','ca. 415 km'],['Overleden krijgsgevangenen','ca. 12.000–13.000'],['Waarvan Nederlanders','ca. 3000'],['Overleden Aziatische dwangarbeiders','naar schatting ca. 70.000–100.000']],
  figuren: [['Edward ‘Weary’ Dunlop','Australische kamparts'],['Henri Hekking','Nederlandse KNIL-arts']],
  bronnen: [['Wikipedia: Birma-spoorweg',W('Birma-spoorweg')],['NIOD','https://www.niod.nl/']]
