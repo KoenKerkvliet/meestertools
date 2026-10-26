@@ -149,6 +149,43 @@ Object.assign(window.DETAILS, {
  bronnen: [['Wikipedia: Slag op de Mookerheide',W('Slag op de Mookerheide')],['Wikipedia: Beleg van Leiden',W('Beleg van Leiden 1574')]]
 },
 
+'Leiden ontzet': {
+ aanloop: [
+  'In 1572 kozen steden in Holland en Zeeland de kant van de Opstand tegen koning Filips II. Ook Leiden sloot zich aan. De landvoogd Alva wilde de opstandige steden een voor een onderwerpen. Na Naarden en Haarlem werd Leiden het volgende doelwit.',
+  'Leiden telde ongeveer veertien- tot vijftienduizend inwoners en had oude muren en een gracht. In oktober 1573 sloot generaal Francisco de Valdez de stad in met een ring van schansen. Hij wilde Leiden niet bestormen, maar uithongeren.'
+ ],
+ verloop: [
+  'In het voorjaar van 1574 trok het koninklijke leger tijdelijk weg om Lodewijk van Nassau tegen te houden, die bij Mook werd verslagen. Eind mei kwam Valdez terug. In de zomer werd de honger in de stad steeds groter, en in juli brak ook de pest uit.',
+  'Willem van Oranje en de Staten van Holland kozen voor een ingrijpend plan: de dijken doorsteken en het land rond Leiden onder water zetten. Een vloot van zo’n zeventig platbodems onder admiraal Louis de Boisot moest dan over het water naar de stad varen. Met postduiven liet Oranje de Leidenaars weten dat ze moesten volhouden.',
+  'Het water steeg eerst te langzaam. Eind september draaide de wind en begon het dagenlang te regenen. De vloot kwam steeds dichterbij, en in de nacht van 2 op 3 oktober verlieten de belegeraars hun laatste schans bij Lammen. Op 3 oktober voeren de geuzen de stad binnen en deelden ze haring en wittebrood uit aan de uitgehongerde bevolking.'
+ ],
+ perspectieven: [
+  'Niet alle Leidenaars stonden achter de Opstand. Katholieken en aanhangers van de koning waren de stad deels uit gevlucht of werden gewantrouwd, en tijdens de honger waren er inwoners die zich wilden overgeven. Voor de boeren rond Leiden betekende het onder water zetten van het land dat ze hun huizen, oogst en vee kwijtraakten. Ook de soldaten van het belegeringsleger hadden het zwaar: ze kregen vaak maandenlang geen soldij en zaten in de natte polders.'
+ ],
+ gevolgen: [
+  "Leiden bleef in handen van de Opstand, en daarmee bleef Holland overeind in een tijd waarin bijna de rest van de Nederlanden weer onder koninklijk gezag stond. Kort daarna, op 8 februari 1575, werd in Leiden de eerste universiteit van de noordelijke Nederlanden ingewijd. Ze groeide uit tot een van de belangrijkste universiteiten van Europa.",
+  "Het onder water zetten van land bleek een sterk wapen. Later bouwde de Republiek daar hele verdedigingslinies op, zoals de Hollandse Waterlinie. De doorgestoken dijken moesten na het ontzet wel eerst worden hersteld, en dat duurde tot in 1575."
+ ],
+ misverstanden: [
+  ["“Leiden mocht als beloning kiezen tussen een universiteit en belastingvrijdom.”","Dat verhaal wordt vaak verteld, maar er is geen bewijs dat Leiden die keuze echt kreeg. Wel stelde Willem van Oranje voor om als bekroning van het volhouden een universiteit in Leiden te stichten."],
+  ["“Burgemeester Van der Werff bood de hongerende Leidenaars zijn eigen lichaam aan als voedsel.”","Dat verhaal verscheen pas in 1577, in een herdruk van een kroniek over het beleg. Of het echt zo is gegaan, is onzeker. In de 19e eeuw werd het een geliefd onderwerp voor schilders en schoolboeken."],
+  ["“Leiden werd belegerd door Spanjaarden.”","Het leger van de Spaanse koning bestond niet alleen uit Spanjaarden, maar ook uit veel Walen, Duitsers en anderen. ‘De Spanjaarden’ was de naam die de opstandelingen gebruikten voor het hele koninklijke leger."]
+ ],
+ hoeWeten: [
+  "Er zijn kronieken en dagboeken van tijdgenoten, brieven van Willem van Oranje, stadsrekeningen en besluiten van het stadsbestuur. Al kort na het ontzet verschenen er prenten van het beleg. Over het aantal doden lopen de bronnen sterk uiteen, van ruim tweeduizend tot bijna zesduizend."
+ ],
+ nu: [
+  "Elk jaar op 3 oktober viert Leiden het ontzet, met een taptoe, een reveille, de uitdeling van haring en wittebrood in de Waag, een optocht, een kermis en vuurwerk. Het feest wordt sinds 1886 georganiseerd door de 3 October Vereeniging, en de dankdienst in de Pieterskerk gaat terug tot 1574. In veel Leidse gezinnen staat die dag hutspot op tafel.",
+  "In Museum De Lakenhal hangt het schilderij van Van Bree over burgemeester Van der Werff, en is de koperen kookpot te zien die volgens de overlevering in de verlaten schans bij Lammen werd gevonden."
+ ],
+ vertellen: "Volgens de overlevering kroop op de ochtend van 3 oktober de weesjongen Cornelis Joppenszoon de verlaten schans bij Lammen binnen. Daar vond hij een kookpot met nog een restje eten: wortelen, uien en vlees. Zo zou de hutspot zijn ontstaan. Bij station Leiden Lammenschans herinnert een beeld aan die vondst.",
+ verbanden: [["Slag op de Mookerheide","de veldtocht die Leiden moest ontlasten"],["Begin Tachtigjarige Oorlog","het begin van de Opstand"],["Moord op Willem van Oranje","de leider van de Opstand, tien jaar later"]],
+ onderwijs: {"ka":["Het conflict in de Nederlanden dat resulteerde in de stichting van de Nederlandse staat."],"venster":"11. De Opstand"},
+ cijfers: [['Beleg','oktober 1573 – 3 oktober 1574, met een onderbreking in het voorjaar'],['Inwoners van Leiden','ca. 14.000 – 15.000'],['Doden tijdens het beleg','schattingen van ruim 2000 tot bijna 6000'],['Ontzetvloot','ca. 70 schepen, bijna 4000 man'],['Universiteit Leiden','ingewijd op 8 februari 1575']],
+ figuren: [['Willem van Oranje','leider van de Opstand'],['Louis de Boisot','admiraal van de ontzetvloot'],['Pieter Adriaansz. van der Werff','burgemeester van Leiden'],['Francisco de Valdez','bevelhebber van het beleg'],['Jan van der Does','bevelhebber in de stad en dichter']],
+ bronnen: [['Wikipedia: Beleg van Leiden (1573-1574)',W('Beleg van Leiden (1573-1574)')],['Wikipedia: 3 oktoberfeest',W('3 oktoberfeest')],['Museum De Lakenhal','https://www.lakenhal.nl/']]
+},
+
 'Beleg van Maastricht': {
  aanloop: [
   'Maastricht was een sterke vestingstad aan de Maas en een belangrijke oversteekplaats. De stad had twee heren: de hertog van Brabant en de prins-bisschop van Luik. Wie Maastricht bezat, beheerste een groot deel van het Maasdal.',
