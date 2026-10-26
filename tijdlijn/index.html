@@ -570,6 +570,7 @@ function openWar(k,scroll){
   const byYear={};evs.forEach(e=>(byYear[e.y]=byYear[e.y]||[]).push(e));
   const counts={};all.forEach(e=>counts[e.th]=(counts[e.th]||0)+1);
   z.innerHTML=`<div class="wcard">
+   <button class="tog wtog" id="wmin" aria-label="Klap de ${W0.n} in" title="Inklappen">−</button>
    <div class="whead"><div><span class="pill">20e eeuw · ${W0.r}</span><h2>${W0.n}</h2><p>${W0.sub}. Elke gebeurtenis vanuit meerdere kanten bekeken.</p></div>
      <div class="btns">${VERHALEN[k]?`<button class="btn vwbtn" data-v="${k}" title="Voorleesverhaal (groep 5 t/m 8)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg><span>Voorleesverhaal</span></button>`:''}<button class="btn" id="wback">← 20e eeuw</button><button class="btn dk" id="wother">${k==='ww1'?'Tweede Wereldoorlog →':'← Eerste Wereldoorlog'}</button></div></div>
    <div class="tchips" role="group" aria-label="Filter op front of thema">${Object.entries(THEMES).filter(([t])=>counts[t]).map(([t,v])=>`<button class="tchip" data-t="${t}" aria-pressed="${warShow[t]}" style="--c:var(${v.c})"><i></i>${v.n}<em>${counts[t]}</em></button>`).join('')}</div>
@@ -582,6 +583,8 @@ function openWar(k,scroll){
   z.hidden=false;syncHash();
   z.querySelector('.vwbtn')&&(z.querySelector('.vwbtn').onclick=()=>openVerhaal(k));
   $('#wback').onclick=()=>{closeWar();const i20=TILES.findIndex(t=>t.n===20);toggleCol(i20,true);$('#scroller').scrollIntoView({behavior:smooth(),block:'center'})};
+  // min-knop: oorlog inklappen en terug naar de bovenste tijdbalk, bij de knop van deze oorlog
+  $('#wmin').onclick=()=>{closeWar();const i20=TILES.findIndex(t=>t.n===20);showCol(i20);const b=document.querySelector(`.warbtn[data-w="${k}"]`);if(b){b.scrollIntoView({behavior:smooth(),block:'center'});b.focus({preventScroll:true})}else $('#scroller').scrollIntoView({behavior:smooth(),block:'center'})};
   $('#wother').onclick=()=>openWar(k==='ww1'?'ww2':'ww1',true);
   z.querySelectorAll('.tchip').forEach(c=>c.onclick=()=>{warShow[c.dataset.t]=!warShow[c.dataset.t];const sx=z.querySelector('.wtl').scrollLeft;openWar(k,false);z.querySelector('.wtl').scrollLeft=sx;renderStatus()});
   z.querySelectorAll('.wpill,.ev').forEach(p=>p.onclick=()=>openPanel(p.dataset.id));
