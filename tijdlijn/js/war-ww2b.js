@@ -451,6 +451,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Ouderen, zieken en armen in de grote steden werden het hardst getroffen. Wie op het platteland woonde, had het vaak beter. De bezetter gebruikte voedsel als drukmiddel. Rijkscommissaris Seyss-Inquart stemde pas in met de voedseldroppingen toen de nederlaag dichtbij was. Onderzoekers volgden later kinderen die in deze periode in de baarmoeder zaten. Zij hadden op latere leeftijd vaker gezondheidsproblemen.'
  ],
+ gevolgen: [
+  "Naar schatting kwamen ongeveer 20.000 mensen om door honger, kou en ziekte. Na de bevrijding duurde het nog maanden voordat iedereen weer genoeg te eten had.",
+  "Kinderen die tijdens de Hongerwinter in de buik van hun moeder zaten, zijn later uitgebreid onderzocht. Zij bleken op latere leeftijd vaker last te hebben van onder meer overgewicht, suikerziekte en hart- en vaatziekten. Het onderzoek is wereldberoemd geworden en liet zien dat honger voor de geboorte een leven lang sporen kan nalaten."
+ ],
+ misverstanden: [
+  ["“In de hele Hongerwinter had heel Nederland honger.”","De honger trof vooral de grote steden in het westen, zoals Amsterdam, Rotterdam, Den Haag en Utrecht. Het zuiden was al bevrijd, en in het noorden en oosten was op het platteland meestal nog wel voedsel te krijgen."]
+ ],
+ hoeWeten: [
+  "Er zijn veel dagboeken, brieven en foto’s. Een groep fotografen, De Ondergedoken Camera, legde de honger in Amsterdam in het geheim vast, met onder anderen Cas Oorthuys en Emmy Andriesse. Daarnaast zijn er gegevens van ziekenhuizen, gemeenten en distributiediensten."
+ ],
+ nu: [
+  "De Hongerwinter is in veel families nog een begrip, en verhalen over tulpenbollen en hongertochten worden doorverteld. Het onderzoek naar de kinderen uit die tijd loopt nog steeds en wordt overal ter wereld aangehaald."
+ ],
+ vertellen: "Toen eind april 1945 de eerste bommenwerpers laag over Nederland vlogen om voedsel af te werpen, schreven mensen op daken en in weilanden boodschappen voor de bemanning, zoals ‘Thank you’ en ‘Many thanks’, soms met bloemen of lakens. Veel bemanningsleden noemden het later een van de mooiste vluchten van hun leven.",
+ verbanden: [["Operatie Market Garden","waarna het westen bezet bleef"],["Beleg van Leningrad","een andere hongerblokkade"],["Capitulatie van Duitsland","het einde van de bezetting"]],
+ onderwijs: {"ka":["De Duitse bezetting van Nederland.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering."],"venster":"37. De Tweede Wereldoorlog"},
  cijfers: [['Doden','naar schatting 18.000–22.000'],['Laagste rantsoen','ca. 400–500 kcal per dag'],['Voedseldroppingen','29 april – 8 mei 1945'],['Spoorwegstaking','vanaf 17 september 1944']],
  figuren: [['Arthur Seyss-Inquart','Duitse rijkscommissaris'],['Koningin Wilhelmina','vroeg de geallieerden om hulp'],['Pieter Gerbrandy','minister-president in Londen']],
  bronnen: [['Wikipedia: Hongerwinter',W('Hongerwinter')],['NIOD','https://www.niod.nl/']]
@@ -469,6 +485,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Het was de grootste en bloedigste slag van het Amerikaanse leger in de oorlog. Duitse eenheden pleegden oorlogsmisdaden: bij Malmedy werden tientallen Amerikaanse krijgsgevangenen doodgeschoten, bij Wereth elf zwarte Amerikaanse soldaten. Belgische en Luxemburgse dorpen werden verwoest en duizenden burgers kwamen om, ook door geallieerde bombardementen. Aan Duitse kant vochten naast ervaren troepen ook veel jonge en slecht opgeleide soldaten.'
  ],
+ gevolgen: [
+  "Het offensief vertraagde de geallieerden een paar weken, maar kostte Duitsland zijn laatste reserves aan tanks en soldaten in het westen. Daardoor kon het nauwelijks nog weerstand bieden toen de geallieerden in het voorjaar van 1945 de Rijn overstaken.",
+  "Ook aan het oostfront ontbraken nu troepen. Het grote Sovjetoffensief van januari 1945 kwam daardoor snel vooruit, tot aan de Oder."
+ ],
+ misverstanden: [
+  ["“De Duitsers hadden bijna Antwerpen bereikt.”","De Duitse troepen kwamen het verst bij Celles, een paar kilometer van de Maas bij Dinant. Antwerpen lag nog meer dan honderd kilometer verder. Door brandstoftekort en verzet was het plan al na een paar dagen eigenlijk mislukt."]
+ ],
+ hoeWeten: [
+  "Er zijn Amerikaanse en Duitse legerverslagen, foto’s en filmbeelden, en duizenden getuigenissen van veteranen en Belgische en Luxemburgse burgers. De misdaden bij Malmedy werden na de oorlog in een proces in Dachau behandeld."
+ ],
+ nu: [
+  "Bij Bastogne staan het grote Mardasson-monument en het Bastogne War Museum. In de Belgische en Luxemburgse Ardennen zijn veel kleine musea, en elk jaar wordt in december het einde van het beleg van Bastogne gevierd met de ‘Nuts-feesten’."
+ ],
+ vertellen: "Duitse soldaten die Engels spraken, trokken in Amerikaanse uniformen achter de linies om verwarring te zaaien. Amerikaanse wachtposten gingen daarom elkaar overhoren met vragen die alleen echte Amerikanen konden beantwoorden, zoals over honkbal of de naam van de vriendin van Mickey Mouse. Zelfs generaal Bradley moest zich op die manier legitimeren.",
+ verbanden: [["Blitzkrieg in het westen","de eerdere Duitse aanval door de Ardennen"],["Slag om de Schelde","de haven die Hitler wilde veroveren"],["Val van Berlijn","het einde van de oorlog"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen."]},
  cijfers: [['Duur','16 dec 1944 – 25 jan 1945'],['Amerikaanse verliezen','ca. 75.000–80.000 doden, gewonden en vermisten'],['Duitse verliezen','naar schatting 65.000–100.000'],['Burgerdoden','ca. 3000']],
  figuren: [['Anthony McAuliffe','Amerikaanse bevelhebber in Bastogne'],['George S. Patton','Amerikaanse generaal, ontzette Bastogne'],['Gerd von Rundstedt','Duitse opperbevelhebber West'],['Joachim Peiper','SS-commandant, verantwoordelijk bij Malmedy']],
  bronnen: [['Wikipedia: Ardennenoffensief',W('Ardennenoffensief')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -487,6 +519,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'In Auschwitz werden naar schatting 1,1 miljoen mensen vermoord. Ongeveer 1 miljoen van hen waren Joden. Andere slachtoffers waren Poolse politieke gevangenen, Roma en Sinti, Sovjetkrijgsgevangenen en anderen. Ongeveer 60.000 Joden uit Nederland werden naar Auschwitz gedeporteerd; slechts een klein deel van hen overleefde. Onder de bevrijden waren Otto Frank en de Italiaanse schrijver Primo Levi. Sinds 2005 is 27 januari de Internationale Holocaustherdenkingsdag.'
  ],
+ gevolgen: [
+  "De bevrijding kreeg in 1945 weinig aandacht in de westerse pers. De wereld schrok pas echt toen in april Britse en Amerikaanse soldaten kampen als Bergen-Belsen, Buchenwald en Dachau bereikten en de beelden de bioscopen in gingen.",
+  "Auschwitz werd later het symbool van de Holocaust. In 2005 riepen de Verenigde Naties 27 januari uit tot Internationale Holocaustherdenkingsdag."
+ ],
+ misverstanden: [
+  ["“Auschwitz was het eerste kamp dat werd bevrijd.”","Het Rode Leger bevrijdde in juli 1944 al Majdanek bij Lublin. De kampen Bełżec, Sobibor en Treblinka hadden de nazi’s al in 1943 afgebroken en de sporen gewist."]
+ ],
+ hoeWeten: [
+  "Er zijn duizenden getuigenissen van overlevenden, Duitse documenten en processtukken. Een unieke bron is het Auschwitz-album, met foto’s die de SS in 1944 maakte van de aankomst van een trein met Hongaarse Joden. Ook gevangenen van het Sonderkommando maakten in het geheim foto’s en begroeven teksten, die na de oorlog werden gevonden."
+ ],
+ nu: [
+  "Auschwitz-Birkenau is een museum en staat sinds 1979 op de Werelderfgoedlijst. In Amsterdam wordt elk jaar eind januari de Nationale Holocaust Herdenking gehouden bij het Spiegelmonument ‘Nooit meer Auschwitz’ in het Wertheimpark."
+ ],
+ vertellen: "Lili Jacob werd in 1944 met haar familie naar Auschwitz gebracht en was de enige die het overleefde. Na de bevrijding vond ze in een ander kamp, in een kast naast haar bed, een fotoalbum van de SS. Daarin stonden foto’s van de aankomst van haar eigen trein, met haar familie erop. Ze schonk het album later aan Yad Vashem in Jeruzalem.",
+ verbanden: [["Deportaties uit Westerbork","de treinen uit Nederland"],["Wannseeconferentie","de organisatie van de moord"],["Proces van Neurenberg","de berechting van de daders"]],
+ onderwijs: {"ka":["Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust)."],"venster":"38. Anne Frank"},
  cijfers: [['Vermoord in Auschwitz','ca. 1,1 miljoen'],['Achtergebleven gevangenen','ca. 7000'],['Op dodenmars gestuurd','ca. 56.000–60.000'],['Joden uit Nederland naar Auschwitz','ca. 60.000']],
  figuren: [['Otto Frank','vader van Anne Frank, in Auschwitz bevrijd'],['Primo Levi','Italiaans schrijver en overlevende'],['Rudolf Höss','kampcommandant']],
  bronnen: [['Wikipedia: Auschwitz',W('Auschwitz concentratiekamp')],['Yad Vashem','https://www.yadvashem.org/'],['Kamp Westerbork','https://www.kampwesterbork.nl/']]
@@ -505,6 +553,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Al in maart 1945 schreef Churchill een notitie waarin hij vraagtekens zette bij het bombarderen van steden alleen om terreur te zaaien. Sindsdien is Dresden een symbool in het debat over de grens tussen militaire noodzaak en het treffen van burgers. Rechts-extremisten gebruiken het bombardement soms om nazimisdaden te relativeren. De Amerikaanse krijgsgevangene Kurt Vonnegut overleefde in een slachthuis en schreef er later een roman over. Voor de Joodse Victor Klemperer betekende de chaos dat hij aan deportatie ontsnapte.'
  ],
+ gevolgen: [
+  "Dresden werd het bekendste voorbeeld van de geallieerde bombardementen op Duitse steden, waarbij in totaal honderdduizenden Duitse burgers omkwamen. Na de oorlog werden in de Geneefse Conventies regels opgesteld om burgers in oorlogstijd beter te beschermen.",
+  "In de DDR werd Dresden gebruikt in de propaganda tegen het Westen, als voorbeeld van Amerikaanse en Britse misdaden."
+ ],
+ misverstanden: [
+  ["“Bij Dresden kwamen honderdduizenden mensen om.”","Dat getal komt uit nazipropaganda en werd na de oorlog lang herhaald. Een historische commissie telde zorgvuldig en kwam in 2010 op 18.000 tot 25.000 doden. Dat is nog steeds een enorm aantal, maar het laat zien hoe propaganda cijfers kan beïnvloeden."]
+ ],
+ hoeWeten: [
+  "Er zijn Britse en Amerikaanse verslagen, foto’s van de verwoeste stad, getuigenissen van overlevenden en registers van begraven doden. De commissie die het dodental onderzocht, gebruikte al die bronnen en zocht ook naar bewijzen voor verhalen die niet klopten."
+ ],
+ nu: [
+  "De Frauenkirche werd van 1994 tot 2005 herbouwd, voor een deel met de oorspronkelijke stenen. Op 13 februari vormen inwoners van Dresden elk jaar een menselijke ketting rond de binnenstad, ook om te voorkomen dat extreemrechts de herdenking misbruikt."
+ ],
+ vertellen: "Het nieuwe gouden kruis op de koepel van de Frauenkirche werd betaald door Britse burgers. De Britse zilversmid die het maakte, Alan Smith, was de zoon van een van de bommenwerperpiloten die in 1945 Dresden had aangevallen.",
+ verbanden: [["Bombardement op Rotterdam","een stad die Duitsland zelf bombardeerde"],["Hiroshima en Nagasaki","de verwoesting van steden aan het eind van de oorlog"],["Bombardement op het Bezuidenhout","een geallieerd bombardement op een Nederlandse wijk"]],
+ onderwijs: {"ka":["Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering.","Het voeren van twee wereldoorlogen.","De rol van moderne propaganda- en communicatiemiddelen en vormen van massa-organisatie."]},
  cijfers: [['Datum','13 – 15 februari 1945'],['Doden','ca. 18.000–25.000'],['Aanvalsgolven','4 (2 Britse, 2 Amerikaanse)'],['Herbouw Frauenkirche voltooid','2005']],
  figuren: [['Arthur Harris','bevelhebber RAF Bomber Command'],['Winston Churchill','Britse premier'],['Kurt Vonnegut','Amerikaanse krijgsgevangene en schrijver'],['Victor Klemperer','Joodse dagboekschrijver in Dresden']],
  bronnen: [['Wikipedia: Bombardement op Dresden',W('Bombardement op Dresden')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -523,6 +587,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'In Den Haag zorgde het bombardement voor diepe schok en woede, ook omdat het de eigen bondgenoten waren. Ook in Londen werd erkend dat er fouten waren gemaakt. Voor Londenaren was de dreiging wel degelijk reëel: door V2-raketten kwamen daar duizenden mensen om. De zaak laat zien hoe burgers aan beide kanten slachtoffer werden van dezelfde wapens en de strijd ertegen.'
  ],
+ gevolgen: [
+  "Een deel van Den Haag lag in puin, en duizenden mensen moesten in de laatste, hongerige oorlogsmaanden een ander onderdak zoeken. Na de oorlog werd de wijk deels anders opgebouwd, met kantoren en ministeries in het westelijke deel.",
+  "De Nederlandse regering in Londen protesteerde bij de Britten. Het bombardement liet zien hoe gevaarlijk precisiebombardementen in een dichtbevolkte stad konden zijn."
+ ],
+ misverstanden: [
+  ["“Het Bezuidenhout werd door de Duitsers gebombardeerd.”","Het waren Britse bommenwerpers die de V-2-lanceerplaatsen in het Haagse Bos wilden treffen. Door fouten in de kaartgegevens vielen de bommen op de woonwijk."],
+  ["“V-2’s waren alleen gevaarlijk voor Londen en Antwerpen.”","Bij mislukte lanceringen stortten raketten soms neer op Den Haag en omgeving zelf, met doden onder de inwoners."]
+ ],
+ hoeWeten: [
+  "Er zijn Britse onderzoeksverslagen over de fouten, foto’s van de brandende wijk, gemeentelijke archieven en veel ooggetuigenverslagen. Het Haags Gemeentearchief heeft er een grote collectie over."
+ ],
+ nu: [
+  "Elk jaar op 3 maart wordt in Den Haag het bombardement herdacht. In de wijk staan monumenten, en een wandelroute laat zien waar de huizen stonden die verwoest werden."
+ ],
+ vertellen: "Het bombardement stopte de V-2’s niet. Vanuit de omgeving van Den Haag werden nog weken raketten afgevuurd. De laatste V-2 die Londen trof, viel eind maart 1945, enkele weken voordat de oorlog voorbij was.",
+ verbanden: [["Slag om de Schelde","de V-wapens op Antwerpen"],["Bombardement op Rotterdam","het eerdere bombardement op een Nederlandse stad"],["De Hongerwinter","de omstandigheden in het westen"]],
+ onderwijs: {"ka":["Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering.","De Duitse bezetting van Nederland."],"venster":"37. De Tweede Wereldoorlog"},
  cijfers: [['Datum','3 maart 1945'],['Doden','ca. 500'],['Daklozen','ca. 12.000'],['Doel','V2-installaties in het Haagse Bos']],
  figuren: [['Winston Churchill','Britse premier, vroeg om opheldering over de fout'],['Arthur Harris','bevelhebber RAF Bomber Command']],
  bronnen: [['Wikipedia: Bombardement op het Bezuidenhout',W('Bombardement op het Bezuidenhout')],['NIOD','https://www.niod.nl/']]
@@ -541,6 +622,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'De Okinawaanse bevolking leed het meest. Naar schatting een kwart tot een derde van de burgers kwam om. Japanse soldaten gebruikten burgers als dekking en drongen mensen tot massale zelfdoding, zodat ze niet in Amerikaanse handen zouden vallen. Scholieren werden ingezet als hulptroep en verpleegster. Voor Amerikaanse soldaten was het een van de zwaarste campagnes van de oorlog. De hoge verliezen speelden mee in het besluit om atoombommen te gebruiken.'
  ],
+ gevolgen: [
+  "De enorme verliezen bij Okinawa speelden mee in de Amerikaanse overweging dat een invasie van Japan zelf nog veel meer doden zou kosten. Dat werd later een van de argumenten voor het gebruik van de atoombom.",
+  "Na de oorlog bleef Okinawa tot 1972 onder Amerikaans bestuur. Ook daarna bleven er grote Amerikaanse legerbases, wat bij veel inwoners tot vandaag tot protest leidt."
+ ],
+ misverstanden: [
+  ["“Alle kamikazepiloten wilden graag voor de keizer sterven.”","Er was enorme groepsdruk, en veel piloten waren jonge studenten die nauwelijks een keuze hadden. Hun afscheidsbrieven laten naast plichtsgevoel ook angst, twijfel en heimwee zien."]
+ ],
+ hoeWeten: [
+  "Er zijn Amerikaanse en Japanse militaire verslagen, foto’s en films, en veel getuigenissen van Okinawaanse burgers. Lang werd in Japan weinig gesproken over de dwang van Japanse soldaten tegenover de eigen bevolking; dat ligt in schoolboeken nog altijd gevoelig."
+ ],
+ nu: [
+  "In het Vredespark van Okinawa staan op lange stenen muren de namen van alle omgekomenen, Japanse en Okinawaanse burgers en soldaten, maar ook Amerikanen, Britten en Koreanen. Op 23 juni is het de Okinawaanse herdenkingsdag."
+ ],
+ vertellen: "De Amerikaanse hospik Desmond Doss weigerde een wapen te dragen, omdat zijn geloof hem verbood te doden. Bij Okinawa haalde hij in één nacht tientallen gewonde soldaten van een rotswand, door ze een voor een met een touw naar beneden te laten zakken. Hij kreeg de hoogste Amerikaanse onderscheiding. Zijn verhaal werd in 2016 verfilmd als Hacksaw Ridge.",
+ verbanden: [["Slag bij Midway","het begin van de Amerikaanse opmars"],["Hiroshima en Nagasaki","het besluit over de atoombom"],["Japan capituleert","het einde van de oorlog"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering."]},
  cijfers: [['Duur','1 april – 22 juni 1945'],['Amerikaanse doden','ca. 12.500'],['Japanse militaire doden','ca. 75.000–110.000'],['Burgerdoden','naar schatting 100.000–150.000']],
  figuren: [['Simon Bolivar Buckner Jr.','Amerikaanse bevelhebber, sneuvelde'],['Mitsuru Ushijima','Japanse bevelhebber'],['Chester Nimitz','Amerikaanse opperbevelhebber in de Stille Oceaan']],
  bronnen: [['Wikipedia: Slag om Okinawa',W('Slag om Okinawa')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -559,6 +656,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor de Sovjetsoldaten was Berlijn het einde van een lange weg vanaf Moskou en Stalingrad, met miljoenen doden. Voor de Berlijners betekenden de laatste weken honger, angst en schuilen in kelders. Sovjetsoldaten verkrachtten in die periode tienduizenden vrouwen. Daarover werd in Oost-Duitsland lang gezwegen. Ook dwangarbeiders en krijgsgevangenen uit heel Europa zaten in de stad en werden bevrijd. Ook zij moesten de laatste weken overleven tussen de gevechten.'
  ],
+ gevolgen: [
+  "Berlijn werd verdeeld in vier sectoren: een Amerikaanse, een Britse, een Franse en een Sovjetsector. Zo werd de stad het brandpunt van de Koude Oorlog, met de blokkade van 1948 en de Muur vanaf 1961.",
+  "Ook Duitsland zelf werd verdeeld, en in 1949 ontstonden de Bondsrepubliek en de DDR. Pas in 1990 werd het land weer één."
+ ],
+ misverstanden: [
+  ["“Hitler is na de oorlog ontsnapt naar Zuid-Amerika.”","Dat verhaal duikt steeds weer op, maar er is geen enkel bewijs voor. Getuigen in de bunker beschreven zijn dood, en Sovjetonderzoekers identificeerden zijn resten onder meer aan de hand van zijn gebit."]
+ ],
+ hoeWeten: [
+  "Er zijn Sovjet- en Duitse verslagen, foto’s, filmbeelden en dagboeken van Berlijners, zoals het anoniem verschenen dagboek ‘Een vrouw in Berlijn’. Na 1991 kwamen ook Russische documenten over de laatste dagen in de bunker beschikbaar."
+ ],
+ nu: [
+  "In Berlijn staan grote Sovjetmonumenten, zoals in het Treptower Park. In het Rijksdaggebouw, waar het Duitse parlement zit, zijn bij de verbouwing teksten die Sovjetsoldaten in 1945 op de muren schreven bewust bewaard gebleven."
+ ],
+ vertellen: "Toen het Rijksdaggebouw in de jaren negentig werd verbouwd voor de Bondsdag, vonden de bouwers achter de lambrisering honderden opschriften van Sovjetsoldaten: namen, woonplaatsen en korte teksten. Het parlement besloot ze te laten staan, als herinnering aan het einde van de oorlog.",
+ verbanden: [["Capitulatie van Duitsland","de overgave een week later"],["Hitler aan de macht","het begin van het regime"],["De Berlijnse Muur","de verdeelde stad na de oorlog"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Blokvorming in de wereld met een wapenwedloop en de dreiging van een atoomoorlog (Koude Oorlog). (tijdvak 10)"]},
  cijfers: [['Duur','16 april – 2 mei 1945'],['Sovjettroepen','ca. 2,5 miljoen'],['Sovjetdoden','ca. 80.000'],['Zelfmoord Hitler','30 april 1945']],
  figuren: [['Georgi Zjoekov','bevelhebber 1e Wit-Russische Front'],['Ivan Konev','bevelhebber 1e Oekraïense Front'],['Helmuth Weidling','Duitse commandant van Berlijn'],['Jevgeni Chaldej','maakte de foto op de Rijksdag']],
  bronnen: [['Wikipedia: Slag om Berlijn',W('Slag om Berlijn')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -577,6 +690,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Voor miljoenen mensen was het einde van de oorlog geen moment van alleen vreugde. Duitsers moesten afrekenen met verwoeste steden, vlucht en verdrijving. Op Texel duurde een opstand van Georgische soldaten tegen hun Duitse bevelhebbers nog tot 20 mei. In Algerije sloeg het Franse leger op 8 mei 1945 bij Sétif demonstraties voor onafhankelijkheid neer. Daarbij kwamen duizenden Algerijnen om; de schattingen lopen sterk uiteen.'
  ],
+ gevolgen: [
+  "Duitsland werd verdeeld in vier bezettingszones. Op de conferentie van Potsdam spraken de overwinnaars af dat het land moest worden ontwapend en ontnazificeerd. De oostgrens schoof naar het westen, en miljoenen Duitsers werden uit Oost-Europa verdreven.",
+  "Voor Nederland eindigde de bezetting. De regering keerde terug, en er begon een periode van wederopbouw, maar ook van afrekening met collaborateurs."
+ ],
+ misverstanden: [
+  ["“Op 5 mei 1945 werd in Wageningen de capitulatie getekend.”","De Duitse troepen in Nederland hadden zich al op 4 mei op de Lüneburger Heide overgegeven. Op 5 mei besprak de Canadese generaal Foulkes in Hotel De Wereld in Wageningen met de Duitse bevelhebber Blaskowitz hoe de overgave werd uitgevoerd. Het document werd een dag later ondertekend."],
+  ["“Op 5 mei was het overal feest en voorbij.”","In Amsterdam schoten Duitse militairen op 7 mei nog op een feestende menigte op de Dam, waarbij doden vielen. Op Texel duurde de strijd met opstandige Georgische soldaten tot 20 mei."]
+ ],
+ hoeWeten: [
+  "De capitulatiedocumenten zijn bewaard, net als foto’s en filmbeelden van de ondertekeningen en de feesten. Veel Nederlanders schreven in dagboeken over de bevrijding."
+ ],
+ nu: [
+  "Op 4 mei herdenkt Nederland de doden, en op 5 mei viert het de bevrijding. Elk vijfde jaar is 5 mei voor iedereen een vrije dag. In Wageningen is Hotel De Wereld nog steeds het middelpunt van de bevrijdingsfeesten."
+ ],
+ vertellen: "Generaal Foulkes koos voor de besprekingen Hotel De Wereld in Wageningen, onder meer vanwege de naam: na vijf jaar oorlog ging het om de toekomst van de hele wereld. Wageningen lag bovendien vlak bij het front en was leeg, want de inwoners waren sinds oktober 1944 geëvacueerd.",
+ verbanden: [["Val van Berlijn","het einde van Hitler"],["Maastricht bevrijd","de eerste bevrijde Nederlandse stad"],["De Hongerwinter","de maanden voor de bevrijding"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","De Duitse bezetting van Nederland."],"venster":"37. De Tweede Wereldoorlog"},
  cijfers: [['Capitulatie Reims','7 mei 1945'],['Ingang','8 mei, 23.01 uur'],['Tweede ondertekening Berlijn','nacht 8 – 9 mei 1945'],['Einde Georgische opstand Texel','20 mei 1945']],
  figuren: [['Karl Dönitz','opvolger van Hitler als staatshoofd'],['Alfred Jodl','tekende in Reims'],['Wilhelm Keitel','tekende in Berlijn'],['Dwight D. Eisenhower','geallieerde opperbevelhebber']],
  bronnen: [['Wikipedia: Capitulatie van Duitsland',W('Duitse capitulatie 1945')],['NIOD','https://www.niod.nl/']]
@@ -595,6 +725,23 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Overlevenden, de hibakusha, werden in Japan soms gemeden uit angst voor ziekte. Onder de slachtoffers waren ook Koreaanse dwangarbeiders en geallieerde krijgsgevangenen, onder wie Nederlanders in een kamp bij Nagasaki. Historici discussiëren nog altijd of de bommen nodig waren om Japan tot overgave te dwingen. Ook de Sovjetinval woog zwaar mee. Voor veel geallieerde krijgsgevangenen en geïnterneerden in Azië betekende het snelle einde van de oorlog dat ze het overleefden.'
  ],
+ gevolgen: [
+  "Met de atoombommen begon het atoomtijdperk. In 1949 testte ook de Sovjet-Unie een atoombom, en er ontstond een wapenwedloop die de Koude Oorlog beheerste. Sinds 1945 zijn kernwapens nooit meer in een oorlog gebruikt.",
+  "Japan nam na de oorlog de principes aan om geen kernwapens te bezitten, te maken of toe te laten. Overlevenden werden pleitbezorgers voor een wereld zonder kernwapens."
+ ],
+ misverstanden: [
+  ["“Alleen de atoombommen dwongen Japan tot overgave.”","De bommen waren een enorme schok, maar de Sovjetaanval op 8 augustus woog voor de Japanse leiding ook zwaar, omdat daarmee de hoop op bemiddeling door Moskou verdween. Historici zijn het oneens over wat de doorslag gaf."],
+  ["“Hiroshima en Nagasaki zijn nog steeds radioactief.”","De straling was na korte tijd sterk gedaald. Beide steden werden herbouwd en zijn nu grote, levendige steden."]
+ ],
+ hoeWeten: [
+  "Er zijn duizenden getuigenissen van overlevenden, de hibakusha, tekeningen die ze later maakten, en foto’s. Tijdens de Amerikaanse bezetting werden beelden van de slachtoffers jarenlang gecensureerd. Ook de verslagen van het Manhattanproject zijn inmiddels openbaar."
+ ],
+ nu: [
+  "In Hiroshima staat het Vredesmonument, de ruïne van de Atoombomkoepel, sinds 1996 op de Werelderfgoedlijst. Elk jaar op 6 augustus wordt er herdacht. In 2017 kwam er een VN-verdrag dat kernwapens verbiedt, maar de kernmachten deden niet mee."
+ ],
+ vertellen: "Sadako Sasaki was twee jaar oud toen de bom op Hiroshima viel. Tien jaar later kreeg ze leukemie. Volgens een Japanse overlevering gaat een wens in vervulling als je duizend kraanvogels vouwt, en Sadako begon te vouwen. Ze overleed in 1955. Kinderen van over de hele wereld sturen nog steeds papieren kraanvogels naar haar monument in Hiroshima.",
+ verbanden: [["Slag om Okinawa","de verliezen die het besluit beïnvloedden"],["Japan capituleert","de overgave een week later"],["De Cubacrisis","de dreiging van een atoomoorlog in de Koude Oorlog"]],
+ onderwijs: {"ka":["Niet eerder vertoonde verwoestingen door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering.","Het voeren van twee wereldoorlogen.","Blokvorming in de wereld met een wapenwedloop en de dreiging van een atoomoorlog (Koude Oorlog). (tijdvak 10)"]},
  cijfers: [['Hiroshima','6 augustus 1945'],['Nagasaki','9 augustus 1945'],['Doden Hiroshima tot eind 1945','naar schatting 70.000–140.000'],['Doden Nagasaki tot eind 1945','naar schatting 40.000–75.000']],
  figuren: [['Harry S. Truman','Amerikaanse president'],['J. Robert Oppenheimer','wetenschappelijk leider in Los Alamos'],['Paul Tibbets','piloot van de Enola Gay']],
  bronnen: [['Wikipedia: Atoombommen op Hiroshima en Nagasaki',W('Atoombommen op Hiroshima en Nagasaki')],['Imperial War Museums','https://www.iwm.org.uk/']]
@@ -613,6 +760,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'In Nederland wordt 15 augustus herdacht als het einde van de oorlog in Azië. Voor Indonesiërs is 17 augustus de belangrijkste datum. Ook elders in Azië leidde het einde van de Japanse macht tot nieuwe strijd: in Vietnam riep Ho Chi Minh op 2 september de onafhankelijkheid uit en Korea werd verdeeld. Voor Japanners kwam een einde aan jaren van oorlog, maar het land was verwoest en werd door de Amerikanen bezet.'
  ],
+ gevolgen: [
+  "Japan werd door de Verenigde Staten bezet en kreeg in 1947 een nieuwe grondwet. Daarin staat dat het land afziet van oorlog. De keizer bleef aan, maar alleen nog als symbool.",
+  "In Azië kwamen grote veranderingen op gang: Indonesië, Vietnam en andere koloniën streden voor onafhankelijkheid, en Korea werd verdeeld in een noordelijk en een zuidelijk deel."
+ ],
+ misverstanden: [
+  ["“Met de capitulatie kwam er voor de geïnterneerden in Indië een einde aan het gevaar.”","In de maanden na augustus 1945 was het juist erg onveilig. Tijdens de bersiap werden duizenden Indische Nederlanders, Chinezen, Molukkers en Indonesiërs die als pro-Nederlands werden gezien gedood. Veel mensen bleven daarom voorlopig in de kampen, nu ter bescherming."]
+ ],
+ hoeWeten: [
+  "De radiotoespraak van de keizer is bewaard. Er zijn foto’s en filmbeelden van de ondertekening op de USS Missouri. Over de kampen en de bersiap zijn dagboeken, tekeningen en duizenden getuigenissen verzameld, onder meer door het NIOD en het Indisch Herinneringscentrum."
+ ],
+ nu: [
+  "Bij het Indië-monument in Den Haag wordt op 15 augustus de Nationale Herdenking gehouden. Voor veel Indische Nederlanders en Molukkers is dat de belangrijkste herdenkingsdag."
+ ],
+ vertellen: "De Japanse officier Hiroo Onoda bleef na 1945 op een eiland in de Filipijnen doorvechten, omdat hij niet geloofde dat de oorlog voorbij was. Pas in 1974 gaf hij zich over, nadat zijn vroegere commandant uit Japan was overgevlogen om hem persoonlijk het bevel te geven.",
+ verbanden: [["Hiroshima en Nagasaki","de atoombommen"],["Japan verovert Nederlands-Indië","het begin van de bezetting van Indië"],["Indonesië","de strijd om de onafhankelijkheid"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Opkomst van verzet in de koloniën tegen het West-Europese imperialisme."],"venster":"39. Indonesië"},
  cijfers: [['Radiotoespraak keizer','15 augustus 1945'],['Proclamatie Indonesië','17 augustus 1945'],['Formele capitulatie','2 september 1945'],['Geïnterneerde burgers Nederlands-Indië','ca. 100.000']],
  figuren: [['Keizer Hirohito','maakte de overgave bekend'],['Soekarno','proclameerde de onafhankelijkheid'],['Mohammad Hatta','medeproclamator, later vicepresident'],['Douglas MacArthur','nam de capitulatie in ontvangst']],
  bronnen: [['Wikipedia: Capitulatie van Japan',W('Capitulatie van Japan')],['Wikipedia: Japanse bezetting van Nederlands-Indië',W('Japanse bezetting van Nederlands-Indië')],['NIOD','https://www.niod.nl/']]
@@ -631,6 +794,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Nederland was een van de oprichters. Kort daarna kwam juist het Nederlandse optreden in Indonesië op de agenda van de Veiligheidsraad. In 1945 woonde een groot deel van de wereldbevolking nog in koloniën en had geen eigen stem. Wel waren India en de Filipijnen als oprichters aanwezig. Door de dekolonisatie groeide het aantal leden van 51 naar 193. Critici wijzen erop dat de grote mogendheden met hun veto de organisatie vaak blokkeren.'
  ],
+ gevolgen: [
+  "In 1948 nam de Algemene Vergadering de Universele Verklaring van de Rechten van de Mens aan. De VN werden ook het podium voor de dekolonisatie: tientallen nieuwe staten werden lid en kregen er een stem.",
+  "De VN zetten blauwhelmen in om vredesakkoorden te bewaken. Daarnaast houden VN-organisaties zich bezig met gezondheid, voedsel, onderwijs en vluchtelingen."
+ ],
+ misverstanden: [
+  ["“De VN zijn een soort wereldregering.”","De VN kunnen landen niet zomaar dwingen. Alleen de Veiligheidsraad kan bindende besluiten nemen, en elk van de vijf permanente leden kan die met een veto tegenhouden. Daardoor staan de VN vaak machteloos bij conflicten waarbij een grote mogendheid betrokken is."]
+ ],
+ hoeWeten: [
+  "Het Handvest en alle verslagen van de vergaderingen zijn openbaar. Er zijn foto’s en filmbeelden van de conferentie in San Francisco en van de eerste vergaderingen."
+ ],
+ nu: [
+  "Het hoofdkwartier staat sinds 1952 in New York. In Den Haag zitten het Internationaal Gerechtshof en verschillende andere internationale hoven. Nederlandse blauwhelmen namen deel aan veel missies, waaronder die in Srebrenica in 1995, die een diepe indruk in Nederland achterliet."
+ ],
+ vertellen: "De naam ‘Verenigde Naties’ werd bedacht door president Roosevelt. Volgens de overlevering liep hij eind 1941 in het Witte Huis meteen naar de kamer van Churchill om hem de naam voor te stellen. Churchill zat op dat moment in bad, maar was het er direct mee eens.",
+ verbanden: [["De Volkenbond","de voorganger na de Eerste Wereldoorlog"],["Universele Verklaring van de Rechten van de Mens","aangenomen door de VN in 1948"],["Srebrenica","een VN-missie met Nederlandse militairen"]],
+ onderwijs: {"ka":["Het voeren van twee wereldoorlogen.","Blokvorming in de wereld met een wapenwedloop en de dreiging van een atoomoorlog (Koude Oorlog). (tijdvak 10)"]},
  cijfers: [['Handvest getekend','26 juni 1945'],['In werking','24 oktober 1945'],['Oprichtende leden','51'],['Leden nu','193']],
  figuren: [['Franklin D. Roosevelt','bedacht de naam Verenigde Naties'],['Trygve Lie','eerste secretaris-generaal'],['Eleanor Roosevelt','leidde het werk aan de Universele Verklaring van de Rechten van de Mens']],
  bronnen: [['Wikipedia: Verenigde Naties',W('Verenigde Naties')],['Verenigde Naties','https://www.un.org/']]
@@ -649,6 +828,22 @@ Object.assign(window.DETAILS, {
  perspectieven: [
   'Critici spraken van overwinnaarsjustitie: misdaden van de geallieerden zelf werden niet berecht. De Sovjet-Unie probeerde de moord op Poolse officieren bij Katyn, die zij zelf had gepleegd, aan Duitsland toe te schrijven. Toch legde het proces vast dat leiders persoonlijk verantwoordelijk zijn en dat bevel geen excuus is. In Tokio volgde een vergelijkbaar tribunaal. De Neurenbergse beginselen zijn een basis voor het Internationaal Strafhof in Den Haag.'
  ],
+ gevolgen: [
+  "Het proces legde de basis voor het internationaal strafrecht. In 1948 volgde het Genocideverdrag, en in 2002 opende in Den Haag het Internationaal Strafhof, dat individuele leiders kan berechten voor genocide, oorlogsmisdaden en misdaden tegen de menselijkheid.",
+  "Na het hoofdproces volgden in Neurenberg nog twaalf processen tegen onder anderen artsen, juristen, industriëlen en SS-officieren."
+ ],
+ misverstanden: [
+  ["“Na de oorlog werden alle nazi’s gestraft.”","Alleen een klein deel van de daders werd berecht. Veel daders keerden in het naoorlogse Duitsland gewoon terug in hun beroep. Pas later volgden processen als dat tegen Adolf Eichmann in Jeruzalem in 1961 en de Auschwitzprocessen in Frankfurt."]
+ ],
+ hoeWeten: [
+  "Alle zittingen werden vastgelegd in verslagen, geluidsopnamen en filmbeelden, die openbaar zijn. Het proces zelf was een belangrijk moment in het verzamelen van bewijs over de nazimisdaden: duizenden Duitse documenten werden er voor het eerst gebruikt."
+ ],
+ nu: [
+  "De rechtszaal in Neurenberg, zaal 600, is nu een museum. Den Haag noemt zich de internationale stad van vrede en recht, met onder meer het Internationaal Strafhof."
+ ],
+ vertellen: "In Neurenberg werd voor het eerst op grote schaal simultaan getolkt. Via koptelefoons kon iedereen het proces volgen in het Engels, Frans, Russisch en Duits, terwijl de tolken in glazen hokjes vertaalden. Die techniek wordt nu bij de VN en de Europese Unie gebruikt.",
+ verbanden: [["Wannseeconferentie","het verslag dat als bewijs diende"],["Bevrijding van Auschwitz","de misdaden die werden berecht"],["De Verenigde Naties","de nieuwe wereldorde na de oorlog"]],
+ onderwijs: {"ka":["Racisme en discriminatie die leidden tot genocide, in het bijzonder op de Joden (Holocaust).","De totalitaire politieke systemen: communisme en nationaalsocialisme (fascisme)."]},
  cijfers: [['Duur','20 nov 1945 – 1 okt 1946'],['Berechte verdachten','22'],['Doodstraffen','12'],['Vrijspraken','3']],
  figuren: [['Robert H. Jackson','Amerikaanse hoofdaanklager'],['Hermann Göring','belangrijkste verdachte'],['Arthur Seyss-Inquart','rijkscommissaris voor Nederland, ter dood veroordeeld']],
  bronnen: [['Wikipedia: Processen van Neurenberg',W('Processen van Neurenberg')],['USHMM','https://www.ushmm.org/']]
