@@ -16,7 +16,7 @@ import { sendEmail } from '../_shared/emailit.ts'
  */
 
 // info@meestertools.nl bestaat (nog) niet als mailbox: meldingen gaan naar Koens eigen adres.
-const NOTIFY_TO = Deno.env.get('TIJDLIJN_NOTIFY_TO') || Deno.env.get('IDEEENBUS_NOTIFY_TO') || 'koenkerkvliet@gmail.com'
+const NOTIFY_TO = Deno.env.get('TIJDLIJN_NOTIFY_TO') || Deno.env.get('IDEEENBUS_NOTIFY_TO') || 'koen.kerkvliet@designpixels.nl'
 
 const SOORT_LABEL: Record<string, string> = {
   'fout': 'Fout',

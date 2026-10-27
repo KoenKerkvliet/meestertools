@@ -27,7 +27,7 @@ import { sendEmail } from '../_shared/emailit.ts'
 
 const SITE = 'https://meestertools.nl'
 // Antwoordadres: info@meestertools.nl bestaat (nog) niet als mailbox, dus antwoorden gaan naar Koens eigen adres.
-const CONTACT = 'koenkerkvliet@gmail.com'
+const CONTACT = 'koen.kerkvliet@designpixels.nl'
 const MAX_PER_RUN = 20
 
 interface Kandidaat {
