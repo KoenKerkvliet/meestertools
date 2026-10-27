@@ -15,7 +15,8 @@ import { sendEmail } from '../_shared/emailit.ts'
  * lukt het mailen niet, dan gaat de claim terug en probeert de volgende tick het opnieuw.
  */
 
-const NOTIFY_TO = Deno.env.get('TIJDLIJN_NOTIFY_TO') || Deno.env.get('IDEEENBUS_NOTIFY_TO') || 'info@meestertools.nl'
+// info@meestertools.nl bestaat (nog) niet als mailbox: meldingen gaan naar Koens eigen adres.
+const NOTIFY_TO = Deno.env.get('TIJDLIJN_NOTIFY_TO') || Deno.env.get('IDEEENBUS_NOTIFY_TO') || 'koenkerkvliet@gmail.com'
 
 const SOORT_LABEL: Record<string, string> = {
   'fout': 'Fout',

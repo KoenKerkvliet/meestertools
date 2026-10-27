@@ -19,7 +19,8 @@ import { sendEmail } from '../_shared/emailit.ts'
  * verify_jwt staat aan, dus alleen ingelogde gebruikers komen hier binnen.
  */
 
-const NOTIFY_TO = Deno.env.get('IDEEENBUS_NOTIFY_TO') || 'info@meestertools.nl'
+// info@meestertools.nl bestaat (nog) niet als mailbox: meldingen gaan naar Koens eigen adres.
+const NOTIFY_TO = Deno.env.get('IDEEENBUS_NOTIFY_TO') || 'koenkerkvliet@gmail.com'
 
 const KIND_LABEL: Record<string, string> = {
   'idee': 'Idee',
