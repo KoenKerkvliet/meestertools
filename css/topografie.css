@@ -1,0 +1,221 @@
+/* ============================================
+   TOPOGRAFIE - kaart (gedeeld) + editor
+   De oefenpagina (/topografie) gebruikt alleen het kaartdeel.
+   ============================================ */
+
+/* ---------- Kaart ---------- */
+.topo-kaart {
+    position: relative;
+    background: #BFE0F2;
+    border-radius: 14px;
+    overflow: hidden;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.topo-svg { display: block; width: 100%; height: 100%; cursor: default; }
+.topo-kaart.is-slepen .topo-svg { cursor: grabbing; }
+
+.topo-zee { fill: #BFE0F2; }
+.topo-buurland { fill: #ECEAE3; stroke: #CFCBBE; stroke-width: 1; vector-effect: non-scaling-stroke; }
+.topo-land path { fill: #F7F3E8; stroke: #D8CFB8; vector-effect: non-scaling-stroke; }
+.topo-rivieren-basis path { fill: none; stroke: #8EC3E6; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Items */
+.topo-item { cursor: pointer; }
+.topo-vlak { fill: #FFE7A3; stroke: #C9A646; stroke-width: 1.4; vector-effect: non-scaling-stroke; transition: fill .15s; }
+.topo-vlak:hover { fill: #FFD966; }
+.topo-lijn .topo-hit { fill: none; stroke: transparent; stroke-linecap: round; }
+.topo-lijn-vis { fill: none; stroke: #2F86C9; stroke-linecap: round; stroke-linejoin: round; transition: stroke .15s; }
+.topo-lijn:hover .topo-lijn-vis { stroke: #1A5F99; }
+.topo-punt .topo-hit { fill: transparent; }
+.topo-punt-vis { fill: #2D3436; stroke: #fff; stroke-width: 2; vector-effect: non-scaling-stroke; transition: fill .15s; }
+.topo-punt.soort-water .topo-punt-vis { fill: #1F78C1; }
+.topo-punt.soort-eiland .topo-punt-vis,
+.topo-punt.soort-gebied .topo-punt-vis { fill: #2E8B57; }
+.topo-punt.soort-eigen .topo-punt-vis { fill: #6C63FF; }
+.topo-punt:hover .topo-punt-vis { fill: #6C63FF; }
+
+/* Statussen tijdens het oefenen */
+.topo-vlak.is-doel { fill: #FFB55C; stroke: #E07B00; animation: topo-puls 1.1s ease-in-out infinite; }
+.topo-vlak.is-goed { fill: #8FD694; stroke: #2E8B57; }
+.topo-vlak.is-fout { fill: #F4A3A3; stroke: #C0392B; }
+.topo-vlak.is-gekozen { fill: #C9C4FF; stroke: #6C63FF; }
+.topo-lijn.is-doel .topo-lijn-vis { stroke: #FF8C1A; animation: topo-puls 1.1s ease-in-out infinite; }
+.topo-lijn.is-goed .topo-lijn-vis { stroke: #2E8B57; }
+.topo-lijn.is-fout .topo-lijn-vis { stroke: #C0392B; }
+.topo-punt.is-doel .topo-punt-vis { fill: #FF8C1A; stroke: rgba(255, 140, 26, .45); stroke-width: 14; animation: topo-puls 1.1s ease-in-out infinite; }
+.topo-punt.is-goed .topo-punt-vis { fill: #2E8B57; }
+.topo-punt.is-fout .topo-punt-vis { fill: #C0392B; }
+.topo-punt.is-gekozen .topo-punt-vis { fill: #6C63FF; }
+@keyframes topo-puls { 50% { opacity: .45; } }
+
+/* Tijdens een vraag over een vlak mogen stippen en lijnen de klik niet afvangen */
+.topo-kaart[data-modus="vlak"] .topo-laag-punt,
+.topo-kaart[data-modus="vlak"] .topo-laag-lijn { pointer-events: none; }
+.topo-kaart[data-modus="stil"] .topo-item { pointer-events: none; }
+
+/* Namen */
+.topo-label {
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    font-weight: 700;
+    fill: #2D3436;
+    stroke: rgba(255, 255, 255, .92);
+    paint-order: stroke;
+    stroke-linejoin: round;
+    pointer-events: none;
+    display: none;
+}
+.topo-label.label-lijn { fill: #1A5F99; font-style: italic; }
+.topo-label.label-vlak { fill: #6B5410; }
+.topo-kaart.labels-aan .topo-label,
+.topo-label.is-zichtbaar { display: inline; }
+
+/* Zoomknoppen */
+.topo-zoom {
+    position: absolute; top: 10px; right: 10px;
+    display: flex; flex-direction: column; gap: 6px;
+}
+.topo-zoom button {
+    width: 38px; height: 38px; border-radius: 10px; border: none;
+    background: #fff; color: #2D3436; font-size: 20px; font-weight: 700; line-height: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .15); cursor: pointer; font-family: inherit;
+}
+.topo-zoom button:hover { background: #F0EEFF; color: #6C63FF; }
+.topo-bron {
+    position: absolute; left: 8px; bottom: 6px;
+    font-size: 10px; color: #4A6A80; background: rgba(255, 255, 255, .7);
+    padding: 1px 6px; border-radius: 6px; pointer-events: none;
+}
+
+/* ============================================
+   Editor (lesmateriaal/topografie)
+   ============================================ */
+.topo-scherm[hidden],
+.topo-paneel [hidden] { display: none !important; }
+
+.topo-lijst-kop { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+.topo-lijst-kop h2 { font-size: 20px; color: var(--text-dark); }
+.topo-lijst-kop p { color: var(--text-medium); font-size: 14px; margin-top: 4px; }
+
+.topo-knop {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 18px; border-radius: 10px; border: 2px solid transparent;
+    font: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
+    background: var(--primary); color: #fff; transition: var(--transition); text-decoration: none;
+}
+.topo-knop:hover { background: var(--primary-dark); }
+.topo-knop.licht { background: #EEF0FF; color: var(--primary); }
+.topo-knop.licht:hover { background: #E0E3FF; }
+.topo-knop.rand { background: #fff; color: var(--text-dark); border-color: #E3E1F2; }
+.topo-knop.rand:hover { border-color: var(--primary); color: var(--primary); }
+.topo-knop.gevaar { background: #fff; color: #C0392B; border-color: #F3D1CD; }
+.topo-knop.gevaar:hover { background: #FDECEA; }
+.topo-knop.klein { padding: 6px 12px; font-size: 13px; border-radius: 8px; }
+.topo-knop:disabled { opacity: .5; cursor: not-allowed; }
+
+.topo-kaarten { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.topo-kaartje {
+    border: 2px solid #ECEAF7; border-radius: 16px; padding: 18px;
+    display: flex; flex-direction: column; gap: 10px; background: #fff;
+}
+.topo-kaartje h3 { font-size: 17px; color: var(--text-dark); word-break: break-word; }
+.topo-kaartje .meta { font-size: 13px; color: var(--text-medium); }
+.topo-kaartje .acties { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+.topo-leeg { text-align: center; padding: 50px 20px; color: var(--text-medium); }
+.topo-leeg .icoon { font-size: 48px; display: block; margin-bottom: 10px; }
+
+/* Bewerken */
+.topo-bewerk-kop { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.topo-titel-invoer {
+    flex: 1; min-width: 200px; font: inherit; font-size: 18px; font-weight: 700;
+    border: 2px solid #E3E1F2; border-radius: 10px; padding: 9px 12px; color: var(--text-dark); outline: none;
+}
+.topo-titel-invoer:focus { border-color: var(--primary); }
+.topo-opgeslagen { font-size: 13px; color: var(--text-medium); min-width: 90px; }
+
+.topo-bewerk { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; align-items: start; }
+.topo-bewerk .topo-kaart { height: min(78vh, 760px); }
+.topo-paneel { display: flex; flex-direction: column; gap: 12px; max-height: min(78vh, 760px); overflow-y: auto; padding-right: 4px; }
+
+.topo-blok { border: 2px solid #ECEAF7; border-radius: 14px; padding: 12px 14px; background: #fff; }
+.topo-blok > summary {
+    cursor: pointer; font-weight: 800; font-size: 15px; color: var(--text-dark);
+    list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.topo-blok > summary::-webkit-details-marker { display: none; }
+.topo-blok > summary::after { content: '\25BE'; color: var(--text-light); transition: transform .15s; }
+.topo-blok[open] > summary::after { transform: rotate(180deg); }
+.topo-blok .teller { font-size: 12px; font-weight: 700; color: var(--primary); background: #EEF0FF; border-radius: 20px; padding: 2px 9px; margin-left: auto; }
+.topo-blok-inhoud { margin-top: 10px; }
+.topo-blok-acties { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+.topo-hint { font-size: 12.5px; color: var(--text-medium); line-height: 1.45; margin-bottom: 8px; }
+
+.topo-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.topo-chip {
+    border: 2px solid #E6E3F5; background: #fff; color: #4A4468;
+    border-radius: 20px; padding: 4px 11px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.topo-chip:hover { border-color: var(--primary); }
+.topo-chip.aan { background: var(--primary); border-color: var(--primary); color: #fff; }
+.topo-chip-groep { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--text-light); margin: 10px 0 6px; }
+.topo-chip-groep:first-child { margin-top: 0; }
+
+.topo-zoek { position: relative; }
+.topo-zoek input {
+    width: 100%; font: inherit; font-size: 14px; border: 2px solid #E3E1F2; border-radius: 10px;
+    padding: 9px 12px; outline: none; box-sizing: border-box;
+}
+.topo-zoek input:focus { border-color: var(--primary); }
+.topo-suggesties { margin-top: 6px; display: flex; flex-direction: column; gap: 2px; }
+.topo-suggestie {
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    padding: 7px 10px; border-radius: 8px; cursor: pointer; font-size: 14px; border: none; background: none;
+    font-family: inherit; text-align: left; color: var(--text-dark);
+}
+.topo-suggestie:hover, .topo-suggestie.actief { background: #F0EEFF; }
+.topo-suggestie small { color: var(--text-light); font-size: 12px; }
+.topo-suggestie.al { color: var(--text-light); cursor: default; }
+
+.topo-eigen-form { display: flex; gap: 6px; margin-top: 8px; }
+.topo-eigen-form input { flex: 1; font: inherit; font-size: 14px; border: 2px solid #E3E1F2; border-radius: 10px; padding: 8px 10px; outline: none; min-width: 0; }
+.topo-eigen-form input:focus { border-color: var(--primary); }
+.topo-kaart.plaats-modus .topo-svg { cursor: crosshair; }
+.topo-plaats-tip {
+    position: absolute; left: 50%; top: 10px; transform: translateX(-50%);
+    background: #2D3436; color: #fff; font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 20px;
+    pointer-events: none; white-space: nowrap;
+}
+
+.topo-gekozen { display: flex; flex-direction: column; gap: 4px; max-height: 260px; overflow-y: auto; }
+.topo-gekozen-item {
+    display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 8px; font-size: 14px;
+}
+.topo-gekozen-item:hover { background: #F7F6FD; }
+.topo-gekozen-item .soort { font-size: 11px; color: var(--text-light); font-weight: 700; text-transform: uppercase; margin-left: auto; }
+.topo-gekozen-item button {
+    border: none; background: none; color: var(--text-light); cursor: pointer; font-size: 18px; line-height: 1; padding: 0 2px;
+}
+.topo-gekozen-item button:hover { color: #C0392B; }
+
+/* Deel-venster */
+.topo-modal { position: fixed; inset: 0; background: rgba(30, 27, 60, .55); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
+.topo-modal[hidden] { display: none; }
+.topo-modal-kaart { background: #fff; border-radius: 20px; padding: 26px; width: 100%; max-width: 460px; text-align: center; position: relative; }
+.topo-modal-kaart h3 { font-size: 20px; margin-bottom: 6px; color: var(--text-dark); }
+.topo-modal-kaart p { color: var(--text-medium); font-size: 14px; line-height: 1.5; }
+.topo-modal-sluit { position: absolute; top: 10px; right: 14px; border: none; background: none; font-size: 26px; color: var(--text-light); cursor: pointer; }
+.topo-qr { margin: 16px auto 12px; display: flex; justify-content: center; }
+.topo-qr img { width: 220px; height: 220px; image-rendering: pixelated; }
+.topo-link { display: flex; gap: 6px; margin-bottom: 12px; }
+.topo-link input { flex: 1; min-width: 0; font: inherit; font-size: 14px; border: 2px solid #E3E1F2; border-radius: 10px; padding: 9px 10px; color: var(--text-dark); background: #F8F9FE; }
+.topo-modal-acties { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.topo-modal.is-groot .topo-modal-kaart { max-width: 760px; }
+.topo-modal.is-groot .topo-qr img { width: min(60vh, 480px); height: min(60vh, 480px); }
+.topo-modal.is-groot .topo-link input { font-size: 20px; font-weight: 700; text-align: center; }
+
+@media (max-width: 900px) {
+    .topo-bewerk { grid-template-columns: 1fr; }
+    .topo-bewerk .topo-kaart { height: 62vh; }
+    .topo-paneel { max-height: none; overflow: visible; }
+}

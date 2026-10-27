@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Oefen de topografiekaart van je juf of meester.">
+    <meta name="theme-color" content="#6C63FF">
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="/favicon.ico" sizes="48x48">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <title>Topografie oefenen - Meestertools</title>
+    <link rel="stylesheet" href="css/topografie.css?v=1.64.5">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #6C63FF; --primary-dark: #5A52D5; }
+        html, body { min-height: 100%; }
+        body {
+            font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+            background: linear-gradient(160deg, #6C63FF 0%, #8B7FFF 50%, #4ECDC4 130%);
+            min-height: 100vh; color: #2D3436;
+            padding: 20px 16px 32px;
+        }
+        .to-wrap { width: 100%; max-width: 480px; margin: 0 auto; }
+        .to-wrap.is-wide { max-width: 1100px; }
+        .to-brand { text-align: center; color: #fff; font-weight: 800; font-size: 20px; margin-bottom: 14px; }
+        .to-card { background: #fff; border-radius: 22px; padding: 26px 22px; box-shadow: 0 18px 50px rgba(0,0,0,.22); }
+        .to-screen { display: none; }
+        .to-screen.active { display: block; }
+        h1 { font-size: 24px; line-height: 1.2; margin-bottom: 6px; word-break: break-word; }
+        .to-lead { color: #636E72; font-size: 15px; line-height: 1.5; margin-bottom: 20px; }
+        .to-center { text-align: center; }
+        .to-icon { font-size: 54px; display: block; margin-bottom: 8px; }
+
+        .to-input {
+            width: 100%; border: 2px solid #E3E1F2; border-radius: 14px; padding: 14px 16px;
+            font-size: 26px; font-weight: 800; letter-spacing: .2em; text-align: center; text-transform: uppercase;
+            font-family: inherit; color: #2D3436; outline: none; margin-bottom: 14px;
+        }
+        .to-input:focus { border-color: var(--primary); }
+        .to-btn {
+            width: 100%; border: none; border-radius: 14px; cursor: pointer;
+            background: var(--primary); color: #fff; font-size: 17px; font-weight: 700; padding: 15px; font-family: inherit;
+        }
+        .to-btn:hover { background: var(--primary-dark); }
+        .to-btn.licht { background: #F1F0FA; color: #4A4468; }
+        .to-btn.licht:hover { background: #E7E5F6; }
+        .to-error { background: #FCE7E7; color: #C0392B; border-radius: 12px; padding: 12px 14px; font-size: 14px; margin-bottom: 14px; display: none; }
+        .to-error.show { display: block; }
+
+        .to-modi { display: flex; flex-direction: column; gap: 10px; }
+        .to-modus {
+            display: flex; align-items: center; gap: 14px; text-align: left; width: 100%;
+            border: 2px solid #E6E3F5; background: #fff; border-radius: 16px; padding: 14px 16px; cursor: pointer; font-family: inherit;
+            transition: border-color .15s, box-shadow .15s;
+        }
+        .to-modus:hover { border-color: var(--primary); box-shadow: 0 6px 18px rgba(108,99,255,.15); }
+        .to-modus .em { font-size: 30px; flex-shrink: 0; }
+        .to-modus strong { display: block; font-size: 17px; color: #2D3436; }
+        .to-modus span.uitleg { display: block; font-size: 13.5px; color: #636E72; margin-top: 2px; }
+
+        /* Spel */
+        .to-spel-kop { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+        .to-stop { border: none; background: #F1F0FA; color: #4A4468; border-radius: 10px; padding: 8px 12px; font: inherit; font-weight: 700; cursor: pointer; }
+        .to-stop:hover { background: #E7E5F6; }
+        .to-vraag { flex: 1; min-width: 200px; text-align: center; }
+        .to-vraag .soort { display: inline-block; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: #6C63FF; background: #F0EEFF; border-radius: 20px; padding: 2px 10px; margin-bottom: 4px; }
+        .to-vraag .tekst { font-size: 24px; font-weight: 800; line-height: 1.2; }
+        .to-teller { font-weight: 800; font-size: 15px; color: var(--primary); background: #F4F2FF; border-radius: 999px; padding: 6px 14px; white-space: nowrap; }
+        .to-keuzes { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-bottom: 12px; }
+        .to-keuze {
+            border: 2px solid #E6E3F5; background: #fff; border-radius: 12px; padding: 12px 10px;
+            font: inherit; font-size: 16px; font-weight: 700; color: #2D3436; cursor: pointer;
+        }
+        .to-keuze:hover:not(:disabled) { border-color: var(--primary); }
+        .to-keuze.is-goed { background: #DCF5E2; border-color: #2E8B57; color: #1E5C38; }
+        .to-keuze.is-fout { background: #FBE0E0; border-color: #C0392B; color: #8A2B22; }
+        .to-keuze:disabled { cursor: default; }
+        .to-kaart-vak { position: relative; }
+        .to-kaart-vak .topo-kaart { height: calc(100vh - 230px); min-height: 360px; }
+        .to-melding {
+            position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+            background: #2D3436; color: #fff; font-weight: 700; font-size: 16px; padding: 10px 18px; border-radius: 24px;
+            box-shadow: 0 6px 18px rgba(0,0,0,.25); pointer-events: none; opacity: 0; transition: opacity .15s; max-width: 90%; text-align: center;
+        }
+        .to-melding.show { opacity: 1; }
+        .to-melding.goed { background: #2E8B57; }
+        .to-melding.fout { background: #C0392B; }
+        .to-verkennen-balk { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+        .to-verkennen-balk .to-btn { width: auto; padding: 10px 18px; font-size: 15px; }
+
+        /* Klaar */
+        .to-score { font-size: 56px; font-weight: 800; color: var(--primary); line-height: 1; margin: 10px 0 4px; }
+        .to-score-sub { color: #636E72; font-size: 15px; margin-bottom: 18px; }
+        .to-fouten { background: #FFF6EC; border-radius: 14px; padding: 12px 14px; margin-bottom: 16px; text-align: left; font-size: 14px; color: #7A4E12; line-height: 1.6; }
+        .to-fouten strong { display: block; margin-bottom: 4px; }
+        .to-knoppen { display: flex; flex-direction: column; gap: 10px; }
+
+        .to-foot { text-align: center; color: rgba(255,255,255,.85); font-size: 12px; margin-top: 16px; }
+        .to-foot a { color: inherit; font-weight: 700; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 10px 24px; }
+            .to-card { padding: 18px 14px; border-radius: 18px; }
+            .to-vraag .tekst { font-size: 20px; }
+            .to-kaart-vak .topo-kaart { height: calc(100vh - 330px); min-height: 320px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="to-wrap" id="toWrap">
+        <div class="to-brand">&#128506;&#65039; Topografie</div>
+        <div class="to-card">
+            <!-- Laden -->
+            <section class="to-screen active" id="toLaden">
+                <p class="to-lead to-center">Kaart laden...</p>
+            </section>
+
+            <!-- Code invoeren -->
+            <section class="to-screen" id="toCode">
+                <h1 class="to-center">Welke kaart ga je oefenen?</h1>
+                <p class="to-lead to-center">Typ de code van je juf of meester, of scan de QR-code.</p>
+                <div class="to-error" id="toCodeFout"></div>
+                <form id="toCodeForm">
+                    <input class="to-input" id="toCodeInvoer" maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Code">
+                    <button type="submit" class="to-btn">Open de kaart</button>
+                </form>
+            </section>
+
+            <!-- Start -->
+            <section class="to-screen" id="toStart">
+                <div class="to-center">
+                    <span class="to-icon">&#128506;&#65039;</span>
+                    <h1 id="toTitel"></h1>
+                    <p class="to-lead" id="toAantal"></p>
+                </div>
+                <div class="to-modi">
+                    <button type="button" class="to-modus" data-modus="verkennen">
+                        <span class="em">&#128269;</span>
+                        <span><strong>Leren</strong><span class="uitleg">Bekijk de kaart met alle namen erop.</span></span>
+                    </button>
+                    <button type="button" class="to-modus" data-modus="aanwijzen">
+                        <span class="em">&#128070;</span>
+                        <span><strong>Aanwijzen</strong><span class="uitleg">Waar ligt het? Klik de goede plek aan op de kaart.</span></span>
+                    </button>
+                    <button type="button" class="to-modus" data-modus="benoemen">
+                        <span class="em">&#128172;</span>
+                        <span><strong>Benoemen</strong><span class="uitleg">Hoe heet het? Kies de goede naam.</span></span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Oefenen -->
+            <section class="to-screen" id="toSpel">
+                <div class="to-spel-kop">
+                    <button type="button" class="to-stop" id="toStop">&larr; Stoppen</button>
+                    <div class="to-vraag" id="toVraag"></div>
+                    <span class="to-teller" id="toTeller"></span>
+                </div>
+                <div class="to-keuzes" id="toKeuzes"></div>
+                <div class="to-kaart-vak">
+                    <div id="toKaart" class="topo-kaart"></div>
+                    <div class="to-melding" id="toMelding"></div>
+                </div>
+            </section>
+
+            <!-- Klaar -->
+            <section class="to-screen" id="toKlaar">
+                <div class="to-center">
+                    <span class="to-icon" id="toKlaarIcoon">&#127881;</span>
+                    <h1>Klaar!</h1>
+                    <div class="to-score" id="toScore"></div>
+                    <p class="to-score-sub" id="toScoreSub"></p>
+                </div>
+                <div class="to-fouten" id="toFouten" hidden></div>
+                <div class="to-knoppen">
+                    <button type="button" class="to-btn" id="toFoutenOpnieuw">Oefen je fouten nog een keer</button>
+                    <button type="button" class="to-btn" id="toOpnieuw">Nog een keer</button>
+                    <button type="button" class="to-btn licht" id="toAnders">Andere oefening kiezen</button>
+                </div>
+            </section>
+        </div>
+        <p class="to-foot">Meestertools is gratis voor leerkrachten &middot; <a href="/" target="_blank" rel="noopener">meestertools.nl</a></p>
+    </div>
+
+    <script src="/js/mt-shared.js?v=1.64.5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="js/supabase-config.js?v=1.64.5"></script>
+    <script src="js/topografie-kaart.js?v=1.64.5"></script>
+    <script src="js/topografie-oefenen.js?v=1.64.5"></script>
+    <script src="/js/teller.js?v=1.64.5" defer></script>
+</body>
+</html>

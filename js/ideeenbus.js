@@ -96,7 +96,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // ---------- Tooldropdown vullen uit de centrale lijst ----------
     // Eén bron van waarheid: template.js kent alle tools al voor de zoekbalk.
     function fillTools() {
-        var tools = (window.MT_ALL_TOOLS || []).slice().sort(function (a, b) {
+        var tools = (window.MT_ALL_TOOLS || []).filter(function (t) {
+            return !t.verborgen;
+        }).sort(function (a, b) {
             return a.name.localeCompare(b.name, 'nl');
         });
         tools.forEach(function (t) {

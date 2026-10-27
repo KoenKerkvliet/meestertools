@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.64.4';
+    const VERSION = 'v1.64.5';
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [
@@ -48,6 +48,7 @@
         { id: 'woordenflitsen', name: 'Woorden Flitsen', url: 'lesmateriaal/woordenflitsen', icon: '&#9889;' },
         { id: 'werkbladen', name: 'Werkbladen', url: 'lesmateriaal/werkbladen', icon: '&#128196;' },
         { id: 'tijdlijn', name: 'Tijdlijn van Nederland', url: 'tijdlijn/', icon: '&#128220;' },
+        { id: 'topografie', name: 'Topografie', url: 'lesmateriaal/topografie', icon: '&#128506;&#65039;', uc: true, verborgen: true },
         { id: '10-minuten-didactiek', name: '10-minuten-didactiek', url: 'lesmateriaal/10-minuten-didactiek', icon: '&#9201;&#65039;', uc: true },
         // Ontspanning
         { id: 'naamkleurplaat', name: 'Naamkleurplaat', url: 'ontspanning/naamkleurplaat', icon: '&#127912;' },
@@ -81,6 +82,8 @@
     // Tools met uc:true zijn alleen toegankelijk voor super admins.
     // Kaarten en zoekresultaten tonen een badge; voor andere gebruikers
     // is klikken geblokkeerd en stuurt de toolpagina zelf terug (app.js).
+    // Met verborgen:true erbij ziet niemand behalve de super admin de tool
+    // überhaupt: geen kaart, geen zoekresultaat, niet in de ideeënbus.
     function normalizePath(href) {
         if (!href) return '';
         var path = href;
@@ -245,6 +248,7 @@
             q = (q || '').trim().toLowerCase();
             if (!q) { close(); return; }
             matches = MT_ALL_TOOLS.filter(function (t) {
+                if (t.verborgen && window.userRole !== 'super_admin') return false;
                 return t.name.toLowerCase().indexOf(q) !== -1;
             }).slice(0, 8);
             activeIdx = -1;

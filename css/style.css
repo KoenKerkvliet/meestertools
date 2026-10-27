@@ -3280,6 +3280,11 @@ body.mt-uc-admin .tool-card.uc-card {
     opacity: 1;
 }
 
+/* Verborgen tools (verborgen:true in template.js): alleen de super admin ziet de kaart */
+body:not(.mt-uc-admin) .tool-card.mt-verborgen {
+    display: none;
+}
+
 .uc-badge {
     position: absolute;
     top: 12px;

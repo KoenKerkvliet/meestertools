@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Stel je eigen topografiekaart samen en laat je klas oefenen via een link of QR-code.">
+    <meta name="theme-color" content="#6C63FF">
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="/favicon.ico" sizes="48x48">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <title>Meestertools - Topografie</title>
+    <link rel="stylesheet" href="../css/style.css?v=1.64.5">
+    <link rel="stylesheet" href="../css/instellingen.css?v=1.64.5">
+    <link rel="stylesheet" href="../css/topografie.css?v=1.64.5">
+</head>
+<body>
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../lesmateriaal" class="back-link" id="topoTerug">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Topografie</h1>
+                <p>Stel je eigen kaart samen en laat je klas oefenen via een link of QR-code.</p>
+            </div>
+            <div style="width:38px;"></div>
+        </div>
+
+        <div class="tool-page-body">
+            <!-- Scherm 1: mijn kaarten -->
+            <section class="topo-scherm" id="topoLijstScherm">
+                <div class="topo-lijst-kop">
+                    <div>
+                        <h2>Mijn kaarten</h2>
+                        <p>Elke kaart heeft een eigen link. Pas je de kaart aan, dan oefent je klas meteen met de nieuwe versie.</p>
+                    </div>
+                    <button type="button" class="topo-knop" id="topoNieuw">+ Nieuwe kaart</button>
+                </div>
+                <div id="topoKaarten"><p class="topo-hint">Kaarten laden...</p></div>
+            </section>
+
+            <!-- Scherm 2: kaart bewerken -->
+            <section class="topo-scherm" id="topoBewerkScherm" hidden>
+                <div class="topo-bewerk-kop">
+                    <input type="text" class="topo-titel-invoer" id="topoTitel" maxlength="80" placeholder="Naam van de kaart, bijv. Provincies en hoofdsteden" aria-label="Naam van de kaart">
+                    <span class="topo-opgeslagen" id="topoStatus"></span>
+                    <a class="topo-knop rand" id="topoProbeer" target="_blank" rel="noopener">Zelf proberen</a>
+                    <button type="button" class="topo-knop" id="topoDeel">Delen</button>
+                </div>
+
+                <div class="topo-bewerk">
+                    <div id="topoKaart" class="topo-kaart"></div>
+
+                    <div class="topo-paneel">
+                        <details class="topo-blok" open>
+                            <summary>Provincies <span class="teller" id="tellerP">0</span></summary>
+                            <div class="topo-blok-inhoud">
+                                <div class="topo-blok-acties">
+                                    <button type="button" class="topo-knop licht klein" data-alle="p">Alle 12</button>
+                                    <button type="button" class="topo-knop rand klein" data-geen="p">Geen</button>
+                                </div>
+                                <p class="topo-hint">Je kunt ook op een provincie in de kaart klikken.</p>
+                                <div class="topo-chips" id="chipsP"></div>
+                            </div>
+                        </details>
+
+                        <details class="topo-blok" open>
+                            <summary>Provinciehoofdsteden <span class="teller" id="tellerH">0</span></summary>
+                            <div class="topo-blok-inhoud">
+                                <div class="topo-blok-acties">
+                                    <button type="button" class="topo-knop licht klein" data-alle="h">Alle 12</button>
+                                    <button type="button" class="topo-knop rand klein" data-geen="h">Geen</button>
+                                </div>
+                                <div class="topo-chips" id="chipsH"></div>
+                            </div>
+                        </details>
+
+                        <details class="topo-blok">
+                            <summary>Plaatsen <span class="teller" id="tellerS">0</span></summary>
+                            <div class="topo-blok-inhoud">
+                                <div class="topo-zoek">
+                                    <input type="text" id="topoZoek" placeholder="Zoek een plaats, bijv. Den Helder" autocomplete="off" aria-label="Zoek een plaats">
+                                    <div class="topo-suggesties" id="topoSuggesties"></div>
+                                </div>
+                                <div class="topo-blok-acties" style="margin-top:8px;">
+                                    <button type="button" class="topo-knop licht klein" id="topoGroot10">+ 10 grootste steden</button>
+                                    <button type="button" class="topo-knop licht klein" id="topoGroot25">+ 25 grootste steden</button>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="topo-blok">
+                            <summary>Rivieren <span class="teller" id="tellerR">0</span></summary>
+                            <div class="topo-blok-inhoud">
+                                <div class="topo-chips" id="chipsR"></div>
+                            </div>
+                        </details>
+
+                        <details class="topo-blok">
+                            <summary>Wateren, eilanden en gebieden <span class="teller" id="tellerG">0</span></summary>
+                            <div class="topo-blok-inhoud" id="chipsG"></div>
+                        </details>
+
+                        <details class="topo-blok">
+                            <summary>Eigen punt <span class="teller" id="tellerE">0</span></summary>
+                            <div class="topo-blok-inhoud">
+                                <p class="topo-hint">Staat iets er niet bij? Klik op de knop, klik daarna op de plek in de kaart en geef het een naam.</p>
+                                <button type="button" class="topo-knop licht klein" id="topoEigenStart">Punt plaatsen</button>
+                                <form class="topo-eigen-form" id="topoEigenForm" hidden>
+                                    <input type="text" id="topoEigenNaam" maxlength="60" placeholder="Naam van deze plek" aria-label="Naam van deze plek">
+                                    <button type="submit" class="topo-knop klein">Toevoegen</button>
+                                    <button type="button" class="topo-knop rand klein" id="topoEigenAnnuleer">Annuleer</button>
+                                </form>
+                            </div>
+                        </details>
+
+                        <details class="topo-blok" open>
+                            <summary>Op je kaart <span class="teller" id="tellerTotaal">0</span></summary>
+                            <div class="topo-blok-inhoud">
+                                <div class="topo-gekozen" id="topoGekozen"></div>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Delen -->
+    <div class="topo-modal" id="topoDeelModal" hidden>
+        <div class="topo-modal-kaart" role="dialog" aria-modal="true" aria-labelledby="topoDeelTitel">
+            <button type="button" class="topo-modal-sluit" id="topoDeelSluit" aria-label="Sluiten">&times;</button>
+            <h3 id="topoDeelTitel">Deel deze kaart</h3>
+            <p>Leerlingen scannen de QR-code of openen de link. Ze hebben geen account nodig.</p>
+            <div class="topo-qr" id="topoQr"></div>
+            <div class="topo-link">
+                <input type="text" id="topoLink" readonly aria-label="Link naar de oefenpagina">
+            </div>
+            <div class="topo-modal-acties">
+                <button type="button" class="topo-knop" id="topoKopieer">Kopieer link</button>
+                <button type="button" class="topo-knop licht" id="topoGroot">Toon groot op het bord</button>
+            </div>
+        </div>
+    </div>
+
+    <footer id="app-footer-slot"></footer>
+
+    <script src="/js/mt-shared.js?v=1.64.5"></script>
+    <script src="/js/template.js?v=1.64.5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js?v=1.64.5"></script>
+    <script src="../js/app.js?v=1.64.5"></script>
+    <script src="../js/instellingen.js?v=1.64.5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+    <script src="../js/topografie-kaart.js?v=1.64.5"></script>
+    <script src="../js/topografie.js?v=1.64.5"></script>
+    <script src="/js/teller.js?v=1.64.5" defer></script>
+</body>
+</html>
