@@ -301,6 +301,19 @@ button.dot{cursor:pointer}
 .samen span{font-size:15px;color:var(--muted2);line-height:1.4}
 .links{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
 .links a{font-weight:700;font-size:17px;text-decoration:none}
+/* bewerking voorstellen, onder Verder lezen */
+.bvi{margin:0 0 14px;font-size:16px;line-height:1.5;color:var(--ink2)}
+.bvbox .btn{height:44px;font-size:16px;border-radius:14px}
+.bvform{display:flex;flex-direction:column;gap:8px}
+.bvl{font-weight:700;font-size:15px}
+.bvform select,.bvform textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:10px 12px;width:100%;box-sizing:border-box}
+.bvform textarea{resize:vertical;min-height:110px;line-height:1.45}
+.bvform select:focus,.bvform textarea:focus{outline:3px solid var(--ink);outline-offset:1px}
+.bvhp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.bvrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.bvmsg{margin:0;font-size:15px;font-weight:700;color:var(--ink2)}.bvmsg:empty{display:none}
+.bvpriv{margin:0;font-size:13px;color:var(--muted2)}
+.bvok{margin:0;font-weight:700}
 .links a:hover{text-decoration:underline}
 .pgnav{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:48px}
 .pgnav .btn{height:auto;min-height:64px;padding:12px 20px;text-align:left;white-space:normal}
@@ -412,7 +425,8 @@ html.has-dl .printbtn{display:none}
   .pgart p{font-size:12.5px;line-height:1.55;max-width:none}
   .pgside{position:static;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
   .box{box-shadow:none;break-inside:avoid;padding:14px}
-  .box:last-child{grid-column:1/-1}
+  .box:last-child,.box:has(+ .bvbox){grid-column:1/-1}
+  .bvbox{display:none!important}
   .facts dd,.people b{font-size:13px}.facts dt,.people span{font-size:12px}
   .people .av{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .links a{color:#1F2430;font-size:13px}

@@ -3025,11 +3025,101 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ---------- Tijdlijn: voorgestelde bewerkingen ----------
+    // Bezoekers sturen anoniem in via public.tijdlijn_voorstel; alleen de super_admin leest ze.
+    let allVoorstellen = [];
+    const VOORSTEL_SOORT = { fout: 'Fout', aanvulling: 'Aanvulling', anders: 'Iets anders' };
+    const VOORSTEL_STATUS = { nieuw: 'Nieuw', verwerkt: 'Verwerkt', afgewezen: 'Afgewezen' };
+
+    async function loadVoorstellen() {
+        const { data, error } = await supabase
+            .from('tijdlijn_voorstellen')
+            .select('*')
+            .order('created_at', { ascending: false });
+        if (error) {
+            console.error('Error loading tijdlijn voorstellen:', error);
+            return;
+        }
+        allVoorstellen = data || [];
+        renderVoorstellen();
+    }
+
+    function renderVoorstellen() {
+        const n = allVoorstellen.filter(v => v.status === 'nieuw').length;
+        ['tijdlijnBadge', 'toolsBadge'].forEach(id => {
+            const badge = document.getElementById(id);
+            if (badge) { badge.textContent = n; badge.hidden = n === 0; }
+        });
+
+        const tbody = document.getElementById('voorstellenTableBody');
+        if (!tbody) return;
+        const search = document.getElementById('searchVoorstellen')?.value?.toLowerCase() || '';
+        const filter = document.getElementById('filterVoorstellen')?.value ?? 'nieuw';
+        const filtered = allVoorstellen.filter(v => {
+            if (filter && v.status !== filter) return false;
+            return !search || (v.onderwerp + ' ' + v.tekst).toLowerCase().includes(search);
+        });
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = `
+                <tr><td colspan="6">
+                    <div class="admin-empty">
+                        <span class="empty-icon">&#9203;</span>
+                        <p>${allVoorstellen.length === 0 ? 'Er is nog niets ingestuurd.' : 'Geen voorstellen die hierop passen.'}</p>
+                    </div>
+                </td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(v => `
+            <tr>
+                <td>${shortDate(v.created_at)}</td>
+                <td><a href="/tijdlijn/#${encodeURIComponent(v.slug)}/lees" target="_blank" rel="noopener">${escapeHtml(v.onderwerp)}</a></td>
+                <td>${escapeHtml(VOORSTEL_SOORT[v.soort] || v.soort)}</td>
+                <td class="fb-comment">${escapeHtml(v.tekst)}</td>
+                <td><span class="ib-status ib-status-${v.status === 'verwerkt' ? 'gebouwd' : v.status === 'afgewezen' ? 'niet-nu' : 'nieuw'}">${escapeHtml(VOORSTEL_STATUS[v.status] || v.status)}</span></td>
+                <td class="actions">
+                    ${v.status !== 'verwerkt' ? `<button class="btn-small" onclick="setVoorstelStatus('${v.id}','verwerkt')">Verwerkt</button>` : ''}
+                    ${v.status !== 'afgewezen' ? `<button class="btn-small" onclick="setVoorstelStatus('${v.id}','afgewezen')">Afwijzen</button>` : ''}
+                    ${v.status !== 'nieuw' ? `<button class="btn-small" onclick="setVoorstelStatus('${v.id}','nieuw')">Terug naar nieuw</button>` : ''}
+                    <button class="btn-small btn-delete" onclick="deleteVoorstel('${v.id}')">Verwijderen</button>
+                </td>
+            </tr>`).join('');
+    }
+
+    window.setVoorstelStatus = async function (id, status) {
+        const { error } = await supabase.from('tijdlijn_voorstellen').update({ status }).eq('id', id);
+        if (error) {
+            console.error('Error updating voorstel:', error);
+            alert('Opslaan lukte niet.');
+            return;
+        }
+        const v = allVoorstellen.find(x => x.id === id);
+        if (v) v.status = status;
+        renderVoorstellen();
+    };
+
+    window.deleteVoorstel = function (id) {
+        showConfirm('Voorstel verwijderen', 'Dit voorstel wordt definitief verwijderd. Weet je het zeker?', async () => {
+            const { error } = await supabase.from('tijdlijn_voorstellen').delete().eq('id', id);
+            if (error) {
+                console.error('Error deleting voorstel:', error);
+                alert('Verwijderen lukte niet.');
+                return;
+            }
+            allVoorstellen = allVoorstellen.filter(x => x.id !== id);
+            renderVoorstellen();
+        });
+    };
+
+    document.getElementById('searchVoorstellen')?.addEventListener('input', renderVoorstellen);
+    document.getElementById('filterVoorstellen')?.addEventListener('change', renderVoorstellen);
+
     // ---------- Initial Load ----------
     async function initAdminData() {
         if (window.userRole !== 'super_admin') return;
         try {
-            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets(), loadSpellingSentences(), loadEscaperooms(), loadRoadmap(), loadIdeas(), loadFeedback(), loadFeedbackMail(), loadBezoek(), loadOpruimen()]);
+            await Promise.all([loadSchools(), loadUsers(), loadAllDifficulties(), loadAllWords(), loadGame24Sets(), loadSpellingSentences(), loadEscaperooms(), loadRoadmap(), loadIdeas(), loadFeedback(), loadFeedbackMail(), loadBezoek(), loadOpruimen(), loadVoorstellen()]);
         } catch (e) {
             console.error('Error during initial load:', e);
         }

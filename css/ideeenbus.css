@@ -542,6 +542,10 @@
     vertical-align: middle;
 }
 
+.admin-tab-badge[hidden] {
+    display: none;
+}
+
 .admin-tab.active .admin-tab-badge {
     background: #fff;
     color: var(--primary-dark);

@@ -360,6 +360,7 @@ function openPage(id){
        <div class="box"><h3>Sleutelfiguren</h3><ul class="people">${D.figuren.map(([n,r])=>`<li><span class="av" style="background:${H.bg};color:${H.ink}">${esc(ini(n))}</span><div><b>${esc(n)}</b><span>${esc(r)}</span></div></li>`).join('')}</ul></div>
        ${VERDIEPING.zijOnder(D,'h3',esc,{tijdvak:D.geenTijdvak?null:SCHOOL.find(s=>e.y>=s.s&&e.y<s.e),href:t=>{const x=EVENTS.concat(WEV).find(v=>v.t===t);return x&&DETAILS[x.t]?'#'+EVSLUG[x.id]+'/lees':null}})}
        <div class="box"><h3>Verder lezen</h3><ul class="links">${D.bronnen.map(([l,u])=>`<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a></li>`).join('')}</ul></div>
+       ${bvHTML()}
      </aside>
    </div>
    ${vidHTML(e)}
@@ -575,6 +576,35 @@ async function savePdf(){
 }
 $('#pgpdf').onclick=savePdf;
 $('#pgprint').onclick=()=>window.print();
+
+/* ---- bewerking voorstellen: een fout of aanvulling melden (anoniem, zie supabase/migrations/20261027_tijdlijn_voorstellen.sql) ---- */
+const BV_URL='https://chnjybpwquystuwmiger.supabase.co/rest/v1/rpc/tijdlijn_voorstel';
+const BV_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNobmp5YnB3cXV5c3R1d21pZ2VyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NzAzOTgsImV4cCI6MjA4ODE0NjM5OH0.d2tlRjvXsk34J3mnYIuCFPWSQR6m6YLu3zv5S7qbz88';
+function bvHTML(){return `<div class="box bvbox"><h3>Bewerking voorstellen</h3><p class="bvi">Staat er een fout in, of mis je iets? Laat het weten, dan wordt het aangepast.</p>
+  <button class="btn bvopen" type="button" aria-expanded="false" aria-controls="bvform">Voorstel doen</button>
+  <form class="bvform" id="bvform" hidden novalidate>
+    <label class="bvl" for="bvsoort">Wat wil je melden?</label>
+    <select id="bvsoort" name="soort"><option value="fout">Er staat een fout in</option><option value="aanvulling">Ik heb een aanvulling</option><option value="anders">Iets anders</option></select>
+    <label class="bvl" for="bvtekst">Je voorstel</label>
+    <textarea id="bvtekst" name="tekst" rows="5" maxlength="2000" placeholder="Wat klopt er niet, en wat moet het zijn? Een bron helpt."></textarea>
+    <input class="bvhp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div class="bvrow"><button class="btn dk" type="submit">Versturen</button><button class="btn bvcancel" type="button">Annuleren</button></div>
+    <p class="bvmsg" role="status"></p>
+    <p class="bvpriv">Je stuurt anoniem in: er wordt geen naam of e-mailadres bewaard.</p>
+  </form></div>`}
+document.addEventListener('click',ev=>{const o=ev.target.closest('.bvopen,.bvcancel');if(!o)return;const box=o.closest('.bvbox');const f=box.querySelector('.bvform'),b=box.querySelector('.bvopen');
+  const open=o.classList.contains('bvopen');f.hidden=!open;b.hidden=open;b.setAttribute('aria-expanded',open);box.querySelector('.bvmsg').textContent='';
+  if(open)f.querySelector('textarea').focus();else b.focus()});
+document.addEventListener('submit',async ev=>{const f=ev.target.closest('.bvform');if(!f)return;ev.preventDefault();
+  const e=EVMAP[pgid];if(!e)return;const msg=f.querySelector('.bvmsg'),btn=f.querySelector('[type=submit]'),tekst=f.tekst.value.trim();
+  if(f.website.value){msg.textContent='Bedankt!';return}
+  if(tekst.length<10){msg.textContent='Schrijf iets meer, zodat duidelijk is wat er anders moet.';f.tekst.focus();return}
+  btn.disabled=true;msg.textContent='Versturen…';
+  try{const r=await fetch(BV_URL,{method:'POST',headers:{'Content-Type':'application/json',apikey:BV_KEY,Authorization:'Bearer '+BV_KEY},
+      body:JSON.stringify({p_slug:EVSLUG[e.id]||'',p_onderwerp:e.t,p_soort:f.soort.value,p_tekst:tekst})});
+    if(!r.ok||!(await r.json()))throw 0;
+    f.closest('.bvbox').innerHTML='<h3>Bewerking voorstellen</h3><p class="bvi bvok">Dank je wel! Je voorstel is binnen en wordt bekeken.</p>'}
+  catch(_){msg.textContent='Versturen lukte niet. Probeer het later nog eens.';btn.disabled=false}});
 
 /* ---- alle pdf's van een eeuw in één zip (volgt de filters en de zoekopdracht) ---- */
 const zipList=i=>allOf(i).filter(e=>vis(e)&&DETAILS[e.t]);
