@@ -2658,6 +2658,16 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>`;
 
         const leeg = (cols, tekst) => `<tr><td colspan="${cols}"><div class="admin-empty"><p>${tekst}</p></div></td></tr>`;
+        const tl = bezoekData.tijdlijn || [];
+        const tlNaam = t => t.sleutel.replace(/-/g, ' ').replace(/^./, c => c.toUpperCase());
+        document.getElementById('bezoekTijdlijn').innerHTML = tl.length ? tl.map(t => `
+            <tr><td>${t.soort === 'onderwerp'
+                    ? `<a href="/tijdlijn/#${encodeURIComponent(t.sleutel)}/lees" target="_blank" rel="noopener">${escapeHtml(tlNaam(t))}</a>`
+                    : escapeHtml(tlNaam(t))}</td>
+                <td>${t.soort === 'onderwerp' ? 'Onderwerp' : 'Voorleesverhaal'}</td>
+                <td class="bz-num">${fmtGetal(t.aantal)}</td></tr>`).join('')
+            : leeg(3, 'Nog niets geopend in deze periode.');
+
         const paginas = bezoekData.paginas || [];
         document.getElementById('bezoekPaginas').innerHTML = paginas.length ? paginas.map(p => `
             <tr><td><a href="${escapeHtml(p.pad)}" target="_blank" rel="noopener">${escapeHtml(p.pad === '/' ? '/ (homepage)' : p.pad)}</a></td>
