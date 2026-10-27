@@ -40,6 +40,10 @@ verify_jwt = false
 [functions.nieuwsbrief-sync]
 verify_jwt = false
 
+# Idem: de database roept hem aan bij een nieuw tijdlijnvoorstel.
+[functions.tijdlijn-melding]
+verify_jwt = false
+
 # Wordt extern aangeroepen (keepalive), dus zonder JWT.
 [functions.send-keepalive-notification]
 verify_jwt = false
