@@ -256,7 +256,7 @@ $('#cols').addEventListener('click',ev=>{
   const ee=ev.target.closest('.ev');if(ee){openPanel(ee.dataset.id);return}
   const dot=ev.target.closest('button.dot');if(dot){const s=document.getElementById('s-'+dot.dataset.id);if(s){s.scrollIntoView({behavior:smooth(),block:'center'});flash(s)}return}
   const wb=ev.target.closest('.warbtn');if(wb){openWar(wb.dataset.w,true);return}
-  const zb=ev.target.closest('.zbtn');if(zb){saveZip(+zb.dataset.z);return}
+  const zb=ev.target.closest('.zbtn');if(zb){const i=+zb.dataset.z;saveZip(zipList(i),tileName(TILES[i]));return}
   const vb=ev.target.closest('.vbtn');if(vb){openVerhaal(vb.dataset.v);return}
   const card=ev.target.closest('.card');if(!card)return;const i=+card.dataset.i;
   if(!expanded[i]||ev.target.closest('.tog'))toggleCol(i);
@@ -606,15 +606,16 @@ document.addEventListener('submit',async ev=>{const f=ev.target.closest('.bvform
     f.closest('.bvbox').innerHTML='<h3>Bewerking voorstellen</h3><p class="bvi bvok">Dank je wel! Je voorstel is binnen en wordt bekeken.</p>'}
   catch(_){msg.textContent='Versturen lukte niet. Probeer het later nog eens.';btn.disabled=false}});
 
-/* ---- alle pdf's van een eeuw in één zip (volgt de filters en de zoekopdracht) ---- */
+/* ---- alle pdf's van een eeuw of een wereldoorlog in één zip (volgt de filters en de zoekopdracht) ---- */
 const zipList=i=>allOf(i).filter(e=>vis(e)&&DETAILS[e.t]);
+const zipWar=k=>WEV.filter(e=>e.war===k&&warShow[e.th]&&(!qMatch||qMatch.has(e.id))&&DETAILS[e.t]).sort((a,b)=>a.mi-b.mi);
 let zipBusy=false;
 function loadZipLib(){return window.JSZip?Promise.resolve():new Promise((res,rej)=>{const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';sc.onload=res;sc.onerror=rej;document.head.appendChild(sc)})}
 function zipToast(txt,frac){let t=$('#ztoast');if(!t){t=document.createElement('div');t.id='ztoast';t.setAttribute('role','status');t.innerHTML='<span></span><i><b></b></i>';document.body.appendChild(t)}
   t.hidden=false;t.querySelector('span').textContent=txt;t.querySelector('i').hidden=frac==null;t.querySelector('b').style.width=Math.round((frac||0)*100)+'%'}
 function zipDone(txt){zipToast(txt,null);setTimeout(()=>{const t=$('#ztoast');if(t&&!zipBusy)t.hidden=true},4000)}
-async function saveZip(i){
-  if(zipBusy)return;const L=zipList(i),naam=tileName(TILES[i]);if(!L.length)return;
+async function saveZip(L,naam){
+  if(zipBusy||!L.length)return;
   if(!window.jspdf){zipDone('De pdf-maker kon niet laden. Controleer de internetverbinding.');return}
   zipBusy=true;zipToast('Pdf’s van de '+naam+' voorbereiden…',0);
   try{await loadZipLib();const zip=new JSZip(),w=String(L.length).length;
@@ -684,7 +685,7 @@ function openWar(k,scroll){
   z.innerHTML=`<div class="wcard">
    <button class="tog wtog" id="wmin" aria-label="Klap de ${W0.n} in" title="Inklappen">−</button>
    <div class="whead"><div><span class="pill">20e eeuw · ${W0.r}</span><h2>${W0.n}</h2><p>${W0.sub}. Elke gebeurtenis vanuit meerdere kanten bekeken.</p></div>
-     <div class="btns">${VERHALEN[k]?`<button class="btn vwbtn" data-v="${k}" title="Voorleesverhaal (groep 5 t/m 8)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg><span>Voorleesverhaal</span></button>`:''}<button class="btn" id="wback">← 20e eeuw</button><button class="btn dk" id="wother">${k==='ww1'?'Tweede Wereldoorlog →':'← Eerste Wereldoorlog'}</button></div></div>
+     <div class="btns">${zipWar(k).length>1?`<button class="btn vwbtn zwbtn" title="Alle pdf's van de ${W0.n} downloaden, als zip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span>Alle pdf's (${zipWar(k).length})</span></button>`:''}${VERHALEN[k]?`<button class="btn vwbtn" data-v="${k}" title="Voorleesverhaal (groep 5 t/m 8)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg><span>Voorleesverhaal</span></button>`:''}<button class="btn" id="wback">← 20e eeuw</button><button class="btn dk" id="wother">${k==='ww1'?'Tweede Wereldoorlog →':'← Eerste Wereldoorlog'}</button></div></div>
    <div class="tchips" role="group" aria-label="Filter op front of thema">${Object.entries(THEMES).filter(([t])=>counts[t]).map(([t,v])=>`<button class="tchip" data-t="${t}" aria-pressed="${warShow[t]}" style="--c:var(${v.c})"><i></i>${v.n}<em>${counts[t]}</em></button>`).join('')}</div>
    <div class="wtl"><div class="wtlin" style="width:${width}px">
      <div class="wphrow">${ph}</div><div class="wyears">${yrs}</div>
@@ -693,7 +694,8 @@ function openWar(k,scroll){
    ${Object.keys(byYear).sort().map(y=>`<h3 class="yrh">${y}<small>${byYear[y].length} gebeurtenis${byYear[y].length===1?'':'sen'}</small></h3><div class="wgrid">${byYear[y].map(evHTML).join('')}</div>`).join('')||'<p class="empty" style="margin-top:24px">Geen gebeurtenissen in deze selectie.</p>'}
   </div>`;
   z.hidden=false;syncHash();
-  z.querySelector('.vwbtn')&&(z.querySelector('.vwbtn').onclick=()=>openVerhaal(k));
+  z.querySelector('.vwbtn[data-v]')&&(z.querySelector('.vwbtn[data-v]').onclick=()=>openVerhaal(k));
+  z.querySelector('.zwbtn')&&(z.querySelector('.zwbtn').onclick=()=>saveZip(zipWar(k),W0.n));
   $('#wback').onclick=()=>{closeWar();const i20=TILES.findIndex(t=>t.n===20);toggleCol(i20,true);$('#scroller').scrollIntoView({behavior:smooth(),block:'center'})};
   // min-knop: oorlog inklappen en terug naar de bovenste tijdbalk, bij de knop van deze oorlog
   $('#wmin').onclick=()=>{closeWar();const i20=TILES.findIndex(t=>t.n===20);showCol(i20);const b=document.querySelector(`.warbtn[data-w="${k}"]`);if(b){b.scrollIntoView({behavior:smooth(),block:'center'});b.focus({preventScroll:true})}else $('#scroller').scrollIntoView({behavior:smooth(),block:'center'})};
