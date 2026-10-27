@@ -565,6 +565,12 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;text-decorat
 .cbtns{display:flex;gap:8px;flex:none}
 .vbtn{flex:none;width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;border:0;cursor:pointer;padding:0}
 .vbtn:hover{filter:brightness(.95)}
+#ztoast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:50;width:max-content;max-width:calc(100vw - 32px);background:var(--ink);color:#fff;border-radius:16px;padding:12px 18px;font-weight:700;font-size:15px;box-shadow:0 12px 30px -10px rgba(31,36,48,.45);display:flex;flex-direction:column;gap:8px}
+#ztoast[hidden]{display:none}
+@media print{#ztoast{display:none!important}}
+#ztoast i{display:block;width:240px;max-width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,.25);overflow:hidden}
+#ztoast i[hidden]{display:none}
+#ztoast b{display:block;height:100%;background:#fff;border-radius:3px;transition:width .2s}
 .vbtn:focus-visible,.tog:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 .cat.vcat{--tt:#fff;--ti:var(--ink)}
 .cat.vconcept{--tt:var(--red-tint);--ti:var(--red-ink)}

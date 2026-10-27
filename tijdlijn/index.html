@@ -229,7 +229,7 @@ function colHTML(t,i){
   return `${tv}${pr}<div class="conn" style="background:${P.acc}"></div>
    <div class="card${open?' open':''}" data-i="${i}" ${open?'':'role="button" tabindex="0"'} aria-expanded="${open}" style="border-color:${open?P.acc:''};box-shadow:0 4px 0 ${open?P.bg:'var(--shadow)'}">
      <div class="ch"><div class="ct"><h3 class="ctitle">${esc(tileName(t))}</h3><span class="crange" style="background:${P.bg};color:${P.ink}">${esc(t.rng)}</span></div>
-       <div class="cbtns">${VERHALEN[t.id]?`<button class="vbtn" data-v="${t.id}" style="background:${P.bg};color:${P.ink}" aria-label="Voorleesverhaal bij ${esc(tileName(t))}, groep 5 t/m 8" title="Voorleesverhaal (groep 5 t/m 8)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></button>`:''}<button class="tog" aria-label="${open?'Vouw dicht':'Vouw open'}" tabindex="${open?0:-1}">${open?'−':'+'}</button></div></div>
+       <div class="cbtns">${open&&zipList(i).length>1?`<button class="vbtn zbtn" data-z="${i}" style="background:${P.bg};color:${P.ink}" aria-label="Alle pdf's van de ${esc(tileName(t))} downloaden (${zipList(i).length})" title="Alle pdf's downloaden (${zipList(i).length}, als zip)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></button>`:''}${VERHALEN[t.id]?`<button class="vbtn" data-v="${t.id}" style="background:${P.bg};color:${P.ink}" aria-label="Voorleesverhaal bij ${esc(tileName(t))}, groep 5 t/m 8" title="Voorleesverhaal (groep 5 t/m 8)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></button>`:''}<button class="tog" aria-label="${open?'Vouw dicht':'Vouw open'}" tabindex="${open?0:-1}">${open?'−':'+'}</button></div></div>
      ${dots}${body}
      <div class="cf"><span class="cnt">${evs.length===1?'1 gebeurtenis':evs.length+' gebeurtenissen'}</span>${lim?`<span class="lpill">${lim}× Limburg</span>`:''}</div>
    </div>`;
@@ -256,6 +256,7 @@ $('#cols').addEventListener('click',ev=>{
   const ee=ev.target.closest('.ev');if(ee){openPanel(ee.dataset.id);return}
   const dot=ev.target.closest('button.dot');if(dot){const s=document.getElementById('s-'+dot.dataset.id);if(s){s.scrollIntoView({behavior:smooth(),block:'center'});flash(s)}return}
   const wb=ev.target.closest('.warbtn');if(wb){openWar(wb.dataset.w,true);return}
+  const zb=ev.target.closest('.zbtn');if(zb){saveZip(+zb.dataset.z);return}
   const vb=ev.target.closest('.vbtn');if(vb){openVerhaal(vb.dataset.v);return}
   const card=ev.target.closest('.card');if(!card)return;const i=+card.dataset.i;
   if(!expanded[i]||ev.target.closest('.tog'))toggleCol(i);
@@ -574,6 +575,30 @@ async function savePdf(){
 }
 $('#pgpdf').onclick=savePdf;
 $('#pgprint').onclick=()=>window.print();
+
+/* ---- alle pdf's van een eeuw in één zip (volgt de filters en de zoekopdracht) ---- */
+const zipList=i=>allOf(i).filter(e=>vis(e)&&DETAILS[e.t]);
+let zipBusy=false;
+function loadZipLib(){return window.JSZip?Promise.resolve():new Promise((res,rej)=>{const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';sc.onload=res;sc.onerror=rej;document.head.appendChild(sc)})}
+function zipToast(txt,frac){let t=$('#ztoast');if(!t){t=document.createElement('div');t.id='ztoast';t.setAttribute('role','status');t.innerHTML='<span></span><i><b></b></i>';document.body.appendChild(t)}
+  t.hidden=false;t.querySelector('span').textContent=txt;t.querySelector('i').hidden=frac==null;t.querySelector('b').style.width=Math.round((frac||0)*100)+'%'}
+function zipDone(txt){zipToast(txt,null);setTimeout(()=>{const t=$('#ztoast');if(t&&!zipBusy)t.hidden=true},4000)}
+async function saveZip(i){
+  if(zipBusy)return;const L=zipList(i),naam=tileName(TILES[i]);if(!L.length)return;
+  if(!window.jspdf){zipDone('De pdf-maker kon niet laden. Controleer de internetverbinding.');return}
+  zipBusy=true;zipToast('Pdf’s van de '+naam+' voorbereiden…',0);
+  try{await loadZipLib();const zip=new JSZip(),w=String(L.length).length;
+    for(let k=0;k<L.length;k++){const e=L[k];zipToast(`Pdf ${k+1} van ${L.length} maken…`,k/L.length);await new Promise(r=>setTimeout(r));
+      const doc=await buildPdf(e,DETAILS[e.t]);
+      zip.file(String(k+1).padStart(w,'0')+' - '+pdfName(e).replace(/^Tijdlijn - /,''),doc.output('blob'))}
+    zipToast('Zip maken…',1);
+    const blob=await zip.generateAsync({type:'blob',compression:'STORE'});
+    const name=('Tijdlijn - '+naam).replace(/[\\/:*?"<>|]/g,'')+'.zip';
+    if(DL){await DL.save({filename:name,data:blob});zipDone(`${L.length} pdf’s opgeslagen`)}
+    else{const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);zipDone(`${L.length} pdf’s gedownload`)}}
+  catch(err){const c=err&&err.code;zipDone(c==='declined'?'Opslaan geannuleerd':c==='rate_limited'?'Er staat al een opslagvraag open.':'Downloaden lukte niet. Controleer de internetverbinding.')}
+  finally{zipBusy=false}
+}
 
 /* ---- afbeeldingen los downloaden of afdrukken (om op te hangen in de klas) ---- */
 function openImgs(){
