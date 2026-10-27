@@ -11,9 +11,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Meestertools - Topografie</title>
-    <link rel="stylesheet" href="../css/style.css?v=1.64.5">
-    <link rel="stylesheet" href="../css/instellingen.css?v=1.64.5">
-    <link rel="stylesheet" href="../css/topografie.css?v=1.64.5">
+    <link rel="stylesheet" href="../css/style.css?v=1.64.6">
+    <link rel="stylesheet" href="../css/instellingen.css?v=1.64.6">
+    <link rel="stylesheet" href="../css/topografie.css?v=1.64.6">
 </head>
 <body>
     <header id="app-header-slot"></header>
@@ -145,17 +145,49 @@
         </div>
     </div>
 
+    <!-- Afdrukken -->
+    <div class="topo-modal" id="topoPrintModal" hidden>
+        <div class="topo-modal-kaart breed" role="dialog" aria-modal="true" aria-labelledby="topoPrintTitel">
+            <button type="button" class="topo-modal-sluit" id="topoPrintSluit" aria-label="Sluiten">&times;</button>
+            <h3 id="topoPrintTitel">Afdrukken</h3>
+            <p id="topoPrintInfo">Maak van deze kaart een oefenblad of een toets op A4.</p>
+
+            <div class="topo-afdruk-opties">
+                <div class="topo-afdruk-optie">
+                    <h4>Oefenblad</h4>
+                    <p>Een ingevulde kaart en een blinde kaart, elk op een eigen blad.</p>
+                    <label><input type="checkbox" id="topoPrintOefenNaam" checked> Naamveld bovenaan</label>
+                    <button type="button" class="topo-knop" id="topoPrintOefen">Oefenblad afdrukken</button>
+                </div>
+                <div class="topo-afdruk-optie">
+                    <h4>Toets</h4>
+                    <p>Een blinde kaart met cijfers en letters, een naamveld en lijnen om de antwoorden op te schrijven.</p>
+                    <label><input type="radio" name="topoPrintLayout" value="naast" checked> Antwoordlijnen naast de kaart (1 blad, tot ongeveer 30 onderdelen)</label>
+                    <label><input type="radio" name="topoPrintLayout" value="achterkant"> Grote kaart, antwoordlijnen op de achterkant (2 bladen)</label>
+                    <label><input type="checkbox" id="topoPrintNakijk" checked> Nakijkblad voor mezelf erbij</label>
+                    <button type="button" class="topo-knop" id="topoPrintToets">Toets afdrukken</button>
+                </div>
+            </div>
+
+            <div class="topo-afspraak">
+                Op elke kaart dezelfde afspraak, net als in de atlas:<br>
+                <b>1, 2, 3</b> = plaatsen &middot; <b>A, B, C</b> = wateren (zee&euml;n, meren, rivieren) &middot; <b>a, b, c</b> = gebieden (provincies, eilanden, streken)
+            </div>
+        </div>
+    </div>
+
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.64.5"></script>
-    <script src="/js/template.js?v=1.64.5"></script>
+    <script src="/js/mt-shared.js?v=1.64.6"></script>
+    <script src="/js/template.js?v=1.64.6"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="../js/supabase-config.js?v=1.64.5"></script>
-    <script src="../js/app.js?v=1.64.5"></script>
-    <script src="../js/instellingen.js?v=1.64.5"></script>
+    <script src="../js/supabase-config.js?v=1.64.6"></script>
+    <script src="../js/app.js?v=1.64.6"></script>
+    <script src="../js/instellingen.js?v=1.64.6"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
-    <script src="../js/topografie-kaart.js?v=1.64.5"></script>
-    <script src="../js/topografie.js?v=1.64.5"></script>
-    <script src="/js/teller.js?v=1.64.5" defer></script>
+    <script src="../js/topografie-kaart.js?v=1.64.6"></script>
+    <script src="../js/topografie-print.js?v=1.64.6"></script>
+    <script src="../js/topografie.js?v=1.64.6"></script>
+    <script src="/js/teller.js?v=1.64.6" defer></script>
 </body>
 </html>

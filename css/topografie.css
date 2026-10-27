@@ -219,3 +219,49 @@
     .topo-bewerk .topo-kaart { height: 62vh; }
     .topo-paneel { max-height: none; overflow: visible; }
 }
+
+/* ============================================
+   Afdrukken (js/topografie-print.js)
+   ============================================ */
+.topo-afdruk-opties { display: flex; flex-direction: column; gap: 12px; text-align: left; margin-top: 14px; }
+.topo-afdruk-optie { border: 2px solid #ECEAF7; border-radius: 14px; padding: 14px 16px; }
+.topo-afdruk-optie h4 { font-size: 16px; color: var(--text-dark); margin-bottom: 4px; }
+.topo-afdruk-optie p { font-size: 13.5px; margin-bottom: 10px; }
+.topo-afdruk-optie label { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-dark); margin-bottom: 6px; cursor: pointer; }
+.topo-afdruk-optie .topo-knop { margin-top: 6px; }
+.topo-afspraak { font-size: 13px; background: #F8F7FF; border-radius: 12px; padding: 10px 12px; color: var(--text-medium); line-height: 1.6; text-align: left; margin-top: 12px; }
+.topo-afspraak b { color: var(--text-dark); }
+.topo-modal-kaart.breed { max-width: 560px; max-height: calc(100vh - 32px); overflow-y: auto; }
+
+.topo-print { display: none; }
+
+@media print {
+    @page { size: A4 portrait; margin: 12mm; }
+    body.topo-printen { background: #fff !important; padding: 0 !important; margin: 0 !important; }
+    body.topo-printen > *:not(.topo-print) { display: none !important; }
+    body.topo-printen .topo-print { display: block; }
+
+    .topo-print { font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; color: #111; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .tp-blad { break-after: page; page-break-after: always; }
+    .tp-blad:last-child { break-after: auto; page-break-after: auto; }
+
+    .tp-kop { display: flex; justify-content: space-between; align-items: flex-end; gap: 8mm; border-bottom: 0.4mm solid #111; padding-bottom: 2.5mm; margin-bottom: 3mm; }
+    .tp-titel { font-size: 15pt; font-weight: 800; }
+    .tp-sub { font-size: 9.5pt; color: #555; margin-top: 0.5mm; }
+    .tp-velden { display: flex; gap: 6mm; font-size: 11pt; font-weight: 600; white-space: nowrap; }
+    .tp-veld span { display: inline-block; width: 55mm; border-bottom: 0.3mm solid #111; margin-left: 1.5mm; }
+    .tp-veld.kort span { width: 12mm; }
+    .tp-legenda { font-size: 9pt; color: #333; margin-bottom: 3mm; }
+
+    .tp-kaart { display: block; width: 100%; height: auto; }
+    .tp-kaart-vol { width: 186mm; margin: 0 auto; }
+    .tp-naast { display: grid; grid-template-columns: 112mm 1fr; gap: 6mm; align-items: start; }
+
+    .tp-kolommen { columns: 2; column-gap: 10mm; }
+    .tp-groep { break-inside: avoid-column; margin-bottom: 4mm; }
+    .tp-groep-titel { font-size: 10pt; font-weight: 800; margin-bottom: 1mm; }
+    .tp-lijn { display: flex; align-items: flex-end; gap: 2.5mm; height: 8.5mm; break-inside: avoid; }
+    .tp-code { width: 8mm; font-size: 11pt; font-weight: 800; text-align: right; flex-shrink: 0; }
+    .tp-streep { flex: 1; border-bottom: 0.25mm solid #777; font-size: 11pt; padding-bottom: 0.6mm; min-height: 5mm; }
+    .tp-nakijk .tp-streep { border-bottom-color: #CCC; }
+}

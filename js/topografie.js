@@ -8,6 +8,7 @@
      vanzelf opgeslagen.
    - Delen: link + QR-code naar /topografie?k=CODE. Leerlingen oefenen
      daar zonder account (zie js/topografie-oefenen.js).
+   - Afdrukken: oefenblad of toets op A4 (zie js/topografie-print.js).
 
    Tabel: public.topografie_kaarten (alleen je eigen kaarten, via RLS).
    Basiskaart en item-ids: js/topografie-kaart.js en assets/topografie/.
@@ -78,6 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<div class="acties">' +
                 '<button type="button" class="topo-knop klein" data-actie="bewerk">Bewerken</button>' +
                 '<button type="button" class="topo-knop licht klein" data-actie="deel">Delen</button>' +
+                '<button type="button" class="topo-knop licht klein" data-actie="print">Afdrukken</button>' +
                 '<button type="button" class="topo-knop gevaar klein" data-actie="verwijder">Verwijderen</button>' +
                 '</div></div>';
         }).join('') + '</div>';
@@ -91,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!k) return;
         if (b.dataset.actie === 'bewerk') openKaart(k);
         else if (b.dataset.actie === 'deel') toonDelen(k);
+        else if (b.dataset.actie === 'print') toonAfdrukken(k);
         else if (b.dataset.actie === 'verwijder') verwijder(k);
     });
 
@@ -485,6 +488,44 @@ document.addEventListener('DOMContentLoaded', function () {
         var groot = modal.classList.toggle('is-groot');
         this.textContent = groot ? 'Kleiner' : 'Toon groot op het bord';
     });
+
+    // ---------- Afdrukken ----------
+    var printModal = $('topoPrintModal');
+    var printKaart = null;   // { titel, map, objs }
+
+    async function toonAfdrukken(k) {
+        var basis;
+        try { basis = await TopoKaart.laad(k.basis); } catch (e) {
+            alert('De kaart kon niet geladen worden. Probeer het opnieuw.');
+            return;
+        }
+        var objs = TopoKaart.resolveAll(basis, k.items || []);
+        printKaart = { titel: k.titel, map: basis, objs: objs };
+        $('topoPrintTitel').textContent = k.titel + ' afdrukken';
+        $('topoPrintInfo').textContent = objs.length
+            ? 'Maak van deze kaart een oefenblad of een toets op A4 (' + objs.length + (objs.length === 1 ? ' onderdeel).' : ' onderdelen).')
+            : 'Er staat nog niets op deze kaart. Kies eerst wat erop moet.';
+        $('topoPrintOefen').disabled = $('topoPrintToets').disabled = !objs.length;
+        printModal.hidden = false;
+    }
+
+    function drukAf(soort) {
+        if (!printKaart || !printKaart.objs.length) return;
+        var layout = (printModal.querySelector('input[name="topoPrintLayout"]:checked') || {}).value || 'naast';
+        var inhoud = TopoPrint.html(printKaart.map, printKaart.objs, printKaart.titel, soort, {
+            naam: $('topoPrintOefenNaam').checked,
+            layout: layout,
+            nakijk: $('topoPrintNakijk').checked
+        });
+        printModal.hidden = true;
+        TopoPrint.afdrukken(inhoud);
+    }
+
+    $('topoPrintOefen').addEventListener('click', function () { drukAf('oefenblad'); });
+    $('topoPrintToets').addEventListener('click', function () { drukAf('toets'); });
+    $('topoPrintSluit').addEventListener('click', function () { printModal.hidden = true; });
+    printModal.addEventListener('click', function (e) { if (e.target === printModal) printModal.hidden = true; });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !printModal.hidden) printModal.hidden = true; });
 
     // ---------- Start ----------
     (async function start() {
