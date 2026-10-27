@@ -12,6 +12,8 @@ import { fileURLToPath } from 'node:url';
 const DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = 'https://meestertools.nl/tijdlijn/';
 const MARK = '<!-- gemaakt door scripts/bouw-paginas.mjs -->';
+// Zelfde ?v= als scripts/set-version.js: de VERSION uit sw.js.
+const V = '?v=' + fs.readFileSync(path.join(DIR, 'sw.js'), 'utf8').match(/const VERSION = 'v(\d+)';/)[1];
 
 /* ---- gegevens inlezen, in dezelfde volgorde als index.html ---- */
 const ctx = {};
@@ -39,7 +41,7 @@ const credit = im => `<span class="credit">Foto: ${esc(im.by)} · ${im.licUrl ? 
 const figHTML = (im, k) => `<figure><div class="ph"><img src="${esc(im.src)}" alt="${esc(im.cap)}"${k ? ' loading="lazy"' : ''} referrerpolicy="no-referrer" onload="this.closest('figure').style.setProperty('--ar',(this.naturalWidth/this.naturalHeight).toFixed(3))" onerror="this.closest('figure').remove()"></div><figcaption>${esc(im.cap)}${credit(im)}</figcaption></figure>`;
 const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, '\\u003c')}</script>`;
 
-const MTBAR = `<nav class="mtbar px" aria-label="Meestertools"><a class="mtlogo" href="/" aria-label="Meestertools"><img src="/assets/badge-96.png" alt="" width="26" height="26"><b>Meestertools</b></a><span class="mtsub">Gratis tools voor in de klas</span><a class="mtgo" href="/">Bekijk alle tools →</a></nav><script src="js/mtbar.js"></script><script src="/js/teller.js" defer></script><script src="js/tlfooter.js"></script>`;
+const MTBAR = `<nav class="mtbar px" aria-label="Meestertools"><a class="mtlogo" href="/" aria-label="Meestertools"><img src="/assets/badge-96.png" alt="" width="26" height="26"><b>Meestertools</b></a><span class="mtsub">Gratis tools voor in de klas</span><a class="mtgo" href="/">Bekijk alle tools →</a></nav><script src="js/mtbar.js${V}"></script><script src="/js/teller.js" defer></script><script src="js/tlfooter.js${V}"></script>`;
 const FOOT = `<footer class="px tlfoot"><div class="tlfoot-rij"><span class="tlfoot-c">© 2026 <a href="/">Meestertools</a></span><nav class="tlfoot-nav" aria-label="Meer"><a href="onderwerpen">Alle onderwerpen</a><a href="/">Meestertools</a><a href="/privacy">Privacy</a></nav><details class="tlinfo"><summary aria-label="Over de bronnen en afbeeldingen" title="Over de bronnen en afbeeldingen"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6"/><circle cx="12" cy="7.6" r=".6" fill="currentColor"/></svg></summary><p>Basis: de 50 vensters van de <a href="https://www.canonvannederland.nl" target="_blank" rel="noopener">Canon van Nederland</a> (herijkt in 2020), aangevuld met andere gebeurtenissen, Limburgse geschiedenis en beide wereldoorlogen. Jaartallen in de prehistorie zijn benaderingen. Afbeeldingen via Wikimedia Commons, met hun eigen licenties; maker en bron staan bij elke afbeelding.</p></details></div></footer>`;
 const CTA = `<section class="spcta"><div><h3>Meer gratis tools voor in de klas</h3><p>Meestertools heeft tientallen gratis tools voor leerkrachten in het basisonderwijs: van digibordtools en energizers tot groepsvorming en lesmateriaal.</p></div><div class="btns"><a class="btn dk" href="/">Bekijk Meestertools</a><a class="btn" href="/registreer">Gratis account</a></div></section>`;
 
@@ -68,7 +70,7 @@ ${MARK}
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap">
-<link rel="stylesheet" href="tijdlijn.css">
+<link rel="stylesheet" href="tijdlijn.css${V}">
 ${extra}</head>
 `;
 }
