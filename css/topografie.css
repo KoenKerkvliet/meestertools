@@ -120,7 +120,8 @@
 .topo-knop.klein { padding: 6px 12px; font-size: 13px; border-radius: 8px; }
 .topo-knop:disabled { opacity: .5; cursor: not-allowed; }
 
-.topo-kaarten { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.topo-kaarten { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 640px) { .topo-kaarten { grid-template-columns: 1fr; } }
 .topo-kaartje {
     border: 2px solid #ECEAF7; border-radius: 16px; padding: 18px;
     display: flex; flex-direction: column; gap: 10px; background: #fff;
