@@ -11,9 +11,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Meestertools - Topografie</title>
-    <link rel="stylesheet" href="../css/style.css?v=1.64.6">
-    <link rel="stylesheet" href="../css/instellingen.css?v=1.64.6">
-    <link rel="stylesheet" href="../css/topografie.css?v=1.64.6">
+    <link rel="stylesheet" href="../css/style.css?v=1.64.7">
+    <link rel="stylesheet" href="../css/instellingen.css?v=1.64.7">
+    <link rel="stylesheet" href="../css/topografie.css?v=1.64.7">
 </head>
 <body>
     <header id="app-header-slot"></header>
@@ -55,22 +55,22 @@
 
                     <div class="topo-paneel">
                         <details class="topo-blok" open>
-                            <summary>Provincies <span class="teller" id="tellerP">0</span></summary>
+                            <summary><span id="topoTekstVlakken">Provincies</span> <span class="teller" id="tellerP">0</span></summary>
                             <div class="topo-blok-inhoud">
                                 <div class="topo-blok-acties">
-                                    <button type="button" class="topo-knop licht klein" data-alle="p">Alle 12</button>
+                                    <button type="button" class="topo-knop licht klein" data-alle="p" id="topoAlleP">Alle 12</button>
                                     <button type="button" class="topo-knop rand klein" data-geen="p">Geen</button>
                                 </div>
-                                <p class="topo-hint">Je kunt ook op een provincie in de kaart klikken.</p>
+                                <p class="topo-hint" id="topoTekstKlik">Je kunt ook op een provincie in de kaart klikken.</p>
                                 <div class="topo-chips" id="chipsP"></div>
                             </div>
                         </details>
 
                         <details class="topo-blok" open>
-                            <summary>Provinciehoofdsteden <span class="teller" id="tellerH">0</span></summary>
+                            <summary><span id="topoTekstHoofd">Provinciehoofdsteden</span> <span class="teller" id="tellerH">0</span></summary>
                             <div class="topo-blok-inhoud">
                                 <div class="topo-blok-acties">
-                                    <button type="button" class="topo-knop licht klein" data-alle="h">Alle 12</button>
+                                    <button type="button" class="topo-knop licht klein" data-alle="h" id="topoAlleH">Alle 12</button>
                                     <button type="button" class="topo-knop rand klein" data-geen="h">Geen</button>
                                 </div>
                                 <div class="topo-chips" id="chipsH"></div>
@@ -99,7 +99,7 @@
                         </details>
 
                         <details class="topo-blok">
-                            <summary>Wateren, eilanden en gebieden <span class="teller" id="tellerG">0</span></summary>
+                            <summary><span id="topoTekstGebieden">Wateren, eilanden en gebieden</span> <span class="teller" id="tellerG">0</span></summary>
                             <div class="topo-blok-inhoud" id="chipsG"></div>
                         </details>
 
@@ -145,6 +145,20 @@
         </div>
     </div>
 
+    <!-- Nieuwe kaart: welke basiskaart -->
+    <div class="topo-modal" id="topoNieuwModal" hidden>
+        <div class="topo-modal-kaart" role="dialog" aria-modal="true" aria-labelledby="topoNieuwTitel">
+            <button type="button" class="topo-modal-sluit" id="topoNieuwSluit" aria-label="Sluiten">&times;</button>
+            <h3 id="topoNieuwTitel">Nieuwe kaart</h3>
+            <p>Van welk gebied maak je een kaart?</p>
+            <div class="topo-basis-keuze">
+                <button type="button" class="topo-basis" data-basis="nederland"><span class="em">&#127475;&#127473;</span>Nederland<small>Provincies, plaatsen, wateren</small></button>
+                <button type="button" class="topo-basis" data-basis="europa"><span class="em">&#127466;&#127482;</span>Europa<small>Landen, hoofdsteden, zee&euml;n, gebergten</small></button>
+                <button type="button" class="topo-basis" disabled><span class="em">&#127758;</span>Wereld<small>Binnenkort</small></button>
+            </div>
+        </div>
+    </div>
+
     <!-- Afdrukken -->
     <div class="topo-modal" id="topoPrintModal" hidden>
         <div class="topo-modal-kaart breed" role="dialog" aria-modal="true" aria-labelledby="topoPrintTitel">
@@ -178,16 +192,16 @@
 
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.64.6"></script>
-    <script src="/js/template.js?v=1.64.6"></script>
+    <script src="/js/mt-shared.js?v=1.64.7"></script>
+    <script src="/js/template.js?v=1.64.7"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="../js/supabase-config.js?v=1.64.6"></script>
-    <script src="../js/app.js?v=1.64.6"></script>
-    <script src="../js/instellingen.js?v=1.64.6"></script>
+    <script src="../js/supabase-config.js?v=1.64.7"></script>
+    <script src="../js/app.js?v=1.64.7"></script>
+    <script src="../js/instellingen.js?v=1.64.7"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
-    <script src="../js/topografie-kaart.js?v=1.64.6"></script>
-    <script src="../js/topografie-print.js?v=1.64.6"></script>
-    <script src="../js/topografie.js?v=1.64.6"></script>
-    <script src="/js/teller.js?v=1.64.6" defer></script>
+    <script src="../js/topografie-kaart.js?v=1.64.7"></script>
+    <script src="../js/topografie-print.js?v=1.64.7"></script>
+    <script src="../js/topografie.js?v=1.64.7"></script>
+    <script src="/js/teller.js?v=1.64.7" defer></script>
 </body>
 </html>

@@ -38,6 +38,10 @@
                     return { id: a[0], naam: a[1], x: a[2], y: a[3], pop: a[4], prov: !!a[5], hs: !!a[6] };
                 });
                 d.plaatsen.forEach(function (s) { d.index.s[s.id] = s; });
+                // Nederland heeft provinciehoofdsteden, Europa landshoofdsteden
+                var metProv = d.plaatsen.some(function (s) { return s.prov; });
+                d.hoofdsteden = d.plaatsen.filter(function (s) { return metProv ? s.prov : s.hs; });
+                d.teksten = d.teksten || { vlakken: 'Provincies', vlak: 'provincie', hoofdsteden: 'Provinciehoofdsteden' };
                 return d;
             });
             cache[basis].catch(function () { delete cache[basis]; });
@@ -46,7 +50,7 @@
     }
 
     var SOORT_LABEL = {
-        provincie: 'Provincie', plaats: 'Plaats', hoofdstad: 'Hoofdstad',
+        provincie: 'Provincie', land: 'Land', plaats: 'Plaats', hoofdstad: 'Hoofdstad', gebergte: 'Gebergte',
         provhoofdstad: 'Provinciehoofdstad', rivier: 'Rivier', water: 'Water',
         eiland: 'Eiland', gebied: 'Gebied', eigen: 'Plek'
     };
@@ -58,7 +62,8 @@
         var key = item.t + ':' + item.id;
         if (item.t === 'p') {
             var p = map.index.p[item.id];
-            return p && { key: key, t: 'p', id: p.id, naam: p.naam, soort: 'provincie', vorm: 'vlak', d: p.d, lx: p.lx, ly: p.ly };
+            // 'p' is een vlak: een provincie, of op de Europakaart een land
+            return p && { key: key, t: 'p', id: p.id, naam: p.naam, soort: p.soort || 'provincie', vorm: 'vlak', d: p.d, lx: p.lx, ly: p.ly, stip: !!p.stip };
         }
         if (item.t === 'r') {
             var r = map.index.r[item.id];
@@ -82,6 +87,38 @@
 
     function resolveAll(map, items) {
         return (items || []).map(function (it) { return resolve(map, it); }).filter(Boolean);
+    }
+
+    // Uitsnede rond de items: { x, y, w, h } met wat marge, binnen de kaart.
+    // verhouding (h / w) is optioneel: dan wordt de uitsnede zo verbreed of
+    // verhoogd dat hij die verhouding krijgt. minDeel: nooit kleiner dan dit
+    // deel van de kaartbreedte, zodat er genoeg omgeving te zien blijft.
+    function uitsnede(map, objs, verhouding, minDeel) {
+        var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+        function neem(x, y) {
+            if (x < 0 || y < 0 || x > map.w || y > map.h) return;   // Siberië telt niet mee
+            x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y);
+        }
+        objs.forEach(function (o) {
+            if (o.vorm === 'punt') { neem(o.x, o.y); return; }
+            var m, re = /(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g;
+            while ((m = re.exec(o.d))) neem(+m[1], +m[2]);
+            neem(o.lx, o.ly);
+        });
+        if (x0 === Infinity) return { x: 0, y: 0, w: map.w, h: map.h };
+        var marge = Math.max(x1 - x0, y1 - y0) * 0.08 + map.w * 0.02;
+        x0 -= marge; y0 -= marge; x1 += marge; y1 += marge;
+        var w = Math.max(x1 - x0, map.w * (minDeel || 0)), h = y1 - y0;
+        var r = verhouding || h / w;
+        if (h / w < r) h = w * r; else w = h / r;
+        if (w > map.w) { w = map.w; h = w * r; }
+        if (h > map.h && !verhouding) { h = map.h; w = h / r; }
+        var cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+        var x = Math.max(0, Math.min(map.w - w, cx - w / 2));
+        var y = Math.max(0, Math.min(map.h - h, cy - h / 2));
+        if (w >= map.w) x = (map.w - w) / 2;
+        if (h >= map.h) y = (map.h - h) / 2;
+        return { x: x, y: y, w: w, h: h };
     }
 
     function el(tag, attrs, parent) {
@@ -111,6 +148,8 @@
         map.rivieren.forEach(function (r) { el('path', { d: r.d }, gRivBasis); });
 
         var gVlak = el('g', { 'class': 'topo-laag-vlak' }, svg);
+        // Meren boven de gekozen landen, anders verdwijnt het Meer van Genève onder Zwitserland
+        if (map.meren) el('path', { d: map.meren, 'class': 'topo-meer' }, svg);
         var gLijn = el('g', { 'class': 'topo-laag-lijn' }, svg);
         var gPunt = el('g', { 'class': 'topo-laag-punt' }, svg);
         var gLabel = el('g', { 'class': 'topo-laag-label' }, svg);
@@ -148,6 +187,7 @@
             objs.forEach(function (o) {
                 var n = nodes[o.key];
                 if (!n) return;
+                if (n.stip) n.stip.setAttribute('r', px(7));
                 if (o.vorm === 'punt') {
                     n.vis.setAttribute('r', px(o.groot ? 7 : 5.5));
                     n.hit.setAttribute('r', px(16));
@@ -178,6 +218,15 @@
             zetViewBox();
         }
 
+        // Inzoomen op de items van deze kaart (een kaart van West-Europa opent
+        // niet met heel Rusland in beeld). Klein verschil? Dan de hele kaart.
+        function passend() {
+            var u = uitsnede(map, objs, map.h / map.w, 0.3);
+            if (u.w > map.w * 0.85) { reset(); return; }
+            vb = u;
+            zetViewBox();
+        }
+
         // Scherm -> kaartcoördinaten (houdt rekening met preserveAspectRatio)
         function naarKaart(clientX, clientY) {
             var pt = svg.createSVGPoint();
@@ -189,7 +238,7 @@
         }
 
         function zoom(factor, cx, cy) {
-            var minW = map.w / 12, maxW = map.w;
+            var minW = map.w / 24, maxW = map.w;
             var nw = Math.max(minW, Math.min(maxW, vb.w / factor));
             var f = nw / vb.w;
             if (cx == null) { cx = vb.x + vb.w / 2; cy = vb.y + vb.h / 2; }
@@ -294,7 +343,11 @@
             objs.forEach(function (o) {
                 var n = { vorm: o.vorm };
                 if (o.vorm === 'vlak') {
-                    n.vis = n.hit = el('path', { d: o.d, 'class': 'topo-item topo-vlak', 'data-key': o.key }, gVlak);
+                    var gv = el('g', { 'class': 'topo-item topo-vlak', 'data-key': o.key }, gVlak);
+                    n.vis = n.hit = el('path', { d: o.d }, gv);
+                    // Dwergstaten: een rondje als herkenningsteken en klikdoel
+                    if (o.stip) n.stip = el('circle', { cx: o.lx, cy: o.ly, 'class': 'topo-vlak-stip' }, gv);
+                    n.groep = gv;
                 } else if (o.vorm === 'lijn') {
                     var g = el('g', { 'class': 'topo-item topo-lijn', 'data-key': o.key }, gLijn);
                     n.hit = el('path', { d: o.d, 'class': 'topo-hit' }, g);
@@ -378,6 +431,7 @@
             markeer: markeer,
             wisMarkeringen: wisMarkeringen,
             inBeeld: inBeeld,
+            passend: passend,
             dichtstbijPunt: dichtstbijPunt,
             reset: reset,
             setModus: function (m) { container.setAttribute('data-modus', m || ''); }
@@ -389,6 +443,7 @@
         resolve: resolve,
         resolveAll: resolveAll,
         maak: maak,
+        uitsnede: uitsnede,
         SOORT_LABEL: SOORT_LABEL
     };
 })(window);

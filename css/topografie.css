@@ -23,7 +23,10 @@
 
 /* Items */
 .topo-item { cursor: pointer; }
-.topo-vlak { fill: #FFE7A3; stroke: #C9A646; stroke-width: 1.4; vector-effect: non-scaling-stroke; transition: fill .15s; }
+.topo-vlak { fill: #FFE7A3; stroke: #C9A646; stroke-width: 1.4; transition: fill .15s; }
+.topo-vlak > * { vector-effect: non-scaling-stroke; }
+.topo-vlak-stip { fill-opacity: .85; stroke-width: 2; }
+.topo-meer { fill: #BFE0F2; stroke: #9CC6E4; stroke-width: .6; vector-effect: non-scaling-stroke; pointer-events: none; }
 .topo-vlak:hover { fill: #FFD966; }
 .topo-lijn .topo-hit { fill: none; stroke: transparent; stroke-linecap: round; }
 .topo-lijn-vis { fill: none; stroke: #2F86C9; stroke-linecap: round; stroke-linejoin: round; transition: stroke .15s; }
@@ -31,6 +34,7 @@
 .topo-punt .topo-hit { fill: transparent; }
 .topo-punt-vis { fill: #2D3436; stroke: #fff; stroke-width: 2; vector-effect: non-scaling-stroke; transition: fill .15s; }
 .topo-punt.soort-water .topo-punt-vis { fill: #1F78C1; }
+.topo-punt.soort-gebergte .topo-punt-vis { fill: #8B5A2B; }
 .topo-punt.soort-eiland .topo-punt-vis,
 .topo-punt.soort-gebied .topo-punt-vis { fill: #2E8B57; }
 .topo-punt.soort-eigen .topo-punt-vis { fill: #6C63FF; }
@@ -197,6 +201,19 @@
     border: none; background: none; color: var(--text-light); cursor: pointer; font-size: 18px; line-height: 1; padding: 0 2px;
 }
 .topo-gekozen-item button:hover { color: #C0392B; }
+
+/* Nieuwe kaart: basiskaart kiezen */
+.topo-basis-keuze { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
+.topo-basis {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    border: 2px solid #E6E3F5; background: #fff; border-radius: 16px; padding: 16px 8px;
+    font: inherit; font-size: 16px; font-weight: 800; color: var(--text-dark); cursor: pointer;
+}
+.topo-basis:hover:not(:disabled) { border-color: var(--primary); box-shadow: var(--shadow-sm); }
+.topo-basis:disabled { opacity: .45; cursor: not-allowed; }
+.topo-basis .em { font-size: 34px; line-height: 1; }
+.topo-basis small { font-size: 12px; font-weight: 600; color: var(--text-medium); line-height: 1.35; }
+@media (max-width: 520px) { .topo-basis-keuze { grid-template-columns: 1fr; } }
 
 /* Deel-venster */
 .topo-modal { position: fixed; inset: 0; background: rgba(30, 27, 60, .55); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }

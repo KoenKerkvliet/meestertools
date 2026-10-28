@@ -32,8 +32,16 @@ document.addEventListener('DOMContentLoaded', function () {
     var volgorde = [];          // keys in volgorde van toevoegen
     var eigenPunt = null;       // { x, y } tijdens het plaatsen van een eigen punt
     var eigenModus = false;
+    var viewBasis = '';         // voor welke basiskaart de weergave gemaakt is
     var opslaanTimer = null;
     var bezigMetOpslaan = false;
+
+    // Per basiskaart: naam en voorbeelden in de invoervelden
+    var BASIS = {
+        nederland: { naam: 'Nederland', titel: 'bijv. Provincies en hoofdsteden', zoek: 'bijv. Den Helder' },
+        europa: { naam: 'Europa', titel: 'bijv. Landen en hoofdsteden van Europa', zoek: 'bijv. Barcelona' }
+    };
+    function basisNaam(b) { return (BASIS[b] || {}).naam || b; }
 
     // ---------- Hulpjes ----------
     function key(it) { return it.t + ':' + it.id; }
@@ -74,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var n = (k.items || []).length;
             return '<div class="topo-kaartje" data-id="' + esc(k.id) + '">' +
                 '<h3>' + esc(k.titel) + '</h3>' +
-                '<div class="meta">Nederland &middot; ' + n + (n === 1 ? ' onderdeel' : ' onderdelen') +
+                '<div class="meta">' + esc(basisNaam(k.basis)) + ' &middot; ' + n + (n === 1 ? ' onderdeel' : ' onderdelen') +
                 ' &middot; ' + esc(datumTekst(k.updated_at)) + '</div>' +
                 '<div class="acties">' +
                 '<button type="button" class="topo-knop klein" data-actie="bewerk">Bewerken</button>' +
@@ -97,14 +105,24 @@ document.addEventListener('DOMContentLoaded', function () {
         else if (b.dataset.actie === 'verwijder') verwijder(k);
     });
 
-    $('topoNieuw').addEventListener('click', async function () {
-        this.disabled = true;
+    var nieuwModal = $('topoNieuwModal');
+    $('topoNieuw').addEventListener('click', function () { nieuwModal.hidden = false; });
+    $('topoNieuwSluit').addEventListener('click', function () { nieuwModal.hidden = true; });
+    nieuwModal.addEventListener('click', function (e) {
+        if (e.target === nieuwModal) { nieuwModal.hidden = true; return; }
+        var b = e.target.closest('[data-basis]');
+        if (b && !b.disabled) maakKaart(b.dataset.basis, b);
+    });
+
+    async function maakKaart(basis, knop) {
+        knop.disabled = true;
         var res = await supabase
             .from('topografie_kaarten')
-            .insert({ titel: 'Nieuwe kaart', basis: 'nederland', items: [] })
+            .insert({ titel: 'Nieuwe kaart', basis: basis, items: [] })
             .select('id, titel, basis, items, code, updated_at')
             .single();
-        this.disabled = false;
+        knop.disabled = false;
+        nieuwModal.hidden = true;
         if (res.error || !res.data) {
             alert('De kaart kon niet aangemaakt worden. Probeer het opnieuw.');
             return;
@@ -112,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
         kaarten.unshift(res.data);
         await openKaart(res.data);
         $('topoTitel').select();
-    });
+    }
 
     async function verwijder(k) {
         if (!confirm('"' + k.titel + '" verwijderen? De link werkt daarna niet meer voor je leerlingen.')) return;
@@ -146,10 +164,14 @@ document.addEventListener('DOMContentLoaded', function () {
             volgorde.push(key(it));
         });
 
-        if (!view) {
+        // Andere basiskaart dan de vorige keer: weergave opnieuw opbouwen
+        if (!view || viewBasis !== huidig.basis) {
             view = TopoKaart.maak($('topoKaart'), map, { onKlik: kaartKlik });
             view.toonLabels(true);
+            viewBasis = huidig.basis;
+            tip = null;
         }
+        zetTeksten();
         bouwChips();
         render();
     }
@@ -194,8 +216,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Chips ----------
     function hoofdsteden() {
-        return map.plaatsen.filter(function (s) { return s.prov; })
-            .sort(function (a, b) { return a.naam.localeCompare(b.naam, 'nl'); });
+        return map.hoofdsteden.slice().sort(function (a, b) { return a.naam.localeCompare(b.naam, 'nl'); });
+    }
+
+    function zetTeksten() {
+        var t = map.teksten, b = BASIS[huidig.basis] || {};
+        $('topoTekstVlakken').textContent = t.vlakken;
+        $('topoTekstKlik').textContent = 'Je kunt ook op een ' + t.vlak + ' in de kaart klikken.';
+        $('topoTekstHoofd').textContent = t.hoofdsteden;
+        $('topoAlleP').textContent = 'Alle ' + map.provincies.length;
+        $('topoAlleH').textContent = 'Alle ' + map.hoofdsteden.length;
+        $('topoTekstGebieden').textContent = huidig.basis === 'nederland' ? 'Wateren, eilanden en gebieden' : 'Wateren, gebergten en eilanden';
+        $('topoTitel').placeholder = 'Naam van de kaart, ' + (b.titel || '');
+        $('topoZoek').placeholder = 'Zoek een plaats, ' + (b.zoek || '');
     }
 
     function chipHtml(t, id, naam) {
@@ -206,10 +239,13 @@ document.addEventListener('DOMContentLoaded', function () {
         $('chipsP').innerHTML = map.provincies.map(function (p) { return chipHtml('p', p.id, p.naam); }).join('');
         $('chipsH').innerHTML = hoofdsteden().map(function (s) { return chipHtml('s', s.id, s.naam); }).join('');
         $('chipsR').innerHTML = map.rivieren.map(function (r) { return chipHtml('r', r.id, r.naam); }).join('');
-        var groepen = [['water', 'Water'], ['eiland', 'Waddeneilanden'], ['gebied', 'Gebieden en streken']];
+        var nl = huidig.basis === 'nederland';
+        var groepen = [['water', 'Water'], ['gebergte', 'Gebergten'], ['eiland', nl ? 'Waddeneilanden' : 'Eilanden'],
+            ['gebied', nl ? 'Gebieden en streken' : 'Schiereilanden en gebieden']];
         $('chipsG').innerHTML = groepen.map(function (g) {
             var lijst = map.gebieden.filter(function (x) { return x.soort === g[0]; })
                 .sort(function (a, b) { return a.naam.localeCompare(b.naam, 'nl'); });
+            if (!lijst.length) return '';
             return '<div class="topo-chip-groep">' + g[1] + '</div><div class="topo-chips">' +
                 lijst.map(function (x) { return chipHtml('g', x.id, x.naam); }).join('') + '</div>';
         }).join('');
@@ -359,9 +395,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         var tel = { p: 0, h: 0, s: 0, r: 0, g: 0, e: 0 };
+        var hoofdIds = {};
+        map.hoofdsteden.forEach(function (s) { hoofdIds[s.id] = 1; });
         objs.forEach(function (o) {
             if (o.key === 'nieuw') return;
-            if (o.t === 's' && o.soort === 'provhoofdstad') tel.h++;
+            if (o.t === 's' && hoofdIds[o.id]) tel.h++;
             else tel[o.t]++;
         });
         $('tellerP').textContent = tel.p;
@@ -506,6 +544,9 @@ document.addEventListener('DOMContentLoaded', function () {
             ? 'Maak van deze kaart een oefenblad of een toets op A4 (' + objs.length + (objs.length === 1 ? ' onderdeel).' : ' onderdelen).')
             : 'Er staat nog niets op deze kaart. Kies eerst wat erop moet.';
         $('topoPrintOefen').disabled = $('topoPrintToets').disabled = !objs.length;
+        // Europa naast de antwoordlijnen wordt te klein: daar standaard de grote kaart
+        var layout = k.basis === 'nederland' ? 'naast' : 'achterkant';
+        printModal.querySelector('input[name="topoPrintLayout"][value="' + layout + '"]').checked = true;
         printModal.hidden = false;
     }
 

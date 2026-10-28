@@ -135,8 +135,17 @@
     // ---------- Kaart als SVG ----------
     // stand: 'namen' (ingevuld), 'blind' (alleen markeringen), 'codes' (toets)
     // breedteMm: hoe breed de kaart op papier wordt, voor de lettergrootte
-    function svg(map, objs, stand, codeMap, breedteMm) {
-        var u = 1000 / breedteMm * (map.w / 1000);   // kaarteenheden per mm
+    // maxHoogteMm: hoe hoog de kaart op het blad mag worden
+    function svg(map, objs, stand, codeMap, breedteMm, maxHoogteMm) {
+        // Alleen het gebied rond de gekozen onderdelen, zodat een kaart van
+        // West-Europa niet piepklein in de hoek van heel Europa staat
+        var vb = TopoKaart.uitsnede(map, objs, null, 0.3);
+        if (vb.h / vb.w * breedteMm > maxHoogteMm) {
+            var w = vb.h * breedteMm / maxHoogteMm;
+            vb.x -= (w - vb.w) / 2;
+            vb.w = w;
+        }
+        var u = vb.w / breedteMm;   // kaarteenheden per mm
         var fsNaam = 2.5 * u, fsCode = 3 * u, rPunt = 0.9 * u, rCode = 2.2 * u;
         var halo = ' stroke="#fff" stroke-width="' + (0.8 * u).toFixed(1) + '" paint-order="stroke" stroke-linejoin="round"';
         var plek = plekken(map, objs, function (o) {
@@ -145,18 +154,22 @@
             return { tekst: '', fs: rPunt * 2 };
         }, rPunt, 0.6 * u);
         var h = [];
-        h.push('<svg class="tp-kaart" viewBox="0 0 ' + map.w + ' ' + map.h + '" xmlns="http://www.w3.org/2000/svg">');
-        h.push('<rect x="-500" y="-500" width="' + (map.w + 1000) + '" height="' + (map.h + 1000) + '" fill="#E6F2FA"/>');
+        h.push('<svg class="tp-kaart" viewBox="' + [vb.x, vb.y, vb.w, vb.h].map(function (n) { return n.toFixed(1); }).join(' ') + '" xmlns="http://www.w3.org/2000/svg">');
+        h.push('<rect x="-1000" y="-1000" width="' + (map.w + 2000) + '" height="' + (map.h + 2000) + '" fill="#E6F2FA"/>');
         h.push('<path d="' + map.buurlanden + '" fill="#F2F2F2" stroke="#BBB" stroke-width="' + (0.15 * u).toFixed(1) + '"/>');
         map.provincies.forEach(function (p) {
             h.push('<path d="' + p.d + '" fill="#FFFFFF" stroke="#999" stroke-width="' + (0.18 * u).toFixed(1) + '"/>');
         });
+        if (map.meren) h.push('<path d="' + map.meren + '" fill="#E6F2FA" stroke="#9CC6E4" stroke-width="' + (0.15 * u).toFixed(1) + '"/>');
         h.push('<g fill="none" stroke="#9CC6E4" stroke-width="' + (0.3 * u).toFixed(1) + '" stroke-linecap="round">');
         map.rivieren.forEach(function (r) { h.push('<path d="' + r.d + '"/>'); });
         h.push('</g>');
 
         objs.forEach(function (o) {
-            if (o.vorm === 'vlak') h.push('<path d="' + o.d + '" fill="#FFF0BF" stroke="#8A7A40" stroke-width="' + (0.3 * u).toFixed(1) + '"/>');
+            if (o.vorm !== 'vlak') return;
+            h.push('<path d="' + o.d + '" fill="#FFF0BF" stroke="#8A7A40" stroke-width="' + (0.3 * u).toFixed(1) + '"/>');
+            // Dwergstaten zijn op papier te klein: een rondje eromheen
+            if (o.stip) h.push('<circle cx="' + o.lx + '" cy="' + o.ly + '" r="' + (1.2 * u).toFixed(1) + '" fill="none" stroke="#8A7A40" stroke-width="' + (0.3 * u).toFixed(1) + '"/>');
         });
         objs.forEach(function (o) {
             if (o.vorm === 'lijn') h.push('<path d="' + o.d + '" fill="none" stroke="#2F86C9" stroke-width="' + (0.75 * u).toFixed(1) + '" stroke-linecap="round" stroke-linejoin="round"/>');
@@ -226,9 +239,9 @@
         var bladen = [];
         if (soort === 'oefenblad') {
             bladen.push('<section class="tp-blad">' + kop(titel, 'Oefenblad · ingevulde kaart', opties) +
-                '<div class="tp-kaart-vol">' + svg(map, objs, 'namen', null, 186) + '</div></section>');
+                '<div class="tp-kaart-vol">' + svg(map, objs, 'namen', null, 186, 228) + '</div></section>');
             bladen.push('<section class="tp-blad">' + kop(titel, 'Oefenblad · blinde kaart', opties) +
-                '<div class="tp-kaart-vol">' + svg(map, objs, 'blind', null, 186) + '</div></section>');
+                '<div class="tp-kaart-vol">' + svg(map, objs, 'blind', null, 186, 228) + '</div></section>');
         } else {
             var c = codes(objs);
             var kopOpties = { naam: true, score: objs.length };
@@ -239,11 +252,11 @@
             var lijnMm = Math.min(8.5, (235 - groepen * 8) / objs.length);
             if (opties.layout === 'naast' && lijnMm >= 6.5) {
                 bladen.push('<section class="tp-blad">' + kop(titel, 'Toets topografie', kopOpties) + LEGENDA +
-                    '<div class="tp-naast"><div class="tp-kaart-smal">' + svg(map, objs, 'codes', c.code, 112) + '</div>' +
+                    '<div class="tp-naast"><div class="tp-kaart-smal">' + svg(map, objs, 'codes', c.code, 112, 228) + '</div>' +
                     '<div class="tp-lijnen">' + lijnen(c, false, lijnMm) + '</div></div></section>');
             } else {
                 bladen.push('<section class="tp-blad">' + kop(titel, 'Toets topografie', kopOpties) + LEGENDA +
-                    '<div class="tp-kaart-vol">' + svg(map, objs, 'codes', c.code, 186) + '</div></section>');
+                    '<div class="tp-kaart-vol">' + svg(map, objs, 'codes', c.code, 186, 222) + '</div></section>');
                 bladen.push('<section class="tp-blad">' + kop(titel, 'Toets topografie · antwoorden', { naam: true }) +
                     '<div class="tp-lijnen tp-kolommen">' + lijnen(c, false) + '</div></section>');
             }

@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!view) view = TopoKaart.maak($('toKaart'), map, { onKlik: kaartKlik });
         view.setItems(objs);
         view.wisMarkeringen();
-        view.reset();
+        view.passend();
     }
 
     function start(m, lijst) {
@@ -158,11 +158,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // ---------- Vragen ----------
     var WAAR = { rivier: 'Waar stroomt de ', vlak: 'Waar ligt ' };
     var HOE = {
-        provincie: 'Hoe heet deze provincie?', plaats: 'Hoe heet deze plaats?', hoofdstad: 'Hoe heet deze plaats?',
+        provincie: 'Hoe heet deze provincie?', land: 'Hoe heet dit land?', gebergte: 'Hoe heet dit gebergte?', plaats: 'Hoe heet deze plaats?', hoofdstad: 'Hoe heet deze plaats?',
         provhoofdstad: 'Hoe heet deze plaats?', rivier: 'Hoe heet deze rivier?', water: 'Hoe heet dit water?',
         eiland: 'Hoe heet dit eiland?', gebied: 'Hoe heet dit gebied?', eigen: 'Hoe heet deze plek?'
     };
-    var GROEP = { provincie: 'p', rivier: 'r', water: 'w', eiland: 'g', gebied: 'g' };
+    var GROEP = { provincie: 'p', land: 'p', rivier: 'r', water: 'w', eiland: 'g', gebied: 'g', gebergte: 'b' };
     function groep(o) { return GROEP[o.soort] || 'plaats'; }
 
     function teller() {
@@ -178,7 +178,11 @@ document.addEventListener('DOMContentLoaded', function () {
         var soort = TopoKaart.SOORT_LABEL[huidige.soort] || '';
 
         if (modus === 'aanwijzen') {
-            var tekst = (huidige.soort === 'rivier' ? WAAR.rivier : WAAR.vlak) + huidige.naam + '?';
+            // "Waar ligt Noordzee?" of "Waar ligt Alpen?" loopt niet (de, het):
+            // bij wateren, gebergten en gebieden een kale opdracht
+            var kaal = huidige.soort === 'water' || huidige.soort === 'gebergte' || huidige.soort === 'gebied';
+            var tekst = kaal ? 'Wijs aan: ' + huidige.naam
+                : (huidige.soort === 'rivier' ? WAAR.rivier : WAAR.vlak) + huidige.naam + '?';
             $('toVraag').innerHTML = '<span class="soort">' + esc(soort) + '</span><div class="tekst">' + esc(tekst) + '</div>';
             $('toKeuzes').innerHTML = '';
             view.setModus(huidige.vorm === 'vlak' ? 'vlak' : '');
