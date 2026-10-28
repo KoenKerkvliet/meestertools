@@ -42,7 +42,9 @@ document.addEventListener('DOMContentLoaded', function () {
         europa: { naam: 'Europa', titel: 'bijv. Landen en hoofdsteden van Europa', zoek: 'bijv. Barcelona' },
         wereld: { naam: 'Wereld', titel: 'bijv. Werelddelen en oceanen', zoek: 'bijv. New York' },
         noordamerika: { naam: 'Noord-Amerika', titel: 'bijv. Landen van Midden-Amerika', zoek: 'bijv. Chicago' },
-        zuidamerika: { naam: 'Zuid-Amerika', titel: 'bijv. Landen en hoofdsteden van Zuid-Amerika', zoek: 'bijv. Rio de Janeiro' }
+        zuidamerika: { naam: 'Zuid-Amerika', titel: 'bijv. Landen en hoofdsteden van Zuid-Amerika', zoek: 'bijv. Rio de Janeiro' },
+        afrika: { naam: 'Afrika', titel: 'bijv. Landen van Afrika', zoek: 'bijv. Lagos' },
+        azie: { naam: 'Azië', titel: 'bijv. Landen en hoofdsteden van Azië', zoek: 'bijv. Shanghai' }
     };
     function basisNaam(b) { return (BASIS[b] || {}).naam || b; }
 

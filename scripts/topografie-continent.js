@@ -2,7 +2,8 @@
 /* ============================================
    MEESTERTOOLS - Topografie: basiskaarten van werelddelen bouwen
 
-   Maakt assets/topografie/noordamerika.json en zuidamerika.json, in dezelfde
+   Maakt assets/topografie/<werelddeel>.json (noordamerika, zuidamerika,
+   afrika, azie), in dezelfde
    vorm als europa.json (landen in het veld 'provincies' met soort 'land').
    Per werelddeel staat hieronder een blok instellingen; een nieuw werelddeel
    is een nieuw blok.
@@ -10,9 +11,9 @@
    Bronnen: dezelfde Natural Earth-bestanden als scripts/topografie-europa.js
    (ne_countries, ne_rivers, ne_lakes, ne_places), in een eigen map:
 
-     node scripts/topografie-continent.js <map-met-bronnen> [noordamerika|zuidamerika]
+     node scripts/topografie-continent.js <map-met-bronnen> [werelddeel]
 
-   Zonder tweede argument worden ze allebei gebouwd.
+   Zonder tweede argument worden ze allemaal gebouwd.
 
    Ids van kaart-items mogen nooit veranderen: opgeslagen kaarten van
    leerkrachten verwijzen ernaar.
@@ -151,8 +152,135 @@ const WERELDDELEN = {
             ['e-galapagoseilanden', 'Galápagoseilanden', 'eiland', -90.5, -0.6],
             ['e-chiloe', 'Chiloé', 'eiland', -73.9, -42.6]
         ]
+    },
+    afrika: {
+        naam: 'Afrika',
+        midden: [18, 2],
+        rand: [[-17.6, 14.7], [-25.4, 16.9], [-17, 28], [-6, 36], [10.5, 37.6], [32, 31.8], [36, 30], [51.5, 11.8],
+            [57.8, -20.3], [55.7, -4.4], [20, -35.2], [17.5, -33], [44, -25.5]],
+        landen: 'DZA AGO BEN BWA BFA BDI CMR CPV CAF TCD COM COD COG CIV DJI EGY GNQ ERI SWZ ETH GAB GMB GHA GIN GNB ' +
+            'KEN LSO LBR LBY MDG MWI MLI MRT MUS MAR MOZ NAM NER NGA RWA STP SEN SYC SLE SOM ZAF SDS SDN TZA TGO TUN UGA ' +
+            'ZMB ZWE SAH',
+        landNaam: { SWZ: 'Eswatini', SDS: 'Zuid-Soedan' },
+        minInwoners: 1000000,
+        rivieren: {
+            Nile: 'Nijl', 'Bahr el Jebel': 'Nijl', 'El Bahr el Abyad': 'Nijl', 'Victoria Nile': 'Nijl', 'Albert Nile': 'Nijl',
+            'Rosetta Branch': 'Nijl', 'Damietta Branch': 'Nijl', 'El Bahr el Azraq': 'Blauwe Nijl', Abay: 'Blauwe Nijl',
+            Congo: 'Kongo', Lualaba: 'Kongo', Niger: 'Niger', Zambezi: 'Zambezi', Orange: 'Oranjerivier',
+            Limpopo: 'Limpopo', 'Sénégal': 'Senegal', Ubangi: 'Ubangi', Okavango: 'Okavango', Volta: 'Volta',
+            Benue: 'Benue', 'Bénoué': 'Benue', Kasai: 'Kasai'
+        },
+        rivierGebied: { Niger: [-12, 10, 3, 18], Volta: [-3, 1, 5, 12] },
+        gebieden: [
+            ['w-atlantische-oceaan', 'Atlantische Oceaan', 'water', -18, -2],
+            ['w-indische-oceaan', 'Indische Oceaan', 'water', 52, -12],
+            ['w-middellandse-zee', 'Middellandse Zee', 'water', 18, 34.6],
+            ['w-rode-zee', 'Rode Zee', 'water', 38, 21],
+            ['w-golf-van-aden', 'Golf van Aden', 'water', 48, 12.5],
+            ['w-golf-van-guinee', 'Golf van Guinee', 'water', 2, 2],
+            ['w-kanaal-van-mozambique', 'Kanaal van Mozambique', 'water', 41, -18],
+            ['w-suezkanaal', 'Suezkanaal', 'water', 32.35, 30.5],
+            ['w-straat-van-gibraltar', 'Straat van Gibraltar', 'water', -5.6, 35.95],
+            ['w-victoriameer', 'Victoriameer', 'water', 33, -1],
+            ['w-tanganyikameer', 'Tanganyikameer', 'water', 29.5, -6],
+            ['w-malawimeer', 'Malawimeer', 'water', 34.5, -12],
+            ['w-tsjaadmeer', 'Tsjaadmeer', 'water', 14, 13.3],
+            ['w-voltameer', 'Voltameer', 'water', -0.2, 7.5],
+            ['w-nassermeer', 'Nassermeer', 'water', 32.6, 22.8],
+            ['a-atlasgebergte', 'Atlasgebergte', 'gebergte', -4, 32],
+            ['a-drakensbergen', 'Drakensbergen', 'gebergte', 29.5, -29.5],
+            ['a-ethiopisch-hoogland', 'Ethiopisch Hoogland', 'gebergte', 39, 10],
+            ['a-kilimanjaro', 'Kilimanjaro', 'gebergte', 37.35, -3.07],
+            ['g-sahara', 'Sahara', 'gebied', 10, 23],
+            ['g-sahel', 'Sahel', 'gebied', 5, 15],
+            ['g-kalahari', 'Kalahari', 'gebied', 22, -23],
+            ['g-namibwoestijn', 'Namibwoestijn', 'gebied', 15, -24],
+            ['g-kongobekken', 'Kongobekken', 'gebied', 21, -1],
+            ['g-serengeti', 'Serengeti', 'gebied', 34.8, -2.3],
+            ['g-hoorn-van-afrika', 'Hoorn van Afrika', 'gebied', 46, 8],
+            ['g-okavangodelta', 'Okavangodelta', 'gebied', 22.8, -19.3],
+            ['g-victoriawatervallen', 'Victoriawatervallen', 'gebied', 25.86, -17.92],
+            ['g-kaap-de-goede-hoop', 'Kaap de Goede Hoop', 'gebied', 18.47, -34.36],
+            ['e-canarische-eilanden', 'Canarische Eilanden', 'eiland', -15.5, 28.3],
+            ['e-zanzibar', 'Zanzibar', 'eiland', 39.3, -6.1],
+            ['e-reunion', 'Réunion', 'eiland', 55.5, -21.1]
+        ]
+    },
+    azie: {
+        naam: 'Azië',
+        midden: [95, 40],
+        rand: [[26, 40], [34, 29.5], [35, 18], [43, 12.5], [158, 20], [59, 22], [73, 4], [95, -11], [125, -10.5], [141, -9.5],
+            [146, 44], [163, 56], [175, 66], [140, 75], [105, 78], [70, 76], [50, 68]],
+        landen: 'AFG ARE ARM AZE BGD BHR BRN BTN CHN CYP GEO IDN IND IRN IRQ ISR JOR JPN KAZ KGZ KHM KOR KWT LAO ' +
+            'LBN LKA MDV MMR MNG MYS NPL OMN PAK PHL PRK PSX QAT RUS SAU SGP SYR THA TJK TKM TLS TUR TWN UZB VNM YEM',
+        landNaam: { CHN: 'China' },
+        minInwoners: 3000000,
+        rivieren: {
+            'Chang Jiang': 'Jangtsekiang', Yangtze: 'Jangtsekiang', Jinsha: 'Jangtsekiang', Tongtian: 'Jangtsekiang', Tuotuo: 'Jangtsekiang',
+            Huang: 'Gele Rivier', Ganges: 'Ganges', Brahmaputra: 'Brahmaputra', Yarlung: 'Brahmaputra', Dihang: 'Brahmaputra',
+            Indus: 'Indus', Mekong: 'Mekong', Lancang: 'Mekong', Euphrates: 'Eufraat', Firat: 'Eufraat', 'Al Furat': 'Eufraat',
+            Tigris: 'Tigris', Dicle: 'Tigris', Ob: 'Ob', Irtysh: 'Irtysj', Ertis: 'Irtysj', Ertix: 'Irtysj',
+            Yenisey: 'Jenisej', Lena: 'Lena', Amur: 'Amoer', 'Heilong Jiang': 'Amoer', Irrawaddy: 'Irrawaddy',
+            'Amu Darya': 'Amu Darja', 'Syr Darya': 'Syr Darja', Volga: 'Wolga'
+        },
+        gebieden: [
+            ['w-stille-oceaan', 'Stille Oceaan', 'water', 155, 22],
+            ['w-indische-oceaan', 'Indische Oceaan', 'water', 80, -5],
+            ['w-noordelijke-ijszee', 'Noordelijke IJszee', 'water', 120, 76.5],
+            ['w-arabische-zee', 'Arabische Zee', 'water', 64, 15],
+            ['w-golf-van-bengalen', 'Golf van Bengalen', 'water', 88, 15],
+            ['w-perzische-golf', 'Perzische Golf', 'water', 51, 27],
+            ['w-rode-zee', 'Rode Zee', 'water', 38.5, 20.5],
+            ['w-zuid-chinese-zee', 'Zuid-Chinese Zee', 'water', 114, 13],
+            ['w-oost-chinese-zee', 'Oost-Chinese Zee', 'water', 126, 29],
+            ['w-gele-zee', 'Gele Zee', 'water', 123, 36],
+            ['w-japanse-zee', 'Japanse Zee', 'water', 135, 40],
+            ['w-zee-van-ochotsk', 'Zee van Ochotsk', 'water', 150, 55],
+            ['w-zwarte-zee', 'Zwarte Zee', 'water', 34, 43.3],
+            ['w-kaspische-zee', 'Kaspische Zee', 'water', 50.5, 42],
+            ['w-aralmeer', 'Aralmeer', 'water', 59.5, 45.5],
+            ['w-baikalmeer', 'Baikalmeer', 'water', 108, 53.5],
+            ['w-balkasjmeer', 'Balkasjmeer', 'water', 75, 46.5],
+            ['w-dode-zee', 'Dode Zee', 'water', 35.5, 31.5],
+            ['w-straat-van-malakka', 'Straat Malakka', 'water', 100.5, 3.5],
+            ['w-straat-van-hormuz', 'Straat van Hormuz', 'water', 56.3, 26.6],
+            ['w-bosporus', 'Bosporus', 'water', 29.05, 41.12],
+            ['a-himalaya', 'Himalaya', 'gebergte', 84, 28.5],
+            ['a-mount-everest', 'Mount Everest', 'gebergte', 86.93, 27.99],
+            ['a-hindoekoesj', 'Hindoekoesj', 'gebergte', 70, 35.5],
+            ['a-tiensjan', 'Tiensjan', 'gebergte', 80, 42],
+            ['a-altaj', 'Altaj', 'gebergte', 88, 49.5],
+            ['a-oeralgebergte', 'Oeralgebergte', 'gebergte', 59.3, 59],
+            ['a-kaukasus', 'Kaukasus', 'gebergte', 44, 42.8],
+            ['a-zagrosgebergte', 'Zagrosgebergte', 'gebergte', 48, 32.5],
+            ['g-siberie', 'Siberië', 'gebied', 100, 62],
+            ['g-gobiwoestijn', 'Gobiwoestijn', 'gebied', 105, 43],
+            ['g-taklamakan', 'Taklamakanwoestijn', 'gebied', 83, 39],
+            ['g-tibet', 'Hoogvlakte van Tibet', 'gebied', 88, 32.5],
+            ['g-arabisch-schiereiland', 'Arabisch Schiereiland', 'gebied', 46, 23],
+            ['g-dekan', 'Dekan', 'gebied', 77.5, 17],
+            ['g-indochina', 'Indochina', 'gebied', 104, 15],
+            ['g-kamtsjatka', 'Kamtsjatka', 'gebied', 159, 56],
+            ['g-mesopotamie', 'Mesopotamië', 'gebied', 44, 33.5],
+            ['e-borneo', 'Borneo', 'eiland', 114, 0.5],
+            ['e-sumatra', 'Sumatra', 'eiland', 101.5, -0.5],
+            ['e-java', 'Java', 'eiland', 110, -7.4],
+            ['e-sulawesi', 'Sulawesi', 'eiland', 121, -2],
+            ['e-bali', 'Bali', 'eiland', 115.1, -8.4],
+            ['e-nieuw-guinea', 'Nieuw-Guinea', 'eiland', 138, -4.5],
+            ['e-sachalin', 'Sachalin', 'eiland', 143, 50],
+            ['e-hainan', 'Hainan', 'eiland', 109.8, 19.2]
+        ]
     }
 };
+
+// Stukken die bij het land eromheen horen: verpacht (Guantánamo Bay,
+// Bajkonoer), afgescheiden maar niet erkend (Somaliland, Noord-Cyprus) of
+// een eigen bestuursgebied (Hongkong, Macau)
+const HOORT_BIJ = { USG: 'CUB', KAB: 'KAZ', SOL: 'SOM', CYN: 'CYP', CNM: 'CYP', HKG: 'CHN', MAC: 'CHN' };
+
+// Natural Earth heeft hier en daar een verouderde Nederlandse naam
+const PLAATS_NAAM = { Bombay: 'Mumbai', Calcutta: 'Kolkata', Haiderabad: 'Hyderabad', Poona: 'Pune', Madras: 'Chennai', 'Nur-Sultan': 'Astana' };
 
 function bouw(basis, cfg) {
     const OUT = path.resolve(__dirname, '..', 'assets', 'topografie', basis + '.json');
@@ -195,11 +323,11 @@ function bouw(basis, cfg) {
         let rs = ringen(polys, cfg.tol || 0.4, cfg.minOpp || 0.25);
         if (!rs.length) rs = ringen(polys, 0, 0);   // eilandstaatjes
         const l = (landGeom[a3] = landGeom[a3] || { naam, rings: [] });
+        if (naam) l.naam = naam;
         l.rings.push(...rs);
     }
     lees('ne_countries.geojson').features.forEach((f) => {
-        // Verpachte stukken (Guantánamo Bay, Bajkonoer) horen bij het land eromheen
-        const q = f.properties, a3 = ({ USG: 'CUB', KAB: 'KAZ' })[q.ADM0_A3] || q.ADM0_A3, polys = polygonsOf(f.geometry);
+        const q = f.properties, a3 = HOORT_BIJ[q.ADM0_A3] || q.ADM0_A3, polys = polygonsOf(f.geometry);
         const split = Object.keys(splits).filter((k) => splits[k].bron === a3)[0];
         if (split) {
             const b = splits[split].box;
@@ -207,7 +335,9 @@ function bouw(basis, cfg) {
             voegToe(split, splits[split].naam, polys.filter(inBox));
             achtergrond.push(...ringen(polys.filter((p) => !inBox(p)), 0.5, 0.5));
         } else if (landen.indexOf(a3) !== -1) {
-            voegToe(a3, (cfg.landNaam || {})[a3] || q.NAME_NL || q.NAME, polys);
+            // De naam komt van het land zelf, niet van een stuk dat erbij hoort
+            const naam = HOORT_BIJ[q.ADM0_A3] ? null : (cfg.landNaam || {})[a3] || q.NAME_NL || q.NAME;
+            voegToe(a3, naam, polys);
         } else {
             achtergrond.push(...ringen(polys, 0.5, 0.5));
         }
@@ -256,7 +386,7 @@ function bouw(basis, cfg) {
     const regioHoofdstad = (q) => q.FEATURECLA === 'Admin-0 region capital';
     lees('ne_places.geojson').features.forEach((f) => {
         const q = f.properties;
-        if (!landGeom[q.ADM0_A3] && !(splits[q.ADM0_A3])) return;
+        if (!landGeom[HOORT_BIJ[q.ADM0_A3] || q.ADM0_A3]) return;
         const hoofd = q.ADM0CAP == 1 || (regioHoofdstad(q) && landen.indexOf(q.ADM0_A3) !== -1);
         if (!hoofd && q.POP_MAX < cfg.minInwoners) return;
         const p = proj(f.geometry.coordinates);
@@ -265,7 +395,7 @@ function bouw(basis, cfg) {
         if (gezien[id]) return;
         gezien[id] = 1;
         // Natural Earth heeft soms dezelfde stad twee keer (Vila Velha)
-        const naam = q.NAME_NL || q.NAME;
+        const naam = PLAATS_NAAM[q.NAME_NL || q.NAME] || q.NAME_NL || q.NAME;
         if (plaatsen.some((x) => x.naam === naam && Math.hypot(x.x - p[0], x.y - p[1]) < 15)) return;
         plaatsen.push({ id, naam, x: r1(p[0]), y: r1(p[1]), pop: q.POP_MAX || 0, hs: hoofd ? 1 : 0 });
     });

@@ -22,7 +22,7 @@
     var NS = 'http://www.w3.org/2000/svg';
     var cache = {};
     // Ophogen als een kaartbestand in assets/topografie/ opnieuw gebouwd is
-    var DATA_VERSIE = 3;
+    var DATA_VERSIE = 4;
 
     function laad(basis) {
         if (!/^[a-z]+$/.test(basis)) return Promise.reject(new Error('Onbekende kaart'));
@@ -209,11 +209,13 @@
                 if (n.label) {
                     n.label.setAttribute('font-size', px(o.vorm === 'vlak' ? 14 : 12.5));
                     n.label.setAttribute('stroke-width', px(3.5));
-                    if (o.vorm === 'punt') {
-                        // Aan de rechterrand de naam links van de stip zetten
-                        var links = o.x > map.w * 0.82;
-                        n.label.setAttribute('x', links ? o.x - px(9) : o.x + px(9));
-                        n.label.setAttribute('y', o.y + px(4));
+                    // Stippen (en dwergstaten met hun rondje): naam ernaast, aan
+                    // de rechterrand links ervan
+                    if (o.vorm === 'punt' || o.stip) {
+                        var px0 = o.vorm === 'punt' ? o.x : o.lx, py0 = o.vorm === 'punt' ? o.y : o.ly;
+                        var links = px0 > map.w * 0.82;
+                        n.label.setAttribute('x', links ? px0 - px(10) : px0 + px(10));
+                        n.label.setAttribute('y', py0 + px(4));
                         n.label.setAttribute('text-anchor', links ? 'end' : 'start');
                     }
                 }
