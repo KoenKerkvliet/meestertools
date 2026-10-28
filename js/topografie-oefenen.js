@@ -271,9 +271,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if (modus !== 'aanwijzen' || wacht || !huidige) return;
 
         // Net naast een stip geklikt telt als die stip
-        if ((!obj || obj.vorm === 'vlak') && huidige.vorm === 'punt') obj = view.dichtstbijPunt(p, 26) || null;
+        if ((!obj || obj.vorm === 'vlak' || obj.vorm === 'zone') && huidige.vorm === 'punt') obj = view.dichtstbijPunt(p, 26) || null;
         if (!obj || (huidige.vorm !== 'vlak' && obj.vorm === 'vlak')) {
-            meld(huidige.vorm === 'punt' ? 'Klik op een stip' : huidige.vorm === 'lijn' ? 'Klik op een rivier' : 'Klik op een provincie', '', 1200);
+            meld(huidige.vorm === 'punt' ? 'Klik op een stip' : huidige.vorm === 'lijn' ? 'Klik op een rivier'
+                : huidige.vorm === 'zone' ? 'Klik op een gekleurd gebied' : 'Klik op een ' + (map.teksten.vlak || 'provincie'), '', 1200);
             return;
         }
         if (obj.key === huidige.key) { goed(); return; }
@@ -285,6 +286,40 @@ document.addEventListener('DOMContentLoaded', function () {
     $('toStop').addEventListener('click', function () {
         wacht = false;
         toon('toStart');
+    });
+
+    // ---------- Volledig scherm ----------
+    // Blijft aan tot de leerling hem zelf uitzet (knop of Esc), ook tussen
+    // de rondes door: dan hoeft een kind niet elke keer opnieuw te klikken.
+    // Met de Fullscreen-API waar die er is; op een iPhone (die heeft hem niet)
+    // vult de kaart dan in elk geval het hele browservenster.
+    var root = document.documentElement;
+    var kanApi = !!(root.requestFullscreen || root.webkitRequestFullscreen);
+    function isApiVol() { return !!(document.fullscreenElement || document.webkitFullscreenElement); }
+
+    function zetVol(aan) {
+        document.body.classList.toggle('is-vol', aan);
+        $('toVol').innerHTML = aan ? '&#x2715;' : '&#x26F6;';
+        $('toVol').title = aan ? 'Volledig scherm sluiten' : 'Volledig scherm';
+        $('toVol').setAttribute('aria-label', $('toVol').title);
+        if (kanApi) {
+            try {
+                var r = null;
+                if (aan && !isApiVol()) r = (root.requestFullscreen || root.webkitRequestFullscreen).call(root);
+                if (!aan && isApiVol()) r = (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+                if (r && r.catch) r.catch(function () {});
+            } catch (e) { /* dan blijft het bij de CSS-stand */ }
+        }
+    }
+
+    $('toVol').addEventListener('click', function () {
+        zetVol(!document.body.classList.contains('is-vol'));
+    });
+    // Esc of de knop van de browser: ook onze stand weer uit
+    ['fullscreenchange', 'webkitfullscreenchange'].forEach(function (ev) {
+        document.addEventListener(ev, function () {
+            if (!isApiVol() && document.body.classList.contains('is-vol')) zetVol(false);
+        });
     });
 
     // ---------- Klaar ----------

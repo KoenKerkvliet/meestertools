@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Topografie oefenen - Meestertools</title>
-    <link rel="stylesheet" href="css/topografie.css?v=1.64.14">
+    <link rel="stylesheet" href="css/topografie.css?v=1.64.15">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root { --primary: #6C63FF; --primary-dark: #5A52D5; }
@@ -67,6 +67,21 @@
         .to-vraag { flex: 1; min-width: 200px; text-align: center; }
         .to-vraag .soort { display: inline-block; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: #6C63FF; background: #F0EEFF; border-radius: 20px; padding: 2px 10px; margin-bottom: 4px; }
         .to-vraag .tekst { font-size: 24px; font-weight: 800; line-height: 1.2; }
+        .to-vol {
+            border: none; background: #F1F0FA; color: #4A4468; border-radius: 10px; width: 38px; height: 36px;
+            font-size: 18px; line-height: 1; cursor: pointer; flex-shrink: 0;
+        }
+        .to-vol:hover { background: #E7E5F6; color: var(--primary); }
+
+        /* Volledig scherm: de kaart krijgt alle ruimte die er is */
+        body.is-vol { padding: 0; background: #fff; }
+        body.is-vol .to-brand, body.is-vol .to-foot { display: none; }
+        body.is-vol .to-wrap, body.is-vol .to-wrap.is-wide { max-width: none; }
+        body.is-vol .to-card { border-radius: 0; box-shadow: none; padding: 10px 14px; height: 100vh; height: 100dvh; display: flex; flex-direction: column; }
+        body.is-vol #toSpel.active { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+        body.is-vol .to-spel-kop, body.is-vol .to-keuzes { flex-shrink: 0; }
+        body.is-vol .to-kaart-vak { flex: 1; min-height: 0; }
+        body.is-vol .to-kaart-vak .topo-kaart { width: 100%; height: 100%; max-height: none; min-height: 0; aspect-ratio: auto !important; }
         .to-teller { font-weight: 800; font-size: 15px; color: var(--primary); background: #F4F2FF; border-radius: 999px; padding: 6px 14px; white-space: nowrap; }
         .to-keuzes { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-bottom: 12px; }
         .to-keuze {
@@ -157,6 +172,7 @@
                     <button type="button" class="to-stop" id="toStop">&larr; Stoppen</button>
                     <div class="to-vraag" id="toVraag"></div>
                     <span class="to-teller" id="toTeller"></span>
+                    <button type="button" class="to-vol" id="toVol" title="Volledig scherm" aria-label="Volledig scherm">&#x26F6;</button>
                 </div>
                 <div class="to-keuzes" id="toKeuzes"></div>
                 <div class="to-kaart-vak">
@@ -184,11 +200,11 @@
         <p class="to-foot">Meestertools is gratis voor leerkrachten &middot; <a href="/" target="_blank" rel="noopener">meestertools.nl</a></p>
     </div>
 
-    <script src="/js/mt-shared.js?v=1.64.14"></script>
+    <script src="/js/mt-shared.js?v=1.64.15"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.64.14"></script>
-    <script src="js/topografie-kaart.js?v=1.64.14"></script>
-    <script src="js/topografie-oefenen.js?v=1.64.14"></script>
-    <script src="/js/teller.js?v=1.64.14" defer></script>
+    <script src="js/supabase-config.js?v=1.64.15"></script>
+    <script src="js/topografie-kaart.js?v=1.64.15"></script>
+    <script src="js/topografie-oefenen.js?v=1.64.15"></script>
+    <script src="/js/teller.js?v=1.64.15" defer></script>
 </body>
 </html>

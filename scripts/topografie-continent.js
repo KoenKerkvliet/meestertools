@@ -27,6 +27,7 @@ const {
     r1, simplify, clipRing, clipLine, ringArea, pathFromRings, pathFromLines,
     polygonsOf, labelPoint
 } = require('./topografie-geo');
+const { voegZonesToe } = require('./topografie-zones');
 
 const SRC = process.argv[2];
 if (!SRC) {
@@ -453,6 +454,8 @@ function bouw(basis, cfg) {
         if (!binnenBeeld(p)) console.warn('  buiten beeld: ' + naam);
         return { id, naam, soort, x: r1(p[0]), y: r1(p[1]) };
     });
+    // Gebergten en grote gebieden krijgen hun omtrek (scripts/topografie-zones.js)
+    voegZonesToe(SRC, gebieden, proj, { rand: [BX0, BY0, BX1, BY1], zichtbaar, tol: 0.5 });
 
     const out = {
         basis, naam: cfg.naam, w: W, h: H,

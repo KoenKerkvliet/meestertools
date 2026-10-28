@@ -22,6 +22,7 @@ const {
     r1, simplify, clipRing, clipLine, ringArea, pathFromRings, pathFromLines,
     polygonsOf, labelPoint
 } = require('./topografie-geo');
+const { voegZonesToe } = require('./topografie-zones');
 
 const SRC = process.argv[2];
 if (!SRC) {
@@ -254,6 +255,8 @@ const gebieden = GEBIEDEN.map(([id, naam, soort, lon, lat]) => {
     const p = proj([lon, lat]);
     return { id, naam, soort, x: r1(p[0]), y: r1(p[1]) };
 });
+// Gebergten en grote gebieden krijgen hun omtrek (scripts/topografie-zones.js)
+voegZonesToe(SRC, gebieden, proj, { tol: 0.3 });
 
 // ---------- Wegschrijven ----------
 const out = {

@@ -22,7 +22,7 @@
     var NS = 'http://www.w3.org/2000/svg';
     var cache = {};
     // Ophogen als een kaartbestand in assets/topografie/ opnieuw gebouwd is
-    var DATA_VERSIE = 4;
+    var DATA_VERSIE = 5;
 
     function laad(basis) {
         if (!/^[a-z]+$/.test(basis)) return Promise.reject(new Error('Onbekende kaart'));
@@ -78,7 +78,11 @@
         }
         if (item.t === 'g') {
             var g = map.index.g[item.id];
-            return g && { key: key, t: 'g', id: g.id, naam: g.naam, soort: g.soort, vorm: 'punt', x: g.x, y: g.y };
+            if (!g) return null;
+            // Gebergten en grote gebieden met een omtrek worden een zone; het
+            // punt blijft de plek van het label
+            if (g.z) return { key: key, t: 'g', id: g.id, naam: g.naam, soort: g.soort, vorm: 'zone', d: g.z, x: g.x, y: g.y, lx: g.x, ly: g.y };
+            return { key: key, t: 'g', id: g.id, naam: g.naam, soort: g.soort, vorm: 'punt', x: g.x, y: g.y };
         }
         if (item.t === 'e') {
             if (typeof item.x !== 'number' || typeof item.y !== 'number' || !item.naam) return null;
@@ -161,6 +165,12 @@
         var gVlak = el('g', { 'class': 'topo-laag-vlak' }, svg);
         // Meren boven de gekozen landen, anders verdwijnt het Meer van Genève onder Zwitserland
         if (map.meren) el('path', { d: map.meren, 'class': 'topo-meer' }, svg);
+        // Zones (gebergten, woestijnen) met een zachte rand: een vervaagde vulling
+        var defs = el('defs', null, svg);
+        var vaagId = 'topoVaag' + Math.random().toString(36).slice(2, 8);
+        var filter = el('filter', { id: vaagId, x: '-20%', y: '-20%', width: '140%', height: '140%' }, defs);
+        el('feGaussianBlur', { stdDeviation: (map.w / 400).toFixed(2) }, filter);
+        var gZone = el('g', { 'class': 'topo-laag-zone' }, svg);
         var gLijn = el('g', { 'class': 'topo-laag-lijn' }, svg);
         var gPunt = el('g', { 'class': 'topo-laag-punt' }, svg);
         var gLabel = el('g', { 'class': 'topo-laag-label' }, svg);
@@ -207,7 +217,7 @@
                     n.hit.setAttribute('stroke-width', px(18));
                 }
                 if (n.label) {
-                    n.label.setAttribute('font-size', px(o.vorm === 'vlak' ? 14 : 12.5));
+                    n.label.setAttribute('font-size', px(o.vorm === 'vlak' || o.vorm === 'zone' ? 14 : 12.5));
                     n.label.setAttribute('stroke-width', px(3.5));
                     // Stippen (en dwergstaten met hun rondje): naam ernaast, aan
                     // de rechterrand links ervan
@@ -355,7 +365,7 @@
         function setItems(lijst) {
             objs = lijst.slice();
             nodes = {};
-            [gVlak, gLijn, gPunt, gLabel].forEach(function (g) { g.innerHTML = ''; });
+            [gVlak, gZone, gLijn, gPunt, gLabel].forEach(function (g) { g.innerHTML = ''; });
             objs.forEach(function (o) {
                 var n = { vorm: o.vorm };
                 if (o.vorm === 'vlak') {
@@ -364,6 +374,11 @@
                     // Dwergstaten: een rondje als herkenningsteken en klikdoel
                     if (o.stip) n.stip = el('circle', { cx: o.lx, cy: o.ly, 'class': 'topo-vlak-stip' }, gv);
                     n.groep = gv;
+                } else if (o.vorm === 'zone') {
+                    var gz = el('g', { 'class': 'topo-item topo-zone soort-' + o.soort, 'data-key': o.key }, gZone);
+                    n.vis = el('path', { d: o.d, 'class': 'topo-zone-vis', filter: 'url(#' + vaagId + ')' }, gz);
+                    n.hit = el('path', { d: o.d, 'class': 'topo-hit' }, gz);
+                    n.groep = gz;
                 } else if (o.vorm === 'lijn') {
                     var g = el('g', { 'class': 'topo-item topo-lijn', 'data-key': o.key }, gLijn);
                     n.hit = el('path', { d: o.d, 'class': 'topo-hit' }, g);
@@ -381,7 +396,7 @@
                     t.setAttribute('x', o.lx);
                     t.setAttribute('y', o.ly);
                     // Rivierlabels aan de rechterrand naar links laten lopen
-                    t.setAttribute('text-anchor', o.vorm === 'vlak' ? 'middle' : o.lx > map.w * 0.8 ? 'end' : 'start');
+                    t.setAttribute('text-anchor', o.vorm === 'vlak' || o.vorm === 'zone' ? 'middle' : o.lx > map.w * 0.8 ? 'end' : 'start');
                 }
                 n.label = t;
                 nodes[o.key] = n;

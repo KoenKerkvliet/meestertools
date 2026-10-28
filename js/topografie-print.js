@@ -102,7 +102,7 @@
         objs.forEach(function (o) {
             if (o.vorm === 'punt') return;
             var start = [o.lx, o.ly], kandidaten = [start];
-            if (o.vorm === 'vlak') {
+            if (o.vorm === 'vlak' || o.vorm === 'zone') {
                 var rs = ringen(o.d), x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
                 rs.forEach(function (r) { r.forEach(function (p) { x0 = Math.min(x0, p[0]); y0 = Math.min(y0, p[1]); x1 = Math.max(x1, p[0]); y1 = Math.max(y1, p[1]); }); });
                 for (var x = x0; x <= x1; x += 8) {
@@ -175,6 +175,11 @@
             h.push('<path d="' + o.d + '" fill="#FFF0BF" stroke="#8A7A40" stroke-width="' + (0.3 * u).toFixed(1) + '"/>');
             // Dwergstaten zijn op papier te klein: een rondje eromheen
             if (o.stip) h.push('<circle cx="' + o.lx + '" cy="' + o.ly + '" r="' + (1.2 * u).toFixed(1) + '" fill="none" stroke="#8A7A40" stroke-width="' + (0.3 * u).toFixed(1) + '"/>');
+        });
+        // Zones (gebergten, woestijnen) licht ingekleurd, zonder rand
+        objs.forEach(function (o) {
+            if (o.vorm !== 'zone') return;
+            h.push('<path d="' + o.d + '" fill="' + (o.soort === 'gebergte' ? '#8B5A2B' : '#C9A227') + '" fill-opacity="0.25"/>');
         });
         objs.forEach(function (o) {
             if (o.vorm === 'lijn') h.push('<path d="' + o.d + '" fill="none" stroke="#2F86C9" stroke-width="' + (0.75 * u).toFixed(1) + '" stroke-linecap="round" stroke-linejoin="round"/>');
