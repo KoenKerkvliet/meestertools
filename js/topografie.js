@@ -40,7 +40,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var BASIS = {
         nederland: { naam: 'Nederland', titel: 'bijv. Provincies en hoofdsteden', zoek: 'bijv. Den Helder' },
         europa: { naam: 'Europa', titel: 'bijv. Landen en hoofdsteden van Europa', zoek: 'bijv. Barcelona' },
-        wereld: { naam: 'Wereld', titel: 'bijv. Werelddelen en oceanen', zoek: 'bijv. New York' }
+        wereld: { naam: 'Wereld', titel: 'bijv. Werelddelen en oceanen', zoek: 'bijv. New York' },
+        noordamerika: { naam: 'Noord-Amerika', titel: 'bijv. Landen van Midden-Amerika', zoek: 'bijv. Chicago' },
+        zuidamerika: { naam: 'Zuid-Amerika', titel: 'bijv. Landen en hoofdsteden van Zuid-Amerika', zoek: 'bijv. Rio de Janeiro' }
     };
     function basisNaam(b) { return (BASIS[b] || {}).naam || b; }
 
@@ -231,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function () {
             nederland: 'Wateren, eilanden en gebieden',
             europa: 'Wateren, gebergten en eilanden',
             wereld: 'Werelddelen, wateren en gebieden'
-        }[huidig.basis] || 'Wateren en gebieden';
+        }[huidig.basis] || t.gebiedenKop || 'Wateren en gebieden';
         $('topoTitel').placeholder = 'Naam van de kaart, ' + (b.titel || '');
         $('topoZoek').placeholder = 'Zoek een plaats, ' + (b.zoek || '');
     }
@@ -247,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var nl = huidig.basis === 'nederland';
         var groepen = [['werelddeel', 'Werelddelen'], ['water', 'Water'], ['gebergte', 'Gebergten'],
             ['eiland', nl ? 'Waddeneilanden' : 'Eilanden'],
-            ['gebied', nl ? 'Gebieden en streken' : huidig.basis === 'wereld' ? 'Woestijnen en gebieden' : 'Schiereilanden en gebieden']];
+            ['gebied', map.teksten.gebiedGroep || (nl ? 'Gebieden en streken' : huidig.basis === 'wereld' ? 'Woestijnen en gebieden' : 'Schiereilanden en gebieden')]];
         $('chipsG').innerHTML = groepen.map(function (g) {
             var lijst = map.gebieden.filter(function (x) { return x.soort === g[0]; })
                 .sort(function (a, b) { return a.naam.localeCompare(b.naam, 'nl'); });

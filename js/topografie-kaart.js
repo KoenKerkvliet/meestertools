@@ -210,8 +210,11 @@
                     n.label.setAttribute('font-size', px(o.vorm === 'vlak' ? 14 : 12.5));
                     n.label.setAttribute('stroke-width', px(3.5));
                     if (o.vorm === 'punt') {
-                        n.label.setAttribute('x', o.x + px(9));
+                        // Aan de rechterrand de naam links van de stip zetten
+                        var links = o.x > map.w * 0.82;
+                        n.label.setAttribute('x', links ? o.x - px(9) : o.x + px(9));
                         n.label.setAttribute('y', o.y + px(4));
+                        n.label.setAttribute('text-anchor', links ? 'end' : 'start');
                     }
                 }
             });

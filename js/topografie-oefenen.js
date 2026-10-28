@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // bij wateren, gebergten en gebieden een kale opdracht
             var kaal = huidige.soort === 'water' || huidige.soort === 'gebergte' || huidige.soort === 'gebied';
             var tekst = kaal ? 'Wijs aan: ' + huidige.naam
-                : MEERVOUD[huidige.naam] ? 'Waar liggen de ' + huidige.naam + '?'
+                : MEERVOUD[huidige.naam] || /eilanden$/.test(huidige.naam) ? 'Waar liggen de ' + huidige.naam + '?'
                 : LIDWOORD[huidige.naam] ? 'Waar ligt ' + LIDWOORD[huidige.naam] + ' ' + huidige.naam + '?'
                 : (huidige.soort === 'rivier' ? WAAR.rivier : WAAR.vlak) + huidige.naam + '?';
             $('toVraag').innerHTML = '<span class="soort">' + esc(soort) + '</span><div class="tekst">' + esc(tekst) + '</div>';
