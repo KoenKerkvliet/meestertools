@@ -176,6 +176,22 @@
 }
 .topo-chip:hover { border-color: var(--primary); }
 .topo-chip.aan { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+/* Gekozen plaatsen en eigen punten: klik op een chip om hem weg te halen */
+.topo-weglijst { margin-top: 10px; }
+.topo-weglijst:empty { display: none; }
+.topo-weglijst .topo-chips { margin-top: 6px; }
+.topo-wegchip {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 2px solid var(--primary); background: var(--primary); color: #fff;
+    border-radius: 20px; padding: 4px 8px 4px 11px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.topo-wegchip .kruis { font-size: 15px; line-height: 1; opacity: .8; }
+.topo-wegchip:hover { background: #fff; color: #C0392B; border-color: #F3D1CD; }
+.topo-wegchip:hover .kruis { opacity: 1; }
+.topo-weglijst-kop { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; color: var(--text-medium); }
+.topo-weglijst-kop button { border: none; background: none; color: #C0392B; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; padding: 0; }
+.topo-weglijst-kop button:hover { text-decoration: underline; }
 .topo-chip-groep { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: var(--text-light); margin: 10px 0 6px; }
 .topo-chip-groep:first-child { margin-top: 0; }
 

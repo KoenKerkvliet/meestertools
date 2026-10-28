@@ -428,16 +428,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<button type="button" data-weg="' + esc(o.key) + '" aria-label="' + esc(o.naam) + ' weghalen" title="Weghalen">&times;</button></div>';
         }).join('') : '<p class="topo-hint">Nog niets gekozen. Begin bijvoorbeeld met de provincies.</p>';
 
+        // Gekozen plaatsen en eigen punten in hun eigen blok, om weg te klikken
+        $('topoGekozenS').innerHTML = wegLijst(totaal.filter(function (o) { return o.t === 's' && !hoofdIds[o.id]; }), 'plaatsen');
+        $('topoGekozenE').innerHTML = wegLijst(totaal.filter(function (o) { return o.t === 'e'; }), 'eigen punten');
+
         if (suggesties.length) zoek();
     }
 
-    $('topoGekozen').addEventListener('click', function (e) {
-        var b = e.target.closest('[data-weg]');
-        if (!b) return;
-        var k = b.dataset.weg;
-        var it = gekozen[k];
-        if (it) { zet(it, false); gewijzigd(); }
-    });
+    function wegLijst(lijst, wat) {
+        if (!lijst.length) return '';
+        return '<div class="topo-weglijst-kop"><span>Op je kaart (klik om weg te halen)</span>' +
+            (lijst.length > 1 ? '<button type="button" data-alles-weg="' + lijst.map(function (o) { return esc(o.key); }).join(' ') +
+                '">Alle ' + wat + ' weg</button>' : '') + '</div>' +
+            '<div class="topo-chips">' + lijst.map(function (o) {
+                return '<button type="button" class="topo-wegchip" data-weg="' + esc(o.key) + '" title="' + esc(o.naam) + ' weghalen">' +
+                    esc(o.naam) + '<span class="kruis" aria-hidden="true">&times;</span></button>';
+            }).join('') + '</div>';
+    }
+
+    function wegKlik(e) {
+        var b = e.target.closest('[data-weg]'), alles = e.target.closest('[data-alles-weg]');
+        var keys = b ? [b.dataset.weg] : alles ? alles.dataset.allesWeg.split(' ') : [];
+        if (!keys.length) return;
+        keys.forEach(function (k) { if (gekozen[k]) zet(gekozen[k], false); });
+        gewijzigd();
+    }
+    ['topoGekozen', 'topoGekozenS', 'topoGekozenE'].forEach(function (id) { $(id).addEventListener('click', wegKlik); });
 
     // ---------- Opslaan ----------
     $('topoTitel').addEventListener('input', function () {
