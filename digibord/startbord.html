@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Zet je eigen borden klaar voor het digibord: tekst, de datum, een takenlijst en tools als de timer.">
+    <meta name="theme-color" content="#6C63FF">
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="/favicon.ico" sizes="48x48">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <title>Meestertools - Startbord</title>
+    <link rel="stylesheet" href="../css/style.css?v=1.65.2">
+    <link rel="stylesheet" href="../css/instellingen.css?v=1.65.2">
+    <link rel="stylesheet" href="../css/startbord.css?v=1.65.2">
+</head>
+<body>
+    <header id="app-header-slot"></header>
+
+    <main class="tool-page-content">
+        <div class="tool-inline-header">
+            <a href="../digibordtools" class="back-link" id="sbTerug">&larr; Terug</a>
+            <div class="tool-inline-title">
+                <h1>Startbord</h1>
+                <p>Zet je borden klaar voor het digibord en klik er in de les doorheen.</p>
+            </div>
+            <div style="width:38px;"></div>
+        </div>
+
+        <div class="tool-page-body">
+            <!-- Mijn borden -->
+            <section class="sb-scherm" id="sbLijstScherm">
+                <div class="sb-lijst-kop">
+                    <div>
+                        <h2>Mijn borden</h2>
+                        <p>Bij Presenteren klik je met de pijltjestoetsen door al je borden heen, in deze volgorde.</p>
+                    </div>
+                    <button type="button" class="sb-knop" id="sbNieuw">+ Nieuw bord</button>
+                </div>
+                <div id="sbBorden"><p class="sb-hint">Borden laden...</p></div>
+            </section>
+
+            <!-- Bord bewerken -->
+            <section class="sb-scherm" id="sbBewerkScherm" hidden>
+                <div class="sb-bewerk-kop">
+                    <input type="text" class="sb-titel-invoer" id="sbTitel" maxlength="80" placeholder="Naam van het bord, bijv. Inloop" aria-label="Naam van het bord">
+                    <span class="sb-status" id="sbStatus"></span>
+                    <button type="button" class="sb-knop" id="sbPresenteer">&#9654; Presenteren</button>
+                </div>
+
+                <div class="sb-instellingen">
+                    <div class="sb-instelling">
+                        <span class="sb-label">Indeling</span>
+                        <div class="sb-indelingen" id="sbIndelingen"></div>
+                    </div>
+                    <div class="sb-instelling">
+                        <span class="sb-label">Kleur</span>
+                        <div class="sb-kleuren" id="sbKleuren"></div>
+                    </div>
+                </div>
+
+                <div class="sb-bewerk">
+                    <div class="sb-voorbeeld-wrap">
+                        <div class="sb-schaal" id="sbVoorbeeld"></div>
+                        <p class="sb-hint">Klik op een vak om te kiezen wat erin komt.</p>
+                    </div>
+                    <div class="sb-paneel" id="sbPaneel"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Presenteren: schermvullend, met pijltjes van bord naar bord -->
+    <div class="sb-presentatie" id="sbPresentatie" hidden>
+        <div class="sb-schaal" id="sbPresentatieBord"></div>
+        <div class="sb-balk" id="sbBalk">
+            <button type="button" id="sbVorige" aria-label="Vorig bord">&#8249;</button>
+            <span id="sbBalkTitel"></span>
+            <button type="button" id="sbVolgende" aria-label="Volgend bord">&#8250;</button>
+            <button type="button" id="sbSluit" class="sb-balk-sluit" aria-label="Presenteren stoppen" title="Stoppen (Esc)">&#10005;</button>
+        </div>
+    </div>
+
+    <footer id="app-footer-slot"></footer>
+
+    <script src="/js/mt-shared.js?v=1.65.2"></script>
+    <script src="/js/template.js?v=1.65.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase-config.js?v=1.65.2"></script>
+    <script src="../js/app.js?v=1.65.2"></script>
+    <script src="../js/instellingen.js?v=1.65.2"></script>
+    <script src="../js/startbord.js?v=1.65.2"></script>
+    <script src="/js/teller.js?v=1.65.2" defer></script>
+</body>
+</html>

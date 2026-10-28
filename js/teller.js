@@ -19,6 +19,8 @@
 
     try {
         if (/^(localhost|127\.|\[::1\])/.test(location.hostname)) return;
+        // Een tool die als vak op een Startbord staat, is geen eigen bezoek
+        if (/[?&]ingebed=1/.test(location.search)) return;
         if (navigator.webdriver) return;
         if (/bot|crawl|spider|slurp|headless|lighthouse|preview|facebookexternalhit|embedly/i.test(navigator.userAgent)) return;
         try { if (localStorage.getItem('mt-niet-tellen') === '1') return; } catch (_) {}

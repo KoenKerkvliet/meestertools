@@ -1401,6 +1401,17 @@ a {
     .nieuw-banner-cta { width: 100%; text-align: center; }
 }
 
+/* ---------- Ingebedde stand (tool als vak op een Startbord, ?ingebed=1) ---------- */
+.mt-ingebed, .mt-ingebed body { overflow: hidden; }
+.mt-ingebed body { background: transparent; min-height: 0; }
+.mt-ingebed .app-header,
+.mt-ingebed .app-footer,
+.mt-ingebed .tool-inline-header,
+.mt-ingebed .guest-banner,
+.mt-ingebed .back-link { display: none !important; }
+.mt-ingebed .tool-page-content { max-width: none; padding: 6px; }
+.mt-ingebed .tool-page-body { box-shadow: none; border-radius: 0; padding: 6px; min-height: 0; background: transparent; }
+
 /* ---------- FOOTER ---------- */
 .app-footer {
     margin-top: auto;

@@ -19,7 +19,29 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.65.1';
+    const VERSION = 'v1.65.2';
+
+    // Ingebedde stand (?ingebed=1): een tool als vak op een Startbord. Zonder
+    // kop, voet en terugknop; de class staat er vóór de eerste weergave.
+    if (/[?&]ingebed=1/.test(location.search)) {
+        document.documentElement.classList.add('mt-ingebed');
+        // Een tool is vaak groter dan zijn vak: verklein hem tot hij er
+        // precies in past (nooit groter dan normaal). Opnieuw meten na het
+        // laden, want veel tools bouwen hun inhoud pas daarna op.
+        var pasIn = function () {
+            var b = document.body;
+            if (!b) return;
+            b.style.zoom = '';
+            var el = document.documentElement;
+            var z = Math.min(1, window.innerHeight / el.scrollHeight, window.innerWidth / el.scrollWidth);
+            if (z < 0.98) b.style.zoom = z.toFixed(3);
+        };
+        window.addEventListener('load', function () {
+            pasIn();
+            [400, 1200, 3000].forEach(function (ms) { setTimeout(pasIn, ms); });
+        });
+        window.addEventListener('resize', pasIn);
+    }
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [
@@ -32,6 +54,7 @@
         { id: 'podium', name: 'Podium', url: 'digibord/podium', icon: '&#127942;' },
         { id: 'stoplicht', name: 'Stoplicht', url: 'digibord/stoplicht', icon: '&#128678;' },
         { id: 'timetimer', name: 'Time Timer', url: 'digibord/timetimer', icon: '&#9202;' },
+        { id: 'startbord', name: 'Startbord', url: 'digibord/startbord', icon: '&#128444;&#65039;', uc: true, verborgen: true },
         // Digitale geletterdheid
         { id: 'typetijger', name: 'Typetijger', url: 'digitale-geletterdheid/typetijger', icon: '&#128047;' },
         { id: 'typrace', name: 'Typrace', url: 'digitale-geletterdheid/typrace', icon: '&#127939;' },
