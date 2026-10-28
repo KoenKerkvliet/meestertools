@@ -67,7 +67,8 @@ function ringenVan(geom, tol, minOpp) {
 // Palestina, Westelijke Sahara, Kosovo). Afgesplitste stukjes gaan terug
 // naar hun land; overzeese gebiedsdelen en Antarctica zijn achtergrond.
 const EXTRA = ['CHN', 'FRA', 'FIN', 'DNK', 'GBR', 'NLD', 'USA', 'AUS', 'NZL', 'GRL', 'ISR', 'KOS', 'PSX', 'SAH'];
-const HOORT_BIJ = { ALD: 'FIN', CYN: 'CYP', SOL: 'SOM', CNM: 'CYP' };
+// Bajkonoer en Guantánamo Bay zijn verpacht, maar liggen in Kazachstan en Cuba
+const HOORT_BIJ = { ALD: 'FIN', CYN: 'CYP', SOL: 'SOM', CNM: 'CYP', KAB: 'KAZ', USG: 'CUB' };
 const LAND_NAAM = {
     CHN: 'China', USA: 'Verenigde Staten', SWZ: 'Eswatini', CZE: 'Tsjechië',
     BLR: 'Belarus', GBR: 'Verenigd Koninkrijk', COD: 'Congo-Kinshasa', COG: 'Congo-Brazzaville'
@@ -78,7 +79,8 @@ const achtergrond = [];
 lees('ne_countries.geojson').features.forEach((f) => {
     const q = f.properties;
     const a3 = HOORT_BIJ[q.ADM0_A3] || q.ADM0_A3;
-    const isLand = HOORT_BIJ[q.ADM0_A3] || q.TYPE === 'Sovereign country' || EXTRA.indexOf(a3) !== -1;
+    // 'Sovereignty' is een soeverein land met een verpacht stuk (Kazachstan, Cuba)
+    const isLand = HOORT_BIJ[q.ADM0_A3] || q.TYPE === 'Sovereign country' || q.TYPE === 'Sovereignty' || EXTRA.indexOf(a3) !== -1;
     if (isLand && a3 !== 'ATA') {
         let rings = ringenVan(f.geometry, 0.3, 0.25);
         if (!rings.length) rings = ringenVan(f.geometry, 0, 0);
@@ -162,7 +164,7 @@ const rivieren = Object.keys(rivLines).sort((a, b) => a.localeCompare(b, 'nl')).
 // ---------- Steden ----------
 // Hoofdsteden van alle landen hierboven plus steden vanaf 3 miljoen inwoners.
 // Natural Earth heeft hier en daar een verouderde Nederlandse naam
-const PLAATS_NAAM = { Bombay: 'Mumbai', Calcutta: 'Kolkata', Haiderabad: 'Hyderabad', Poona: 'Pune', Madras: 'Chennai' };
+const PLAATS_NAAM = { Bombay: 'Mumbai', Calcutta: 'Kolkata', Haiderabad: 'Hyderabad', Poona: 'Pune', Madras: 'Chennai', 'Nur-Sultan': 'Astana' };
 const plaatsen = [];
 const gezien = {};
 lees('ne_places.geojson').features.forEach((f) => {

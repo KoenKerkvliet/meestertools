@@ -22,7 +22,7 @@
     var NS = 'http://www.w3.org/2000/svg';
     var cache = {};
     // Ophogen als een kaartbestand in assets/topografie/ opnieuw gebouwd is
-    var DATA_VERSIE = 2;
+    var DATA_VERSIE = 3;
 
     function laad(basis) {
         if (!/^[a-z]+$/.test(basis)) return Promise.reject(new Error('Onbekende kaart'));

@@ -198,7 +198,8 @@ function bouw(basis, cfg) {
         l.rings.push(...rs);
     }
     lees('ne_countries.geojson').features.forEach((f) => {
-        const q = f.properties, a3 = q.ADM0_A3, polys = polygonsOf(f.geometry);
+        // Verpachte stukken (Guantánamo Bay, Bajkonoer) horen bij het land eromheen
+        const q = f.properties, a3 = ({ USG: 'CUB', KAB: 'KAZ' })[q.ADM0_A3] || q.ADM0_A3, polys = polygonsOf(f.geometry);
         const split = Object.keys(splits).filter((k) => splits[k].bron === a3)[0];
         if (split) {
             const b = splits[split].box;
