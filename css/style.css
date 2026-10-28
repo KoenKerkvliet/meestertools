@@ -1285,9 +1285,16 @@ a {
 
 /* ---------- Banner "Nieuw" op het dashboard (js/nieuw-banner.js) ---------- */
 /* In de warme kleuren van de tijdlijn, zodat hij opvalt tussen de paarse tegels. */
+/* Naast elkaar: elk de helft; is er nog maar één, dan neemt die de hele rij */
+.nieuw-banners {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 18px;
+    margin: -24px 0 28px;
+}
+.nieuw-banners:empty { display: none; }
 .nieuw-banner {
     position: relative;
-    margin: -24px 0 28px;
     border-radius: var(--radius-lg);
     background: #FAF6EF;
     border: 2px solid #E6DECF;
@@ -1372,8 +1379,22 @@ a {
     cursor: pointer;
 }
 .nieuw-banner-sluit:hover { background: #F1E4C8; color: #1F2430; }
+
+/* Twee naast elkaar is smaller: knop onder de tekst in plaats van ernaast */
+.nieuw-banners:has(.nieuw-banner + .nieuw-banner) .nieuw-banner-link { flex-wrap: wrap; gap: 14px 18px; padding: 18px 52px 18px 18px; }
+.nieuw-banners:has(.nieuw-banner + .nieuw-banner) .nieuw-banner-beelden img { width: 52px; height: 52px; border-radius: 12px; }
+.nieuw-banners:has(.nieuw-banner + .nieuw-banner) .nieuw-banner-beelden img + img { margin-left: -18px; }
+.nieuw-banners:has(.nieuw-banner + .nieuw-banner) .nieuw-banner-tekst { flex-basis: calc(100% - 140px); font-size: 14px; }
+.nieuw-banners:has(.nieuw-banner + .nieuw-banner) .nieuw-banner-tekst strong { font-size: 18px; }
+.nieuw-banners:has(.nieuw-banner + .nieuw-banner) .nieuw-banner-cta { margin-left: auto; }
+
+/* Topografie: in de lichtblauwe kleuren van de kaart */
+.nieuw-banner--topo { background: #EEF6FB; border-color: #CFE3F0; box-shadow: 0 4px 0 #DCEBF5; }
+.nieuw-banner--topo:hover { border-color: #6FA8D6; }
+.nieuw-banner--topo .nieuw-banner-beelden img { border-color: #EEF6FB; background: #D7ECF8; object-fit: cover; }
+.nieuw-banner--topo .nieuw-banner-sluit:hover { background: #D7ECF8; }
 @media (max-width: 760px) {
-    .nieuw-banner { margin-top: -28px; }
+    .nieuw-banners { margin-top: -28px; grid-template-columns: 1fr; }
     .nieuw-banner-link { flex-wrap: wrap; gap: 14px 18px; padding: 18px 48px 18px 18px; }
     .nieuw-banner-beelden img { width: 56px; height: 56px; }
     .nieuw-banner-tekst { flex-basis: calc(100% - 140px); }

@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.64.17';
+    const VERSION = 'v1.65.0';
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [
@@ -48,7 +48,7 @@
         { id: 'woordenflitsen', name: 'Woorden Flitsen', url: 'lesmateriaal/woordenflitsen', icon: '&#9889;' },
         { id: 'werkbladen', name: 'Werkbladen', url: 'lesmateriaal/werkbladen', icon: '&#128196;' },
         { id: 'tijdlijn', name: 'Tijdlijn van Nederland', url: 'tijdlijn/', icon: '&#128220;' },
-        { id: 'topografie', name: 'Topografie', url: 'lesmateriaal/topografie', icon: '&#128506;&#65039;', uc: true, verborgen: true },
+        { id: 'topografie', name: 'Topografie', url: 'lesmateriaal/topografie', icon: '&#128506;&#65039;' },
         { id: '10-minuten-didactiek', name: '10-minuten-didactiek', url: 'lesmateriaal/10-minuten-didactiek', icon: '&#9201;&#65039;', uc: true },
         // Ontspanning
         { id: 'naamkleurplaat', name: 'Naamkleurplaat', url: 'ontspanning/naamkleurplaat', icon: '&#127912;' },

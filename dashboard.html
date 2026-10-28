@@ -26,8 +26,8 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Meestertools - Dashboard</title>
-    <link rel="stylesheet" href="css/style.css?v=1.64.17">
-    <link rel="stylesheet" href="css/instellingen.css?v=1.64.17">
+    <link rel="stylesheet" href="css/style.css?v=1.65.0">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.65.0">
 </head>
 <body>
     <!-- Header -->
@@ -40,8 +40,10 @@
             <p>Kies een tool en maak je lessen nog leuker en interactiever.</p>
         </div>
 
-        <!-- Uitgelichte nieuwe tool (js/nieuw-banner.js toont hem tot de einddatum of tot hij is weggeklikt) -->
-        <aside class="nieuw-banner" id="nieuwBanner" data-id="tijdlijn-2026-10" data-tot="2026-12-31" aria-labelledby="nieuwBannerTitel" hidden>
+        <!-- Uitgelichte nieuwe tools, naast elkaar (js/nieuw-banner.js toont elke banner tot de
+             einddatum of tot hij is weggeklikt; blijft er één over, dan wordt die breed) -->
+        <div class="nieuw-banners">
+        <aside class="nieuw-banner" data-id="tijdlijn-2026-10" data-tot="2026-12-31" aria-labelledby="nieuwBannerTitel" hidden>
             <a class="nieuw-banner-link" href="/tijdlijn/">
                 <span class="nieuw-banner-beelden" aria-hidden="true">
                     <img src="/assets/tijdlijn/hunebedden.webp" alt="" width="640" height="480" loading="lazy">
@@ -57,6 +59,24 @@
             </a>
             <button type="button" class="nieuw-banner-sluit" aria-label="Melding sluiten">&times;</button>
         </aside>
+
+        <aside class="nieuw-banner nieuw-banner--topo" data-id="topografie-2026-10" data-tot="2026-12-31" aria-labelledby="nieuwBannerTopoTitel" hidden>
+            <a class="nieuw-banner-link" href="/lesmateriaal/topografie">
+                <span class="nieuw-banner-beelden" aria-hidden="true">
+                    <img src="/assets/topografie/voorbeeld-nederland.svg" alt="" width="74" height="74" loading="lazy">
+                    <img src="/assets/topografie/voorbeeld-europa.svg" alt="" width="74" height="74" loading="lazy">
+                    <img src="/assets/topografie/voorbeeld-wereld.svg" alt="" width="74" height="74" loading="lazy">
+                </span>
+                <span class="nieuw-banner-tekst">
+                    <span class="nieuw-banner-label">Nieuw</span>
+                    <strong id="nieuwBannerTopoTitel">Topografie</strong>
+                    <span>Maak je eigen kaart van Nederland, een werelddeel of de wereld. Je klas oefent via een link of QR-code, en je drukt er zo een toets van af.</span>
+                </span>
+                <span class="nieuw-banner-cta">Maak een kaart &rarr;</span>
+            </a>
+            <button type="button" class="nieuw-banner-sluit" aria-label="Melding sluiten">&times;</button>
+        </aside>
+        </div>
 
         <!-- Onboarding-checklist voor nieuwe leerkrachten (js/onboarding.js) -->
         <div id="onboardingMount"></div>
@@ -123,21 +143,21 @@
     <!-- Footer -->
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.64.17"></script>
-    <script src="/js/template.js?v=1.64.17"></script>
+    <script src="/js/mt-shared.js?v=1.65.0"></script>
+    <script src="/js/template.js?v=1.65.0"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.64.17"></script>
-    <script src="js/app.js?v=1.64.17"></script>
-    <script src="/js/active-class.js?v=1.64.17"></script>
-    <script src="/js/active-sessions.js?v=1.64.17"></script>
-    <script src="js/onboarding.js?v=1.64.17"></script>
-    <script src="js/instellingen.js?v=1.64.17"></script>
-    <script src="js/schooljaar-archief.js?v=1.64.17"></script>
-    <script src="js/feedback.js?v=1.64.17"></script>
-    <script src="js/school-popup.js?v=1.64.17"></script>
-    <script src="js/tools-registry.js?v=1.64.17"></script>
-    <script src="js/nieuw-banner.js?v=1.64.17"></script>
-    <script src="/js/teller.js?v=1.64.17" defer></script>
+    <script src="js/supabase-config.js?v=1.65.0"></script>
+    <script src="js/app.js?v=1.65.0"></script>
+    <script src="/js/active-class.js?v=1.65.0"></script>
+    <script src="/js/active-sessions.js?v=1.65.0"></script>
+    <script src="js/onboarding.js?v=1.65.0"></script>
+    <script src="js/instellingen.js?v=1.65.0"></script>
+    <script src="js/schooljaar-archief.js?v=1.65.0"></script>
+    <script src="js/feedback.js?v=1.65.0"></script>
+    <script src="js/school-popup.js?v=1.65.0"></script>
+    <script src="js/tools-registry.js?v=1.65.0"></script>
+    <script src="js/nieuw-banner.js?v=1.65.0"></script>
+    <script src="/js/teller.js?v=1.65.0" defer></script>
 </body>
 </html>
