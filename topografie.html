@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Topografie oefenen - Meestertools</title>
-    <link rel="stylesheet" href="css/topografie.css?v=1.64.7">
+    <link rel="stylesheet" href="css/topografie.css?v=1.64.8">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root { --primary: #6C63FF; --primary-dark: #5A52D5; }
@@ -78,7 +78,7 @@
         .to-keuze.is-fout { background: #FBE0E0; border-color: #C0392B; color: #8A2B22; }
         .to-keuze:disabled { cursor: default; }
         .to-kaart-vak { position: relative; }
-        .to-kaart-vak .topo-kaart { height: calc(100vh - 230px); min-height: 360px; }
+        .to-kaart-vak .topo-kaart { max-height: calc(100vh - 230px); min-height: 240px; }
         .to-melding {
             position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
             background: #2D3436; color: #fff; font-weight: 700; font-size: 16px; padding: 10px 18px; border-radius: 24px;
@@ -104,7 +104,7 @@
             body { padding: 12px 10px 24px; }
             .to-card { padding: 18px 14px; border-radius: 18px; }
             .to-vraag .tekst { font-size: 20px; }
-            .to-kaart-vak .topo-kaart { height: calc(100vh - 330px); min-height: 320px; }
+            .to-kaart-vak .topo-kaart { max-height: calc(100vh - 330px); }
         }
     </style>
 </head>
@@ -184,11 +184,11 @@
         <p class="to-foot">Meestertools is gratis voor leerkrachten &middot; <a href="/" target="_blank" rel="noopener">meestertools.nl</a></p>
     </div>
 
-    <script src="/js/mt-shared.js?v=1.64.7"></script>
+    <script src="/js/mt-shared.js?v=1.64.8"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.64.7"></script>
-    <script src="js/topografie-kaart.js?v=1.64.7"></script>
-    <script src="js/topografie-oefenen.js?v=1.64.7"></script>
-    <script src="/js/teller.js?v=1.64.7" defer></script>
+    <script src="js/supabase-config.js?v=1.64.8"></script>
+    <script src="js/topografie-kaart.js?v=1.64.8"></script>
+    <script src="js/topografie-oefenen.js?v=1.64.8"></script>
+    <script src="/js/teller.js?v=1.64.8" defer></script>
 </body>
 </html>

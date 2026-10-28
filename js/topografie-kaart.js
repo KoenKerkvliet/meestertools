@@ -21,11 +21,13 @@
 
     var NS = 'http://www.w3.org/2000/svg';
     var cache = {};
+    // Ophogen als een kaartbestand in assets/topografie/ opnieuw gebouwd is
+    var DATA_VERSIE = 2;
 
     function laad(basis) {
         if (!/^[a-z]+$/.test(basis)) return Promise.reject(new Error('Onbekende kaart'));
         if (!cache[basis]) {
-            cache[basis] = fetch('/assets/topografie/' + basis + '.json?v=1').then(function (r) {
+            cache[basis] = fetch('/assets/topografie/' + basis + '.json?v=' + DATA_VERSIE).then(function (r) {
                 if (!r.ok) throw new Error('Kaart niet gevonden');
                 return r.json();
             }).then(function (d) {
@@ -50,7 +52,7 @@
     }
 
     var SOORT_LABEL = {
-        provincie: 'Provincie', land: 'Land', plaats: 'Plaats', hoofdstad: 'Hoofdstad', gebergte: 'Gebergte',
+        provincie: 'Provincie', land: 'Land', plaats: 'Plaats', hoofdstad: 'Hoofdstad', gebergte: 'Gebergte', werelddeel: 'Werelddeel',
         provhoofdstad: 'Provinciehoofdstad', rivier: 'Rivier', water: 'Water',
         eiland: 'Eiland', gebied: 'Gebied', eigen: 'Plek'
     };
@@ -109,10 +111,14 @@
         var marge = Math.max(x1 - x0, y1 - y0) * 0.08 + map.w * 0.02;
         x0 -= marge; y0 -= marge; x1 += marge; y1 += marge;
         var w = Math.max(x1 - x0, map.w * (minDeel || 0)), h = y1 - y0;
-        var r = verhouding || h / w;
-        if (h / w < r) h = w * r; else w = h / r;
-        if (w > map.w) { w = map.w; h = w * r; }
-        if (h > map.h && !verhouding) { h = map.h; w = h / r; }
+        if (verhouding) {
+            if (h / w < verhouding) h = w * verhouding; else w = h / verhouding;
+            if (w > map.w) { w = map.w; h = w * verhouding; }
+            if (h > map.h) { h = map.h; w = h / verhouding; }
+        } else {
+            w = Math.min(w, map.w);
+            h = Math.min(h, map.h);
+        }
         var cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
         var x = Math.max(0, Math.min(map.w - w, cx - w / 2));
         var y = Math.max(0, Math.min(map.h - h, cy - h / 2));
@@ -133,6 +139,9 @@
     function maak(container, map, opts) {
         opts = opts || {};
         container.classList.add('topo-kaart');
+        // Het vak krijgt de vorm van de kaart (de wereld is breed, Nederland
+        // hoog); de pagina begrenst alleen de hoogte.
+        container.style.aspectRatio = map.w + ' / ' + map.h;
         container.innerHTML = '';
 
         var svg = el('svg', { 'class': 'topo-svg', role: 'img', 'aria-label': 'Kaart van ' + map.naam });
@@ -144,6 +153,8 @@
         map.provincies.forEach(function (p) {
             el('path', { d: p.d, 'class': 'topo-prov-basis', 'data-prov': p.id }, gLand);
         });
+        // Evenaar, keerkringen en poolcirkels (alleen op de wereldkaart)
+        if (map.lijnen) el('path', { d: map.lijnen, 'class': 'topo-breedte' }, svg);
         var gRivBasis = el('g', { 'class': 'topo-rivieren-basis' }, svg);
         map.rivieren.forEach(function (r) { el('path', { d: r.d }, gRivBasis); });
 
@@ -238,7 +249,7 @@
         }
 
         function zoom(factor, cx, cy) {
-            var minW = map.w / 24, maxW = map.w;
+            var minW = map.w / (map.maxZoom || 24), maxW = map.w;
             var nw = Math.max(minW, Math.min(maxW, vb.w / factor));
             var f = nw / vb.w;
             if (cx == null) { cx = vb.x + vb.w / 2; cy = vb.y + vb.h / 2; }

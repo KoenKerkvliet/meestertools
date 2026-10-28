@@ -39,7 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Per basiskaart: naam en voorbeelden in de invoervelden
     var BASIS = {
         nederland: { naam: 'Nederland', titel: 'bijv. Provincies en hoofdsteden', zoek: 'bijv. Den Helder' },
-        europa: { naam: 'Europa', titel: 'bijv. Landen en hoofdsteden van Europa', zoek: 'bijv. Barcelona' }
+        europa: { naam: 'Europa', titel: 'bijv. Landen en hoofdsteden van Europa', zoek: 'bijv. Barcelona' },
+        wereld: { naam: 'Wereld', titel: 'bijv. Werelddelen en oceanen', zoek: 'bijv. New York' }
     };
     function basisNaam(b) { return (BASIS[b] || {}).naam || b; }
 
@@ -226,7 +227,11 @@ document.addEventListener('DOMContentLoaded', function () {
         $('topoTekstHoofd').textContent = t.hoofdsteden;
         $('topoAlleP').textContent = 'Alle ' + map.provincies.length;
         $('topoAlleH').textContent = 'Alle ' + map.hoofdsteden.length;
-        $('topoTekstGebieden').textContent = huidig.basis === 'nederland' ? 'Wateren, eilanden en gebieden' : 'Wateren, gebergten en eilanden';
+        $('topoTekstGebieden').textContent = {
+            nederland: 'Wateren, eilanden en gebieden',
+            europa: 'Wateren, gebergten en eilanden',
+            wereld: 'Werelddelen, wateren en gebieden'
+        }[huidig.basis] || 'Wateren en gebieden';
         $('topoTitel').placeholder = 'Naam van de kaart, ' + (b.titel || '');
         $('topoZoek').placeholder = 'Zoek een plaats, ' + (b.zoek || '');
     }
@@ -240,8 +245,9 @@ document.addEventListener('DOMContentLoaded', function () {
         $('chipsH').innerHTML = hoofdsteden().map(function (s) { return chipHtml('s', s.id, s.naam); }).join('');
         $('chipsR').innerHTML = map.rivieren.map(function (r) { return chipHtml('r', r.id, r.naam); }).join('');
         var nl = huidig.basis === 'nederland';
-        var groepen = [['water', 'Water'], ['gebergte', 'Gebergten'], ['eiland', nl ? 'Waddeneilanden' : 'Eilanden'],
-            ['gebied', nl ? 'Gebieden en streken' : 'Schiereilanden en gebieden']];
+        var groepen = [['werelddeel', 'Werelddelen'], ['water', 'Water'], ['gebergte', 'Gebergten'],
+            ['eiland', nl ? 'Waddeneilanden' : 'Eilanden'],
+            ['gebied', nl ? 'Gebieden en streken' : huidig.basis === 'wereld' ? 'Woestijnen en gebieden' : 'Schiereilanden en gebieden']];
         $('chipsG').innerHTML = groepen.map(function (g) {
             var lijst = map.gebieden.filter(function (x) { return x.soort === g[0]; })
                 .sort(function (a, b) { return a.naam.localeCompare(b.naam, 'nl'); });

@@ -140,6 +140,10 @@
         // Alleen het gebied rond de gekozen onderdelen, zodat een kaart van
         // West-Europa niet piepklein in de hoek van heel Europa staat
         var vb = TopoKaart.uitsnede(map, objs, null, 0.3);
+        // Een randje erbij: de Noordelijke IJszee en Antarctica liggen op de
+        // rand van de wereldkaart, hun code mag niet half van het blad vallen
+        var rand = Math.max(vb.w, vb.h) * 0.025;
+        vb = { x: vb.x - rand, y: vb.y - rand, w: vb.w + 2 * rand, h: vb.h + 2 * rand };
         if (vb.h / vb.w * breedteMm > maxHoogteMm) {
             var w = vb.h * breedteMm / maxHoogteMm;
             vb.x -= (w - vb.w) / 2;
@@ -160,6 +164,7 @@
         map.provincies.forEach(function (p) {
             h.push('<path d="' + p.d + '" fill="#FFFFFF" stroke="#999" stroke-width="' + (0.18 * u).toFixed(1) + '"/>');
         });
+        if (map.lijnen) h.push('<path d="' + map.lijnen + '" fill="none" stroke="#9BB8CC" stroke-width="' + (0.2 * u).toFixed(1) + '" stroke-dasharray="' + (1.2 * u).toFixed(1) + ' ' + (1 * u).toFixed(1) + '"/>');
         if (map.meren) h.push('<path d="' + map.meren + '" fill="#E6F2FA" stroke="#9CC6E4" stroke-width="' + (0.15 * u).toFixed(1) + '"/>');
         h.push('<g fill="none" stroke="#9CC6E4" stroke-width="' + (0.3 * u).toFixed(1) + '" stroke-linecap="round">');
         map.rivieren.forEach(function (r) { h.push('<path d="' + r.d + '"/>'); });

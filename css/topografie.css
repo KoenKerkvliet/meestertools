@@ -35,6 +35,8 @@
 .topo-punt-vis { fill: #2D3436; stroke: #fff; stroke-width: 2; vector-effect: non-scaling-stroke; transition: fill .15s; }
 .topo-punt.soort-water .topo-punt-vis { fill: #1F78C1; }
 .topo-punt.soort-gebergte .topo-punt-vis { fill: #8B5A2B; }
+.topo-punt.soort-werelddeel .topo-punt-vis { fill: #C2410C; }
+.topo-breedte { fill: none; stroke: #7FA8C4; stroke-width: 1; stroke-dasharray: 5 4; vector-effect: non-scaling-stroke; pointer-events: none; }
 .topo-punt.soort-eiland .topo-punt-vis,
 .topo-punt.soort-gebied .topo-punt-vis { fill: #2E8B57; }
 .topo-punt.soort-eigen .topo-punt-vis { fill: #6C63FF; }
@@ -139,7 +141,7 @@
 .topo-opgeslagen { font-size: 13px; color: var(--text-medium); min-width: 90px; }
 
 .topo-bewerk { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; align-items: start; }
-.topo-bewerk .topo-kaart { height: min(78vh, 760px); }
+.topo-bewerk .topo-kaart { max-height: min(78vh, 760px); }
 .topo-paneel { display: flex; flex-direction: column; gap: 12px; max-height: min(78vh, 760px); overflow-y: auto; padding-right: 4px; }
 
 .topo-blok { border: 2px solid #ECEAF7; border-radius: 14px; padding: 12px 14px; background: #fff; }
@@ -233,7 +235,7 @@
 
 @media (max-width: 900px) {
     .topo-bewerk { grid-template-columns: 1fr; }
-    .topo-bewerk .topo-kaart { height: 62vh; }
+    .topo-bewerk .topo-kaart { max-height: 62vh; }
     .topo-paneel { max-height: none; overflow: visible; }
 }
 
