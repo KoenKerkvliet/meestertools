@@ -216,6 +216,8 @@
         });
 
         h.push('</svg>');
+        // Bronvermelding: de kaartdata (CBS/Kadaster, GeoNames) vraagt erom
+        if (map.bron) h.push('<div class="tp-bron">' + esc(map.bron) + '</div>');
         return h.join('');
     }
 

@@ -565,7 +565,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         var objs = TopoKaart.resolveAll(basis, k.items || []);
-        printKaart = { titel: k.titel, map: basis, objs: objs };
+        printKaart = { id: k.id, titel: k.titel, map: basis, objs: objs };
+        laadToetsKeuze();
         $('topoPrintTitel').textContent = k.titel + ' afdrukken';
         $('topoPrintInfo').textContent = objs.length
             ? 'Maak van deze kaart een oefenblad of een toets op A4 (' + objs.length + (objs.length === 1 ? ' onderdeel).' : ' onderdelen).')
@@ -577,10 +578,83 @@ document.addEventListener('DOMContentLoaded', function () {
         printModal.hidden = false;
     }
 
+    // ---------- Toets: welke onderdelen erop komen ----------
+    // Een kaart met 30 onderdelen hoeft geen toets met 30 vragen te worden.
+    // De keuze wordt per kaart op dit apparaat onthouden (browseropslag),
+    // zodat een tweede druk voor een parallelgroep dezelfde toets geeft.
+    var toetsKeuze = {};
+
+    function keuzeSleutel() { return 'mt-topo-toets-' + printKaart.id; }
+
+    function laadToetsKeuze() {
+        toetsKeuze = {};
+        var bewaard = null;
+        try { bewaard = JSON.parse(localStorage.getItem(keuzeSleutel()) || 'null'); } catch (e) {}
+        printKaart.objs.forEach(function (o) {
+            toetsKeuze[o.key] = Array.isArray(bewaard) ? bewaard.indexOf(o.key) !== -1 : true;
+        });
+        // Bewaarde keuze zonder één bestaand onderdeel (kaart flink veranderd): alles
+        if (!printKaart.objs.some(function (o) { return toetsKeuze[o.key]; })) {
+            printKaart.objs.forEach(function (o) { toetsKeuze[o.key] = true; });
+        }
+        $('topoToetsKeuze').open = false;
+        $('topoToetsN').value = Math.min(20, printKaart.objs.length) || 1;
+        $('topoToetsN').max = printKaart.objs.length;
+        bouwToetsLijst();
+    }
+
+    function bouwToetsLijst() {
+        var c = TopoPrint.codes(printKaart.objs);
+        var titels = { cijfer: 'Plaatsen', hoofd: 'Wateren', klein: 'Gebieden' };
+        $('topoToetsLijst').innerHTML = ['cijfer', 'hoofd', 'klein'].filter(function (g) { return c.groepen[g].length; }).map(function (g) {
+            return '<div class="groep"><div class="groep-titel">' + titels[g] + '</div>' +
+                c.groepen[g].slice().sort(function (a, b) { return a.naam.localeCompare(b.naam, 'nl'); }).map(function (o) {
+                    return '<label><input type="checkbox" data-key="' + esc(o.key) + '"' + (toetsKeuze[o.key] ? ' checked' : '') + '> ' + esc(o.naam) + '</label>';
+                }).join('') + '</div>';
+        }).join('');
+        werkToetsAantalBij();
+    }
+
+    function werkToetsAantalBij() {
+        var n = printKaart.objs.filter(function (o) { return toetsKeuze[o.key]; }).length, tot = printKaart.objs.length;
+        $('topoToetsAantal').textContent = n === tot ? 'Alle ' + tot + ' onderdelen op de toets' : n + ' van de ' + tot + ' onderdelen op de toets';
+        try {
+            localStorage.setItem(keuzeSleutel(), JSON.stringify(Object.keys(toetsKeuze).filter(function (k) { return toetsKeuze[k]; })));
+        } catch (e) {}
+    }
+
+    $('topoToetsLijst').addEventListener('change', function (e) {
+        var cb = e.target.closest('input[data-key]');
+        if (!cb) return;
+        toetsKeuze[cb.dataset.key] = cb.checked;
+        werkToetsAantalBij();
+    });
+
+    $('topoToetsKeuze').addEventListener('click', function (e) {
+        var b = e.target.closest('[data-keuze]');
+        if (!b) return;
+        var keys = printKaart.objs.map(function (o) { return o.key; });
+        if (b.dataset.keuze === 'alles' || b.dataset.keuze === 'niets') {
+            keys.forEach(function (k) { toetsKeuze[k] = b.dataset.keuze === 'alles'; });
+        } else {
+            var n = Math.max(1, Math.min(keys.length, parseInt($('topoToetsN').value, 10) || 1));
+            for (var i = keys.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1)), t = keys[i]; keys[i] = keys[j]; keys[j] = t;
+            }
+            keys.forEach(function (k, i) { toetsKeuze[k] = i < n; });
+        }
+        bouwToetsLijst();
+    });
+
     function drukAf(soort) {
         if (!printKaart || !printKaart.objs.length) return;
+        var objs = printKaart.objs;
+        if (soort === 'toets') {
+            objs = objs.filter(function (o) { return toetsKeuze[o.key]; });
+            if (!objs.length) { alert('Kies minstens één onderdeel voor de toets.'); return; }
+        }
         var layout = (printModal.querySelector('input[name="topoPrintLayout"]:checked') || {}).value || 'naast';
-        var inhoud = TopoPrint.html(printKaart.map, printKaart.objs, printKaart.titel, soort, {
+        var inhoud = TopoPrint.html(printKaart.map, objs, printKaart.titel, soort, {
             naam: $('topoPrintOefenNaam').checked,
             layout: layout,
             nakijk: $('topoPrintNakijk').checked

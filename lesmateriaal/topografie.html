@@ -11,9 +11,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Meestertools - Topografie</title>
-    <link rel="stylesheet" href="../css/style.css?v=1.64.16">
-    <link rel="stylesheet" href="../css/instellingen.css?v=1.64.16">
-    <link rel="stylesheet" href="../css/topografie.css?v=1.64.16">
+    <link rel="stylesheet" href="../css/style.css?v=1.64.17">
+    <link rel="stylesheet" href="../css/instellingen.css?v=1.64.17">
+    <link rel="stylesheet" href="../css/topografie.css?v=1.64.17">
 </head>
 <body>
     <header id="app-header-slot"></header>
@@ -186,6 +186,18 @@
                     <label><input type="radio" name="topoPrintLayout" value="naast" checked> Antwoordlijnen naast de kaart (1 blad, tot ongeveer 30 onderdelen)</label>
                     <label><input type="radio" name="topoPrintLayout" value="achterkant"> Grote kaart, antwoordlijnen op de achterkant (2 bladen)</label>
                     <label><input type="checkbox" id="topoPrintNakijk" checked> Nakijkblad voor mezelf erbij</label>
+                    <details class="topo-toets-keuze" id="topoToetsKeuze">
+                        <summary><span id="topoToetsAantal">Alle onderdelen op de toets</span> <span class="wijzig">wijzigen</span></summary>
+                        <div class="topo-toets-acties">
+                            <button type="button" class="topo-knop licht klein" data-keuze="alles">Alles</button>
+                            <button type="button" class="topo-knop rand klein" data-keuze="niets">Niets</button>
+                            <span class="topo-willekeurig">
+                                <button type="button" class="topo-knop licht klein" data-keuze="willekeurig">Willekeurig</button>
+                                <input type="number" id="topoToetsN" min="1" value="20" aria-label="Aantal onderdelen">
+                            </span>
+                        </div>
+                        <div class="topo-toets-lijst" id="topoToetsLijst"></div>
+                    </details>
                     <button type="button" class="topo-knop" id="topoPrintToets">Toets afdrukken</button>
                 </div>
             </div>
@@ -199,16 +211,16 @@
 
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.64.16"></script>
-    <script src="/js/template.js?v=1.64.16"></script>
+    <script src="/js/mt-shared.js?v=1.64.17"></script>
+    <script src="/js/template.js?v=1.64.17"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="../js/supabase-config.js?v=1.64.16"></script>
-    <script src="../js/app.js?v=1.64.16"></script>
-    <script src="../js/instellingen.js?v=1.64.16"></script>
+    <script src="../js/supabase-config.js?v=1.64.17"></script>
+    <script src="../js/app.js?v=1.64.17"></script>
+    <script src="../js/instellingen.js?v=1.64.17"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
-    <script src="../js/topografie-kaart.js?v=1.64.16"></script>
-    <script src="../js/topografie-print.js?v=1.64.16"></script>
-    <script src="../js/topografie.js?v=1.64.16"></script>
-    <script src="/js/teller.js?v=1.64.16" defer></script>
+    <script src="../js/topografie-kaart.js?v=1.64.17"></script>
+    <script src="../js/topografie-print.js?v=1.64.17"></script>
+    <script src="../js/topografie.js?v=1.64.17"></script>
+    <script src="/js/teller.js?v=1.64.17" defer></script>
 </body>
 </html>
