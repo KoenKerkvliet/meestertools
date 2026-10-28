@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.64.13';
+    const VERSION = 'v1.64.14';
 
     // ---------- Centrale tool-lijst (absolute urls voor gebruik overal) ----------
     const MT_ALL_TOOLS = [
@@ -170,7 +170,7 @@
     const footerHtml = `
 <footer class="app-footer">
     <div class="footer-inner">
-        <span class="footer-left">&copy; <span id="footerYear"></span> Meestertools &middot; Design by <a href="https://designpixels.nl" target="_blank" rel="noopener">Design Pixels</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/ideeenbus">Idee&euml;nbus</a> &middot; <a href="mailto:info@meestertools.nl">Contact</a></span>
+        <span class="footer-left">&copy; <span id="footerYear"></span> Meestertools &middot; Design by <a href="https://designpixels.nl" target="_blank" rel="noopener">Design Pixels</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/ideeenbus">Idee&euml;nbus</a> &middot; <a href="/roadmap">Roadmap</a> &middot; <a href="mailto:info@meestertools.nl">Contact</a></span>
         <a href="/changelog" class="version">${VERSION}</a>
     </div>
 </footer>`;
