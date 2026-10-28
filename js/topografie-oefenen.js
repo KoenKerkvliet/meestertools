@@ -69,7 +69,26 @@ document.addEventListener('DOMContentLoaded', function () {
             toonCode(res.error ? 'De kaart kon niet geladen worden. Controleer je internet en probeer het opnieuw.' : 'Deze kaart bestaat niet (meer). Klopt de code?');
             return;
         }
-        kaartData = res.data;
+        try { history.replaceState(null, '', location.pathname + '?k=' + encodeURIComponent(code)); } catch (e) {}
+        await toonKaart(res.data);
+    }
+
+    // Voorbeeldkaarten voor de homepage (/topografie?voorbeeld=provincies)
+    // staan als vast bestand in assets/topografie/voorbeelden.json en niet in
+    // de database: dan kunnen ze nooit per ongeluk weggegooid worden.
+    async function openVoorbeeld(naam) {
+        toon('toLaden');
+        var data = null;
+        try {
+            var r = await fetch('/assets/topografie/voorbeelden.json?v=1');
+            if (r.ok) data = (await r.json())[naam] || null;
+        } catch (e) { /* hieronder netjes melden */ }
+        if (!data) { toonCode('Dit voorbeeld bestaat niet (meer). Typ de code van je juf of meester.'); return; }
+        await toonKaart(data);
+    }
+
+    async function toonKaart(data) {
+        kaartData = data;
         try {
             map = await TopoKaart.laad(kaartData.basis);
         } catch (e) {
@@ -77,7 +96,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         objs = TopoKaart.resolveAll(map, kaartData.items);
-        try { history.replaceState(null, '', location.pathname + '?k=' + encodeURIComponent(code)); } catch (e) {}
 
         $('toTitel').textContent = kaartData.titel;
         document.title = kaartData.titel + ' - Topografie';
@@ -346,6 +364,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Start ----------
     var m = /[?&]k=([^&]+)/.exec(location.search);
+    var v = /[?&]voorbeeld=([a-z-]+)/.exec(location.search);
     if (m) openCode(decodeURIComponent(m[1]));
+    else if (v) openVoorbeeld(v[1]);
     else toonCode('');
 });
