@@ -63,11 +63,6 @@
 .sb-indeling i { background: #D9D5F5; border-radius: 2px; }
 .sb-indeling.aan { border-color: var(--primary); background: #F4F2FF; }
 .sb-indeling.aan i { background: var(--primary); }
-.sb-indeling.ind-een { grid-template-columns: 1fr; }
-.sb-indeling.ind-twee { grid-template-columns: 1fr 1fr; }
-.sb-indeling.ind-groot-twee { grid-template-columns: 1.6fr 1fr; grid-template-rows: 1fr 1fr; }
-.sb-indeling.ind-groot-twee i:first-child { grid-row: 1 / 3; }
-.sb-indeling.ind-vier { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
 .sb-kleur { width: 30px; height: 30px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 2px #E3E1F2; cursor: pointer; }
 .sb-kleur.aan { box-shadow: 0 0 0 3px var(--primary); }
 
@@ -126,11 +121,19 @@
     font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
     --accent: #6C63FF; background: #EEEAFE;
 }
-.sb-bord.ind-een { grid-template-columns: 1fr; }
-.sb-bord.ind-twee { grid-template-columns: 1fr 1fr; }
-.sb-bord.ind-groot-twee { grid-template-columns: 1.6fr 1fr; grid-template-rows: 1fr 1fr; }
-.sb-bord.ind-groot-twee .sb-vak:first-child { grid-row: 1 / 3; }
-.sb-bord.ind-vier { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+/* Indelingen: dezelfde verdeling voor het knopje en voor het bord zelf */
+.ind-een { grid-template-columns: 1fr; }
+.ind-twee { grid-template-columns: 1fr 1fr; }
+.ind-drie { grid-template-columns: repeat(3, 1fr); }
+.ind-groot-twee { grid-template-columns: 1.6fr 1fr; grid-template-rows: 1fr 1fr; }
+.ind-groot-twee > :first-child { grid-row: 1 / 3; }
+.ind-vier { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.ind-groot-vier { grid-template-columns: 1.4fr 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.ind-groot-vier > :first-child { grid-row: 1 / 3; }
+.ind-boven-vier { grid-template-columns: repeat(4, 1fr); grid-template-rows: 1.25fr 1fr; }
+.ind-boven-vier > :first-child { grid-column: 1 / 5; }
+.ind-zes { grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; }
+.ind-acht { grid-template-columns: repeat(4, 1fr); grid-template-rows: 1fr 1fr; }
 
 .sb-bord.kleur-lavendel { background: #EEEAFE; --accent: #6C63FF; }
 .sb-bord.kleur-zon { background: #FFF2CF; --accent: #C27C00; }
@@ -148,47 +151,50 @@
 .sb-bewerkmodus .sb-vak:hover { outline: 8px solid rgba(108, 99, 255, .35); }
 .sb-bewerkmodus .sb-vak.gekozen { outline: 10px solid var(--primary); }
 
-.sb-blok { flex: 1; min-height: 0; padding: 44px 52px; color: #2D3436; display: flex; flex-direction: column; overflow: hidden; }
-.sb-titel { font-size: 66px; font-weight: 800; line-height: 1.1; color: var(--accent); margin: 0 0 22px; }
-.sb-inhoud { font-size: 42px; line-height: 1.4; }
-.sb-inhoud.grootte-groot { font-size: 54px; }
-.sb-inhoud.grootte-heelgroot { font-size: 72px; }
+/* Alle maten in een blok schalen mee met --s. Past de inhoud niet in het
+   vak (lange tekst, klein vak), dan verlaagt js/startbord.js --s stap voor stap. */
+.sb-blok {
+    --s: 1;
+    flex: 1; min-height: 0; padding: calc(44px * var(--s)) calc(52px * var(--s));
+    color: #2D3436; display: flex; flex-direction: column; overflow: hidden;
+}
+.sb-titel { font-size: calc(66px * var(--s)); font-weight: 800; line-height: 1.1; color: var(--accent); margin: 0 0 calc(22px * var(--s)); overflow-wrap: anywhere; }
+.sb-inhoud { font-size: calc(42px * var(--s)); line-height: 1.4; overflow-wrap: anywhere; }
+.sb-inhoud.grootte-groot { font-size: calc(54px * var(--s)); }
+.sb-inhoud.grootte-heelgroot { font-size: calc(72px * var(--s)); }
 .sb-inhoud p, .sb-inhoud div { margin: 0 0 .3em; }
 .sb-inhoud ul, .sb-inhoud ol { margin: 0 0 .3em; padding-left: 1.2em; }
 .sb-inhoud li { margin-bottom: .15em; }
 
-.sb-klok { align-items: center; justify-content: center; text-align: center; gap: 6px; }
-.sb-groet { font-size: 58px; font-weight: 800; color: var(--accent); margin-bottom: 10px; }
-.sb-dag { font-size: 46px; font-weight: 700; text-transform: capitalize; }
-.sb-datum { font-size: 40px; color: #636E72; }
-.sb-tijd { font-size: 120px; font-weight: 800; line-height: 1; margin-top: 18px; font-variant-numeric: tabular-nums; color: #2D3436; }
+.sb-klok { align-items: center; justify-content: center; text-align: center; gap: calc(6px * var(--s)); }
+.sb-groet { font-size: calc(58px * var(--s)); font-weight: 800; color: var(--accent); margin-bottom: calc(10px * var(--s)); }
+.sb-dag { font-size: calc(46px * var(--s)); font-weight: 700; text-transform: capitalize; }
+.sb-datum { font-size: calc(40px * var(--s)); color: #636E72; }
+.sb-tijd { font-size: calc(120px * var(--s)); font-weight: 800; line-height: 1; margin-top: calc(18px * var(--s)); font-variant-numeric: tabular-nums; color: #2D3436; }
 
-.sb-taken ol { list-style: none; counter-reset: taak; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px; }
+.sb-taken ol { list-style: none; counter-reset: taak; margin: 0; padding: 0; display: flex; flex-direction: column; gap: calc(18px * var(--s)); }
 .sb-taken li {
-    counter-increment: taak; display: flex; align-items: center; gap: 22px; font-size: 44px; line-height: 1.2;
-    padding: 14px 18px; border-radius: 22px; background: #F6F5FC; transition: opacity .2s;
+    counter-increment: taak; display: flex; align-items: center; gap: calc(22px * var(--s));
+    font-size: calc(44px * var(--s)); line-height: 1.2;
+    padding: calc(14px * var(--s)) calc(18px * var(--s)); border-radius: calc(22px * var(--s)); background: #F6F5FC; transition: opacity .2s;
 }
 .sb-taken li::before {
-    content: counter(taak); flex: 0 0 auto; width: 66px; height: 66px; border-radius: 50%;
-    background: var(--accent); color: #fff; font-weight: 800; font-size: 38px; display: flex; align-items: center; justify-content: center;
+    content: counter(taak); flex: 0 0 auto; width: calc(66px * var(--s)); height: calc(66px * var(--s)); border-radius: 50%;
+    background: var(--accent); color: #fff; font-weight: 800; font-size: calc(38px * var(--s));
+    display: flex; align-items: center; justify-content: center;
 }
 .sb-presenteer .sb-taken li { cursor: pointer; }
 .sb-taken li.klaar { opacity: .45; text-decoration: line-through; }
 .sb-taken li.klaar::before { content: '\2713'; background: #2E8B57; }
 
-/* Kleine vakken: alles iets compacter, zodat een takenlijst of klok erin past */
-.vak-klein .sb-blok { padding: 30px 36px; }
-.vak-klein .sb-titel { font-size: 50px; margin-bottom: 14px; }
-.vak-klein .sb-inhoud { font-size: 34px; }
-.vak-klein .sb-inhoud.grootte-groot { font-size: 42px; }
-.vak-klein .sb-inhoud.grootte-heelgroot { font-size: 54px; }
-.vak-klein .sb-groet { font-size: 44px; margin-bottom: 4px; }
-.vak-klein .sb-dag { font-size: 36px; }
-.vak-klein .sb-datum { font-size: 30px; }
-.vak-klein .sb-tijd { font-size: 92px; margin-top: 8px; }
-.vak-klein .sb-taken ol { gap: 10px; }
-.vak-klein .sb-taken li { font-size: 32px; padding: 8px 14px; gap: 16px; border-radius: 16px; }
-.vak-klein .sb-taken li::before { width: 48px; height: 48px; font-size: 28px; }
+/* Afbeelding (staat in de browser, niet in de database) */
+.sb-beeld { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 18px; gap: 10px; }
+.sb-beeld img { flex: 1; min-height: 0; width: 100%; object-fit: contain; border-radius: 18px; }
+.sb-beeld.vullen { padding: 0; }
+.sb-beeld.vullen img { object-fit: cover; border-radius: 0; }
+.sb-beeld-onderschrift { font-size: 34px; font-weight: 700; text-align: center; color: #2D3436; }
+.sb-beeld.vullen .sb-beeld-onderschrift { padding: 10px 18px 16px; }
+.sb-beeld-mist { font-size: 30px; }
 
 .sb-toolvak { flex: 1; min-height: 0; display: flex; }
 .sb-toolvak iframe { flex: 1; border: 0; width: 100%; height: 100%; background: #fff; }

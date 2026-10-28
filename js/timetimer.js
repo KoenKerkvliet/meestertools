@@ -464,6 +464,19 @@ document.addEventListener('DOMContentLoaded', () => {
         closeSettingsModal();
     });
 
+    // Op een Startbord (ingebed) in een smal vak: opties achter een knop,
+    // zodat de klok zelf zo groot mogelijk kan zijn
+    const optiesKnop = document.getElementById('timerOptiesKnop');
+    if (optiesKnop) {
+        optiesKnop.addEventListener('click', () => {
+            document.querySelector('.timer-container').classList.toggle('opties-open');
+        });
+        // Na Start de opties weer dicht, dan is de klok meteen te zien
+        document.querySelector('.timer-side').addEventListener('click', (e) => {
+            if (e.target.closest('#btnStart')) document.querySelector('.timer-container').classList.remove('opties-open');
+        });
+    }
+
     // ---------- Init ----------
     drawMarkers();
     drawNumbers();

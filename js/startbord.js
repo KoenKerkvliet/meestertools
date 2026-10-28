@@ -23,10 +23,13 @@ document.addEventListener('DOMContentLoaded', function () {
     var esc = function (s) { return MT.escapeHtml(s); };
 
     var BREED = 1600, HOOG = 900;
-    var VAKKEN = { een: 1, twee: 2, 'groot-twee': 3, vier: 4 };
+    var MAX_BORDEN = 5;   // ook afgedwongen in de database (trigger startborden_max)
+    var VAKKEN = { een: 1, twee: 2, drie: 3, 'groot-twee': 3, vier: 4, 'groot-vier': 5, 'boven-vier': 5, zes: 6, acht: 8 };
     var INDELINGEN = [
-        ['een', 'Eén groot vak'], ['twee', 'Twee naast elkaar'],
-        ['groot-twee', 'Groot vak met twee kleine'], ['vier', 'Vier vakken']
+        ['een', 'Eén groot vak'], ['twee', 'Twee naast elkaar'], ['drie', 'Drie naast elkaar'],
+        ['groot-twee', 'Groot vak met twee kleine'], ['vier', 'Vier vakken'],
+        ['groot-vier', 'Groot vak met vier kleine'], ['boven-vier', 'Breed vak met vier kleine eronder'],
+        ['zes', 'Zes vakken'], ['acht', 'Acht kleine vakken']
     ];
     var KLEUREN = [
         ['lavendel', '#EEEAFE', 'Lavendel'], ['zon', '#FFF2CF', 'Zon'], ['mint', '#DDF3E6', 'Mint'],
@@ -34,7 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
     var SOORTEN = [
         ['tekst', '&#128221;', 'Tekst'], ['klok', '&#128339;', 'Datum en klok'],
-        ['taken', '&#9989;', 'Takenlijst'], ['tool', '&#129520;', 'Tool'], ['leeg', '&#9675;', 'Leeg']
+        ['taken', '&#9989;', 'Takenlijst'], ['tool', '&#129520;', 'Tool'],
+        ['beeld', '&#128444;&#65039;', 'Afbeelding'], ['leeg', '&#9675;', 'Leeg']
     ];
     var TOOLS = {
         timetimer: { naam: 'Time Timer', em: '&#9202;', url: '/digibord/timetimer.html' },
@@ -78,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (soort === 'klok') return { type: 'klok', klok: true, datum: true, groet: 'Goedemorgen!' };
         if (soort === 'taken') return { type: 'taken', titel: 'Bij binnenkomst', taken: ['Jas ophangen', 'Agenda pakken', 'Lezen in je boek'] };
         if (soort === 'tool') return { type: 'tool', tool: 'timetimer' };
+        if (soort === 'beeld') return { type: 'beeld', sleutel: '', onderschrift: '', vullen: false };
         return { type: 'leeg' };
     }
 
@@ -123,6 +128,13 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             return '<div class="sb-plek"><span class="em">' + tool.em + '</span>' + esc(tool.naam) + '<small>werkt bij Presenteren</small></div>';
         }
+        if (b.type === 'beeld') {
+            if (!b.sleutel) {
+                return modus === 'presenteer' ? '' : '<div class="sb-plek"><span class="em">&#128444;&#65039;</span>Kies een afbeelding</div>';
+            }
+            return '<div class="sb-beeld' + (b.vullen ? ' vullen' : '') + '"><img data-beeld="' + esc(b.sleutel) + '" alt="">' +
+                (b.onderschrift ? '<div class="sb-beeld-onderschrift">' + esc(b.onderschrift) + '</div>' : '') + '</div>';
+        }
         return modus === 'bewerk' ? '<div class="sb-plek"><span class="em">+</span>Kies wat hier komt</div>' : '';
     }
 
@@ -132,15 +144,113 @@ document.addEventListener('DOMContentLoaded', function () {
         container.innerHTML = '<div class="sb-bord ind-' + esc(bord.indeling) + ' kleur-' + esc(bord.kleur) +
             (modus === 'bewerk' ? ' sb-bewerkmodus' : modus === 'presenteer' ? ' sb-presenteer' : '') + '">' +
             blokken.map(function (b, i) {
-                // Kleine vakken (2x2, en de twee rechts bij groot + twee) krijgen kleinere letters
-                var klein = bord.indeling === 'vier' || (bord.indeling === 'groot-twee' && i > 0);
-                return '<div class="sb-vak' + (klein ? ' vak-klein' : '') + (b.type === 'leeg' ? ' is-leeg' : '') +
+                return '<div class="sb-vak' + (b.type === 'leeg' ? ' is-leeg' : '') +
                     (modus === 'bewerk' && i === gekozenVak ? ' gekozen' : '') + '" data-vak="' + i + '">' + blokHtml(b, modus) + '</div>';
             }).join('') + '</div>';
         var kleur = KLEUREN.filter(function (k) { return k[0] === bord.kleur; })[0];
         container.style.background = kleur ? kleur[1] : '';
         if (ro) ro.observe(container);
         schaal(container);
+        pasTekstIn(container);
+        laadBeelden(container);
+    }
+
+    // Past de inhoud van een blok niet in zijn vak (lange tekst, klein vak),
+    // dan wordt alles erin stap voor stap kleiner (--s, zie css/startbord.css)
+    function pasTekstIn(container) {
+        container.querySelectorAll('.sb-blok').forEach(function (blok) {
+            var s = 1;
+            blok.style.setProperty('--s', '1');
+            var past = function () {
+                return blok.scrollHeight <= blok.clientHeight + 1 && blok.scrollWidth <= blok.clientWidth + 1;
+            };
+            while (!past() && s > 0.3) {
+                s = Math.round((s - 0.05) * 100) / 100;
+                blok.style.setProperty('--s', String(s));
+            }
+        });
+    }
+
+    // ---------- Afbeeldingen: alleen in deze browser (IndexedDB) ----------
+    // In de database staat alleen een sleutel. Het plaatje zelf gaat nooit
+    // naar de server; op een ander apparaat of in een andere browser is het er
+    // dus niet, en dat zeggen we dan ook.
+    var beeldDb = null;
+    var beeldUrls = {};
+    function opdb() {
+        if (!beeldDb) {
+            beeldDb = new Promise(function (ok, fout) {
+                var req = indexedDB.open('mt-startbord', 1);
+                req.onupgradeneeded = function () { req.result.createObjectStore('beelden'); };
+                req.onsuccess = function () { ok(req.result); };
+                req.onerror = function () { fout(req.error); };
+            });
+        }
+        return beeldDb;
+    }
+    function beeldActie(modus, fn) {
+        return opdb().then(function (db) {
+            return new Promise(function (ok, fout) {
+                var tx = db.transaction('beelden', modus);
+                var req = fn(tx.objectStore('beelden'));
+                tx.oncomplete = function () { ok(req && req.result); };
+                tx.onerror = function () { fout(tx.error); };
+            });
+        });
+    }
+    function beeldBewaar(blob) {
+        var sleutel = 'beeld-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        return beeldActie('readwrite', function (st) { return st.put(blob, sleutel); }).then(function () { return sleutel; });
+    }
+    function beeldHaal(sleutel) { return beeldActie('readonly', function (st) { return st.get(sleutel); }); }
+    function beeldWeg(sleutel) {
+        if (!sleutel) return Promise.resolve();
+        if (beeldUrls[sleutel]) { URL.revokeObjectURL(beeldUrls[sleutel]); delete beeldUrls[sleutel]; }
+        return beeldActie('readwrite', function (st) { return st.delete(sleutel); }).catch(function () {});
+    }
+    function beeldKopie(sleutel) {
+        return beeldHaal(sleutel).then(function (blob) { return blob ? beeldBewaar(blob) : ''; }).catch(function () { return ''; });
+    }
+
+    function laadBeelden(container) {
+        container.querySelectorAll('img[data-beeld]').forEach(function (img) {
+            var sleutel = img.getAttribute('data-beeld');
+            if (beeldUrls[sleutel]) { img.src = beeldUrls[sleutel]; return; }
+            beeldHaal(sleutel).then(function (blob) {
+                if (!blob) throw new Error('weg');
+                beeldUrls[sleutel] = beeldUrls[sleutel] || URL.createObjectURL(blob);
+                img.src = beeldUrls[sleutel];
+            }).catch(function () {
+                var plek = document.createElement('div');
+                plek.className = 'sb-plek sb-beeld-mist';
+                plek.innerHTML = '<span class="em">&#128444;&#65039;</span>Deze afbeelding staat op een ander apparaat<small>Afbeeldingen worden alleen in de browser bewaard waarin je ze toevoegde.</small>';
+                img.replaceWith(plek);
+            });
+        });
+    }
+
+    // Verkleinen voor het bord: hooguit 1600 x 900, zodat de browseropslag niet volloopt
+    function verklein(bestand) {
+        return new Promise(function (ok, fout) {
+            var url = URL.createObjectURL(bestand);
+            var img = new Image();
+            img.onload = function () {
+                var f = Math.min(1, 1600 / img.width, 900 / img.height);
+                var c = document.createElement('canvas');
+                c.width = Math.round(img.width * f);
+                c.height = Math.round(img.height * f);
+                c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+                URL.revokeObjectURL(url);
+                var type = /png|gif|webp/.test(bestand.type) ? 'image/png' : 'image/jpeg';
+                c.toBlob(function (blob) { blob ? ok(blob) : fout(new Error('leeg')); }, type, 0.86);
+            };
+            img.onerror = function () { URL.revokeObjectURL(url); fout(new Error('geen afbeelding')); };
+            img.src = url;
+        });
+    }
+
+    function beeldenVan(bord) {
+        return (bord.blokken || []).filter(function (b) { return b.type === 'beeld' && b.sleutel; }).map(function (b) { return b.sleutel; });
     }
 
     function schaal(container) {
@@ -185,6 +295,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function renderLijst() {
         var el = $('sbBorden');
+        var vol = borden.length >= MAX_BORDEN;
+        $('sbNieuw').disabled = vol;
+        $('sbNieuw').title = vol ? 'Je hebt al ' + MAX_BORDEN + ' borden. Verwijder er een of pas een bestaand bord aan.' : '';
+        $('sbTeller').textContent = borden.length + ' van de ' + MAX_BORDEN + ' borden' +
+            (vol ? ' — het maximum. Verwijder er een of pas een bestaand bord aan.' : '');
         if (!borden.length) {
             el.innerHTML = '<div class="sb-leeg"><span class="icoon">&#128444;&#65039;</span>' +
                 '<p>Je hebt nog geen borden. Maak er een, bijvoorbeeld voor de inloop.</p></div>';
@@ -202,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<div class="sb-acties">' +
                 '<button type="button" class="sb-knop klein" data-actie="presenteer">&#9654; Presenteren</button>' +
                 '<button type="button" class="sb-knop licht klein" data-actie="bewerk">Bewerken</button>' +
-                '<button type="button" class="sb-knop licht klein" data-actie="kopieer">Kopiëren</button>' +
+                '<button type="button" class="sb-knop licht klein" data-actie="kopieer"' + (vol ? ' disabled title="Je hebt al ' + MAX_BORDEN + ' borden"' : '') + '>Kopiëren</button>' +
                 '<button type="button" class="sb-knop gevaar klein" data-actie="verwijder">Verwijderen</button>' +
                 '</div></div></div>';
         }).join('') + '</div>';
@@ -239,18 +354,31 @@ document.addEventListener('DOMContentLoaded', function () {
         var res = await supabase.from('startborden').insert(nieuw)
             .select('id, titel, volgorde, indeling, kleur, blokken, updated_at').single();
         this.disabled = false;
-        if (res.error || !res.data) { alert('Het bord kon niet aangemaakt worden. Probeer het opnieuw.'); return; }
+        if (res.error || !res.data) {
+            alert(res.error && /maximaal/.test(res.error.message) ? 'Je kunt maximaal ' + MAX_BORDEN + ' borden bewaren.' : 'Het bord kon niet aangemaakt worden. Probeer het opnieuw.');
+            return;
+        }
         borden.push(res.data);
         openBord(res.data);
         $('sbTitel').select();
     });
 
     async function kopieer(b) {
+        if (borden.length >= MAX_BORDEN) return;
         var volgorde = Math.max.apply(null, borden.map(function (x) { return x.volgorde; })) + 1;
+        // Een kopie krijgt eigen afbeeldingen, anders gooit het weghalen van
+        // het ene bord ook de plaatjes van het andere weg
+        var blokken = JSON.parse(JSON.stringify(b.blokken || []));
+        for (var i = 0; i < blokken.length; i++) {
+            if (blokken[i].type === 'beeld' && blokken[i].sleutel) blokken[i].sleutel = await beeldKopie(blokken[i].sleutel);
+        }
         var res = await supabase.from('startborden').insert({
-            titel: (b.titel + ' (kopie)').slice(0, 80), volgorde: volgorde, indeling: b.indeling, kleur: b.kleur, blokken: b.blokken
+            titel: (b.titel + ' (kopie)').slice(0, 80), volgorde: volgorde, indeling: b.indeling, kleur: b.kleur, blokken: blokken
         }).select('id, titel, volgorde, indeling, kleur, blokken, updated_at').single();
-        if (res.error || !res.data) { alert('Kopiëren lukte niet. Probeer het opnieuw.'); return; }
+        if (res.error || !res.data) {
+            alert(res.error && /maximaal/.test(res.error.message) ? 'Je kunt maximaal ' + MAX_BORDEN + ' borden bewaren.' : 'Kopiëren lukte niet. Probeer het opnieuw.');
+            return;
+        }
         borden.push(res.data);
         renderLijst();
     }
@@ -259,6 +387,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!confirm('"' + b.titel + '" verwijderen?')) return;
         var res = await supabase.from('startborden').delete().eq('id', b.id);
         if (res.error) { alert('Verwijderen lukte niet. Probeer het opnieuw.'); return; }
+        beeldenVan(b).forEach(beeldWeg);
         borden = borden.filter(function (x) { return x.id !== b.id; });
         renderLijst();
     }
@@ -329,6 +458,7 @@ document.addEventListener('DOMContentLoaded', function () {
         huidig.blokken = passend(huidig.blokken, huidig.indeling);
         gekozenVak = Math.min(gekozenVak, huidig.blokken.length - 1);
         gewijzigd(true);
+        renderPaneel();
     });
     $('sbKleuren').addEventListener('click', function (e) {
         var b = e.target.closest('[data-kleur]');
@@ -384,6 +514,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 return '<button type="button" class="sb-tool' + (b.tool === k ? ' aan' : '') + '" data-tool="' + k + '"><span class="em">' + TOOLS[k].em + '</span>' + TOOLS[k].naam + '</button>';
             }).join('') + '</div>' +
                 '<p class="sb-hint">De tool werkt zoals je hem kent. Instellingen (zoals je klas bij de namenkiezer) kies je in de tool zelf.</p>';
+        } else if (b.type === 'beeld') {
+            h += '<label class="sb-veld"><span>' + (b.sleutel ? 'Andere afbeelding kiezen' : 'Afbeelding kiezen') + '</span>' +
+                '<input type="file" id="sbBeeldKies" accept="image/*"></label>' +
+                '<label class="sb-veld"><span>Onderschrift (mag leeg)</span><input type="text" data-veld="onderschrift" maxlength="80" value="' + esc(b.onderschrift || '') + '"></label>' +
+                '<label class="sb-vinkje"><input type="checkbox" data-veld="vullen"' + (b.vullen ? ' checked' : '') + '> Het hele vak vullen (randen vallen weg)</label>' +
+                '<p class="sb-hint">De afbeelding wordt alleen in deze browser bewaard, niet online. Op een ander apparaat of in een andere browser zie je hem niet: voeg hem daar dan opnieuw toe.</p>';
         } else {
             h += '<p class="sb-hint">Dit vak blijft leeg. Kies hierboven wat erin moet.</p>';
         }
@@ -403,6 +539,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (s) {
             var b = huidig.blokken[gekozenVak];
             if (b.type !== s.dataset.soort) {
+                if (b.type === 'beeld') beeldWeg(b.sleutel);
                 huidig.blokken[gekozenVak] = standaardBlok(s.dataset.soort);
                 gewijzigd(true);
                 renderPaneel();
@@ -470,6 +607,23 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.target.type === 'checkbox') b[veld] = e.target.checked;
         else b[veld] = e.target.value;
         gewijzigd(false);
+    });
+
+    paneel.addEventListener('change', async function (e) {
+        if (e.target.id !== 'sbBeeldKies' || !e.target.files || !e.target.files[0]) return;
+        var b = huidig.blokken[gekozenVak];
+        zetStatus('Afbeelding verwerken...');
+        try {
+            var blob = await verklein(e.target.files[0]);
+            var sleutel = await beeldBewaar(blob);
+            if (b.sleutel) beeldWeg(b.sleutel);
+            b.sleutel = sleutel;
+            gewijzigd(true);
+            renderPaneel();
+        } catch (err) {
+            zetStatus('');
+            alert('Deze afbeelding kon niet worden toegevoegd. Probeer een jpg- of png-bestand.');
+        }
     });
 
     // Plakken en slepen: alleen de tekst, niet de opmaak (of plaatjes) van een
