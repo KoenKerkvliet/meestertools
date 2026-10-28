@@ -44,7 +44,8 @@ document.addEventListener('DOMContentLoaded', function () {
         timetimer: { naam: 'Time Timer', em: '&#9202;', url: '/digibord/timetimer.html' },
         stoplicht: { naam: 'Stoplicht', em: '&#128678;', url: '/digibord/stoplicht.html' },
         geluidsmeter: { naam: 'Geluidsmeter', em: '&#128266;', url: '/digibord/geluidsmeter.html' },
-        namenkiezer: { naam: 'Namenkiezer', em: '&#9997;&#65039;', url: '/digibord/namenkiezer.html' }
+        namenkiezer: { naam: 'Namenkiezer', em: '&#9997;&#65039;', url: '/digibord/namenkiezer.html' },
+        klassendienst: { naam: 'Klassendienst', em: '&#129529;', url: '/organisatie/klassendienst.html' }
     };
 
     var borden = [];
