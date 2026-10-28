@@ -169,7 +169,8 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     var MEERVOUD = {
         'Verenigde Staten': 1, 'Verenigde Arabische Emiraten': 1, 'Filipijnen': 1, "Bahama's": 1,
-        'Comoren': 1, 'Maldiven': 1, 'Seychellen': 1, 'Salomonseilanden': 1, 'Marshalleilanden': 1
+        'Comoren': 1, 'Maldiven': 1, 'Seychellen': 1, 'Salomonseilanden': 1, 'Marshalleilanden': 1,
+        'Federale Staten van Micronesia': 1
     };
     var GROEP = { provincie: 'p', land: 'p', rivier: 'r', water: 'w', eiland: 'g', gebied: 'g', gebergte: 'b', werelddeel: 'c' };
     function groep(o) { return GROEP[o.soort] || 'plaats'; }

@@ -44,7 +44,8 @@ document.addEventListener('DOMContentLoaded', function () {
         noordamerika: { naam: 'Noord-Amerika', titel: 'bijv. Landen van Midden-Amerika', zoek: 'bijv. Chicago' },
         zuidamerika: { naam: 'Zuid-Amerika', titel: 'bijv. Landen en hoofdsteden van Zuid-Amerika', zoek: 'bijv. Rio de Janeiro' },
         afrika: { naam: 'Afrika', titel: 'bijv. Landen van Afrika', zoek: 'bijv. Lagos' },
-        azie: { naam: 'Azië', titel: 'bijv. Landen en hoofdsteden van Azië', zoek: 'bijv. Shanghai' }
+        azie: { naam: 'Azië', titel: 'bijv. Landen en hoofdsteden van Azië', zoek: 'bijv. Shanghai' },
+        oceanie: { naam: 'Oceanië', titel: 'bijv. Australië en de eilanden', zoek: 'bijv. Sydney' }
     };
     function basisNaam(b) { return (BASIS[b] || {}).naam || b; }
 

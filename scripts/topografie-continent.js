@@ -3,7 +3,7 @@
    MEESTERTOOLS - Topografie: basiskaarten van werelddelen bouwen
 
    Maakt assets/topografie/<werelddeel>.json (noordamerika, zuidamerika,
-   afrika, azie), in dezelfde
+   afrika, azie, oceanie), in dezelfde
    vorm als europa.json (landen in het veld 'provincies' met soort 'land').
    Per werelddeel staat hieronder een blok instellingen; een nieuw werelddeel
    is een nieuw blok.
@@ -270,6 +270,47 @@ const WERELDDELEN = {
             ['e-nieuw-guinea', 'Nieuw-Guinea', 'eiland', 138, -4.5],
             ['e-sachalin', 'Sachalin', 'eiland', 143, 50],
             ['e-hainan', 'Hainan', 'eiland', 109.8, 19.2]
+        ]
+    },
+    oceanie: {
+        naam: 'Oceanië',
+        // Over de datumgrens heen: Tonga en Samoa liggen ten oosten van 180°.
+        // De Lambert-projectie rekent met hoeken, dus -175° is gewoon 185°.
+        midden: [158, -18],
+        rand: [[108, -30], [113, -22], [114, -35], [146, -44], [166, -47.5], [179, -48], [-176, -22], [-171, -13],
+            [-172, 2], [172, 13], [134, 8], [130, -2]],
+        landen: 'AUS NZL PNG FJI SLB VUT WSM TON KIR TUV NRU FSM MHL PLW',
+        // Het land heet voluit, zodat het niet botst met het eilandengebied Micronesië
+        landNaam: { FSM: 'Federale Staten van Micronesia' },
+        minInwoners: 500000,
+        rivieren: { Murray: 'Murray', Darling: 'Darling', Fly: 'Fly', Sepik: 'Sepik', Waikato: 'Waikato' },
+        rivierGebied: { Murray: [138, 150, -38, -32], Darling: [141, 152, -34, -27] },
+        gebieden: [
+            ['w-stille-oceaan', 'Stille Oceaan', 'water', -178, -32],
+            ['w-indische-oceaan', 'Indische Oceaan', 'water', 110, -32],
+            ['w-tasmanzee', 'Tasmanzee', 'water', 160, -38],
+            ['w-koraalzee', 'Koraalzee', 'water', 156, -17],
+            ['w-arafurazee', 'Arafurazee', 'water', 135, -10],
+            ['w-golf-van-carpentaria', 'Golf van Carpentaria', 'water', 139, -15],
+            ['w-grote-australische-bocht', 'Grote Australische Bocht', 'water', 130, -35],
+            ['w-straat-bass', 'Straat Bass', 'water', 146, -39.6],
+            ['w-straat-torres', 'Straat Torres', 'water', 142.5, -10],
+            ['w-eyremeer', 'Eyremeer', 'water', 137.3, -28.4],
+            ['a-great-dividing-range', 'Great Dividing Range', 'gebergte', 148, -28],
+            ['a-zuidelijke-alpen', 'Zuidelijke Alpen', 'gebergte', 170.3, -43.4],
+            ['g-uluru', 'Uluru', 'gebied', 131.04, -25.34],
+            ['g-groot-barriererif', 'Groot Barrièrerif', 'gebied', 147.5, -18],
+            ['g-outback', 'Outback', 'gebied', 135, -23],
+            ['g-grote-victoriawoestijn', 'Grote Victoriawoestijn', 'gebied', 128, -29],
+            ['g-kaap-york', 'Kaap York-schiereiland', 'gebied', 142.6, -13],
+            ['g-melanesie', 'Melanesië', 'gebied', 162, -9],
+            ['g-micronesie', 'Micronesië', 'gebied', 160, 8],
+            ['g-polynesie', 'Polynesië', 'gebied', -175, -10],
+            ['e-nieuw-guinea', 'Nieuw-Guinea', 'eiland', 140, -4.8],
+            ['e-tasmanie', 'Tasmanië', 'eiland', 146.6, -42],
+            ['e-noordereiland', 'Noordereiland', 'eiland', 175.6, -39],
+            ['e-zuidereiland', 'Zuidereiland', 'eiland', 171.6, -42.4],
+            ['e-nieuw-caledonie', 'Nieuw-Caledonië', 'eiland', 165.5, -21.3]
         ]
     }
 };
