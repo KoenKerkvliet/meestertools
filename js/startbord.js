@@ -87,6 +87,13 @@ document.addEventListener('DOMContentLoaded', function () {
         return { type: 'leeg' };
     }
 
+    // Taken staan altijd als lijst in de database. Tekst (één taak per regel)
+    // wordt hier omgezet; zo blijft ook een ouder bord met tekst werken.
+    function takenLijst(taken) {
+        var lijst = Array.isArray(taken) ? taken : String(taken || '').split('\n');
+        return lijst.map(function (r) { return String(r).trim(); }).filter(Boolean).slice(0, 12);
+    }
+
     function passend(blokken, indeling) {
         var n = VAKKEN[indeling] || 1, uit = (blokken || []).slice(0, n);
         while (uit.length < n) uit.push({ type: 'leeg' });
@@ -120,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (b.type === 'taken') {
             return '<div class="sb-blok sb-taken">' +
                 (b.titel ? '<h2 class="sb-titel">' + esc(b.titel) + '</h2>' : '') +
-                '<ol>' + (b.taken || []).map(function (taak) { return '<li>' + esc(taak) + '</li>'; }).join('') + '</ol></div>';
+                '<ol>' + takenLijst(b.taken).map(function (taak) { return '<li>' + esc(taak) + '</li>'; }).join('') + '</ol></div>';
         }
         if (b.type === 'tool') {
             var tool = TOOLS[b.tool] || TOOLS.timetimer;
@@ -139,14 +146,26 @@ document.addEventListener('DOMContentLoaded', function () {
         return modus === 'bewerk' ? '<div class="sb-plek"><span class="em">+</span>Kies wat hier komt</div>' : '';
     }
 
+    // Gaat er in één vak iets mis (bijv. een oud of beschadigd blok), dan
+    // blijft dat vak leeg en de rest van het bord gewoon zichtbaar
+    function veiligBlokHtml(b, modus) {
+        try { return blokHtml(b || { type: 'leeg' }, modus); }
+        catch (e) {
+            if (window.console) console.warn('Startbord: blok kon niet getoond worden', b, e);
+            return modus === 'bewerk' ? '<div class="sb-plek"><span class="em">?</span>Dit vak kon niet getoond worden<small>Kies opnieuw wat hier komt</small></div>' : '';
+        }
+    }
+
     // Tekent het bord in een .sb-schaal-container en schaalt het passend
     function tekenBord(container, bord, modus) {
         var blokken = passend(bord.blokken, bord.indeling);
         container.innerHTML = '<div class="sb-bord ind-' + esc(bord.indeling) + ' kleur-' + esc(bord.kleur) +
             (modus === 'bewerk' ? ' sb-bewerkmodus' : modus === 'presenteer' ? ' sb-presenteer' : '') + '">' +
             blokken.map(function (b, i) {
-                return '<div class="sb-vak' + (b.type === 'leeg' ? ' is-leeg' : '') +
-                    (modus === 'bewerk' && i === gekozenVak ? ' gekozen' : '') + '" data-vak="' + i + '">' + blokHtml(b, modus) + '</div>';
+                // Een afbeeldingsvak zonder afbeelding telt als leeg
+                var leeg = b.type === 'leeg' || (b.type === 'beeld' && !b.sleutel);
+                return '<div class="sb-vak' + (leeg ? ' is-leeg' : '') +
+                    (modus === 'bewerk' && i === gekozenVak ? ' gekozen' : '') + '" data-vak="' + i + '">' + veiligBlokHtml(b, modus) + '</div>';
             }).join('') + '</div>';
         var kleur = KLEUREN.filter(function (k) { return k[0] === bord.kleur; })[0];
         container.style.background = kleur ? kleur[1] : '';
@@ -508,7 +527,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<label class="sb-vinkje"><input type="checkbox" data-veld="klok"' + (b.klok !== false ? ' checked' : '') + '> Klok tonen</label>';
         } else if (b.type === 'taken') {
             h += '<label class="sb-veld"><span>Titel</span><input type="text" data-veld="titel" maxlength="80" value="' + esc(b.titel || '') + '" placeholder="Bijv. Bij binnenkomst"></label>' +
-                '<label class="sb-veld"><span>Taken (één per regel)</span><textarea data-veld="taken" maxlength="1200">' + esc((b.taken || []).join('\n')) + '</textarea></label>' +
+                '<label class="sb-veld"><span>Taken (één per regel)</span><textarea data-veld="taken" maxlength="1200">' + esc(takenLijst(b.taken).join('\n')) + '</textarea></label>' +
                 '<p class="sb-hint">Bij Presenteren tikt een leerling een taak aan om hem af te vinken.</p>';
         } else if (b.type === 'tool') {
             h += '<div class="sb-tools">' + Object.keys(TOOLS).map(function (k) {
@@ -595,7 +614,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!veld || e.target.type === 'checkbox') return;
         var b = huidig.blokken[gekozenVak];
         if (veld === 'taken') {
-            b.taken = e.target.value.split('\n').map(function (r) { return r.trim(); }).filter(Boolean).slice(0, 12);
+            b.taken = takenLijst(e.target.value);
         } else {
             b[veld] = e.target.value;
         }
@@ -606,6 +625,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!veld) return;
         var b = huidig.blokken[gekozenVak];
         if (e.target.type === 'checkbox') b[veld] = e.target.checked;
+        else if (veld === 'taken') b.taken = takenLijst(e.target.value);
         else b[veld] = e.target.value;
         gewijzigd(false);
     });
