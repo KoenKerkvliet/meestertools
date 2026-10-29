@@ -1393,10 +1393,25 @@ a {
 .nieuw-banner--topo:hover { border-color: #6FA8D6; }
 .nieuw-banner--topo .nieuw-banner-beelden img { border-color: #EEF6FB; background: #D7ECF8; object-fit: cover; }
 .nieuw-banner--topo .nieuw-banner-sluit:hover { background: #D7ECF8; }
+.nieuw-banner--startbord { background: #F3F1FF; border-color: #DCD8FB; box-shadow: 0 4px 0 #E6E3FC; }
+.nieuw-banner--startbord:hover { border-color: #9A93F5; }
+.nieuw-banner-em {
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+    width: 74px; height: 74px; border-radius: 16px; border: 3px solid #F3F1FF; background: #fff;
+    font-size: 34px; line-height: 1; box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
+}
+.nieuw-banner-em + .nieuw-banner-em { margin-left: -22px; }
+.nieuw-banner-em:nth-child(1) { transform: rotate(-5deg); background: #FFF1C2; }
+.nieuw-banner-em:nth-child(2) { background: #E6E3FC; position: relative; z-index: 1; }
+.nieuw-banner-em:nth-child(3) { transform: rotate(5deg); background: #D6F3E1; position: relative; z-index: 2; }
+.nieuw-banner--startbord .nieuw-banner-sluit:hover { background: #E6E3FC; }
+.nieuw-banners:has(.nieuw-banner + .nieuw-banner) .nieuw-banner-em { width: 52px; height: 52px; border-radius: 12px; font-size: 24px; }
+.nieuw-banners:has(.nieuw-banner + .nieuw-banner) .nieuw-banner-em + .nieuw-banner-em { margin-left: -18px; }
 @media (max-width: 760px) {
     .nieuw-banners { margin-top: -28px; grid-template-columns: 1fr; }
     .nieuw-banner-link { flex-wrap: wrap; gap: 14px 18px; padding: 18px 48px 18px 18px; }
-    .nieuw-banner-beelden img { width: 56px; height: 56px; }
+    .nieuw-banner-beelden img, .nieuw-banner-em { width: 56px; height: 56px; }
+    .nieuw-banner-em { font-size: 26px; }
     .nieuw-banner-tekst { flex-basis: calc(100% - 140px); }
     .nieuw-banner-cta { width: 100%; text-align: center; }
 }

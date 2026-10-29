@@ -15,7 +15,8 @@
     var TOOLS = window.MT_ALL_TOOLS || [];
     var byId = {};
     var byUrl = {};
-    TOOLS.forEach(function (t) { byId[t.id] = t; byUrl[t.url] = t; });
+    // Zonder slash aan het eind, net als normalizeHref (bijv. 'tijdlijn/')
+    TOOLS.forEach(function (t) { byId[t.id] = t; byUrl[t.url.replace(/\/+$/, '')] = t; });
 
     function normalizeHref(href) {
         if (!href) return '';
