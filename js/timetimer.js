@@ -477,6 +477,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Snelknop rechtsonder (smal vak): doet wat de zichtbare Start- of
+    // Pauzeknop doet en neemt diens stand over
+    const snelKnop = document.getElementById('timerSnelKnop');
+    if (snelKnop) {
+        const snelBij = () => {
+            const loopt = btnPause.style.display !== 'none';
+            snelKnop.innerHTML = loopt ? '&#10074;&#10074;' : '&#9654;';
+            snelKnop.title = loopt ? 'Pauze' : 'Start';
+            snelKnop.setAttribute('aria-label', snelKnop.title);
+            snelKnop.disabled = !loopt && btnStart.disabled;
+            snelKnop.classList.toggle('loopt', loopt);
+        };
+        snelKnop.addEventListener('click', () => {
+            if (btnPause.style.display !== 'none') btnPause.click();
+            else if (!btnStart.disabled) btnStart.click();
+        });
+        const kijker = new MutationObserver(snelBij);
+        [btnStart, btnPause].forEach(k => kijker.observe(k, { attributes: true, attributeFilter: ['style', 'disabled'] }));
+        snelBij();
+    }
+
     // ---------- Init ----------
     drawMarkers();
     drawNumbers();

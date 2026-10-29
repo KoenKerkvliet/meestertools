@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.65.5';
+    const VERSION = 'v1.66.0';
 
     // Ingebedde stand (?ingebed=1): een tool als vak op een Startbord. Zonder
     // kop, voet en terugknop; de class staat er vóór de eerste weergave.
@@ -54,7 +54,7 @@
         { id: 'podium', name: 'Podium', url: 'digibord/podium', icon: '&#127942;' },
         { id: 'stoplicht', name: 'Stoplicht', url: 'digibord/stoplicht', icon: '&#128678;' },
         { id: 'timetimer', name: 'Time Timer', url: 'digibord/timetimer', icon: '&#9202;' },
-        { id: 'startbord', name: 'Startbord', url: 'digibord/startbord', icon: '&#128444;&#65039;', uc: true, verborgen: true },
+        { id: 'startbord', name: 'Startbord', url: 'digibord/startbord', icon: '&#128444;&#65039;' },
         // Digitale geletterdheid
         { id: 'typetijger', name: 'Typetijger', url: 'digitale-geletterdheid/typetijger', icon: '&#128047;' },
         { id: 'typrace', name: 'Typrace', url: 'digitale-geletterdheid/typrace', icon: '&#127939;' },

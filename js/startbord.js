@@ -54,10 +54,17 @@ document.addEventListener('DOMContentLoaded', function () {
     var opslaanTimer = null;
 
     // ---------- Opgemaakte tekst schoonhouden ----------
-    // Alleen vet, cursief, onderstreept, alinea's, regels en opsommingen.
-    // Al het andere (stijlen, links, plaatjes, scripts) gaat eruit, maar de
-    // tekst erin blijft staan.
-    var TOEGESTAAN = { B: 'b', STRONG: 'b', I: 'i', EM: 'i', U: 'u', BR: 'br', DIV: 'div', P: 'div', UL: 'ul', OL: 'ol', LI: 'li' };
+    // Alleen vet, cursief, onderstreept, markeren, alinea's, regels en
+    // opsommingen. Al het andere (stijlen, links, plaatjes, scripts) gaat
+    // eruit, maar de tekst erin blijft staan.
+    var TOEGESTAAN = { B: 'b', STRONG: 'b', I: 'i', EM: 'i', U: 'u', MARK: 'mark', BR: 'br', DIV: 'div', P: 'div', UL: 'ul', OL: 'ol', LI: 'li' };
+    // Markeren in de editor geeft een achtergrondkleur (op een <span> of op
+    // bijv. een bestaande <b>); bij het schoonmaken wordt dat een <mark>
+    function isMarkering(n) {
+        if (n.tagName === 'MARK') return true;
+        var bg = (n.style && n.style.backgroundColor) || '';
+        return !!bg && bg !== 'transparent' && !/rgba\(.*,\s*0\)$/.test(bg);
+    }
     function schoon(html) {
         var bron = document.createElement('template');
         bron.innerHTML = String(html || '').slice(0, 8000);
@@ -68,9 +75,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (n.nodeType !== 1) return;
                 var tag = TOEGESTAAN[n.tagName];
                 if (n.tagName === 'SCRIPT' || n.tagName === 'STYLE') return;
-                if (!tag) { kopieer(n, naar); return; }
+                var doel = naar;
+                if (tag !== 'mark' && isMarkering(n)) {
+                    doel = document.createElement('mark');
+                    naar.appendChild(doel);
+                }
+                if (!tag) { kopieer(n, doel); return; }
                 var nieuw = document.createElement(tag);
-                naar.appendChild(nieuw);
+                doel.appendChild(nieuw);
                 if (tag !== 'br') kopieer(n, nieuw);
             });
         })(bron.content, uit);
@@ -109,11 +121,14 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
+    var UITLIJNINGEN = ['links', 'midden', 'rechts'];
+    function uitlijning(b) { return UITLIJNINGEN.indexOf(b.uitlijning) >= 0 ? b.uitlijning : 'links'; }
+
     // modus: 'bewerk' (klikbare vakken, tools als plaatshouder),
     // 'klein' (kaartje in de lijst) of 'presenteer' (tools echt, taken afvinkbaar)
     function blokHtml(b, modus) {
         if (b.type === 'tekst') {
-            return '<div class="sb-blok sb-tekst">' +
+            return '<div class="sb-blok sb-tekst uitlijn-' + uitlijning(b) + '">' +
                 (b.titel ? '<h2 class="sb-titel">' + esc(b.titel) + '</h2>' : '') +
                 '<div class="sb-inhoud grootte-' + esc(b.grootte || 'normaal') + '">' + schoon(b.html) + '</div></div>';
         }
@@ -515,12 +530,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<button type="button" data-cmd="bold" title="Vet (Ctrl+B)"><b>B</b></button>' +
                 '<button type="button" data-cmd="italic" title="Cursief (Ctrl+I)"><i>I</i></button>' +
                 '<button type="button" data-cmd="underline" title="Onderstreept (Ctrl+U)"><u>U</u></button>' +
+                '<button type="button" data-cmd="markeer" title="Markeren" class="sb-markeer-knop"><mark>M</mark></button>' +
                 '<button type="button" data-cmd="insertUnorderedList" title="Opsomming">&#8226; Lijst</button>' +
+                '<span class="sb-opmaak-groep">' + UITLIJNINGEN.map(function (u) {
+                    return '<button type="button" data-uitlijn="' + u + '" title="' + { links: 'Links uitlijnen', midden: 'Midden (ook in de hoogte)', rechts: 'Rechts uitlijnen' }[u] + '"' +
+                        (uitlijning(b) === u ? ' class="aan"' : '') + '>' + UITLIJN_ICOON[u] + '</button>';
+                }).join('') + '</span>' +
                 '<select data-veld="grootte" aria-label="Lettergrootte">' +
                 [['normaal', 'Normaal'], ['groot', 'Groot'], ['heelgroot', 'Heel groot']].map(function (g) {
                     return '<option value="' + g[0] + '"' + ((b.grootte || 'normaal') === g[0] ? ' selected' : '') + '>' + g[1] + '</option>';
                 }).join('') + '</select></div>' +
-                '<div class="sb-editor" id="sbEditor" contenteditable="true" data-leeg="Typ hier je tekst..."></div></div>';
+                '<div class="sb-editor uitlijn-' + uitlijning(b) + '" id="sbEditor" contenteditable="true" data-leeg="Typ hier je tekst..."></div></div>';
         } else if (b.type === 'klok') {
             h += '<label class="sb-veld"><span>Begroeting</span><input type="text" data-veld="groet" maxlength="60" value="' + esc(b.groet || '') + '" placeholder="Bijv. Goedemorgen groep 6!"></label>' +
                 '<label class="sb-vinkje"><input type="checkbox" data-veld="datum"' + (b.datum !== false ? ' checked' : '') + '> Dag en datum tonen</label>' +
@@ -554,6 +574,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var paneel = $('sbPaneel');
 
+    function lijnen(x1s, x2s) {
+        return '<svg viewBox="0 0 16 14" width="16" height="14" aria-hidden="true">' + [1, 5, 9, 13].map(function (y, i) {
+            return '<line x1="' + x1s[i] + '" y1="' + y + '" x2="' + x2s[i] + '" y2="' + y + '" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>';
+        }).join('') + '</svg>';
+    }
+    var UITLIJN_ICOON = {
+        links: lijnen([1, 1, 1, 1], [15, 10, 13, 8]),
+        midden: lijnen([1, 4, 2, 5], [15, 12, 14, 11]),
+        rechts: lijnen([1, 6, 3, 8], [15, 15, 15, 15])
+    };
+
     paneel.addEventListener('click', function (e) {
         var s = e.target.closest('[data-soort]');
         if (s) {
@@ -576,22 +607,67 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Opmaakknoppen: mousedown voorkomen, anders verliest het tekstvak zijn selectie
     paneel.addEventListener('mousedown', function (e) {
-        if (e.target.closest('[data-cmd]')) e.preventDefault();
+        if (e.target.closest('[data-cmd]') || e.target.closest('[data-uitlijn]')) e.preventDefault();
     });
     paneel.addEventListener('click', function (e) {
+        var u = e.target.closest('[data-uitlijn]');
+        if (u) {
+            huidig.blokken[gekozenVak].uitlijning = u.dataset.uitlijn;
+            $('sbOpmaak').querySelectorAll('[data-uitlijn]').forEach(function (k) { k.classList.toggle('aan', k === u); });
+            var ed = $('sbEditor');
+            UITLIJNINGEN.forEach(function (w) { ed.classList.toggle('uitlijn-' + w, w === u.dataset.uitlijn); });
+            gewijzigd(true);
+            return;
+        }
         var c = e.target.closest('[data-cmd]');
         if (!c) return;
         $('sbEditor').focus();
-        document.execCommand(c.dataset.cmd, false, null);
+        if (c.dataset.cmd === 'markeer') markeer();
+        else document.execCommand(c.dataset.cmd, false, null);
         tekstGewijzigd();
     });
+
+    // De markering waar de cursor in staat (of null)
+    function huidigeMarkering() {
+        var ed = $('sbEditor'), sel = document.getSelection();
+        if (!ed || !sel || !sel.anchorNode) return null;
+        for (var n = sel.anchorNode; n && n !== ed; n = n.parentNode) {
+            if (n.nodeType === 1 && isMarkering(n)) return n;
+        }
+        return null;
+    }
+    // Aan/uit: staat de cursor in een markering, dan gaat die eraf; anders
+    // wordt de geselecteerde tekst gemarkeerd
+    function markeer() {
+        var m = huidigeMarkering();
+        if (m && (m.tagName === 'MARK' || m.tagName === 'SPAN' || m.tagName === 'FONT')) {
+            while (m.firstChild) m.parentNode.insertBefore(m.firstChild, m);
+            m.parentNode.removeChild(m);
+            return;
+        }
+        if (m) {
+            // Bijv. een <b> met een achtergrond: vet blijft, de kleur gaat eraf
+            m.style.backgroundColor = '';
+            if (!m.getAttribute('style')) m.removeAttribute('style');
+            return;
+        }
+        var sel = document.getSelection();
+        if (!sel || sel.isCollapsed) return;
+        try {
+            document.execCommand('styleWithCSS', false, true);
+            document.execCommand('hiliteColor', false, '#FFE066');
+        } finally {
+            document.execCommand('styleWithCSS', false, false);
+        }
+    }
 
     function werkOpmaakknoppenBij() {
         var balk = $('sbOpmaak');
         if (!balk) return;
         balk.querySelectorAll('[data-cmd]').forEach(function (b) {
             var aan = false;
-            try { aan = document.queryCommandState(b.dataset.cmd); } catch (e) {}
+            if (b.dataset.cmd === 'markeer') aan = !!huidigeMarkering();
+            else try { aan = document.queryCommandState(b.dataset.cmd); } catch (e) {}
             b.classList.toggle('aan', aan);
         });
     }

@@ -104,6 +104,12 @@
 .sb-editor:focus { border-color: var(--primary); }
 .sb-editor:empty::before { content: attr(data-leeg); color: var(--text-light); }
 .sb-editor ul, .sb-editor ol { padding-left: 22px; }
+.sb-opmaak-groep { display: inline-flex; gap: 2px; }
+.sb-opmaak-groep button { min-width: 30px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; }
+.sb-markeer-knop mark { background: #FFE066; color: inherit; padding: 0 3px; border-radius: 3px; }
+.sb-editor.uitlijn-midden { text-align: center; }
+.sb-editor.uitlijn-rechts { text-align: right; }
+.sb-editor mark, .sb-inhoud mark { background: #FFE066; color: inherit; padding: 0 .12em; border-radius: .15em; }
 .sb-tools { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .sb-tool {
     border: 2px solid #E6E3F5; background: #fff; border-radius: 12px; padding: 12px 8px; cursor: pointer; font: inherit;
@@ -165,6 +171,11 @@
 .sb-inhoud p, .sb-inhoud div { margin: 0 0 .3em; }
 .sb-inhoud ul, .sb-inhoud ol { margin: 0 0 .3em; padding-left: 1.2em; }
 .sb-inhoud li { margin-bottom: .15em; }
+/* Uitlijnen: midden zet de tekst ook in de hoogte in het midden */
+.sb-tekst.uitlijn-midden { text-align: center; justify-content: center; justify-content: safe center; }
+.sb-tekst.uitlijn-rechts { text-align: right; }
+.sb-tekst.uitlijn-midden ul, .sb-tekst.uitlijn-midden ol,
+.sb-tekst.uitlijn-rechts ul, .sb-tekst.uitlijn-rechts ol { list-style-position: inside; padding-left: 0; }
 
 .sb-klok { align-items: center; justify-content: center; text-align: center; gap: calc(6px * var(--s)); }
 .sb-groet { font-size: calc(58px * var(--s)); font-weight: 800; color: var(--accent); margin-bottom: calc(10px * var(--s)); }
