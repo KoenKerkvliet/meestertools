@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.66.0';
+    const VERSION = 'v1.66.1';
 
     // Ingebedde stand (?ingebed=1): een tool als vak op een Startbord. Zonder
     // kop, voet en terugknop; de class staat er vóór de eerste weergave.
