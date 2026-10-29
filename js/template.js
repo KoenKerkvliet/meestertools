@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.66.3';
+    const VERSION = 'v1.66.4';
 
     // Ingebedde stand (?ingebed=1): een tool als vak op een Startbord. Zonder
     // kop, voet en terugknop; de class staat er vóór de eerste weergave.
@@ -152,9 +152,9 @@
 
     const headerHtml = `
 <header class="app-header">
-    <a href="/dashboard" class="header-logo">
+    <a href="/dashboard" class="header-logo" aria-label="Meestertools">
         <img class="logo-img" src="/assets/badge-96.png" width="44" height="44" alt="">
-        Meestertools
+        <span class="header-logo-tekst">Meestertools</span>
     </a>
     <div class="header-favs" id="headerFavs"></div>
     <div class="header-search" id="headerSearch">

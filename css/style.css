@@ -3207,9 +3207,21 @@ a {
         padding: 32px 24px;
     }
 
+    /* Op een telefoon past de header alleen zonder het woord Meestertools:
+       het icoon blijft de link naar het dashboard. De knoppen worden iets
+       kleiner, de klaskiezer kort zijn naam zo nodig af. */
     .app-header {
-        padding: 0 16px;
+        padding: 0 12px;
+        gap: 6px;
     }
+    .header-logo-tekst { display: none; }
+    .header-logo .logo-img { width: 38px; height: 38px; }
+    .header-search-btn,
+    .mt-live-btn { width: 38px; height: 38px; font-size: 16px; }
+    .mt-live { margin-left: 0; }
+    .mt-class-switcher { margin-left: 0; margin-right: 0; min-width: 0; }
+    .mt-cs-select { max-width: 110px; text-overflow: ellipsis; }
+    .profile-btn { width: 38px; height: 38px; font-size: 16px; }
 
     .dashboard-content {
         padding: 24px 16px;
