@@ -19,7 +19,7 @@
    ============================================ */
 
 (function () {
-    const VERSION = 'v1.66.4';
+    const VERSION = 'v1.66.5';
 
     // Ingebedde stand (?ingebed=1): een tool als vak op een Startbord. Zonder
     // kop, voet en terugknop; de class staat er vóór de eerste weergave.
@@ -72,7 +72,6 @@
         { id: 'werkbladen', name: 'Werkbladen', url: 'lesmateriaal/werkbladen', icon: '&#128196;' },
         { id: 'tijdlijn', name: 'Tijdlijn van Nederland', url: 'tijdlijn/', icon: '&#128220;' },
         { id: 'topografie', name: 'Topografie', url: 'lesmateriaal/topografie', icon: '&#128506;&#65039;' },
-        { id: '10-minuten-didactiek', name: '10-minuten-didactiek', url: 'lesmateriaal/10-minuten-didactiek', icon: '&#9201;&#65039;', uc: true },
         // Ontspanning
         { id: 'naamkleurplaat', name: 'Naamkleurplaat', url: 'ontspanning/naamkleurplaat', icon: '&#127912;' },
         // Groepsvorming
