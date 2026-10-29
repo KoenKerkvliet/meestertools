@@ -464,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
         closeSettingsModal();
     });
 
-    // Op een Startbord (ingebed) in een smal vak: opties achter een knop,
+    // Op een Startbord (ingebed): opties achter een knop,
     // zodat de klok zelf zo groot mogelijk kan zijn
     const optiesKnop = document.getElementById('timerOptiesKnop');
     if (optiesKnop) {
@@ -477,7 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Snelknop rechtsonder (smal vak): doet wat de zichtbare Start- of
+    // Snelknop rechtsonder (ingebed): doet wat de zichtbare Start- of
     // Pauzeknop doet en neemt diens stand over
     const snelKnop = document.getElementById('timerSnelKnop');
     if (snelKnop) {

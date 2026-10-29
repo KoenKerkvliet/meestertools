@@ -637,7 +637,33 @@ document.addEventListener('DOMContentLoaded', function () {
         bindTaskChecks();
         bindAwardBox();
         bindOverview();
+        pasIngebedIn();
     }
+
+    // ---- Ingebed op een Startbord: alle taken in het vak ----
+    // Verkleint de kaart (--kd-s) tot kinderen en taken er samen in passen.
+    // Lukt dat niet zonder dat de tekst onleesbaar klein wordt, dan scrollt
+    // de takenlijst (.kd-past-niet).
+    function pasIngebedIn() {
+        if (!document.documentElement.classList.contains('mt-ingebed')) return;
+        var hero = container.querySelector('.kd-hero');
+        var grid = hero && hero.querySelector('.kd-hero-grid');
+        if (!grid) return;
+        var root = document.documentElement.style;
+        var past = function () {
+            return grid.scrollHeight <= grid.clientHeight + 1 && hero.scrollHeight <= hero.clientHeight + 1;
+        };
+        hero.classList.remove('kd-past-niet');
+        var s = 1;
+        root.setProperty('--kd-s', '1');
+        while (!past() && s > 0.55) {
+            s = Math.max(0.55, s - 0.05);
+            root.setProperty('--kd-s', s.toFixed(2));
+        }
+        if (!past()) hero.classList.add('kd-past-niet');
+    }
+    window.addEventListener('resize', pasIngebedIn);
+    window.addEventListener('load', pasIngebedIn);
 
     function manualPlanActive() {
         var p = settings.manualPlan;
@@ -735,6 +761,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var html = awardBoxHtml(activeDayCode());
         if (html) wrap.insertAdjacentHTML('beforeend', html);
         bindAwardBox();
+        pasIngebedIn();
     }
 
     function bindAwardBox() {

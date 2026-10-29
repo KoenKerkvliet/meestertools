@@ -776,31 +776,49 @@
 .mt-ingebed .kd-manual-note,
 .mt-ingebed .kd-day-tabs,
 .mt-ingebed .kd-task-badge { display: none !important; }
+/* Alle maten schalen mee met --kd-s. Passen niet alle taken in het vak, dan
+   zet pasIngebedIn() (js/klassendienst.js) --kd-s stapje voor stapje lager. Wordt
+   de tekst dan te klein, dan krijgt de kaart .kd-past-niet en scrollt de
+   takenlijst. */
+.mt-ingebed { --kd-s: 1; }
 .mt-ingebed .tool-page-content { height: 100vh; box-sizing: border-box; }
 .mt-ingebed .tool-page-body,
 .mt-ingebed .kd-container { height: 100%; box-sizing: border-box; }
 .mt-ingebed .kd-hero {
-    height: 100%; box-sizing: border-box; margin: 0; padding: 3.5vmin;
+    height: 100%; box-sizing: border-box; margin: 0; padding: calc(3.5vmin * var(--kd-s));
     display: flex; flex-direction: column; border-radius: 18px; box-shadow: none;
 }
-.mt-ingebed .kd-hero-top { margin-bottom: 2.5vmin; }
-.mt-ingebed .kd-week-pill { font-size: 2.2vmin; padding: 0.5vmin 2vmin; }
-.mt-ingebed .kd-hero-title { font-size: 6vmin; margin: 1.2vmin 0 0.4vmin; }
-.mt-ingebed .kd-hero-date { font-size: 3vmin; }
-.mt-ingebed .kd-hero-grid { flex: 1; min-height: 0; align-items: center; gap: 3vmin; }
-.mt-ingebed .kd-duty-people { gap: 3vmin; }
-.mt-ingebed .kd-person-big .kd-avatar { width: 20vmin; height: 20vmin; }
-.mt-ingebed .kd-person-big .kd-avatar-initials { font-size: 6vmin; }
-.mt-ingebed .kd-person-big .kd-person-name { font-size: 4.6vmin; }
+.mt-ingebed .kd-hero-top { margin-bottom: calc(2.5vmin * var(--kd-s)); }
+.mt-ingebed .kd-week-pill { font-size: calc(2.2vmin * var(--kd-s)); padding: calc(0.5vmin * var(--kd-s)) calc(2vmin * var(--kd-s)); }
+.mt-ingebed .kd-hero-title { font-size: calc(6vmin * var(--kd-s)); margin: calc(1.2vmin * var(--kd-s)) 0 calc(0.4vmin * var(--kd-s)); }
+.mt-ingebed .kd-hero-date { font-size: calc(3vmin * var(--kd-s)); }
+.mt-ingebed .kd-hero-grid { flex: 1; min-height: 0; align-items: center; gap: calc(3vmin * var(--kd-s)); }
+.mt-ingebed .kd-duty-people { gap: calc(3vmin * var(--kd-s)); }
+.mt-ingebed .kd-person-big .kd-avatar { width: calc(20vmin * var(--kd-s)); height: calc(20vmin * var(--kd-s)); }
+.mt-ingebed .kd-person-big .kd-avatar-initials { font-size: calc(6vmin * var(--kd-s)); }
+.mt-ingebed .kd-person-big .kd-person-name { font-size: calc(4.6vmin * var(--kd-s)); }
 .mt-ingebed .kd-person-big .kd-person-nr { display: none; }
-.mt-ingebed .kd-tasks-panel { padding: 2.5vmin 3vmin; gap: 1.6vmin; align-self: stretch; justify-content: center; }
-.mt-ingebed .kd-today-label { font-size: 3.8vmin; }
-.mt-ingebed .kd-task-list li { gap: 1.6vmin; }
-.mt-ingebed .kd-task-text { font-size: 4.8vmin; }
-.mt-ingebed .kd-task-check { width: 6.4vmin; height: 6.4vmin; font-size: 3.6vmin; flex-shrink: 0; }
+.mt-ingebed .kd-tasks-panel {
+    padding: calc(2.5vmin * var(--kd-s)) calc(3vmin * var(--kd-s)); gap: calc(1.6vmin * var(--kd-s));
+    align-self: stretch; justify-content: center;
+}
+.mt-ingebed .kd-today-label { font-size: calc(3.8vmin * var(--kd-s)); }
+.mt-ingebed .kd-task-list { gap: calc(1.4vmin * var(--kd-s)); }
+.mt-ingebed .kd-task-list li { gap: calc(1.6vmin * var(--kd-s)); }
+.mt-ingebed .kd-task-text { font-size: calc(4.8vmin * var(--kd-s)); }
+.mt-ingebed .kd-task-check {
+    width: calc(6.4vmin * var(--kd-s)); height: calc(6.4vmin * var(--kd-s));
+    font-size: calc(3.6vmin * var(--kd-s)); flex-shrink: 0;
+}
 /* Smal of vierkant vak (bijv. een half scherm): kinderen boven, taken eronder */
 @media (max-aspect-ratio: 6/5) {
     .mt-ingebed .kd-hero-grid { grid-template-columns: 1fr; align-items: start; }
-    .mt-ingebed .kd-person-big .kd-avatar { width: 17vmin; height: 17vmin; }
-    .mt-ingebed .kd-task-text { font-size: 4.4vmin; }
+    .mt-ingebed .kd-person-big .kd-avatar { width: calc(17vmin * var(--kd-s)); height: calc(17vmin * var(--kd-s)); }
+    .mt-ingebed .kd-task-text { font-size: calc(4.4vmin * var(--kd-s)); }
+}
+/* Ook op de kleinste stand te veel: dan scrollt alleen de takenlijst */
+.mt-ingebed .kd-past-niet .kd-hero-grid { grid-template-rows: minmax(0, 1fr); }
+.mt-ingebed .kd-past-niet .kd-tasks-panel { min-height: 0; overflow-y: auto; justify-content: flex-start; }
+@media (max-aspect-ratio: 6/5) {
+    .mt-ingebed .kd-past-niet .kd-hero-grid { grid-template-rows: auto minmax(0, 1fr); align-items: stretch; }
 }
