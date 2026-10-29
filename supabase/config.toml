@@ -26,6 +26,10 @@ verify_jwt = true
 [functions.send-password-reset-email]
 verify_jwt = true
 
+# Een ingelogde leerkracht zet zichzelf op de wachtlijst van 10minutendidactiek.
+[functions.wachtlijst-aanmelden]
+verify_jwt = true
+
 # Wordt door pg_cron (via pg_net) aangeroepen, dus zonder JWT. De functie
 # controleert zelf een gedeeld geheim uit public.opruim_geheim.
 [functions.account-opruiming]

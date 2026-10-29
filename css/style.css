@@ -3549,3 +3549,56 @@ body.mt-premium .tool-card.premium-card:not(.uc-card) {
 body.mt-premium .premium-badge {
     display: none;
 }
+
+/* ---------- Wachtlijst 10minutendidactiek (js/wachtlijst.js) ----------
+   Bewust rustig: een dunne regel onderaan de pagina, geen banner. */
+.mt-wachtlijst {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 720px;
+    margin: 32px auto 0;
+    padding: 10px 12px 10px 16px;
+    background: var(--bg-white);
+    border: 1px solid #E8E8F0;
+    border-radius: var(--radius-md);
+    color: var(--text-medium);
+    font-size: 14px;
+}
+.mt-wachtlijst-icoon { font-size: 18px; flex-shrink: 0; }
+.mt-wachtlijst-tekst { margin: 0; flex: 1; line-height: 1.45; }
+.mt-wachtlijst-tekst strong { color: var(--text-dark); }
+.mt-wachtlijst-knop {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    background: none;
+    border: 1.5px solid var(--primary);
+    border-radius: var(--radius-sm);
+    color: var(--primary);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.mt-wachtlijst-knop:hover:not(:disabled) { background: var(--primary); color: #fff; }
+.mt-wachtlijst-knop:disabled { opacity: 0.6; cursor: default; }
+.mt-wachtlijst-weg {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    color: var(--text-light);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+.mt-wachtlijst-weg:hover { color: var(--text-medium); background: var(--bg-light); }
+@media (max-width: 560px) {
+    .mt-wachtlijst { flex-wrap: wrap; }
+    .mt-wachtlijst-tekst { flex-basis: calc(100% - 70px); }
+    .mt-wachtlijst-knop { margin-left: 30px; }
+}

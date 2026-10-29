@@ -5,7 +5,8 @@ import { sendEmail } from '../_shared/emailit.ts'
 
 /**
  * Dagoverzicht — elke dag om 17.00 uur één mail aan de beheerder met de nieuwe
- * aanmeldingen, de gegeven feedback en de nieuwe ideeën.
+ * aanmeldingen, de gegeven feedback, de nieuwe ideeën en wie zich vanuit
+ * Meestertools op de wachtlijst van 10minutendidactiek zette.
  *
  * Wordt alleen door de database aangeroepen (public.dagoverzicht_tick, via
  * pg_net), met het gedeelde geheim uit public.opruim_geheim. Daarom staat
@@ -54,10 +55,18 @@ interface Idee {
   gegeven: string
 }
 
+interface Wachter {
+  naam: string | null
+  email: string | null
+  aangemeld: string
+}
+
 interface Overzicht {
   aanmeldingen: Aanmelding[]
   feedback: Feedback[]
   ideeen: Idee[]
+  wachtlijst: Wachter[]
+  wachtlijst_totaal: number
   totaal_accounts: number
 }
 
@@ -128,6 +137,7 @@ serve(async (req) => {
         aanmeldingen: o.aanmeldingen.length,
         feedback: o.feedback.length,
         ideeen: o.ideeen.length,
+        wachtlijst: o.wachtlijst.length,
       })
     } catch (err) {
       if (!proef) await admin.from('dagoverzicht_verzonden').delete().eq('dag', vandaag)
@@ -163,6 +173,7 @@ function onderwerp(o: Overzicht, proef: boolean): string {
     : 'geen nieuwe gebruikers')
   if (o.feedback.length) delen.push(meervoud(o.feedback.length, 'beoordeling', 'beoordelingen'))
   if (o.ideeen.length) delen.push(meervoud(o.ideeen.length, 'idee', 'ideeën'))
+  if (o.wachtlijst.length) delen.push(`${o.wachtlijst.length} op de 10MD-wachtlijst`)
   return `${proef ? '[Proef] ' : ''}Dagoverzicht Meestertools: ${delen.join(', ')}`
 }
 
@@ -200,6 +211,11 @@ function mailText(o: Overzicht, sinds: Date, proef: boolean): string {
   if (o.ideeen.length) {
     lines.push('', `IDEEËNBUS (${o.ideeen.length})`)
     for (const i of o.ideeen) lines.push(`- ${IDEE_LABEL[i.categorie] || 'Idee'}: ${i.titel}${i.naam ? ` (${i.naam})` : ''}`)
+  }
+  if (o.wachtlijst.length) {
+    lines.push('', `WACHTLIJST 10MINUTENDIDACTIEK (${o.wachtlijst.length})`)
+    for (const w of o.wachtlijst) lines.push(`- ${w.naam || '(geen naam)'} <${w.email || '?'}>, ${tijd(w.aangemeld)}`)
+    lines.push(`Totaal via Meestertools: ${o.wachtlijst_totaal}.`)
   }
   lines.push('', 'Alles bekijken: https://meestertools.nl/beheer', '', '--', '(c) Meestertools | meestertools.nl')
   return lines.join('\n')
@@ -243,6 +259,11 @@ function mailHtml(o: Overzicht, sinds: Date, proef: boolean): string {
           ${f.comment ? `<div style="margin-top:8px;padding:10px 12px;background:#FAFAFC;border-left:3px solid ${PRIMARY};border-radius:6px;color:${TEXT_DARK};font-size:14px;line-height:1.6;white-space:pre-wrap;">${esc(f.comment)}</div>` : ''}
         </div>`
 
+  const wachter = (w: Wachter) => `
+        <div style="border-top:1px solid #EEEEF4;padding:10px 0;font-size:14px;color:${TEXT_DARK};">
+          ${esc(w.naam || '(geen naam)')} <span style="color:${TEXT_MUTED};">&middot; ${esc(w.email || '')} &middot; ${tijd(w.aangemeld)}</span>
+        </div>`
+
   const idee = (i: Idee) => `
         <div style="border-top:1px solid #EEEEF4;padding:10px 0;font-size:14px;color:${TEXT_DARK};">
           <span style="color:${TEXT_MUTED};">${esc(IDEE_LABEL[i.categorie] || 'Idee')}:</span> ${esc(i.titel)}${i.naam ? ` <span style="color:${TEXT_MUTED};">(${esc(i.naam)})</span>` : ''}
@@ -267,6 +288,8 @@ function mailHtml(o: Overzicht, sinds: Date, proef: boolean): string {
         ${kop('Feedback', o.feedback.length)}
         ${o.feedback.length ? o.feedback.map(feedback).join('') : leeg('Vandaag geen feedback gegeven.')}
         ${o.ideeen.length ? kop('Ideeënbus', o.ideeen.length) + o.ideeen.map(idee).join('') : ''}
+        ${o.wachtlijst.length ? kop('Wachtlijst 10minutendidactiek', o.wachtlijst.length) + o.wachtlijst.map(wachter).join('')
+          + `<p style="margin:8px 0 0;color:${TEXT_MUTED};font-size:13px;">Totaal via Meestertools: ${o.wachtlijst_totaal}.</p>` : ''}
         <p style="margin:28px 0 0;">
           <a href="https://meestertools.nl/beheer" style="display:inline-block;background:${PRIMARY};color:#ffffff;text-decoration:none;padding:11px 20px;border-radius:10px;font-size:14px;font-weight:700;">Naar Beheer</a>
         </p>
