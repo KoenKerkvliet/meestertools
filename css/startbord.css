@@ -207,6 +207,15 @@
 .sb-beeld.vullen .sb-beeld-onderschrift { padding: 10px 18px 16px; }
 .sb-beeld-mist { font-size: 30px; }
 
+/* Video (YouTube, alleen bij Presenteren). Het filmpje houdt zijn 16:9 en past
+   in het vak; met "vullen" bedekt het het hele vak en vallen de randen weg. */
+.sb-video { flex: 1; min-height: 0; position: relative; container-type: size; overflow: hidden; }
+.sb-video iframe {
+    position: absolute; top: 50%; left: 50%; border: 0; transform: translate(-50%, -50%);
+    width: min(100cqw, 177.78cqh); height: min(100cqh, 56.25cqw); background: #000;
+}
+.sb-video.vullen iframe { width: max(100cqw, 177.78cqh); height: max(100cqh, 56.25cqw); }
+
 .sb-toolvak { flex: 1; min-height: 0; display: flex; }
 .sb-toolvak iframe { flex: 1; border: 0; width: 100%; height: 100%; background: #fff; }
 .sb-plek {

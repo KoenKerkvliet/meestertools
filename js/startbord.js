@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var SOORTEN = [
         ['tekst', '&#128221;', 'Tekst'], ['klok', '&#128339;', 'Datum en klok'],
         ['taken', '&#9989;', 'Takenlijst'], ['tool', '&#129520;', 'Tool'],
-        ['beeld', '&#128444;&#65039;', 'Afbeelding'], ['leeg', '&#9675;', 'Leeg']
+        ['beeld', '&#128444;&#65039;', 'Afbeelding'], ['video', '&#127916;', 'Video'], ['leeg', '&#9675;', 'Leeg']
     ];
     var TOOLS = {
         timetimer: { naam: 'Time Timer', em: '&#9202;', url: '/digibord/timetimer.html' },
@@ -96,7 +96,25 @@ document.addEventListener('DOMContentLoaded', function () {
         if (soort === 'taken') return { type: 'taken', titel: 'Bij binnenkomst', taken: ['Jas ophangen', 'Agenda pakken', 'Lezen in je boek'] };
         if (soort === 'tool') return { type: 'tool', tool: 'timetimer' };
         if (soort === 'beeld') return { type: 'beeld', sleutel: '', onderschrift: '', vullen: false };
+        if (soort === 'video') return { type: 'video', id: '', herhaal: true, geluid: false, vullen: false };
         return { type: 'leeg' };
+    }
+
+    // ---------- YouTube ----------
+    // In het bord staat alleen het video-id (11 tekens), nooit een link of
+    // een stukje code. Het filmpje wordt pas bij Presenteren opgehaald, via
+    // youtube-nocookie.com.
+    function videoId(tekst) {
+        var t = String(tekst || '').trim();
+        if (/^[A-Za-z0-9_-]{11}$/.test(t)) return t;
+        var m = t.match(/^(?:https?:\/\/)?(?:www\.|m\.|music\.)?(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/|shorts\/|live\/|v\/)|youtu\.be\/)([A-Za-z0-9_-]{11})(?![A-Za-z0-9_-])/i);
+        return m ? m[1] : '';
+    }
+    function videoSrc(b) {
+        var id = videoId(b.id);
+        if (!id) return '';
+        return 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&mute=' + (b.geluid ? '0' : '1') +
+            (b.herhaal !== false ? '&loop=1&playlist=' + id : '') + '&rel=0&playsinline=1&iv_load_policy=3';
     }
 
     // Taken staan altijd als lijst in de database. Tekst (één taak per regel)
@@ -158,6 +176,15 @@ document.addEventListener('DOMContentLoaded', function () {
             return '<div class="sb-beeld' + (b.vullen ? ' vullen' : '') + '"><img data-beeld="' + esc(b.sleutel) + '" alt="">' +
                 (b.onderschrift ? '<div class="sb-beeld-onderschrift">' + esc(b.onderschrift) + '</div>' : '') + '</div>';
         }
+        if (b.type === 'video') {
+            var src = videoSrc(b);
+            if (!src) return modus === 'presenteer' ? '' : '<div class="sb-plek"><span class="em">&#127916;</span>Plak een YouTube-link</div>';
+            if (modus === 'presenteer') {
+                return '<div class="sb-video' + (b.vullen ? ' vullen' : '') + '"><iframe src="' + esc(src) + '" title="Video" ' +
+                    'allow="autoplay; fullscreen; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>';
+            }
+            return '<div class="sb-plek"><span class="em">&#127916;</span>Video<small>speelt bij Presenteren</small></div>';
+        }
         return modus === 'bewerk' ? '<div class="sb-plek"><span class="em">+</span>Kies wat hier komt</div>' : '';
     }
 
@@ -178,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
             (modus === 'bewerk' ? ' sb-bewerkmodus' : modus === 'presenteer' ? ' sb-presenteer' : '') + '">' +
             blokken.map(function (b, i) {
                 // Een afbeeldingsvak zonder afbeelding telt als leeg
-                var leeg = b.type === 'leeg' || (b.type === 'beeld' && !b.sleutel);
+                var leeg = b.type === 'leeg' || (b.type === 'beeld' && !b.sleutel) || (b.type === 'video' && !videoId(b.id));
                 return '<div class="sb-vak' + (leeg ? ' is-leeg' : '') +
                     (modus === 'bewerk' && i === gekozenVak ? ' gekozen' : '') + '" data-vak="' + i + '">' + veiligBlokHtml(b, modus) + '</div>';
             }).join('') + '</div>';
@@ -560,6 +587,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<label class="sb-veld"><span>Onderschrift (mag leeg)</span><input type="text" data-veld="onderschrift" maxlength="80" value="' + esc(b.onderschrift || '') + '"></label>' +
                 '<label class="sb-vinkje"><input type="checkbox" data-veld="vullen"' + (b.vullen ? ' checked' : '') + '> Het hele vak vullen (randen vallen weg)</label>' +
                 '<p class="sb-hint">De afbeelding wordt alleen in deze browser bewaard, niet online. Op een ander apparaat of in een andere browser zie je hem niet: voeg hem daar dan opnieuw toe.</p>';
+        } else if (b.type === 'video') {
+            h += '<label class="sb-veld"><span>YouTube-link</span>' +
+                '<input type="text" data-veld="link" maxlength="200" value="' + (videoId(b.id) ? 'https://www.youtube.com/watch?v=' + esc(videoId(b.id)) : '') + '" placeholder="Plak hier de link van het filmpje"></label>' +
+                '<p class="sb-hint" id="sbVideoMelding">' + (videoId(b.id) ? 'Filmpje herkend.' : 'Kopieer de link uit de adresbalk van YouTube of via Delen.') + '</p>' +
+                '<label class="sb-vinkje"><input type="checkbox" data-veld="herhaal"' + (b.herhaal !== false ? ' checked' : '') + '> Herhalen (blijft doorspelen)</label>' +
+                '<label class="sb-vinkje"><input type="checkbox" data-veld="geluid"' + (b.geluid ? ' checked' : '') + '> Met geluid starten</label>' +
+                '<label class="sb-vinkje"><input type="checkbox" data-veld="vullen"' + (b.vullen ? ' checked' : '') + '> Het hele vak vullen (randen van de video vallen weg)</label>' +
+                '<p class="sb-hint">Het filmpje wordt pas bij Presenteren van YouTube opgehaald, niet in deze editor. Niet elk filmpje mag worden ingesloten en YouTube kan reclame tonen. ' +
+                'Met geluid starten wordt door sommige browsers geblokkeerd: dan klik je één keer op het filmpje.</p>';
         } else {
             h += '<p class="sb-hint">Dit vak blijft leeg. Kies hierboven wat erin moet.</p>';
         }
@@ -689,6 +725,13 @@ document.addEventListener('DOMContentLoaded', function () {
         var veld = e.target.getAttribute('data-veld');
         if (!veld || e.target.type === 'checkbox') return;
         var b = huidig.blokken[gekozenVak];
+        if (veld === 'link') {
+            var id = videoId(e.target.value), melding = $('sbVideoMelding');
+            b.id = id;
+            if (melding) melding.textContent = id ? 'Filmpje herkend.' : (e.target.value.trim() ? 'Dit lijkt geen YouTube-link. Kopieer de link uit de adresbalk of via Delen.' : '');
+            gewijzigd(true);
+            return;
+        }
         if (veld === 'taken') {
             b.taken = takenLijst(e.target.value);
         } else {
@@ -698,7 +741,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     paneel.addEventListener('change', function (e) {
         var veld = e.target.getAttribute('data-veld');
-        if (!veld) return;
+        if (!veld || veld === 'link') return;
         var b = huidig.blokken[gekozenVak];
         if (e.target.type === 'checkbox') b[veld] = e.target.checked;
         else if (veld === 'taken') b.taken = takenLijst(e.target.value);
