@@ -24,6 +24,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var BREED = 1600, HOOG = 900;
     var MAX_BORDEN = 5;   // ook afgedwongen in de database (trigger startborden_max)
+    var lijstGeladen = false;
+    // De beheerder heeft geen maximum (de trigger laat hem ook door)
+    function beheerder(rol) {
+        if (rol !== 'super_admin' || MAX_BORDEN === Infinity) return;
+        MAX_BORDEN = Infinity;
+        if (lijstGeladen) renderLijst();
+    }
+    beheerder(window.userRole);
+    window.addEventListener('userRoleReady', function (e) { beheerder(e.detail && e.detail.role); });
     var VAKKEN = { een: 1, twee: 2, drie: 3, 'groot-twee': 3, vier: 4, 'groot-vier': 5, 'boven-vier': 5, zes: 6, acht: 8 };
     var INDELINGEN = [
         ['een', 'Eén groot vak'], ['twee', 'Twee naast elkaar'], ['drie', 'Drie naast elkaar'],
@@ -352,6 +361,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         borden = res.data || [];
+        lijstGeladen = true;
         renderLijst();
     }
 
@@ -360,8 +370,10 @@ document.addEventListener('DOMContentLoaded', function () {
         var vol = borden.length >= MAX_BORDEN;
         $('sbNieuw').disabled = vol;
         $('sbNieuw').title = vol ? 'Je hebt al ' + MAX_BORDEN + ' borden. Verwijder er een of pas een bestaand bord aan.' : '';
-        $('sbTeller').textContent = borden.length + ' van de ' + MAX_BORDEN + ' borden' +
-            (vol ? ' — het maximum. Verwijder er een of pas een bestaand bord aan.' : '');
+        $('sbTeller').textContent = MAX_BORDEN === Infinity
+            ? borden.length + (borden.length === 1 ? ' bord' : ' borden') + ' (als beheerder heb je geen maximum)'
+            : borden.length + ' van de ' + MAX_BORDEN + ' borden' +
+              (vol ? ' — het maximum. Verwijder er een of pas een bestaand bord aan.' : '');
         if (!borden.length) {
             el.innerHTML = '<div class="sb-leeg"><span class="icoon">&#128444;&#65039;</span>' +
                 '<p>Je hebt nog geen borden. Maak er een, bijvoorbeeld voor de inloop.</p></div>';
