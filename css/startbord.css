@@ -27,6 +27,17 @@
 .sb-lijst-kop { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
 .sb-lijst-kop h2 { font-size: 20px; color: var(--text-dark); }
 .sb-lijst-kop p { color: var(--text-medium); font-size: 14px; margin-top: 4px; }
+.sb-lijst-knoppen { display: flex; gap: 10px; flex-wrap: wrap; }
+.sb-instpaneel { border: 2px solid #ECEAF7; background: #FAFAFF; border-radius: 14px; padding: 16px 18px; margin-bottom: 20px; }
+.sb-instpaneel[hidden] { display: none; }
+.sb-inst-groep { border: 0; padding: 0; margin: 0 0 10px; min-width: 0; }
+.sb-inst-groep legend { font-size: 14px; font-weight: 800; color: var(--text-dark); padding: 0; margin-bottom: 8px; }
+.sb-inst-optie { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 2px solid #E3E1F2; border-radius: 10px; background: #fff; cursor: pointer; margin-bottom: 8px; }
+.sb-inst-optie:hover { border-color: #B9B4F7; }
+.sb-inst-optie:has(input:checked) { border-color: var(--primary); background: #F3F1FF; }
+.sb-inst-optie input { margin-top: 3px; accent-color: var(--primary); }
+.sb-inst-optie strong { display: block; font-size: 14px; color: var(--text-dark); }
+.sb-inst-optie small { display: block; font-size: 13px; color: var(--text-medium); line-height: 1.4; margin-top: 2px; }
 .sb-borden { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
 @media (max-width: 640px) { .sb-borden { grid-template-columns: 1fr; } }
 .sb-kaartje { border: 2px solid #ECEAF7; border-radius: 16px; overflow: hidden; background: #fff; display: flex; flex-direction: column; }

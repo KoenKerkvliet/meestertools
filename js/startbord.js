@@ -8,6 +8,8 @@
      tekst (titel + opgemaakte tekst), datum en klok, takenlijst of een tool.
      Wijzigingen worden vanzelf opgeslagen.
    - Presenteren: schermvullend, met de pijltjestoetsen door alle borden.
+     Via Instellingen (localStorage) opent het in dit venster of in een nieuw
+     venster (?presenteer=ID, dat sluit zichzelf bij Esc).
 
    Een bord is 1600 x 900 en wordt als geheel geschaald (zie css/startbord.css):
    het voorbeeld in de editor is daardoor precies wat er op het digibord staat.
@@ -408,7 +410,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (i < 0) return;
         var actie = b.dataset.actie;
         if (actie === 'bewerk') openBord(borden[i]);
-        else if (actie === 'presenteer') presenteer(i);
+        else if (actie === 'presenteer') startPresentatie(i);
         else if (actie === 'kopieer') kopieer(borden[i]);
         else if (actie === 'verwijder') verwijder(borden[i]);
         else if (actie === 'eerder' || actie === 'later') verplaats(i, actie === 'eerder' ? -1 : 1);
@@ -842,6 +844,44 @@ document.addEventListener('DOMContentLoaded', function () {
     var presIndex = 0;
     var balkTimer = null;
 
+    // Instelling: Presenteren in dit venster of in een nieuw venster.
+    // Alleen in deze browser (localStorage), want het hangt af van het apparaat.
+    var OPEN_SLEUTEL = 'mt-startbord-openen';
+    var metVenster = false;   // dit venster is speciaal voor Presenteren geopend
+    function openVoorkeur() {
+        try { return localStorage.getItem(OPEN_SLEUTEL) === 'nieuw' ? 'nieuw' : 'zelfde'; } catch (e) { return 'zelfde'; }
+    }
+    function zetOpenVoorkeur(v) {
+        try { localStorage.setItem(OPEN_SLEUTEL, v); } catch (e) {}
+    }
+
+    $('sbInstKnop').addEventListener('click', function () {
+        var open = $('sbInstPaneel').hidden;
+        $('sbInstPaneel').hidden = !open;
+        this.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.querySelectorAll('input[name="sbOpenen"]').forEach(function (r) {
+        r.checked = r.value === openVoorkeur();
+        r.addEventListener('change', function () { if (r.checked) zetOpenVoorkeur(r.value); });
+    });
+
+    // Kiest op basis van de instelling. Het nieuwe venster wordt meteen (nog
+    // binnen de klik) geopend, anders blokkeert de browser het als pop-up; het
+    // bord wordt eerst bewaard en daarna pas in dat venster geladen.
+    async function startPresentatie(i) {
+        if (openVoorkeur() !== 'nieuw' || !borden[i]) { presenteer(i); return; }
+        var w = null;
+        try { w = window.open('', '_blank'); } catch (e) {}
+        if (!w) { presenteer(i); return; }   // pop-up geblokkeerd: dan toch in dit venster
+        try {
+            if (opslaanTimer) { clearTimeout(opslaanTimer); await opslaan(); }
+            w.location.href = location.pathname + '?presenteer=' + encodeURIComponent(borden[i].id);
+        } catch (e) {
+            try { w.close(); } catch (e2) {}
+            presenteer(i);
+        }
+    }
+
     function presenteer(i) {
         flushOpslaan();
         if (!borden.length) return;
@@ -873,6 +913,8 @@ document.addEventListener('DOMContentLoaded', function () {
             try { r = (document.exitFullscreen || document.webkitExitFullscreen).call(document); } catch (e) {}
             if (r && r.catch) r.catch(function () {});
         }
+        // Een venster dat alleen voor Presenteren is geopend, sluit weer
+        if (metVenster) { try { window.close(); } catch (e) {} }
     }
 
     function stap(n) {
@@ -916,12 +958,23 @@ document.addEventListener('DOMContentLoaded', function () {
     $('sbPresenteer').addEventListener('click', function () {
         if (!huidig) return;
         var i = borden.findIndex(function (b) { return b.id === huidig.id; });
-        presenteer(i < 0 ? 0 : i);
+        startPresentatie(i < 0 ? 0 : i);
     });
 
     // ---------- Start ----------
     (async function start() {
         await laadBorden();
+        var p = /[?&]presenteer=([^&]+)/.exec(location.search);
+        if (p) {
+            // Nieuw venster dat voor Presenteren is geopend
+            var pi = borden.findIndex(function (x) { return x.id === decodeURIComponent(p[1]); });
+            if (pi >= 0) {
+                metVenster = true;
+                presenteer(pi);
+                if (window.hidePageLoader) window.hidePageLoader();
+                return;
+            }
+        }
         var m = /[?&]bord=([^&]+)/.exec(location.search);
         if (m) {
             var b = borden.filter(function (x) { return x.id === decodeURIComponent(m[1]); })[0];

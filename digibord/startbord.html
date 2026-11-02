@@ -10,9 +10,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Meestertools - Startbord</title>
-    <link rel="stylesheet" href="../css/style.css?v=1.66.7">
-    <link rel="stylesheet" href="../css/instellingen.css?v=1.66.7">
-    <link rel="stylesheet" href="../css/startbord.css?v=1.66.7">
+    <link rel="stylesheet" href="../css/style.css?v=1.67.0">
+    <link rel="stylesheet" href="../css/instellingen.css?v=1.67.0">
+    <link rel="stylesheet" href="../css/startbord.css?v=1.67.0">
 </head>
 <body>
     <header id="app-header-slot"></header>
@@ -36,7 +36,24 @@
                         <p>Bij Presenteren klik je met de pijltjestoetsen door al je borden heen, in deze volgorde.</p>
                         <p class="sb-hint" id="sbTeller"></p>
                     </div>
-                    <button type="button" class="sb-knop" id="sbNieuw">+ Nieuw bord</button>
+                    <div class="sb-lijst-knoppen">
+                        <button type="button" class="sb-knop rand" id="sbInstKnop" aria-expanded="false" aria-controls="sbInstPaneel">&#9881;&#65039; Instellingen</button>
+                        <button type="button" class="sb-knop" id="sbNieuw">+ Nieuw bord</button>
+                    </div>
+                </div>
+                <div class="sb-instpaneel" id="sbInstPaneel" hidden>
+                    <fieldset class="sb-inst-groep">
+                        <legend>Presenteren opent het bord</legend>
+                        <label class="sb-inst-optie">
+                            <input type="radio" name="sbOpenen" value="zelfde">
+                            <span><strong>In dit venster</strong><small>Het bord vult dit scherm. Met Esc ben je terug bij je borden.</small></span>
+                        </label>
+                        <label class="sb-inst-optie">
+                            <input type="radio" name="sbOpenen" value="nieuw">
+                            <span><strong>In een nieuw venster</strong><small>Handig met een tweede scherm of digibord: sleep het venster erheen en houd je borden zelf open. Esc sluit het venster weer.</small></span>
+                        </label>
+                    </fieldset>
+                    <p class="sb-hint">Deze keuze wordt onthouden in deze browser.</p>
                 </div>
                 <div id="sbBorden"><p class="sb-hint">Borden laden...</p></div>
             </section>
@@ -84,13 +101,13 @@
 
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.66.7"></script>
-    <script src="/js/template.js?v=1.66.7"></script>
+    <script src="/js/mt-shared.js?v=1.67.0"></script>
+    <script src="/js/template.js?v=1.67.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="../js/supabase-config.js?v=1.66.7"></script>
-    <script src="../js/app.js?v=1.66.7"></script>
-    <script src="../js/instellingen.js?v=1.66.7"></script>
-    <script src="../js/startbord.js?v=1.66.7"></script>
-    <script src="/js/teller.js?v=1.66.7" defer></script>
+    <script src="../js/supabase-config.js?v=1.67.0"></script>
+    <script src="../js/app.js?v=1.67.0"></script>
+    <script src="../js/instellingen.js?v=1.67.0"></script>
+    <script src="../js/startbord.js?v=1.67.0"></script>
+    <script src="/js/teller.js?v=1.67.0" defer></script>
 </body>
 </html>
