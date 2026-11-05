@@ -261,7 +261,11 @@ document.addEventListener('DOMContentLoaded', () => {
         'digibord/stoplicht',
         'digibord/timetimer',
         'groepsvorming/energizer',
-        'educatieve-games/lingo'
+        'educatieve-games/lingo',
+        'educatieve-games/24game',
+        'educatieve-games/potje1000',
+        'lesmateriaal/woordenflitsen',
+        'lesmateriaal/werkbladen/rekenen'
     ];
     function isPublicToolPath() {
         const p = window.location.pathname
@@ -271,6 +275,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function enableGuestMode() {
         document.body.classList.add('mt-guest');
+
+        // De overzichtspagina's achter de knop Terug vragen om een account: gasten gaan naar de startpagina.
+        const terug = document.querySelector('.back-link');
+        if (terug) { terug.setAttribute('href', getBasePath() || '/'); terug.innerHTML = '&larr; Alle tools'; }
         if (sessionStorage.getItem('mt_guest_banner_hidden')) return;
 
         const banner = document.createElement('div');

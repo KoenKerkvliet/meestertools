@@ -51,6 +51,26 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://meestertools.nl/educatieve-games/24game</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://meestertools.nl/educatieve-games/potje1000</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://meestertools.nl/lesmateriaal/woordenflitsen</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://meestertools.nl/lesmateriaal/werkbladen/rekenen</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://meestertools.nl/registreer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

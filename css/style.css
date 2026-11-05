@@ -3614,3 +3614,16 @@ body.mt-premium .premium-badge {
     .mt-wachtlijst-tekst { flex-basis: calc(100% - 70px); }
     .mt-wachtlijst-knop { margin-left: 30px; }
 }
+
+/* ---------- Uitleg onder een tool (voor bezoekers en zoekmachines) ---------- */
+.tool-uitleg {
+    margin-top: 24px;
+    padding: 0 8px;
+    color: var(--text-medium);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+.tool-uitleg h2 { font-size: 1.1rem; color: var(--text-dark); margin-bottom: 8px; }
+.tool-uitleg p + p { margin-top: 8px; }
+.mt-ingebed .tool-uitleg { display: none; }
+@media print { .tool-uitleg { display: none; } }
