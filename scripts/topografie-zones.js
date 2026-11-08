@@ -31,6 +31,8 @@ const ZONES = {
     'a-scandinavisch-hoogland': ['KJØLEN MOUNTAINS'],
     'a-balkangebergte': ['Balkan Mts.'],
     'a-schotse-hooglanden': ['Grampian Mts.'],
+    'a-ardennen': ['Ardennes'],
+    'a-vogezen': ['Vosges'],
     'a-himalaya': ['HIMALAYAS'],
     'a-hindoekoesj': ['HINDU KUSH'],
     'a-tiensjan': ['TIAN SHAN'],

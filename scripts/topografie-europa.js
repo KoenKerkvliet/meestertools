@@ -137,11 +137,13 @@ const RIVIER_NAAM = {
     Seine: 'Seine', Loire: 'Loire', Ebro: 'Ebro', Duero: 'Duero', Po: 'Po',
     Rhine: 'Rijn', Rhin: 'Rijn', Rhein: 'Rijn', Waal: 'Rijn', 'Rhône': 'Rhône',
     'Severnaya Dvina': 'Noordelijke Dvina', Tajo: 'Taag', Tejo: 'Taag', Thames: 'Theems',
-    Garonne: 'Garonne', Tisa: 'Tisza', Daugava: 'Daugava', Maas: 'Maas', Meuse: 'Maas', Ural: 'Oeral'
+    Garonne: 'Garonne', Tisa: 'Tisza', Daugava: 'Daugava', Maas: 'Maas', Meuse: 'Maas', Ural: 'Oeral',
+    Schelde: 'Schelde'
 };
 const rivLines = {};
 lees('ne_rivers.geojson').features.forEach((f) => {
-    if (f.properties.featurecla === 'Lake Centerline') return;
+    // Ook de stukken door stuwmeren (featurecla 'Lake Centerline'), anders
+    // valt bijvoorbeeld de Wolga in losse stukken uiteen
     const naam = RIVIER_NAAM[f.properties.name];
     if (!naam) return;
     const lines = f.geometry.type === 'LineString' ? [f.geometry.coordinates] : f.geometry.coordinates;
@@ -181,6 +183,7 @@ plaatsen.forEach((p) => {
 // [id, naam, soort, lon, lat]
 const GEBIEDEN = [
     ['w-atlantische-oceaan', 'Atlantische Oceaan', 'water', -17, 48],
+    ['w-noordelijke-ijszee', 'Noordelijke IJszee', 'water', 12, 72.6],
     ['w-noordzee', 'Noordzee', 'water', 3.5, 56],
     ['w-oostzee', 'Oostzee', 'water', 19, 56.3],
     ['w-middellandse-zee', 'Middellandse Zee', 'water', 18, 34.9],
@@ -219,6 +222,8 @@ const GEBIEDEN = [
     ['a-scandinavisch-hoogland', 'Scandinavisch Hoogland', 'gebergte', 14.5, 65],
     ['a-balkangebergte', 'Balkangebergte', 'gebergte', 25, 42.75],
     ['a-schotse-hooglanden', 'Schotse Hooglanden', 'gebergte', -4.5, 57.2],
+    ['a-ardennen', 'Ardennen', 'gebergte', 5.3, 50.2],
+    ['a-vogezen', 'Vogezen', 'gebergte', 7.0, 48.1],
     ['e-groot-brittannie', 'Groot-Brittannië', 'eiland', -1.8, 53.2],
     ['e-sicilie', 'Sicilië', 'eiland', 14.2, 37.5],
     ['e-sardinie', 'Sardinië', 'eiland', 9.0, 40.1],
