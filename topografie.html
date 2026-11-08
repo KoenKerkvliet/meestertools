@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Topografie oefenen - Meestertools</title>
-    <link rel="stylesheet" href="css/topografie.css?v=1.67.3">
+    <link rel="stylesheet" href="css/topografie.css?v=1.68.0">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root { --primary: #6C63FF; --primary-dark: #5A52D5; }
@@ -107,7 +107,14 @@
 
         /* Klaar */
         .to-score { font-size: 56px; font-weight: 800; color: var(--primary); line-height: 1; margin: 10px 0 4px; }
-        .to-score-sub { color: #636E72; font-size: 15px; margin-bottom: 18px; }
+        .to-score-sub { color: #636E72; font-size: 15px; margin-bottom: 18px; line-height: 1.5; }
+        .to-score.is-cijfer { font-size: 76px; }
+        .to-score.is-cijfer.is-onvoldoende { color: #D35400; }
+        .to-score-sub .to-norm { display: block; font-size: 12.5px; color: #8A8FA0; margin-top: 4px; }
+
+        /* Test jezelf */
+        .to-modus.is-test { border-color: #CFCBFA; background: #FAF9FF; }
+        .to-keuze.is-gekozen { background: #EEECFF; border-color: var(--primary); color: #3E3796; }
         .to-fouten { background: #FFF6EC; border-radius: 14px; padding: 12px 14px; margin-bottom: 16px; text-align: left; font-size: 14px; color: #7A4E12; line-height: 1.6; }
         .to-fouten strong { display: block; margin-bottom: 4px; }
         .to-knoppen { display: flex; flex-direction: column; gap: 10px; }
@@ -163,6 +170,10 @@
                         <span class="em">&#128172;</span>
                         <span><strong>Benoemen</strong><span class="uitleg">Hoe heet het? Kies de goede naam.</span></span>
                     </button>
+                    <button type="button" class="to-modus is-test" data-modus="test">
+                        <span class="em">&#128221;</span>
+                        <span><strong>Test jezelf</strong><span class="uitleg" id="toTestUitleg">Alles een keer, zonder hulp. Je krijgt een cijfer.</span></span>
+                    </button>
                 </div>
             </section>
 
@@ -185,12 +196,13 @@
             <section class="to-screen" id="toKlaar">
                 <div class="to-center">
                     <span class="to-icon" id="toKlaarIcoon">&#127881;</span>
-                    <h1>Klaar!</h1>
+                    <h1 id="toKlaarTitel">Klaar!</h1>
                     <div class="to-score" id="toScore"></div>
                     <p class="to-score-sub" id="toScoreSub"></p>
                 </div>
                 <div class="to-fouten" id="toFouten" hidden></div>
                 <div class="to-knoppen">
+                    <button type="button" class="to-btn" id="toFoutenKaart" hidden>Bekijk je fouten op de kaart</button>
                     <button type="button" class="to-btn" id="toFoutenOpnieuw">Oefen je fouten nog een keer</button>
                     <button type="button" class="to-btn" id="toOpnieuw">Nog een keer</button>
                     <button type="button" class="to-btn licht" id="toAnders">Andere oefening kiezen</button>
@@ -200,11 +212,11 @@
         <p class="to-foot">Meestertools is gratis voor leerkrachten &middot; <a href="/" target="_blank" rel="noopener">meestertools.nl</a></p>
     </div>
 
-    <script src="/js/mt-shared.js?v=1.67.3"></script>
+    <script src="/js/mt-shared.js?v=1.68.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.67.3"></script>
-    <script src="js/topografie-kaart.js?v=1.67.3"></script>
-    <script src="js/topografie-oefenen.js?v=1.67.3"></script>
-    <script src="/js/teller.js?v=1.67.3" defer></script>
+    <script src="js/supabase-config.js?v=1.68.0"></script>
+    <script src="js/topografie-kaart.js?v=1.68.0"></script>
+    <script src="js/topografie-oefenen.js?v=1.68.0"></script>
+    <script src="/js/teller.js?v=1.68.0" defer></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 /* ============================================
    TOPOGRAFIE - Oefenpagina voor leerlingen (/topografie?k=CODE)
-   Versie: v1.0.0
+   Versie: v1.1.0
 
    Openbaar, zonder account. Haalt de kaart op via de RPC
    public.topografie_kaart(code) en bewaart niets over wie er oefent.
@@ -12,6 +12,12 @@
 
    Een fout antwoord komt achteraan de rij terug, tot alles een keer goed is.
    De score telt alleen wat in één keer goed was.
+
+   Test jezelf: elk onderdeel één keer (bij een hele grote kaart een
+   steekproef van TEST_MAX), willekeurig als aanwijzen of benoemen, zonder
+   hulp en zonder herkansing. Daarna een cijfer met 80%-normering
+   (80% goed = 6, elke 5% erboven een punt erbij, eronder lineair naar 1).
+   Het cijfer staat alleen op het scherm; er wordt niets bewaard.
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -35,6 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var wacht = false;      // tijdens feedback geen nieuwe klikken
     var laatsteRonde = [];  // objecten van de laatste ronde (voor "nog een keer")
     var meldingTimer = null;
+
+    var TEST_MAX = 50;      // meer onderdelen? dan een steekproef van zoveel vragen
+    var testVorm = {};      // key -> 'aanwijzen' of 'benoemen' (alleen in de test)
+    var testFout = [];      // [{ o, gegeven }] wat in de test fout ging
 
     // ---------- Schermen ----------
     function toon(id) {
@@ -105,6 +115,9 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             $('toAantal').textContent = map.naam + ' · ' + objs.length + (objs.length === 1 ? ' onderdeel' : ' onderdelen');
             document.querySelector('.to-modi').hidden = false;
+            var n = objs.length;
+            $('toTestUitleg').textContent = (n > TEST_MAX ? TEST_MAX + ' vragen uit deze kaart'
+                : n === 1 ? 'Eén vraag' : 'Alle ' + n + ' onderdelen') + ', zonder hulp. Je krijgt een cijfer.';
         }
         toon('toStart');
     }
@@ -153,12 +166,26 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         view.toonLabels(false);
+        view.setModus('');
         $('toTeller').hidden = false;
+        if (m === 'test' && lijst.length > TEST_MAX) lijst = schud(lijst).slice(0, TEST_MAX);
         laatsteRonde = lijst.slice();
         rij = schud(lijst);
         totaal = lijst.length;
         klaarKeys = {}; foutKeys = {}; eersteKeerGoed = 0;
+        testVorm = {}; testFout = [];
+        if (m === 'test') {
+            // Half aanwijzen, half benoemen, door elkaar. Benoemen heeft
+            // minstens drie namen nodig om uit te kiezen.
+            var vormen = schud(rij.map(function (o, i) { return i % 2 && objs.length >= 3 ? 'benoemen' : 'aanwijzen'; }));
+            rij.forEach(function (o, i) { testVorm[o.key] = vormen[i]; });
+        }
         volgende();
+    }
+
+    // Welke vraagvorm hoort bij de huidige vraag
+    function vraagModus() {
+        return modus === 'test' ? (huidige && testVorm[huidige.key]) : modus;
     }
 
     $('toKeuzes').addEventListener('click', function (e) {
@@ -169,6 +196,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         if (e.target.id === 'toNaarAanwijzen') { start('aanwijzen', objs); return; }
+        if (e.target.id === 'toTerugCijfer') { toon('toKlaar'); return; }
+        if (e.target.id === 'toFoutenOefen') { start('aanwijzen', foutObjs()); return; }
         var b = e.target.closest('.to-keuze');
         if (b && !b.disabled) kiesNaam(b);
     });
@@ -194,7 +223,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function groep(o) { return GROEP[o.soort] || 'plaats'; }
 
     function teller() {
-        $('toTeller').textContent = Object.keys(klaarKeys).length + ' / ' + totaal;
+        var n = Object.keys(klaarKeys).length;
+        $('toTeller').textContent = modus === 'test'
+            ? 'Vraag ' + Math.min(n + 1, totaal) + ' / ' + totaal
+            : n + ' / ' + totaal;
     }
 
     function volgende() {
@@ -205,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function () {
         huidige = rij.shift();
         var soort = TopoKaart.SOORT_LABEL[huidige.soort] || '';
 
-        if (modus === 'aanwijzen') {
+        if (vraagModus() === 'aanwijzen') {
             // "Waar ligt Noordzee?" of "Waar ligt Alpen?" loopt niet (de, het):
             // bij wateren, gebergten en gebieden een kale opdracht
             var kaal = huidige.soort === 'water' || huidige.soort === 'gebergte' || huidige.soort === 'gebied';
@@ -264,9 +296,24 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(volgende, 2400);
     }
 
+    // Test: geen goed/fout tonen, geen herkansing; alleen onthouden en door
+    function beantwoord(ok, gegeven) {
+        klaarKeys[huidige.key] = true;
+        if (ok) eersteKeerGoed++;
+        else { foutKeys[huidige.key] = true; testFout.push({ o: huidige, gegeven: gegeven }); }
+        wacht = true;
+        setTimeout(volgende, 450);
+    }
+
     function kiesNaam(b) {
         if (wacht) return;
         var knoppen = $('toKeuzes').querySelectorAll('.to-keuze');
+        if (modus === 'test') {
+            knoppen.forEach(function (k) { k.disabled = true; });
+            b.classList.add('is-gekozen');
+            beantwoord(b.dataset.naam === huidige.naam, 'Jij koos ' + b.dataset.naam + '.');
+            return;
+        }
         knoppen.forEach(function (k) {
             k.disabled = true;
             if (k.dataset.naam === huidige.naam) k.classList.add('is-goed');
@@ -286,13 +333,25 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             return;
         }
-        if (modus !== 'aanwijzen' || wacht || !huidige) return;
+        if (modus === 'nakijken') {
+            if (!obj) return;
+            var f = testFout.filter(function (x) { return x.o.key === obj.key; })[0];
+            view.toonLabel(obj.key, true);
+            meld(f ? 'Dit is ' + obj.naam + '. ' + f.gegeven : obj.naam, f ? 'fout' : '', 2600);
+            return;
+        }
+        if (wacht || !huidige || vraagModus() !== 'aanwijzen') return;
 
         // Net naast een stip geklikt telt als die stip
         if ((!obj || obj.vorm === 'vlak' || obj.vorm === 'zone') && huidige.vorm === 'punt') obj = view.dichtstbijPunt(p, 26) || null;
         if (!obj || (huidige.vorm !== 'vlak' && obj.vorm === 'vlak')) {
             meld(huidige.vorm === 'punt' ? 'Klik op een stip' : huidige.vorm === 'lijn' ? 'Klik op een rivier'
                 : huidige.vorm === 'zone' ? 'Klik op een gekleurd gebied' : 'Klik op een ' + (map.teksten.vlak || 'provincie'), '', 1200);
+            return;
+        }
+        if (modus === 'test') {
+            view.markeer(obj.key, 'gekozen');
+            beantwoord(obj.key === huidige.key, 'Jij klikte op ' + obj.naam + '.');
             return;
         }
         if (obj.key === huidige.key) { goed(); return; }
@@ -341,7 +400,79 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ---------- Klaar ----------
+    // 80%-normering: 80% goed = 6; daarboven elke 5% een punt (100% = 10),
+    // daaronder gelijkmatig naar een 1 bij 0%. Op één decimaal; onder de 80%
+    // nooit afgerond naar een 6.
+    function cijfer(goed, n) {
+        var p = n ? goed / n * 100 : 0;
+        var c = p >= 80 ? 6 + (p - 80) / 5 : 1 + p / 16;
+        c = Math.round(c * 10) / 10;
+        if (p < 80 && c >= 6) c = 5.9;
+        return c;
+    }
+
+    function foutObjs() { return testFout.map(function (f) { return f.o; }); }
+
+    function klaarTest() {
+        var c = cijfer(eersteKeerGoed, totaal);
+        // Op één decimaal, zodat 87,5% en een 7,5 bij elkaar passen
+        var pct = String(Math.round(eersteKeerGoed / totaal * 1000) / 10).replace('.', ',');
+        var voldoende = c >= 6;
+        $('toKlaarTitel').textContent = 'Je cijfer';
+        $('toKlaarIcoon').innerHTML = c >= 8 ? '&#127942;' : voldoende ? '&#127881;' : '&#128170;';
+        $('toScore').textContent = String(c).replace('.', ',');
+        $('toScore').className = 'to-score is-cijfer' + (voldoende ? '' : ' is-onvoldoende');
+        $('toScoreSub').innerHTML = '<strong>' + eersteKeerGoed + ' van de ' + totaal + ' goed</strong> (' + pct + '%)<br>' +
+            (c === 10 ? 'Alles goed, knap!' : voldoende ? 'Voldoende, goed gedaan!' : 'Nog niet voldoende. Oefen je fouten en probeer het nog eens.') +
+            '<span class="to-norm">80% goed is een 6</span>';
+        var f = $('toFouten');
+        if (testFout.length) {
+            f.innerHTML = '<strong>Hier ging het mis:</strong>' + testFout.map(function (x) { return esc(x.o.naam); }).join(', ');
+            f.hidden = false;
+        } else {
+            f.hidden = true;
+        }
+        $('toFoutenKaart').hidden = !testFout.length;
+        $('toFoutenOpnieuw').hidden = !testFout.length;
+        $('toFoutenOpnieuw').textContent = 'Oefen je fouten';
+        $('toFoutenOpnieuw').className = 'to-btn licht';
+        $('toFoutenOpnieuw').onclick = function () { start('aanwijzen', foutObjs()); };
+        $('toOpnieuw').textContent = 'Doe de test nog een keer';
+        $('toOpnieuw').className = testFout.length ? 'to-btn licht' : 'to-btn';
+        $('toOpnieuw').onclick = function () { start('test', objs); };
+        toon('toKlaar');
+    }
+
+    // De kaart met wat er fout ging in het rood, met de naam erbij
+    function toonFoutenKaart() {
+        modus = 'nakijken';
+        huidige = null;
+        toon('toSpel');
+        zorgVoorKaart();
+        view.toonLabels(false);
+        view.setModus('');
+        $('toTeller').hidden = true;
+        testFout.forEach(function (x) {
+            view.markeer(x.o.key, 'fout');
+            view.toonLabel(x.o.key, true);
+        });
+        $('toVraag').innerHTML = '<span class="soort">Test jezelf</span><div class="tekst">Hier ging het mis</div>';
+        $('toKeuzes').innerHTML = '<div class="to-verkennen-balk">' +
+            '<button type="button" class="to-btn licht" id="toTerugCijfer">&larr; Terug naar je cijfer</button>' +
+            '<button type="button" class="to-btn" id="toFoutenOefen">Oefen je fouten</button></div>';
+        meld('Tik op een rode plek om te zien wat je antwoordde', '', 2600);
+    }
+    $('toFoutenKaart').addEventListener('click', toonFoutenKaart);
+
     function klaar() {
+        if (modus === 'test') { klaarTest(); return; }
+        $('toKlaarTitel').textContent = 'Klaar!';
+        $('toScore').className = 'to-score';
+        $('toFoutenKaart').hidden = true;
+        $('toFoutenOpnieuw').textContent = 'Oefen je fouten nog een keer';
+        $('toFoutenOpnieuw').className = 'to-btn';
+        $('toOpnieuw').textContent = 'Nog een keer';
+        $('toOpnieuw').className = 'to-btn';
         var pct = totaal ? Math.round(eersteKeerGoed / totaal * 100) : 0;
         $('toScore').textContent = eersteKeerGoed + ' / ' + totaal;
         $('toScoreSub').textContent = pct === 100 ? 'Alles in één keer goed!' : 'in één keer goed (' + pct + '%)';
