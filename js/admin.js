@@ -1745,7 +1745,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const fid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.round(Math.random() * 1e6);
             const safe = file.name.replace(/[^\w.\-]+/g, '_');
             const path = 'findit/' + fid + '/' + safe;
-            const up = await supabase.storage.from('escaperoom').upload(path, file, { upsert: true });
+            // Geen upsert: het pad bevat een unieke id, en upsert vraagt in de bucket
+            // ook een SELECT-policy (die er voor 'escaperoom' niet is) en geeft dan
+            // "new row violates row-level security policy".
+            const up = await supabase.storage.from('escaperoom').upload(path, file);
             if (up.error) throw up.error;
             const { data } = supabase.storage.from('escaperoom').getPublicUrl(path);
             if (!erFindit[i]) erFindit[i] = { imageUrl: '', boxes: [] };
