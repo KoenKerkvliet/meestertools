@@ -1656,6 +1656,11 @@ document.addEventListener('DOMContentLoaded', () => {
             : erIsDateType(type) ? 'Kies hieronder de datum'
             : type === 'cijferslot' || type === 'draaislot' ? 'Cijfercode (max 6 cijfers)'
             : 'Antwoord';
+        // Het vraagveld wordt bij puzzels wél gebruikt: als titel op de kaart en in de popup
+        const questionInput = document.getElementById('erQ' + i);
+        if (questionInput) questionInput.placeholder = type === 'schuifpuzzel' ? 'Titel/opdracht (staat op de kaart en boven de puzzel)'
+            : type === 'findit' ? 'Titel/opdracht (staat op de kaart en boven de afbeelding)'
+            : 'Vraag';
         // Schuifpuzzel en datum hebben geen los antwoordveld; oude waarde
         // leegmaken zodat er geen verwarrend 'spook-antwoord' blijft staan
         if (noAnswerField) answerInput.value = '';
