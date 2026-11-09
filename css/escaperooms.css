@@ -251,9 +251,6 @@
     font-size: 15px;
     font-weight: 600;
     color: var(--text-dark);
-    position: sticky;
-    top: 72px;
-    z-index: 50;
 }
 
 .er-status-keys strong,
