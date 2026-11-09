@@ -1763,6 +1763,60 @@ document.addEventListener('DOMContentLoaded', () => {
         return supabase.storage.from('escaperoom').getPublicUrl(path).data.publicUrl;
     }
 
+    // ---------- Afbeelding van de room zelf: uploaden of een puzzelafbeelding hergebruiken ----------
+    function updateRoomImagePreview() {
+        const url = (document.getElementById('erFormImage')?.value || '').trim();
+        const prev = document.getElementById('erFormImagePrev');
+        if (prev) prev.innerHTML = url
+            ? '<img src="' + escapeHtml(url) + '" alt="" style="max-height:90px;border-radius:6px;border:1px solid #E8E8F0;">'
+            : '';
+    }
+
+    // Vult de keuzelijst met de afbeeldingen van de schuifpuzzels die nu in het formulier staan.
+    // Find it blijft buiten beeld: dat is één 16:9-plaat met twee helften naast elkaar.
+    function refreshRoomImagePicks() {
+        const sel = document.getElementById('erFormImagePick');
+        if (!sel) return;
+        const seen = new Set();
+        let opts = '';
+        for (let i = 1; i < ER_MAX_QUESTIONS; i++) {
+            if ((document.getElementById('erT' + i)?.value) !== 'schuifpuzzel') continue;
+            const url = (document.getElementById('erImg' + i)?.value || '').trim();
+            if (!url || seen.has(url)) continue;
+            seen.add(url);
+            opts += '<option value="' + escapeHtml(url) + '">Schuifpuzzel van vraag ' + i + '</option>';
+        }
+        sel.innerHTML = '<option value="">' + (opts ? 'Of kies een puzzelafbeelding…' : 'Nog geen puzzelafbeelding in deze room') + '</option>' + opts;
+    }
+
+    async function handleRoomImageUpload(file) {
+        if (!file) return;
+        const btn = document.getElementById('erFormImageUpload');
+        if (btn) { btn.disabled = true; btn.textContent = 'Uploaden...'; }
+        try {
+            const url = await uploadEscaperoomImage(file, 'room');
+            document.getElementById('erFormImage').value = url;
+            updateRoomImagePreview();
+        } catch (err) {
+            alert('Uploaden mislukt: ' + (err && err.message ? err.message : err));
+        } finally {
+            if (btn) { btn.disabled = false; btn.textContent = 'Afbeelding uploaden'; }
+            const f = document.getElementById('erFormImageFile');
+            if (f) f.value = '';
+        }
+    }
+
+    document.getElementById('erFormImageUpload')?.addEventListener('click', () => document.getElementById('erFormImageFile').click());
+    document.getElementById('erFormImageFile')?.addEventListener('change', (e) => handleRoomImageUpload(e.target.files[0]));
+    document.getElementById('erFormImage')?.addEventListener('input', updateRoomImagePreview);
+    ['mousedown', 'focus'].forEach(ev => document.getElementById('erFormImagePick')?.addEventListener(ev, refreshRoomImagePicks));
+    document.getElementById('erFormImagePick')?.addEventListener('change', (e) => {
+        if (!e.target.value) return;
+        document.getElementById('erFormImage').value = e.target.value;
+        updateRoomImagePreview();
+        refreshRoomImagePicks(); // keuzelijst terug naar de standaardtekst
+    });
+
     // ---------- Schuifpuzzel: afbeelding uploaden ----------
     function updatePuzzleImgPreview(i) {
         const url = (document.getElementById('erImg' + i)?.value || '').trim();
@@ -2110,6 +2164,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('escaperoomForm').reset();
         document.getElementById('erFormId').value = '';
         buildErQuestionRows();
+        updateRoomImagePreview();
+        refreshRoomImagePicks();
         fillErCategorySuggestions();
         openModal('escaperoomModal');
     });
@@ -2138,6 +2194,8 @@ document.addEventListener('DOMContentLoaded', () => {
             .eq('room_id', id)
             .order('position');
         (qs || []).forEach(q => setErRow(q.position, q));
+        updateRoomImagePreview();
+        refreshRoomImagePicks();
 
         openModal('escaperoomModal');
     };

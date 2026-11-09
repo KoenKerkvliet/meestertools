@@ -27,9 +27,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Meestertools - Beheer</title>
-    <link rel="stylesheet" href="css/style.css?v=1.68.8">
-    <link rel="stylesheet" href="css/instellingen.css?v=1.68.8">
-    <link rel="stylesheet" href="css/ideeenbus.css?v=1.68.8">
+    <link rel="stylesheet" href="css/style.css?v=1.68.9">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.68.9">
+    <link rel="stylesheet" href="css/ideeenbus.css?v=1.68.9">
 </head>
 <body>
     <!-- Header -->
@@ -814,8 +814,17 @@
                         <textarea id="erFormDescription" rows="2" placeholder="Korte tekst op de card en in de room" style="width:100%;padding:12px 14px;border:2px solid #E8E8F0;border-radius:8px;font-size:14px;font-family:inherit;outline:none;resize:vertical;"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="erFormImage">Afbeelding (URL)</label>
-                        <input type="text" id="erFormImage" placeholder="https://... (liggende afbeelding werkt het mooist)">
+                        <label for="erFormImage">Afbeelding van de room</label>
+                        <input type="file" id="erFormImageFile" accept="image/*" style="display:none;">
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+                            <button type="button" class="btn-small btn-edit" id="erFormImageUpload">Afbeelding uploaden</button>
+                            <select id="erFormImagePick" title="Gebruik een afbeelding die al in een schuifpuzzel van deze room zit" style="flex:0 0 auto;max-width:260px;">
+                                <option value="">Of kies een puzzelafbeelding&hellip;</option>
+                            </select>
+                            <input type="text" id="erFormImage" placeholder="of plak een URL (https://...)" style="flex:1;min-width:200px;">
+                        </div>
+                        <div id="erFormImagePrev" style="margin-top:6px;"></div>
+                        <p style="font-size:12px;color:var(--text-light);margin:4px 0 0;">Liggend (16:9) werkt het mooist. Een vierkante afbeelding, zoals van een schuifpuzzel, wordt op de card en bovenin de room bijgesneden.</p>
                     </div>
                     <div class="form-group" style="display:flex;gap:14px;flex-wrap:wrap;">
                         <div style="flex:1;min-width:180px;">
@@ -1000,13 +1009,13 @@
     <!-- Footer -->
     <footer id="app-footer-slot"></footer>
 
-    <script src="/js/mt-shared.js?v=1.68.8"></script>
-    <script src="/js/template.js?v=1.68.8"></script>
+    <script src="/js/mt-shared.js?v=1.68.9"></script>
+    <script src="/js/template.js?v=1.68.9"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="js/supabase-config.js?v=1.68.8"></script>
-    <script src="js/app.js?v=1.68.8"></script>
-    <script src="js/instellingen.js?v=1.68.8"></script>
-    <script src="js/admin.js?v=1.68.8"></script>
+    <script src="js/supabase-config.js?v=1.68.9"></script>
+    <script src="js/app.js?v=1.68.9"></script>
+    <script src="js/instellingen.js?v=1.68.9"></script>
+    <script src="js/admin.js?v=1.68.9"></script>
 </body>
 </html>
