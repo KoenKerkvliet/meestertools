@@ -1977,6 +1977,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         </span>
                         <select id="erT${i}" title="Vraagtype" style="flex:0 0 200px;">${typeOptions}</select>
                         <input type="text" id="erA${i}" placeholder="Antwoord" style="flex:1;min-width:180px;">
+                        ${finale ? '' : `<span style="display:flex;gap:4px;margin-left:auto;">
+                            <button type="button" class="btn-small er-move" data-i="${i}" data-dir="-1" title="Eerder in de room zetten" ${i === 1 ? 'disabled' : ''}>&#8593; Omhoog</button>
+                            <button type="button" class="btn-small er-move" data-i="${i}" data-dir="1" title="Later in de room zetten" ${i === ER_MAX_QUESTIONS - 1 ? 'disabled' : ''}>&#8595; Omlaag</button>
+                        </span>`}
                     </div>
                     <textarea id="erQ${i}" rows="3" placeholder="Vraag" style="width:100%;padding:12px 14px;border:2px solid #E8E8F0;border-radius:8px;font-size:14px;font-family:inherit;line-height:1.5;outline:none;resize:vertical;min-height:84px;box-sizing:border-box;"></textarea>
                     <div id="erX${i}" style="display:none;margin:10px 0 0;"></div>
@@ -1986,6 +1990,104 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 1; i <= ER_MAX_QUESTIONS; i++) {
             document.getElementById('erT' + i).addEventListener('change', () => renderErExtras(i));
             document.getElementById('erQ' + i).addEventListener('input', (e) => erAutoGrow(e.target));
+        }
+        wrap.querySelectorAll('.er-move').forEach(btn => {
+            btn.addEventListener('click', () => erMoveRow(parseInt(btn.dataset.i, 10), parseInt(btn.dataset.dir, 10)));
+        });
+    }
+
+    // ---------- Vragen van plek wisselen ----------
+    // Leest een vraagrij uit het formulier in dezelfde vorm als een database-rij
+    // (de vorm die setErRow weer kan terugzetten). Doet geen validatie: lege of
+    // half ingevulde rijen mogen gewoon mee verschuiven.
+    function snapshotErRow(i) {
+        const type = document.getElementById('erT' + i).value || 'text';
+        const snap = {
+            question: document.getElementById('erQ' + i).value,
+            answer: document.getElementById('erA' + i).value,
+            question_type: type,
+            options: null, image_url: null, puzzle_size: null, puzzle_level: null, findit_boxes: null
+        };
+        if (type === 'meerkeuze') {
+            snap.options = [1, 2, 3].map(n => document.getElementById('erW' + i + n)?.value || '');
+        } else if (type === 'schuifpuzzel') {
+            snap.image_url = document.getElementById('erImg' + i)?.value || '';
+            snap.puzzle_size = parseInt(document.getElementById('erSize' + i)?.value, 10) || 3;
+            snap.puzzle_level = parseInt(document.getElementById('erLvl' + i)?.value, 10) || 2;
+        } else if (type === 'findit') {
+            const st = erFindit[i] || { imageUrl: '', boxes: [] };
+            snap.image_url = st.imageUrl || '';
+            snap.findit_boxes = (st.boxes || []).map(b => ({ x: b.x, y: b.y, w: b.w, h: b.h }));
+        } else if (erIsDateType(type)) {
+            const dd = parseInt(document.getElementById('erDd' + i)?.value, 10) || 0;
+            const mm = parseInt(document.getElementById('erDm' + i)?.value, 10) || 0;
+            const yy = parseInt(document.getElementById('erDy' + i)?.value, 10) || 0;
+            const p2 = (n) => (n < 10 ? '0' : '') + n;
+            snap.answer = (dd ? p2(dd) : '') + '-' + (mm ? p2(mm) : '') + (yy ? '-' + yy : '');
+        }
+        return snap;
+    }
+
+    // Zet een vraagrij terug in het formulier. Ook gebruikt bij het openen van een room.
+    function setErRow(i, q) {
+        const qEl = document.getElementById('erQ' + i);
+        const aEl = document.getElementById('erA' + i);
+        const tEl = document.getElementById('erT' + i);
+        if (!qEl || !aEl || !tEl) return;
+        delete erFindit[i];
+        qEl.value = q.question || '';
+        erAutoGrow(qEl);
+        aEl.value = q.answer || '';
+        tEl.value = q.question_type || 'text';
+        renderErExtras(i);
+        if (q.question_type === 'meerkeuze' && Array.isArray(q.options)) {
+            q.options.forEach((w, idx) => {
+                const wEl = document.getElementById('erW' + i + (idx + 1));
+                if (wEl) wEl.value = w;
+            });
+        }
+        if (q.question_type === 'schuifpuzzel') {
+            const imgEl = document.getElementById('erImg' + i);
+            const sizeEl = document.getElementById('erSize' + i);
+            const lvlEl = document.getElementById('erLvl' + i);
+            if (imgEl) imgEl.value = q.image_url || '';
+            updatePuzzleImgPreview(i);
+            if (sizeEl) sizeEl.value = String(q.puzzle_size || 3);
+            if (lvlEl) lvlEl.value = String(q.puzzle_level || 2);
+        }
+        if (q.question_type === 'findit') {
+            erFindit[i] = {
+                imageUrl: q.image_url || '',
+                boxes: Array.isArray(q.findit_boxes) ? q.findit_boxes.map(b => ({ x: b.x, y: b.y, w: b.w, h: b.h })) : []
+            };
+            updateFinditRow(i);
+        }
+        if (erIsDateType(q.question_type)) {
+            // Antwoord is opgeslagen als DD-MM of DD-MM-JJJJ
+            const parts = String(q.answer || '').split('-');
+            const ddEl = document.getElementById('erDd' + i);
+            const dmEl = document.getElementById('erDm' + i);
+            const dyEl = document.getElementById('erDy' + i);
+            if (ddEl && parts[0]) ddEl.value = String(parseInt(parts[0], 10));
+            if (dmEl && parts[1]) dmEl.value = String(parseInt(parts[1], 10));
+            if (dyEl && parts[2]) dyEl.value = String(parseInt(parts[2], 10));
+        }
+    }
+
+    // Wisselt vraag i met de buurvraag (dir = -1 omhoog, +1 omlaag). De finale
+    // blijft altijd laatste, dus daar zitten geen knoppen bij.
+    function erMoveRow(i, dir) {
+        const j = i + dir;
+        if (j < 1 || j >= ER_MAX_QUESTIONS || i >= ER_MAX_QUESTIONS) return;
+        const a = snapshotErRow(i);
+        const b = snapshotErRow(j);
+        setErRow(i, b);
+        setErRow(j, a);
+        const block = document.getElementById('erQ' + j)?.closest('.er-q-block');
+        if (block) {
+            block.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            block.style.boxShadow = '0 0 0 3px rgba(108,99,255,0.35)';
+            setTimeout(() => { block.style.boxShadow = ''; }, 900);
         }
     }
 
@@ -2035,47 +2137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .select('position, question, answer, question_type, options, image_url, puzzle_size, puzzle_level, findit_boxes')
             .eq('room_id', id)
             .order('position');
-        (qs || []).forEach(q => {
-            const i = q.position;
-            const qEl = document.getElementById('erQ' + i);
-            const aEl = document.getElementById('erA' + i);
-            const tEl = document.getElementById('erT' + i);
-            if (qEl) { qEl.value = q.question; erAutoGrow(qEl); }
-            if (aEl) aEl.value = q.answer;
-            if (tEl) { tEl.value = q.question_type || 'text'; renderErExtras(i); }
-            if (q.question_type === 'meerkeuze' && Array.isArray(q.options)) {
-                q.options.forEach((w, idx) => {
-                    const wEl = document.getElementById('erW' + i + (idx + 1));
-                    if (wEl) wEl.value = w;
-                });
-            }
-            if (q.question_type === 'schuifpuzzel') {
-                const imgEl = document.getElementById('erImg' + i);
-                const sizeEl = document.getElementById('erSize' + i);
-                const lvlEl = document.getElementById('erLvl' + i);
-                if (imgEl) imgEl.value = q.image_url || '';
-                updatePuzzleImgPreview(i);
-                if (sizeEl) sizeEl.value = String(q.puzzle_size || 3);
-                if (lvlEl) lvlEl.value = String(q.puzzle_level || 2);
-            }
-            if (q.question_type === 'findit') {
-                erFindit[i] = {
-                    imageUrl: q.image_url || '',
-                    boxes: Array.isArray(q.findit_boxes) ? q.findit_boxes.map(b => ({ x: b.x, y: b.y, w: b.w, h: b.h })) : []
-                };
-                updateFinditRow(i);
-            }
-            if (erIsDateType(q.question_type)) {
-                // Antwoord is opgeslagen als DD-MM of DD-MM-JJJJ
-                const parts = String(q.answer || '').split('-');
-                const ddEl = document.getElementById('erDd' + i);
-                const dmEl = document.getElementById('erDm' + i);
-                const dyEl = document.getElementById('erDy' + i);
-                if (ddEl && parts[0]) ddEl.value = String(parseInt(parts[0], 10));
-                if (dmEl && parts[1]) dmEl.value = String(parseInt(parts[1], 10));
-                if (dyEl && parts[2]) dyEl.value = String(parseInt(parts[2], 10));
-            }
-        });
+        (qs || []).forEach(q => setErRow(q.position, q));
 
         openModal('escaperoomModal');
     };
