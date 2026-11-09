@@ -1047,6 +1047,7 @@
 /* ---------- Kleurthema's per room ---------- */
 body.er-theme-halloween { --er-accent: #E65100; --er-dark1: #2B1606; --er-dark2: #5A2E06; }
 body.er-theme-kerst { --er-accent: #C62828; --er-dark1: #0F2415; --er-dark2: #1E4428; }
+body.er-theme-sinterklaas { --er-accent: #B71C1C; --er-dark1: #2A0808; --er-dark2: #8E1A1A; }
 body.er-theme-ruimte { --er-accent: #4FC3F7; --er-dark1: #0B1026; --er-dark2: #283593; }
 
 .er-hero {

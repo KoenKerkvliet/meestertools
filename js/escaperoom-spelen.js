@@ -27,7 +27,7 @@
    - Eerste 12 goede antwoorden geven zilver (precies genoeg voor de
      gelockte kaarten), de laatste twee goud; finale opent met 2 goud.
    - Goed antwoord: sleutel-animatie + pingeltje; uitspelen = confetti.
-   - Het kleurthema van de room (standaard/halloween/kerst/ruimte)
+   - Het kleurthema van de room (standaard/halloween/kerst/sinterklaas/ruimte)
      kleurt hero, timerkaart en finale mee.
    ============================================ */
 
