@@ -1797,6 +1797,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const url = await uploadEscaperoomImage(file, 'room');
             document.getElementById('erFormImage').value = url;
             updateRoomImagePreview();
+            openRoomImageCrop(url, true); // niet-breedbeeld? dan meteen aanbieden om bij te snijden
         } catch (err) {
             alert('Uploaden mislukt: ' + (err && err.message ? err.message : err));
         } finally {
@@ -1812,10 +1813,112 @@ document.addEventListener('DOMContentLoaded', () => {
     ['mousedown', 'focus'].forEach(ev => document.getElementById('erFormImagePick')?.addEventListener(ev, refreshRoomImagePicks));
     document.getElementById('erFormImagePick')?.addEventListener('change', (e) => {
         if (!e.target.value) return;
-        document.getElementById('erFormImage').value = e.target.value;
+        const picked = e.target.value;
+        document.getElementById('erFormImage').value = picked;
         updateRoomImagePreview();
         refreshRoomImagePicks(); // keuzelijst terug naar de standaardtekst
+        openRoomImageCrop(picked, true); // vierkante puzzelafbeelding? dan meteen breedbeeld aanbieden
     });
+
+    // ---------- Roomafbeelding bijsnijden tot breedbeeld (16:9) ----------
+    // De uitsnede wordt in de browser gemaakt (canvas) en als nieuw bestand geüpload;
+    // de originele afbeelding (bijv. van de schuifpuzzel) blijft ongemoeid.
+    const CROP_RATIO = 16 / 9;
+    let roomCrop = null; // { img, axis: 'x' | 'y' | null, pos: 0..1 }
+
+    function loadCropImage(url) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => resolve(img);
+            img.onerror = () => reject(new Error('laden mislukt'));
+            img.src = url;
+        });
+    }
+
+    function setCropMsg(text) {
+        const el = document.getElementById('imgCropMsg');
+        if (!el) return;
+        el.textContent = text || '';
+        el.style.display = text ? '' : 'none';
+    }
+
+    function applyCropPreview() {
+        if (!roomCrop) return;
+        const v = Math.round(roomCrop.pos * 100);
+        const prev = document.getElementById('imgCropPreview');
+        prev.style.backgroundPosition = roomCrop.axis === 'x' ? v + '% 50%' : '50% ' + v + '%';
+    }
+
+    // auto = true: alleen openen als de afbeelding niet al (bijna) breedbeeld is
+    async function openRoomImageCrop(url, auto) {
+        url = (url || '').trim();
+        if (!url) { if (!auto) alert('Kies of upload eerst een afbeelding.'); return; }
+        let img;
+        try {
+            img = await loadCropImage(url);
+        } catch (err) {
+            if (!auto) alert('Deze afbeelding kan niet worden bijgesneden (de bron staat dat niet toe). Upload hem dan eerst zelf met de knop "Afbeelding uploaden".');
+            return;
+        }
+        const ratio = img.naturalWidth / img.naturalHeight;
+        if (auto && Math.abs(ratio - CROP_RATIO) / CROP_RATIO < 0.03) return;
+        const axis = ratio < CROP_RATIO - 0.001 ? 'y' : ratio > CROP_RATIO + 0.001 ? 'x' : null;
+        roomCrop = { img: img, axis: axis, pos: 0.5 };
+
+        const prev = document.getElementById('imgCropPreview');
+        prev.style.backgroundImage = 'url("' + url.replace(/"/g, '%22') + '")';
+        const wrap = document.getElementById('imgCropSliderWrap');
+        wrap.style.display = axis ? '' : 'none';
+        document.getElementById('imgCropSliderLabel').textContent = axis === 'x' ? 'Links / rechts' : 'Omhoog / omlaag';
+        document.getElementById('imgCropSlider').value = '50';
+        setCropMsg(axis ? '' : 'Deze afbeelding is al breedbeeld; je kunt hem zo laten.');
+        applyCropPreview();
+        openModal('imgCropModal');
+    }
+
+    async function applyRoomImageCrop() {
+        if (!roomCrop) return;
+        const btn = document.getElementById('applyImgCrop');
+        btn.disabled = true;
+        setCropMsg('');
+        try {
+            const img = roomCrop.img;
+            const iw = img.naturalWidth, ih = img.naturalHeight;
+            // Het deel van de afbeelding dat in 16:9 past, op de gekozen plek
+            const sw = Math.min(iw, ih * CROP_RATIO);
+            const sh = sw / CROP_RATIO;
+            const sx = roomCrop.axis === 'x' ? (iw - sw) * roomCrop.pos : (iw - sw) / 2;
+            const sy = roomCrop.axis === 'y' ? (ih - sh) * roomCrop.pos : (ih - sh) / 2;
+            const outW = Math.round(Math.min(1280, sw));
+            const outH = Math.round(outW / CROP_RATIO);
+            const canvas = document.createElement('canvas');
+            canvas.width = outW;
+            canvas.height = outH;
+            canvas.getContext('2d').drawImage(img, sx, sy, sw, sh, 0, 0, outW, outH);
+            const blob = await new Promise((resolve, reject) => {
+                canvas.toBlob(b => b ? resolve(b) : reject(new Error('Afbeelding maken mislukt')), 'image/jpeg', 0.9);
+            });
+            const file = new File([blob], 'room-breedbeeld.jpg', { type: 'image/jpeg' });
+            const url = await uploadEscaperoomImage(file, 'room');
+            document.getElementById('erFormImage').value = url;
+            updateRoomImagePreview();
+            closeModal('imgCropModal');
+        } catch (err) {
+            setCropMsg('Bijsnijden mislukt: ' + (err && err.message ? err.message : err));
+        }
+        btn.disabled = false;
+    }
+
+    document.getElementById('imgCropSlider')?.addEventListener('input', (e) => {
+        if (!roomCrop) return;
+        roomCrop.pos = parseInt(e.target.value, 10) / 100;
+        applyCropPreview();
+    });
+    document.getElementById('erFormImageCrop')?.addEventListener('click', () => openRoomImageCrop(document.getElementById('erFormImage').value, false));
+    document.getElementById('applyImgCrop')?.addEventListener('click', applyRoomImageCrop);
+    document.getElementById('cancelImgCrop')?.addEventListener('click', () => closeModal('imgCropModal'));
+    document.getElementById('closeImgCrop')?.addEventListener('click', () => closeModal('imgCropModal'));
 
     // ---------- Schuifpuzzel: afbeelding uploaden ----------
     function updatePuzzleImgPreview(i) {
