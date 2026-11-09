@@ -1967,23 +1967,33 @@ document.addEventListener('DOMContentLoaded', () => {
                     '<option value="meerkeuze">Meerkeuze</option>' +
                     '<option value="schuifpuzzel">Schuifpuzzel</option>' +
                     '<option value="findit">Find it (zoek de verschillen)</option>');
+            // Per vraag een eigen blok: bovenaan label, type en antwoord, daaronder
+            // de vraag over de volle breedte in een textarea die met de tekst meegroeit.
             html += `
-                <div class="form-group" style="margin-bottom:12px;">
-                    <div style="display:flex;gap:10px;align-items:flex-start;">
-                        <span style="flex:0 0 64px;padding-top:12px;font-size:13px;font-weight:700;color:${finale ? '#C98A00' : 'var(--text-medium)'};">
+                <div class="form-group er-q-block" style="margin-bottom:14px;padding:14px 16px;border:2px solid ${finale ? '#F2D98A' : '#E8E8F0'};border-radius:10px;background:${finale ? '#FFFBEF' : '#FAFAFD'};">
+                    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px;">
+                        <span style="flex:0 0 74px;font-size:13px;font-weight:700;color:${finale ? '#C98A00' : 'var(--text-medium)'};">
                             ${finale ? '&#127942; Finale' : 'Vraag ' + i}
                         </span>
-                        <select id="erT${i}" title="Vraagtype" style="flex:0 0 152px;">${typeOptions}</select>
-                        <input type="text" id="erQ${i}" placeholder="Vraag" style="flex:2;min-width:0;">
-                        <input type="text" id="erA${i}" placeholder="Antwoord" style="flex:1;min-width:0;">
+                        <select id="erT${i}" title="Vraagtype" style="flex:0 0 200px;">${typeOptions}</select>
+                        <input type="text" id="erA${i}" placeholder="Antwoord" style="flex:1;min-width:180px;">
                     </div>
-                    <div id="erX${i}" style="display:none;margin:8px 0 0 74px;"></div>
+                    <textarea id="erQ${i}" rows="3" placeholder="Vraag" style="width:100%;padding:12px 14px;border:2px solid #E8E8F0;border-radius:8px;font-size:14px;font-family:inherit;line-height:1.5;outline:none;resize:vertical;min-height:84px;box-sizing:border-box;"></textarea>
+                    <div id="erX${i}" style="display:none;margin:10px 0 0;"></div>
                 </div>`;
         }
         wrap.innerHTML = html;
         for (let i = 1; i <= ER_MAX_QUESTIONS; i++) {
             document.getElementById('erT' + i).addEventListener('change', () => renderErExtras(i));
+            document.getElementById('erQ' + i).addEventListener('input', (e) => erAutoGrow(e.target));
         }
+    }
+
+    // Laat een textarea meegroeien met de tekst (minimaal de ingestelde hoogte)
+    function erAutoGrow(el) {
+        if (!el) return;
+        el.style.height = 'auto';
+        el.style.height = Math.max(el.scrollHeight + 2, 84) + 'px';
     }
 
     function fillErCategorySuggestions() {
@@ -2030,7 +2040,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const qEl = document.getElementById('erQ' + i);
             const aEl = document.getElementById('erA' + i);
             const tEl = document.getElementById('erT' + i);
-            if (qEl) qEl.value = q.question;
+            if (qEl) { qEl.value = q.question; erAutoGrow(qEl); }
             if (aEl) aEl.value = q.answer;
             if (tEl) { tEl.value = q.question_type || 'text'; renderErExtras(i); }
             if (q.question_type === 'meerkeuze' && Array.isArray(q.options)) {
