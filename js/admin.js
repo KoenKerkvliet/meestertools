@@ -1688,8 +1688,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (type === 'schuifpuzzel') {
             extras.style.display = '';
             extras.innerHTML =
-                '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
-                    '<input type="text" id="erImg' + i + '" placeholder="Afbeeldings-URL (https://...)" style="flex:2;min-width:200px;">' +
+                '<input type="file" id="erImgFile' + i + '" accept="image/*" style="display:none;">' +
+                '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">' +
+                    '<button type="button" class="btn-small btn-edit" id="erImgUpload' + i + '">Afbeelding uploaden</button>' +
+                    '<input type="text" id="erImg' + i + '" placeholder="of plak een afbeeldings-URL (https://...)" style="flex:2;min-width:200px;">' +
                     '<select id="erSize' + i + '" style="flex:0 0 110px;">' +
                         '<option value="3">3 x 3</option>' +
                         '<option value="4">4 x 4</option>' +
@@ -1699,7 +1701,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         '<option value="2" selected>Niveau 2 (5 schuifzetten)</option>' +
                         '<option value="3">Niveau 3 (8 schuifzetten)</option>' +
                     '</select>' +
-                '</div>';
+                '</div>' +
+                '<div id="erImgPrev' + i + '" style="margin-top:6px;"></div>' +
+                '<p style="font-size:12px;color:var(--text-light);margin:4px 0 0;">Gebruik een vierkante afbeelding; een andere vorm wordt in het bord uitgerekt.</p>';
+            const imgInput = document.getElementById('erImg' + i);
+            imgInput.addEventListener('input', () => updatePuzzleImgPreview(i));
+            document.getElementById('erImgUpload' + i).addEventListener('click', () => document.getElementById('erImgFile' + i).click());
+            document.getElementById('erImgFile' + i).addEventListener('change', (e) => handlePuzzleUpload(i, e.target.files[0]));
         } else if (type === 'findit') {
             extras.style.display = '';
             extras.innerHTML =
@@ -1737,22 +1745,52 @@ document.addEventListener('DOMContentLoaded', () => {
             : '';
     }
 
+    // Uploadt een afbeelding naar de publieke bucket 'escaperoom' en geeft de
+    // publieke URL terug. Geen upsert: het pad bevat een unieke id, en upsert
+    // vraagt in de bucket ook een SELECT-policy (die er voor 'escaperoom' niet
+    // is) en geeft dan "new row violates row-level security policy".
+    async function uploadEscaperoomImage(file, folder) {
+        const fid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.round(Math.random() * 1e6);
+        const safe = file.name.replace(/[^\w.\-]+/g, '_');
+        const path = folder + '/' + fid + '/' + safe;
+        const up = await supabase.storage.from('escaperoom').upload(path, file);
+        if (up.error) throw up.error;
+        return supabase.storage.from('escaperoom').getPublicUrl(path).data.publicUrl;
+    }
+
+    // ---------- Schuifpuzzel: afbeelding uploaden ----------
+    function updatePuzzleImgPreview(i) {
+        const url = (document.getElementById('erImg' + i)?.value || '').trim();
+        const prev = document.getElementById('erImgPrev' + i);
+        if (prev) prev.innerHTML = url
+            ? '<img src="' + escapeHtml(url) + '" alt="" style="max-height:70px;border-radius:6px;border:1px solid #E8E8F0;">'
+            : '';
+    }
+
+    async function handlePuzzleUpload(i, file) {
+        if (!file) return;
+        const btn = document.getElementById('erImgUpload' + i);
+        if (btn) { btn.disabled = true; btn.textContent = 'Uploaden...'; }
+        try {
+            const url = await uploadEscaperoomImage(file, 'schuifpuzzel');
+            const input = document.getElementById('erImg' + i);
+            if (input) input.value = url;
+            updatePuzzleImgPreview(i);
+        } catch (err) {
+            alert('Uploaden mislukt: ' + (err && err.message ? err.message : err));
+        } finally {
+            if (btn) { btn.disabled = false; btn.textContent = 'Afbeelding uploaden'; }
+        }
+    }
+
     async function handleFinditUpload(i, file) {
         if (!file) return;
         const info = document.getElementById('erFiInfo' + i);
         if (info) info.textContent = 'Uploaden...';
         try {
-            const fid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.round(Math.random() * 1e6);
-            const safe = file.name.replace(/[^\w.\-]+/g, '_');
-            const path = 'findit/' + fid + '/' + safe;
-            // Geen upsert: het pad bevat een unieke id, en upsert vraagt in de bucket
-            // ook een SELECT-policy (die er voor 'escaperoom' niet is) en geeft dan
-            // "new row violates row-level security policy".
-            const up = await supabase.storage.from('escaperoom').upload(path, file);
-            if (up.error) throw up.error;
-            const { data } = supabase.storage.from('escaperoom').getPublicUrl(path);
+            const url = await uploadEscaperoomImage(file, 'findit');
             if (!erFindit[i]) erFindit[i] = { imageUrl: '', boxes: [] };
-            erFindit[i].imageUrl = data.publicUrl;
+            erFindit[i].imageUrl = url;
             updateFinditRow(i);
         } catch (err) {
             alert('Uploaden mislukt: ' + (err && err.message ? err.message : err));
@@ -2001,6 +2039,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const sizeEl = document.getElementById('erSize' + i);
                 const lvlEl = document.getElementById('erLvl' + i);
                 if (imgEl) imgEl.value = q.image_url || '';
+                updatePuzzleImgPreview(i);
                 if (sizeEl) sizeEl.value = String(q.puzzle_size || 3);
                 if (lvlEl) lvlEl.value = String(q.puzzle_level || 2);
             }
