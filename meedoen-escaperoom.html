@@ -11,9 +11,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Escape room spelen - Meestertools</title>
-    <link rel="stylesheet" href="css/style.css?v=1.68.7">
-    <link rel="stylesheet" href="css/instellingen.css?v=1.68.7">
-    <link rel="stylesheet" href="css/escaperooms.css?v=1.68.7">
+    <link rel="stylesheet" href="css/style.css?v=1.68.8">
+    <link rel="stylesheet" href="css/instellingen.css?v=1.68.8">
+    <link rel="stylesheet" href="css/escaperooms.css?v=1.68.8">
     <style>
         /* Join/lobby-kaart in de stijl van /meedoen */
         body { background: var(--bg-light, #F7F7FB); }
@@ -72,17 +72,39 @@
         }
         .mde-room:empty { display: none; }
 
-        /* Spel-weergave: compacte kop met teamnaam */
-        .mde-game-head {
-            display: flex; align-items: baseline; justify-content: space-between;
-            gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+        /* Spel-weergave: vaste kop met titel, team, klok en sleutels. Kleurt mee met het thema. */
+        .mde-header {
+            position: sticky; top: 0; z-index: 60;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 10px 18px; flex-wrap: wrap;
+            margin: 0 0 16px; padding: 10px 16px; border-radius: 14px; color: #fff;
+            background: linear-gradient(135deg, var(--er-dark2, var(--primary, #6C63FF)), var(--er-dark1, var(--primary-light, #8B86FF)));
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
         }
-        .mde-game-head h1 { margin: 0; font-size: 26px; }
-        .mde-team {
-            font-size: 14px; font-weight: 700; color: var(--primary, #6C63FF);
-            background: rgba(108, 99, 255, 0.1); padding: 6px 14px; border-radius: 999px;
+        .mde-h-main { display: flex; flex-direction: column; min-width: 0; flex: 1 1 200px; }
+        .mde-h-title { font-size: 18px; font-weight: 800; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .mde-h-team { font-size: 13px; font-weight: 600; opacity: 0.85; }
+        .mde-h-clock {
+            font-size: 30px; font-weight: 800; line-height: 1; letter-spacing: 1px;
+            font-variant-numeric: tabular-nums; background: rgba(0, 0, 0, 0.28);
+            padding: 8px 14px; border-radius: 12px;
         }
-        body[class*="er-theme-"] .mde-team { color: var(--er-accent, #6C63FF); background: rgba(0,0,0,0.06); }
+        .mde-h-clock.er-timer-low { color: #FF8A8A; animation: erTimerLow 1s ease infinite; }
+        .mde-h-stats { display: flex; gap: 8px; flex-wrap: wrap; }
+        .mde-h-stat {
+            background: rgba(255, 255, 255, 0.16); padding: 6px 12px; border-radius: 999px;
+            font-size: 14px; font-weight: 700; white-space: nowrap;
+        }
+        /* Specifieker dan de themaregel voor .er-status-keys strong in escaperooms.css */
+        body[class] .mde-header .mde-h-stat strong { color: #fff; }
+        @media (max-width: 600px) {
+            .mde-header { padding: 8px 12px; gap: 8px 12px; }
+            .mde-h-main { flex: 1 1 0; }
+            .mde-h-title { font-size: 15px; }
+            .mde-h-clock { font-size: 24px; padding: 6px 10px; }
+            .mde-h-stats { order: 3; width: 100%; }
+            .mde-h-stat { font-size: 13px; padding: 5px 10px; }
+        }
     </style>
 </head>
 <body>
@@ -127,19 +149,22 @@
     </div>
 
     <!-- Het spel -->
-    <main class="tool-page-content" id="erGame" style="display:none;">
+    <main class="tool-page-content" id="erGame" style="display:none;padding-top:16px;">
+        <!-- Vaste kop: blijft bovenaan het scherm staan, zodat de tijd altijd te zien is -->
+        <header class="mde-header" id="erStatusbar" style="display:none;">
+            <div class="mde-h-main">
+                <span class="mde-h-title" id="erHeroTitle">Escape room</span>
+                <span class="mde-h-team" id="erHeroTeam"></span>
+            </div>
+            <div class="mde-h-clock" id="erHeaderClock" role="timer" aria-label="Tijd">--:--</div>
+            <div class="mde-h-stats">
+                <span class="mde-h-stat er-status-keys" title="Zilveren sleutels">&#128477;&#65039; Zilver <strong id="erKeyCount">0</strong></span>
+                <span class="mde-h-stat er-status-gold" title="Gouden sleutels">&#128273; Goud <strong id="erGoldCount">0</strong>/2</span>
+                <span class="mde-h-stat er-status-progress" title="Beantwoord">&#9989; <strong id="erAnswerCount">0</strong>/<span id="erTotalCount">15</span></span>
+            </div>
+        </header>
+
         <div class="tool-page-body">
-            <div class="mde-game-head">
-                <h1 id="erHeroTitle">Escape room</h1>
-                <span class="mde-team" id="erHeroTeam"></span>
-            </div>
-
-            <div class="er-statusbar" id="erStatusbar" style="display:none;">
-                <span class="er-status-keys">&#128477;&#65039; Zilver: <strong id="erKeyCount">0</strong></span>
-                <span class="er-status-gold">&#128273; Goud: <strong id="erGoldCount">0</strong>/2</span>
-                <span class="er-status-progress">&#9989; Beantwoord: <strong id="erAnswerCount">0</strong>/<span id="erTotalCount">15</span></span>
-            </div>
-
             <div class="er-play-grid" id="erPlayGrid"></div>
 
             <section class="er-finale-section" id="erFinaleSection" style="display:none;"></section>
@@ -208,9 +233,9 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
-    <script src="/js/mt-shared.js?v=1.68.7"></script>
-    <script src="js/supabase-config.js?v=1.68.7"></script>
-    <script src="js/meedoen-escaperoom.js?v=1.68.7"></script>
-    <script src="/js/teller.js?v=1.68.7" defer></script>
+    <script src="/js/mt-shared.js?v=1.68.8"></script>
+    <script src="js/supabase-config.js?v=1.68.8"></script>
+    <script src="js/meedoen-escaperoom.js?v=1.68.8"></script>
+    <script src="/js/teller.js?v=1.68.8" defer></script>
 </body>
 </html>

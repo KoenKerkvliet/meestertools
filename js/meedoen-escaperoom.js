@@ -253,15 +253,18 @@
         return Math.max(0, Math.round((serverNow() - startedAtMs) / 1000));
     }
     function updateClock() {
-        const d = document.getElementById('erTimerDisplay');
-        if (!d) return;
+        // Dezelfde tijd op de klok-kaart in het grid én in de vaste kop bovenin
+        const clocks = [document.getElementById('erTimerDisplay'), document.getElementById('erHeaderClock')].filter(Boolean);
+        if (!clocks.length) return;
         if (timeLimitMin) {
             const rem = remainingSec();
-            d.textContent = fmt(rem);
-            d.classList.toggle('er-timer-low', rem <= 60);
+            clocks.forEach(d => {
+                d.textContent = fmt(rem);
+                d.classList.toggle('er-timer-low', rem <= 60);
+            });
             if (rem <= 0) onTimeUp();
         } else {
-            d.textContent = fmt(elapsedSec());
+            clocks.forEach(d => { d.textContent = fmt(elapsedSec()); });
         }
     }
     function startClock() {
